@@ -189,6 +189,19 @@ function stubHtml(s) {
     : `<span class="stub nosale">${inner}</span>`;
 }
 
+// Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
+// confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
+function extLinks(f) {
+  const x = f.ext || {}, out = [];
+  const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/` : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : "";
+  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>★ ${x.lbRating.toFixed(1)}</b>` : ""}</a>`);
+  else out.push(`<a class="ext lb" href="https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/" target="_blank" rel="noopener">Search Letterboxd</a>`);
+  if (x.imdb) out.push(`<a class="ext" href="https://www.imdb.com/title/${esc(x.imdb)}/" target="_blank" rel="noopener">IMDb</a>`);
+  if (x.rt) out.push(`<a class="ext" href="https://www.rottentomatoes.com/${esc(x.rt)}" target="_blank" rel="noopener">Rotten Tomatoes</a>`);
+  if (x.mc) out.push(`<a class="ext" href="https://www.metacritic.com/${esc(x.mc)}/" target="_blank" rel="noopener">Metacritic</a>`);
+  return `<div class="exts">${out.join("")}</div>`;
+}
+
 function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
@@ -215,6 +228,7 @@ function openFilm(id) {
       <div class="meta">${esc(meta)}</div>
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
       <div class="badges">${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<span class="badge">${esc(c)} · ${n}</span>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
+      ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${on ? "★ On your watchlist" : "☆ Add to watchlist"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div></div>

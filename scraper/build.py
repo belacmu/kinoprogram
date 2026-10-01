@@ -18,6 +18,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).parent))
+import external  # noqa: E402
 import sources  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -43,6 +44,7 @@ def film_id(url):
 def key(title):
     t = title.lower()
     t = re.sub(r"\s*\((restaurert|ny restaurering)[^)]*\)", "", t)
+    t = re.sub(r"\s*\(\d{4}\)\s*$", "", t)
     t = re.sub(r"\s+[–—-]\s+(\d+\s*mm|restaurert.*|4k.*|ny kopi.*)$", "", t)
     t = re.sub(r"^(the|a|an)\s+", "", t)
     return re.sub(r"[^0-9a-zæøåäöüéè]+", " ", t).strip()
@@ -151,6 +153,11 @@ def main():
         cm = []
     films = finalise(merge(fw, cm), now)
     state = track(films, now)
+    print("Looking up Letterboxd / IMDb links …")
+    try:
+        external.enrich(films, now)
+    except Exception as e:  # links are a nice-to-have; never fail the run over them
+        print(f"  ! link lookup failed: {e}", file=sys.stderr)
 
     new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
     ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]

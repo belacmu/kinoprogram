@@ -41,16 +41,24 @@ def filmweb_query(query, variables):
     return data["data"]
 
 
+def split_year(title):
+    """Filmweb sometimes puts the year in the title: "It's a Wonderful Life (1946)"."""
+    m = re.match(r"^(.*?)\s*\((\d{4})\)\s*$", title)
+    return (m[1].strip(), m[2]) if m else (title, "")
+
+
 def filmweb_film(m, shows):
+    title, title_year = split_year(m["title"])
     poster = m.get("sanityImagePosterUrl") or ""
     if poster:
         poster = poster.split("?")[0] + "?w=360&h=540&fit=crop&auto=format"
     alt = m.get("titleOriginal") or ""
     premiere = (m.get("premiere") or "")[:10]
+    alt = split_year(alt)[0]
     return film(
-        title=m["title"],
-        alt=alt if alt.strip().lower() != m["title"].strip().lower() else "",
-        year=m.get("productionYear") or "",
+        title=title,
+        alt=alt if alt.strip().lower() != title.strip().lower() else "",
+        year=m.get("productionYear") or title_year,
         runtime=m.get("lengthInMinutes") or 0,
         genres=m.get("genres") or [],
         countries=m.get("nationalities") or [],

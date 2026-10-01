@@ -113,6 +113,11 @@ dialog::backdrop { background: var(--scrim); }
 .badge { font-size: 12px; padding: 2px 8px; border-radius: 3px; background: var(--chip); }
 .badge.line { background: transparent; border: 1px solid var(--line); color: var(--muted); }
 .badge.new { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.exts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.ext { font-size: 12px; padding: 3px 9px; border-radius: 3px; border: 1px solid var(--line); text-decoration: none; color: var(--muted); }
+.ext:hover { border-color: var(--ink); color: var(--ink); }
+.ext.lb { color: var(--ink); }
+.ext b { font: 500 12px var(--mono); color: var(--soon); }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; }
 .actions a { color: var(--muted); }
 .days { padding: 0 22px 22px; }

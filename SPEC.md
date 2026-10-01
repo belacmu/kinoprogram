@@ -10,8 +10,9 @@ films become bookable. For one person and a few friends; must cost nothing to ru
 | Filmweb | Every Oslo cinema on Filmweb (ODEON, Saga, Ringen, Vega, Klingenberg, Colosseum, Vika, Symra, Gimle, Kunstnernes Hus) | Public GraphQL API `movieinfoqs.filmweb.no/graphql`: `getCurrentMovies` (on sale) and `getUpcomingMovies` (announced) |
 | Cinemateket | Cinemateket i Oslo (Tancred, Lillebil) | HTML: `/forestillinger/side-N` for the film list, each film page for its showings, ticket links and facts |
 
-A film shown at both is merged into one entry (normalised title, production year within ±1).
-Version suffixes such as "– 70mm" are ignored when matching.
+A film shown at both is merged into one entry (normalised title, production year within ±1, so
+two different films with the same title stay separate). Version suffixes such as "– 70mm" and a
+trailing "(1946)" in the title are ignored when matching; the latter is used as the year.
 
 ## Definitions
 
@@ -33,6 +34,9 @@ Version suffixes such as "– 70mm" are ignored when matching.
 - Views: **On sale**, **Coming soon** (announced), **Watchlist**.
 - Sort: newest in cinemas (default), next showing, A–Z, most showings, last chance.
   Coming soon: soonest first, newly announced, A–Z.
+- Film page links: Letterboxd (with its average rating), IMDb, Rotten Tomatoes, Metacritic, found via
+  Wikidata and cached in `state/external.json`. Only confident matches (IMDb id, film not series,
+  year ±1, a single candidate) get direct links; otherwise a Letterboxd search link.
 - Filters: search (title, original title, director, series), time window, my cinemas,
   hide Norwegian dubs, English subtitles only. Nothing is hidden by default.
 - No login needed to browse; filters are remembered in the browser.
