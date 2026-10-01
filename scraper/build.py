@@ -88,12 +88,13 @@ def merge(primary, extra):
 STAGE = re.compile(r"\b(met opera|opera\b|rbo:|royal ballet|ballet\b|bolshoi|national theatre live|nt live|world tour|"
                    r"live in |live at |live from|live viewing|in concert|concert\b|cheering party)|konsert|\bthe play\b", re.I)
 SHORTS = re.compile(r"\b(shorts?|kortfilm(er|program)?)\b", re.I)
-TALKS = re.compile(r"^(filmhistorie:|fra nrk-arkivet|jack presenterer!|lansering av)|\b(mystery (movie|screening)|foredrag|"
+TALKS = re.compile(r"^(filmhistorie:|fra nrk-arkivet|jack presenterer!|lansering av)|\b(foredrag|"
                    r"seminar|quiz)\b|\bpresents itself\b|debutantslipp", re.I)
 
 
 def film_kind(f):
-    """'stage' (opera, ballet, theatre, concerts), 'talk' (lectures, special events), 'short', or 'film'."""
+    """'stage' (opera, ballet, theatre, concerts), 'talk' (lectures, special events), 'short', or 'film'.
+    Mystery movies/screenings are secret films, so they stay 'film'."""
     genres = " ".join(f.get("genres") or []).lower()
     tags = {t for s in f["shows"] for t in s["tags"]}
     if STAGE.search(f["title"]) or "Opera" in tags or "konsert" in genres:
