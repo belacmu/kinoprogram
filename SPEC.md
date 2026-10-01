@@ -54,8 +54,13 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   - **Newly on sale**: Today · Yesterday · Earlier this week · Last week · Earlier, by when tickets
     went on sale.
   - **Newly announced**: the same headers, by when the film first got a date here.
-- Films without tickets on sale have dimmed posters; in the When view an All / On sale / Not on
-  sale yet switch filters them. ★ Watchlist is a filter chip. A jump bar links to each section.
+- Section headers stick below the top bar; clicking one collapses it to a single line (count + first
+  titles), remembered per view. The jump bar links to each section (opening it if collapsed) and
+  has Collapse all / Expand all.
+- Top bar: search, view menu, **★ Watchlist** (always visible), and on narrow screens a Filters button.
+- Filters live in a sidebar (a slide-in panel on narrow screens): Tickets (When view: All / On sale /
+  Not on sale yet), Types, Cinemas, and Oslo's language options, with Reset filters.
+- Films without tickets on sale have dimmed posters and a "Not on sale yet" tag.
 - Search covers every film, including undated ones, and says plainly when nothing matches.
 - Film page links: Letterboxd (with its average rating), IMDb, Rotten Tomatoes, Metacritic, found via
   Wikidata and cached in `state/external.json`. Only confident matches (IMDb id, film not series,

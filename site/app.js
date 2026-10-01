@@ -51,8 +51,7 @@ const state = {
   q: "",
   prefs: { ...DEFAULT_PREFS, ...local.get("prefs", {}) },
   watchlist: new Set(local.get("watchlist", [])),
-  cinemasOpen: false,
-  kindsOpen: false,
+  collapsed: new Set(local.get("collapsed", [])), // "view:sectionKey" of collapsed sections
   showAll: false,       // film sheet: show showings hidden by filters
   sheetCinemas: new Set(), // film sheet: cinema tags clicked to narrow its showings
   user: null,           // { id, email }
@@ -164,40 +163,51 @@ function buildRows() {
   return rows;
 }
 
-// ---------------------------------------------------------------- render: controls
+// ---------------------------------------------------------------- render: controls + filter sidebar
+function activeFilters() {
+  return (state.view === "when" && state.tix !== "all" ? 1 : 0)
+    + ((state.prefs.hideKinds || []).length ? 1 : 0) + (myCinemas().length ? 1 : 0)
+    + (state.region === "oslo" ? (state.prefs.hideDubbed ? 1 : 0) + (state.prefs.englishSubs ? 1 : 0) : 0);
+}
+
 function renderControls() {
   $("view").innerHTML = VIEWS.map(([v, l]) => `<option value="${v}"${v === state.view ? " selected" : ""}>${l}</option>`).join("");
-  $("tix").hidden = state.view !== "when";
-  $("tix").innerHTML = TIX.map(([v, l]) => `<button class="chip${state.tix === v ? " on" : ""}" data-tix="${v}" aria-pressed="${state.tix === v}">${l}</button>`).join("");
+  $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
   $("watchBtn").setAttribute("aria-pressed", state.onlyWatch);
   $("watchBtn").textContent = `★ Watchlist${state.watchlist.size ? " " + state.watchlist.size : ""}`;
-  $("dubBtn").setAttribute("aria-pressed", state.prefs.hideDubbed);
-  $("enBtn").setAttribute("aria-pressed", state.prefs.englishSubs);
-  $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
-  $("dubBtn").hidden = $("enBtn").hidden = state.region !== "oslo"; // Norwegian dubs / subtitle tags are Oslo-only
-  const n = myCinemas().length;
-  $("cinemaBtn").textContent = (n ? `${n} cinema${n > 1 ? "s" : ""}` : "All cinemas") + (state.cinemasOpen ? " ▴" : " ▾");
-  $("cinemaBtn").setAttribute("aria-pressed", n > 0);
-  $("cinemaBtn").setAttribute("aria-expanded", state.cinemasOpen);
-  $("cinemas").hidden = !state.cinemasOpen;
-  const hidden = (state.prefs.hideKinds || []).length;
-  $("kindBtn").textContent = (hidden ? `${KINDS.length - hidden} of ${KINDS.length} types` : "All types") + (state.kindsOpen ? " ▴" : " ▾");
-  $("kindBtn").setAttribute("aria-pressed", hidden > 0);
-  $("kindBtn").setAttribute("aria-expanded", state.kindsOpen);
-  $("kinds").hidden = !state.kindsOpen;
-  if (state.kindsOpen) {
-    const counts = {};
-    for (const f of state.data.films) counts[f.kind || "film"] = (counts[f.kind || "film"] || 0) + 1;
-    $("kinds").innerHTML = KINDS.map(([k, label]) =>
-      `<button class="chip${(state.prefs.hideKinds || []).includes(k) ? "" : " on"}" data-kind="${k}" aria-pressed="${!(state.prefs.hideKinds || []).includes(k)}">${label}<span class="n">${counts[k] || 0}</span></button>`).join("")
-      + `<span class="hint">Tap to show or hide a type.</span>`;
-  }
-  if (state.cinemasOpen) {
-    const now = localNow(), counts = {};
-    for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) counts[s.cinema] = (counts[s.cinema] || 0) + 1;
-    $("cinemas").innerHTML = state.data.cinemas.map((c) =>
-      `<button class="chip${myCinemas().includes(c) ? " on" : ""}" data-cinema="${esc(c)}">${esc(c)}<span class="n">${counts[c] || 0}</span></button>`).join("")
-      + `<button class="linkbtn" data-cinema="">${n ? "Show all cinemas" : "Pick the cinemas you go to"}</button>`;
+  const n = activeFilters();
+  $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
+  $("filtersBtn").setAttribute("aria-pressed", n > 0);
+  renderFilters();
+}
+
+function renderFilters() {
+  const now = localNow(), kindCounts = {}, cinemaCounts = {};
+  for (const f of state.data.films) kindCounts[f.kind || "film"] = (kindCounts[f.kind || "film"] || 0) + 1;
+  for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) cinemaCounts[s.cinema] = (cinemaCounts[s.cinema] || 0) + 1;
+  const hide = new Set(state.prefs.hideKinds || []), mine = myCinemas();
+  const ck = (attrs, checked, label, n) =>
+    `<label class="ck"><input type="checkbox" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
+  const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
+  $("filtersBody").innerHTML = `
+    <fieldset class="fg"${state.view === "when" ? "" : " hidden"}><legend>Tickets</legend>
+      ${TIX.map(([v, l]) => `<label class="ck"><input type="radio" name="tix" data-f="tix" value="${v}"${state.tix === v ? " checked" : ""}><span>${l}</span></label>`).join("")}
+    </fieldset>
+    <fieldset class="fg"><legend>Types</legend>
+      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
+    </fieldset>
+    <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "none ticked = all"}</span></legend>
+      ${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}
+      ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
+    </fieldset>
+    <fieldset class="fg"${state.region === "oslo" ? "" : " hidden"}><legend>Language</legend>
+      ${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
+      ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}
+    </fieldset>
+    ${activeFilters() ? `<button class="btn ghost small" data-f="reset">Reset filters</button>` : ""}`;
+  if (focused) { // keep keyboard focus on the control that was just changed
+    const [f, v] = focused.split("|");
+    [...$("filtersBody").querySelectorAll(`[data-f="${f}"]`)].find((el) => (el.value || "") === v)?.focus();
   }
 }
 
@@ -247,16 +257,26 @@ function renderGrid() {
     if (!sections.length || sections.at(-1).key !== r.sec.key) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
     sections.at(-1).rows.push(r);
   }
+  const isCollapsed = (s) => state.collapsed.has(`${state.view}:${s.key}`);
   const onSale = rows.filter((r) => r.onSale).length;
   $("count").textContent = `${rows.length} films` + (state.view === "when" && state.tix === "all" ? ` · ${onSale} on sale` : "");
+  const anyOpen = sections.some((s) => !isCollapsed(s));
   $("jump").innerHTML = sections.length > 1
-    ? sections.map((s, i) => `<a href="#" data-jump="${i}">${esc(s.label)} <span class="n">${s.rows.length}</span></a>`).join("") : "";
+    ? sections.map((s, i) => `<a href="#" data-jump="${i}" class="${isCollapsed(s) ? "shut" : ""}">${esc(s.label)} <span class="n">${s.rows.length}</span></a>`).join("")
+      + `<button class="linkbtn" data-collapseall="${anyOpen ? 1 : 0}">${anyOpen ? "Collapse all" : "Expand all"}</button>` : "";
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap ☆ on any poster to add it; it'll be highlighted when tickets go on sale.";
-  $("grid").innerHTML = sections.length ? sections.map((s, i) => `
-    <section class="sec" id="sec-${i}"><h2>${esc(s.label)} <span class="n">${s.rows.length}</span></h2>
-    <ul class="grid">${s.rows.map(cardHtml).join("")}</ul></section>`).join("") : `<p class="empty">${empty}</p>`;
+  state.sections = sections;
+  $("grid").innerHTML = sections.length ? sections.map((s, i) => {
+    const shut = isCollapsed(s);
+    const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
+    return `<section class="sec${shut ? " shut" : ""}" id="sec-${i}">
+      <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
+        <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true">${shut ? "▸" : "▾"}</span>
+      </button></h2>
+      ${shut ? "" : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
+  }).join("") : `<p class="empty">${empty}</p>`;
 }
 
 function render() { renderControls(); renderGrid(); }
@@ -344,28 +364,50 @@ $("account").addEventListener("click", (e) => { if (e.target === $("account")) $
 // ---------------------------------------------------------------- events
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
+function setCollapsed(key, shut) {
+  shut ? state.collapsed.add(key) : state.collapsed.delete(key);
+  local.set("collapsed", [...state.collapsed]);
+}
+
+function scrollToSection(i) {
+  $("sec-" + i)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-tix],[data-jump],[data-cinema],[data-star],[data-showall],[data-sheetcinema],[data-region],[data-kind]");
+  const t = e.target.closest("[data-jump],[data-sec],[data-collapseall],[data-star],[data-showall],[data-sheetcinema],[data-region],button[data-f]");
   if (!t) return;
   if (t.dataset.region) { if (t.dataset.region !== state.region) loadRegion(t.dataset.region); return; }
-  if (t.dataset.kind) {
-    const k = t.dataset.kind, cur = new Set(state.prefs.hideKinds || []);
-    cur.has(k) ? cur.delete(k) : cur.add(k);
-    state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => cur.has(x));
-    savePrefs(); render(); return;
-  }
-  if (t.dataset.jump) {
+  if (t.dataset.jump) { // open the section if it's collapsed, then go there
     e.preventDefault();
-    $("sec-" + t.dataset.jump)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    const s = state.sections[+t.dataset.jump];
+    if (s && state.collapsed.has(`${state.view}:${s.key}`)) { setCollapsed(`${state.view}:${s.key}`, false); renderGrid(); }
+    scrollToSection(t.dataset.jump);
     return;
   }
-  if (t.dataset.tix) { state.tix = t.dataset.tix; local.set("tix", state.tix); }
-  else if (t.dataset.cinema !== undefined) {
-    const c = t.dataset.cinema, list = state.prefs.cinemas, here = state.data.cinemas;
-    if (!c) state.prefs.cinemas = list.filter((x) => !here.includes(x)); // clear this region's picks only
-    else state.prefs.cinemas = list.includes(c) ? list.filter((x) => x !== c) : [...list, c];
-    savePrefs();
-  } else if (t.dataset.star) {
+  if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
+    const i = +t.dataset.sec, s = state.sections[i], key = `${state.view}:${s.key}`;
+    const pinned = $("sec-" + i).getBoundingClientRect().top < 0;
+    setCollapsed(key, !state.collapsed.has(key));
+    renderGrid();
+    if (pinned) $("sec-" + i)?.scrollIntoView({ block: "start" });
+    $("grid").querySelector(`[data-sec="${i}"]`)?.focus();
+    return;
+  }
+  if (t.dataset.collapseall) {
+    for (const s of state.sections) setCollapsed(`${state.view}:${s.key}`, t.dataset.collapseall === "1");
+    renderGrid(); window.scrollTo({ top: 0 }); return;
+  }
+  if (t.dataset.f === "reset") {
+    state.tix = "all";
+    state.prefs.hideKinds = []; state.prefs.hideDubbed = false; state.prefs.englishSubs = false;
+    state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
+    local.set("tix", "all"); savePrefs(); render(); return;
+  }
+  if (t.dataset.f === "cinemas-clear") {
+    state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
+    savePrefs(); render(); return;
+  }
+  if (t.dataset.star) {
     e.preventDefault();
     const f = findFilm(t.dataset.star);
     if (isWatched(f)) f.ids.forEach((id) => state.watchlist.delete(id)); else state.watchlist.add(f.id);
@@ -378,13 +420,42 @@ document.addEventListener("click", (e) => {
   } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(location.hash.slice(6)); return; }
   render();
 });
-$("dubBtn").addEventListener("click", () => { state.prefs.hideDubbed = !state.prefs.hideDubbed; savePrefs(); render(); });
-$("enBtn").addEventListener("click", () => { state.prefs.englishSubs = !state.prefs.englishSubs; savePrefs(); render(); });
-$("cinemaBtn").addEventListener("click", () => { state.cinemasOpen = !state.cinemasOpen; state.kindsOpen = false; render(); });
-$("kindBtn").addEventListener("click", () => { state.kindsOpen = !state.kindsOpen; state.cinemasOpen = false; render(); });
+
+// Filter sidebar: checkboxes and radios.
+$("filtersBody").addEventListener("change", (e) => {
+  const el = e.target, f = el.dataset.f;
+  if (f === "tix") { state.tix = el.value; local.set("tix", state.tix); }
+  else if (f === "kind") {
+    const cur = new Set(state.prefs.hideKinds || []);
+    el.checked ? cur.delete(el.value) : cur.add(el.value);
+    state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => cur.has(x));
+  } else if (f === "cinema") {
+    const list = state.prefs.cinemas;
+    state.prefs.cinemas = el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value);
+  } else if (f === "dub") state.prefs.hideDubbed = el.checked;
+  else if (f === "en") state.prefs.englishSubs = el.checked;
+  if (f !== "tix") savePrefs();
+  render();
+});
+const setFiltersOpen = (open) => {
+  document.body.classList.toggle("filters-open", open);
+  $("filtersBtn").setAttribute("aria-expanded", open);
+  if (open) $("filtersDone").focus();
+};
+$("filtersBtn").addEventListener("click", () => setFiltersOpen(!document.body.classList.contains("filters-open")));
+$("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("filtersBtn").focus(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
+$("watchBtn").addEventListener("click", () => { state.onlyWatch = !state.onlyWatch; render(); window.scrollTo({ top: 0 }); });
 $("view").addEventListener("change", (e) => { state.view = e.target.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 }); });
-$("watchBtn").addEventListener("click", () => { state.onlyWatch = !state.onlyWatch; render(); });
+
+// Section headers stick just below the controls bar; keep that offset in a CSS variable.
+const syncStickTop = () => {
+  const c = $("controls"), sticky = getComputedStyle(c).position === "sticky";
+  document.documentElement.style.setProperty("--stick-top", sticky ? c.offsetHeight + "px" : "0px");
+};
+new ResizeObserver(syncStickTop).observe($("controls"));
+window.addEventListener("resize", syncStickTop);
 window.addEventListener("hashchange", route);
 
 // ---------------------------------------------------------------- accounts (Supabase magic link)

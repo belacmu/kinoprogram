@@ -23,26 +23,30 @@
 
   <div class="banner" id="banner" hidden></div>
 
-  <div class="controls">
-    <div class="row">
-      <input type="search" id="q" placeholder="Search for a film, director or series" autocomplete="off">
-      <select id="view" aria-label="View"></select>
-    </div>
-    <div class="row" id="filterRow">
-      <span class="seg" id="tix" role="group" aria-label="Tickets"></span>
-      <button class="chip" id="watchBtn" aria-pressed="false">★ Watchlist</button>
-      <button class="chip" id="dubBtn" aria-pressed="false">Hide Norwegian dubs</button>
-      <button class="chip" id="enBtn" aria-pressed="false">English subtitles</button>
-      <button class="chip" id="cinemaBtn" aria-expanded="false">All cinemas ▾</button>
-      <button class="chip" id="kindBtn" aria-expanded="false">All types ▾</button>
-    </div>
-    <div class="row cinemas" id="cinemas" hidden></div>
-    <div class="row cinemas" id="kinds" hidden></div>
-    <nav class="jump" id="jump" aria-label="Jump to section"></nav>
+  <div class="layout">
+    <aside class="filters" id="filters" aria-label="Filters">
+      <div class="filters-head">
+        <h2>Filters</h2>
+        <button class="btn ghost small" id="filtersDone">Done</button>
+      </div>
+      <div id="filtersBody"></div>
+    </aside>
+
+    <main class="main">
+      <div class="controls" id="controls">
+        <div class="row">
+          <input type="search" id="q" placeholder="Search for a film, director or series" autocomplete="off">
+          <select id="view" aria-label="View"></select>
+          <button class="chip" id="watchBtn" aria-pressed="false" title="Show only films on your watchlist">★ Watchlist</button>
+          <button class="chip" id="filtersBtn" aria-controls="filters" aria-expanded="false">Filters</button>
+        </div>
+        <nav class="jump" id="jump" aria-label="Jump to section"></nav>
+      </div>
+      <div class="count" id="count"></div>
+      <div id="grid"></div>
+    </main>
   </div>
 
-  <div class="count" id="count"></div>
-  <div id="grid"></div>
   <footer class="foot" id="foot"></footer>
 </div>
 
