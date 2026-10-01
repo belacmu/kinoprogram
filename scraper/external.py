@@ -3,7 +3,9 @@ Letterboxd average rating. Results are cached in state/external.json so each fil
 once, not on every run.
 
 Matching is deliberately conservative: a Wikidata item must have an IMDb id, must not be a TV
-series/book/etc., and its release year must be within ±1 of ours. If more than one item fits and
+series/book/etc., its release year must be within ±1 of ours (the Norwegian premiere year when
+Filmweb has no production year; no year at all means no match), and its running time must be
+within 10 minutes of ours when both are known. If more than one item fits and
 none has exactly our title, we link nothing (the site then shows a Letterboxd search link).
 """
 import json
@@ -24,6 +26,7 @@ BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) App
 RECHECK_MATCHED_DAYS = 90
 RECHECK_MISSING_DAYS = 7    # new releases often get a Wikidata entry a little later
 RATING_DAYS = 7
+RUNTIME_SLACK = 10          # minutes
 OTHER_LANGS = "en|nb|no|sv|da|de|fr|es|it|pt|nl|fi|pl"
 ENGLISH = "Q1860"
 MAX_LOOKUPS = 60            # per run; Wikidata rate-limits shared GitHub servers, so go slowly
@@ -50,6 +53,22 @@ LANG_CODES = {"Q9027": "sv", "Q9035": "da", "Q188": "de", "Q150": "fr", "Q1321":
               "Q5146": "pt", "Q7411": "nl", "Q1412": "fi", "Q809": "pl", "Q9043": "nb", "Q25167": "nb"}
 
 
+def minutes(q):
+    """Wikidata duration quantity -> minutes."""
+    try:
+        amount = float(q["amount"])
+    except (KeyError, ValueError):
+        return 0
+    unit = q.get("unit", "")
+    if unit.endswith("/Q25235"):   # hour
+        amount *= 60
+    elif unit.endswith("/Q11574"):  # second
+        amount /= 60
+    elif not unit.endswith("/Q7727"):  # not minutes
+        return 0
+    return round(amount)
+
+
 def english_title(labels, original_langs, original_titles):
     """The English label, unless it's just the untranslated original title of a non-English film."""
     en = labels.get("en", {}).get("value")
@@ -60,13 +79,24 @@ def english_title(labels, original_langs, original_titles):
     return None if _norm(en) in originals else en
 
 
-def wikidata(title, year):
-    """Return the one confident match for (title, year), or None."""
+def wikidata(title, year, runtime=0):
+    """Return the one confident match for (title, year), or None. Year is required."""
+    if not year:
+        return None
     q = re.sub(r"\s*\(\d{4}\)\s*$", "", title)
     found = _json("https://www.wikidata.org/w/api.php?" + urllib.parse.urlencode({
         "action": "wbsearchentities", "search": q, "language": "en", "uselang": "en",
         "type": "item", "limit": 10, "format": "json"}))
     ids = [x["id"] for x in found.get("search", [])]
+    # Label search ranks by popularity, so a new film can lose to an old one with the same title
+    # (Resident Evil 2026 vs 2002). Also run a full-text search for title + year (descriptions read
+    # "2026 film directed by …"), limited to items with an IMDb id.
+    time.sleep(LOOKUP_PAUSE)
+    full = _json("https://www.wikidata.org/w/api.php?" + urllib.parse.urlencode({
+        "action": "query", "list": "search", "srsearch": f'"{q}" {year} haswbstatement:P345',
+        "srlimit": 20, "format": "json"}))
+    ids += [x["title"] for x in full.get("query", {}).get("search", []) if x["title"] not in ids]
+    ids = ids[:50]  # wbgetentities limit
     if not ids:
         return None
     ents = _json("https://www.wikidata.org/w/api.php?" + urllib.parse.urlencode({
@@ -84,8 +114,12 @@ def wikidata(title, year):
         if not imdb or kinds & NOT_FILM:
             continue
         years = {v["time"][1:5] for v in vals("P577") if isinstance(v, dict) and "time" in v}
-        if year and not any(y.isdigit() and abs(int(y) - int(year)) <= 1 for y in years):
+        if not any(y.isdigit() and abs(int(y) - int(year)) <= 1 for y in years):
             continue
+        mins = [minutes(v) for v in vals("P2047") if isinstance(v, dict)]
+        mins = [m for m in mins if m]
+        if runtime and mins and not any(abs(m - runtime) <= RUNTIME_SLACK for m in mins):
+            continue  # same title and year but a different film (or a very different cut)
         labels = ents[i].get("labels", {})
         names = {_norm(l["value"]) for l in labels.values()}
         names |= {_norm(a["value"]) for al in ents[i].get("aliases", {}).values() for a in al}
@@ -95,11 +129,11 @@ def wikidata(title, year):
                      "mc": next(iter(vals("P1712")), None),
                      "en": english_title(labels, {v.get("id") for v in vals("P364") if isinstance(v, dict)},
                                          [v["text"] for v in vals("P1476") if isinstance(v, dict) and v.get("language") != "en"]),
-                     "v": 2,
+                     "v": 3,
                      "exact": _norm(q) in names})
     if len(hits) > 1:
         hits = [h for h in hits if h["exact"]]
-    if len(hits) != 1 or (not year and not hits[0]["exact"]):
+    if len(hits) != 1:
         return None
     h = hits[0]
     h.pop("exact")
@@ -108,13 +142,20 @@ def wikidata(title, year):
 
 def letterboxd(rec):
     """Fetch the Letterboxd page; return (slug, average rating out of 5 or None)."""
-    url = f"https://letterboxd.com/film/{rec['lb']}/" if rec.get("lb") else f"https://letterboxd.com/imdb/{rec['imdb']}/"
+    # Always go via the IMDb id: Letterboxd resolves it itself, whereas Wikidata's stored
+    # Letterboxd slug can be out of date (e.g. a film's working title).
+    url = f"https://letterboxd.com/imdb/{rec['imdb']}/"
     req = urllib.request.Request(url, headers=BROWSER_UA)
     with urllib.request.urlopen(req, timeout=30) as r:
         final, page = r.geturl(), r.read().decode("utf-8", "replace")
-    slug = (re.search(r"letterboxd\.com/film/([^/]+)/", final) or [None, rec.get("lb")])[1]
+    slug = (re.search(r"letterboxd\.com/film/([^/]+)/", final) or [None, None])[1]
     m = re.search(r'name="twitter:data2" content="([\d.]+) out of 5"', page)
     return slug, (round(float(m[1]), 2) if m else None)
+
+
+def film_year(f):
+    """Production year, or for new releases without one, the year of the Norwegian premiere."""
+    return f["year"] or (f["premiere"][:4] if f.get("premiere") else "")
 
 
 def enrich(films, now):
@@ -129,7 +170,7 @@ def enrich(films, now):
         rec = next((cache[i] for i in f["ids"] if i in cache), None)
         if SKIP.search(f["title"]):
             continue
-        if rec is None or (rec.get("imdb") and rec.get("v") != 2) \
+        if rec is None or rec.get("v") != 3 \
                 or stale(rec.get("checked"), RECHECK_MATCHED_DAYS if rec.get("imdb") else RECHECK_MISSING_DAYS):
             todo.append(f)
     todo.sort(key=lambda f: f["status"] != "on_sale")  # what you can book now first
@@ -139,7 +180,7 @@ def enrich(films, now):
         for t in [f["alt"], f["title"]]:
             if t:
                 time.sleep(LOOKUP_PAUSE)
-                hit = wikidata(t, f["year"])
+                hit = wikidata(t, film_year(f), f["runtime"])
                 if hit:
                     return hit
         return {}
@@ -198,7 +239,7 @@ def enrich(films, now):
             en = rec.get("en") or ""
             if en and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])) and len(en) < 120:
                 f["ext"]["en"] = en
-            f["ext"]["lb"] = rec.get("lbSlug") or rec.get("lb") or ""
+            f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
     # Keep the cache to films we still list.
     live = {i for f in films for i in f["ids"]}
     CACHE.write_text(json.dumps({k: v for k, v in sorted(cache.items()) if k in live},

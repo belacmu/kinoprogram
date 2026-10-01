@@ -30,7 +30,7 @@ const SORTS = {
   watch: [["next", "Soonest first"], ["az", "A–Z"]],
 };
 const WHEN = [["all", "Any time"], ["today", "Today"], ["7", "7 days"], ["14", "2 weeks"], ["30", "30 days"]];
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, englishTitles: true, watchlistAlways: true, announcements: true };
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true };
 
 const state = {
   data: null,
@@ -42,6 +42,7 @@ const state = {
   watchlist: new Set(local.get("watchlist", [])),
   cinemasOpen: false,
   showAll: false,       // film sheet: show showings hidden by filters
+  sheetCinemas: new Set(), // film sheet: cinema tags clicked to narrow its showings
   user: null,           // { id, email }
   profile: null,        // { subscribed, ... }
 };
@@ -69,8 +70,8 @@ const isNew = (f) => isRecent(f.status === "on_sale" ? f.onSaleSince : f.announc
 function textMatch(f, q) {
   return !q || `${f.title} ${f.alt} ${f.ext?.en || ""} ${f.director} ${f.series.join(" ")}`.toLowerCase().includes(q);
 }
-// English title (from Wikidata) when the viewer prefers it and we have one; otherwise the Norwegian title.
-const titleOf = (f) => (state.prefs.englishTitles && f.ext?.en) || f.title;
+// English title when scraper/external.py found a confident, genuine one; otherwise the Norwegian title.
+const titleOf = (f) => f.ext?.en || f.title;
 const otherTitles = (f) => [...new Set([f.title, f.ext?.en, f.alt].filter((t) => t && t !== titleOf(f)))];
 
 function rowsFor(tab) {
@@ -114,7 +115,6 @@ function renderControls() {
   $("when").innerHTML = WHEN.map(([v, l]) => `<button class="chip${state.when === v ? " on" : ""}" data-when="${v}">${l}</button>`).join("");
   $("dubBtn").setAttribute("aria-pressed", state.prefs.hideDubbed);
   $("enBtn").setAttribute("aria-pressed", state.prefs.englishSubs);
-  $("titleBtn").setAttribute("aria-pressed", state.prefs.englishTitles);
   const n = state.prefs.cinemas.length;
   $("cinemaBtn").textContent = (n ? `${n} cinema${n > 1 ? "s" : ""}` : "All cinemas") + (state.cinemasOpen ? " ▴" : " ▾");
   $("cinemaBtn").setAttribute("aria-pressed", n > 0);
@@ -211,8 +211,9 @@ function openFilm(id) {
   if (!f) return;
   const dlg = $("film"), now = osloNow(), today = now.slice(0, 10);
   const all = f.shows.filter((s) => s.t >= now);
-  const shown = state.showAll ? all : all.filter((s) => showMatches(s, now));
-  const hidden = all.length - shown.length;
+  const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
+  const shown = state.sheetCinemas.size ? filtered.filter((s) => state.sheetCinemas.has(s.cinema)) : filtered;
+  const hidden = all.length - filtered.length;
   const byDay = {};
   for (const s of shown) (byDay[s.t.slice(0, 10)] ||= []).push(s);
   const meta = [f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : "", f.countries.slice(0, 3).join(", "), f.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ");
@@ -231,7 +232,7 @@ function openFilm(id) {
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
-      <div class="badges">${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<span class="badge">${esc(c)} · ${n}</span>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
+      <div class="badges">${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${on ? "★ On your watchlist" : "☆ Add to watchlist"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
@@ -248,6 +249,7 @@ function route() {
 
 $("film").addEventListener("close", () => {
   state.showAll = false;
+  state.sheetCinemas.clear();
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search);
 });
 $("film").addEventListener("click", (e) => { if (e.target === $("film")) $("film").close(); });
@@ -257,7 +259,7 @@ $("account").addEventListener("click", (e) => { if (e.target === $("account")) $
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-tab],[data-when],[data-cinema],[data-star],[data-showall]");
+  const t = e.target.closest("[data-tab],[data-when],[data-cinema],[data-star],[data-showall],[data-sheetcinema]");
   if (!t) return;
   if (t.dataset.tab) { state.tab = t.dataset.tab; }
   else if (t.dataset.when) { state.when = t.dataset.when; local.set("when", state.when); }
@@ -272,12 +274,15 @@ document.addEventListener("click", (e) => {
     if (isWatched(f)) f.ids.forEach((id) => state.watchlist.delete(id)); else state.watchlist.add(f.id);
     savePrefs();
     if ($("film").open) openFilm(f.id);
+  } else if (t.dataset.sheetcinema) {
+    const c = t.dataset.sheetcinema;
+    state.sheetCinemas.has(c) ? state.sheetCinemas.delete(c) : state.sheetCinemas.add(c);
+    openFilm(location.hash.slice(6)); return;
   } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(location.hash.slice(6)); return; }
   render();
 });
 $("dubBtn").addEventListener("click", () => { state.prefs.hideDubbed = !state.prefs.hideDubbed; savePrefs(); render(); });
 $("enBtn").addEventListener("click", () => { state.prefs.englishSubs = !state.prefs.englishSubs; savePrefs(); render(); });
-$("titleBtn").addEventListener("click", () => { state.prefs.englishTitles = !state.prefs.englishTitles; savePrefs(); render(); });
 $("cinemaBtn").addEventListener("click", () => { state.cinemasOpen = !state.cinemasOpen; render(); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 $("sort").addEventListener("change", (e) => { state.sort[state.tab] = e.target.value; local.set("sort", state.sort); renderGrid(); });

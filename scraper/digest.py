@@ -37,10 +37,10 @@ def when(t):
     return f"{WEEKDAYS[d.weekday()]} {d.day} {MONTHS[d.month - 1]} {d:%H:%M}"
 
 
-def title_of(f, prefs):
-    """English title when the subscriber prefers it (default) and we know one; Norwegian title in brackets."""
+def title_of(f, prefs=None):
+    """English title when we found a confident one (as on the site); Norwegian title in brackets."""
     en = (f.get("ext") or {}).get("en")
-    if prefs.get("englishTitles", True) and en:
+    if en:
         return f"{en} ({f['title']})"
     return f["title"]
 
