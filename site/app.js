@@ -38,7 +38,10 @@ const SORTS = {
   watch: [["next", "Soonest first"], ["az", "A–Z"]],
 };
 const WHEN = [["all", "Any time"], ["today", "Today"], ["7", "7 days"], ["14", "2 weeks"], ["30", "30 days"]];
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"] };
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], hideKinds: [] };
+const KINDS = [["film", "Films"], ["short", "Shorts"], ["stage", "Live & stage"], ["talk", "Talks & events"]];
+const KIND_BADGE = { short: "Shorts", stage: "Live & stage", talk: "Talk / event" };
+const kindShown = (f) => !(state.prefs.hideKinds || []).includes(f.kind || "film");
 
 const urlRegion = new URLSearchParams(location.search).get("r");
 const state = {
@@ -51,6 +54,7 @@ const state = {
   prefs: { ...DEFAULT_PREFS, ...local.get("prefs", {}) },
   watchlist: new Set(local.get("watchlist", [])),
   cinemasOpen: false,
+  kindsOpen: false,
   showAll: false,       // film sheet: show showings hidden by filters
   sheetCinemas: new Set(), // film sheet: cinema tags clicked to narrow its showings
   user: null,           // { id, email }
@@ -64,8 +68,8 @@ function showMatches(s, now) {
   if (s.t < now) return false;
   const p = state.prefs, mine = myCinemas();
   if (mine.length && !mine.includes(s.cinema)) return false;
-  if (p.hideDubbed && s.dub) return false;
-  if (p.englishSubs && !s.en) return false;
+  if (state.region === "oslo" && p.hideDubbed && s.dub) return false;
+  if (state.region === "oslo" && p.englishSubs && !s.en) return false;
   return true;
 }
 function windowEnd() {
@@ -90,7 +94,7 @@ function rowsFor(tab) {
   const now = localNow(), end = windowEnd(), q = state.q.trim().toLowerCase();
   const rows = [];
   for (const f of state.data.films) {
-    if (!textMatch(f, q)) continue;
+    if (!textMatch(f, q) || !kindShown(f)) continue;
     const shows = f.shows.filter((s) => showMatches(s, now) && s.t < end);
     const bookable = shows.filter((s) => s.ticket);
     if (tab === "onsale") {
@@ -128,12 +132,24 @@ function renderControls() {
   $("dubBtn").setAttribute("aria-pressed", state.prefs.hideDubbed);
   $("enBtn").setAttribute("aria-pressed", state.prefs.englishSubs);
   $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
-  $("dubBtn").hidden = state.region !== "oslo"; // Norwegian dubs only exist in Oslo
+  $("dubBtn").hidden = $("enBtn").hidden = state.region !== "oslo"; // Norwegian dubs / subtitle tags are Oslo-only
   const n = myCinemas().length;
   $("cinemaBtn").textContent = (n ? `${n} cinema${n > 1 ? "s" : ""}` : "All cinemas") + (state.cinemasOpen ? " ▴" : " ▾");
   $("cinemaBtn").setAttribute("aria-pressed", n > 0);
   $("cinemaBtn").setAttribute("aria-expanded", state.cinemasOpen);
   $("cinemas").hidden = !state.cinemasOpen;
+  const hidden = (state.prefs.hideKinds || []).length;
+  $("kindBtn").textContent = (hidden ? `${KINDS.length - hidden} of ${KINDS.length} types` : "All types") + (state.kindsOpen ? " ▴" : " ▾");
+  $("kindBtn").setAttribute("aria-pressed", hidden > 0);
+  $("kindBtn").setAttribute("aria-expanded", state.kindsOpen);
+  $("kinds").hidden = !state.kindsOpen;
+  if (state.kindsOpen) {
+    const counts = {};
+    for (const f of state.data.films) counts[f.kind || "film"] = (counts[f.kind || "film"] || 0) + 1;
+    $("kinds").innerHTML = KINDS.map(([k, label]) =>
+      `<button class="chip${(state.prefs.hideKinds || []).includes(k) ? "" : " on"}" data-kind="${k}" aria-pressed="${!(state.prefs.hideKinds || []).includes(k)}">${label}<span class="n">${counts[k] || 0}</span></button>`).join("")
+      + `<span class="hint">Tap to show or hide a type.</span>`;
+  }
   if (state.cinemasOpen) {
     const now = localNow(), counts = {};
     for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) counts[s.cinema] = (counts[s.cinema] || 0) + 1;
@@ -154,6 +170,7 @@ function cardMeta(f, shows) {
     return `<b>${esc(where)}</b><br><span${cls}>${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · ${shows.length} show${shows.length > 1 ? "s" : ""}`;
   }
   if (f.shows.length) return `Tickets not on sale yet<br>From ${dayLabel(f.shows[0].t, { short: true })}`;
+  if (f.premiere && f.elsewhere?.length) return `Premiere ${dayLabel(f.premiere)}<br>In ${esc(f.elsewhere.slice(0, 2).join(", "))}${f.elsewhere.length > 2 ? " +" + (f.elsewhere.length - 2) : ""}, not here yet`;
   if (f.premiere) {
     const d = asDate(f.premiere);
     if (f.scope === "Canada") return `Opens in Canada ${dayLabel(f.premiere)}<br>Not scheduled here yet`;
@@ -169,7 +186,7 @@ function posterHtml(f) {
 }
 
 function cardHtml({ f, shows }) {
-  const flag = isNew(f) ? `<span class="flag">New</span>` : "";
+  const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "");
   const on = isWatched(f);
   return `<li class="card">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
@@ -240,6 +257,7 @@ function openFilm(id) {
     <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
   let empty = "";
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
+  else if (!all.length && f.elsewhere?.length) empty = `<p class="hiddenNote">Premiere ${dayLabel(f.premiere)}. Showings so far only in ${esc(f.elsewhere.join(", "))}; none in ${esc(state.data.location)} yet.</p>`;
   else if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
@@ -249,7 +267,7 @@ function openFilm(id) {
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
-      <div class="badges">${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
+      <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${on ? "★ On your watchlist" : "☆ Add to watchlist"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
@@ -276,9 +294,15 @@ $("account").addEventListener("click", (e) => { if (e.target === $("account")) $
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-tab],[data-when],[data-cinema],[data-star],[data-showall],[data-sheetcinema],[data-region]");
+  const t = e.target.closest("[data-tab],[data-when],[data-cinema],[data-star],[data-showall],[data-sheetcinema],[data-region],[data-kind]");
   if (!t) return;
   if (t.dataset.region) { if (t.dataset.region !== state.region) loadRegion(t.dataset.region); return; }
+  if (t.dataset.kind) {
+    const k = t.dataset.kind, cur = new Set(state.prefs.hideKinds || []);
+    cur.has(k) ? cur.delete(k) : cur.add(k);
+    state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => cur.has(x));
+    savePrefs(); render(); return;
+  }
   if (t.dataset.tab) { state.tab = t.dataset.tab; }
   else if (t.dataset.when) { state.when = t.dataset.when; local.set("when", state.when); }
   else if (t.dataset.cinema !== undefined) {
@@ -301,7 +325,8 @@ document.addEventListener("click", (e) => {
 });
 $("dubBtn").addEventListener("click", () => { state.prefs.hideDubbed = !state.prefs.hideDubbed; savePrefs(); render(); });
 $("enBtn").addEventListener("click", () => { state.prefs.englishSubs = !state.prefs.englishSubs; savePrefs(); render(); });
-$("cinemaBtn").addEventListener("click", () => { state.cinemasOpen = !state.cinemasOpen; render(); });
+$("cinemaBtn").addEventListener("click", () => { state.cinemasOpen = !state.cinemasOpen; state.kindsOpen = false; render(); });
+$("kindBtn").addEventListener("click", () => { state.kindsOpen = !state.kindsOpen; state.cinemasOpen = false; render(); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 $("sort").addEventListener("change", (e) => { state.sort[state.tab] = e.target.value; local.set("sort", state.sort); renderGrid(); });
 window.addEventListener("hashchange", route);

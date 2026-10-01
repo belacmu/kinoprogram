@@ -60,6 +60,14 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 - **English titles** are always shown when we found a genuine one (not just the untranslated
   original) for a confidently matched film, with the Norwegian title underneath on the film page.
 - On the film page, clicking a cinema tag narrows its showings to that cinema (several can be picked).
+- **Types** filter: Films · Shorts · Live & stage (opera, ballet, theatre, concerts) · Talks & events
+  (lectures, archive evenings, mystery screenings, launches). Classified from explicit signals only
+  (title patterns, Filmweb genre/show type, under 45 min = short); non-film items carry a badge.
+  Nothing hidden by default; also applies to the email.
+- Norwegian-dub and English-subtitle filters are Oslo-only (hidden in Westman, ignored in its email).
+- Oslo Coming soon drops films that premiere within 14 days but only have showings elsewhere in
+  Norway (e.g. festival titles in Bergen), and films that premiered 3+ days ago with no showings
+  anywhere. Filmweb's upcoming list is national, so this is checked per film via its showings.
 - No login needed to browse; filters are remembered in the browser.
 - **Sign in** with a magic link (enter email → click link; no password). Signed-in users get:
   settings synced across devices, a watchlist, and the daily email.

@@ -71,7 +71,9 @@ def pick_announced(films, profile, now_s):
     if not prefs.get("announcements", True):
         return []
     watch = set(profile.get("watchlist") or [])
-    out = [(f, bool(watch & set(f["ids"]))) for f in films if announced_ok(f, prefs, now_s)]
+    hide_kinds = set(prefs.get("hideKinds") or [])
+    out = [(f, bool(watch & set(f["ids"]))) for f in films if announced_ok(f, prefs, now_s)
+           and (f.get("kind", "film") not in hide_kinds or watch & set(f["ids"]))]
     return sorted(out, key=lambda x: (not x[1], x[0]["premiere"] or (x[0]["shows"][0]["t"] if x[0]["shows"] else "9999")))
 
 
@@ -81,8 +83,11 @@ def pick(new_films, profile, now_s):
     watch = set(profile.get("watchlist") or [])
     always = prefs.get("watchlistAlways", True)
     out = []
+    hide_kinds = set(prefs.get("hideKinds") or [])
     for f in new_films:
         watched = bool(watch & set(f["ids"]))
+        if f.get("kind", "film") in hide_kinds and not watched:
+            continue
         shows = [s for s in f["shows"] if show_ok(s, prefs, now_s)]
         if not shows and watched and always:
             shows = [s for s in f["shows"] if s["ticket"] and s["t"] >= now_s]
@@ -247,6 +252,8 @@ def main():
         for p in recipients:
             prefs = dict(p.get("prefs") or {})
             prefs["_cinemas"] = [c for c in prefs.get("cinemas") or [] if c in data["cinemas"]]
+            if rkey != "oslo":  # dub/subtitle filters only make sense for Oslo's data
+                prefs["hideDubbed"] = prefs["englishSubs"] = False
             p = {**p, "prefs": prefs}
             items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
             if not (items or announced):

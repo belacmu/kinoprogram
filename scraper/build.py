@@ -84,6 +84,27 @@ def merge(primary, extra):
     return films
 
 
+# Film types, from explicit signals only (titles, Filmweb genres/show types, running time).
+STAGE = re.compile(r"\b(met opera|opera\b|rbo:|royal ballet|ballet\b|bolshoi|national theatre live|nt live|world tour|"
+                   r"live in |live at |live from|live viewing|in concert|concert\b|cheering party)|konsert|\bthe play\b", re.I)
+SHORTS = re.compile(r"\b(shorts?|kortfilm(er|program)?)\b", re.I)
+TALKS = re.compile(r"^(filmhistorie:|fra nrk-arkivet|jack presenterer!|lansering av)|\b(mystery (movie|screening)|foredrag|"
+                   r"seminar|quiz)\b|\bpresents itself\b|debutantslipp", re.I)
+
+
+def film_kind(f):
+    """'stage' (opera, ballet, theatre, concerts), 'talk' (lectures, special events), 'short', or 'film'."""
+    genres = " ".join(f.get("genres") or []).lower()
+    tags = {t for s in f["shows"] for t in s["tags"]}
+    if STAGE.search(f["title"]) or "Opera" in tags or "konsert" in genres:
+        return "stage"
+    if TALKS.search(f["title"]):
+        return "talk"
+    if SHORTS.search(f["title"]) or "kortfilm" in genres or 0 < (f.get("runtime") or 0) < 45:
+        return "short"
+    return "film"
+
+
 def finalise(films, now):
     now_s = now.strftime(FMT)
     out = []
@@ -94,6 +115,14 @@ def finalise(films, now):
         f["ids"] = [film_id(l["url"]) for l in f["links"]]
         f["id"] = f["ids"][0]
         f["series"] = list(dict.fromkeys(f["series"]))
+        f["kind"] = film_kind(f)
+        if not f["shows"] and f.get("checkedNationwide") and f["premiere"]:
+            # Checked films premiere within 14 days; by then the cinemas here have normally published
+            # showings. Playing elsewhere (e.g. only at a festival in Bergen) but not here: not coming
+            # here. If it later gets showings here it reappears as newly on sale, so nothing is lost.
+            stale = f["premiere"] <= (now - timedelta(days=3)).strftime("%Y-%m-%d")
+            if f["elsewhere"] or stale:
+                continue
         if any(s["ticket"] for s in f["shows"]):
             f["status"] = "on_sale"
         elif f["shows"] or (f["premiere"] and f["premiere"] >= (now - timedelta(days=14)).strftime("%Y-%m-%d")) \

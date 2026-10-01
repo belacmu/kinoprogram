@@ -89,6 +89,9 @@ select { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid
   font: 800 22px/0.95 var(--display); text-transform: uppercase; color: var(--muted); }
 .flag { position: absolute; left: 6px; top: 6px; background: var(--accent); color: var(--accent-ink);
   font: 600 11px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; padding: 4px 6px; border-radius: 3px; }
+.kind { position: absolute; left: 6px; bottom: 6px; background: rgba(10, 12, 16, .7); color: #fff;
+  font: 600 10px/1 var(--body); letter-spacing: .05em; text-transform: uppercase; padding: 4px 6px; border-radius: 3px; }
+.hint { color: var(--muted); font-size: 12px; margin-left: 4px; }
 .star { position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer;
   background: rgba(10, 12, 16, .55); color: #fff; font-size: 17px; line-height: 32px; text-align: center; padding: 0; }
 .star.on { background: var(--accent); color: var(--accent-ink); }

@@ -5,6 +5,7 @@ import re
 import sys
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta
 
 UA = {"User-Agent": "Mozilla/5.0 (kinoprogram; +https://github.com/belacmu/kinoprogram)"}
 
@@ -22,7 +23,8 @@ def text(s):
 def film(**kw):
     base = {"title": "", "alt": "", "year": "", "runtime": 0, "genres": [], "director": "",
             "countries": [], "blurb": "", "poster": "", "links": [], "series": [], "shows": [],
-            "premiere": "", "premiereConfirmed": False, "knownIds": {}, "scope": ""}
+            "premiere": "", "premiereConfirmed": False, "knownIds": {}, "scope": "",
+            "elsewhere": [], "checkedNationwide": False}
     return {**base, **kw}
 
 
@@ -98,9 +100,25 @@ def fetch_filmweb(location):
                 "en": "Engelsk tekst" in tags,
             })
         films.append(filmweb_film(m, shows))
+    # Filmweb's upcoming list is national (the city is ignored), so for films premiering around now,
+    # check where in Norway they actually have showings. That tells "not coming to Oslo" apart from
+    # "not scheduled anywhere yet".
+    today = datetime.now().strftime("%Y-%m-%d")
+    lo = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    hi = (datetime.now() + timedelta(days=14)).strftime("%Y-%m-%d")
     for m in data["upcoming"]:
-        if m["mainVersionId"] not in current_ids:
-            films.append(filmweb_film(m, []))
+        if m["mainVersionId"] in current_ids:
+            continue
+        f = filmweb_film(m, [])
+        if f["premiere"] and lo <= f["premiere"] <= hi:
+            try:
+                shows = filmweb_query("query ($m: String) { showQuery { getShows(movieId: $m) { location } } }",
+                                      {"m": m["mainVersionId"]})["showQuery"]["getShows"] or []
+                f["elsewhere"] = sorted({s["location"] for s in shows if s.get("location") and s["location"] != location})
+                f["checkedNationwide"] = True
+            except Exception as e:
+                print(f"  ! Filmweb shows for {m['title']}: {e}", file=sys.stderr)
+        films.append(f)
     return films
 
 
