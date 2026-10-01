@@ -1,4 +1,53 @@
 {
+"cm-2001": {
+"imdb": "tt0062622",
+"lb": "2001-a-space-odyssey",
+"rt": "m/2001_a_space_odyssey",
+"mc": "movie/2001-a-space-odyssey",
+"checked": "2026-10-01",
+"lbSlug": "2001-a-space-odyssey",
+"lbRating": 4.23,
+"rated": "2026-10-01"
+},
+"cm-agnus-dei": {
+"checked": "2026-10-01"
+},
+"cm-aktivisten": {
+"checked": "2026-10-01"
+},
+"cm-all-the-beauty-and-the-bloodshed": {
+"imdb": "tt21374850",
+"lb": "all-the-beauty-and-the-bloodshed",
+"rt": "m/all_the_beauty_and_the_bloodshed",
+"mc": "movie/all-the-beauty-and-the-bloodshed",
+"checked": "2026-10-01",
+"lbSlug": "all-the-beauty-and-the-bloodshed",
+"lbRating": 4.22,
+"rated": "2026-10-01"
+},
+"cm-allowed-to-birth": {
+"checked": "2026-10-01"
+},
+"cm-below-the-clouds": {
+"imdb": "tt36874833",
+"lb": "pompei-below-the-clouds",
+"rt": "m/below_the_clouds",
+"mc": "movie/below-the-clouds",
+"checked": "2026-10-01",
+"lbSlug": "pompei-below-the-clouds",
+"lbRating": 3.53,
+"rated": "2026-10-01"
+},
+"cm-blood-for-dracula": {
+"imdb": "tt0071233",
+"lb": "blood-for-dracula",
+"rt": "m/blood_for_dracula",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "blood-for-dracula",
+"lbRating": 3.22,
+"rated": "2026-10-01"
+},
 "cm-butterfly": {
 "imdb": "tt37496603",
 "lb": null,
@@ -8,6 +57,160 @@
 "lbSlug": "butterfly-2026",
 "lbRating": 3.18,
 "rated": "2026-10-01"
+},
+"cm-cafe-paradis": {
+"imdb": "tt0042294",
+"lb": "cafe-paradis",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "cafe-paradis",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"cm-de-rode-enge": {
+"imdb": "tt0038043",
+"lb": "red-meadows",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "red-meadows",
+"lbRating": 3.37,
+"rated": "2026-10-01"
+},
+"cm-death-of-death": {
+"checked": "2026-10-01"
+},
+"cm-den-fremmede": {
+"checked": "2026-10-01"
+},
+"cm-den-gronne-solstralen": {
+"imdb": "tt0091830",
+"lb": "the-green-ray",
+"rt": "m/summer_2011",
+"mc": "movie/le-rayon-vert-1986",
+"checked": "2026-10-01",
+"lbSlug": "the-green-ray",
+"lbRating": 4.17,
+"rated": "2026-10-01"
+},
+"cm-der-behandling-finner-sted": {
+"checked": "2026-10-01"
+},
+"cm-det-morkebla-evangeliet": {
+"checked": "2026-10-01"
+},
+"cm-det-sande-ansigt": {
+"imdb": "tt0043990",
+"lb": "the-face-of-truth",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "the-face-of-truth",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"cm-dog-of-god": {
+"imdb": "tt33738802",
+"lb": "dog-of-god",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "dog-of-god",
+"lbRating": 3.11,
+"rated": "2026-10-01"
+},
+"cm-donnie-darko": {
+"imdb": "tt0246578",
+"lb": "donnie-darko",
+"rt": "m/donnie_darko",
+"mc": "movie/donnie-darko",
+"checked": "2026-10-01",
+"lbSlug": "donnie-darko",
+"lbRating": 3.98,
+"rated": "2026-10-01"
+},
+"cm-en-herre-i-kjole-og-hvidt": {
+"imdb": "tt0124742",
+"lb": "a-gentleman-in-top-hat-and-tails",
+"rt": "m/herre-i-kjole-og-hvidt-en-a-gentleman-in-top-hat-and-tails",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "a-gentleman-in-top-hat-and-tails",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"cm-fia-og-klovnene": {
+"imdb": "tt0354577",
+"lb": "fia-og-klovnene",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "fia-og-klovnene",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"cm-fodt-i-jungelen": {
+"checked": "2026-10-01"
+},
+"cm-for-harde-livet": {
+"imdb": "tt0097374",
+"lb": "for-dear-life-1989",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "for-dear-life-1989",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"cm-go-friend-go": {
+"checked": "2026-10-01"
+},
+"cm-high-and-low": {
+"imdb": "tt0057565",
+"lb": "high-and-low",
+"rt": "m/high_and_low",
+"mc": "movie/high-and-low",
+"checked": "2026-10-01",
+"lbSlug": "high-and-low",
+"lbRating": 4.61,
+"rated": "2026-10-01"
+},
+"cm-hot-fuzz": {
+"imdb": "tt0425112",
+"lb": "hot-fuzz",
+"rt": "m/hot_fuzz",
+"mc": "movie/hot-fuzz",
+"checked": "2026-10-01",
+"lbSlug": "hot-fuzz",
+"lbRating": 4.08,
+"rated": "2026-10-01"
+},
+"cm-i-lovens-tegn": {
+"checked": "2026-10-01"
+},
+"cm-innocent-blood": {
+"imdb": "tt0104511",
+"lb": "innocent-blood",
+"rt": "m/innocent_blood",
+"mc": "movie/innocent-blood",
+"checked": "2026-10-01",
+"lbSlug": "innocent-blood",
+"lbRating": 3.14,
+"rated": "2026-10-01"
+},
+"cm-invisible-adversaries": {
+"imdb": "tt0076204",
+"lb": "invisible-adversaries",
+"rt": "m/unsichtbare_gegner",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "invisible-adversaries",
+"lbRating": 3.65,
+"rated": "2026-10-01"
+},
+"cm-irena": {
+"checked": "2026-10-01"
 },
 "cm-its-a-wonderful-life": {
 "imdb": "tt0038650",
@@ -19,6 +222,174 @@
 "lbRating": 4.45,
 "rated": "2026-10-01"
 },
+"cm-jeg-daniel-blake": {
+"imdb": "tt5168192",
+"lb": "i-daniel-blake",
+"rt": "m/i_daniel_blake",
+"mc": "movie/i-daniel-blake",
+"checked": "2026-10-01",
+"lbSlug": "i-daniel-blake",
+"lbRating": 4.04,
+"rated": "2026-10-01"
+},
+"cm-jeg-sa-en-ulv-en-rev-en-hare": {
+"checked": "2026-10-01"
+},
+"cm-kampen-om-algerie": {
+"imdb": "tt0058946",
+"lb": "the-battle-of-algiers",
+"rt": "m/the_battle_of_algiers",
+"mc": "movie/the-battle-of-algiers",
+"checked": "2026-10-01",
+"lbSlug": "the-battle-of-algiers",
+"lbRating": 4.48,
+"rated": "2026-10-01"
+},
+"cm-koyaanisqatsi": {
+"imdb": "tt0085809",
+"lb": "koyaanisqatsi",
+"rt": "m/koyaanisqatsi_life_out_of_balance",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "koyaanisqatsi",
+"lbRating": 4.32,
+"rated": "2026-10-01"
+},
+"cm-la-carnada": {
+"imdb": "tt0195584",
+"lb": "la-carnada-1999",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "la-carnada-1999",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"cm-luca": {
+"checked": "2026-10-01"
+},
+"cm-mad-max-fury-road": {
+"imdb": "tt1392190",
+"lb": "mad-max-fury-road",
+"rt": "m/mad_max_fury_road",
+"mc": "movie/mad-max-fury-road",
+"checked": "2026-10-01",
+"lbSlug": "mad-max-fury-road",
+"lbRating": 4.17,
+"rated": "2026-10-01"
+},
+"cm-menneskebarnet": {
+"imdb": "tt0103971",
+"lb": "the-child-of-man",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "the-child-of-man",
+"lbRating": 3.49,
+"rated": "2026-10-01"
+},
+"cm-min-natt-med-maud": {
+"imdb": "tt0064612",
+"lb": "my-night-at-mauds",
+"rt": "m/my_night_at_mauds",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "my-night-at-mauds",
+"lbRating": 4.14,
+"rated": "2026-10-01"
+},
+"cm-mine-kjaerester": {
+"checked": "2026-10-01"
+},
+"cm-mordets-melodi": {
+"imdb": "tt0122619",
+"lb": "melody-of-a-murder",
+"rt": "m/murder_melody",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "melody-of-a-murder",
+"lbRating": 3.4,
+"rated": "2026-10-01"
+},
+"cm-naqoyqatsi": {
+"imdb": "tt0145937",
+"lb": "naqoyqatsi",
+"rt": "m/naqoyqatsi",
+"mc": "movie/naqoyqatsi",
+"checked": "2026-10-01",
+"lbSlug": "naqoyqatsi",
+"lbRating": 3.08,
+"rated": "2026-10-01"
+},
+"cm-o-brother-where-art-thou": {
+"imdb": "tt0190590",
+"lb": "o-brother-where-art-thou",
+"rt": "m/o_brother_where_art_thou",
+"mc": "movie/o-brother-where-art-thou",
+"checked": "2026-10-01",
+"lbSlug": "o-brother-where-art-thou",
+"lbRating": 3.96,
+"rated": "2026-10-01"
+},
+"cm-ole-aleksander-filibom-bom-bom": {
+"imdb": "tt0181731",
+"lb": "ole-aleksander-filibom-bom-bom",
+"rt": "m/ollie-alexander-tiddlyompompom",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "ole-aleksander-filibom-bom-bom",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"cm-one-of-one": {
+"checked": "2026-10-01"
+},
+"cm-oppussing": {
+"imdb": "tt37266315",
+"lb": "renovation-2025",
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "renovation-2025",
+"lbRating": 3.48,
+"rated": "2026-10-01"
+},
+"cm-pan": {
+"checked": "2026-10-01"
+},
+"cm-perfect-days": {
+"imdb": "tt27503384",
+"lb": "perfect-days-2023",
+"rt": "m/perfect_days_2023",
+"mc": "movie/perfect-days",
+"checked": "2026-10-01",
+"lbSlug": "perfect-days-2023",
+"lbRating": 4.32,
+"rated": "2026-10-01"
+},
+"cm-powaqqatsi": {
+"imdb": "tt0095895",
+"lb": "powaqqatsi",
+"rt": "m/powaqqatsi",
+"mc": "movie/powaqqatsi",
+"checked": "2026-10-01",
+"lbSlug": "powaqqatsi",
+"lbRating": 3.65,
+"rated": "2026-10-01"
+},
+"cm-propp-berta": {
+"imdb": "tt0258050",
+"lb": "prop-and-berta",
+"rt": "m/prop_og_berta",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "prop-and-berta",
+"lbRating": 3.49,
+"rated": "2026-10-01"
+},
+"cm-redistribution-2026-2007": {
+"checked": "2026-10-01"
+},
 "cm-reisen-til-julestjernen": {
 "imdb": "tt0075128",
 "lb": "journey-to-the-christmas-star-1976",
@@ -27,6 +398,42 @@
 "checked": "2026-10-01",
 "lbSlug": "journey-to-the-christmas-star-1976",
 "lbRating": 3.44,
+"rated": "2026-10-01"
+},
+"cm-reservoir-dogs": {
+"imdb": "tt0105236",
+"lb": "reservoir-dogs",
+"rt": "m/reservoir_dogs",
+"mc": "movie/reservoir-dogs",
+"checked": "2026-10-01",
+"lbSlug": "reservoir-dogs",
+"lbRating": 4.14,
+"rated": "2026-10-01"
+},
+"cm-sculpting-in-time-kreativt-samarbeid-regi-klipp-lyd": {
+"checked": "2026-10-01"
+},
+"cm-sirocco-og-vindens-rike": {
+"imdb": "tt12015692",
+"lb": "sirocco-and-the-kingdom-of-the-winds",
+"rt": "m/sirocco_and_the_kingdom_of_the_winds",
+"mc": "movie/sirocco-and-the-kingdom-of-the-winds",
+"checked": "2026-10-01",
+"lbSlug": "sirocco-and-the-kingdom-of-winds",
+"lbRating": 3.9,
+"rated": "2026-10-01"
+},
+"cm-soundings": {
+"checked": "2026-10-01"
+},
+"cm-symbiopsychotaxiplasm": {
+"imdb": "tt0296881",
+"lb": "symbiopsychotaxiplasm-take-one",
+"rt": "m/symbiopsychotaxiplasm_take_one",
+"mc": "movie/symbiopsychotaxiplasm-take-one",
+"checked": "2026-10-01",
+"lbSlug": "symbiopsychotaxiplasm-take-one",
+"lbRating": 3.95,
 "rated": "2026-10-01"
 },
 "cm-the-devils": {
@@ -45,6 +452,16 @@
 "cm-the-odyssey-70mm": {
 "checked": "2026-10-01"
 },
+"cm-the-sealed-soil": {
+"imdb": "tt0154728",
+"lb": "the-sealed-soil",
+"rt": "m/the_sealed_soil",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "the-sealed-soil",
+"lbRating": 3.68,
+"rated": "2026-10-01"
+},
 "cm-the-shining": {
 "imdb": "tt0081505",
 "lb": "the-shining",
@@ -53,6 +470,59 @@
 "checked": "2026-10-01",
 "lbSlug": "the-shining",
 "lbRating": 4.21,
+"rated": "2026-10-01"
+},
+"cm-the-turin-horse": {
+"imdb": "tt1316540",
+"lb": "the-turin-horse",
+"rt": "m/the_turin_horse",
+"mc": "movie/the-turin-horse",
+"checked": "2026-10-01",
+"lbSlug": "the-turin-horse",
+"lbRating": 4.19,
+"rated": "2026-10-01"
+},
+"cm-tintin---solens-tempel": {
+"imdb": "tt0065106",
+"lb": "tintin-and-the-temple-of-the-sun",
+"rt": "m/tintin-et-le-temple-du-soleil-tintin-and-the-temple-of-the-sun",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "tintin-and-the-temple-of-the-sun",
+"lbRating": 3.49,
+"rated": "2026-10-01"
+},
+"cm-ulya": {
+"checked": "2026-10-01"
+},
+"cm-vampires": {
+"imdb": "tt0120877",
+"lb": "vampires",
+"rt": "m/john_carpenters_vampires",
+"mc": "movie/vampire",
+"checked": "2026-10-01",
+"lbSlug": "vampires",
+"lbRating": 2.95,
+"rated": "2026-10-01"
+},
+"cm-var-erika": {
+"imdb": "tt33256507",
+"lb": null,
+"rt": null,
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "our-erika",
+"lbRating": 3.7,
+"rated": "2026-10-01"
+},
+"cm-vinterhjerte": {
+"imdb": "tt0105682",
+"lb": "a-heart-in-winter",
+"rt": "m/un_coeur_en_hiver",
+"mc": null,
+"checked": "2026-10-01",
+"lbSlug": "a-heart-in-winter",
+"lbRating": 3.9,
 "rated": "2026-10-01"
 },
 "fw-ART20020802": {
@@ -82,6 +552,16 @@
 "mc": "movie/avengers-doomsday",
 "checked": "2026-10-01",
 "lbSlug": "avengers-doomsday",
+"lbRating": null,
+"rated": "2026-10-01"
+},
+"fw-BVI20220663": {
+"imdb": "tt28535715",
+"lb": "whalefall",
+"rt": "m/whalefall",
+"mc": "movie/whalefall",
+"checked": "2026-10-01",
+"lbSlug": "whalefall",
 "lbRating": null,
 "rated": "2026-10-01"
 },
@@ -359,6 +839,9 @@
 "lbRating": null,
 "rated": "2026-10-01"
 },
+"fw-EDI20260552": {
+"checked": "2026-10-01"
+},
 "fw-EDI20260563": {
 "imdb": "tt32368068",
 "lb": "whispers-in-the-woods-2025",
@@ -449,6 +932,9 @@
 "lbSlug": "a-prayer-for-the-dying-2026",
 "lbRating": 3.16,
 "rated": "2026-10-01"
+},
+"fw-EDI20260858": {
+"checked": "2026-10-01"
 },
 "fw-EDI20260873": {
 "imdb": "tt35298123",
@@ -816,6 +1302,9 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20261603": {
+"checked": "2026-10-01"
+},
+"fw-EDI20261609": {
 "checked": "2026-10-01"
 },
 "fw-KUL20182847": {
