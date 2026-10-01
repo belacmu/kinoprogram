@@ -100,20 +100,18 @@ function startDay(f, shows) {
 
 // Section labels for the "When it's playing" view.
 function whenSection(row, today) {
-  if (!row.start) return { key: "9999", label: "Date not set" };
-  // Playing now = already started and on again within a week. Something that premiered long ago with
-  // one special screening in November belongs under November, like the one-off it is.
-  if (row.shows.length && row.start <= today && row.shows[0].t.slice(0, 10) <= addDays(today, 6))
-    return { key: "0000", label: "Playing now" };
-  if (row.shows.length && row.start <= today) row = { ...row, start: row.shows[0].t.slice(0, 10) };
+  // A film's day = its next showing; films without showings use their confirmed premiere.
+  const day = row.shows[0]?.t.slice(0, 10) || row.start;
+  if (!day) return { key: "9999", label: "Date not set" };
+  if (row.shows.length && day === today) return { key: "0000", label: "Playing today" };
   const dow = asDate(today).getUTCDay();                    // 0 = Sunday
   const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
-  if (row.start <= weekEnd) return { key: "0001", label: "This week" };
-  if (row.start <= addDays(weekEnd, 7)) return { key: "0002", label: "Next week" };
-  const [y, m] = row.start.split("-").map(Number);
+  if (day <= weekEnd) return { key: "0001", label: "This week" };
+  if (day <= addDays(weekEnd, 7)) return { key: "0002", label: "Next week" };
+  const [y, m] = day.split("-").map(Number);
   const [ty, tm] = today.split("-").map(Number);
   const label = y === ty && m === tm ? `Later in ${MONTH_NAMES[m - 1]}` : `${MONTH_NAMES[m - 1]}${y !== ty ? " " + y : ""}`;
-  return { key: row.start.slice(0, 7), label };
+  return { key: day.slice(0, 7), label };
 }
 
 // Section labels for the two "newly" views, by when it happened.
@@ -166,9 +164,6 @@ function buildRows() {
       return n(a) - n(b) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     }
     if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
-    if (a.sec.key === "0000") // playing now: newly on sale, then newest premieres, then repertory by time
-      return (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "")
-        || (b.f.premiere || "").localeCompare(a.f.premiere || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     return t0(a).localeCompare(t0(b)) || byTitle(a, b);
   });
   return rows;
@@ -266,13 +261,28 @@ function posterHtml(f) {
     : ""}<div class="ph"${f.poster ? ' aria-hidden="true" style="z-index:-1"' : ""}>${esc(titleOf(f))}</div></div>`;
 }
 
+// Preview only: compare rating designs with ?rating=a|b|c (default a).
+const RATING_VARIANT = ["a", "b", "c"].includes(new URLSearchParams(location.search).get("rating"))
+  ? new URLSearchParams(location.search).get("rating") : "a";
+function ratingHtml(f, where) {
+  const r = f.ext?.lbRating;
+  if (r == null) return "";
+  const v = r.toFixed(1), label = `Letterboxd rating ${v} out of 5`;
+  if (where === "poster" && RATING_VARIANT === "a") return `<span class="lbr pillr" title="${label}" aria-label="${label}"><i>LB</i>${v}</span>`;
+  if (where === "poster" && RATING_VARIANT === "c")
+    return `<span class="lbr ring ${r >= 3.5 ? "hi" : r >= 2.8 ? "mid" : "lo"}" title="${label}" aria-label="${label}">${v}</span>`;
+  if (where === "text" && RATING_VARIANT === "b") return `<div class="lbr textr" aria-label="${label}">Letterboxd <b>${v}</b></div>`;
+  return "";
+}
+
 function cardHtml(row) {
   const { f } = row;
-  const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "");
+  const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
+    + ratingHtml(f, "poster");
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
-      <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
+      <h3>${esc(titleOf(f))}</h3>${ratingHtml(f, "text")}<div class="m">${cardMeta(row)}</div></a>
     <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${on ? "★" : "☆"}</button>
   </li>`;
 }
@@ -324,11 +334,8 @@ function extLinks(f) {
   const x = f.ext || {}, out = [];
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
-  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>★ ${x.lbRating.toFixed(1)}</b>` : ""}</a>`);
+  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>· ${x.lbRating.toFixed(1)}</b>` : ""}</a>`);
   else out.push(`<a class="ext lb" href="https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/" target="_blank" rel="noopener">Search Letterboxd</a>`);
-  if (x.imdb) out.push(`<a class="ext" href="https://www.imdb.com/title/${esc(x.imdb)}/" target="_blank" rel="noopener">IMDb</a>`);
-  if (x.rt) out.push(`<a class="ext" href="https://www.rottentomatoes.com/${esc(x.rt)}" target="_blank" rel="noopener">Rotten Tomatoes</a>`);
-  if (x.mc) out.push(`<a class="ext" href="https://www.metacritic.com/${esc(x.mc)}/" target="_blank" rel="noopener">Metacritic</a>`);
   return `<div class="exts">${out.join("")}</div>`;
 }
 
