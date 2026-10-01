@@ -201,10 +201,10 @@ a.stub:hover { border-color: var(--accent); }
   .card h3 { font-size: 16px; }
   .controls { padding-block: 8px 6px; }
   /* two rows: search + Filters, then the two menus + a compact watchlist star */
-  #q { order: 1; flex: 1 1 0; }
+  #q { order: 1; flex: 1 1 calc(100% - 100px); min-width: 0; }
   #filtersBtn { order: 2; }
-  #view { order: 3; flex: 1 1 0; min-width: 0; }
-  #within { order: 4; flex: 1 1 0; min-width: 0; }
+  #view { order: 3; flex: 1 1 35%; min-width: 0; }
+  #within { order: 4; flex: 1 1 30%; min-width: 0; }
   #watchBtn { order: 5; }
   #watchBtn .wl { display: none; }
   dialog { width: 100vw; max-width: 100vw; max-height: 100dvh; height: 100dvh; border-radius: 0; margin: 0; }
