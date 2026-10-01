@@ -23,19 +23,14 @@
 
   <div class="banner" id="banner" hidden></div>
 
-  <nav class="tabs" id="tabs" aria-label="Views">
-    <button class="tab on" data-tab="onsale">On sale <span class="n" id="nOnsale"></span></button>
-    <button class="tab" data-tab="coming">Coming soon <span class="n" id="nComing"></span></button>
-    <button class="tab" data-tab="watch">Watchlist <span class="n" id="nWatch"></span></button>
-  </nav>
-
   <div class="controls">
     <div class="row">
-      <input type="search" id="q" placeholder="Search title, director or series" autocomplete="off">
-      <select id="sort" aria-label="Sort"></select>
+      <input type="search" id="q" placeholder="Search for a film, director or series" autocomplete="off">
+      <select id="view" aria-label="View"></select>
     </div>
     <div class="row" id="filterRow">
-      <span class="seg" id="when" role="group" aria-label="When"></span>
+      <span class="seg" id="tix" role="group" aria-label="Tickets"></span>
+      <button class="chip" id="watchBtn" aria-pressed="false">★ Watchlist</button>
       <button class="chip" id="dubBtn" aria-pressed="false">Hide Norwegian dubs</button>
       <button class="chip" id="enBtn" aria-pressed="false">English subtitles</button>
       <button class="chip" id="cinemaBtn" aria-expanded="false">All cinemas ▾</button>
@@ -43,10 +38,11 @@
     </div>
     <div class="row cinemas" id="cinemas" hidden></div>
     <div class="row cinemas" id="kinds" hidden></div>
+    <nav class="jump" id="jump" aria-label="Jump to section"></nav>
   </div>
 
   <div class="count" id="count"></div>
-  <ul class="grid" id="grid"></ul>
+  <div id="grid"></div>
   <footer class="foot" id="foot"></footer>
 </div>
 

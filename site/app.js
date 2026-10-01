@@ -32,25 +32,23 @@ function dayLabel(t, { short = false } = {}) {
 const hhmm = (t) => t.slice(11, 16);
 
 // ---------------------------------------------------------------- state
-const SORTS = {
-  onsale: [["newest", "Newly on sale"], ["next", "Next showing"], ["az", "A–Z"], ["most", "Most showings"], ["last", "Last chance"]],
-  coming: [["soonest", "Soonest first"], ["announced", "Newly announced"], ["az", "A–Z"]],
-  watch: [["next", "Soonest first"], ["az", "A–Z"]],
-};
-const WHEN = [["all", "Any time"], ["today", "Today"], ["7", "7 days"], ["14", "2 weeks"], ["30", "30 days"]];
+// One grid, three ways to read it. Each view groups films under section headers.
+const VIEWS = [["when", "When it's playing"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];
+const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], hideKinds: [] };
 const KINDS = [["film", "Films"], ["short", "Shorts"], ["stage", "Live & stage"], ["talk", "Talks & events"]];
 const KIND_BADGE = { short: "Shorts", stage: "Live & stage", talk: "Talk / event" };
 const kindShown = (f) => !(state.prefs.hideKinds || []).includes(f.kind || "film");
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const urlRegion = new URLSearchParams(location.search).get("r");
 const state = {
   data: null,
   region: REGIONS.some((r) => r.key === urlRegion) ? urlRegion : local.get("region", "oslo"),
-  tab: "onsale",
+  view: VIEWS.some(([v]) => v === local.get("view", "when")) ? local.get("view", "when") : "when",
+  tix: local.get("tix", "all"),
+  onlyWatch: false,
   q: "",
-  sort: local.get("sort", { onsale: "newest", coming: "soonest", watch: "next" }),
-  when: local.get("when", "all"),
   prefs: { ...DEFAULT_PREFS, ...local.get("prefs", {}) },
   watchlist: new Set(local.get("watchlist", [])),
   cinemasOpen: false,
@@ -72,10 +70,6 @@ function showMatches(s, now) {
   if (state.region === "oslo" && p.englishSubs && !s.en) return false;
   return true;
 }
-function windowEnd() {
-  if (state.when === "all") return "9999";
-  return addDays(localNow().slice(0, 10), state.when === "today" ? 1 : Number(state.when));
-}
 const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
 // "New" = went on sale (or, for announced films, first got a date) in the last 7 days, after tracking began.
 function isRecent(since) {
@@ -89,46 +83,88 @@ function textMatch(f, q) {
 // English title when scraper/external.py found a confident, genuine one; otherwise the Norwegian title.
 const titleOf = (f) => f.ext?.en || f.title;
 const otherTitles = (f) => [...new Set([f.title, f.ext?.en, f.alt].filter((t) => t && t !== titleOf(f)))];
+const byTitle = (a, b) => titleOf(a.f).localeCompare(titleOf(b.f), "nb");
 
-function rowsFor(tab) {
-  const now = localNow(), end = windowEnd(), q = state.q.trim().toLowerCase();
+// When a film "starts" here: its first showing, or its (confirmed) premiere if that's earlier,
+// e.g. it premiered last week and is still playing. No showings: the confirmed premiere, else none.
+function startDay(f, shows) {
+  const first = shows[0]?.t.slice(0, 10);
+  const prem = f.premiereConfirmed ? f.premiere : "";
+  if (first) return prem && prem < first ? prem : first;
+  return prem || "";
+}
+
+// Section labels for the "When it's playing" view.
+function whenSection(row, today) {
+  if (!row.start) return { key: "9999", label: "Date not set" };
+  if (row.shows.length && row.start <= today) return { key: "0000", label: "Playing now" };
+  const dow = asDate(today).getUTCDay();                    // 0 = Sunday
+  const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
+  if (row.start <= weekEnd) return { key: "0001", label: "This week" };
+  if (row.start <= addDays(weekEnd, 7)) return { key: "0002", label: "Next week" };
+  const [y, m] = row.start.split("-").map(Number);
+  const [ty, tm] = today.split("-").map(Number);
+  const label = y === ty && m === tm ? `Later in ${MONTH_NAMES[m - 1]}` : `${MONTH_NAMES[m - 1]}${y !== ty ? " " + y : ""}`;
+  return { key: row.start.slice(0, 7), label };
+}
+
+// Section labels for the two "newly" views, by when it happened.
+function sinceSection(since, today, before) {
+  if (!since || since <= state.data.baseline) return { key: "9", label: before };
+  const day = since.slice(0, 10);
+  if (day === today) return { key: "0", label: "Today" };
+  if (day === addDays(today, -1)) return { key: "1", label: "Yesterday" };
+  if (day >= addDays(today, -6)) return { key: "2", label: "Earlier this week" };
+  if (day >= addDays(today, -13)) return { key: "3", label: "Last week" };
+  return { key: "4", label: "Earlier" };
+}
+
+function buildRows() {
+  const now = localNow(), today = now.slice(0, 10), q = state.q.trim().toLowerCase();
+  const started = state.data.baseline ? dayLabel(state.data.baseline) : "";
   const rows = [];
   for (const f of state.data.films) {
     if (!textMatch(f, q) || !kindShown(f)) continue;
-    const shows = f.shows.filter((s) => showMatches(s, now) && s.t < end);
+    if (state.onlyWatch && !isWatched(f)) continue;
+    const shows = f.shows.filter((s) => showMatches(s, now));
+    if (f.shows.length && !shows.length) continue; // has showings, none match the filters
     const bookable = shows.filter((s) => s.ticket);
-    if (tab === "onsale") {
-      if (f.status === "on_sale" && bookable.length) rows.push({ f, shows: bookable });
-    } else if (tab === "coming") {
-      if (f.status !== "announced") continue;
-      if (f.shows.length && !shows.length) continue; // has showings, none match filters
-      rows.push({ f, shows });
-    } else if (isWatched(f)) {
-      rows.push({ f, shows: f.status === "on_sale" ? bookable : shows });
+    const onSale = f.status === "on_sale" && bookable.length > 0;
+    const row = { f, shows: onSale ? bookable : shows, onSale, start: startDay(f, shows) };
+    if (state.view === "when") {
+      if (state.tix === "on" && !onSale) continue;
+      if (state.tix === "off" && onSale) continue;
+      if (!row.start && !q) continue; // undated films only turn up when you search for them
+      row.sec = whenSection(row, today);
+    } else if (state.view === "sale") {
+      if (!onSale) continue;
+      row.sec = sinceSection(f.onSaleSince, today, `On sale before tracking began (${started})`);
+      row.since = f.onSaleSince;
+    } else {
+      if (f.status !== "announced" || !f.announcedSince) continue;
+      row.sec = sinceSection(f.announcedSince, today, `Announced before tracking began (${started})`);
+      row.since = f.announcedSince;
     }
+    rows.push(row);
   }
+  const t0 = (r) => r.shows[0]?.t || (r.start ? r.start + "T00:00" : "9999");
+  rows.sort((a, b) => {
+    if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
+    if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
+    if (a.sec.key === "0000") // playing now: most recent arrivals first
+      return b.start.localeCompare(a.start) || (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "") || byTitle(a, b);
+    return t0(a).localeCompare(t0(b)) || byTitle(a, b);
+  });
   return rows;
 }
 
-const startOf = (r) => r.shows[0]?.t || (r.f.premiere ? r.f.premiere + "T00:00" : "9999");
-const byTitle = (a, b) => titleOf(a.f).localeCompare(titleOf(b.f), "nb");
-const SORTERS = {
-  newest: (a, b) => (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "") || startOf(a).localeCompare(startOf(b)),
-  next: (a, b) => startOf(a).localeCompare(startOf(b)) || byTitle(a, b),
-  soonest: (a, b) => startOf(a).localeCompare(startOf(b)) || byTitle(a, b),
-  announced: (a, b) => (b.f.announcedSince || "").localeCompare(a.f.announcedSince || "") || startOf(a).localeCompare(startOf(b)),
-  az: byTitle,
-  most: (a, b) => b.shows.length - a.shows.length || byTitle(a, b),
-  last: (a, b) => a.shows.at(-1).t.localeCompare(b.shows.at(-1).t),
-};
-
 // ---------------------------------------------------------------- render: controls
 function renderControls() {
-  document.querySelectorAll(".tab").forEach((b) => b.classList.toggle("on", b.dataset.tab === state.tab));
-  const sort = state.sort[state.tab];
-  $("sort").innerHTML = SORTS[state.tab].map(([v, l]) => `<option value="${v}"${v === sort ? " selected" : ""}>Sort: ${l}</option>`).join("");
-  $("when").hidden = state.tab === "coming";
-  $("when").innerHTML = WHEN.map(([v, l]) => `<button class="chip${state.when === v ? " on" : ""}" data-when="${v}">${l}</button>`).join("");
+  $("view").innerHTML = VIEWS.map(([v, l]) => `<option value="${v}"${v === state.view ? " selected" : ""}>${l}</option>`).join("");
+  $("tix").hidden = state.view !== "when";
+  $("tix").innerHTML = TIX.map(([v, l]) => `<button class="chip${state.tix === v ? " on" : ""}" data-tix="${v}" aria-pressed="${state.tix === v}">${l}</button>`).join("");
+  $("watchBtn").setAttribute("aria-pressed", state.onlyWatch);
+  $("watchBtn").textContent = `★ Watchlist${state.watchlist.size ? " " + state.watchlist.size : ""}`;
   $("dubBtn").setAttribute("aria-pressed", state.prefs.hideDubbed);
   $("enBtn").setAttribute("aria-pressed", state.prefs.englishSubs);
   $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
@@ -160,23 +196,25 @@ function renderControls() {
 }
 
 // ---------------------------------------------------------------- render: grid
-function cardMeta(f, shows) {
+function cardMeta(row) {
+  const { f, shows, onSale, start } = row;
   const today = localNow().slice(0, 10);
-  if (f.status === "on_sale" && shows.length) {
+  if (onSale) {
     const cinemas = [...new Set(shows.map((s) => s.cinema))];
     const where = cinemas.length > 2 ? `${cinemas.slice(0, 2).join(", ")} +${cinemas.length - 2}` : cinemas.join(", ");
     const first = shows[0];
     const cls = first.t.slice(0, 10) === today ? ' class="today"' : "";
-    return `<b>${esc(where)}</b><br><span${cls}>${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · ${shows.length} show${shows.length > 1 ? "s" : ""}`;
+    const lead = start > today ? "Starts " : "";
+    return `<b>${esc(where)}</b><br><span${cls}>${lead}${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · ${shows.length} show${shows.length > 1 ? "s" : ""}`;
   }
-  if (f.shows.length) return `Tickets not on sale yet<br>From ${dayLabel(f.shows[0].t, { short: true })}`;
-  if (f.premiere && f.elsewhere?.length) return `Premiere ${dayLabel(f.premiere)}<br>In ${esc(f.elsewhere.slice(0, 2).join(", "))}${f.elsewhere.length > 2 ? " +" + (f.elsewhere.length - 2) : ""}, not here yet`;
+  if (shows.length) return `${dayLabel(shows[0].t, { short: true })} ${hhmm(shows[0].t)}<br><span class="nosaletag">Not on sale yet</span>`;
+  if (f.scope === "Canada" && f.premiere) return `Opens in Canada ${dayLabel(f.premiere)}<br><span class="nosaletag">Not scheduled here yet</span>`;
   if (f.premiere) {
     const d = asDate(f.premiere);
-    if (f.scope === "Canada") return `Opens in Canada ${dayLabel(f.premiere)}<br>Not scheduled here yet`;
-    return f.premiereConfirmed ? `Premiere ${dayLabel(f.premiere)}` : `Expected ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+    const when = f.premiereConfirmed ? `Premiere ${dayLabel(f.premiere)}` : `Expected ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+    return `${when}<br><span class="nosaletag">Not on sale yet</span>`;
   }
-  return "Date not announced";
+  return `<span class="nosaletag">Date not set</span>`;
 }
 
 function posterHtml(f) {
@@ -185,27 +223,34 @@ function posterHtml(f) {
     : ""}<div class="ph"${f.poster ? ' aria-hidden="true" style="z-index:-1"' : ""}>${esc(titleOf(f))}</div></div>`;
 }
 
-function cardHtml({ f, shows }) {
+function cardHtml(row) {
+  const { f } = row;
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "");
   const on = isWatched(f);
-  return `<li class="card">
+  return `<li class="card${row.onSale ? "" : " nosale"}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
-      <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(f, shows)}</div></a>
+      <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
     <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${on ? "★" : "☆"}</button>
   </li>`;
 }
 
 function renderGrid() {
-  const rows = rowsFor(state.tab).sort(SORTERS[state.sort[state.tab]] || SORTERS.next);
-  const counts = { onsale: rowsFor("onsale").length, coming: rowsFor("coming").length, watch: rowsFor("watch").length };
-  $("nOnsale").textContent = counts.onsale;
-  $("nComing").textContent = counts.coming;
-  $("nWatch").textContent = counts.watch || "";
-  const nShows = rows.reduce((a, r) => a + r.shows.filter((s) => s.ticket).length, 0);
-  $("count").textContent = state.tab === "onsale" ? `${rows.length} films · ${nShows} bookable showings` : `${rows.length} films`;
+  const rows = buildRows();
+  const sections = [];
+  for (const r of rows) {
+    if (!sections.length || sections.at(-1).key !== r.sec.key) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
+    sections.at(-1).rows.push(r);
+  }
+  const onSale = rows.filter((r) => r.onSale).length;
+  $("count").textContent = `${rows.length} films` + (state.view === "when" && state.tix === "all" ? ` · ${onSale} on sale` : "");
+  $("jump").innerHTML = sections.length > 1
+    ? sections.map((s, i) => `<a href="#" data-jump="${i}">${esc(s.label)} <span class="n">${s.rows.length}</span></a>`).join("") : "";
   let empty = "No films match these filters.";
-  if (state.tab === "watch" && !state.watchlist.size) empty = "Your watchlist is empty. Tap ☆ on any poster to add it; it'll be highlighted when tickets go on sale.";
-  $("grid").innerHTML = rows.length ? rows.map(cardHtml).join("") : `<li class="empty">${empty}</li>`;
+  if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
+  else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap ☆ on any poster to add it; it'll be highlighted when tickets go on sale.";
+  $("grid").innerHTML = sections.length ? sections.map((s, i) => `
+    <section class="sec" id="sec-${i}"><h2>${esc(s.label)} <span class="n">${s.rows.length}</span></h2>
+    <ul class="grid">${s.rows.map(cardHtml).join("")}</ul></section>`).join("") : `<p class="empty">${empty}</p>`;
 }
 
 function render() { renderControls(); renderGrid(); }
@@ -294,7 +339,7 @@ $("account").addEventListener("click", (e) => { if (e.target === $("account")) $
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-tab],[data-when],[data-cinema],[data-star],[data-showall],[data-sheetcinema],[data-region],[data-kind]");
+  const t = e.target.closest("[data-tix],[data-jump],[data-cinema],[data-star],[data-showall],[data-sheetcinema],[data-region],[data-kind]");
   if (!t) return;
   if (t.dataset.region) { if (t.dataset.region !== state.region) loadRegion(t.dataset.region); return; }
   if (t.dataset.kind) {
@@ -303,8 +348,12 @@ document.addEventListener("click", (e) => {
     state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => cur.has(x));
     savePrefs(); render(); return;
   }
-  if (t.dataset.tab) { state.tab = t.dataset.tab; }
-  else if (t.dataset.when) { state.when = t.dataset.when; local.set("when", state.when); }
+  if (t.dataset.jump) {
+    e.preventDefault();
+    $("sec-" + t.dataset.jump)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    return;
+  }
+  if (t.dataset.tix) { state.tix = t.dataset.tix; local.set("tix", state.tix); }
   else if (t.dataset.cinema !== undefined) {
     const c = t.dataset.cinema, list = state.prefs.cinemas, here = state.data.cinemas;
     if (!c) state.prefs.cinemas = list.filter((x) => !here.includes(x)); // clear this region's picks only
@@ -328,7 +377,8 @@ $("enBtn").addEventListener("click", () => { state.prefs.englishSubs = !state.pr
 $("cinemaBtn").addEventListener("click", () => { state.cinemasOpen = !state.cinemasOpen; state.kindsOpen = false; render(); });
 $("kindBtn").addEventListener("click", () => { state.kindsOpen = !state.kindsOpen; state.cinemasOpen = false; render(); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
-$("sort").addEventListener("change", (e) => { state.sort[state.tab] = e.target.value; local.set("sort", state.sort); renderGrid(); });
+$("view").addEventListener("change", (e) => { state.view = e.target.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 }); });
+$("watchBtn").addEventListener("click", () => { state.onlyWatch = !state.onlyWatch; render(); });
 window.addEventListener("hashchange", route);
 
 // ---------------------------------------------------------------- accounts (Supabase magic link)

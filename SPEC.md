@@ -47,9 +47,16 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 - Poster grid; clicking a poster opens the film with all its showings grouped by day, each with a
   ticket link. Deep link: `#film/<id>`.
 - Region switcher (Oslo / Westman), remembered per browser; `?r=westman` links to a region.
-- Views: **On sale**, **Coming soon** (announced), **Watchlist**.
-- Sort: newly on sale (default), next showing, A–Z, most showings, last chance.
-  Coming soon: soonest first, newly announced, A–Z.
+- **One grid with section headers**, read three ways (the view menu):
+  - **When it's playing** (default): Playing now (most recent arrivals first) · This week · Next
+    week · Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere
+    if earlier. Films without a date are left out (they appear only when you search for them).
+  - **Newly on sale**: Today · Yesterday · Earlier this week · Last week · Earlier, by when tickets
+    went on sale.
+  - **Newly announced**: the same headers, by when the film first got a date here.
+- Films without tickets on sale have dimmed posters; in the When view an All / On sale / Not on
+  sale yet switch filters them. ★ Watchlist is a filter chip. A jump bar links to each section.
+- Search covers every film, including undated ones, and says plainly when nothing matches.
 - Film page links: Letterboxd (with its average rating), IMDb, Rotten Tomatoes, Metacritic, found via
   Wikidata and cached in `state/external.json`. Only confident matches (IMDb id, film not series,
   year ±1 using the Norwegian premiere year when Filmweb has no production year, running time
