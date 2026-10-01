@@ -33,7 +33,7 @@ const hhmm = (t) => t.slice(11, 16);
 
 // ---------------------------------------------------------------- state
 // One grid, three ways to read it. Each view groups films under section headers.
-const VIEWS = [["when", "When it's playing"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];
+const VIEWS = [["when", "When"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];
 const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 // Order of films inside each section. "date" means the view's natural order (by time, or newest first).
 const WITHIN = [["date", "By date"], ["rating", "Best rated first"], ["fewest", "Fewest showings first"]];
@@ -181,7 +181,7 @@ function activeFilters() {
 }
 
 function renderControls() {
-  $("view").innerHTML = VIEWS.map(([v, l]) => `<option value="${v}"${v === state.view ? " selected" : ""}>${l}</option>`).join("");
+  $("view").innerHTML = VIEWS.map(([v, l]) => `<button class="chip${v === state.view ? " on" : ""}" data-view="${v}" aria-pressed="${v === state.view}">${l}</button>`).join("");
   $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
   $("watchBtn").setAttribute("aria-pressed", state.onlyWatch);
   $("watchBtn").textContent = `★ Watchlist${state.watchlist.size ? " " + state.watchlist.size : ""}`;
@@ -477,7 +477,11 @@ $("q").addEventListener("keydown", (e) => { if (e.key === "Escape") $("searchClo
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 $("watchBtn").addEventListener("click", () => { state.onlyWatch = !state.onlyWatch; render(); window.scrollTo({ top: 0 }); });
-$("view").addEventListener("change", (e) => { state.view = e.target.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 }); });
+$("view").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-view]");
+  if (!b || b.dataset.view === state.view) return;
+  state.view = b.dataset.view; local.set("view", state.view); render(); window.scrollTo({ top: 0 });
+});
 
 // Section headers stick just below the controls bar; keep that offset in a CSS variable.
 const syncStickTop = () => {

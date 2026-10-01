@@ -77,8 +77,9 @@ h1 span { color: var(--accent); }
 }
 
 /* top bar: [search] [group-by menu] [★ Watchlist] [Filters]. On phones search is an icon that opens a full-width box. */
-.bar { display: flex; gap: 8px; align-items: center; min-width: 0; }
-.bar select { flex: 1 1 auto; min-width: 0; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-width: 0; }
+.views { flex: none; }
+.views .chip { font-size: 13px; }
 .searchbox { display: flex; gap: 6px; align-items: center; flex: 1 1 240px; min-width: 0; }
 .searchbox input { flex: 1; min-width: 0; }
 .iconbtn { flex: none; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px;
@@ -92,6 +93,10 @@ h1 span { color: var(--accent); }
 .filters-foot { display: flex; gap: 8px; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); }
 #filtersShow { display: none; }
 @media (max-width: 999px) {
+  /* row 1: search icon, Watchlist, Filters (right); row 2: the view switch, full width */
+  .views { order: 10; flex: 1 1 100%; display: flex; }
+  .views .chip { flex: 1; text-align: center; padding-inline: 6px; }
+  #filtersBtn { margin-left: auto; }
   #searchBtn { display: inline-flex; }
   .searchbox { display: none; }
   body.searching .searchbox { display: flex; flex: 1 1 auto; }
