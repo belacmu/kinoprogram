@@ -194,7 +194,6 @@ def moviescout_refresh(now):
     cache["days"] = {k: v for k, v in cache["days"].items() if k.split("|")[1] >= today.isoformat()}
     if cache["fetchedOn"] == today.isoformat():
         return cache
-    tz = ZoneInfo("America/Winnipeg")
     requests = errors = 0
     for tid, (_, _, far) in MS_THEATRES.items():
         for offset in range(MS_FAR_DAYS if far else MS_NEAR_DAYS):
@@ -202,11 +201,10 @@ def moviescout_refresh(now):
             k = f"{tid}|{day.isoformat()}"
             if offset >= MS_NEAR_DAYS and k in cache["days"] and (offset % 7) != (today.toordinal() % 7):
                 continue  # far-ahead date, not its turn this week
-            # The API wants the start of the local day, in UTC.
-            start = datetime(day.year, day.month, day.day, tzinfo=tz).astimezone(ZoneInfo("UTC"))
+            # Times in this API are local wall-clock time, so ask from local midnight.
             try:
                 time.sleep(MS_PAUSE)
-                rows = _ms_get(f"/showtimes?theatre_id={tid}&date={start:%Y-%m-%dT%H}%3A00%3A00")
+                rows = _ms_get(f"/showtimes?theatre_id={tid}&date={day.isoformat()}T00%3A00%3A00")
                 requests += 1
             except Exception as e:
                 errors += 1
@@ -229,7 +227,6 @@ def fetch_moviescout(now):
     """Films from the MovieScout cache (refreshing it first if today's fetch hasn't happened)."""
     from zoneinfo import ZoneInfo
     cache = moviescout_refresh(now)
-    tz = ZoneInfo("America/Winnipeg")
     films = {}
     for k, rows in cache["days"].items():
         tid = int(k.split("|")[0])
@@ -238,7 +235,9 @@ def fetch_moviescout(now):
             continue
         for r in rows:
             mid = r["movie_base_id"] or r["movie_id"]
-            t = datetime.fromisoformat(r["start_time"].replace("Z", "+00:00")).astimezone(tz)
+            # MovieScout's start_time is the cinema's local wall-clock time despite the "Z" suffix
+            # (checked against Landmark's own data and CinemaClock), so don't convert it.
+            t = datetime.fromisoformat(r["start_time"][:19])
             subs = (r.get("subtitles") or "")
             name, year_in_title = split_year(r["name"])  # "Halloween (1978)": a re-release
             f = films.setdefault(mid, film(
