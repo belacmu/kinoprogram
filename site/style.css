@@ -90,6 +90,8 @@ h1 span { color: var(--accent); }
 #filtersBtn { flex: none; }
 .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 14px; }
 .filters .cols .ck { font-size: 13px; }
+.filters .cols .ck span:first-of-type { flex: 0 1 auto; }  /* count sits right after the name, clear of the edge */
+.filters .cols .ck .n { margin-right: auto; }
 .filters-foot { display: flex; gap: 8px; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); }
 #filtersShow { display: none; }
 @media (max-width: 999px) {
@@ -109,7 +111,7 @@ h1 span { color: var(--accent); }
 }
 @media (max-width: 1000px) {
   /* iPhone Safari zooms into any input under 16px, which made the page look too wide */
-  input, select, textarea { font-size: 16px; }
+  input[type=search], input[type=email], input[inputmode], select, textarea { font-size: 16px; }
 }
 
 /* controls */
