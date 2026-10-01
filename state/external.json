@@ -2933,17 +2933,6 @@
 "tmdb": 1377237,
 "enFrom": "tmdb"
 },
-"fw-EDI20260810": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 977942,
-"imdb": "tt36983905",
-"en": "The Uprising",
-"enFrom": "tmdb",
-"lbSlug": "the-uprising-2026",
-"lbRating": 2.82,
-"rated": "2026-10-01"
-},
 "fw-EDI20260811": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3036,10 +3025,6 @@
 "lbSlug": "the-beloved-2026",
 "lbRating": 3.84,
 "rated": "2026-10-01"
-},
-"fw-EDI20260858": {
-"tmdbChecked": "2026-10-01",
-"tv": 2
 },
 "fw-EDI20260861": {
 "tmdbChecked": "2026-10-01",
@@ -5017,6 +5002,17 @@
 "en": null,
 "lbSlug": "a-silent-voice-the-movie",
 "lbRating": 4.23,
+"rated": "2026-10-01"
+},
+"fw-UAV20191675": {
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 103,
+"imdb": "tt0075314",
+"en": "Taxi Driver",
+"enFrom": "tmdb",
+"lbSlug": "taxi-driver",
+"lbRating": 4.1,
 "rated": "2026-10-01"
 },
 "fw-UAV20213349": {
