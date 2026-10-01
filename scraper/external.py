@@ -9,6 +9,7 @@ within 10 minutes of ours when both are known. Ties between same-title candidate
 single one with a confirmed running time, else the single one first released in our year. If more than one item fits and
 none has exactly our title, we link nothing (the site then shows a Letterboxd search link).
 """
+import difflib
 import json
 import os
 import re
@@ -71,6 +72,11 @@ def minutes(q):
     return round(amount)
 
 
+def spelling_variant(a, b):
+    """True when two titles are just different spellings/transliterations of each other."""
+    return difflib.SequenceMatcher(None, _norm(a), _norm(b)).ratio() >= 0.8
+
+
 def english_title(labels, original_langs, original_titles):
     """The English label, unless it's just the untranslated original title of a non-English film."""
     en = labels.get("en", {}).get("value")
@@ -78,7 +84,9 @@ def english_title(labels, original_langs, original_titles):
         return en
     originals = {_norm(t) for t in original_titles}
     originals |= {_norm(labels[c]["value"]) for q in original_langs if (c := LANG_CODES.get(q)) and c in labels}
-    return None if _norm(en) in originals else en
+    if _norm(en) in originals or any(spelling_variant(en, o) for o in originals):
+        return None
+    return en
 
 
 def wikidata(title, year, runtime=0):
@@ -111,7 +119,8 @@ def wikidata(title, year, runtime=0):
         def vals(p):
             return [c["mainsnak"].get("datavalue", {}).get("value") for c in claims.get(p, [])]
 
-        imdb = next((v for v in vals("P345") if isinstance(v, str) and v.startswith("tt")), None)
+        imdb_all = [v for v in vals("P345") if isinstance(v, str) and v.startswith("tt")]
+        imdb = imdb_all[0] if imdb_all else None
         kinds = {v.get("id") for v in vals("P31") if isinstance(v, dict)}
         if not imdb or kinds & NOT_FILM:
             continue
@@ -126,7 +135,7 @@ def wikidata(title, year, runtime=0):
         labels = ents[i].get("labels", {})
         names = {_norm(l["value"]) for l in labels.values()}
         names |= {_norm(a["value"]) for al in ents[i].get("aliases", {}).values() for a in al}
-        hits.append({"imdb": imdb,
+        hits.append({"imdb": imdb, "imdbAll": imdb_all,
                      "lb": next(iter(vals("P6127")), None),
                      "rt": next(iter(vals("P1258")), None),
                      "mc": next(iter(vals("P1712")), None),
@@ -154,6 +163,7 @@ def wikidata(title, year, runtime=0):
 # ---------------------------------------------------------------- TMDB (optional, needs a key)
 
 TMDB = "https://api.themoviedb.org/3"
+TMDB_VERSION = 2  # bump to re-check every film on TMDB after a rule change
 
 
 def tmdb_enabled():
@@ -201,6 +211,8 @@ def tmdb(f):
         title, orig = d.get("title") or "", d.get("original_title") or ""
         # TMDB falls back to the original title when there's no English one; don't call that English.
         en = title if d.get("original_language") == "en" or _norm(title) != _norm(orig) else None
+        if en and d.get("original_language") != "en" and any(spelling_variant(en, t) for t in titles):
+            en = None  # "Matloob Aaeleyan" for "Matloob Aelian" is a transliteration, not a translation
         hits.append({"tmdb": mid, "imdb": (d.get("external_ids") or {}).get("imdb_id") or None, "en": en,
                      "premiereOk": bool(f.get("premiere") and f["premiere"] in no_dates),
                      "runtimeOk": bool(f["runtime"] and rt),
@@ -244,7 +256,7 @@ def enrich(films, now):
         rec = next((cache[i] for i in f["ids"] if i in cache), None)
         if SKIP.search(f["title"]):
             continue
-        if rec is None or rec.get("v") not in (3, 4) or (not rec.get("imdb") and rec.get("v") != 4) \
+        if rec is None or rec.get("conflict") or rec.get("v") not in (3, 4) or (not rec.get("imdb") and rec.get("v") != 4) \
                 or stale(rec.get("checked"), RECHECK_MATCHED_DAYS if rec.get("imdb") else RECHECK_MISSING_DAYS):
             todo.append(f)
     todo.sort(key=lambda f: f["status"] != "on_sale")  # what you can book now first
@@ -287,7 +299,8 @@ def enrich(films, now):
             if SKIP.search(f["title"]):
                 continue
             old = next((cache[i] for i in f["ids"] if i in cache), {})
-            if not stale(old.get("tmdbChecked"), RECHECK_MATCHED_DAYS if old.get("tmdb") else RECHECK_MISSING_DAYS):
+            if old.get("tv") == TMDB_VERSION and \
+                    not stale(old.get("tmdbChecked"), RECHECK_MATCHED_DAYS if old.get("tmdb") else RECHECK_MISSING_DAYS):
                 continue
             try:
                 t = tmdb(f)
@@ -300,10 +313,11 @@ def enrich(films, now):
                 print(f"  ! tmdb {f['title']}: {e}", file=sys.stderr)
                 continue
             tmdb_checked += 1
-            rec = {**old, "tmdbChecked": today}
+            rec = {**old, "tmdbChecked": today, "tv": TMDB_VERSION}
             rec.pop("conflict", None)
             if t:
-                if old.get("imdb") and t["imdb"] and old["imdb"] != t["imdb"]:
+                same = not old.get("imdb") or not t["imdb"] or t["imdb"] in (old.get("imdbAll") or [old["imdb"]])
+                if not same:
                     print(f"  ? conflict, no links: {f['title']} ({film_year(f)}): Wikidata {old['imdb']} vs TMDB {t['imdb']}")
                     rec["conflict"] = [old["imdb"], t["imdb"]]
                 else:
@@ -314,8 +328,11 @@ def enrich(films, now):
                         for k in ("lbSlug", "lbRating", "rated"):
                             rec.pop(k, None)
                     rec["tmdb"] = t["tmdb"]
-                    rec["imdb"] = rec.get("imdb") or t["imdb"]
-                    rec["en"] = rec.get("en") or t["en"]
+                    # IMDb sometimes has duplicate ids for one film; prefer TMDB's (Letterboxd uses it).
+                    rec["imdb"] = t["imdb"] or rec.get("imdb")
+                    rec["en"] = (rec.get("en") if rec.get("enFrom") != "tmdb" else None) or t["en"]
+                    if rec["en"] and rec["en"] == t["en"]:
+                        rec["enFrom"] = "tmdb"
             for i in f["ids"]:
                 cache[i] = rec
 
@@ -352,7 +369,7 @@ def enrich(films, now):
             matched += 1
             f["ext"] = {k: rec.get(k) for k in ("imdb", "tmdb", "rt", "mc", "lbRating") if rec.get(k)}
             en = rec.get("en") or ""
-            if en and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])) and len(en) < 120:
+            if en and len(en) < 120 and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])):
                 f["ext"]["en"] = en
             f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
     # Keep the cache to films we still list.
