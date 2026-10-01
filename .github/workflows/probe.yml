@@ -1,0 +1,16 @@
+name: Probe (temporary)
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -s https://ipinfo.io/json | grep -E '"(country|region|org)"' || true
+          for u in "https://www.landmarkcinemas.com/showtimes/brandon" \
+                   "https://movieapi.landmarkcinemas.com/movies/22/181?splitByAttributes=true&expandSessions=true" \
+                   "https://www.landmarkcinemas.com/robots.txt"; do
+            code=$(curl -s -o body.txt -w "%{http_code}" -A "Mozilla/5.0 (kinoprogram; +https://github.com/belacmu/kinoprogram)" "$u")
+            echo "$code $u $(wc -c < body.txt) bytes"
+            grep -o "pc.showtimesdata" body.txt | head -1 || true
+            head -c 300 body.txt; echo; echo ---
+          done
