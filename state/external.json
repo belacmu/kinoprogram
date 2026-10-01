@@ -1629,15 +1629,23 @@
 "tv": 2
 },
 "fw-EDI20240688": {
+"lbSlug": "spider-man-brand-new-day",
+"lbRating": 4.04,
+"rated": "2026-10-01",
+"imdb": "tt22084616",
+"imdbAll": [
+"tt22084616"
+],
+"lb": "spider-man-brand-new-day",
+"rt": "m/spider_man_brand_new_day",
+"mc": "movie/spider-man-brand-new-day",
+"en": "Spider-Man: Brand New Day",
+"v": 4,
+"checked": "2026-10-01",
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 969681,
-"imdb": "tt22084616",
-"en": "Spider-Man: Brand New Day",
-"enFrom": "tmdb",
-"lbSlug": "spider-man-brand-new-day",
-"lbRating": 4.04,
-"rated": "2026-10-01"
+"enFrom": "tmdb"
 },
 "fw-EDI20240689": {
 "tmdbChecked": "2026-10-01",
@@ -4681,6 +4689,24 @@
 "en": null,
 "lbSlug": "matloob-aaeleyan",
 "lbRating": null,
+"rated": "2026-10-01"
+},
+"fw-EDI20261608": {
+"imdb": "tt0248036",
+"imdbAll": [
+"tt0248036"
+],
+"lb": "get-ready-to-be-boyzvoiced",
+"rt": "m/get-ready-to-be-boyzvoiced",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-01",
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 25696,
+"lbSlug": "get-ready-to-be-boyzvoiced",
+"lbRating": 3.55,
 "rated": "2026-10-01"
 },
 "fw-EDI20261609": {
