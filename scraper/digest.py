@@ -3,11 +3,12 @@
 Norwegian date, since the last digest.
 
 Usage:
-  python3 scraper/digest.py --scheduled   # real run: only after 09:00 Oslo, once per day
+  python3 scraper/digest.py --scheduled   # real run: per region, only after 09:00 local time, once per day
   python3 scraper/digest.py --dry-run     # print what each subscriber would get; send nothing
   python3 scraper/digest.py --to ME@X.COM # send one test email (default settings); state untouched
 
-Reads site/data/films.json and state/seen.json written by build.py.
+Reads each region's data and state files written by build.py (see build.REGIONS). A subscriber
+gets one email per region they chose (prefs.regions, default ["oslo"]).
 Environment: SUPABASE_URL, SUPABASE_SECRET_KEY, GMAIL_USER, GMAIL_APP_PASSWORD, SITE_URL
 """
 import html
@@ -23,9 +24,8 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
-STATE = ROOT / "state" / "seen.json"
-DATA = ROOT / "site" / "data" / "films.json"
-TZ = ZoneInfo("Europe/Oslo")
+sys.path.insert(0, str(Path(__file__).parent))
+from build import REGIONS  # noqa: E402
 SEND_HOUR = 9
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -49,7 +49,7 @@ def show_ok(s, prefs, now_s):
     """Same rules as the site's filters (site/app.js: showMatches)."""
     if not s["ticket"] or s["t"] < now_s:
         return False
-    cinemas = prefs.get("cinemas") or []
+    cinemas = prefs.get("_cinemas") or []  # the subscriber's cinemas in this region (set in main)
     if cinemas and s["cinema"] not in cinemas:
         return False
     if prefs.get("hideDubbed") and s.get("dub"):
@@ -103,19 +103,20 @@ def announced_when(f):
     return "Date not announced"
 
 
-def subject_for(items, announced, prefs):
+def subject_for(items, announced, prefs, region="Oslo"):
     parts = []
     if items:
         parts.append(f"{len(items)} new on sale")
     if announced:
         parts.append(f"{len(announced)} newly announced")
     names = [title_of(f, prefs).split(" (")[0] for f, *_ in items] + [title_of(f, prefs).split(" (")[0] for f, _ in announced]
-    return "Oslo cinemas: " + " · ".join(parts) + " — " + ", ".join(names[:3]) + (" …" if len(names) > 3 else "")
+    return f"{region} cinemas: " + " · ".join(parts) + " — " + ", ".join(names[:3]) + (" …" if len(names) > 3 else "")
 
 
-def render(items, announced, site, unsub_url, prefs=None):
+def render(items, announced, site, unsub_url, prefs=None, region="Oslo", rkey="oslo"):
     prefs = prefs or {}
-    subject = subject_for(items, announced, prefs)
+    subject = subject_for(items, announced, prefs, region)
+    site = site if rkey == "oslo" else f"{site}?r={rkey}"
     txt, rows = (["NEW ON SALE", ""] if items else []), []
     for f, shows, watched in items:
         cinemas = list(dict.fromkeys(s["cinema"] for s in shows))
@@ -158,7 +159,7 @@ def render(items, announced, site, unsub_url, prefs=None):
     footer = f"Settings and watchlist: {site}\nUnsubscribe: {unsub_url}"
     body_html = f"""<!doctype html><html><body style="margin:0;padding:16px;background:#ffffff;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#16181d">
 <div style="max-width:600px;margin:0 auto">
-{f'''<h1 style="font-size:22px;margin:0 0 4px">New on sale in Oslo</h1>
+{f'''<h1 style="font-size:22px;margin:0 0 4px">New on sale in {html.escape(region)}</h1>
 <p style="margin:0 0 8px;color:#5d6470;font-size:14px">Films whose tickets went on sale since the last email, filtered by your settings.</p>
 <table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">{"".join(rows)}</table>''' if rows else ""}
 {f'''<h2 style="font-size:18px;margin:28px 0 4px">Newly announced</h2>
@@ -205,52 +206,61 @@ def main():
     dry = "--dry-run" in args
     test_to = args[args.index("--to") + 1] if "--to" in args else None
     site = os.environ.get("SITE_URL", "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"
-    now = datetime.now(TZ).replace(tzinfo=None)
-    now_s = now.strftime(FMT)
-    state = json.loads(STATE.read_text())
-    data = json.loads(DATA.read_text())
-
-    if "--scheduled" in args:
-        if now.hour < SEND_HOUR:
-            print(f"Too early ({now:%H:%M} Oslo); digest goes out after {SEND_HOUR}:00.")
-            return
-        if state["lastDigest"][:10] >= now.strftime("%Y-%m-%d"):
-            print("Digest already sent today.")
-            return
-
-    new = [f for f in data["films"] if f.get("onSaleSince") and f["onSaleSince"] > state["lastDigest"]]
-    ann = [f for f in data["films"] if f["status"] == "announced"
-           and f.get("announcedSince") and f["announcedSince"] > state["lastDigest"]]
-    if test_to and not (new or ann):  # make the test email show something
-        new = sorted((f for f in data["films"] if f["status"] == "on_sale"), key=lambda f: f["shows"][0]["t"])[:3]
-        ann = [f for f in data["films"] if f["status"] == "announced" and f["premiere"]][:3]
-    print(f"Since {state['lastDigest']}: {len(new)} newly on sale, {len(ann)} newly announced")
-
-    if test_to:
-        profiles = [{"email": test_to, "prefs": {}, "watchlist": [], "unsubscribe_token": "test"}]
-    else:
-        profiles = subscribers()
-        if profiles is None:
-            print("Supabase isn't configured (SUPABASE_URL / SUPABASE_SECRET_KEY); no emails sent.")
-            profiles = []
-    messages = []
-    for p in profiles:
-        items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
-        if not (items or announced):
+    profiles = None
+    for rkey, cfg in REGIONS.items():
+        state_path, data_path = ROOT / "state" / cfg["state"], ROOT / "site" / "data" / cfg["data"]
+        if not (state_path.exists() and data_path.exists()):
             continue
-        unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
-        messages.append((p["email"], *render(items, announced, site, unsub, p.get("prefs") or {})))
-    print(f"{len(profiles)} subscriber(s), {len(messages)} with something new")
+        now = datetime.now(ZoneInfo(cfg["tz"])).replace(tzinfo=None)
+        now_s = now.strftime(FMT)
+        state, data = json.loads(state_path.read_text()), json.loads(data_path.read_text())
+        print(f"== {cfg['name']}")
+        if "--scheduled" in args:
+            if now.hour < SEND_HOUR:
+                print(f"Too early ({now:%H:%M} local); goes out after {SEND_HOUR}:00.")
+                continue
+            if state["lastDigest"][:10] >= now.strftime("%Y-%m-%d"):
+                print("Already sent today.")
+                continue
 
-    if dry:
-        for to, subject, text, _ in messages:
-            print(f"\n=== {to}\n{subject}\n\n{text}")
-        return
-    if messages:
-        send(messages)
-    if not test_to:
-        state["lastDigest"] = now_s
-        STATE.write_text(json.dumps(state, ensure_ascii=False, indent=1))
+        new = [f for f in data["films"] if f.get("onSaleSince") and f["onSaleSince"] > state["lastDigest"]]
+        ann = [f for f in data["films"] if f["status"] == "announced"
+               and f.get("announcedSince") and f["announcedSince"] > state["lastDigest"]]
+        if test_to and not (new or ann):  # make the test email show something
+            new = sorted((f for f in data["films"] if f["status"] == "on_sale"), key=lambda f: f["shows"][0]["t"])[:3]
+            ann = [f for f in data["films"] if f["status"] == "announced" and f["premiere"]][:3]
+        print(f"Since {state['lastDigest']}: {len(new)} newly on sale, {len(ann)} newly announced")
+
+        if test_to:
+            recipients = [{"email": test_to, "prefs": {"regions": [rkey]}, "watchlist": [], "unsubscribe_token": "test"}]
+        else:
+            if profiles is None:
+                profiles = subscribers()
+                if profiles is None:
+                    print("Supabase isn't configured (SUPABASE_URL / SUPABASE_SECRET_KEY); no emails sent.")
+                    profiles = []
+            recipients = [p for p in profiles if rkey in ((p.get("prefs") or {}).get("regions") or ["oslo"])]
+        messages = []
+        for p in recipients:
+            prefs = dict(p.get("prefs") or {})
+            prefs["_cinemas"] = [c for c in prefs.get("cinemas") or [] if c in data["cinemas"]]
+            p = {**p, "prefs": prefs}
+            items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
+            if not (items or announced):
+                continue
+            unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
+            messages.append((p["email"], *render(items, announced, site, unsub, prefs, cfg["name"], rkey)))
+        print(f"{len(recipients)} subscriber(s), {len(messages)} with something new")
+
+        if dry:
+            for to, subject, txt, _ in messages:
+                print(f"\n=== {to}\n{subject}\n\n{txt}")
+            continue
+        if messages:
+            send(messages)
+        if not test_to:
+            state["lastDigest"] = now_s
+            state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":

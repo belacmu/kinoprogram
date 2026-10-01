@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Fetch all sources, merge by film, track when films go on sale, write site/data/films.json.
+"""Fetch all sources, merge by film, track when films go on sale, write one data file per region.
 
-Usage: python3 scraper/build.py
-State lives in state/seen.json:
+Usage: python3 scraper/build.py [region ...]      (default: all regions)
+Regions: oslo -> site/data/films.json, state/seen.json
+         westman -> site/data/westman.json, state/seen-westman.json
+Each state file holds:
   baseline    when tracking started (films on sale then are never "new")
   lastDigest  when the daily email last went out (digest.py reads and updates it)
   films       {film id: {"since": when it last became on sale, "last": last time seen on sale}}
@@ -20,24 +22,28 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).parent))
 import external  # noqa: E402
 import sources  # noqa: E402
+import westman  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-STATE = ROOT / "state" / "seen.json"
-DATA = ROOT / "site" / "data" / "films.json"
-LOCATION = "Oslo"
-TZ = ZoneInfo("Europe/Oslo")
 OFF_SALE_DAYS = 7  # a film must be off sale this long before it counts as new again
 FORGET_DATED_DAYS = 90  # forget announced films not seen for this long
 FMT = "%Y-%m-%dT%H:%M"
 
 
+ID_PATTERNS = [
+    ("fw-", r"filmweb\.no/film/([^/?#]+)"),
+    ("cm-", r"cinemateket\.no/filmer/([^/?#]+)"),
+    ("lm-", r"landmarkcinemas\.com/movie/([^/?#]+)"),
+    ("cc-", r"cinemaclock\.com/movies/([^/?#]+)"),
+    ("ev-", r"evanstheatre\.ca/movie/([^/?#]+)"),
+]
+
+
 def film_id(url):
-    m = re.search(r"filmweb\.no/film/([^/?#]+)", url)
-    if m:
-        return "fw-" + m[1]
-    m = re.search(r"cinemateket\.no/filmer/([^/?#]+)", url)
-    if m:
-        return "cm-" + m[1]
+    for prefix, pattern in ID_PATTERNS:
+        m = re.search(pattern, url)
+        if m:
+            return prefix + m[1]
     return re.sub(r"[^a-z0-9]+", "-", url.lower())
 
 
@@ -79,7 +85,9 @@ def finalise(films, now):
     now_s = now.strftime(FMT)
     out = []
     for f in films:
-        f["shows"] = sorted((s for s in f["shows"] if s["t"] >= now_s), key=lambda s: s["t"])
+        shows = {(s["t"], s["cinema"]): s for s in f["shows"] if s["t"] >= now_s}  # same showing from two sources
+        f["shows"] = sorted(shows.values(), key=lambda s: s["t"])
+        f["links"] = list({l["url"]: l for l in f["links"]}.values())
         f["ids"] = [film_id(l["url"]) for l in f["links"]]
         f["id"] = f["ids"][0]
         f["series"] = list(dict.fromkeys(f["series"]))
@@ -94,10 +102,10 @@ def finalise(films, now):
     return out
 
 
-def track(films, now):
+def track(films, now, state_path):
     """Set each film's onSaleSince and update state. Returns the state dict."""
-    first_run = not STATE.exists()
-    state = {"baseline": None, "lastDigest": None, "films": {}} if first_run else json.loads(STATE.read_text())
+    first_run = not state_path.exists()
+    state = {"baseline": None, "lastDigest": None, "films": {}} if first_run else json.loads(state_path.read_text())
     now_s = now.strftime(FMT)
     state["baseline"] = state["baseline"] or now_s
     state["lastDigest"] = state["lastDigest"] or now_s
@@ -137,10 +145,9 @@ def track(films, now):
     return state
 
 
-def main():
-    now = datetime.now(TZ).replace(tzinfo=None)
+def fetch_oslo(now):
     print("Fetching Filmweb …")
-    fw = sources.fetch_filmweb(LOCATION)
+    fw = sources.fetch_filmweb("Oslo")
     print(f"  {len(fw)} films, {sum(len(f['shows']) for f in fw)} showings")
     print("Fetching Cinemateket …")
     try:
@@ -151,35 +158,67 @@ def main():
         # only pruned after OFF_SALE_DAYS, so a short outage won't make films look new.
         print(f"  ! Cinemateket failed: {e}", file=sys.stderr)
         cm = []
-    films = finalise(merge(fw, cm), now)
-    state = track(films, now)
+    return merge(fw, cm)
+
+
+def fetch_westman(now):
+    print("Fetching Westman cinemas …")
+    films = []
+    for f in westman.fetch_all(now):
+        films = merge(films, [f])
+    return films
+
+
+REGIONS = {
+    "oslo": {"name": "Oslo", "tz": "Europe/Oslo", "fetch": fetch_oslo, "first": "Cinemateket",
+             "data": "films.json", "state": "seen.json", "sources": "Filmweb + Cinemateket"},
+    "westman": {"name": "Westman", "tz": "America/Winnipeg", "fetch": fetch_westman, "first": "Landmark Brandon",
+                "data": "westman.json", "state": "seen-westman.json",
+                "sources": "Landmark + CinemaClock + Evans Theatre"},
+}
+
+
+def main(regions=None):
+    regions = regions or list(REGIONS)
+    built = []
+    for r in regions:
+        cfg = REGIONS[r]
+        now = datetime.now(ZoneInfo(cfg["tz"])).replace(tzinfo=None)
+        print(f"== {cfg['name']}")
+        films = finalise(cfg["fetch"](now), now)
+        state_path = ROOT / "state" / cfg["state"]
+        state = track(films, now, state_path)
+        built.append((r, cfg, now, films, state, state_path))
+
     print("Looking up Letterboxd / IMDb links …")
-    try:
-        external.enrich(films, now)
+    try:  # one call for all regions: the link cache is shared
+        external.enrich([f for b in built for f in b[3]], datetime.now(ZoneInfo("Europe/Oslo")).replace(tzinfo=None))
     except Exception as e:  # links are a nice-to-have; never fail the run over them
         print(f"  ! link lookup failed: {e}", file=sys.stderr)
 
-    new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
-    ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
-    print(f"{sum(f['status'] == 'on_sale' for f in films)} on sale, "
-          f"{sum(f['status'] == 'announced' for f in films)} announced; since last digest: "
-          f"{len(new)} newly on sale, {len(ann)} newly announced")
-    for f in new:
-        print("  • on sale: " + f["title"])
-    for f in ann:
-        print("  • announced: " + f["title"])
-
-    cinemas = sorted({s["cinema"] for f in films for s in f["shows"]},
-                     key=lambda c: (c != "Cinemateket", c.lower()))
-    DATA.parent.mkdir(parents=True, exist_ok=True)
-    DATA.write_text(json.dumps({
-        "generated": now.strftime(FMT), "baseline": state["baseline"], "location": LOCATION,
-        "cinemas": cinemas, "films": films,
-    }, ensure_ascii=False, separators=(",", ":")))
-    STATE.parent.mkdir(parents=True, exist_ok=True)
-    STATE.write_text(json.dumps(state, ensure_ascii=False, indent=1))
-    print(f"Wrote {DATA.relative_to(ROOT)} ({DATA.stat().st_size // 1024} KB)")
+    for r, cfg, now, films, state, state_path in built:
+        new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
+        ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
+        print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "
+              f"{sum(f['status'] == 'announced' for f in films)} announced; since last digest: "
+              f"{len(new)} newly on sale, {len(ann)} newly announced")
+        for f in new:
+            print("  • on sale: " + f["title"])
+        for f in ann:
+            print("  • announced: " + f["title"])
+        cinemas = sorted({s["cinema"] for f in films for s in f["shows"]},
+                         key=lambda c: (c != cfg["first"], c.lower()))
+        data = ROOT / "site" / "data" / cfg["data"]
+        data.parent.mkdir(parents=True, exist_ok=True)
+        data.write_text(json.dumps({
+            "generated": now.strftime(FMT), "baseline": state["baseline"], "region": r,
+            "location": cfg["name"], "tz": cfg["tz"], "sources": cfg["sources"],
+            "cinemas": cinemas, "films": films,
+        }, ensure_ascii=False, separators=(",", ":")))
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
+        print(f"Wrote {data.relative_to(ROOT)} ({data.stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:] or None)

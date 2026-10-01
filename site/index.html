@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kino by Film · Oslo</title>
+<title>Kino by Film</title>
 <meta name="description" content="Every film showing in Oslo cinemas, browsed by film instead of by date.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +15,7 @@
   <header class="top">
     <div>
       <h1>Kino <span>by film</span></h1>
+      <nav class="regions" id="regions" aria-label="Region"></nav>
       <div class="sub" id="sub">Loading the programme…</div>
     </div>
     <button class="btn ghost" id="accountBtn" hidden>Sign in</button>
@@ -44,11 +45,7 @@
 
   <div class="count" id="count"></div>
   <ul class="grid" id="grid"></ul>
-  <footer class="foot">
-    Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a> and
-    <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, refreshed several times a day.
-    Tickets are bought on the cinemas' own sites.
-  </footer>
+  <footer class="foot" id="foot"></footer>
 </div>
 
 <dialog id="film" aria-labelledby="filmTitle"></dialog>

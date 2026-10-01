@@ -1,0 +1,169 @@
+{
+ "baseline": "2026-10-01T06:12",
+ "lastDigest": "2026-10-01T06:12",
+ "films": {
+  "cc-avengers-endgame-2019": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-casino-royale-2006": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-coyote-vs-acme-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-digger-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-drishyam-the-conclusion-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-forgotten-island-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-heart-of-the-beast-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-practical-magic-2-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-primetime-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-resident-evil-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-spider-man-brand-new-day-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-the-president-s-cake-2025": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-the-weight-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-tutt-paini-english-ne-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-verity-2026": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-at-the-place-of-ghosts": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-behind-the-castle-doors": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-once-upon-a-time-in-a-cinema": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-the-presidents-cake": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-tow": {
+   "since": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  }
+ },
+ "dated": {
+  "cc-avengers-endgame-2019": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-casino-royale-2006": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-coyote-vs-acme-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-digger-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-drishyam-the-conclusion-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-forgotten-island-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-heart-of-the-beast-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-practical-magic-2-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-primetime-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-resident-evil-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-spider-man-brand-new-day-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-the-president-s-cake-2025": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-the-weight-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-tutt-paini-english-ne-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "cc-verity-2026": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-at-the-place-of-ghosts": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-behind-the-castle-doors": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-once-upon-a-time-in-a-cinema": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-the-presidents-cake": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  },
+  "ev-tow": {
+   "first": "2026-10-01T06:12",
+   "last": "2026-10-01T06:12"
+  }
+ },
+ "lastRun": "2026-10-01T06:12"
+}

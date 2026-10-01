@@ -38,7 +38,7 @@ MAX_RATINGS = 120
 
 # Programme items that aren't single films: don't bother looking them up.
 SKIP = re.compile(r"\b(opera|ballet|rbo:|met opera|filmhistorie|kortfilm|shorts?\b|trilogi|maraton|konsert|"
-                  r"concert|mystery screening|quiz|foredrag|samtale|kortfilmer)\b|\|", re.I)
+                  r"concert|mystery screening|mystery movie|quiz|foredrag|samtale|kortfilmer)\b|\|", re.I)
 NOT_FILM = {"Q5398426", "Q21191270", "Q1259759", "Q526877", "Q7725634", "Q482994", "Q134556",
             "Q7889", "Q15416", "Q3464665", "Q63952888", "Q117467246"}  # series, episode, book, album, game, …
 

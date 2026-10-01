@@ -2,9 +2,9 @@ name: Update programme
 
 on:
   schedule:
-    # UTC. 07:00 and 08:00 cover 09:00 Oslo in summer (CEST) and winter (CET); digest.py
-    # only sends after 09:00 Oslo and once per day. The other runs just refresh the site.
-    - cron: "0 3,7,8,11,15,19 * * *"
+    # UTC. 07:00/08:00 cover 09:00 Oslo (summer/winter), 14:00/15:00 cover 09:00 Manitoba.
+    # digest.py only sends after 09:00 local and once per day per region; other runs refresh the site.
+    - cron: "0 3,7,8,11,14,15,19 * * *"
   workflow_dispatch:
     inputs:
       digest:
@@ -38,6 +38,24 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Fetch Landmark Brandon via a Canadian VPN (once a day)
+        continue-on-error: true  # if this fails, Westman falls back to CinemaClock for Landmark
+        env:
+          WG_CONF: ${{ secrets.SURFSHARK_WG_CONF }}
+        run: |
+          if [ -z "$WG_CONF" ]; then echo "No VPN config set; Landmark comes from CinemaClock."; exit 0; fi
+          if [ "$(python scraper/westman.py needs-landmark)" != "yes" ]; then echo "Landmark already fetched today."; exit 0; fi
+          sudo apt-get install -y -qq wireguard-tools > /dev/null
+          # Drop the DNS line (needs resolvconf on the runner); only the one fetch goes through the tunnel.
+          printf '%s\n' "$WG_CONF" | grep -viE '^\s*DNS\s*=' | sudo tee /etc/wireguard/kino.conf > /dev/null
+          sudo wg-quick up kino
+          code=$(curl -s --max-time 60 -o /tmp/landmark.html -w "%{http_code}" \
+            -A "Mozilla/5.0 (kinoprogram; personal use, once a day; +https://github.com/belacmu/kinoprogram)" \
+            https://www.landmarkcinemas.com/showtimes/brandon || echo 000)
+          sudo wg-quick down kino
+          echo "Landmark responded $code"
+          if [ "$code" = "200" ]; then python scraper/westman.py extract-landmark /tmp/landmark.html; fi
 
       - name: Fetch showings
         id: build

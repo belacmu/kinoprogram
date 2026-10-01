@@ -1,7 +1,8 @@
 # Kinoprogram — spec
 
-Browse what's on at Oslo cinemas **by film** instead of by date, and get a daily email when
-films become bookable. For one person and a few friends; must cost nothing to run.
+Browse what's on at the cinemas in a region **by film** instead of by date, and get a daily email
+when films become bookable. Regions: **Oslo** and **Westman** (Brandon / Virden area, Manitoba).
+For one person and a few friends; must cost nothing to run.
 
 ## Sources
 
@@ -10,7 +11,18 @@ films become bookable. For one person and a few friends; must cost nothing to ru
 | Filmweb | Every Oslo cinema on Filmweb (ODEON, Saga, Ringen, Vega, Klingenberg, Colosseum, Vika, Symra, Gimle, Kunstnernes Hus) | Public GraphQL API `movieinfoqs.filmweb.no/graphql`: `getCurrentMovies` (on sale) and `getUpcomingMovies` (announced) |
 | Cinemateket | Cinemateket i Oslo (Tancred, Lillebil) | HTML: `/forestillinger/side-N` for the film list, each film page for its showings, ticket links and facts |
 
-A film shown at both is merged into one entry (normalised title, production year within ±1, so
+**Westman** (times in Manitoba time):
+
+| Source | Covers | How |
+| --- | --- | --- |
+| Landmark Cinemas | Landmark Brandon, full schedule months ahead | Embedded JSON on its Brandon showtimes page. The site only serves Canadian visitors, so the workflow fetches it **once a day** through a Canadian VPN (Surfshark WireGuard config in a secret), with an honest user agent, and saves the schedule to `state/landmark-brandon.json`. If that's missing or older than 36 h, CinemaClock covers Landmark instead. |
+| CinemaClock | Landmark (fallback), Evans, Gaiety (Glenboro), Community Theatre (Carnduff); Derrick (Virden), Avalon (Souris), Moosomin picked up automatically if CinemaClock lists them | Server-rendered theatre pages, about a week ahead |
+| Evans Theatre | Brandon University's cinema, whole season | Static site, one page per film |
+
+Small theatres sell at the door: their showings link to the theatre page and count as "on sale".
+Landmark re-releases: the year comes from the title ("(1978)", "20th Anniversary") or is left empty.
+
+A film shown at more than one source is merged into one entry (normalised title, production year within ±1, so
 two different films with the same title stay separate). Version suffixes such as "– 70mm" and a
 trailing "(1946)" in the title are ignored when matching; the latter is used as the year.
 
@@ -31,6 +43,7 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 
 - Poster grid; clicking a poster opens the film with all its showings grouped by day, each with a
   ticket link. Deep link: `#film/<id>`.
+- Region switcher (Oslo / Westman), remembered per browser; `?r=westman` links to a region.
 - Views: **On sale**, **Coming soon** (announced), **Watchlist**.
 - Sort: newest in cinemas (default), next showing, A–Z, most showings, last chance.
   Coming soon: soonest first, newly announced, A–Z.
@@ -50,7 +63,8 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 
 ## Daily email
 
-- Sent at about 09:00 Oslo time, only to subscribers whose personalised list is non-empty.
+- Sent at about 09:00 local time per region, to subscribers who chose that region (default Oslo),
+  only when their personalised list is non-empty.
 - **New on sale**: films that became new since the previous email, filtered by the subscriber's
   settings (my cinemas, hide dubs, English subtitles only). Watchlist films appear first, and can
   be set to always be included regardless of filters.
@@ -71,6 +85,7 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 
 ## Later / out of scope for v1
 
-- More cinemas/regions (other Oslo-area venues; Virden/Brandon, Manitoba as a separate region).
+- More Oslo-area venues (Deichman, Cinema Neuf, Weird and Wonderful Cinema, FilmrullKlubb).
+- Derrick Theatre (Virden): Facebook only; best route is getting it listed on CinemaClock.
 - Per-user alert when a specific watchlist film gets a new showing (beyond becoming new).
 - Push notifications.

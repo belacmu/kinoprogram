@@ -6,15 +6,23 @@ const local = {
   set(k, v) { try { localStorage.setItem("kino:" + k, JSON.stringify(v)); } catch {} },
 };
 
-// ---------------------------------------------------------------- time (all data is Oslo local time)
-const osloFmt = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Oslo", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
-const osloNow = () => osloFmt.format(new Date()).replace(" ", "T"); // "2026-10-01T10:40"
+// ---------------------------------------------------------------- regions + time (data is in the region's local time)
+const REGIONS = [
+  { key: "oslo", name: "Oslo", file: "films.json", tz: "Europe/Oslo" },
+  { key: "westman", name: "Westman", file: "westman.json", tz: "America/Winnipeg" },
+];
+let clockFmt = null;
+function setClock(tz) {
+  clockFmt = new Intl.DateTimeFormat("sv-SE", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+}
+setClock("Europe/Oslo");
+const localNow = () => clockFmt.format(new Date()).replace(" ", "T"); // "2026-10-01T10:40" in the region's time zone
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const asDate = (t) => { const [y, m, d] = t.slice(0, 10).split("-").map(Number); return new Date(Date.UTC(y, m - 1, d)); };
 const addDays = (day, n) => { const d = asDate(day); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
 function dayLabel(t, { short = false } = {}) {
-  const day = t.slice(0, 10), today = osloNow().slice(0, 10);
+  const day = t.slice(0, 10), today = localNow().slice(0, 10);
   if (day === today) return "Today";
   if (day === addDays(today, 1)) return "Tomorrow";
   const d = asDate(day);
@@ -30,10 +38,12 @@ const SORTS = {
   watch: [["next", "Soonest first"], ["az", "A–Z"]],
 };
 const WHEN = [["all", "Any time"], ["today", "Today"], ["7", "7 days"], ["14", "2 weeks"], ["30", "30 days"]];
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true };
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"] };
 
+const urlRegion = new URLSearchParams(location.search).get("r");
 const state = {
   data: null,
+  region: REGIONS.some((r) => r.key === urlRegion) ? urlRegion : local.get("region", "oslo"),
   tab: "onsale",
   q: "",
   sort: local.get("sort", { onsale: "newest", coming: "soonest", watch: "next" }),
@@ -48,23 +58,25 @@ const state = {
 };
 
 // ---------------------------------------------------------------- filters (keep in step with scraper/digest.py: show_ok)
+// "My cinemas" is one list across regions; only the ones in the region being viewed apply.
+const myCinemas = () => state.prefs.cinemas.filter((c) => state.data.cinemas.includes(c));
 function showMatches(s, now) {
   if (s.t < now) return false;
-  const p = state.prefs;
-  if (p.cinemas.length && !p.cinemas.includes(s.cinema)) return false;
+  const p = state.prefs, mine = myCinemas();
+  if (mine.length && !mine.includes(s.cinema)) return false;
   if (p.hideDubbed && s.dub) return false;
   if (p.englishSubs && !s.en) return false;
   return true;
 }
 function windowEnd() {
   if (state.when === "all") return "9999";
-  return addDays(osloNow().slice(0, 10), state.when === "today" ? 1 : Number(state.when));
+  return addDays(localNow().slice(0, 10), state.when === "today" ? 1 : Number(state.when));
 }
 const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
 // "New" = went on sale (or, for announced films, first got a date) in the last 7 days, after tracking began.
 function isRecent(since) {
   if (!since || since <= state.data.baseline) return false;
-  return since.slice(0, 10) >= addDays(osloNow().slice(0, 10), -7);
+  return since.slice(0, 10) >= addDays(localNow().slice(0, 10), -7);
 }
 const isNew = (f) => isRecent(f.status === "on_sale" ? f.onSaleSince : f.announcedSince);
 function textMatch(f, q) {
@@ -75,7 +87,7 @@ const titleOf = (f) => f.ext?.en || f.title;
 const otherTitles = (f) => [...new Set([f.title, f.ext?.en, f.alt].filter((t) => t && t !== titleOf(f)))];
 
 function rowsFor(tab) {
-  const now = osloNow(), end = windowEnd(), q = state.q.trim().toLowerCase();
+  const now = localNow(), end = windowEnd(), q = state.q.trim().toLowerCase();
   const rows = [];
   for (const f of state.data.films) {
     if (!textMatch(f, q)) continue;
@@ -115,23 +127,25 @@ function renderControls() {
   $("when").innerHTML = WHEN.map(([v, l]) => `<button class="chip${state.when === v ? " on" : ""}" data-when="${v}">${l}</button>`).join("");
   $("dubBtn").setAttribute("aria-pressed", state.prefs.hideDubbed);
   $("enBtn").setAttribute("aria-pressed", state.prefs.englishSubs);
-  const n = state.prefs.cinemas.length;
+  $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
+  $("dubBtn").hidden = state.region !== "oslo"; // Norwegian dubs only exist in Oslo
+  const n = myCinemas().length;
   $("cinemaBtn").textContent = (n ? `${n} cinema${n > 1 ? "s" : ""}` : "All cinemas") + (state.cinemasOpen ? " ▴" : " ▾");
   $("cinemaBtn").setAttribute("aria-pressed", n > 0);
   $("cinemaBtn").setAttribute("aria-expanded", state.cinemasOpen);
   $("cinemas").hidden = !state.cinemasOpen;
   if (state.cinemasOpen) {
-    const now = osloNow(), counts = {};
+    const now = localNow(), counts = {};
     for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) counts[s.cinema] = (counts[s.cinema] || 0) + 1;
     $("cinemas").innerHTML = state.data.cinemas.map((c) =>
-      `<button class="chip${state.prefs.cinemas.includes(c) ? " on" : ""}" data-cinema="${esc(c)}">${esc(c)}<span class="n">${counts[c] || 0}</span></button>`).join("")
+      `<button class="chip${myCinemas().includes(c) ? " on" : ""}" data-cinema="${esc(c)}">${esc(c)}<span class="n">${counts[c] || 0}</span></button>`).join("")
       + `<button class="linkbtn" data-cinema="">${n ? "Show all cinemas" : "Pick the cinemas you go to"}</button>`;
   }
 }
 
 // ---------------------------------------------------------------- render: grid
 function cardMeta(f, shows) {
-  const today = osloNow().slice(0, 10);
+  const today = localNow().slice(0, 10);
   if (f.status === "on_sale" && shows.length) {
     const cinemas = [...new Set(shows.map((s) => s.cinema))];
     const where = cinemas.length > 2 ? `${cinemas.slice(0, 2).join(", ")} +${cinemas.length - 2}` : cinemas.join(", ");
@@ -210,7 +224,7 @@ function extLinks(f) {
 function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
-  const dlg = $("film"), now = osloNow(), today = now.slice(0, 10);
+  const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
   const all = f.shows.filter((s) => s.t >= now);
   const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
   const shown = state.sheetCinemas.size ? filtered.filter((s) => state.sheetCinemas.has(s.cinema)) : filtered;
@@ -224,7 +238,7 @@ function openFilm(id) {
     <div class="day${day === today ? " today" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
     <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
   let empty = "";
-  if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in Oslo yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
+  if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
@@ -260,13 +274,14 @@ $("account").addEventListener("click", (e) => { if (e.target === $("account")) $
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-tab],[data-when],[data-cinema],[data-star],[data-showall],[data-sheetcinema]");
+  const t = e.target.closest("[data-tab],[data-when],[data-cinema],[data-star],[data-showall],[data-sheetcinema],[data-region]");
   if (!t) return;
+  if (t.dataset.region) { if (t.dataset.region !== state.region) loadRegion(t.dataset.region); return; }
   if (t.dataset.tab) { state.tab = t.dataset.tab; }
   else if (t.dataset.when) { state.when = t.dataset.when; local.set("when", state.when); }
   else if (t.dataset.cinema !== undefined) {
-    const c = t.dataset.cinema, list = state.prefs.cinemas;
-    if (!c) state.prefs.cinemas = list.length ? [] : list;
+    const c = t.dataset.cinema, list = state.prefs.cinemas, here = state.data.cinemas;
+    if (!c) state.prefs.cinemas = list.filter((x) => !here.includes(x)); // clear this region's picks only
     else state.prefs.cinemas = list.includes(c) ? list.filter((x) => x !== c) : [...list, c];
     savePrefs();
   } else if (t.dataset.star) {
@@ -333,11 +348,13 @@ function renderAccount(message = "", isErr = false) {
   }
   const p = state.profile || {};
   const n = state.prefs.cinemas.length;
-  const filters = [n ? `${n} cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "no Norwegian dubs" : "", state.prefs.englishSubs ? "English subtitles only" : ""].filter(Boolean).join(", ");
+  const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "no Norwegian dubs" : "", state.prefs.englishSubs ? "English subtitles only" : ""].filter(Boolean).join(", ");
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
     <div class="who">${esc(state.user.email)}</div>
     <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>
       <span>Daily email at 9:00<small>Only sent on days with something new. Uses your filters: ${esc(filters)}.</small></span></label>
+    <div class="opt regionsopt"><span></span><span>Regions<small>One email per region, at 9:00 local time.</small>
+      <span class="row">${REGIONS.map((r) => `<label class="toggle"><input type="checkbox" data-optregion="${r.key}"${(state.prefs.regions || ["oslo"]).includes(r.key) ? " checked" : ""}> ${r.name}</label>`).join("")}</span></span></div>
     <label class="opt"><input type="checkbox" id="optAnn"${state.prefs.announcements ? " checked" : ""}>
       <span>Include newly announced films<small>Films that just got a Norwegian release date or showings, before tickets are on sale.</small></span></label>
     <label class="opt"><input type="checkbox" id="optWatch"${state.prefs.watchlistAlways ? " checked" : ""}>
@@ -369,6 +386,11 @@ if (sb) {
       state.profile = { ...state.profile, subscribed: e.target.checked };
       await pushProfile({ subscribed: e.target.checked });
       renderAccount(e.target.checked ? "Subscribed. You'll get an email after 9:00 on days with new films." : "Unsubscribed.");
+    } else if (e.target.dataset.optregion) {
+      const k = e.target.dataset.optregion, cur = new Set(state.prefs.regions || ["oslo"]);
+      e.target.checked ? cur.add(k) : cur.delete(k);
+      state.prefs.regions = REGIONS.map((r) => r.key).filter((x) => cur.has(x));
+      savePrefs(); renderAccount();
     } else if (e.target.id === "optAnn") {
       state.prefs.announcements = e.target.checked; savePrefs(); renderAccount();
     } else if (e.target.id === "optWatch") {
@@ -397,18 +419,33 @@ async function handleUnsubscribe() {
 }
 
 // ---------------------------------------------------------------- boot
-(async function boot() {
+async function loadRegion(key) {
+  const reg = REGIONS.find((r) => r.key === key) || REGIONS[0];
+  state.region = reg.key;
+  local.set("region", reg.key);
+  setClock(reg.tz);
+  const url = new URL(location.href);
+  if (reg.key === "oslo") url.searchParams.delete("r"); else url.searchParams.set("r", reg.key);
+  history.replaceState(null, "", url.pathname + url.search + url.hash);
+  $("sub").textContent = `Loading ${reg.name}…`;
   try {
-    const r = await fetch("data/films.json", { cache: "no-cache" });
+    const r = await fetch(`data/${reg.file}`, { cache: "no-cache" });
     state.data = await r.json();
   } catch (e) {
-    $("sub").textContent = "Couldn't load the programme. Reload to try again.";
+    $("sub").textContent = `Couldn't load the ${reg.name} programme. Reload to try again.`;
     return;
   }
   const g = state.data.generated;
-  $("sub").textContent = `${state.data.location} · Filmweb + Cinemateket · updated ${dayLabel(g, { short: true })} ${hhmm(g)}`;
-  state.prefs.cinemas = state.prefs.cinemas.filter((c) => state.data.cinemas.includes(c));
+  $("sub").textContent = `${state.data.location} · ${state.data.sources || "Filmweb + Cinemateket"} · updated ${dayLabel(g, { short: true })} ${hhmm(g)}`;
+  $("foot").innerHTML = reg.key === "oslo"
+    ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a> and <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, refreshed several times a day. Tickets are bought on the cinemas' own sites.`
+    : `Data from <a href="https://www.landmarkcinemas.com" target="_blank" rel="noopener">Landmark Cinemas</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://evanstheatre.ca" target="_blank" rel="noopener">Evans Theatre</a>. Small theatres sell tickets at the door. Times are Manitoba time.`;
+  document.title = `Kino by Film · ${reg.name}`;
   render();
   route();
+}
+
+(async function boot() {
+  await loadRegion(state.region);
   handleUnsubscribe();
 })();
