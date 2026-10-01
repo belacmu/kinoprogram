@@ -1663,6 +1663,7 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20240786": {
+"checked": "2026-10-01",
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1533588,
@@ -2063,15 +2064,23 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20251333": {
+"lbSlug": "street-fighter-2026",
+"lbRating": null,
+"rated": "2026-10-01",
+"imdb": "tt27419420",
+"imdbAll": [
+"tt27419420"
+],
+"lb": "street-fighter-1",
+"rt": "m/street_fighter_2026",
+"mc": null,
+"en": "Street Fighter",
+"v": 4,
+"checked": "2026-10-01",
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1153576,
-"imdb": "tt27419420",
-"en": "Street Fighter",
-"enFrom": "tmdb",
-"lbSlug": "street-fighter-2026",
-"lbRating": null,
-"rated": "2026-10-01"
+"enFrom": "tmdb"
 },
 "fw-EDI20251380": {
 "imdb": "tt0038650",
