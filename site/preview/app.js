@@ -268,7 +268,7 @@ function ratingHtml(f, where) {
   const r = f.ext?.lbRating;
   if (r == null) return "";
   const v = r.toFixed(1), label = `Letterboxd rating ${v} out of 5`;
-  if (where === "poster" && RATING_VARIANT === "a") return `<span class="lbr pillr" title="${label}" aria-label="${label}"><i>LB</i>${v}</span>`;
+  if (where === "poster" && RATING_VARIANT === "a") return `<span class="lbr pillr" title="${label}" aria-label="${label}">${v}</span>`;
   if (where === "poster" && RATING_VARIANT === "c")
     return `<span class="lbr ring ${r >= 3.5 ? "hi" : r >= 2.8 ? "mid" : "lo"}" title="${label}" aria-label="${label}">${v}</span>`;
   if (where === "text" && RATING_VARIANT === "b") return `<div class="lbr textr" aria-label="${label}">Letterboxd <b>${v}</b></div>`;
