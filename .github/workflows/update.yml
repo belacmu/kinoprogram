@@ -11,6 +11,10 @@ on:
         description: "Also run the daily email (still only after 09:00 Oslo and once per day)"
         type: boolean
         default: false
+      test_email:
+        description: "Send a sample digest to this address (doesn't affect the real digest)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -64,6 +68,15 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           SITE_URL: ${{ steps.deploy.outputs.page_url }}
         run: python scraper/digest.py --scheduled
+
+      - name: Test email
+        if: inputs.test_email != ''
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          SITE_URL: ${{ steps.deploy.outputs.page_url }}
+          TEST_EMAIL: ${{ inputs.test_email }}
+        run: python scraper/digest.py --to "$TEST_EMAIL"
 
       - name: Save state
         if: always() && steps.build.outcome == 'success'

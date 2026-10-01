@@ -4,6 +4,7 @@ Every film showing at Oslo cinemas (Filmweb + Cinemateket), browsed **by film** 
 with a daily email of films newly on sale and newly announced. See [SPEC.md](SPEC.md).
 
 - Site: https://belacmu.github.io/kinoprogram/
+- First-time setup of sign-in and email: [SETUP.md](SETUP.md)
 - Runs on GitHub Actions ([update.yml](.github/workflows/update.yml)) six times a day; the email goes out after 09:00 Oslo.
 
 ## Layout
