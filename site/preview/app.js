@@ -242,8 +242,8 @@ function cardMeta(row) {
     const where = cinemas.length > 2 ? `${cinemas.slice(0, 2).join(", ")} +${cinemas.length - 2}` : cinemas.join(", ");
     const first = shows[0];
     const cls = first.t.slice(0, 10) === today ? ' class="today"' : "";
-    const lead = start > today ? "Starts " : "";
-    return `<b>${esc(where)}</b><br><span${cls}>${lead}${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · ${shows.length} show${shows.length > 1 ? "s" : ""}`;
+    // keep "Tomorrow 10:15" and "11 shows" whole on narrow cards
+    return `<b>${esc(where)}</b><br><span class="nw${cls ? " today" : ""}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`;
   }
   if (shows.length) return `${dayLabel(shows[0].t, { short: true })} ${hhmm(shows[0].t)}<br><span class="nosaletag">Not on sale yet</span>`;
   if (f.scope === "Canada" && f.premiere) return `Opens in Canada ${dayLabel(f.premiere)}<br><span class="nosaletag">Not scheduled here yet</span>`;
