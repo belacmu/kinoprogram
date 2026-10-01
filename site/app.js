@@ -58,6 +58,7 @@ const state = {
   showAll: false,       // film sheet: show showings hidden by filters
   sheetCinemas: new Set(), // film sheet: cinema tags clicked to narrow its showings
   user: null,           // { id, email }
+  pendingEmail: (() => { try { return sessionStorage.getItem("kino:pendingEmail") || ""; } catch { return ""; } })(),
   profile: null,        // { subscribed, ... }
 };
 
@@ -505,11 +506,22 @@ async function loadProfile() {
 function renderAccount(message = "", isErr = false) {
   const body = $("accountBody");
   const msg = message ? `<div class="msg${isErr ? " err" : ""}">${esc(message)}</div>` : "";
-  if (!state.user) {
+  if (!state.user && state.pendingEmail) { // step 2: type the code from the email
+    body.innerHTML = `<h2 id="accountTitle">Enter your code</h2>
+      <p>We sent a sign-in code to <b>${esc(state.pendingEmail)}</b>. It works on any device, so you can read the email on your phone and type the code here.</p>
+      <form class="signin" id="codeForm"><input id="code" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}"
+        maxlength="10" placeholder="123456" aria-label="Sign-in code">
+      <button class="btn accent" type="submit">Sign in</button></form>
+      <div class="row" style="margin-top:10px"><button class="linkbtn" id="resendCode">Send a new code</button>
+      <button class="linkbtn" id="otherEmail">Use a different email</button></div>${msg}`;
+    setTimeout(() => $("code")?.focus(), 0);
+    return;
+  }
+  if (!state.user) { // step 1: email
     body.innerHTML = `<h2 id="accountTitle">Sign in or sign up</h2>
-      <p>Enter your email and we'll send you a sign-in link. No password. Signing in syncs your filters and watchlist across devices, and lets you get the daily email of films newly on sale.</p>
+      <p>Enter your email and we'll send you a one-time code. No password. Signing in syncs your watchlist and filters across devices, and lets you get the daily email of films newly on sale.</p>
       <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
-      <button class="btn accent" type="submit">Send link</button></form>${msg}`;
+      <button class="btn accent" type="submit">Send code</button></form>${msg}`;
     return;
   }
   const p = state.profile || {};
@@ -538,14 +550,31 @@ function setUser(session) {
 if (sb) {
   $("accountBtn").hidden = false;
   $("accountBtn").addEventListener("click", () => { renderAccount(); $("account").showModal(); });
+  const sendCode = async (email) => {
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+    if (error) return error.status === 429 || /rate|seconds/i.test(error.message)
+      ? "Wait a minute before asking for another code." : `Couldn't send a code: ${error.message}`;
+    state.pendingEmail = email;
+    try { sessionStorage.setItem("kino:pendingEmail", email); } catch {}
+    return "";
+  };
   $("account").addEventListener("submit", async (e) => {
-    if (e.target.id !== "signinForm") return;
     e.preventDefault();
-    const email = $("email").value.trim();
-    const btn = e.target.querySelector("button"); btn.disabled = true;
-    const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname } });
-    btn.disabled = false;
-    renderAccount(error ? `Couldn't send the link: ${error.message}` : `Link sent to ${email}. Open it on this device to sign in.`, !!error);
+    const btn = e.target.querySelector("button[type=submit]");
+    if (e.target.id === "signinForm") {
+      btn.disabled = true;
+      const err = await sendCode($("email").value.trim());
+      btn.disabled = false;
+      renderAccount(err, !!err);
+    } else if (e.target.id === "codeForm") {
+      btn.disabled = true;
+      const { error } = await sb.auth.verifyOtp({ email: state.pendingEmail, token: $("code").value.trim(), type: "email" });
+      btn.disabled = false;
+      if (error) { renderAccount("That code didn't work. Check it, or send a new one (codes expire after an hour).", true); return; }
+      state.pendingEmail = "";
+      try { sessionStorage.removeItem("kino:pendingEmail"); } catch {}
+      renderAccount("Signed in. Your watchlist and filters now sync across devices.");
+    }
   });
   $("account").addEventListener("change", async (e) => {
     if (e.target.id === "optSub") {
@@ -565,6 +594,14 @@ if (sb) {
   });
   $("account").addEventListener("click", async (e) => {
     if (e.target.id === "signOut") { await sb.auth.signOut(); renderAccount("Signed out."); }
+    else if (e.target.id === "resendCode") {
+      const err = await sendCode(state.pendingEmail);
+      renderAccount(err || `New code sent to ${state.pendingEmail}.`, !!err);
+    } else if (e.target.id === "otherEmail") {
+      state.pendingEmail = "";
+      try { sessionStorage.removeItem("kino:pendingEmail"); } catch {}
+      renderAccount();
+    }
   });
   sb.auth.onAuthStateChange((event, session) => {
     const had = state.user?.id;

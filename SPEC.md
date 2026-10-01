@@ -81,7 +81,8 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   Norway (e.g. festival titles in Bergen), and films that premiered 3+ days ago with no showings
   anywhere. Filmweb's upcoming list is national, so this is checked per film via its showings.
 - No login needed to browse; filters are remembered in the browser.
-- **Sign in** with a magic link (enter email → click link; no password). Signed-in users get:
+- **Sign in** with a one-time code (enter email → type the 6-digit code from the email; no
+  password; works across devices). Signed-in users get:
   settings synced across devices, a watchlist, and the daily email.
 
 ## Daily email
@@ -101,7 +102,7 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   `scraper/digest.py` once a day after 09:00 Oslo. State (`state/seen.json`) is committed back to
   the repo.
 - **GitHub Pages** hosts `site/` plus the generated `data/films.json`.
-- **Supabase** (free) stores accounts (magic-link auth) and a `profiles` row per user:
+- **Supabase** (free) stores accounts (email one-time-code auth) and a `profiles` row per user:
   settings, watchlist, subscription, unsubscribe token. Row-level security limits each user to
   their own row; the daily job reads subscribers with the secret key.
 - **Gmail** (dedicated account, app password) sends the emails over SMTP.

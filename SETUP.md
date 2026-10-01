@@ -37,18 +37,28 @@ A dedicated account keeps your personal address out of it.
    - Plan: Free → **Create new project**, wait a minute or two.
 3. Create the table: left sidebar **SQL Editor** → **New query** → paste the entire contents of
    [`supabase/schema.sql`](supabase/schema.sql) → **Run**. It should say "Success. No rows returned".
-4. Sign-in redirect: **Authentication → URL Configuration**
-   - Site URL: `https://belacmu.github.io/kinoprogram/`
-   - Redirect URLs → **Add URL**: `https://belacmu.github.io/kinoprogram/**` → Save.
+4. Site address: **Authentication → URL Configuration** → Site URL:
+   `https://belacmu.github.io/kinoprogram/` → Save.
 5. Send sign-in emails through your Gmail (required: Supabase's built-in mailer only delivers to
-   members of your Supabase team, so your friends wouldn't get their links):
+   members of your Supabase team, so your friends wouldn't get their codes):
    **Authentication → Emails → SMTP Settings** → enable **Custom SMTP**
    - Sender email: your Gmail address · Sender name: `Kino by film`
    - Host: `smtp.gmail.com` · Port: `465`
    - Username: your Gmail address · Password: the app password from step 1
    - Save.
-6. Optional, nicer emails: **Authentication → Emails → Templates**. In both **Confirm signup** and
-   **Magic Link**, set the subject to `Your sign-in link for Kino by film`.
+6. Make the emails contain a **code** (required; the site signs you in with a one-time code):
+   **Authentication → Emails → Templates**. Do this for both **Magic Link** and **Confirm signup**:
+   - Subject: `Your Kino by film code: {{ .Token }}`
+   - Body (replace everything there):
+
+     ```html
+     <h2>Your sign-in code</h2>
+     <p style="font-size:28px;letter-spacing:4px"><b>{{ .Token }}</b></p>
+     <p>Type it on the Kino by film site to sign in. It expires in an hour.
+     If you didn't ask for it, ignore this email.</p>
+     ```
+   - Save each template.
+
 7. Collect the keys: **Project Settings** (gear icon) →
    - **Data API**: copy the **Project URL**.
    - **API Keys**: copy the **Publishable key** (`sb_publishable_…`), and under **Secret keys**
@@ -84,8 +94,8 @@ gh secret set GMAIL_APP_PASSWORD -R github.com/belacmu/kinoprogram
 
 Claude will then redeploy the site (so sign-in appears) and send a test email. After that:
 
-1. Open https://belacmu.github.io/kinoprogram/ → **Sign in** → enter your own email → click the
-   link in the email you get.
+1. Open https://belacmu.github.io/kinoprogram/ → **Sign in** → enter your own email → type the
+   6-digit code from the email you get.
 2. Under **Account**, tick **Daily email at 9:00**.
 3. Share the site link with friends; they sign up the same way.
 
@@ -95,7 +105,7 @@ Claude will then redeploy the site (so sign-in appears) and send a test email. A
 
 - **No sign-in email arrives**: check spam; check step 2.5 (SMTP). In Supabase,
   **Authentication → Logs** shows send errors.
-- **The link opens the site but you're not signed in**: the Redirect URL in step 2.4 is missing.
+- **The email has a link but no code**: step 2.6 (templates) wasn't saved for that template.
 - **Run history / errors** for the daily job: https://github.com/belacmu/kinoprogram/actions
 - **Supabase project paused**: free projects pause after a week with no activity. The daily job
   reads from it every morning, which should prevent that; if it happens, click **Restore** in the dashboard.
