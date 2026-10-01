@@ -33,7 +33,8 @@ const hhmm = (t) => t.slice(11, 16);
 
 // ---------------------------------------------------------------- state
 // One grid, three ways to read it. Each view groups films under section headers.
-const VIEWS = [["when", "Playing when"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];  // the Sort menu
+const VIEWS = [["when", "Playing when", "Grouped by when it starts"], ["sale", "Newly on sale", "Tickets that just went on sale"],
+  ["ann", "Newly announced", "Films that just got a date here"]];  // the Sort menu
 const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 // Order of films inside each section. "date" means the view's natural order (by time, or newest first).
 const WITHIN = [["date", "By date"], ["rating", "Best rated first"], ["fewest", "Fewest showings first"]];
@@ -99,20 +100,18 @@ function startDay(f, shows) {
 
 // Section labels for the "When it's playing" view.
 function whenSection(row, today) {
-  if (!row.start) return { key: "9999", label: "Date not set" };
-  // Playing now = already started and on again within a week. Something that premiered long ago with
-  // one special screening in November belongs under November, like the one-off it is.
-  if (row.shows.length && row.start <= today && row.shows[0].t.slice(0, 10) <= addDays(today, 6))
-    return { key: "0000", label: "Playing now" };
-  if (row.shows.length && row.start <= today) row = { ...row, start: row.shows[0].t.slice(0, 10) };
+  // A film's day = its next showing; films without showings use their confirmed premiere.
+  const day = row.shows[0]?.t.slice(0, 10) || row.start;
+  if (!day) return { key: "9999", label: "Date not set" };
+  if (row.shows.length && day === today) return { key: "0000", label: "Playing today" };
   const dow = asDate(today).getUTCDay();                    // 0 = Sunday
   const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
-  if (row.start <= weekEnd) return { key: "0001", label: "This week" };
-  if (row.start <= addDays(weekEnd, 7)) return { key: "0002", label: "Next week" };
-  const [y, m] = row.start.split("-").map(Number);
+  if (day <= weekEnd) return { key: "0001", label: "This week" };
+  if (day <= addDays(weekEnd, 7)) return { key: "0002", label: "Next week" };
+  const [y, m] = day.split("-").map(Number);
   const [ty, tm] = today.split("-").map(Number);
   const label = y === ty && m === tm ? `Later in ${MONTH_NAMES[m - 1]}` : `${MONTH_NAMES[m - 1]}${y !== ty ? " " + y : ""}`;
-  return { key: row.start.slice(0, 7), label };
+  return { key: day.slice(0, 7), label };
 }
 
 // Section labels for the two "newly" views, by when it happened.
@@ -165,9 +164,6 @@ function buildRows() {
       return n(a) - n(b) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     }
     if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
-    if (a.sec.key === "0000") // playing now: newly on sale, then newest premieres, then repertory by time
-      return (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "")
-        || (b.f.premiere || "").localeCompare(a.f.premiere || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     return t0(a).localeCompare(t0(b)) || byTitle(a, b);
   });
   return rows;
@@ -181,12 +177,23 @@ function activeFilters() {
 }
 
 function renderControls() {
-  $("view").innerHTML = VIEWS.map(([v, l]) => `<option value="${v}"${v === state.view ? " selected" : ""}>Sort: ${l}</option>`).join("");
+  const cur = VIEWS.find(([v]) => v === state.view);
+  $("sortBtn").innerHTML = `<span class="k">Sort</span> ${cur[1]} <span class="chev" aria-hidden="true">▾</span>`;
+  $("sortBtn").setAttribute("aria-label", `Sort: ${cur[1]}`);
+  $("sortMenu").innerHTML = VIEWS.map(([v, l, d]) =>
+    `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("")
+    + `<div class="menusep" role="separator"></div>
+       <button role="menuitem" class="plain" data-collapseall="1">Collapse all sections</button>
+       <button role="menuitem" class="plain" data-collapseall="0">Expand all sections</button>`;
+  const reg = REGIONS.find((r) => r.key === state.region);
+  $("regionBtn").innerHTML = `${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
+  $("regionBtn").setAttribute("aria-label", `Location: ${reg.name}`);
+  $("regionMenu").innerHTML = REGIONS.map((r) =>
+    `<button role="menuitemradio" aria-checked="${r.key === state.region}" data-pick="region" data-value="${r.key}">${r.name}</button>`).join("");
   document.querySelectorAll("#listSwitch [data-list]").forEach((b) => b.setAttribute("aria-pressed", (b.dataset.list === "watch") === state.onlyWatch));
   $("wlCount").textContent = state.watchlist.size ? ` · ${state.watchlist.size}` : "";
-  $("region").innerHTML = REGIONS.map((r) => `<option value="${r.key}"${r.key === state.region ? " selected" : ""}>${r.name}</option>`).join("");
   const n = activeFilters();
-  $("filtersBtn").textContent = n ? `⇅ Filters · ${n}` : "⇅ Filters";
+  $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
   $("filtersBtn").setAttribute("aria-pressed", n > 0);
   renderFilters();
 }
@@ -201,16 +208,16 @@ function renderFilters() {
     `<label class="opt-chip"><input type="${type}" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
-    <fieldset class="fg"><legend>Then by</legend><div class="chips">
+    <fieldset class="fg"><legend>Order within sections</legend><div class="chips">
       ${WITHIN.map(([v, l]) => ck(`name="within" data-f="within" value="${v}"`, state.within === v, v === "date" && state.view !== "when" ? "Newest first" : l, null, "radio")).join("")}
     </div></fieldset>
     <fieldset class="fg"${state.view === "when" ? "" : " hidden"}><legend>Tickets</legend>
       <div class="chips">${TIX.map(([v, l]) => ck(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l, null, "radio")).join("")}</div>
     </fieldset>
-    <fieldset class="fg"><legend>Types</legend><div class="chips">
-      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
+    <fieldset class="fg"><legend>Types <span class="hint">${hide.size ? `${KINDS.length - hide.size} chosen` : "All"}</span></legend><div class="chips">
+      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, hide.size > 0 && !hide.has(k), l, kindCounts[k] || 0)).join("")}
     </div></fieldset>
-    <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "none ticked = all"}</span></legend>
+    <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
     </fieldset>
@@ -218,10 +225,7 @@ function renderFilters() {
       <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
       ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}</div>
     </fieldset>
-    <fieldset class="fg"><legend>Sections</legend>
-      <div class="row"><button class="btn ghost small" data-collapseall="1">Collapse all</button>
-      <button class="btn ghost small" data-collapseall="0">Expand all</button></div>
-    </fieldset>`;
+`;
   $("filtersReset").hidden = !activeFilters();
   if (focused) { // keep keyboard focus on the control that was just changed
     const [f, v] = focused.split("|");
@@ -238,8 +242,8 @@ function cardMeta(row) {
     const where = cinemas.length > 2 ? `${cinemas.slice(0, 2).join(", ")} +${cinemas.length - 2}` : cinemas.join(", ");
     const first = shows[0];
     const cls = first.t.slice(0, 10) === today ? ' class="today"' : "";
-    const lead = start > today ? "Starts " : "";
-    return `<b>${esc(where)}</b><br><span${cls}>${lead}${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · ${shows.length} show${shows.length > 1 ? "s" : ""}`;
+    // keep "Tomorrow 10:15" and "11 shows" whole on narrow cards
+    return `<b>${esc(where)}</b><br><span class="nw${cls ? " today" : ""}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`;
   }
   if (shows.length) return `${dayLabel(shows[0].t, { short: true })} ${hhmm(shows[0].t)}<br><span class="nosaletag">Not on sale yet</span>`;
   if (f.scope === "Canada" && f.premiere) return `Opens in Canada ${dayLabel(f.premiere)}<br><span class="nosaletag">Not scheduled here yet</span>`;
@@ -257,14 +261,25 @@ function posterHtml(f) {
     : ""}<div class="ph"${f.poster ? ' aria-hidden="true" style="z-index:-1"' : ""}>${esc(titleOf(f))}</div></div>`;
 }
 
+// Letterboxd rating on the poster: the number, then a star (the star only ever means a rating).
+function ratingHtml(f) {
+  const r = f.ext?.lbRating;
+  if (r == null) return "";
+  const label = `Letterboxd rating ${r.toFixed(1)} out of 5`;
+  return `<span class="lbr pillr" title="${label}" aria-label="${label}">${r.toFixed(1)}<i aria-hidden="true">★</i></span>`;
+}
+// Watchlist heart (inline SVG so it's crisp and the same everywhere).
+const heart = (filled) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2 0 3.6 1 5.3 3 1.7-2 3.3-3 5.3-3 3.7 0 5.8 3.8 4.3 7.2C19.5 16.3 12 21 12 21z" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
+
 function cardHtml(row) {
   const { f } = row;
-  const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "");
+  const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
+    + ratingHtml(f);
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
       <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
-    <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${on ? "★" : "☆"}</button>
+    <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${heart(on)}</button>
   </li>`;
 }
 
@@ -278,7 +293,7 @@ function renderGrid() {
   const isCollapsed = (s) => state.collapsed.has(`${state.view}:${s.key}`);
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
-  else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap ☆ on any poster to add it; it'll be highlighted when tickets go on sale.";
+  else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
@@ -315,11 +330,8 @@ function extLinks(f) {
   const x = f.ext || {}, out = [];
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
-  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>★ ${x.lbRating.toFixed(1)}</b>` : ""}</a>`);
+  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>${x.lbRating.toFixed(1)} ★</b>` : ""}</a>`);
   else out.push(`<a class="ext lb" href="https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/" target="_blank" rel="noopener">Search Letterboxd</a>`);
-  if (x.imdb) out.push(`<a class="ext" href="https://www.imdb.com/title/${esc(x.imdb)}/" target="_blank" rel="noopener">IMDb</a>`);
-  if (x.rt) out.push(`<a class="ext" href="https://www.rottentomatoes.com/${esc(x.rt)}" target="_blank" rel="noopener">Rotten Tomatoes</a>`);
-  if (x.mc) out.push(`<a class="ext" href="https://www.metacritic.com/${esc(x.mc)}/" target="_blank" rel="noopener">Metacritic</a>`);
   return `<div class="exts">${out.join("")}</div>`;
 }
 
@@ -353,7 +365,7 @@ function openFilm(id) {
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
       <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
       ${extLinks(f)}
-      <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${on ? "★ On your watchlist" : "☆ Add to watchlist"}</button>
+      <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div></div>
     <div class="days">${days}${hiddenNote}${empty}</div>`;
@@ -396,7 +408,7 @@ document.addEventListener("click", (e) => {
   }
   if (t.dataset.collapseall) {
     for (const s of state.sections) setCollapsed(`${state.view}:${s.key}`, t.dataset.collapseall === "1");
-    renderGrid(); setFiltersOpen(false); window.scrollTo({ top: 0 }); return;
+    closeMenus(); renderGrid(); window.scrollTo({ top: 0 }); return;
   }
   if (t.dataset.f === "reset") {
     state.tix = "all";
@@ -428,9 +440,11 @@ $("filtersBody").addEventListener("change", (e) => {
   if (f === "within") { state.within = el.value; local.set("within", state.within); render(); return; }
   if (f === "tix") { state.tix = el.value; local.set("tix", state.tix); }
   else if (f === "kind") {
-    const cur = new Set(state.prefs.hideKinds || []);
-    el.checked ? cur.delete(el.value) : cur.add(el.value);
-    state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => cur.has(x));
+    // Ticked types are the ones shown; none ticked = all. Stored as the hidden ones.
+    const hidden = new Set(state.prefs.hideKinds || []);
+    const shown = new Set(hidden.size ? KINDS.map(([x]) => x).filter((x) => !hidden.has(x)) : []);
+    el.checked ? shown.add(el.value) : shown.delete(el.value);
+    state.prefs.hideKinds = shown.size && shown.size < KINDS.length ? KINDS.map(([x]) => x).filter((x) => !shown.has(x)) : [];
   } else if (f === "cinema") {
     const list = state.prefs.cinemas;
     state.prefs.cinemas = el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value);
@@ -441,11 +455,13 @@ $("filtersBody").addEventListener("change", (e) => {
 });
 const setFiltersOpen = (open) => {
   document.body.classList.toggle("filters-open", open);
+  $("scrim").hidden = !open;
   $("filtersBtn").setAttribute("aria-expanded", open);
   if (open) $("filtersDone").focus();
 };
 $("filtersBtn").addEventListener("click", () => setFiltersOpen(!document.body.classList.contains("filters-open")));
 $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("filtersBtn").focus(); });
+$("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
 
 // Search: an icon on phones that opens a full-width box; always open on wide screens.
@@ -462,8 +478,44 @@ $("searchClose").addEventListener("click", () => {
 $("q").addEventListener("keydown", (e) => { if (e.key === "Escape") $("searchClose").click(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
-$("region").addEventListener("change", (e) => { if (e.target.value !== state.region) loadRegion(e.target.value); });
-$("view").addEventListener("change", (e) => { state.view = e.target.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 }); });
+// Pill menus (Sort, Location): a button that opens a small list of choices.
+function closeMenus() {
+  document.querySelectorAll(".menu").forEach((m) => { m.hidden = true; });
+  document.querySelectorAll("[aria-haspopup]").forEach((b) => b.setAttribute("aria-expanded", "false"));
+}
+function toggleMenu(btn, menu) {
+  const open = menu.hidden;
+  closeMenus();
+  if (!open) return;
+  menu.hidden = false;
+  btn.setAttribute("aria-expanded", "true");
+  (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button"))?.focus();
+}
+$("sortBtn").addEventListener("click", () => toggleMenu($("sortBtn"), $("sortMenu")));
+$("regionBtn").addEventListener("click", () => toggleMenu($("regionBtn"), $("regionMenu")));
+document.addEventListener("click", (e) => {
+  const pick = e.target.closest("[data-pick]");
+  if (pick) {
+    closeMenus();
+    if (pick.dataset.pick === "view" && pick.dataset.value !== state.view) {
+      state.view = pick.dataset.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 });
+    } else if (pick.dataset.pick === "region" && pick.dataset.value !== state.region) loadRegion(pick.dataset.value);
+    return;
+  }
+  if (!e.target.closest(".dd")) closeMenus();
+});
+document.addEventListener("keydown", (e) => {
+  const menu = e.target.closest?.(".menu");
+  if (e.key === "Escape" && document.querySelector(".menu:not([hidden])")) {
+    const btn = document.querySelector('[aria-haspopup][aria-expanded="true"]');
+    closeMenus(); btn?.focus(); return;
+  }
+  if (menu && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+    e.preventDefault();
+    const items = [...menu.querySelectorAll("button")], i = items.indexOf(document.activeElement);
+    items[(i + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length].focus();
+  }
+});
 $("listSwitch").addEventListener("click", (e) => {
   const b = e.target.closest("[data-list]");
   if (!b) return;
@@ -640,7 +692,7 @@ async function loadRegion(key) {
   history.replaceState(null, "", url.pathname + url.search + url.hash);
   $("sub").textContent = `Loading ${reg.name}…`;
   try {
-    const r = await fetch(`data/${reg.file}`, { cache: "no-cache" });
+    const r = await fetch(`${window.KINO_BASE || ""}data/${reg.file}`, { cache: "no-cache" });
     state.data = await r.json();
   } catch (e) {
     $("sub").textContent = `Couldn't load the ${reg.name} programme. Reload to try again.`;

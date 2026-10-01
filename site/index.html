@@ -15,7 +15,10 @@
   <header class="top">
     <h1>Cinecrab</h1>
     <div class="topright">
-      <select id="region" aria-label="Location"></select>
+      <div class="dd" id="regionDD">
+        <button class="pill" id="regionBtn" aria-haspopup="menu" aria-expanded="false"></button>
+        <div class="menu right" id="regionMenu" role="menu" hidden></div>
+      </div>
       <button class="btn ghost" id="accountBtn" hidden>Sign in</button>
     </div>
   </header>
@@ -23,7 +26,9 @@
   <div class="banner" id="banner" hidden></div>
 
   <div class="layout">
+    <div class="scrim" id="scrim" hidden></div>
     <aside class="filters" id="filters" aria-label="Filters">
+      <div class="grab" aria-hidden="true"></div>
       <div class="filters-head">
         <h2>Filters</h2>
         <button class="btn ghost small" id="filtersDone">Done</button>
@@ -39,7 +44,7 @@
       <div class="controls" id="controls">
         <div class="listswitch" id="listSwitch" role="group" aria-label="Which films">
           <button data-list="all" aria-pressed="true">All films</button>
-          <button data-list="watch" aria-pressed="false">★ My watchlist<span id="wlCount"></span></button>
+          <button data-list="watch" aria-pressed="false">♥ My watchlist<span id="wlCount"></span></button>
         </div>
         <div class="bar">
           <button class="iconbtn" id="searchBtn" aria-label="Search" aria-controls="searchBox" aria-expanded="false">
@@ -49,8 +54,11 @@
             <input type="search" id="q" placeholder="Search for a film, director or series" autocomplete="off" aria-label="Search">
             <button class="iconbtn" id="searchClose" aria-label="Close search">×</button>
           </div>
-          <select id="view" aria-label="Sort"></select>
-          <button class="chip" id="filtersBtn" aria-controls="filters" aria-expanded="false">⇅ Filters</button>
+          <div class="dd grow" id="sortDD">
+            <button class="pill" id="sortBtn" aria-haspopup="menu" aria-expanded="false"></button>
+            <div class="menu" id="sortMenu" role="menu" hidden></div>
+          </div>
+          <button class="pill" id="filtersBtn" aria-controls="filters" aria-expanded="false">Filters</button>
         </div>
       </div>
       <div id="grid"></div>
