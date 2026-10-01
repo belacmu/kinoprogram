@@ -2,7 +2,7 @@
 :root {
   --bg: #eef0f2; --surface: #ffffff; --ink: #16181d; --muted: #5d6470; --line: #d6dae1;
   --accent: #a3213a; --accent-ink: #ffffff; --chip: #e2e5ea; --chip-on: #16181d; --chip-on-ink: #f3f4f6;
-  --soon: #1f7a45; --scrim: rgba(10, 12, 16, .55);
+  --soon: #1f7a45; --scrim: rgba(10, 12, 16, .55); --edge: #a9b0bb;
   --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
   --body: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -12,14 +12,14 @@
   :root:not([data-theme="light"]) {
     --bg: #101216; --surface: #191c22; --ink: #e9ebef; --muted: #9097a3; --line: #2b2f37;
     --accent: #f0647d; --accent-ink: #101216; --chip: #23272e; --chip-on: #e9ebef; --chip-on-ink: #101216;
-    --soon: #6fd198; --scrim: rgba(0, 0, 0, .7);
+    --soon: #6fd198; --scrim: rgba(0, 0, 0, .7); --edge: #4a515d;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #101216; --surface: #191c22; --ink: #e9ebef; --muted: #9097a3; --line: #2b2f37;
   --accent: #f0647d; --accent-ink: #101216; --chip: #23272e; --chip-on: #e9ebef; --chip-on-ink: #101216;
-  --soon: #6fd198; --scrim: rgba(0, 0, 0, .7);
+  --soon: #6fd198; --scrim: rgba(0, 0, 0, .7); --edge: #4a515d;
   color-scheme: dark;
 }
 
@@ -78,7 +78,7 @@ h1 span { color: var(--accent); }
 
 /* controls */
 .controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
-  padding-block: 12px 10px; display: grid; gap: 8px; border-bottom: 1px solid var(--line); }
+  padding-block: 12px 10px; display: grid; gap: 8px; border-bottom: 1px solid var(--edge); }
 .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 input[type=search], input[type=email] { flex: 1 1 240px; min-width: 0; font: inherit; padding: 9px 12px; border-radius: 6px;
   border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
@@ -92,7 +92,7 @@ select { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid
 .seg .chip.on { background: var(--chip-on); }
 .cinemas { padding: 8px 0 2px; }
 .linkbtn { background: none; border: 0; color: var(--accent); cursor: pointer; font-size: 13px; padding: 5px 4px; }
-.jump { display: flex; gap: 14px; overflow-x: auto; white-space: nowrap; font-size: 13px; padding-top: 2px; scrollbar-width: none; }
+.jump { display: flex; gap: 14px; overflow-x: auto; white-space: nowrap; font-size: 13px; padding-block: 10px 2px; scrollbar-width: none; }
 .jump a { color: var(--muted); text-decoration: none; }
 .jump a:hover { color: var(--ink); }
 .jump .n, .sec h2 .n { font: 500 11px var(--mono); opacity: .7; }
@@ -100,7 +100,7 @@ select { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid
 .sec { scroll-margin-top: var(--stick-top, 0px); }
 .sech { position: sticky; top: var(--stick-top, 0px); z-index: 4; margin: 0; background: var(--bg); }
 .sech button { width: 100%; display: flex; align-items: baseline; gap: 10px; text-align: left; background: none; border: 0;
-  border-bottom: 1px solid var(--line); padding: 18px 0 8px; cursor: pointer; color: var(--ink); }
+  border-bottom: 1px solid var(--edge); padding: 18px 0 8px; cursor: pointer; color: var(--ink); }
 .sech .lbl { font: 700 24px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; }
 .sech .peek { flex: 1; min-width: 0; color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sech .chev { margin-left: auto; color: var(--muted); font-size: 14px; }

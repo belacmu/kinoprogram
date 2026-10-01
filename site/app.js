@@ -35,6 +35,8 @@ const hhmm = (t) => t.slice(11, 16);
 // One grid, three ways to read it. Each view groups films under section headers.
 const VIEWS = [["when", "When it's playing"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];
 const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
+// Order of films inside each section. "date" means the view's natural order (by time, or newest first).
+const WITHIN = [["date", "Date"], ["rating", "Rating"], ["fewest", "Fewest showings"]];
 const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], hideKinds: [] };
 const KINDS = [["film", "Films"], ["short", "Shorts"], ["stage", "Live & stage"], ["talk", "Talks & events"]];
 const KIND_BADGE = { short: "Shorts", stage: "Live & stage", talk: "Talk / event" };
@@ -47,6 +49,7 @@ const state = {
   region: REGIONS.some((r) => r.key === urlRegion) ? urlRegion : local.get("region", "oslo"),
   view: VIEWS.some(([v]) => v === local.get("view", "when")) ? local.get("view", "when") : "when",
   tix: local.get("tix", "all"),
+  within: local.get("within", "date"),
   onlyWatch: false,
   q: "",
   prefs: { ...DEFAULT_PREFS, ...local.get("prefs", {}) },
@@ -125,7 +128,7 @@ function sinceSection(since, today, before) {
 function buildRows() {
   const now = localNow(), today = now.slice(0, 10), q = state.q.trim().toLowerCase();
   const b = state.data.baseline ? asDate(state.data.baseline) : null;
-  const started = b ? `${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}` : "";
+  const started = b ? `Before ${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}` : "Before tracking began";
   const rows = [];
   for (const f of state.data.films) {
     if (!textMatch(f, q) || !kindShown(f)) continue;
@@ -142,18 +145,21 @@ function buildRows() {
       row.sec = whenSection(row, today);
     } else if (state.view === "sale") {
       if (!onSale) continue;
-      row.sec = sinceSection(f.onSaleSince, today, `Already on sale when tracking began (${started})`);
+      row.sec = sinceSection(f.onSaleSince, today, started);
       row.since = f.onSaleSince;
     } else {
       if (f.status !== "announced" || !f.announcedSince) continue;
-      row.sec = sinceSection(f.announcedSince, today, `Already announced when tracking began (${started})`);
+      row.sec = sinceSection(f.announcedSince, today, started);
       row.since = f.announcedSince;
     }
     rows.push(row);
   }
   const t0 = (r) => r.shows[0]?.t || (r.start ? r.start + "T00:00" : "9999");
+  const rating = (r) => r.f.ext?.lbRating ?? -1;
   rows.sort((a, b) => {
     if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
+    if (state.within === "rating") return rating(b) - rating(a) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
+    if (state.within === "fewest") return a.shows.length - b.shows.length || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     if (a.sec.key === "0000") // playing now: newly on sale, then newest premieres, then repertory by time
       return (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "")
@@ -172,6 +178,7 @@ function activeFilters() {
 
 function renderControls() {
   $("view").innerHTML = VIEWS.map(([v, l]) => `<option value="${v}"${v === state.view ? " selected" : ""}>${l}</option>`).join("");
+  $("within").innerHTML = WITHIN.map(([v, l]) => `<option value="${v}"${v === state.within ? " selected" : ""}>${v === "date" && state.view !== "when" ? "Newest" : l}</option>`).join("");
   $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
   $("watchBtn").setAttribute("aria-pressed", state.onlyWatch);
   $("watchBtn").textContent = `★ Watchlist${state.watchlist.size ? " " + state.watchlist.size : ""}`;
@@ -447,6 +454,7 @@ $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("fil
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 $("watchBtn").addEventListener("click", () => { state.onlyWatch = !state.onlyWatch; render(); window.scrollTo({ top: 0 }); });
+$("within").addEventListener("change", (e) => { state.within = e.target.value; local.set("within", state.within); renderGrid(); });
 $("view").addEventListener("change", (e) => { state.view = e.target.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 }); });
 
 // Section headers stick just below the controls bar; keep that offset in a CSS variable.
