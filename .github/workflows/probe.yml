@@ -5,12 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          curl -s https://ipinfo.io/json | grep -E '"(country|region|org)"' || true
-          for u in "https://www.landmarkcinemas.com/showtimes/brandon" \
-                   "https://movieapi.landmarkcinemas.com/movies/22/181?splitByAttributes=true&expandSessions=true" \
-                   "https://www.landmarkcinemas.com/robots.txt"; do
+          for u in "https://www.cinemaclock.com/movie-theaters/landmark-9-brandon" \
+                   "https://www.cinemaclock.com/movie-theaters/evans-theatre" \
+                   "https://evanstheatre.ca/upcoming-movies/"; do
             code=$(curl -s -o body.txt -w "%{http_code}" -A "Mozilla/5.0 (kinoprogram; +https://github.com/belacmu/kinoprogram)" "$u")
-            echo "$code $u $(wc -c < body.txt) bytes"
-            grep -o "pc.showtimesdata" body.txt | head -1 || true
-            head -c 300 body.txt; echo; echo ---
+            echo "RESULT $code $u $(wc -c < body.txt) bytes, movietitle=$(grep -c 'movietitle' body.txt) cf_challenge=$(grep -ci 'cf-chl\|challenge-platform\|Just a moment' body.txt)"
           done
