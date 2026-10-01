@@ -219,10 +219,10 @@ function renderFilters() {
     <fieldset class="fg"${state.view === "when" ? "" : " hidden"}><legend>Tickets</legend>
       <div class="chips">${TIX.map(([v, l]) => ck(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l, null, "radio")).join("")}</div>
     </fieldset>
-    <fieldset class="fg"><legend>Types <span class="hint">${hide.size ? `${KINDS.length - hide.size} of ${KINDS.length}` : "none ticked = all"}</span></legend><div class="chips">
+    <fieldset class="fg"><legend>Types <span class="hint">${hide.size ? `${KINDS.length - hide.size} chosen` : "All"}</span></legend><div class="chips">
       ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, hide.size > 0 && !hide.has(k), l, kindCounts[k] || 0)).join("")}
     </div></fieldset>
-    <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "none ticked = all"}</span></legend>
+    <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
     </fieldset>

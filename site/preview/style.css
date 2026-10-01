@@ -335,5 +335,18 @@ a.stub:hover { border-color: var(--accent); }
   .filters { padding-top: 6px; }
 }
 
+/* --- review pass 2 --- */
+@media (max-width: 999px) { #filtersDone { display: none; } }  /* handle, backdrop and "Show N films" close it */
+@media (min-width: 1000px) {
+  /* desktop sidebar: options as a tidy list, not wrapping chips */
+  .layout { grid-template-columns: 240px minmax(0, 1fr); }
+  .filters .chips { flex-direction: column; align-items: stretch; gap: 2px; }
+  .filters .opt-chip { border: 0; border-radius: 8px; padding: 7px 10px; background: transparent; font-size: 14px; justify-content: space-between; }
+  .filters .opt-chip:hover { background: var(--chip); }
+  .filters .opt-chip .n { margin-left: auto; }
+  .filters .opt-chip:has(input:checked) { background: var(--accent-tint); border: 0; }
+  .filters-head { margin-bottom: 14px; }
+}
+
 /* keep last: stop iPhone zooming the page when the search box is tapped */
 @media (max-width: 1000px) { .searchbox input { font-size: 16px; } }
