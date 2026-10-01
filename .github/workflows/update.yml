@@ -55,7 +55,7 @@ jobs:
           # Cache-bust: browsers otherwise keep running an old app.js / style.css after a deploy.
           v="${GITHUB_SHA::8}"
           sed -i -e "s#src=\"app.js\"#src=\"app.js?v=$v\"#" -e "s#href=\"style.css\"#href=\"style.css?v=$v\"#" \
-                 -e "s#src=\"config.js\"#src=\"config.js?v=$v\"#" site/index.html
+                 -e "s#src=\"config.js\"#src=\"config.js?v=$v\"#" site/index.html site/preview/index.html
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
