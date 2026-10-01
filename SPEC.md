@@ -15,10 +15,12 @@ For one person and a few friends; must cost nothing to run.
 
 | Source | Covers | How |
 | --- | --- | --- |
-| Landmark Cinemas | Landmark Brandon, full schedule months ahead | Embedded JSON on its Brandon showtimes page, saved to `state/landmark-brandon.json` and used when fresh (≤36 h). Landmark refuses automated requests (tested 2026-10-01: even from a Canadian VPN exit a script gets 403, while a browser gets in), so this needs a real visit (planned: a "Send to Kino" bookmark). Until then CinemaClock covers Landmark. |
-| CinemaClock | Landmark (fallback), Evans, Gaiety (Glenboro), Community Theatre (Carnduff); Derrick (Virden), Avalon (Souris), Moosomin picked up automatically if CinemaClock lists them | Server-rendered theatre pages, about a week ahead |
+| MovieScout | Landmark Brandon (complete, incl. advance sales months ahead), Gaiety (Glenboro), Strand (Melita), Roxy (Neepawa); Avalon (Souris) and Derrick (Virden) when they list showtimes | Public showtimes API, **used with MovieScout's permission for this small personal project** on the condition we don't overload it: fetched **once a day**, one request per second, cached in `state/moviescout.json`. Next 14 days every day; Landmark's dates 14–120 days out refreshed on a weekly rotation (~30 requests/day after the first fetch). |
+| CinemaClock | Evans, Community Theatre (Carnduff), Moosomin; small theatres alongside MovieScout; Landmark only if MovieScout fails | Server-rendered theatre pages, about a week ahead |
 | Evans Theatre | Brandon University's cinema, whole season | Static site, one page per film |
 
+Landmark itself refuses automated requests (tested 2026-10-01, even from a Canadian VPN exit), so
+it isn't fetched directly; MovieScout carries its full schedule.
 Small theatres sell at the door: their showings link to the theatre page and count as "on sale".
 Landmark re-releases: the year comes from the title ("(1978)", "20th Anniversary") or is left empty.
 

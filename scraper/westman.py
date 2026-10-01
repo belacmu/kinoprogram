@@ -1,5 +1,10 @@
 """Westman (Brandon / Virden area, Manitoba) sources.
 
+- MovieScout (main source, used with MovieScout's permission for this small personal project):
+  public showtimes API, Landmark Brandon in full incl. advance sales, plus small-town theatres.
+  Fetched ONCE a day, one request at a time, and cached in state/moviescout.json; the other runs
+  that day reuse the cache. Next 14 days daily; Landmark's later dates on a weekly rotation.
+
 - Landmark Cinemas Brandon: its showtimes page embeds the full schedule (months ahead) as JSON.
   The site only serves Canadian visitors, so the workflow fetches it once a day through a Canadian
   VPN connection and `landmark_extract()` saves just the schedule to state/landmark-brandon.json.
@@ -33,6 +38,21 @@ CC_THEATRES = {
     "moosomin-community-theatre": "Moosomin Community Theatre",
 }
 EVANS = "https://evanstheatre.ca"
+MS_API = "https://api.moviescout.ca/v1"
+MS_STATE = ROOT / "state" / "moviescout.json"
+MS_UA = {"User-Agent": "Mozilla/5.0 (kinoprogram; small personal project, once a day; +https://github.com/belacmu/kinoprogram)"}
+MS_PAUSE = 1.0             # seconds between requests: MovieScout asked us not to overload them
+MS_NEAR_DAYS = 14          # fetched every day
+MS_FAR_DAYS = 120          # Landmark only; each date between 14 and 120 days out is refreshed weekly
+# MovieScout theatre id -> (our name, ticket/info link, far-ahead rotation?)
+MS_THEATRES = {
+    37255: ("Landmark Brandon", "https://www.landmarkcinemas.com/showtimes/brandon", True),
+    22439: ("Gaiety (Glenboro)", "https://moviescout.ca/theatres/glenboro-gaiety-theatre-22439", False),
+    22464: ("Strand (Melita)", "https://moviescout.ca/theatres/strand-theatre-melita-22464", False),
+    22482: ("Avalon (Souris)", "https://moviescout.ca/theatres/avalon-theatre-22482", False),
+    22467: ("Roxy (Neepawa)", "https://moviescout.ca/theatres/roxy-theatre-neepawa-22467", False),
+    22500: ("Derrick (Virden)", "https://moviescout.ca/theatres/derrick-theatre-22500", False),
+}
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 FORMAT_SUFFIX = re.compile(r"\s*\((?:[^()]*\b(?:3D|IMAX|Infinity Vision|Laser Ultra|UltraAVX|D-BOX|Dolby|Atmos|4DX|ScreenX|"
                            r"Recliner|VIP|Sensory|Subtitled|Dubbed|EST|Eng|Hindi|Punjabi|Tamil|Telugu|Malayalam|Kannada|Gujarati|Marathi|"
@@ -155,6 +175,88 @@ def fetch_landmark(now):
     return list(merged.values())
 
 
+# ---------------------------------------------------------------- MovieScout
+
+def _ms_get(path):
+    import urllib.request
+    req = urllib.request.Request(MS_API + path, headers=MS_UA)
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return json.load(r)
+
+
+def moviescout_refresh(now):
+    """Fetch what's due today into state/moviescout.json (at most once a day). Returns the cache."""
+    import time
+    from zoneinfo import ZoneInfo
+    cache = json.loads(MS_STATE.read_text()) if MS_STATE.exists() else {"fetchedOn": "", "days": {}}
+    today = now.date()
+    # Drop past days.
+    cache["days"] = {k: v for k, v in cache["days"].items() if k.split("|")[1] >= today.isoformat()}
+    if cache["fetchedOn"] == today.isoformat():
+        return cache
+    tz = ZoneInfo("America/Winnipeg")
+    requests = errors = 0
+    for tid, (_, _, far) in MS_THEATRES.items():
+        for offset in range(MS_FAR_DAYS if far else MS_NEAR_DAYS):
+            day = today + timedelta(days=offset)
+            k = f"{tid}|{day.isoformat()}"
+            if offset >= MS_NEAR_DAYS and k in cache["days"] and (offset % 7) != (today.toordinal() % 7):
+                continue  # far-ahead date, not its turn this week
+            # The API wants the start of the local day, in UTC.
+            start = datetime(day.year, day.month, day.day, tzinfo=tz).astimezone(ZoneInfo("UTC"))
+            try:
+                time.sleep(MS_PAUSE)
+                rows = _ms_get(f"/showtimes?theatre_id={tid}&date={start:%Y-%m-%dT%H}%3A00%3A00")
+                requests += 1
+            except Exception as e:
+                errors += 1
+                print(f"  ! MovieScout {tid} {day}: {e}", file=sys.stderr)
+                if errors >= 3:
+                    print("  ! MovieScout: stopping after 3 errors; using what we have", file=sys.stderr)
+                    MS_STATE.write_text(json.dumps(cache, ensure_ascii=False, separators=(",", ":")))
+                    return cache
+                continue
+            cache["days"][k] = [{f: r.get(f) for f in ("movie_id", "movie_base_id", "name", "format", "start_time",
+                                                       "release_year", "audio_lang", "subtitles", "duration_mins", "img")}
+                                for r in rows]
+    cache["fetchedOn"] = today.isoformat()
+    MS_STATE.write_text(json.dumps(cache, ensure_ascii=False, separators=(",", ":")))
+    print(f"  MovieScout: {requests} requests")
+    return cache
+
+
+def fetch_moviescout(now):
+    """Films from the MovieScout cache (refreshing it first if today's fetch hasn't happened)."""
+    from zoneinfo import ZoneInfo
+    cache = moviescout_refresh(now)
+    tz = ZoneInfo("America/Winnipeg")
+    films = {}
+    for k, rows in cache["days"].items():
+        tid = int(k.split("|")[0])
+        cinema, ticket, _ = MS_THEATRES.get(tid, (None, None, None))
+        if not cinema:
+            continue
+        for r in rows:
+            mid = r["movie_base_id"] or r["movie_id"]
+            t = datetime.fromisoformat(r["start_time"].replace("Z", "+00:00")).astimezone(tz)
+            subs = (r.get("subtitles") or "")
+            name, year_in_title = split_year(r["name"])  # "Halloween (1978)": a re-release
+            f = films.setdefault(mid, film(
+                title=name, year=year_in_title or str(r["release_year"] or ""), runtime=r.get("duration_mins") or 0,
+                poster=f"https://cdn.moviescout.ca/{r['img']}" if r.get("img") else "",
+                links=[{"label": "MovieScout", "url": f"https://moviescout.ca/movies/{mid}"}],
+            ))
+            f["shows"].append({
+                "t": t.strftime("%Y-%m-%dT%H:%M"), "cinema": cinema, "screen": "",
+                "tags": [x for x in [r.get("format") if r.get("format") not in (None, "Standard") else "",
+                                     f"{r['audio_lang']} audio" if r.get("audio_lang") not in (None, "English") else "",
+                                     f"{subs} subtitles" if subs else ""] if x],
+                "note": "" if tid == 37255 else "Tickets at the door",
+                "ticket": ticket, "status": "", "dub": False, "en": subs.lower().startswith("english"),
+            })
+    return list(films.values())
+
+
 # ---------------------------------------------------------------- CinemaClock
 
 def _cc_date(label, earliest):
@@ -237,14 +339,22 @@ def fetch_evans():
 
 
 def fetch_all(now):
-    """All Westman films. Landmark comes from the saved schedule if fresh, else from CinemaClock."""
+    """All Westman films: MovieScout first; CinemaClock + Evans for what MovieScout doesn't cover,
+    and CinemaClock for Landmark if MovieScout fails."""
     out = []
-    lm = fetch_landmark(now)
-    if lm is not None:
-        print(f"  Landmark (saved {json.loads(LANDMARK_STATE.read_text())['fetched']}): {len(lm)} films")
-        out += lm
+    ms_ok = False
+    try:
+        ms = fetch_moviescout(now)
+        ms_ok = any(s["cinema"] == "Landmark Brandon" for f in ms for s in f["shows"])
+        print(f"  MovieScout: {len(ms)} films, {sum(len(f['shows']) for f in ms)} showings")
+        out += ms
+    except Exception as e:
+        print(f"  ! MovieScout: {e}", file=sys.stderr)
+    # MovieScout is complete for Landmark; for the small theatres combine both (duplicates are
+    # removed later), since either one can be missing a showing.
+    covered = {"Landmark Brandon"} if ms_ok else set()
     for slug, name in CC_THEATRES.items():
-        if slug == "landmark-9-brandon" and lm is not None:
+        if name in covered:
             continue
         try:
             fs = fetch_cinemaclock(slug, name)
