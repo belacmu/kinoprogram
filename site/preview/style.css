@@ -352,18 +352,17 @@ a.stub:hover { border-color: var(--accent); }
 .sec.shut .sech button { padding-block: 18px 8px; }
 .sec.shut .sech .lbl { font-size: 24px; color: var(--ink); }
 .lbr { font-variant-numeric: tabular-nums; }
-.pillr { position: absolute; right: 6px; bottom: 6px; display: inline-flex; align-items: baseline; gap: 4px; padding: 3px 7px;
+.pillr { position: absolute; right: 6px; bottom: 6px; display: inline-flex; align-items: center; gap: 1px; padding: 3px 7px;
   border-radius: 999px; background: rgba(10, 12, 16, .78); color: #fff; font: 600 12px/1.2 var(--body); }
-.pillr i { font-style: normal; font: 600 9px var(--body); letter-spacing: .06em; opacity: .7; }
-.ring { position: absolute; right: 6px; bottom: 6px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center;
-  justify-content: center; font: 700 11px var(--body); color: #fff; background: rgba(10, 12, 16, .78); border: 2px solid #8a919c; }
-.ring.hi { border-color: #3fbf6e; }
-.ring.mid { border-color: #e0a32e; }
-.textr { font-size: 12px; color: var(--muted); margin: -1px 0 2px; }
-.textr b { color: var(--ink); font-weight: 600; }
+.pillr i { font-style: normal; font-size: 11px; color: #f2b84b; margin-left: 2px; }
 
 .card .m .nw { white-space: nowrap; }
 .card .m .nw.today { color: var(--soon); }
 
 /* keep last: stop iPhone zooming the page when the search box is tapped */
 @media (max-width: 1000px) { .searchbox input { font-size: 16px; } }
+
+/* heart buttons */
+.star svg { display: block; margin: auto; }
+.star { display: flex; align-items: center; justify-content: center; padding: 0; }
+.actions .btn svg { vertical-align: -3px; }

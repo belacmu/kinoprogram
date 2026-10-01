@@ -261,29 +261,25 @@ function posterHtml(f) {
     : ""}<div class="ph"${f.poster ? ' aria-hidden="true" style="z-index:-1"' : ""}>${esc(titleOf(f))}</div></div>`;
 }
 
-// Preview only: compare rating designs with ?rating=a|b|c (default a).
-const RATING_VARIANT = ["a", "b", "c"].includes(new URLSearchParams(location.search).get("rating"))
-  ? new URLSearchParams(location.search).get("rating") : "a";
-function ratingHtml(f, where) {
+// Letterboxd rating on the poster: the number, then a star (the star only ever means a rating).
+function ratingHtml(f) {
   const r = f.ext?.lbRating;
   if (r == null) return "";
-  const v = r.toFixed(1), label = `Letterboxd rating ${v} out of 5`;
-  if (where === "poster" && RATING_VARIANT === "a") return `<span class="lbr pillr" title="${label}" aria-label="${label}">${v}</span>`;
-  if (where === "poster" && RATING_VARIANT === "c")
-    return `<span class="lbr ring ${r >= 3.5 ? "hi" : r >= 2.8 ? "mid" : "lo"}" title="${label}" aria-label="${label}">${v}</span>`;
-  if (where === "text" && RATING_VARIANT === "b") return `<div class="lbr textr" aria-label="${label}">Letterboxd <b>${v}</b></div>`;
-  return "";
+  const label = `Letterboxd rating ${r.toFixed(1)} out of 5`;
+  return `<span class="lbr pillr" title="${label}" aria-label="${label}">${r.toFixed(1)}<i aria-hidden="true">★</i></span>`;
 }
+// Watchlist heart (inline SVG so it's crisp and the same everywhere).
+const heart = (filled) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2 0 3.6 1 5.3 3 1.7-2 3.3-3 5.3-3 3.7 0 5.8 3.8 4.3 7.2C19.5 16.3 12 21 12 21z" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
 
 function cardHtml(row) {
   const { f } = row;
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
-    + ratingHtml(f, "poster");
+    + ratingHtml(f);
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
-      <h3>${esc(titleOf(f))}</h3>${ratingHtml(f, "text")}<div class="m">${cardMeta(row)}</div></a>
-    <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${on ? "★" : "☆"}</button>
+      <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
+    <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${heart(on)}</button>
   </li>`;
 }
 
@@ -297,7 +293,7 @@ function renderGrid() {
   const isCollapsed = (s) => state.collapsed.has(`${state.view}:${s.key}`);
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
-  else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap ☆ on any poster to add it; it'll be highlighted when tickets go on sale.";
+  else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
@@ -334,7 +330,7 @@ function extLinks(f) {
   const x = f.ext || {}, out = [];
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
-  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>· ${x.lbRating.toFixed(1)}</b>` : ""}</a>`);
+  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>${x.lbRating.toFixed(1)} ★</b>` : ""}</a>`);
   else out.push(`<a class="ext lb" href="https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/" target="_blank" rel="noopener">Search Letterboxd</a>`);
   return `<div class="exts">${out.join("")}</div>`;
 }
@@ -369,7 +365,7 @@ function openFilm(id) {
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
       <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
       ${extLinks(f)}
-      <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${on ? "★ On your watchlist" : "☆ Add to watchlist"}</button>
+      <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div></div>
     <div class="days">${days}${hiddenNote}${empty}</div>`;
