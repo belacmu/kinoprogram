@@ -39,26 +39,6 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Fetch Landmark Brandon via a Canadian VPN (once a day)
-        continue-on-error: true  # if this fails, Westman falls back to CinemaClock for Landmark
-        env:
-          WG_CONF: ${{ secrets.SURFSHARK_WG_CONF }}
-        run: |
-          if [ -z "$WG_CONF" ]; then echo "No VPN config set; Landmark comes from CinemaClock."; exit 0; fi
-          if [ "$(python scraper/westman.py needs-landmark)" != "yes" ]; then echo "Landmark already fetched today."; exit 0; fi
-          sudo apt-get install -y -qq wireguard-tools > /dev/null
-          # Drop the DNS line (needs resolvconf on the runner); only the one fetch goes through the tunnel.
-          printf '%s\n' "$WG_CONF" | grep -viE '^\s*DNS\s*=' | sudo tee /etc/wireguard/kino.conf > /dev/null
-          sudo wg-quick up kino
-          # Where the request will appear to come from (location only, not the IP; logs are public).
-          curl -s --max-time 15 https://ipinfo.io/json | grep -E '"(city|country|org)"' || echo "location check failed"
-          code=$(curl -s --max-time 60 -o /tmp/landmark.html -w "%{http_code}" \
-            -A "Mozilla/5.0 (kinoprogram; personal use, once a day; +https://github.com/belacmu/kinoprogram)" \
-            https://www.landmarkcinemas.com/showtimes/brandon || echo 000)
-          sudo wg-quick down kino
-          echo "Landmark responded $code"
-          if [ "$code" = "200" ]; then python scraper/westman.py extract-landmark /tmp/landmark.html; fi
-
       - name: Fetch showings
         id: build
         env:

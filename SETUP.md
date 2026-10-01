@@ -80,29 +80,6 @@ gh secret set GMAIL_APP_PASSWORD -R github.com/belacmu/kinoprogram
 (Or in the browser: https://github.com/belacmu/kinoprogram/settings/secrets/actions, using the
 **Secrets** and **Variables** tabs.)
 
-## Optional: Landmark Brandon's full schedule (Westman)
-
-Without this, Westman still works: Landmark comes from CinemaClock, about a week ahead. With it,
-the daily job fetches Landmark's own schedule once a day (months ahead, so "newly on sale" catches
-advance tickets) through a Surfshark server in Canada.
-
-First, while connected to Surfshark (Canada), skim Landmark's Terms of Use (footer of
-landmarkcinemas.com) to check they don't forbid automated access.
-
-1. Log in at https://my.surfshark.com → **VPN** → **Manual setup** → **Desktop or mobile** →
-   **WireGuard**. (Menu names may differ slightly.)
-2. Choose **I don't have a key pair** → **Generate a new key pair**. Give it a name like `kinoprogram`.
-3. Under locations, pick **Canada** (Vancouver worked in a test; Toronto/Montreal are also fine) →
-   **Download** the `.conf` file.
-4. Store the whole file as a secret (this reads the file, so nothing is pasted on screen):
-
-```bash
-gh secret set SURFSHARK_WG_CONF -R github.com/belacmu/kinoprogram < ~/Downloads/ca-van.prod.surfshark.com_wg.conf
-```
-
-(Use the actual file name you downloaded.) Then tell Claude, who'll run the job and check that
-Landmark answers.
-
 ## 4. Tell Claude you're done
 
 Claude will then redeploy the site (so sign-in appears) and send a test email. After that:

@@ -15,7 +15,7 @@ For one person and a few friends; must cost nothing to run.
 
 | Source | Covers | How |
 | --- | --- | --- |
-| Landmark Cinemas | Landmark Brandon, full schedule months ahead | Embedded JSON on its Brandon showtimes page. The site only serves Canadian visitors, so the workflow fetches it **once a day** through a Canadian VPN (Surfshark WireGuard config in a secret), with an honest user agent, and saves the schedule to `state/landmark-brandon.json`. If that's missing or older than 36 h, CinemaClock covers Landmark instead. |
+| Landmark Cinemas | Landmark Brandon, full schedule months ahead | Embedded JSON on its Brandon showtimes page, saved to `state/landmark-brandon.json` and used when fresh (≤36 h). Landmark refuses automated requests (tested 2026-10-01: even from a Canadian VPN exit a script gets 403, while a browser gets in), so this needs a real visit (planned: a "Send to Kino" bookmark). Until then CinemaClock covers Landmark. |
 | CinemaClock | Landmark (fallback), Evans, Gaiety (Glenboro), Community Theatre (Carnduff); Derrick (Virden), Avalon (Souris), Moosomin picked up automatically if CinemaClock lists them | Server-rendered theatre pages, about a week ahead |
 | Evans Theatre | Brandon University's cinema, whole season | Static site, one page per film |
 
