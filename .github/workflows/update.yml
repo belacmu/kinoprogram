@@ -50,6 +50,8 @@ jobs:
           # Drop the DNS line (needs resolvconf on the runner); only the one fetch goes through the tunnel.
           printf '%s\n' "$WG_CONF" | grep -viE '^\s*DNS\s*=' | sudo tee /etc/wireguard/kino.conf > /dev/null
           sudo wg-quick up kino
+          # Where the request will appear to come from (location only, not the IP; logs are public).
+          curl -s --max-time 15 https://ipinfo.io/json | grep -E '"(city|country|org)"' || echo "location check failed"
           code=$(curl -s --max-time 60 -o /tmp/landmark.html -w "%{http_code}" \
             -A "Mozilla/5.0 (kinoprogram; personal use, once a day; +https://github.com/belacmu/kinoprogram)" \
             https://www.landmarkcinemas.com/showtimes/brandon || echo 000)
