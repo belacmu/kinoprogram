@@ -1,5 +1,5 @@
-"""Find each film's IMDb / Letterboxd / Rotten Tomatoes / Metacritic pages (via Wikidata) and its
-Letterboxd average rating. Results are cached in state/external.json so each film is looked up
+"""Find each film's IMDb / Letterboxd / Rotten Tomatoes / Metacritic pages (via Wikidata, plus TMDB
+when TMDB_READ_TOKEN or TMDB_API_KEY is set) and its Letterboxd average rating. Results are cached in state/external.json so each film is looked up
 once, not on every run.
 
 Matching is deliberately conservative: a Wikidata item must have an IMDb id, must not be a TV
@@ -10,6 +10,7 @@ single one with a confirmed running time, else the single one first released in 
 none has exactly our title, we link nothing (the site then shows a Letterboxd search link).
 """
 import json
+import os
 import re
 import sys
 import time
@@ -150,11 +151,74 @@ def wikidata(title, year, runtime=0):
     return h
 
 
+# ---------------------------------------------------------------- TMDB (optional, needs a key)
+
+TMDB = "https://api.themoviedb.org/3"
+
+
+def tmdb_enabled():
+    return bool(os.environ.get("TMDB_READ_TOKEN") or os.environ.get("TMDB_API_KEY"))
+
+
+def tmdb_get(path, **params):
+    headers = {**UA, "Accept": "application/json"}
+    if os.environ.get("TMDB_READ_TOKEN"):
+        headers["Authorization"] = "Bearer " + os.environ["TMDB_READ_TOKEN"]
+    else:
+        params["api_key"] = os.environ["TMDB_API_KEY"]
+    return _json(f"{TMDB}{path}?{urllib.parse.urlencode(params)}", headers)
+
+
+def tmdb(f):
+    """Return the one confident TMDB match for a film, or None. Same rules as wikidata(), plus a
+    tie-break on the Norwegian release date in TMDB equalling Filmweb's premiere date."""
+    year = film_year(f)
+    if not year:
+        return None
+    titles = [t for t in (f["alt"], f["title"]) if t]
+    ours = {_norm(re.sub(r"\s*\(\d{4}\)\s*$", "", t)) for t in titles}
+    cands = {}
+    for t in titles:
+        for lang in ("nb-NO", "en-US"):
+            for m in tmdb_get("/search/movie", query=t, language=lang, include_adult="false").get("results", [])[:20]:
+                y = (m.get("release_date") or "")[:4]
+                if y.isdigit() and abs(int(y) - int(year)) <= 1:
+                    cands.setdefault(m["id"], m)
+    hits = []
+    for mid in list(cands)[:8]:
+        d = tmdb_get(f"/movie/{mid}", language="en-US",
+                     append_to_response="external_ids,translations,release_dates,alternative_titles")
+        names = {_norm(d.get("title")), _norm(d.get("original_title"))}
+        names |= {_norm(t["data"].get("title")) for t in d.get("translations", {}).get("translations", []) if t["data"].get("title")}
+        names |= {_norm(a.get("title")) for a in d.get("alternative_titles", {}).get("titles", [])}
+        if not ours & names:
+            continue  # TMDB search is fuzzy; we need an exact title in some language
+        rt = d.get("runtime") or 0
+        if f["runtime"] and rt and abs(rt - f["runtime"]) > RUNTIME_SLACK:
+            continue
+        no_dates = {x["release_date"][:10] for c in d.get("release_dates", {}).get("results", [])
+                    if c.get("iso_3166_1") == "NO" for x in c.get("release_dates", [])}
+        title, orig = d.get("title") or "", d.get("original_title") or ""
+        # TMDB falls back to the original title when there's no English one; don't call that English.
+        en = title if d.get("original_language") == "en" or _norm(title) != _norm(orig) else None
+        hits.append({"tmdb": mid, "imdb": (d.get("external_ids") or {}).get("imdb_id") or None, "en": en,
+                     "premiereOk": bool(f.get("premiere") and f["premiere"] in no_dates),
+                     "runtimeOk": bool(f["runtime"] and rt),
+                     "yearExact": (d.get("release_date") or "")[:4] == str(year)})
+    for k in ("premiereOk", "runtimeOk", "yearExact"):
+        if len(hits) > 1 and sum(h[k] for h in hits) == 1:
+            hits = [h for h in hits if h[k]]
+    if len(hits) != 1:
+        return None
+    return {k: hits[0][k] for k in ("tmdb", "imdb", "en")}
+
+
 def letterboxd(rec):
     """Fetch the Letterboxd page; return (slug, average rating out of 5 or None)."""
-    # Always go via the IMDb id: Letterboxd resolves it itself, whereas Wikidata's stored
+    # Always go via the IMDb/TMDB id: Letterboxd resolves them itself, whereas Wikidata's stored
     # Letterboxd slug can be out of date (e.g. a film's working title).
-    url = f"https://letterboxd.com/imdb/{rec['imdb']}/"
+    url = (f"https://letterboxd.com/imdb/{rec['imdb']}/" if rec.get("imdb")
+           else f"https://letterboxd.com/tmdb/{rec['tmdb']}/")
     req = urllib.request.Request(url, headers=BROWSER_UA)
     with urllib.request.urlopen(req, timeout=30) as r:
         final, page = r.geturl(), r.read().decode("utf-8", "replace")
@@ -215,11 +279,52 @@ def enrich(films, now):
         for i in f["ids"]:
             cache[i] = rec
 
+    # TMDB pass (when a key is configured): fills films Wikidata doesn't know yet, and
+    # cross-checks Wikidata's matches. If the two disagree, the film gets no direct links.
+    tmdb_new = tmdb_checked = 0
+    if tmdb_enabled():
+        for f in films:
+            if SKIP.search(f["title"]):
+                continue
+            old = next((cache[i] for i in f["ids"] if i in cache), {})
+            if not stale(old.get("tmdbChecked"), RECHECK_MATCHED_DAYS if old.get("tmdb") else RECHECK_MISSING_DAYS):
+                continue
+            try:
+                t = tmdb(f)
+            except urllib.error.HTTPError as e:
+                print(f"  ! tmdb {f['title']}: {e}", file=sys.stderr)
+                if e.code in (401, 429):
+                    break
+                continue
+            except Exception as e:
+                print(f"  ! tmdb {f['title']}: {e}", file=sys.stderr)
+                continue
+            tmdb_checked += 1
+            rec = {**old, "tmdbChecked": today}
+            rec.pop("conflict", None)
+            if t:
+                if old.get("imdb") and t["imdb"] and old["imdb"] != t["imdb"]:
+                    print(f"  ? conflict, no links: {f['title']} ({film_year(f)}): Wikidata {old['imdb']} vs TMDB {t['imdb']}")
+                    rec["conflict"] = [old["imdb"], t["imdb"]]
+                else:
+                    if not old.get("imdb"):
+                        tmdb_new += 1
+                        print(f"  + TMDB: {f['title']} ({film_year(f)}) -> {t['imdb'] or 'tmdb ' + str(t['tmdb'])}"
+                              + (f" \"{t['en']}\"" if t["en"] and _norm(t["en"]) != _norm(f["title"]) else ""))
+                        for k in ("lbSlug", "lbRating", "rated"):
+                            rec.pop(k, None)
+                    rec["tmdb"] = t["tmdb"]
+                    rec["imdb"] = rec.get("imdb") or t["imdb"]
+                    rec["en"] = rec.get("en") or t["en"]
+            for i in f["ids"]:
+                cache[i] = rec
+
     # Letterboxd ratings, refreshed weekly for films we've matched.
     rate = []
     for f in films:
         rec = next((cache[i] for i in f["ids"] if i in cache), None)
-        if rec and rec.get("imdb") and stale(rec.get("rated"), RATING_DAYS) and rec not in rate:
+        if rec and (rec.get("imdb") or rec.get("tmdb")) and not rec.get("conflict") \
+                and stale(rec.get("rated"), RATING_DAYS) and rec not in rate:
             rate.append(rec)
     blocked = False
     for rec in rate[:MAX_RATINGS]:
@@ -243,9 +348,9 @@ def enrich(films, now):
         if rec:
             for i in f["ids"]:
                 cache[i] = rec
-        if rec and rec.get("imdb"):
+        if rec and (rec.get("imdb") or rec.get("tmdb")) and not rec.get("conflict"):
             matched += 1
-            f["ext"] = {k: rec.get(k) for k in ("imdb", "rt", "mc", "lbRating") if rec.get(k)}
+            f["ext"] = {k: rec.get(k) for k in ("imdb", "tmdb", "rt", "mc", "lbRating") if rec.get(k)}
             en = rec.get("en") or ""
             if en and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])) and len(en) < 120:
                 f["ext"]["en"] = en
@@ -254,4 +359,5 @@ def enrich(films, now):
     live = {i for f in films for i in f["ids"]}
     CACHE.write_text(json.dumps({k: v for k, v in sorted(cache.items()) if k in live},
                                 ensure_ascii=False, indent=0))
-    print(f"  links for {matched}/{len(films)} films ({looked} looked up, {min(len(rate), MAX_RATINGS)} ratings refreshed)")
+    print(f"  links for {matched}/{len(films)} films ({looked} looked up on Wikidata, "
+          f"{tmdb_checked} checked on TMDB ({tmdb_new} new), {min(len(rate), MAX_RATINGS)} ratings refreshed)")

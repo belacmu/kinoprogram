@@ -41,6 +41,8 @@ jobs:
 
       - name: Fetch showings
         id: build
+        env:
+          TMDB_READ_TOKEN: ${{ secrets.TMDB_READ_TOKEN }}
         run: python scraper/build.py
 
       - name: Write site config

@@ -197,7 +197,8 @@ function stubHtml(s) {
 // confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
 function extLinks(f) {
   const x = f.ext || {}, out = [];
-  const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/` : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : "";
+  const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
+    : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
   if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>★ ${x.lbRating.toFixed(1)}</b>` : ""}</a>`);
   else out.push(`<a class="ext lb" href="https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/" target="_blank" rel="noopener">Search Letterboxd</a>`);
   if (x.imdb) out.push(`<a class="ext" href="https://www.imdb.com/title/${esc(x.imdb)}/" target="_blank" rel="noopener">IMDb</a>`);
