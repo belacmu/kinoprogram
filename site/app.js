@@ -97,7 +97,11 @@ function startDay(f, shows) {
 // Section labels for the "When it's playing" view.
 function whenSection(row, today) {
   if (!row.start) return { key: "9999", label: "Date not set" };
-  if (row.shows.length && row.start <= today) return { key: "0000", label: "Playing now" };
+  // Playing now = already started and on again within a week. Something that premiered long ago with
+  // one special screening in November belongs under November, like the one-off it is.
+  if (row.shows.length && row.start <= today && row.shows[0].t.slice(0, 10) <= addDays(today, 6))
+    return { key: "0000", label: "Playing now" };
+  if (row.shows.length && row.start <= today) row = { ...row, start: row.shows[0].t.slice(0, 10) };
   const dow = asDate(today).getUTCDay();                    // 0 = Sunday
   const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
   if (row.start <= weekEnd) return { key: "0001", label: "This week" };
@@ -121,7 +125,8 @@ function sinceSection(since, today, before) {
 
 function buildRows() {
   const now = localNow(), today = now.slice(0, 10), q = state.q.trim().toLowerCase();
-  const started = state.data.baseline ? dayLabel(state.data.baseline) : "";
+  const b = state.data.baseline ? asDate(state.data.baseline) : null;
+  const started = b ? `${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}` : "";
   const rows = [];
   for (const f of state.data.films) {
     if (!textMatch(f, q) || !kindShown(f)) continue;
@@ -138,11 +143,11 @@ function buildRows() {
       row.sec = whenSection(row, today);
     } else if (state.view === "sale") {
       if (!onSale) continue;
-      row.sec = sinceSection(f.onSaleSince, today, `On sale before tracking began (${started})`);
+      row.sec = sinceSection(f.onSaleSince, today, `Already on sale when tracking began (${started})`);
       row.since = f.onSaleSince;
     } else {
       if (f.status !== "announced" || !f.announcedSince) continue;
-      row.sec = sinceSection(f.announcedSince, today, `Announced before tracking began (${started})`);
+      row.sec = sinceSection(f.announcedSince, today, `Already announced when tracking began (${started})`);
       row.since = f.announcedSince;
     }
     rows.push(row);
@@ -151,8 +156,9 @@ function buildRows() {
   rows.sort((a, b) => {
     if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
     if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
-    if (a.sec.key === "0000") // playing now: most recent arrivals first
-      return b.start.localeCompare(a.start) || (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "") || byTitle(a, b);
+    if (a.sec.key === "0000") // playing now: newly on sale, then newest premieres, then repertory by time
+      return (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "")
+        || (b.f.premiere || "").localeCompare(a.f.premiere || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     return t0(a).localeCompare(t0(b)) || byTitle(a, b);
   });
   return rows;
