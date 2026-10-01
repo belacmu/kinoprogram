@@ -109,10 +109,6 @@ h1 span { color: var(--accent); }
   #filtersBody { flex: 1; overflow: auto; }
   .filters-foot { position: sticky; bottom: 0; background: var(--surface); padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px)); }
 }
-@media (max-width: 1000px) {
-  /* iPhone Safari zooms into any input under 16px, which made the page look too wide */
-  input[type=search], input[type=email], input[inputmode], select, textarea { font-size: 16px; }
-}
 
 /* controls */
 .controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
@@ -242,3 +238,9 @@ a.stub:hover { border-color: var(--accent); }
   .day { grid-template-columns: 1fr; gap: 8px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* Last on purpose, so nothing overrides it: iPhone Safari zooms the page when you tap a text box
+   smaller than 16px (that's what made the page look too wide after tapping search). */
+@media (max-width: 1000px) {
+  input[type=search], input[type=email], input[inputmode], select, textarea { font-size: 16px; }
+}
