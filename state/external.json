@@ -2397,15 +2397,23 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20260091": {
+"lbSlug": "steal-this-story-please",
+"lbRating": 4.15,
+"rated": "2026-10-01",
+"imdb": "tt36748956",
+"imdbAll": [
+"tt36748956"
+],
+"lb": null,
+"rt": "m/steal_this_story_please",
+"mc": "movie/steal-this-story-please",
+"en": "Steal This Story, Please!",
+"v": 4,
+"checked": "2026-10-01",
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1492865,
-"imdb": "tt36748956",
-"en": "Steal This Story, Please!",
-"enFrom": "tmdb",
-"lbSlug": "steal-this-story-please",
-"lbRating": 4.15,
-"rated": "2026-10-01"
+"enFrom": "tmdb"
 },
 "fw-EDI20260129": {
 "tmdbChecked": "2026-10-01",
@@ -2552,14 +2560,22 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20260454": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1145899,
-"imdb": "tt33029380",
-"en": null,
 "lbSlug": "marsupilami-2025",
 "lbRating": 2.68,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"imdb": "tt33029380",
+"imdbAll": [
+"tt33029380"
+],
+"lb": "marsupilami-2026",
+"rt": "m/marsupilami",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-01",
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 1145899
 },
 "fw-EDI20260513": {
 "lbSlug": "monster-mia",
