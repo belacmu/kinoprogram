@@ -187,8 +187,9 @@ def _ms_get(path):
 def moviescout_refresh(now):
     """Fetch what's due today into state/moviescout.json (at most once a day). Returns the cache."""
     import time
-    from zoneinfo import ZoneInfo
     cache = json.loads(MS_STATE.read_text()) if MS_STATE.exists() else {"fetchedOn": "", "days": {}}
+    cache.setdefault("movies", {})    # MovieScout film id -> {imdb, tmdb, directors}; fetched once per film
+    cache.setdefault("upcoming", [])  # national "coming soon" list, refreshed daily
     today = now.date()
     # Drop past days.
     cache["days"] = {k: v for k, v in cache["days"].items() if k.split("|")[1] >= today.isoformat()}
@@ -217,6 +218,40 @@ def moviescout_refresh(now):
             cache["days"][k] = [{f: r.get(f) for f in ("movie_id", "movie_base_id", "name", "format", "start_time",
                                                        "release_year", "audio_lang", "subtitles", "duration_mins", "img")}
                                 for r in rows]
+    # National "coming soon" list (about 3 months ahead; 50 per page, normally 1–2 pages).
+    try:
+        upcoming, offset = [], 0
+        while offset < 300:
+            time.sleep(MS_PAUSE)
+            page = _ms_get(f"/movies?lang=en&version_type=Standard&upcoming=true&date={today.isoformat()}T00%3A00%3A00"
+                           f"&status=ok&limit=50&offset={offset}&min_duration=1&max_duration=600")
+            requests += 1
+            upcoming += page.get("movies") or []
+            offset += 50
+            if offset >= (page.get("total") or 0):
+                break
+        cache["upcoming"] = [{k: m.get(k) for k in ("id", "name", "release_date", "duration_mins", "imdb_title_id", "tmdb_id",
+                                                     "movieglu_id", "indie", "directors", "poster_imgs", "synopsis")}
+                             for m in upcoming]
+    except Exception as e:
+        print(f"  ! MovieScout upcoming: {e}", file=sys.stderr)
+    # Exact IMDb/TMDB ids for films with showtimes: one request per film, ever.
+    ids = {str(r["movie_base_id"] or r["movie_id"]) for rows in cache["days"].values() for r in rows}
+    ids |= {str(m["id"]) for m in cache["upcoming"]}
+    known = {str(m["id"]): m for m in cache["upcoming"]}
+    for mid in sorted(ids - set(cache["movies"]))[:60]:
+        m = known.get(mid)
+        if not m:
+            try:
+                time.sleep(MS_PAUSE)
+                m = _ms_get(f"/movies/{mid}?lang=en")
+                m = m.get("movie", m)
+                requests += 1
+            except Exception as e:
+                print(f"  ! MovieScout film {mid}: {e}", file=sys.stderr)
+                continue
+        cache["movies"][mid] = {"imdb": m.get("imdb_title_id") or "", "tmdb": m.get("tmdb_id") or "",
+                                "directors": m.get("directors") or []}
     cache["fetchedOn"] = today.isoformat()
     MS_STATE.write_text(json.dumps(cache, ensure_ascii=False, separators=(",", ":")))
     print(f"  MovieScout: {requests} requests")
@@ -240,7 +275,10 @@ def fetch_moviescout(now):
             t = datetime.fromisoformat(r["start_time"][:19])
             subs = (r.get("subtitles") or "")
             name, year_in_title = split_year(r["name"])  # "Halloween (1978)": a re-release
+            info = cache.get("movies", {}).get(str(mid), {})
             f = films.setdefault(mid, film(
+                director=", ".join(info.get("directors") or []),
+                knownIds={k: info[k] for k in ("imdb", "tmdb") if info.get(k)},
                 title=name, year=year_in_title or str(r["release_year"] or ""), runtime=r.get("duration_mins") or 0,
                 poster=f"https://cdn.moviescout.ca/{r['img']}" if r.get("img") else "",
                 links=[{"label": "MovieScout", "url": f"https://moviescout.ca/movies/{mid}"}],
@@ -254,6 +292,30 @@ def fetch_moviescout(now):
                 "ticket": ticket, "status": "", "dub": False, "en": subs.lower().startswith("english"),
             })
     return list(films.values())
+
+
+def fetch_moviescout_upcoming():
+    """Chain releases coming to Canadian cinemas (MovieScout's national list), as announced films.
+
+    Not Brandon-specific: they're shown as "opening in Canada" until a Westman cinema schedules
+    them. "Chain release" = has a MovieGlu id (MovieScout's feed for chains like Landmark) and
+    isn't flagged indie; that keeps out the arthouse/Québec titles that won't reach Brandon.
+    """
+    cache = json.loads(MS_STATE.read_text()) if MS_STATE.exists() else {}
+    out = []
+    for m in cache.get("upcoming", []):
+        if not m.get("movieglu_id") or m.get("indie") or not m.get("release_date"):
+            continue
+        poster = (m.get("poster_imgs") or [""])[0]
+        out.append(film(
+            title=m["name"], year=m["release_date"][:4], runtime=m.get("duration_mins") or 0,
+            director=", ".join(m.get("directors") or []), blurb=m.get("synopsis") or "",
+            poster=f"https://cdn.moviescout.ca/{poster}" if poster else "",
+            links=[{"label": "MovieScout", "url": f"https://moviescout.ca/movies/{m['id']}"}],
+            premiere=m["release_date"], premiereConfirmed=True, scope="Canada",
+            knownIds={k2: v for k2, v in (("imdb", m.get("imdb_title_id")), ("tmdb", m.get("tmdb_id"))) if v},
+        ))
+    return out
 
 
 # ---------------------------------------------------------------- CinemaClock
@@ -347,6 +409,9 @@ def fetch_all(now):
         ms_ok = any(s["cinema"] == "Landmark Brandon" for f in ms for s in f["shows"])
         print(f"  MovieScout: {len(ms)} films, {sum(len(f['shows']) for f in ms)} showings")
         out += ms
+        up = fetch_moviescout_upcoming()
+        print(f"  MovieScout coming soon (chain releases, Canada): {len(up)} films")
+        out += up
     except Exception as e:
         print(f"  ! MovieScout: {e}", file=sys.stderr)
     # MovieScout is complete for Landmark; for the small theatres combine both (duplicates are

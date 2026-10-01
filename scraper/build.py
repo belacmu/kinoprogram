@@ -74,8 +74,11 @@ def merge(primary, extra):
             match["shows"] += c["shows"]
             match["links"] += c["links"]
             match["series"] += c["series"]
-            for k in ("alt", "director", "runtime", "blurb", "poster", "year"):
+            for k in ("alt", "director", "runtime", "blurb", "poster", "year", "premiere"):
                 match[k] = match[k] or c[k]
+            match["knownIds"] = match.get("knownIds") or c.get("knownIds") or {}
+            # Once a Westman cinema schedules a film, it's no longer only "opening in Canada".
+            match["scope"] = "" if (match["shows"] or c["shows"]) else (match.get("scope") or c.get("scope", ""))
         else:
             films.append(c)
     return films

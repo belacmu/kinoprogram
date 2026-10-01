@@ -251,6 +251,20 @@ def enrich(films, now):
     def stale(date, days):
         return not date or date < (now - timedelta(days=days)).strftime("%Y-%m-%d")
 
+    # Films whose source gives exact ids (MovieScout): use them, no title matching needed.
+    for f in films:
+        known = f.get("knownIds") or {}
+        if not (known.get("imdb") or known.get("tmdb")):
+            continue
+        old = next((cache[i] for i in f["ids"] if i in cache), {})
+        same = old.get("imdb") and old.get("imdb") == known.get("imdb")
+        rec = {**(old if same else {}), "imdb": known.get("imdb") or None, "tmdb": known.get("tmdb") or old.get("tmdb"),
+               "imdbAll": [known["imdb"]] if known.get("imdb") else [], "v": 4, "checked": today,
+               "tmdbChecked": today, "tv": TMDB_VERSION, "source": "moviescout"}
+        rec.pop("conflict", None)
+        for i in f["ids"]:
+            cache[i] = rec
+
     todo = []
     for f in films:
         rec = next((cache[i] for i in f["ids"] if i in cache), None)

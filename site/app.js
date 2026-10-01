@@ -33,7 +33,7 @@ const hhmm = (t) => t.slice(11, 16);
 
 // ---------------------------------------------------------------- state
 const SORTS = {
-  onsale: [["newest", "Newest in cinemas"], ["next", "Next showing"], ["az", "A–Z"], ["most", "Most showings"], ["last", "Last chance"]],
+  onsale: [["newest", "Newly on sale"], ["next", "Next showing"], ["az", "A–Z"], ["most", "Most showings"], ["last", "Last chance"]],
   coming: [["soonest", "Soonest first"], ["announced", "Newly announced"], ["az", "A–Z"]],
   watch: [["next", "Soonest first"], ["az", "A–Z"]],
 };
@@ -156,6 +156,7 @@ function cardMeta(f, shows) {
   if (f.shows.length) return `Tickets not on sale yet<br>From ${dayLabel(f.shows[0].t, { short: true })}`;
   if (f.premiere) {
     const d = asDate(f.premiere);
+    if (f.scope === "Canada") return `Opens in Canada ${dayLabel(f.premiere)}<br>Not scheduled here yet`;
     return f.premiereConfirmed ? `Premiere ${dayLabel(f.premiere)}` : `Expected ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
   }
   return "Date not announced";
@@ -238,7 +239,8 @@ function openFilm(id) {
     <div class="day${day === today ? " today" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
     <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
   let empty = "";
-  if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
+  if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
+  else if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>

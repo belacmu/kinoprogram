@@ -16,6 +16,7 @@ For one person and a few friends; must cost nothing to run.
 | Source | Covers | How |
 | --- | --- | --- |
 | MovieScout | Landmark Brandon (complete, incl. advance sales months ahead), Gaiety (Glenboro), Strand (Melita), Roxy (Neepawa); Avalon (Souris) and Derrick (Virden) when they list showtimes | Public showtimes API, **used with MovieScout's permission for this small personal project** on the condition we don't overload it: fetched **once a day**, one request per second, cached in `state/moviescout.json`. Next 14 days every day; Landmark's dates 14–120 days out refreshed on a weekly rotation (~30 requests/day after the first fetch). |
+| MovieScout "coming soon" | Westman's **Coming soon**: chain releases opening in Canada (has a MovieGlu id, not flagged indie), about 3 months ahead, shown as "Opens in Canada … not scheduled here yet" until a Westman cinema lists showtimes | National upcoming list, 1–2 requests a day. MovieScout also gives each film's exact IMDb/TMDB ids (one request per film, cached), used for links instead of title matching. |
 | CinemaClock | Evans, Community Theatre (Carnduff), Moosomin; small theatres alongside MovieScout; Landmark only if MovieScout fails | Server-rendered theatre pages, about a week ahead |
 | Evans Theatre | Brandon University's cinema, whole season | Static site, one page per film |
 
@@ -47,7 +48,7 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   ticket link. Deep link: `#film/<id>`.
 - Region switcher (Oslo / Westman), remembered per browser; `?r=westman` links to a region.
 - Views: **On sale**, **Coming soon** (announced), **Watchlist**.
-- Sort: newest in cinemas (default), next showing, A–Z, most showings, last chance.
+- Sort: newly on sale (default), next showing, A–Z, most showings, last chance.
   Coming soon: soonest first, newly announced, A–Z.
 - Film page links: Letterboxd (with its average rating), IMDb, Rotten Tomatoes, Metacritic, found via
   Wikidata and cached in `state/external.json`. Only confident matches (IMDb id, film not series,

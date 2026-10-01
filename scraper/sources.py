@@ -22,7 +22,7 @@ def text(s):
 def film(**kw):
     base = {"title": "", "alt": "", "year": "", "runtime": 0, "genres": [], "director": "",
             "countries": [], "blurb": "", "poster": "", "links": [], "series": [], "shows": [],
-            "premiere": "", "premiereConfirmed": False}
+            "premiere": "", "premiereConfirmed": False, "knownIds": {}, "scope": ""}
     return {**base, **kw}
 
 

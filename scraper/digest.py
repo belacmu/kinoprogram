@@ -95,6 +95,9 @@ def pick(new_films, profile, now_s):
 def announced_when(f):
     if f["shows"]:
         return f"Showings from {when(f['shows'][0]['t'])}, tickets not on sale yet"
+    if f["premiere"] and f.get("scope") == "Canada":
+        d = datetime.strptime(f["premiere"], "%Y-%m-%d")
+        return f"Opens in Canada {WEEKDAYS[d.weekday()]} {d.day} {MONTHS[d.month - 1]} (not scheduled here yet)"
     if f["premiere"]:
         d = datetime.strptime(f["premiere"], "%Y-%m-%d")
         if f.get("premiereConfirmed"):
@@ -163,7 +166,7 @@ def render(items, announced, site, unsub_url, prefs=None, region="Oslo", rkey="o
 <p style="margin:0 0 8px;color:#5d6470;font-size:14px">Films whose tickets went on sale since the last email, filtered by your settings.</p>
 <table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">{"".join(rows)}</table>''' if rows else ""}
 {f'''<h2 style="font-size:18px;margin:28px 0 4px">Newly announced</h2>
-<p style="margin:0 0 4px;color:#5d6470;font-size:14px">Films that just got a Norwegian release date or showings. Star them on the site to have them highlighted when tickets go on sale.</p>
+<p style="margin:0 0 4px;color:#5d6470;font-size:14px">Films that just got a release date or showings. Star them on the site to have them highlighted when tickets go on sale.</p>
 <table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">{"".join(arows)}</table>''' if arows else ""}
 <p style="font-size:12px;color:#5d6470;margin-top:24px">
 <a href="{html.escape(site)}" style="color:#5d6470">Change settings or watchlist</a> ·
