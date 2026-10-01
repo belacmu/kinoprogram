@@ -159,7 +159,10 @@ function buildRows() {
   rows.sort((a, b) => {
     if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
     if (state.within === "rating") return rating(b) - rating(a) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
-    if (state.within === "fewest") return a.shows.length - b.shows.length || t0(a).localeCompare(t0(b)) || byTitle(a, b);
+    if (state.within === "fewest") { // one-off screenings first; films with no showings yet (just a premiere) last
+      const n = (r) => r.shows.length || Infinity;
+      return n(a) - n(b) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
+    }
     if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     if (a.sec.key === "0000") // playing now: newly on sale, then newest premieres, then repertory by time
       return (b.f.onSaleSince || "").localeCompare(a.f.onSaleSince || "")
@@ -181,7 +184,8 @@ function renderControls() {
   $("within").innerHTML = WITHIN.map(([v, l]) => `<option value="${v}"${v === state.within ? " selected" : ""}>${v === "date" && state.view !== "when" ? "Newest" : l}</option>`).join("");
   $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
   $("watchBtn").setAttribute("aria-pressed", state.onlyWatch);
-  $("watchBtn").textContent = `★ Watchlist${state.watchlist.size ? " " + state.watchlist.size : ""}`;
+  $("watchBtn").innerHTML = `★<span class="wl"> Watchlist</span>${state.watchlist.size ? " " + state.watchlist.size : ""}`;
+  $("watchBtn").setAttribute("aria-label", `Watchlist${state.watchlist.size ? `, ${state.watchlist.size} films` : ""}${state.onlyWatch ? ", showing only these" : ""}`);
   const n = activeFilters();
   $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
   $("filtersBtn").setAttribute("aria-pressed", n > 0);
