@@ -201,6 +201,10 @@ function renderFilters() {
     `<label class="ck"><input type="checkbox" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
+    <fieldset class="fg"><legend>Sections</legend>
+      <div class="row"><button class="btn ghost small" data-collapseall="1">Collapse all</button>
+      <button class="btn ghost small" data-collapseall="0">Expand all</button></div>
+    </fieldset>
     <fieldset class="fg"><legend>Order within sections</legend>
       ${WITHIN.map(([v, l]) => `<label class="ck"><input type="radio" name="within" data-f="within" value="${v}"${state.within === v ? " checked" : ""}><span>${v === "date" && state.view !== "when" ? "Newest first" : l}</span></label>`).join("")}
     </fieldset>
@@ -272,12 +276,6 @@ function renderGrid() {
     sections.at(-1).rows.push(r);
   }
   const isCollapsed = (s) => state.collapsed.has(`${state.view}:${s.key}`);
-  const onSale = rows.filter((r) => r.onSale).length;
-  $("count").textContent = `${rows.length} films` + (state.view === "when" && state.tix === "all" ? ` · ${onSale} on sale` : "");
-  const anyOpen = sections.some((s) => !isCollapsed(s));
-  $("jump").innerHTML = sections.length > 1
-    ? sections.map((s, i) => `<a href="#" data-jump="${i}" class="${isCollapsed(s) ? "shut" : ""}">${esc(s.label)} <span class="n">${s.rows.length}</span></a>`).join("")
-      + `<button class="linkbtn" data-collapseall="${anyOpen ? 1 : 0}">${anyOpen ? "Collapse all" : "Expand all"}</button>` : "";
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap ☆ on any poster to add it; it'll be highlighted when tickets go on sale.";
@@ -384,21 +382,10 @@ function setCollapsed(key, shut) {
   local.set("collapsed", [...state.collapsed]);
 }
 
-function scrollToSection(i) {
-  $("sec-" + i)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-}
-
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-jump],[data-sec],[data-collapseall],[data-star],[data-showall],[data-sheetcinema],[data-region],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-showall],[data-sheetcinema],[data-region],button[data-f]");
   if (!t) return;
   if (t.dataset.region) { if (t.dataset.region !== state.region) loadRegion(t.dataset.region); return; }
-  if (t.dataset.jump) { // open the section if it's collapsed, then go there
-    e.preventDefault();
-    const s = state.sections[+t.dataset.jump];
-    if (s && state.collapsed.has(`${state.view}:${s.key}`)) { setCollapsed(`${state.view}:${s.key}`, false); renderGrid(); }
-    scrollToSection(t.dataset.jump);
-    return;
-  }
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = `${state.view}:${s.key}`;
     const pinned = $("sec-" + i).getBoundingClientRect().top < 0;
@@ -410,7 +397,7 @@ document.addEventListener("click", (e) => {
   }
   if (t.dataset.collapseall) {
     for (const s of state.sections) setCollapsed(`${state.view}:${s.key}`, t.dataset.collapseall === "1");
-    renderGrid(); window.scrollTo({ top: 0 }); return;
+    renderGrid(); setFiltersOpen(false); window.scrollTo({ top: 0 }); return;
   }
   if (t.dataset.f === "reset") {
     state.tix = "all";

@@ -128,10 +128,7 @@ select { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid
 .seg .chip.on { background: var(--chip-on); }
 .cinemas { padding: 8px 0 2px; }
 .linkbtn { background: none; border: 0; color: var(--accent); cursor: pointer; font-size: 13px; padding: 5px 4px; }
-.jump { display: flex; gap: 14px; overflow-x: auto; white-space: nowrap; font-size: 13px; padding-block: 10px 2px; scrollbar-width: none; }
-.jump a { color: var(--muted); text-decoration: none; }
-.jump a:hover { color: var(--ink); }
-.jump .n, .sec h2 .n { font: 500 11px var(--mono); opacity: .7; }
+.sec h2 .n { font: 500 11px var(--mono); opacity: .7; }
 /* sections: header pins under the controls bar; click collapses to one line */
 .sec { scroll-margin-top: var(--stick-top, 0px); }
 .sech { position: sticky; top: var(--stick-top, 0px); z-index: 4; margin: 0; background: var(--bg); }
@@ -143,8 +140,6 @@ select { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid
 .sec.shut .sech button { padding-block: 10px 8px; }
 .sec.shut .sech .lbl { font-size: 18px; color: var(--muted); }
 .sec > .grid { padding-top: 14px; }
-.jump a.shut { opacity: .6; }
-.jump .linkbtn { padding: 0; margin-left: auto; font-size: 12px; }
 .card.nosale .poster img { opacity: .4; filter: grayscale(.6); }
 .card.nosale h3 { color: var(--muted); }
 .nosaletag { display: inline-block; margin-top: 2px; font-size: 11px; padding: 1px 6px; border-radius: 3px;
