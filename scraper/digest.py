@@ -37,6 +37,14 @@ def when(t):
     return f"{WEEKDAYS[d.weekday()]} {d.day} {MONTHS[d.month - 1]} {d:%H:%M}"
 
 
+def title_of(f, prefs):
+    """English title when the subscriber prefers it (default) and we know one; Norwegian title in brackets."""
+    en = (f.get("ext") or {}).get("en")
+    if prefs.get("englishTitles", True) and en:
+        return f"{en} ({f['title']})"
+    return f["title"]
+
+
 def show_ok(s, prefs, now_s):
     """Same rules as the site's filters (site/app.js: showMatches)."""
     if not s["ticket"] or s["t"] < now_s:
@@ -95,25 +103,26 @@ def announced_when(f):
     return "Date not announced"
 
 
-def subject_for(items, announced):
+def subject_for(items, announced, prefs):
     parts = []
     if items:
         parts.append(f"{len(items)} new on sale")
     if announced:
         parts.append(f"{len(announced)} newly announced")
-    names = [f["title"] for f, *_ in items] + [f["title"] for f, _ in announced]
+    names = [title_of(f, prefs).split(" (")[0] for f, *_ in items] + [title_of(f, prefs).split(" (")[0] for f, _ in announced]
     return "Oslo cinemas: " + " · ".join(parts) + " — " + ", ".join(names[:3]) + (" …" if len(names) > 3 else "")
 
 
-def render(items, announced, site, unsub_url):
-    subject = subject_for(items, announced)
+def render(items, announced, site, unsub_url, prefs=None):
+    prefs = prefs or {}
+    subject = subject_for(items, announced, prefs)
     txt, rows = (["NEW ON SALE", ""] if items else []), []
     for f, shows, watched in items:
         cinemas = list(dict.fromkeys(s["cinema"] for s in shows))
         link = f"{site}#film/{f['id']}"
         meta = " · ".join(x for x in [f["year"], f"{f['runtime']} min" if f["runtime"] else "", f["director"]] if x)
         en = any(s.get("en") for s in shows)
-        line = f"{'★ ' if watched else ''}{f['title']}" + (f" ({meta})" if meta else "")
+        line = f"{'★ ' if watched else ''}{title_of(f, prefs)}" + (f" — {meta}" if meta else "")
         txt += [line, f"  {', '.join(cinemas)} · {len(shows)} showing{'s' if len(shows) != 1 else ''} from {when(shows[0]['t'])}"
                 + (" · English subtitles" if en else ""), f"  {link}", ""]
         next3 = "".join(
@@ -127,7 +136,7 @@ def render(items, announced, site, unsub_url):
 <tr><td style="padding:14px 14px 14px 0;vertical-align:top;width:72px">{poster}</td>
 <td style="padding:14px 0;vertical-align:top;border-bottom:1px solid #e2e5ea">
   <div style="font-size:12px;color:#a3213a;font-weight:600">{"★ ON YOUR WATCHLIST" if watched else ""}</div>
-  <a href="{html.escape(link)}" style="font-size:18px;font-weight:700;color:#16181d;text-decoration:none">{html.escape(f["title"])}</a>
+  <a href="{html.escape(link)}" style="font-size:18px;font-weight:700;color:#16181d;text-decoration:none">{html.escape(title_of(f, prefs))}</a>
   <div style="font-size:13px;color:#5d6470;margin:2px 0 8px">{html.escape(meta)}</div>
   <div style="font-size:13px;margin-bottom:8px">{html.escape(", ".join(cinemas))} · {len(shows)} showing{"s" if len(shows) != 1 else ""}{" · <b>English subtitles</b>" if en else ""}</div>
   {next3}
@@ -139,10 +148,10 @@ def render(items, announced, site, unsub_url):
     for f, watched in announced:
         link = f"{site}#film/{f['id']}"
         meta = " · ".join(x for x in [f["year"], f"{f['runtime']} min" if f["runtime"] else ""] if x)
-        txt += [f"{'★ ' if watched else ''}{f['title']}" + (f" ({meta})" if meta else ""), f"  {announced_when(f)}", f"  {link}", ""]
+        txt += [f"{'★ ' if watched else ''}{title_of(f, prefs)}" + (f" — {meta}" if meta else ""), f"  {announced_when(f)}", f"  {link}", ""]
         arows.append(f"""
 <tr><td style="padding:8px 0;border-bottom:1px solid #e2e5ea">
-  <a href="{html.escape(link)}" style="font-size:15px;font-weight:600;color:#16181d;text-decoration:none">{"★ " if watched else ""}{html.escape(f["title"])}</a>
+  <a href="{html.escape(link)}" style="font-size:15px;font-weight:600;color:#16181d;text-decoration:none">{"★ " if watched else ""}{html.escape(title_of(f, prefs))}</a>
   <span style="font-size:13px;color:#5d6470">{html.escape(" · " + meta if meta else "")}</span>
   <div style="font-size:13px;color:#5d6470">{html.escape(announced_when(f))}</div>
 </td></tr>""")
@@ -230,7 +239,7 @@ def main():
         if not (items or announced):
             continue
         unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
-        messages.append((p["email"], *render(items, announced, site, unsub)))
+        messages.append((p["email"], *render(items, announced, site, unsub, p.get("prefs") or {})))
     print(f"{len(profiles)} subscriber(s), {len(messages)} with something new")
 
     if dry:

@@ -37,8 +37,11 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 - Film page links: Letterboxd (with its average rating), IMDb, Rotten Tomatoes, Metacritic, found via
   Wikidata and cached in `state/external.json`. Only confident matches (IMDb id, film not series,
   year ±1, a single candidate) get direct links; otherwise a Letterboxd search link.
-- Filters: search (title, original title, director, series), time window, my cinemas,
-  hide Norwegian dubs, English subtitles only. Nothing is hidden by default.
+- Filters: search (Norwegian, English and original title, director, series), time window, my
+  cinemas, hide Norwegian dubs, English subtitles only. Nothing is hidden by default.
+- **English titles** toggle (on by default; also used in the email): shows the English title from
+  Wikidata when there is a genuine one (not just the untranslated original), with the Norwegian
+  title underneath on the film page.
 - No login needed to browse; filters are remembered in the browser.
 - **Sign in** with a magic link (enter email → click link; no password). Signed-in users get:
   settings synced across devices, a watchlist, and the daily email.

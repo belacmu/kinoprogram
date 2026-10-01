@@ -9,22 +9,25 @@ none has exactly our title, we link nothing (the site then shows a Letterboxd se
 import json
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / "state" / "external.json"
-UA = {"User-Agent": "kinoprogram/1.0 (https://github.com/belacmu/kinoprogram)"}
+UA = {"User-Agent": "kinoprogram/1.0 (https://github.com/belacmu/kinoprogram; personal non-commercial use)"}
 BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
                             "(KHTML, like Gecko) Chrome/128.0 Safari/537.36"}
 RECHECK_MATCHED_DAYS = 90
 RECHECK_MISSING_DAYS = 7    # new releases often get a Wikidata entry a little later
 RATING_DAYS = 7
-MAX_LOOKUPS = 150           # per run, to keep runs short; the rest are picked up next run
+OTHER_LANGS = "en|nb|no|sv|da|de|fr|es|it|pt|nl|fi|pl"
+ENGLISH = "Q1860"
+MAX_LOOKUPS = 60            # per run; Wikidata rate-limits shared GitHub servers, so go slowly
+LOOKUP_PAUSE = 1.0          # seconds between Wikidata requests
 MAX_RATINGS = 120
 
 # Programme items that aren't single films: don't bother looking them up.
@@ -43,6 +46,20 @@ def _norm(s):
     return re.sub(r"[^0-9a-zæøåäöüéè]+", " ", (s or "").lower()).strip()
 
 
+LANG_CODES = {"Q9027": "sv", "Q9035": "da", "Q188": "de", "Q150": "fr", "Q1321": "es", "Q652": "it",
+              "Q5146": "pt", "Q7411": "nl", "Q1412": "fi", "Q809": "pl", "Q9043": "nb", "Q25167": "nb"}
+
+
+def english_title(labels, original_langs, original_titles):
+    """The English label, unless it's just the untranslated original title of a non-English film."""
+    en = labels.get("en", {}).get("value")
+    if not en or ENGLISH in original_langs:
+        return en
+    originals = {_norm(t) for t in original_titles}
+    originals |= {_norm(labels[c]["value"]) for q in original_langs if (c := LANG_CODES.get(q)) and c in labels}
+    return None if _norm(en) in originals else en
+
+
 def wikidata(title, year):
     """Return the one confident match for (title, year), or None."""
     q = re.sub(r"\s*\(\d{4}\)\s*$", "", title)
@@ -54,7 +71,7 @@ def wikidata(title, year):
         return None
     ents = _json("https://www.wikidata.org/w/api.php?" + urllib.parse.urlencode({
         "action": "wbgetentities", "ids": "|".join(ids), "props": "claims|labels|aliases",
-        "languages": "en|nb|no", "format": "json"}))["entities"]
+        "languages": OTHER_LANGS, "format": "json"}))["entities"]
     hits = []
     for i in ids:
         claims = ents[i].get("claims", {})
@@ -69,12 +86,16 @@ def wikidata(title, year):
         years = {v["time"][1:5] for v in vals("P577") if isinstance(v, dict) and "time" in v}
         if year and not any(y.isdigit() and abs(int(y) - int(year)) <= 1 for y in years):
             continue
-        names = {_norm(l["value"]) for l in ents[i].get("labels", {}).values()}
+        labels = ents[i].get("labels", {})
+        names = {_norm(l["value"]) for l in labels.values()}
         names |= {_norm(a["value"]) for al in ents[i].get("aliases", {}).values() for a in al}
         hits.append({"imdb": imdb,
                      "lb": next(iter(vals("P6127")), None),
                      "rt": next(iter(vals("P1258")), None),
                      "mc": next(iter(vals("P1712")), None),
+                     "en": english_title(labels, {v.get("id") for v in vals("P364") if isinstance(v, dict)},
+                                         [v["text"] for v in vals("P1476") if isinstance(v, dict) and v.get("language") != "en"]),
+                     "v": 2,
                      "exact": _norm(q) in names})
     if len(hits) > 1:
         hits = [h for h in hits if h["exact"]]
@@ -108,32 +129,40 @@ def enrich(films, now):
         rec = next((cache[i] for i in f["ids"] if i in cache), None)
         if SKIP.search(f["title"]):
             continue
-        if rec is None or stale(rec.get("checked"), RECHECK_MATCHED_DAYS if rec.get("imdb") else RECHECK_MISSING_DAYS):
+        if rec is None or (rec.get("imdb") and rec.get("v") != 2) \
+                or stale(rec.get("checked"), RECHECK_MATCHED_DAYS if rec.get("imdb") else RECHECK_MISSING_DAYS):
             todo.append(f)
     todo.sort(key=lambda f: f["status"] != "on_sale")  # what you can book now first
     todo = todo[:MAX_LOOKUPS]
 
     def look(f):
+        for t in [f["alt"], f["title"]]:
+            if t:
+                time.sleep(LOOKUP_PAUSE)
+                hit = wikidata(t, f["year"])
+                if hit:
+                    return hit
+        return {}
+
+    looked = 0
+    for f in todo:
         try:
-            for t in [f["alt"], f["title"]]:
-                if t:
-                    hit = wikidata(t, f["year"])
-                    if hit:
-                        return f, hit
-            return f, {}
+            hit = look(f)
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                print("  ! Wikidata asked us to slow down; continuing next run", file=sys.stderr)
+                break
+            print(f"  ! wikidata {f['title']}: {e}", file=sys.stderr)
+            continue
         except Exception as e:
             print(f"  ! wikidata {f['title']}: {e}", file=sys.stderr)
-            return f, None
-
-    with ThreadPoolExecutor(4) as ex:
-        for f, hit in ex.map(look, todo):
-            if hit is None:
-                continue  # network error: try again next run
-            old = next((cache[i] for i in f["ids"] if i in cache), {})
-            rec = {**({k: old[k] for k in ("lbSlug", "lbRating", "rated") if k in old and old.get("imdb") == hit.get("imdb")}),
-                   **hit, "checked": today}
-            for i in f["ids"]:
-                cache[i] = rec
+            continue
+        looked += 1
+        old = next((cache[i] for i in f["ids"] if i in cache), {})
+        keep = {k: old[k] for k in ("lbSlug", "lbRating", "rated") if k in old and old.get("imdb") == hit.get("imdb")}
+        rec = {**keep, **hit, "checked": today}
+        for i in f["ids"]:
+            cache[i] = rec
 
     # Letterboxd ratings, refreshed weekly for films we've matched.
     rate = []
@@ -166,9 +195,12 @@ def enrich(films, now):
         if rec and rec.get("imdb"):
             matched += 1
             f["ext"] = {k: rec.get(k) for k in ("imdb", "rt", "mc", "lbRating") if rec.get(k)}
+            en = rec.get("en") or ""
+            if en and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])) and len(en) < 120:
+                f["ext"]["en"] = en
             f["ext"]["lb"] = rec.get("lbSlug") or rec.get("lb") or ""
     # Keep the cache to films we still list.
     live = {i for f in films for i in f["ids"]}
     CACHE.write_text(json.dumps({k: v for k, v in sorted(cache.items()) if k in live},
                                 ensure_ascii=False, indent=0))
-    print(f"  links for {matched}/{len(films)} films ({len(todo)} looked up, {min(len(rate), MAX_RATINGS)} ratings refreshed)")
+    print(f"  links for {matched}/{len(films)} films ({looked} looked up, {min(len(rate), MAX_RATINGS)} ratings refreshed)")
