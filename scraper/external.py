@@ -5,7 +5,8 @@ once, not on every run.
 Matching is deliberately conservative: a Wikidata item must have an IMDb id, must not be a TV
 series/book/etc., its release year must be within ±1 of ours (the Norwegian premiere year when
 Filmweb has no production year; no year at all means no match), and its running time must be
-within 10 minutes of ours when both are known. If more than one item fits and
+within 10 minutes of ours when both are known. Ties between same-title candidates go to the
+single one with a confirmed running time, else the single one first released in our year. If more than one item fits and
 none has exactly our title, we link nothing (the site then shows a Letterboxd search link).
 """
 import json
@@ -120,6 +121,7 @@ def wikidata(title, year, runtime=0):
         mins = [m for m in mins if m]
         if runtime and mins and not any(abs(m - runtime) <= RUNTIME_SLACK for m in mins):
             continue  # same title and year but a different film (or a very different cut)
+        first_year = min((y for y in years if y.isdigit()), default="")
         labels = ents[i].get("labels", {})
         names = {_norm(l["value"]) for l in labels.values()}
         names |= {_norm(a["value"]) for al in ents[i].get("aliases", {}).values() for a in al}
@@ -129,14 +131,22 @@ def wikidata(title, year, runtime=0):
                      "mc": next(iter(vals("P1712")), None),
                      "en": english_title(labels, {v.get("id") for v in vals("P364") if isinstance(v, dict)},
                                          [v["text"] for v in vals("P1476") if isinstance(v, dict) and v.get("language") != "en"]),
-                     "v": 3,
-                     "exact": _norm(q) in names})
+                     "v": 4,
+                     "exact": _norm(q) in names,
+                     "runtimeOk": bool(runtime and mins),          # runtime known on both sides and matching
+                     "yearExact": first_year == str(year)})
     if len(hits) > 1:
         hits = [h for h in hits if h["exact"]]
+    # Ties between same-title films (Taxi Driver 1976 vs a 1977 Malayalam film): take the single
+    # candidate whose running time is confirmed, else the single one first released in our year.
+    for key in ("runtimeOk", "yearExact"):
+        if len(hits) > 1 and sum(h[key] for h in hits) == 1:
+            hits = [h for h in hits if h[key]]
     if len(hits) != 1:
         return None
     h = hits[0]
-    h.pop("exact")
+    for k in ("exact", "runtimeOk", "yearExact"):
+        h.pop(k)
     return h
 
 
@@ -170,7 +180,7 @@ def enrich(films, now):
         rec = next((cache[i] for i in f["ids"] if i in cache), None)
         if SKIP.search(f["title"]):
             continue
-        if rec is None or rec.get("v") != 3 \
+        if rec is None or rec.get("v") not in (3, 4) or (not rec.get("imdb") and rec.get("v") != 4) \
                 or stale(rec.get("checked"), RECHECK_MATCHED_DAYS if rec.get("imdb") else RECHECK_MISSING_DAYS):
             todo.append(f)
     todo.sort(key=lambda f: f["status"] != "on_sale")  # what you can book now first
