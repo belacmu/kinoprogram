@@ -33,7 +33,7 @@ const hhmm = (t) => t.slice(11, 16);
 
 // ---------------------------------------------------------------- state
 // One grid, three ways to read it. Each view groups films under section headers.
-const VIEWS = [["when", "Playing when"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];
+const VIEWS = [["when", "Playing when"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];  // the Sort menu
 const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 // Order of films inside each section. "date" means the view's natural order (by time, or newest first).
 const WITHIN = [["date", "By date"], ["rating", "Best rated first"], ["fewest", "Fewest showings first"]];
@@ -181,13 +181,12 @@ function activeFilters() {
 }
 
 function renderControls() {
-  $("view").innerHTML = VIEWS.map(([v, l]) => `<button class="chip${v === state.view ? " on" : ""}" data-view="${v}" aria-pressed="${v === state.view}">${l}</button>`).join("");
+  $("view").innerHTML = VIEWS.map(([v, l]) => `<option value="${v}"${v === state.view ? " selected" : ""}>Sort: ${l}</option>`).join("");
+  document.querySelectorAll("#listSwitch [data-list]").forEach((b) => b.setAttribute("aria-pressed", (b.dataset.list === "watch") === state.onlyWatch));
+  $("wlCount").textContent = state.watchlist.size ? ` · ${state.watchlist.size}` : "";
   $("region").innerHTML = REGIONS.map((r) => `<option value="${r.key}"${r.key === state.region ? " selected" : ""}>${r.name}</option>`).join("");
-  $("watchBtn").setAttribute("aria-pressed", state.onlyWatch);
-  $("watchBtn").textContent = `★ Watchlist${state.watchlist.size ? " " + state.watchlist.size : ""}`;
-  $("watchBtn").setAttribute("aria-label", `Watchlist${state.watchlist.size ? `, ${state.watchlist.size} films` : ""}${state.onlyWatch ? ", showing only these" : ""}`);
   const n = activeFilters();
-  $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
+  $("filtersBtn").textContent = n ? `⇅ Filters · ${n}` : "⇅ Filters";
   $("filtersBtn").setAttribute("aria-pressed", n > 0);
   renderFilters();
 }
@@ -197,30 +196,31 @@ function renderFilters() {
   for (const f of state.data.films) kindCounts[f.kind || "film"] = (kindCounts[f.kind || "film"] || 0) + 1;
   for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) cinemaCounts[s.cinema] = (cinemaCounts[s.cinema] || 0) + 1;
   const hide = new Set(state.prefs.hideKinds || []), mine = myCinemas();
-  const ck = (attrs, checked, label, n) =>
-    `<label class="ck"><input type="checkbox" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
+  // Every option is a chip: a real checkbox/radio inside a label, styled as a tappable pill.
+  const ck = (attrs, checked, label, n, type = "checkbox") =>
+    `<label class="opt-chip"><input type="${type}" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
-    <fieldset class="fg"><legend>Sections</legend>
-      <div class="row"><button class="btn ghost small" data-collapseall="1">Collapse all</button>
-      <button class="btn ghost small" data-collapseall="0">Expand all</button></div>
-    </fieldset>
-    <fieldset class="fg"><legend>Order within sections</legend>
-      ${WITHIN.map(([v, l]) => `<label class="ck"><input type="radio" name="within" data-f="within" value="${v}"${state.within === v ? " checked" : ""}><span>${v === "date" && state.view !== "when" ? "Newest first" : l}</span></label>`).join("")}
-    </fieldset>
+    <fieldset class="fg"><legend>Then by</legend><div class="chips">
+      ${WITHIN.map(([v, l]) => ck(`name="within" data-f="within" value="${v}"`, state.within === v, v === "date" && state.view !== "when" ? "Newest first" : l, null, "radio")).join("")}
+    </div></fieldset>
     <fieldset class="fg"${state.view === "when" ? "" : " hidden"}><legend>Tickets</legend>
-      ${TIX.map(([v, l]) => `<label class="ck"><input type="radio" name="tix" data-f="tix" value="${v}"${state.tix === v ? " checked" : ""}><span>${l}</span></label>`).join("")}
+      <div class="chips">${TIX.map(([v, l]) => ck(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l, null, "radio")).join("")}</div>
     </fieldset>
-    <fieldset class="fg"><legend>Types</legend><div class="cols">
+    <fieldset class="fg"><legend>Types</legend><div class="chips">
       ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
     </div></fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "none ticked = all"}</span></legend>
-      <div class="cols">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
+      <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
     </fieldset>
     <fieldset class="fg"${state.region === "oslo" ? "" : " hidden"}><legend>Language</legend>
-      ${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
-      ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}
+      <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
+      ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}</div>
+    </fieldset>
+    <fieldset class="fg"><legend>Sections</legend>
+      <div class="row"><button class="btn ghost small" data-collapseall="1">Collapse all</button>
+      <button class="btn ghost small" data-collapseall="0">Expand all</button></div>
     </fieldset>`;
   $("filtersReset").hidden = !activeFilters();
   if (focused) { // keep keyboard focus on the control that was just changed
@@ -462,12 +462,12 @@ $("searchClose").addEventListener("click", () => {
 $("q").addEventListener("keydown", (e) => { if (e.key === "Escape") $("searchClose").click(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
-$("watchBtn").addEventListener("click", () => { state.onlyWatch = !state.onlyWatch; render(); window.scrollTo({ top: 0 }); });
 $("region").addEventListener("change", (e) => { if (e.target.value !== state.region) loadRegion(e.target.value); });
-$("view").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-view]");
-  if (!b || b.dataset.view === state.view) return;
-  state.view = b.dataset.view; local.set("view", state.view); render(); window.scrollTo({ top: 0 });
+$("view").addEventListener("change", (e) => { state.view = e.target.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 }); });
+$("listSwitch").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-list]");
+  if (!b) return;
+  state.onlyWatch = b.dataset.list === "watch"; render(); window.scrollTo({ top: 0 });
 });
 
 // Section headers stick just below the controls bar; keep that offset in a CSS variable.
