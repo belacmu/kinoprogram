@@ -1,7 +1,8 @@
-# Kino by Film · Oslo
+# Cinecrab
 
-Every film showing at Oslo cinemas (Filmweb + Cinemateket), browsed **by film** instead of by date,
-with a daily email of films newly on sale and newly announced. See [SPEC.md](SPEC.md).
+Every film showing in Oslo (Filmweb + Cinemateket) and Westman, Manitoba (MovieScout, CinemaClock,
+Evans Theatre), browsed **by film** instead of by date, with a daily email of films newly on sale and
+newly announced. See [SPEC.md](SPEC.md).
 
 - Site: https://belacmu.github.io/kinoprogram/
 - First-time setup of sign-in and email: [SETUP.md](SETUP.md)

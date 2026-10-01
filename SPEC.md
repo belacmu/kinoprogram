@@ -1,4 +1,4 @@
-# Kinoprogram — spec
+# Cinecrab — spec
 
 Browse what's on at the cinemas in a region **by film** instead of by date, and get a daily email
 when films become bookable. Regions: **Oslo** and **Westman** (Brandon / Virden area, Manitoba).
@@ -57,9 +57,11 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles), remembered per view. The jump bar links to each section (opening it if collapsed) and
   has Collapse all / Expand all.
-- Top bar: search, view menu, **★ Watchlist** (always visible), and on narrow screens a Filters button.
-- Filters live in a sidebar (a slide-in panel on narrow screens): Tickets (When view: All / On sale /
-  Not on sale yet), Types, Cinemas, and Oslo's language options, with Reset filters.
+- Top bar: search (an icon on phones that opens a full-width box), the group-by menu, **★ Watchlist**
+  (always visible, full label), and on narrow screens a Filters button.
+- Filters live in a sidebar (a slide-in panel on narrow screens, with Reset and "Show N films" pinned
+  at the bottom): Order within sections (by date / best rated first / fewest showings first), Tickets
+  (When view), Types, Cinemas (two columns), and Oslo's language options.
 - Films without tickets on sale have dimmed posters and a "Not on sale yet" tag.
 - Search covers every film, including undated ones, and says plainly when nothing matches.
 - Film page links: Letterboxd (with its average rating), IMDb, Rotten Tomatoes, Metacritic, found via

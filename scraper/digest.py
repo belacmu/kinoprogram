@@ -118,7 +118,7 @@ def subject_for(items, announced, prefs, region="Oslo"):
     if announced:
         parts.append(f"{len(announced)} newly announced")
     names = [title_of(f, prefs).split(" (")[0] for f, *_ in items] + [title_of(f, prefs).split(" (")[0] for f, _ in announced]
-    return f"{region} cinemas: " + " · ".join(parts) + " — " + ", ".join(names[:3]) + (" …" if len(names) > 3 else "")
+    return f"Cinecrab · {region}: " + " · ".join(parts) + " — " + ", ".join(names[:3]) + (" …" if len(names) > 3 else "")
 
 
 def render(items, announced, site, unsub_url, prefs=None, region="Oslo", rkey="oslo"):
@@ -200,7 +200,7 @@ def send(messages):
         smtp.login(user, pw)
         for to, subject, text, body_html in messages:
             msg = EmailMessage()
-            msg["From"] = formataddr(("Kino by film", user))
+            msg["From"] = formataddr(("Cinecrab", user))
             msg["To"] = to
             msg["Subject"] = subject
             msg.set_content(text)

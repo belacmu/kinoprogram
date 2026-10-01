@@ -20,7 +20,7 @@ You'll collect five values along the way. Keep them in a note until step 3:
 
 A dedicated account keeps your personal address out of it.
 
-1. Create the account at https://accounts.google.com/signup (any name, e.g. "Kino by film").
+1. Create the account at https://accounts.google.com/signup (any name, e.g. "Cinecrab").
 2. Turn on 2-Step Verification (Google requires it for app passwords):
    https://myaccount.google.com/signinoptions/twosv
 3. Create an app password: https://myaccount.google.com/apppasswords
@@ -42,19 +42,19 @@ A dedicated account keeps your personal address out of it.
 5. Send sign-in emails through your Gmail (required: Supabase's built-in mailer only delivers to
    members of your Supabase team, so your friends wouldn't get their codes):
    **Authentication → Emails → SMTP Settings** → enable **Custom SMTP**
-   - Sender email: your Gmail address · Sender name: `Kino by film`
+   - Sender email: your Gmail address · Sender name: `Cinecrab`
    - Host: `smtp.gmail.com` · Port: `465`
    - Username: your Gmail address · Password: the app password from step 1
    - Save.
 6. Make the emails contain a **code** (required; the site signs you in with a one-time code):
    **Authentication → Emails → Templates**. Do this for both **Magic Link** and **Confirm signup**:
-   - Subject: `Your Kino by film code: {{ .Token }}`
+   - Subject: `Your Cinecrab code: {{ .Token }}`
    - Body (replace everything there):
 
      ```html
      <h2>Your sign-in code</h2>
      <p style="font-size:28px;letter-spacing:4px"><b>{{ .Token }}</b></p>
-     <p>Type it on the Kino by film site to sign in. It expires in an hour.
+     <p>Type it on Cinecrab to sign in. It expires in an hour.
      If you didn't ask for it, ignore this email.</p>
      ```
    - Save each template.

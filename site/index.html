@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kino by Film</title>
-<meta name="description" content="Every film showing in Oslo cinemas, browsed by film instead of by date.">
+<title>Cinecrab</title>
+<meta name="description" content="Cinecrab: every film showing in your city, browsed by film instead of by date.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -14,7 +14,7 @@
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>Kino <span>by film</span></h1>
+      <h1>Cinecrab</h1>
       <nav class="regions" id="regions" aria-label="Region"></nav>
       <div class="sub" id="sub">Loading the programme…</div>
     </div>
@@ -30,15 +30,24 @@
         <button class="btn ghost small" id="filtersDone">Done</button>
       </div>
       <div id="filtersBody"></div>
+      <div class="filters-foot">
+        <button class="btn ghost small" id="filtersReset" data-f="reset">Reset</button>
+        <button class="btn accent" id="filtersShow">Show films</button>
+      </div>
     </aside>
 
     <main class="main">
       <div class="controls" id="controls">
-        <div class="row">
-          <input type="search" id="q" placeholder="Search for a film, director or series" autocomplete="off">
-          <select id="view" aria-label="View"></select>
-          <select id="within" aria-label="Order within sections"></select>
-          <button class="chip" id="watchBtn" aria-pressed="false" title="Show only films on your watchlist">★ Watchlist</button>
+        <div class="bar">
+          <button class="iconbtn" id="searchBtn" aria-label="Search" aria-controls="searchBox" aria-expanded="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="searchbox" id="searchBox">
+            <input type="search" id="q" placeholder="Search for a film, director or series" autocomplete="off" aria-label="Search">
+            <button class="iconbtn" id="searchClose" aria-label="Close search">×</button>
+          </div>
+          <select id="view" aria-label="Group films by"></select>
+          <button class="chip watch" id="watchBtn" aria-pressed="false">★ Watchlist</button>
           <button class="chip" id="filtersBtn" aria-controls="filters" aria-expanded="false">Filters</button>
         </div>
       </div>

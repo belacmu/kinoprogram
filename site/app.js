@@ -36,7 +36,7 @@ const hhmm = (t) => t.slice(11, 16);
 const VIEWS = [["when", "When it's playing"], ["sale", "Newly on sale"], ["ann", "Newly announced"]];
 const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 // Order of films inside each section. "date" means the view's natural order (by time, or newest first).
-const WITHIN = [["date", "Date"], ["rating", "Rating"], ["fewest", "Fewest showings"]];
+const WITHIN = [["date", "By date"], ["rating", "Best rated first"], ["fewest", "Fewest showings first"]];
 const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], hideKinds: [] };
 const KINDS = [["film", "Films"], ["short", "Shorts"], ["stage", "Live & stage"], ["talk", "Talks & events"]];
 const KIND_BADGE = { short: "Shorts", stage: "Live & stage", talk: "Talk / event" };
@@ -182,10 +182,9 @@ function activeFilters() {
 
 function renderControls() {
   $("view").innerHTML = VIEWS.map(([v, l]) => `<option value="${v}"${v === state.view ? " selected" : ""}>${l}</option>`).join("");
-  $("within").innerHTML = WITHIN.map(([v, l]) => `<option value="${v}"${v === state.within ? " selected" : ""}>${v === "date" && state.view !== "when" ? "Newest" : l}</option>`).join("");
   $("regions").innerHTML = REGIONS.map((r) => `<button class="rg${r.key === state.region ? " on" : ""}" data-region="${r.key}" aria-pressed="${r.key === state.region}">${r.name}</button>`).join("");
   $("watchBtn").setAttribute("aria-pressed", state.onlyWatch);
-  $("watchBtn").innerHTML = `★<span class="wl"> Watchlist</span>${state.watchlist.size ? " " + state.watchlist.size : ""}`;
+  $("watchBtn").textContent = `★ Watchlist${state.watchlist.size ? " " + state.watchlist.size : ""}`;
   $("watchBtn").setAttribute("aria-label", `Watchlist${state.watchlist.size ? `, ${state.watchlist.size} films` : ""}${state.onlyWatch ? ", showing only these" : ""}`);
   const n = activeFilters();
   $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
@@ -202,21 +201,24 @@ function renderFilters() {
     `<label class="ck"><input type="checkbox" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
+    <fieldset class="fg"><legend>Order within sections</legend>
+      ${WITHIN.map(([v, l]) => `<label class="ck"><input type="radio" name="within" data-f="within" value="${v}"${state.within === v ? " checked" : ""}><span>${v === "date" && state.view !== "when" ? "Newest first" : l}</span></label>`).join("")}
+    </fieldset>
     <fieldset class="fg"${state.view === "when" ? "" : " hidden"}><legend>Tickets</legend>
       ${TIX.map(([v, l]) => `<label class="ck"><input type="radio" name="tix" data-f="tix" value="${v}"${state.tix === v ? " checked" : ""}><span>${l}</span></label>`).join("")}
     </fieldset>
-    <fieldset class="fg"><legend>Types</legend>
+    <fieldset class="fg"><legend>Types</legend><div class="cols">
       ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
-    </fieldset>
+    </div></fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "none ticked = all"}</span></legend>
-      ${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}
+      <div class="cols">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
     </fieldset>
     <fieldset class="fg"${state.region === "oslo" ? "" : " hidden"}><legend>Language</legend>
       ${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
       ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}
-    </fieldset>
-    ${activeFilters() ? `<button class="btn ghost small" data-f="reset">Reset filters</button>` : ""}`;
+    </fieldset>`;
+  $("filtersReset").hidden = !activeFilters();
   if (focused) { // keep keyboard focus on the control that was just changed
     const [f, v] = focused.split("|");
     [...$("filtersBody").querySelectorAll(`[data-f="${f}"]`)].find((el) => (el.value || "") === v)?.focus();
@@ -280,6 +282,7 @@ function renderGrid() {
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap ☆ on any poster to add it; it'll be highlighted when tickets go on sale.";
   state.sections = sections;
+  $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
     const shut = isCollapsed(s);
     const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
@@ -436,6 +439,7 @@ document.addEventListener("click", (e) => {
 // Filter sidebar: checkboxes and radios.
 $("filtersBody").addEventListener("change", (e) => {
   const el = e.target, f = el.dataset.f;
+  if (f === "within") { state.within = el.value; local.set("within", state.within); render(); return; }
   if (f === "tix") { state.tix = el.value; local.set("tix", state.tix); }
   else if (f === "kind") {
     const cur = new Set(state.prefs.hideKinds || []);
@@ -456,10 +460,23 @@ const setFiltersOpen = (open) => {
 };
 $("filtersBtn").addEventListener("click", () => setFiltersOpen(!document.body.classList.contains("filters-open")));
 $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("filtersBtn").focus(); });
+$("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
+
+// Search: an icon on phones that opens a full-width box; always open on wide screens.
+const setSearching = (on) => {
+  document.body.classList.toggle("searching", on);
+  $("searchBtn").setAttribute("aria-expanded", on);
+  if (on) $("q").focus();
+};
+$("searchBtn").addEventListener("click", () => setSearching(true));
+$("searchClose").addEventListener("click", () => {
+  $("q").value = ""; state.q = ""; renderGrid();
+  setSearching(false); $("searchBtn").focus();
+});
+$("q").addEventListener("keydown", (e) => { if (e.key === "Escape") $("searchClose").click(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 $("watchBtn").addEventListener("click", () => { state.onlyWatch = !state.onlyWatch; render(); window.scrollTo({ top: 0 }); });
-$("within").addEventListener("change", (e) => { state.within = e.target.value; local.set("within", state.within); renderGrid(); });
 $("view").addEventListener("change", (e) => { state.view = e.target.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 }); });
 
 // Section headers stick just below the controls bar; keep that offset in a CSS variable.
@@ -643,7 +660,7 @@ async function loadRegion(key) {
   $("foot").innerHTML = reg.key === "oslo"
     ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a> and <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, refreshed several times a day. Tickets are bought on the cinemas' own sites.`
     : `Data from <a href="https://www.landmarkcinemas.com" target="_blank" rel="noopener">Landmark Cinemas</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://evanstheatre.ca" target="_blank" rel="noopener">Evans Theatre</a>. Small theatres sell tickets at the door. Times are Manitoba time.`;
-  document.title = `Kino by Film · ${reg.name}`;
+  document.title = `Cinecrab · ${reg.name}`;
   render();
   route();
 }
