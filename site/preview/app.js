@@ -186,7 +186,10 @@ function renderControls() {
   $("sortBtn").innerHTML = `<span class="k">Sort</span> ${cur[1]} <span class="chev" aria-hidden="true">▾</span>`;
   $("sortBtn").setAttribute("aria-label", `Sort: ${cur[1]}`);
   $("sortMenu").innerHTML = VIEWS.map(([v, l, d]) =>
-    `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("");
+    `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("")
+    + `<div class="menusep" role="separator"></div>
+       <button role="menuitem" class="plain" data-collapseall="1">Collapse all sections</button>
+       <button role="menuitem" class="plain" data-collapseall="0">Expand all sections</button>`;
   const reg = REGIONS.find((r) => r.key === state.region);
   $("regionBtn").innerHTML = `${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
   $("regionBtn").setAttribute("aria-label", `Location: ${reg.name}`);
@@ -195,7 +198,7 @@ function renderControls() {
   document.querySelectorAll("#listSwitch [data-list]").forEach((b) => b.setAttribute("aria-pressed", (b.dataset.list === "watch") === state.onlyWatch));
   $("wlCount").textContent = state.watchlist.size ? ` · ${state.watchlist.size}` : "";
   const n = activeFilters();
-  $("filtersBtn").textContent = n ? `⇅ Filters · ${n}` : "⇅ Filters";
+  $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
   $("filtersBtn").setAttribute("aria-pressed", n > 0);
   renderFilters();
 }
@@ -210,14 +213,14 @@ function renderFilters() {
     `<label class="opt-chip"><input type="${type}" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
-    <fieldset class="fg"><legend>Then by</legend><div class="chips">
+    <fieldset class="fg"><legend>Order within sections</legend><div class="chips">
       ${WITHIN.map(([v, l]) => ck(`name="within" data-f="within" value="${v}"`, state.within === v, v === "date" && state.view !== "when" ? "Newest first" : l, null, "radio")).join("")}
     </div></fieldset>
     <fieldset class="fg"${state.view === "when" ? "" : " hidden"}><legend>Tickets</legend>
       <div class="chips">${TIX.map(([v, l]) => ck(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l, null, "radio")).join("")}</div>
     </fieldset>
-    <fieldset class="fg"><legend>Types</legend><div class="chips">
-      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
+    <fieldset class="fg"><legend>Types <span class="hint">${hide.size ? `${KINDS.length - hide.size} of ${KINDS.length}` : "none ticked = all"}</span></legend><div class="chips">
+      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, hide.size > 0 && !hide.has(k), l, kindCounts[k] || 0)).join("")}
     </div></fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "none ticked = all"}</span></legend>
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
@@ -227,10 +230,7 @@ function renderFilters() {
       <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
       ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}</div>
     </fieldset>
-    <fieldset class="fg"><legend>Sections</legend>
-      <div class="row"><button class="btn ghost small" data-collapseall="1">Collapse all</button>
-      <button class="btn ghost small" data-collapseall="0">Expand all</button></div>
-    </fieldset>`;
+`;
   $("filtersReset").hidden = !activeFilters();
   if (focused) { // keep keyboard focus on the control that was just changed
     const [f, v] = focused.split("|");
@@ -405,7 +405,7 @@ document.addEventListener("click", (e) => {
   }
   if (t.dataset.collapseall) {
     for (const s of state.sections) setCollapsed(`${state.view}:${s.key}`, t.dataset.collapseall === "1");
-    renderGrid(); setFiltersOpen(false); window.scrollTo({ top: 0 }); return;
+    closeMenus(); renderGrid(); window.scrollTo({ top: 0 }); return;
   }
   if (t.dataset.f === "reset") {
     state.tix = "all";
@@ -437,9 +437,11 @@ $("filtersBody").addEventListener("change", (e) => {
   if (f === "within") { state.within = el.value; local.set("within", state.within); render(); return; }
   if (f === "tix") { state.tix = el.value; local.set("tix", state.tix); }
   else if (f === "kind") {
-    const cur = new Set(state.prefs.hideKinds || []);
-    el.checked ? cur.delete(el.value) : cur.add(el.value);
-    state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => cur.has(x));
+    // Ticked types are the ones shown; none ticked = all. Stored as the hidden ones.
+    const hidden = new Set(state.prefs.hideKinds || []);
+    const shown = new Set(hidden.size ? KINDS.map(([x]) => x).filter((x) => !hidden.has(x)) : []);
+    el.checked ? shown.add(el.value) : shown.delete(el.value);
+    state.prefs.hideKinds = shown.size && shown.size < KINDS.length ? KINDS.map(([x]) => x).filter((x) => !shown.has(x)) : [];
   } else if (f === "cinema") {
     const list = state.prefs.cinemas;
     state.prefs.cinemas = el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value);
@@ -450,11 +452,13 @@ $("filtersBody").addEventListener("change", (e) => {
 });
 const setFiltersOpen = (open) => {
   document.body.classList.toggle("filters-open", open);
+  $("scrim").hidden = !open;
   $("filtersBtn").setAttribute("aria-expanded", open);
   if (open) $("filtersDone").focus();
 };
 $("filtersBtn").addEventListener("click", () => setFiltersOpen(!document.body.classList.contains("filters-open")));
 $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("filtersBtn").focus(); });
+$("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
 
 // Search: an icon on phones that opens a full-width box; always open on wide screens.

@@ -308,5 +308,32 @@ a.stub:hover { border-color: var(--accent); }
 /* header: title left, location pill right */
 .top { align-items: center; padding-block: 20px 12px; }
 
+/* --- review fixes --- */
+/* group headings without border lines running through them; spacing separates groups */
+.fg { border: 0; padding: 0; margin: 0 0 18px; }
+.fg legend { padding: 0 0 8px; }
+.menu { min-width: max(230px, 100%); }
+.menusep { height: 1px; background: var(--line); margin: 6px 4px; }
+.menu button.plain { padding-left: 30px; font-weight: 500; color: var(--muted); }
+.menu button.plain:hover { color: var(--ink); }
+.grab { display: none; }
+.scrim { position: fixed; inset: 0; z-index: 19; background: var(--scrim); }
+.scrim[hidden] { display: none; }
+@media (max-width: 999px) {
+  .grab { display: block; width: 40px; height: 4px; border-radius: 99px; background: var(--edge); margin: -6px auto 10px; }
+  body.filters-open .filters { box-shadow: none; }
+  .filters-head { margin-bottom: 10px; }
+}
+@media (min-width: 1000px) {
+  .scrim { display: none; }
+  /* one row: [All films | My watchlist] [search .........] [Sort ▾] */
+  .controls { grid-template-columns: 300px minmax(0, 1fr); }
+  .bar { flex-wrap: nowrap; }
+  .bar .searchbox { flex: 1 1 auto; }
+  .dd.grow { flex: 0 0 auto; }
+  .dd.grow .pill { width: auto; min-width: 230px; }
+  .filters { padding-top: 6px; }
+}
+
 /* keep last: stop iPhone zooming the page when the search box is tapped */
 @media (max-width: 1000px) { .searchbox input { font-size: 16px; } }
