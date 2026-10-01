@@ -92,5 +92,5 @@ jobs:
           git add state/
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Update state"
-          git pull --rebase --autostash
+          git pull --rebase --autostash -X theirs  # on a clash, keep this (newer) run's state
           git push
