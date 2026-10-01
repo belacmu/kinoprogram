@@ -170,7 +170,7 @@ def fetch_cinemaclock(slug, cinema):
     h = get(url)
     films = []
     for block in re.split(r'<div id="moviecin', h)[1:]:
-        tm = re.search(r"<h3 class='movietitle[^']*'[^>]*><a[^>]*href='/movies/([^']+)'>(.*?)</a>", block, re.S)
+        tm = re.search(r"<h3 class='movietitle[^']*'[^>]*><a[^>]*href='/movies/([^']+)'[^>]*>(.*?)</a>", block, re.S)
         if not tm:
             continue
         title = text(tm[2])
