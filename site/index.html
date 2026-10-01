@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kino by Film · Oslo</title>
+<meta name="description" content="Every film showing in Oslo cinemas, browsed by film instead of by date.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Kino <span>by film</span></h1>
+      <div class="sub" id="sub">Loading the programme…</div>
+    </div>
+    <button class="btn ghost" id="accountBtn" hidden>Sign in</button>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <nav class="tabs" id="tabs" aria-label="Views">
+    <button class="tab on" data-tab="onsale">On sale <span class="n" id="nOnsale"></span></button>
+    <button class="tab" data-tab="coming">Coming soon <span class="n" id="nComing"></span></button>
+    <button class="tab" data-tab="watch">Watchlist <span class="n" id="nWatch"></span></button>
+  </nav>
+
+  <div class="controls">
+    <div class="row">
+      <input type="search" id="q" placeholder="Search title, director or series" autocomplete="off">
+      <select id="sort" aria-label="Sort"></select>
+    </div>
+    <div class="row" id="filterRow">
+      <span class="seg" id="when" role="group" aria-label="When"></span>
+      <button class="chip" id="dubBtn" aria-pressed="false">Hide Norwegian dubs</button>
+      <button class="chip" id="enBtn" aria-pressed="false">English subtitles</button>
+      <button class="chip" id="cinemaBtn" aria-expanded="false">All cinemas ▾</button>
+    </div>
+    <div class="row cinemas" id="cinemas" hidden></div>
+  </div>
+
+  <div class="count" id="count"></div>
+  <ul class="grid" id="grid"></ul>
+  <footer class="foot">
+    Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a> and
+    <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, refreshed several times a day.
+    Tickets are bought on the cinemas' own sites.
+  </footer>
+</div>
+
+<dialog id="film" aria-labelledby="filmTitle"></dialog>
+
+<dialog id="account" aria-labelledby="accountTitle">
+  <form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
+  <div id="accountBody"></div>
+</dialog>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

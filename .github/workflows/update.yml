@@ -1,0 +1,77 @@
+name: Update programme
+
+on:
+  schedule:
+    # UTC. 07:00 and 08:00 cover 09:00 Oslo in summer (CEST) and winter (CET); digest.py
+    # only sends after 09:00 Oslo and once per day. The other runs just refresh the site.
+    - cron: "0 3,7,8,11,15,19 * * *"
+  workflow_dispatch:
+    inputs:
+      digest:
+        description: "Also run the daily email (still only after 09:00 Oslo and once per day)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch showings
+        id: build
+        run: python scraper/build.py
+
+      - name: Write site config
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          printf 'window.KINO_CONFIG = { supabaseUrl: "%s", supabaseKey: "%s" };\n' \
+            "$SUPABASE_URL" "$SUPABASE_PUBLISHABLE_KEY" > site/config.js
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy site
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Daily email
+        if: github.event_name == 'schedule' || inputs.digest
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          SITE_URL: ${{ steps.deploy.outputs.page_url }}
+        run: python scraper/digest.py --scheduled
+
+      - name: Save state
+        if: always() && steps.build.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/seen.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Update state"
+          git pull --rebase
+          git push
