@@ -413,27 +413,27 @@ function renderGrid() {
   const dayEmpty = `${state.onlyWatch ? "Nothing on your watchlist is" : "Nothing is"} playing ${chosen === today ? "for the rest of today" : `on ${dayLabel(chosen)}`}${activeFilters() ? " with these filters" : ""}.`;
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
-  $("grid").innerHTML = sections.length ? sections.map((s, i) => {
+  $("grid").innerHTML = (withDay ? dayPickerHtml(today, chosen) : "") + (sections.length ? sections.map((s, i) => {
     const shut = isCollapsed(s), isDay = withDay && s.key === DAY_KEY;
     const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
     return `<section class="sec${shut ? " shut" : ""}" id="sec-${i}">
       <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
-      ${isDay ? dayPickerHtml(today, chosen) : ""}
       ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
-  }).join("") : `<p class="empty">${empty}</p>`;
+  }).join("") : `<p class="empty">${empty}</p>`);
 }
 
 // ---------------------------------------------------------------- render: the day buttons and the date picker
 const shortDay = (day) => { const d = asDate(day); return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()}`; };
+const weekdayName = new Intl.DateTimeFormat("en-GB", { weekday: "long", timeZone: "UTC" });
 const calIcon = `<svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
 function dayPickerHtml(today, chosen) {
   const quick = [today, addDays(today, 1), addDays(today, 2)];
   const picked = !quick.includes(chosen);
   return `<div class="daypick" role="group" aria-label="Day to show">
-    ${quick.map((d, i) => `<button class="daybtn" data-dayset="${i ? d : ""}" aria-pressed="${chosen === d}">${["Today", "Tomorrow", shortDay(d)][i]}</button>`).join("")}
-    <div class="dd"><button class="daybtn${picked ? " on" : ""}" id="calBtn" aria-haspopup="dialog" aria-expanded="false">${calIcon}${picked ? `${shortDay(chosen)} ${MONTHS[asDate(chosen).getUTCMonth()]}` : "Pick a date"}</button>
+    ${quick.map((d, i) => `<button class="daybtn" data-dayset="${i ? d : ""}" aria-pressed="${chosen === d}">${["Today", "Tomorrow", weekdayName.format(asDate(d))][i]}</button>`).join("")}
+    <div class="dd"><button class="daybtn${picked ? " on" : ""}" id="calBtn" aria-haspopup="dialog" aria-expanded="false" aria-label="${picked ? `${longDate.format(asDate(chosen))}, pick another date` : "Pick a date"}">${calIcon}${picked ? `${shortDay(chosen)}<span class="wide"> ${MONTHS[asDate(chosen).getUTCMonth()]}</span>` : `<span class="wide">Pick a date</span><span class="narrow">Date</span>`}</button>
       <div class="menu cal" id="calMenu" role="dialog" aria-label="Pick a date" hidden></div></div>
   </div>`;
 }
