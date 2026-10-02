@@ -48,36 +48,49 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 - Poster grid; clicking a poster opens the film with all its showings grouped by day, each with a
   ticket link. Deep link: `#film/<id>`.
 - Region switcher (Oslo / Westman), remembered per browser; `?r=westman` links to a region.
-- **One grid with section headers**, read three ways (the view menu):
-  - **When it's playing** (default): Playing now (most recent arrivals first) · This week · Next
-    week · Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere
-    if earlier. Films without a date are left out (they appear only when you search for them).
-    The first section is a chosen day, Today by default (so the page is unchanged and nothing asks
-    you to pick); once nothing more is on today under your filters, it's the next day something is
-    (usually tomorrow), still counting as the default. A day control sits beside Sort, only in this view: a calendar icon, with a label
-    whenever the bar has room (not on most phones held upright): "Date ▾" on Today, which counts
-    as no filter, or the picked day ("Thu 15 Oct ▾"), highlighted like active filters. It opens a month
-    picker with a Today button beside the month arrows, as in most calendars (days with nothing
-    playing under the current filters are greyed out). Picking a day shows the page as it will be then: that day's films first, with that day's
+- **One grid with section headers, by when films play**: Playing today · This week · Next week ·
+  Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere if
+  earlier. Films without a date are left out (they appear only when you search for them).
+  - The first section is a chosen day, Today by default (so nothing asks you to pick); once nothing
+    more is on today under your filters, it's the next day something is (usually tomorrow), still
+    counting as the default.
+  - A day control in the bar: a calendar icon with a label (just the icon only on very narrow
+    bars): "Date ▾" on Today, which counts as no filter, or the picked day
+    ("Thu 15 Oct ▾"), highlighted like active filters. It opens a month picker with a Today button
+    beside the month arrows, as in most calendars (days with nothing playing under the current
+    filters are greyed out).
+  - Picking a day shows the page as it will be then: that day's films first, with that day's
     cinemas and times on the cards, then everything after it in the usual sections; films only
     playing before it drop out, and a film opened from there starts at (and highlights) that day.
-    The section stays even when empty, saying nothing's on. The day isn't remembered: reloading or
-    switching to another view goes back to Today; switching region keeps it. Searching ignores it.
-  - **Newly on sale**: Today · Yesterday · Earlier this week · Last week · Earlier, by when tickets
-    went on sale.
-  - **Newly announced**: the same headers, by when the film first got a date here.
+    The section stays even when empty, saying nothing's on. The day isn't remembered: reloading
+    goes back to Today; switching region keeps it. Searching ignores it.
+- **What's new**: a button in the header (beside the location and account buttons, since it isn't a
+  filter) opens a panel (a bottom sheet on phones) of films that
+  went on sale or got a date here in the last 30 days, after tracking began, by day (Today ·
+  Yesterday · Earlier this week · Last week · Earlier, newest first; the day pins while scrolling).
+  Each day has two clearly labelled grids of the usual cards: **Tickets on sale** first, then
+  **Newly announced**. One card per film, for what last happened to it; no "New" flags (it's all
+  new) and announced films aren't dimmed. Hearts and hiding work as in the grid (hidden films are
+  dimmed and last, watchlist films first). Types, cinemas and language filters apply; Tickets and
+  the Watchlist switch don't. A card opens the film on top; closing it goes back to the panel.
+  Deep link: `#new`.
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
-  titles), remembered per view. The jump bar links to each section (opening it if collapsed) and
-  has Collapse all / Expand all.
-- Top bar: search (an icon on phones that opens a full-width box), the group-by menu, **♥ Watchlist**
-  (always visible, full label), and on narrow screens a Filters button.
+  titles). The jump bar links to each section (opening it if collapsed) and has Collapse all /
+  Expand all.
+- Header: the title, then What's new, the location and the account button, always on one row: when
+  it's tight they compact only as far as needed (What's new to an icon, the location's pin, "Sign in"
+  to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
+- Top bar (the filters): **All films / ♥ Watchlist**, then a search field (always a field, phones
+  too; Escape clears it), the day control, and on narrow screens a Filters button. From 640px wide
+  the switch and the bar share one row; on phones they're two rows. The day control keeps its label
+  and the search field gives way; while you type in a narrow search field it takes the whole bar.
 - Defaults: order within sections is best rated first; only Films are shown (Shorts, Live & stage and
   Talks & events are opt-in; searching still finds every type); picking a specific cinema switches
   Tickets to "On sale", and going back to all cinemas switches it back to "All". Tickets
-  (All / On sale / Not on sale yet) applies in every view.
+  (All / On sale / Not on sale yet) narrows the grid.
 - Filters live in a sidebar (a slide-in panel on narrow screens, with Reset and "Show N films" pinned
-  at the bottom): Order within sections (by date / best rated first / fewest showings first), Tickets
-  (When view), Types, Cinemas (two columns), and Oslo's language options.
+  at the bottom): Order within sections (by date / best rated first / fewest showings first), Tickets,
+  Types, Cinemas (two columns), and Oslo's language options.
 - Films without tickets on sale have dimmed posters and a "Not on sale yet" tag.
 - Search covers every film, including undated ones, and says plainly when nothing matches.
 - Film page links: Letterboxd (with its average rating), IMDb, Rotten Tomatoes, Metacritic, found via

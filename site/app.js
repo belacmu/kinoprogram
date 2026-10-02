@@ -33,11 +33,9 @@ function dayLabel(t, { short = false } = {}) {
 const hhmm = (t) => t.slice(11, 16);
 
 // ---------------------------------------------------------------- state
-// One grid, three ways to read it. Each view groups films under section headers.
-const VIEWS = [["when", "Playing when", "Grouped by when it starts"], ["sale", "Newly on sale", "Tickets that just went on sale"],
-  ["ann", "Newly announced", "Films that just got a date here"]];  // the Sort menu
+// One grid of films grouped by when they play; what went on sale or was announced lately is in "What's new".
 const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
-// Order of films inside each section. "date" means the view's natural order (by time, or newest first).
+// Order of films inside each section.
 const WITHIN = [["rating", "Best rated first"], ["date", "By date"], ["fewest", "Fewest showings first"]];
 const DEFAULT_HIDE = ["short", "stage", "talk"];  // by default only films are shown
 const DEFAULTS_V = 2;                             // bump to re-apply new defaults to saved settings
@@ -54,11 +52,10 @@ const urlRegion = new URLSearchParams(location.search).get("r");
 const state = {
   data: null,
   region: REGIONS.some((r) => r.key === urlRegion) ? urlRegion : local.get("region", "oslo"),
-  view: VIEWS.some(([v]) => v === local.get("view", "when")) ? local.get("view", "when") : "when",
   tix: local.get("tix", "all"),
   within: local.get("within2", "rating"),
   onlyWatch: false,
-  day: "",              // "Playing when": the day its first section shows; "" = today. Not remembered across reloads
+  day: "",              // the day the first section shows; "" = today. Not remembered across reloads
   calMonth: "",         // the month the date picker shows ("2026-10")
   q: "",
   prefs: withDefaults(local.get("prefs", {})),
@@ -102,11 +99,11 @@ function isHidden(f) {
 function unhideFilm(f) { for (const i of f.ids) delete state.prefs.hidden?.[i]; }
 // Hiding or unhiding moves the card to its new place in the section; slide it there instead of jumping.
 let flipFrom = null;
-function flipBegin(id) { flipFrom = { id, rects: new Map([...document.querySelectorAll(".card")].map((c) => [c.dataset.id, c.getBoundingClientRect()])) }; }
+function flipBegin(id) { flipFrom = { id, rects: new Map([...document.querySelectorAll("#grid .card")].map((c) => [c.dataset.id, c.getBoundingClientRect()])) }; }
 function flipRun(fadeFrom = null) {
   const prev = flipFrom; flipFrom = null;
   if (!prev || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  for (const c of document.querySelectorAll(".card")) {
+  for (const c of document.querySelectorAll("#grid .card")) {
     const a = prev.rects.get(c.dataset.id);
     if (!a) continue;
     const b = c.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top;
@@ -119,10 +116,11 @@ function flipRun(fadeFrom = null) {
 const SETTLE_MS = 450;
 let renderTimer = null;
 const pop = (el) => { el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); };  // a quick "it registered" bounce
-const cardEl = (id) => document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+// The card that was pressed: in "What's new" while it's open, else in the grid.
+const cardEl = (id) => (document.querySelector("#news[open]") || $("grid")).querySelector(`.card[data-id="${CSS.escape(id)}"]`);
 function settleThenRender(id) {
   clearTimeout(renderTimer);
-  renderTimer = setTimeout(() => { renderTimer = null; flipBegin(id); render(); flipRun(); }, SETTLE_MS);
+  renderTimer = setTimeout(() => { renderTimer = null; flipBegin(id); render(); flipRun(); refreshNews(); }, SETTLE_MS);
 }
 function flushRender() { if (renderTimer) { clearTimeout(renderTimer); renderTimer = null; render(); } }
 function toggleHidden(f) {
@@ -161,7 +159,7 @@ function startDay(f, shows) {
   return prem || "";
 }
 
-// The day the first "Playing when" section shows: the one picked; otherwise today, or, once nothing more is on today
+// The day the first section shows: the one picked; otherwise today, or, once nothing more is on today
 // (under the filters), the next day something is. A picked day that has passed counts as not picked.
 const pickedDay = (today) => (state.day > today ? state.day : "");
 function chosenDay(today) {
@@ -195,7 +193,7 @@ function whenSection(row, today, chosen = today) {
   return { key: day.slice(0, 7), label };
 }
 
-// Section labels for the two "newly" views, by when it happened.
+// "What's new" groups, by when it happened.
 function sinceSection(since, today, before) {
   if (!since || since <= state.data.baseline) return { key: "9", label: before };
   const day = since.slice(0, 10);
@@ -207,25 +205,24 @@ function sinceSection(since, today, before) {
 }
 
 // A film's showings from `from` on that pass the filters, and whether it's on sale; null when the filters leave it out.
-function filmShows(f, now, from, q = "") {
+// `all` ignores the Tickets filter and the Watchlist switch ("What's new" has neither).
+function filmShows(f, now, from, q = "", all = false) {
   if (!textMatch(f, q) || (!q && !kindShown(f))) return null;  // searching finds every type
-  if (state.onlyWatch && !isWatched(f)) return null;
+  if (!all && state.onlyWatch && !isWatched(f)) return null;
   const shows = f.shows.filter((s) => s.t >= from && showMatches(s, now));
   if (f.shows.length && !shows.length) return null; // has showings, none match the filters
   const bookable = shows.filter((s) => s.ticket);
   const onSale = f.status === "on_sale" && bookable.length > 0;
-  if (state.tix === "on" && !onSale) return null;
-  if (state.tix === "off" && onSale) return null;
+  if (!all && state.tix === "on" && !onSale) return null;
+  if (!all && state.tix === "off" && onSale) return null;
   return { shows: onSale ? bookable : shows, onSale, all: shows };
 }
 
-// Whether "Playing when" shows the chosen-day section with its day buttons (searching always covers every date).
-const dayMode = () => state.view === "when" && !state.q.trim();
+// Whether the list starts with the chosen-day section (searching always covers every date).
+const dayMode = () => !state.q.trim();
 
 function buildRows() {
   const now = localNow(), today = now.slice(0, 10), q = state.q.trim().toLowerCase();
-  const b = state.data.baseline ? asDate(state.data.baseline) : null;
-  const started = b ? `Before ${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}` : "Before tracking began";
   const chosen = dayMode() ? chosenDay(today) : today, later = chosen !== today;
   const rows = [];
   for (const f of state.data.films) {
@@ -233,20 +230,10 @@ function buildRows() {
     const m = filmShows(f, now, later ? chosen + "T00:00" : now, q);
     if (!m) continue;
     const row = { f, shows: m.shows, onSale: m.onSale, hidden: isHidden(f), watched: isWatched(f), start: startDay(f, m.all) };
-    if (state.view === "when") {
-      if (!row.start && !q) continue; // undated films only turn up when you search for them
-      if (pickedDay(today) && !row.shows.length && row.start < chosen) continue;  // premiered before the picked day, nothing since
-      row.sec = whenSection(row, today, chosen);
-      if (later && row.sec.key === DAY_KEY) row.dayShows = row.shows.filter((s) => s.t.startsWith(chosen));
-    } else if (state.view === "sale") {
-      if (!row.onSale) continue;
-      row.sec = sinceSection(f.onSaleSince, today, started);
-      row.since = f.onSaleSince;
-    } else {
-      if (f.status !== "announced" || !f.announcedSince) continue;
-      row.sec = sinceSection(f.announcedSince, today, started);
-      row.since = f.announcedSince;
-    }
+    if (!row.start && !q) continue; // undated films only turn up when you search for them
+    if (pickedDay(today) && !row.shows.length && row.start < chosen) continue;  // premiered before the picked day, nothing since
+    row.sec = whenSection(row, today, chosen);
+    if (later && row.sec.key === DAY_KEY) row.dayShows = row.shows.filter((s) => s.t.startsWith(chosen));
     rows.push(row);
   }
   const t0 = (r) => r.shows[0]?.t || (r.start ? r.start + "T00:00" : "9999");
@@ -260,7 +247,6 @@ function buildRows() {
       const n = (r) => r.shows.length || Infinity;
       return n(a) - n(b) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     }
-    if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     return t0(a).localeCompare(t0(b)) || byTitle(a, b);
   });
   return rows;
@@ -276,17 +262,13 @@ function activeFilters() {
 }
 
 function renderControls() {
-  const cur = VIEWS.find(([v]) => v === state.view);
-  $("sortBtn").innerHTML = `<span class="k">Sort</span> ${cur[1]} <span class="chev" aria-hidden="true">▾</span>`;
-  $("sortBtn").setAttribute("aria-label", `Sort: ${cur[1]}`);
   renderDayControl();
-  $("sortMenu").innerHTML = VIEWS.map(([v, l, d]) =>
-    `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("");
   const reg = REGIONS.find((r) => r.key === state.region);
   $("regionBtn").innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" fill="currentColor"/></svg>${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
   $("regionBtn").setAttribute("aria-label", `Location: ${reg.name}`);
   $("regionMenu").innerHTML = REGIONS.map((r) =>
     `<button role="menuitemradio" aria-checked="${r.key === state.region}" data-pick="region" data-value="${r.key}">${r.name}</button>`).join("");
+  fitHeader();  // the location's name changes the header's width
   document.querySelectorAll("#listSwitch [data-list]").forEach((b) => b.setAttribute("aria-pressed", (b.dataset.list === "watch") === state.onlyWatch));
   const wl = watchedHere();
   $("wlCount").textContent = wl ? ` · ${wl}` : "";
@@ -307,7 +289,7 @@ function renderFilters() {
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
     <fieldset class="fg"><legend>Order within sections</legend><div class="chips">
-      ${WITHIN.map(([v, l]) => ck(`name="within" data-f="within" value="${v}"`, state.within === v, v === "date" && state.view !== "when" ? "Newest first" : l, null, "radio")).join("")}
+      ${WITHIN.map(([v, l]) => ck(`name="within" data-f="within" value="${v}"`, state.within === v, l, null, "radio")).join("")}
     </div></fieldset>
     <fieldset class="fg"><legend>Tickets</legend>
       <div class="chips">${TIX.map(([v, l]) => ck(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l, null, "radio")).join("")}</div>
@@ -415,12 +397,12 @@ function renderGrid() {
     if (!sections.length || sections.at(-1).key !== r.sec.key) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
     sections.at(-1).rows.push(r);
   }
-  const isCollapsed = (s) => state.collapsed.has(`${state.view}:${s.key}`);
+  const isCollapsed = (s) => state.collapsed.has(s.key);
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
   else if (state.onlyWatch && !watchedHere()) empty = `Nothing on your watchlist is in ${esc(state.data.location)}'s listings. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.`;
-  // The chosen-day section is always there in "Playing when", even empty, so it says plainly that nothing's on that day.
+  // The chosen-day section is always there (unless searching), even empty, so it says plainly that nothing's on that day.
   const today = localNow().slice(0, 10), chosen = chosenDay(today);
   const withDay = dayMode() && !(state.onlyWatch && !watchedHere());
   if (withDay && sections[0]?.key !== DAY_KEY) sections.unshift({ key: DAY_KEY, label: dayTitle(chosen, today), rows: [] });
@@ -438,12 +420,11 @@ function renderGrid() {
   }).join("") : `<p class="empty">${empty}</p>`;
 }
 
-// ---------------------------------------------------------------- render: the day control beside Sort
-// Only in "Playing when". Today is the unfiltered default, so the button just says "Date"; once another day is picked
+// ---------------------------------------------------------------- render: the day control in the bar
+// Today is the unfiltered default, so the button just says "Date"; once another day is picked
 // it names that day and is highlighted, like active filters. Narrow bars show only the icon.
 const calIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
 function renderDayControl() {
-  $("dayDD").hidden = state.view !== "when";
   // goes by what was picked: rolling on to tomorrow because today is over still counts as the default
   const today = localNow().slice(0, 10), picked = pickedDay(today), d = picked && asDate(picked);
   const name = !picked ? "Date" : picked === addDays(today, 1) ? "Tomorrow" : `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
@@ -535,6 +516,58 @@ document.addEventListener("keydown", (e) => {
 
 function render() { renderControls(); renderGrid(); }
 
+// ---------------------------------------------------------------- what's new
+// Films that went on sale or were announced here lately (after tracking began), by day, newest day first. Within a day,
+// "Tickets on sale" then "Newly announced", each a grid of the usual cards. One card per film, for what last happened
+// to it. Types, cinemas and language filters apply; Tickets and the Watchlist switch don't. Hidden films are dimmed and
+// last, as in the grid.
+const NEWS_DAYS = 30;
+const NEWS_KINDS = [["sale", "Tickets on sale"], ["ann", "Newly announced"]];
+function newsItems() {
+  const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - NEWS_DAYS), items = [];
+  for (const f of state.data.films) {
+    const kind = f.status === "on_sale" ? "sale" : f.status === "announced" ? "ann" : "";
+    const at = kind === "sale" ? f.onSaleSince : f.announcedSince;
+    if (!kind || !at || at <= state.data.baseline || at.slice(0, 10) < oldest) continue;
+    const m = filmShows(f, now, now, "", true);
+    if (!m || (kind === "sale" && !m.onSale)) continue;
+    items.push({ f, kind, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: isHidden(f), watched: isWatched(f) });
+  }
+  // newest day first; within a group, hidden last and watchlist first (as in the grid), then the most recent
+  return items.sort((a, b) => b.at.slice(0, 10).localeCompare(a.at.slice(0, 10)) || a.hidden - b.hidden || b.watched - a.watched || b.at.localeCompare(a.at));
+}
+function openNews() {
+  const dlg = $("news"), today = localNow().slice(0, 10), days = [];
+  for (const it of newsItems()) {
+    const sec = sinceSection(it.at, today, "");
+    if (!days.length || days.at(-1).key !== sec.key) days.push({ ...sec, items: [] });
+    days.at(-1).items.push(it);
+  }
+  const filtered = activeFilters() - (state.tix !== "all" ? 1 : 0);  // the Tickets filter doesn't apply here
+  const kindHtml = (items, [kind, label]) => {
+    const these = items.filter((it) => it.kind === kind);
+    return these.length ? `<div class="nkind ${kind}"><h4><span class="ntag">${label}</span><span class="n">${these.length}</span></h4>
+      <ul class="grid">${these.map(cardHtml).join("")}</ul></div>` : "";
+  };
+  dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
+    <div class="nhead"><h2 id="newsTitle">What's new</h2>
+      <p>Films that got a date or went on sale in ${esc(state.data.location)} in the last ${NEWS_DAYS} days${filtered ? ", matching your filters" : ""}.</p></div>
+    ${days.length ? days.map((d) => `<section class="nday"><h3>${esc(d.label)}</h3>${NEWS_KINDS.map((k) => kindHtml(d.items, k)).join("")}</section>`).join("")
+      : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale.</p>`}
+    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
+  if (!dlg.open) dlg.showModal();
+}
+// Redraw "What's new" if it's open (after a heart, a hide or the film page closing), staying where it was.
+function refreshNews() {
+  if (!$("news").open) return;
+  const y = $("news").scrollTop;
+  openNews();
+  $("news").scrollTop = y;
+}
+$("newsBtn").addEventListener("click", openNews);
+$("news").addEventListener("close", () => { if (location.hash === "#new") history.replaceState(null, "", location.pathname + location.search); });
+$("news").addEventListener("click", (e) => { if (e.target === $("news")) $("news").close(); });
+
 // ---------------------------------------------------------------- film sheet
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
 
@@ -565,7 +598,7 @@ function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
-  const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked in "Playing when"
+  const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
   const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
   const shown = state.sheetCinemas.size ? filtered.filter((s) => state.sheetCinemas.has(s.cinema)) : filtered;
@@ -617,12 +650,14 @@ function route() {
   const m = location.hash.match(/^#film\/(.+)$/);
   if (m) { openFilm(decodeURIComponent(m[1])); return; }
   if ($("film").open) $("film").close();
+  if (location.hash === "#new") openNews();  // a link straight to "What's new"
 }
 
 $("film").addEventListener("close", () => {
   state.showAll = false;
   state.sheetCinemas.clear();
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search);
+  refreshNews();  // back in "What's new" (if the film was opened from there): show any heart or hide changes
 });
 $("film").addEventListener("click", (e) => { if (e.target === $("film")) $("film").close(); });
 $("account").addEventListener("click", (e) => { if (e.target === $("account")) $("account").close(); });
@@ -638,7 +673,7 @@ document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
-    const i = +t.dataset.sec, s = state.sections[i], key = `${state.view}:${s.key}`;
+    const i = +t.dataset.sec, s = state.sections[i], key = s.key;
     // The header pins just below the top bar, so "pinned" means above that line, not above the screen.
     const stick = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--stick-top")) || 0;
     const pinned = $("sec-" + i).getBoundingClientRect().top < stick - 1;
@@ -649,7 +684,7 @@ document.addEventListener("click", (e) => {
     return;
   }
   if (t.dataset.collapseall) {
-    for (const s of state.sections) setCollapsed(`${state.view}:${s.key}`, t.dataset.collapseall === "1");
+    for (const s of state.sections) setCollapsed(s.key, t.dataset.collapseall === "1");
     closeMenus(); renderGrid(); window.scrollTo({ top: 0 }); return;
   }
   if (t.dataset.f === "reset") {
@@ -728,27 +763,11 @@ $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("fil
 $("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
 
-// Search: an icon on phones that opens a full-width box; always open on wide screens.
-const setSearching = (on) => {
-  document.body.classList.toggle("searching", on);
-  $("searchBtn").setAttribute("aria-expanded", on);
-  if (on) $("q").focus();
-};
-$("searchBtn").addEventListener("click", () => setSearching(true));
-$("searchClose").addEventListener("click", () => {
-  $("q").value = ""; state.q = ""; renderGrid();
-  setSearching(false); $("searchBtn").focus();
-});
-$("q").addEventListener("keydown", (e) => { if (e.key === "Escape") $("searchClose").click(); });
-// Tapping anywhere outside an empty, open search box closes it, like the × does.
-document.addEventListener("pointerdown", (e) => {
-  if (!document.body.classList.contains("searching") || $("q").value) return;
-  if (e.target.closest("#searchBox, #searchBtn")) return;
-  setSearching(false);
-});
+// Search: always a field in the bar. Escape clears it (as does the field's own ×, which fires "input").
+$("q").addEventListener("keydown", (e) => { if (e.key === "Escape" && $("q").value) { $("q").value = ""; state.q = ""; renderGrid(); } });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
-// Pill menus (Sort, Location): a button that opens a small list of choices.
+// Pill menus (Location, the date picker): a button that opens a small list of choices.
 function closeMenus() {
   document.querySelectorAll(".menu").forEach((m) => { m.hidden = true; });
   document.querySelectorAll("[aria-haspopup]").forEach((b) => b.setAttribute("aria-expanded", "false"));
@@ -761,15 +780,12 @@ function toggleMenu(btn, menu) {
   btn.setAttribute("aria-expanded", "true");
   (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button"))?.focus();
 }
-$("sortBtn").addEventListener("click", () => toggleMenu($("sortBtn"), $("sortMenu")));
 $("regionBtn").addEventListener("click", () => toggleMenu($("regionBtn"), $("regionMenu")));
 document.addEventListener("click", (e) => {
   const pick = e.target.closest("[data-pick]");
   if (pick) {
     closeMenus();
-    if (pick.dataset.pick === "view" && pick.dataset.value !== state.view) {
-      state.view = pick.dataset.value; state.day = ""; local.set("view", state.view); render(); window.scrollTo({ top: 0 });
-    } else if (pick.dataset.pick === "region" && pick.dataset.value !== state.region) loadRegion(pick.dataset.value);
+    if (pick.dataset.pick === "region" && pick.dataset.value !== state.region) loadRegion(pick.dataset.value);
     return;
   }
   if (!e.target.closest(".dd")) closeMenus();
@@ -938,15 +954,34 @@ function renderAccount(message = "", isErr = false) {
 
 function setUser(session) {
   state.user = session?.user ? { id: session.user.id, email: session.user.email } : null;
-  // Signed out: a filled "Sign in" button. Signed in: a round avatar with the email's first letter.
+  // Signed out: a filled "Sign in" button (a person icon when the header is tight). Signed in: a round avatar with the
+  // email's first letter.
   const ab = $("accountBtn");
-  ab.textContent = state.user ? state.user.email[0].toUpperCase() : "Sign in";
+  if (state.user) ab.textContent = state.user.email[0].toUpperCase();
+  else ab.innerHTML = `<svg class="ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lbl">Sign in</span>`;
   ab.classList.toggle("primary", !state.user);
   ab.classList.toggle("avatar", !!state.user);
   ab.setAttribute("aria-label", state.user ? `Account (${state.user.email})` : "Sign in");
   if (!state.user) state.profile = null;
   renderAccount();
+  fitHeader();
 }
+
+// The header keeps the title and its buttons on one row, compacting only as far as it must (how wide it is depends on
+// the location's name and on being signed in): What's new becomes an icon, then the location loses its pin, then
+// "Sign in" becomes an icon, then the location loses its arrow, then the title gets a little smaller. If even that
+// doesn't fit, the buttons wrap under the title rather than run off the screen.
+const FIT_STEPS = ["fit-news", "fit-pin", "fit-account", "fit-chev", "fit-title"];
+function fitHeader() {
+  const top = document.querySelector(".top"), h1 = top.querySelector("h1"), right = top.querySelector(".topright");
+  const gap = parseFloat(getComputedStyle(top).columnGap) || 0;
+  const fits = () => h1.offsetWidth + gap + right.offsetWidth <= top.clientWidth;
+  top.classList.remove(...FIT_STEPS);
+  for (const step of FIT_STEPS) { if (fits()) return; top.classList.add(step); }
+}
+let topWidth = 0;
+new ResizeObserver(([e]) => { if (e.contentRect.width !== topWidth) { topWidth = e.contentRect.width; fitHeader(); } }).observe(document.querySelector(".top"));
+document.fonts.ready.then(fitHeader);  // the title's font changes its width once it loads
 
 if (sb) {
   $("accountBtn").hidden = false;
