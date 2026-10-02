@@ -268,10 +268,10 @@ POSTER_H = 261   # 174px poster
 POSTER_H_SMALL = 237  # 158px poster
 
 
-def poster_card(f, link, heart_link, dim=False):
+def poster_card(f, link, heart_link, dim=False, watched=False):
     """Poster as a cell background so the heart (top right) and rating (bottom right) can sit on it, as on the site."""
-    heart = (f'<a href="{e(heart_link)}" title="Add to watchlist" style="text-decoration:none"><img src="{e(asset_url("heart.png"))}" '
-             f'width="32" height="32" alt="♡" style="display:block;width:32px;height:32px;border:0"></a>')
+    heart = (f'<a href="{e(heart_link)}" title="{"On your watchlist" if watched else "Add to watchlist"}" style="text-decoration:none"><img src="{e(asset_url("heart-on.png" if watched else "heart.png"))}" '
+             f'width="32" height="32" alt="{"♥" if watched else "♡"}" style="display:block;width:32px;height:32px;border:0"></a>')
     r = (f.get("ext") or {}).get("lbRating")
     rating = (f'<span style="display:inline-block;background:rgba(10,12,16,.72);color:#ffffff;font-size:12px;font-weight:700;line-height:1;'
               f'padding:4px 7px;border-radius:12px">{r:.1f}<span style="color:#f2b84b;font-size:11px"> ★</span></span>') if r else ""
@@ -288,9 +288,9 @@ def poster_card(f, link, heart_link, dim=False):
             f'<tr><td align="right" valign="bottom" style="padding:0 6px 6px 0;height:24px">{rating}</td></tr></table></td></tr></table>')
 
 
-def card_html(f, link, lines, dim=False, heart_link=None):
+def card_html(f, link, lines, dim=False, heart_link=None, watched=False):
     body = "".join(f'<div class="mut" style="font-size:12px;line-height:1.4;color:#5d6470">{e(x)}</div>' for x in lines if x)
-    return (poster_card(f, link, heart_link or link, dim) +
+    return (poster_card(f, link, link if watched else (heart_link or link), dim, watched) +
             f'<a class="ink" href="{e(link)}" style="display:block;margin:8px 0 3px;font:700 17px/1.05 {DISPLAY};text-transform:uppercase;letter-spacing:.01em;color:#16181d;text-decoration:none">{e(title_of(f))}</a>'
             + body)
 
@@ -317,9 +317,8 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
     link_of = lambda f: f"{site}#film/{f['id']}"
     watch_of = lambda f: f"{site}#watch/{f['id']}"  # the site adds it to the watchlist, then opens the film
     watching = watch_entries(items, announced, leaving)
-    sale = [(f, shows) for f, shows, w in items if not w]
-    ann = [f for f, w in announced if not w]
-    watch_ids = {f["id"] for f, *_ in watching}
+    sale = [(f, shows, w) for f, shows, w in items]       # watchlist films appear here too, with a filled heart
+    ann = [(f, w) for f, w in announced]
 
     txt = []
     if watching:
@@ -328,14 +327,14 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
             txt += [f"{title_of(f)} — {KIND_LABEL[kind][0]}", f"  {detail}", f"  {link_of(f)}", ""]
     if sale:
         txt += ["NEW ON SALE", ""]
-        for f, shows in sale:
+        for f, shows, w in sale:
             cinemas = cinemas_of(shows)
-            txt += [f"{title_of(f)}" + (f" — {rating_of(f)}" if rating_of(f) else ""),
+            txt += [f"{'♥ ' if w else ''}{title_of(f)}" + (f" — {rating_of(f)}" if rating_of(f) else ""),
                     f"  {cinemas} · {plural(len(shows), 'showing')} from {when(shows[0]['t'])}", f"  {link_of(f)}", ""]
     if ann:
         txt += ["NEWLY ANNOUNCED", ""]
-        for f in ann:
-            txt += [title_of(f), f"  {announced_when(f)}", f"  {link_of(f)}", ""]
+        for f, w in ann:
+            txt += [f"{'♥ ' if w else ''}{title_of(f)}", f"  {announced_when(f)}", f"  {link_of(f)}", ""]
 
     blocks = []
     if watching:
@@ -344,14 +343,14 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
                       f'<table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">{rows}</table>')
     if sale:
         cards = []
-        for f, shows in sale:
+        for f, shows, w in sale:
             cinemas = cinemas_of(shows)
             en = " · English subtitles" if any(s.get("en") for s in shows) else ""
             cards.append(card_html(f, link_of(f), [
-                cinemas, f"{when(shows[0]['t'])} · {plural(len(shows), 'showing')}{en}"], heart_link=watch_of(f)))
+                cinemas, f"{when(shows[0]['t'])} · {plural(len(shows), 'showing')}{en}"], heart_link=watch_of(f), watched=w))
         blocks.append(section_head("New on sale", len(sale), "Tickets went on sale since the last email.") + grid_html(cards))
     if ann:
-        cards = [card_html(f, link_of(f), [announced_when(f)], dim=True, heart_link=watch_of(f)) for f in ann]
+        cards = [card_html(f, link_of(f), [announced_when(f)], dim=True, heart_link=watch_of(f), watched=w) for f, w in ann]
         blocks.append(section_head("Newly announced", len(ann), "Just got a date. Tap ♡ to add it to your watchlist.") + grid_html(cards))
 
     footer = f"Settings and watchlist: {site}\nUnsubscribe: {unsub_url}"

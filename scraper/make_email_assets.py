@@ -45,7 +45,17 @@ def png_bytes(w, h, raw):
             + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
 
 
-def main():
+def inside(x, y, pts):
+    """Even-odd point-in-polygon test."""
+    hit = False
+    for (x1, y1), (x2, y2) in zip(pts, pts[1:] + pts[:1]):
+        if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+            hit = not hit
+    return hit
+
+
+def draw(filled, bg_rgb, bg_alpha):
+    """RGBA rows: the heart (outline, or filled) in white on a round button of `bg_rgb` at `bg_alpha`."""
     pts = flatten()
     segs = list(zip(pts, pts[1:]))
     off = (SIZE - 24 * SCALE) / 2          # centre the 24-unit icon in the button
@@ -60,25 +70,25 @@ def main():
                     if (fx - SIZE / 2) ** 2 + (fy - SIZE / 2) ** 2 <= (SIZE / 2) ** 2:
                         bg += 1
                         ux, uy = (fx - off) / SCALE, (fy - off) / SCALE
-                        if min(dist_to_segment(ux, uy, a, b) for a, b in segs) <= 1.0:  # stroke-width 2
-                            ink += 1
+                        if (filled and inside(ux, uy, pts)) or min(dist_to_segment(ux, uy, a, b) for a, b in segs) <= 1.0:
+                            ink += 1                                     # stroke-width 2, like the site
             n = SS * SS
-            a_bg = bg / n * 0.6                       # rgba(10,12,16,.6) like the site's button
-            a_ink = ink / n
+            a_bg, a_ink = bg / n * bg_alpha, ink / n
             a = a_ink + a_bg * (1 - a_ink)
             if a == 0:
                 row += bytes([0, 0, 0, 0])
                 continue
-            r = (255 * a_ink + 10 * a_bg * (1 - a_ink)) / a
-            g = (255 * a_ink + 12 * a_bg * (1 - a_ink)) / a
-            b = (255 * a_ink + 16 * a_bg * (1 - a_ink)) / a
-            row += bytes([round(r), round(g), round(b), round(a * 255)])
+            c = [round((255 * a_ink + v * a_bg * (1 - a_ink)) / a) for v in bg_rgb]
+            row += bytes(c + [round(a * 255)])
         rows.append(bytes(row))
-    raw = b"".join(rows)
+    return b"".join(rows)
 
+
+def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_bytes(png_bytes(SIZE, SIZE, raw))
-    print(f"Wrote {OUT}")
+    OUT.write_bytes(png_bytes(SIZE, SIZE, draw(False, (10, 12, 16), 0.6)))         # rgba(10,12,16,.6) like the site's button
+    (OUT.parent / "heart-on.png").write_bytes(png_bytes(SIZE, SIZE, draw(True, (163, 33, 58), 1)))  # on the watchlist: accent red
+    print(f"Wrote {OUT} and heart-on.png")
 
 
 if __name__ == "__main__":
