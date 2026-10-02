@@ -52,7 +52,8 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
     week · Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere
     if earlier. Films without a date are left out (they appear only when you search for them).
     The first section is a chosen day, Today by default (so the page is unchanged and nothing asks
-    you to pick). A day control sits beside Sort, only in this view: a calendar icon, with a label
+    you to pick); once nothing more is on today under your filters, it's the next day something is
+    (usually tomorrow), still counting as the default. A day control sits beside Sort, only in this view: a calendar icon, with a label
     whenever the bar has room (not on most phones held upright): "Date ▾" on Today, which counts
     as no filter, or the picked day ("Thu 15 Oct ▾"), highlighted like active filters. It opens a month
     picker with a Today button beside the month arrows, as in most calendars (days with nothing

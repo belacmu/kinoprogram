@@ -161,8 +161,21 @@ function startDay(f, shows) {
   return prem || "";
 }
 
-// The day the first "Playing when" section shows: the one picked, or today (also once a picked day has passed).
-const chosenDay = (today) => (state.day > today ? state.day : today);
+// The day the first "Playing when" section shows: the one picked; otherwise today, or, once nothing more is on today
+// (under the filters), the next day something is. A picked day that has passed counts as not picked.
+const pickedDay = (today) => (state.day > today ? state.day : "");
+function chosenDay(today) {
+  if (pickedDay(today)) return state.day;
+  const now = localNow();
+  let next = "";
+  for (const f of state.data.films) {
+    const t = filmShows(f, now, now)?.shows[0]?.t;
+    if (!t) continue;
+    if (t.startsWith(today)) return today;
+    if (!next || t < next) next = t;
+  }
+  return next ? next.slice(0, 10) : today;
+}
 const DAY_KEY = "0000";
 const dayTitle = (chosen, today) => (chosen === today ? "Playing today" : `Playing ${dayLabel(chosen)}`);
 // Section labels for the "When it's playing" view. The first section is the chosen day (today unless another is
@@ -222,7 +235,7 @@ function buildRows() {
     const row = { f, shows: m.shows, onSale: m.onSale, hidden: isHidden(f), watched: isWatched(f), start: startDay(f, m.all) };
     if (state.view === "when") {
       if (!row.start && !q) continue; // undated films only turn up when you search for them
-      if (later && !row.shows.length && row.start < chosen) continue;  // premiered before the picked day, nothing since
+      if (pickedDay(today) && !row.shows.length && row.start < chosen) continue;  // premiered before the picked day, nothing since
       row.sec = whenSection(row, today, chosen);
       if (later && row.sec.key === DAY_KEY) row.dayShows = row.shows.filter((s) => s.t.startsWith(chosen));
     } else if (state.view === "sale") {
@@ -431,11 +444,12 @@ function renderGrid() {
 const calIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
 function renderDayControl() {
   $("dayDD").hidden = state.view !== "when";
-  const today = localNow().slice(0, 10), chosen = chosenDay(today), d = asDate(chosen);
-  const name = chosen === today ? "Date" : chosen === addDays(today, 1) ? "Tomorrow" : `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  // goes by what was picked: rolling on to tomorrow because today is over still counts as the default
+  const today = localNow().slice(0, 10), picked = pickedDay(today), d = picked && asDate(picked);
+  const name = !picked ? "Date" : picked === addDays(today, 1) ? "Tomorrow" : `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
   $("dayBtn").innerHTML = `${calIcon}<span class="lbl">${name}</span><span class="chev" aria-hidden="true">▾</span>`;
-  $("dayBtn").classList.toggle("on", chosen !== today);
-  $("dayBtn").setAttribute("aria-label", chosen === today ? "Pick a date" : `Date: ${longDate.format(d)}`);
+  $("dayBtn").classList.toggle("on", !!picked);
+  $("dayBtn").setAttribute("aria-label", picked ? `Date: ${longDate.format(d)}` : "Pick a date");
 }
 
 // The last day anything is listed, from the cinemas' published horizons.
