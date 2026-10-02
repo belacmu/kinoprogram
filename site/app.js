@@ -84,6 +84,8 @@ function showMatches(s, now) {
   return true;
 }
 const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
+// The watchlist is one list across regions (ids are per cinema listing); only the films in the region being viewed count.
+const watchedHere = () => state.data.films.filter(isWatched).length;
 
 // Hiding a film: prefs.hidden maps film id -> the film's onSaleSince when it was hidden. It stays hidden while that same
 // run continues; if the film goes off sale and comes back later (a new onSaleSince, the same rule as "newly on sale"),
@@ -252,7 +254,8 @@ function renderControls() {
   $("regionMenu").innerHTML = REGIONS.map((r) =>
     `<button role="menuitemradio" aria-checked="${r.key === state.region}" data-pick="region" data-value="${r.key}">${r.name}</button>`).join("");
   document.querySelectorAll("#listSwitch [data-list]").forEach((b) => b.setAttribute("aria-pressed", (b.dataset.list === "watch") === state.onlyWatch));
-  $("wlCount").textContent = state.watchlist.size ? ` · ${state.watchlist.size}` : "";
+  const wl = watchedHere();
+  $("wlCount").textContent = wl ? ` · ${wl}` : "";
   const n = activeFilters();
   $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
   $("filtersBtn").setAttribute("aria-pressed", n > 0);
@@ -371,6 +374,7 @@ function renderGrid() {
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
+  else if (state.onlyWatch && !watchedHere()) empty = `Nothing on your watchlist is in ${esc(state.data.location)}'s listings. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.`;
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {

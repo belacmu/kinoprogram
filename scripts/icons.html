@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- Draws the home-screen/app icons: the C of the wordmark in its font (Big Shoulders Display 800), white on the
+     site's accent. Run by scripts/make-icons.sh, which saves the results into site/icons/. -->
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&display=block">
+<pre id="out"></pre>
+<script>
+const BG = "#a3213a", FG = "#ffffff";
+// [file, size, height of the C as a share of the icon]. Maskable icons get cropped to a circle, so the C is smaller.
+const ICONS = [["apple-touch-icon.png", 180, 0.64], ["icon-192.png", 192, 0.64], ["icon-512.png", 512, 0.64],
+               ["icon-maskable-512.png", 512, 0.54], ["favicon-32.png", 32, 0.8]];
+function draw(size, capFrac) {
+  const c = document.createElement("canvas"); c.width = c.height = size;
+  const x = c.getContext("2d");
+  x.fillStyle = BG; x.fillRect(0, 0, size, size);
+  x.fillStyle = FG;
+  x.font = `800 ${size}px "Big Shoulders Display"`;
+  const m = x.measureText("C");
+  x.font = `800 ${size * size * capFrac / (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent)}px "Big Shoulders Display"`;
+  const n = x.measureText("C");  // centre the glyph's ink, not its advance box
+  const w = n.actualBoundingBoxLeft + n.actualBoundingBoxRight, h = n.actualBoundingBoxAscent + n.actualBoundingBoxDescent;
+  x.fillText("C", (size - w) / 2 + n.actualBoundingBoxLeft, (size - h) / 2 + n.actualBoundingBoxAscent);
+  return c.toDataURL("image/png").split(",")[1];
+}
+document.fonts.load('800 100px "Big Shoulders Display"').then((f) => {
+  if (!f.length) throw new Error("font did not load");
+  document.getElementById("out").textContent = ICONS.map(([n, s, k]) => `${n} ${draw(s, k)}`).join("\n");
+});
+</script>
