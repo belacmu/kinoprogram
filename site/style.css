@@ -373,9 +373,9 @@ a.stub:hover { border-color: var(--accent); }
 
 /* each section is one panel: the header is its top row and the films sit inside it */
 #grid { overflow-anchor: none; }  /* stop the browser re-jumping the page when a section collapses */
-.sec { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin: 0 0 16px; }
-.sec .sech { padding: 0; background: var(--surface); border-radius: 14px 14px 0 0; box-shadow: 0 12px 10px -10px var(--stick-shadow); }
-.sec.shut .sech { border-radius: 14px; box-shadow: none; }
+.sec { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin: 0 0 16px; overflow: clip; }  /* clip (unlike hidden) keeps the header sticky */
+.sec .sech { top: calc(var(--stick-top, 0px) - 1px); padding: 0; background: var(--surface); border-radius: 0; box-shadow: 0 12px 10px -10px var(--stick-shadow); }
+.sec.shut .sech { box-shadow: none; }
 .sec .sech button { align-items: center; padding: 14px 16px; border: 0; border-radius: inherit; background: none; transition: background .15s; }
 .sec .sech button:hover { background: var(--chip); }
 .sec .sech button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
