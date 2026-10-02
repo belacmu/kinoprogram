@@ -53,9 +53,9 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
     if earlier. Films without a date are left out (they appear only when you search for them).
     The first section is a chosen day, Today by default (so the page is unchanged and nothing asks
     you to pick). A day control sits beside Sort, only in this view: a calendar icon on phones, a
-    "Today ▾" pill on wider screens, highlighted once another day is picked. It opens Today,
-    Tomorrow and a month picker (days with nothing playing under the current filters are greyed
-    out). Picking a day shows the page as it will be then: that day's films first, with that day's
+    "Today ▾" pill on wider screens, highlighted once another day is picked. It opens a month
+    picker with Today above it to go back (days with nothing playing under the current filters are
+    greyed out). Picking a day shows the page as it will be then: that day's films first, with that day's
     cinemas and times on the cards, then everything after it in the usual sections; films only
     playing before it drop out, and a film opened from there starts at (and highlights) that day.
     The section stays even when empty, saying nothing's on. The day isn't remembered: reloading or

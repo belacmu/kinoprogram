@@ -466,9 +466,7 @@ function calHtml() {
     const label = `${longDate.format(asDate(day))}, ${n ? `${n} film${n > 1 ? "s" : ""}` : "nothing playing"}`;
     cells.push(`<button class="cday${day === today ? " now" : ""}" data-dayset="${day === today ? "" : day}" data-cal="${day}" aria-pressed="${day === chosen}" aria-label="${label}"${n ? "" : " disabled"}>${+day.slice(8)}</button>`);
   }
-  const tomorrow = addDays(today, 1);
   return `<button class="calq" data-dayset="" aria-pressed="${chosen === today}">Today</button>
-    <button class="calq" data-dayset="${tomorrow}" aria-pressed="${chosen === tomorrow}"${counts[tomorrow] || tomorrow.slice(0, 7) !== month ? "" : " disabled"}>Tomorrow</button>
     <div class="calhead">
       <button class="calnav" data-calnav="-1" aria-label="Previous month"${month <= today.slice(0, 7) ? " disabled" : ""}>‹</button>
       <b>${MONTH_NAMES[m - 1]} ${y}</b>
