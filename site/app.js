@@ -722,6 +722,59 @@ async function loadRegion(key) {
   route();
 }
 
+// ---------------------------------------------------------------- hidden debug panel
+// Open it by tapping the Cinecrab title five times, or by adding #debug to the address.
+// It starts the "Send demo emails" run on GitHub (the Gmail password only exists there).
+const GH_REPO = "belacmu/kinoprogram";
+function openDebug(msg = "", isErr = false) {
+  const hasToken = !!local.get("ghToken", "");
+  const email = local.get("debugEmail", "") || state.user?.email || "";
+  $("debugBody").innerHTML = `<h2 id="debugTitle">Debug</h2>
+    <p>Send sample digest emails (one for Oslo, one for Westman, built from today's real films) to an address of your choice. They go out through the Cinecrab Gmail and arrive in about a minute.</p>
+    <form id="debugForm" class="stack">
+      <label class="field">Send to<input type="email" id="dbgEmail" required value="${esc(email)}" placeholder="you@example.com" autocomplete="email"></label>
+      <label class="field">GitHub token<input type="password" id="dbgToken" placeholder="${hasToken ? "Saved in this browser" : "github_pat_…"}" autocomplete="off" ${hasToken ? "" : "required"}></label>
+      <small class="hint">A fine-grained token for <b>${GH_REPO}</b> with <b>Actions: read and write</b>. It stays in this browser only.</small>
+      <div class="row"><button class="btn accent" type="submit">Send demo emails</button>
+      ${hasToken ? `<button class="linkbtn" type="button" id="dbgForget">Forget token</button>` : ""}
+      <a class="linkbtn" href="https://github.com/${GH_REPO}/actions" target="_blank" rel="noopener">See the run ↗</a></div>
+    </form>${msg ? `<div class="msg${isErr ? " err" : ""}">${esc(msg)}</div>` : ""}`;
+  if (!$("debug").open) $("debug").showModal();
+}
+(() => {
+  let taps = 0, timer = null;
+  document.querySelector(".top h1").addEventListener("click", () => {
+    taps++; clearTimeout(timer); timer = setTimeout(() => { taps = 0; }, 2000);
+    if (taps >= 5) { taps = 0; openDebug(); }
+  });
+  if (location.hash === "#debug") openDebug();
+})();
+$("debug").addEventListener("click", (e) => {
+  if (e.target === $("debug")) $("debug").close();
+  if (e.target.id === "dbgForget") { local.set("ghToken", ""); openDebug("Token forgotten."); }
+});
+$("debug").addEventListener("submit", async (e) => {
+  if (e.target.id !== "debugForm") return;
+  e.preventDefault();
+  const email = $("dbgEmail").value.trim(), token = $("dbgToken").value.trim() || local.get("ghToken", "");
+  if (!email || !token) { openDebug("Enter an email and a token.", true); return; }
+  local.set("ghToken", token); local.set("debugEmail", email);
+  const btn = e.target.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Sending…";
+  let msg = "", err = false;
+  try {
+    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/actions/workflows/update.yml/dispatches`, {
+      method: "POST",
+      headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}`, "X-GitHub-Api-Version": "2022-11-28" },
+      body: JSON.stringify({ ref: "main", inputs: { test_email: email } }),
+    });
+    if (r.status === 204) msg = `Started. Two sample emails should reach ${email} in about a minute (check spam the first time).`;
+    else { err = true; msg = r.status === 401 || r.status === 403 || r.status === 404
+      ? "GitHub rejected the token. It needs access to this repository with Actions: read and write."
+      : `GitHub answered ${r.status}. Try again, or start the run from the Actions page.`; }
+  } catch { err = true; msg = "Couldn't reach GitHub. Check your connection and try again."; }
+  openDebug(msg, err);
+});
+
 (async function boot() {
   await loadRegion(state.region);
   handleUnsubscribe();
