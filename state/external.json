@@ -105,7 +105,8 @@
 "enFrom": "tmdb",
 "lbSlug": "beetlejuice",
 "lbRating": 3.73,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-bola-negra": {
 "imdb": "tt35511966",
@@ -123,7 +124,8 @@
 "tmdb": 1422041,
 "lbSlug": "la-bola-negra",
 "lbRating": 4.32,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "es"
 },
 "cl-castillo-ambulante": {
 "imdb": "tt0347149",
@@ -147,6 +149,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1263337,
+"lang": "en",
 "imdb": "tt7526136",
 "en": "Heart of the Beast",
 "enFrom": "tmdb",
@@ -171,7 +174,8 @@
 "enFrom": "tmdb",
 "lbSlug": "coyote-vs-acme",
 "lbRating": 3.83,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-digger": {
 "imdb": "tt31450459",
@@ -190,7 +194,8 @@
 "enFrom": "tmdb",
 "lbSlug": "digger-2026",
 "lbRating": 3.72,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-isla-olvidada": {
 "checked": "2026-10-02",
@@ -214,7 +219,8 @@
 "enFrom": "tmdb",
 "lbSlug": "isle-of-dogs-2018",
 "lbRating": 4.09,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-l-elisir-d-amore-26-27": {
 "checked": "2026-10-02",
@@ -238,13 +244,15 @@
 "enFrom": "tmdb",
 "lbSlug": "the-odyssey-2026",
 "lbRating": 4.35,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-patrulla-canina-dino-pelicula": {
 "checked": "2026-10-02",
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1185806,
+"lang": "en",
 "imdb": "tt29356163",
 "en": "PAW Patrol: The Dino Movie",
 "enFrom": "tmdb",
@@ -269,13 +277,15 @@
 "enFrom": "tmdb",
 "lbSlug": "ponyo",
 "lbRating": 4.13,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "ja"
 },
 "cl-practicamente-magia-2": {
 "checked": "2026-10-02",
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1302904,
+"lang": "en",
 "imdb": "tt32588798",
 "en": "Practical Magic 2",
 "enFrom": "tmdb",
@@ -300,7 +310,8 @@
 "enFrom": "tmdb",
 "lbSlug": "resident-evil-2026",
 "lbRating": 3.77,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-septimo-sello": {
 "imdb": "tt0050976",
@@ -319,7 +330,8 @@
 "enFrom": "tmdb",
 "lbSlug": "the-seventh-seal",
 "lbRating": 4.31,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "sv"
 },
 "cl-spider-man-brand-new-day": {
 "imdb": "tt22084616",
@@ -338,7 +350,8 @@
 "enFrom": "tmdb",
 "lbSlug": "spider-man-brand-new-day",
 "lbRating": 4.04,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-tadeo-jones-lampara-maravillosa": {
 "imdb": "tt36164852",
@@ -356,7 +369,8 @@
 "tmdb": 1187326,
 "lbSlug": "tad-and-the-magic-lamp",
 "lbRating": 3.05,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "es"
 },
 "cl-vengadores-endgame": {
 "imdb": "tt4154796",
@@ -375,7 +389,8 @@
 "enFrom": "tmdb",
 "lbSlug": "avengers-endgame",
 "lbRating": 4.03,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-verity-sombra-engano": {
 "imdb": "tt32261958",
@@ -394,7 +409,8 @@
 "enFrom": "tmdb",
 "lbSlug": "verity-2026",
 "lbRating": 2.78,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "en"
 },
 "cl-viridiana": {
 "imdb": "tt0055601",
@@ -412,7 +428,8 @@
 "tmdb": 4497,
 "lbSlug": "viridiana",
 "lbRating": 4.05,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"lang": "es"
 },
 "cm-11-x14": {
 "tmdbChecked": "2026-10-01",
@@ -2045,6 +2062,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1433791,
+"lang": "en",
 "imdb": "tt35932522",
 "en": "Flophouse America",
 "enFrom": "tmdb",
@@ -2090,6 +2108,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1498743,
+"lang": "nb",
 "imdb": "tt39453840",
 "en": "The Pension Heist",
 "enFrom": "tmdb",
@@ -2333,6 +2352,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 572474,
+"lang": "sv",
 "imdb": "tt9675804",
 "en": null,
 "lbSlug": "ridge",
@@ -2525,6 +2545,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1635570,
+"lang": "nn",
 "imdb": "tt31451181",
 "en": "Beloved",
 "enFrom": "tmdb",
@@ -2665,6 +2686,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1686178,
+"lang": "en",
 "imdb": "tt43338428",
 "en": "Savage Mountain",
 "enFrom": "tmdb",
@@ -3104,6 +3126,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1729736,
+"lang": "no",
 "imdb": null,
 "en": "This is not an Apple",
 "enFrom": "tmdb",
@@ -3219,6 +3242,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1229827,
+"lang": "sv",
 "imdb": "tt29330202",
 "en": "The Unmeasureable",
 "enFrom": "tmdb",
@@ -3231,6 +3255,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1503771,
+"lang": "fi",
 "imdb": "tt31995671",
 "en": null,
 "lbSlug": "the-beauty-of-errors",
@@ -3464,6 +3489,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1545391,
+"lang": "sv",
 "imdb": "tt38890302",
 "en": null,
 "lbSlug": "resan-till-piemonte-2026",
@@ -3646,6 +3672,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1625655,
+"lang": "uk",
 "imdb": "tt39442922",
 "en": null,
 "lbSlug": "mariinka",
@@ -3657,6 +3684,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1490707,
+"lang": "sv",
 "imdb": "tt40054398",
 "en": null,
 "lbSlug": "a-sweetness-from-nowhere",
@@ -3811,6 +3839,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1694097,
+"lang": "en",
 "imdb": "tt42870035",
 "en": "Giant",
 "enFrom": "tmdb",
@@ -3861,6 +3890,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1635569,
+"lang": "no",
 "imdb": null,
 "en": null,
 "lbSlug": "in-defense-of-self",
@@ -3967,6 +3997,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1662776,
+"lang": "vi",
 "imdb": "tt38857159",
 "en": null,
 "lbSlug": "hearing-2026",
@@ -4141,6 +4172,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1228911,
+"lang": "en",
 "imdb": "tt30460036",
 "en": "At Night",
 "enFrom": "tmdb",
@@ -4153,6 +4185,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1616878,
+"lang": "sv",
 "imdb": "tt39382662",
 "en": null,
 "lbSlug": "doggerland-2026",
@@ -4174,6 +4207,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1418530,
+"lang": "hy",
 "imdb": "tt35437028",
 "en": null,
 "lbSlug": "after-dreaming",
@@ -4185,6 +4219,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1529846,
+"lang": "pt",
 "imdb": "tt39075246",
 "en": null,
 "lbSlug": "my-semba",
@@ -4196,6 +4231,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1729657,
+"lang": "fr",
 "imdb": "tt43660223",
 "en": null,
 "lbSlug": "revolutionaries-never-die",
@@ -4207,6 +4243,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1633334,
+"lang": "en",
 "imdb": null,
 "en": "An Incomplete Calendar",
 "enFrom": "tmdb",
@@ -4219,6 +4256,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1449729,
+"lang": "ha",
 "imdb": "tt36461267",
 "en": null,
 "lbSlug": "mountain-of-gold-2025",
@@ -4230,6 +4268,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1568038,
+"lang": "xx",
 "imdb": "tt38773523",
 "en": null,
 "lbSlug": "krakatoa-2026",
@@ -4456,6 +4495,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1770234,
+"lang": "en",
 "imdb": "tt45591708",
 "en": "BTS World Tour 'Arirang' In São Paulo: Live Viewing",
 "enFrom": "tmdb",
@@ -4468,6 +4508,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1770237,
+"lang": "en",
 "imdb": null,
 "en": "BTS World Tour 'Arirang'  in Buenos Aires: Live Viewing",
 "enFrom": "tmdb",
@@ -4550,6 +4591,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1515139,
+"lang": "en",
 "imdb": "tt46055956",
 "en": "Back to the Beginning: Ozzy's Final Bow",
 "enFrom": "tmdb",
@@ -4581,6 +4623,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1640396,
+"lang": "hi",
 "imdb": "tt44090550",
 "en": null,
 "lbSlug": "prem-keetanu",
@@ -4603,6 +4646,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1269325,
+"lang": "hi",
 "imdb": "tt27050858",
 "en": null,
 "lbSlug": "drishyam-the-conclusion",
@@ -4680,6 +4724,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1785968,
+"lang": "ko",
 "imdb": null,
 "en": null,
 "lbSlug": "enhypen-world-tour-blood-saga",
@@ -5048,6 +5093,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1784301,
+"lang": "ar",
 "imdb": "tt43698551",
 "en": null,
 "lbSlug": "matloob-aaeleyan",
@@ -5191,6 +5237,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1653383,
+"lang": "no",
 "imdb": "tt36726913",
 "en": "The Murder of Benjamin",
 "enFrom": "tmdb",
@@ -5203,6 +5250,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1578318,
+"lang": "no",
 "imdb": "tt41475646",
 "en": "Santa's Workshop",
 "enFrom": "tmdb",
@@ -5398,6 +5446,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1128552,
+"lang": "no",
 "imdb": "tt15939018",
 "en": null,
 "lbSlug": "little-axel",
