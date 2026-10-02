@@ -60,7 +60,7 @@ const state = {
   q: "",
   prefs: withDefaults(local.get("prefs", {})),
   watchlist: new Set(local.get("watchlist", [])),
-  collapsed: new Set(local.get("collapsed", [])), // "view:sectionKey" of collapsed sections
+  collapsed: new Set(), // "view:sectionKey" of collapsed sections; deliberately not remembered across reloads
   showAll: false,       // film sheet: show showings hidden by filters
   sheetCinemas: new Set(), // film sheet: cinema tags clicked to narrow its showings
   user: null,           // { id, email }
@@ -373,7 +373,8 @@ function openFilm(id) {
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div></div>
-    <div class="days">${days}${hiddenNote}${empty}</div>`;
+    <div class="days">${days}${hiddenNote}${empty}</div>
+    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) dlg.showModal();
 }
 
@@ -396,7 +397,6 @@ function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [
 
 function setCollapsed(key, shut) {
   shut ? state.collapsed.add(key) : state.collapsed.delete(key);
-  local.set("collapsed", [...state.collapsed]);
 }
 
 document.addEventListener("click", (e) => {

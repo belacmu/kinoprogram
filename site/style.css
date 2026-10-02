@@ -411,6 +411,19 @@ a.stub:hover { border-color: var(--accent); }
   .sec > .grid { padding: 4px 12px 14px; }
 }
 
+/* film page on phones: a bottom sheet with a Close button where the thumb is; the page behind can't scroll */
+html:has(dialog[open]), body:has(dialog[open]) { overflow: hidden; }
+dialog { overscroll-behavior: contain; }
+.sheetbar { display: none; }
+@media (max-width: 560px) {
+  #film { position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: 88dvh; margin: 0;
+    border-radius: 18px 18px 0 0; }
+  #film .dlg-close { top: 0; }
+  .sheetbar { display: block; position: sticky; bottom: 0; padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: var(--surface); border-top: 1px solid var(--line); }
+  .sheetbar .btn { width: 100%; padding: 12px; border-radius: 999px; font-size: 15px; }
+}
+
 /* optional on phones (?layout=bleed): panels run edge to edge so posters get the width */
 @media (max-width: 560px) {
   body.bleed .sec { margin-inline: -16px; border-radius: 0; border-inline: 0; }
