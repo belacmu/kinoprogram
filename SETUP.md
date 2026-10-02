@@ -35,6 +35,9 @@ A dedicated account keeps your personal address out of it.
    - Database password: click **Generate a password** (you won't need it again, but save it)
    - Region: **North EU (Stockholm)** or **Central EU (Frankfurt)**
    - Plan: Free → **Create new project**, wait a minute or two.
+   - **Check you're in the new project before changing anything:** the project name at the top left
+     must say `kinoprogram` (or `cinecrab`), and **Table Editor** must show no tables. If you see
+     another app's data, you're in the wrong project. Stop and don't paste anything.
 3. Create the table: left sidebar **SQL Editor** → **New query** → paste the entire contents of
    [`supabase/schema.sql`](supabase/schema.sql) → **Run**. It should say "Success. No rows returned".
 4. Site address: **Authentication → URL Configuration** → Site URL:

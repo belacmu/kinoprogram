@@ -1,6 +1,16 @@
 -- Kinoprogram: one profile row per signed-in user.
 -- Paste this whole file into Supabase → SQL Editor → New query → Run. Safe to re-run.
 
+-- Safety check: this must only ever run in a brand-new, empty project. If the database already has
+-- other tables (a different app's project), stop before changing anything.
+do $$
+begin
+  if exists (select 1 from information_schema.tables
+             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name <> 'profiles') then
+    raise exception 'This database already has other tables, so it is not a new Cinecrab project. Nothing was changed.';
+  end if;
+end $$;
+
 create table if not exists public.profiles (
   id                uuid primary key references auth.users on delete cascade,
   email             text not null,
