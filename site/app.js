@@ -98,7 +98,7 @@ function unhideFilm(f) { for (const i of f.ids) delete state.prefs.hidden?.[i]; 
 // Hiding or unhiding moves the card to its new place in the section; slide it there instead of jumping.
 let flipFrom = null;
 function flipBegin(id) { flipFrom = { id, rects: new Map([...document.querySelectorAll(".card")].map((c) => [c.dataset.id, c.getBoundingClientRect()])) }; }
-function flipRun(fadeFrom) {
+function flipRun(fadeFrom = null) {
   const prev = flipFrom; flipFrom = null;
   if (!prev || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   for (const c of document.querySelectorAll(".card")) {
@@ -106,7 +106,7 @@ function flipRun(fadeFrom) {
     if (!a) continue;
     const b = c.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top;
     if (dx || dy) c.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], { duration: 450, easing: "cubic-bezier(.2, .8, .2, 1)" });
-    if (c.dataset.id === prev.id) for (const el of c.querySelectorAll(".poster img, .poster .ph, .m, h3")) el.animate([{ opacity: fadeFrom }, {}], { duration: 450 });
+    if (fadeFrom !== null && c.dataset.id === prev.id) for (const el of c.querySelectorAll(".poster img, .poster .ph, .m, h3")) el.animate([{ opacity: fadeFrom }, {}], { duration: 450 });
   }
 }
 function toggleHidden(f) {
@@ -184,7 +184,7 @@ function buildRows() {
     if (f.shows.length && !shows.length) continue; // has showings, none match the filters
     const bookable = shows.filter((s) => s.ticket);
     const onSale = f.status === "on_sale" && bookable.length > 0;
-    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, start: startDay(f, shows) };
+    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, watched: isWatched(f), start: startDay(f, shows) };
     if (state.tix === "on" && !onSale) continue;
     if (state.tix === "off" && onSale) continue;
     if (state.view === "when") {
@@ -206,6 +206,7 @@ function buildRows() {
   rows.sort((a, b) => {
     if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
     if (a.hidden !== b.hidden) return a.hidden ? 1 : -1;  // hidden films are dimmed and always last in their section
+    if (a.watched !== b.watched) return a.watched ? -1 : 1;  // watchlist films come first
     if (state.within === "rating") return rating(b) - rating(a) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     if (state.within === "fewest") { // one-off screenings first; films with no showings yet (just a premiere) last
       const n = (r) => r.shows.length || Infinity;
@@ -499,6 +500,7 @@ document.addEventListener("click", (e) => {
   if (t.dataset.star) {
     e.preventDefault();
     const f = findFilm(t.dataset.star);
+    flipBegin(f.id);  // the card moves to its new place (watchlist films come first): slide it there
     if (isWatched(f)) { f.ids.forEach((id) => state.watchlist.delete(id)); savePrefs(); }
     else if (requestWatch(f)) savePrefs();
     if ($("film").open) openFilm(f.id);
@@ -508,6 +510,7 @@ document.addEventListener("click", (e) => {
     openFilm(location.hash.slice(6)); return;
   } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(location.hash.slice(6)); return; }
   render();
+  flipRun();
 });
 
 // Picking a specific cinema switches Tickets to "On sale"; going back to all cinemas switches it back to "All".
