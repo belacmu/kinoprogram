@@ -364,3 +364,10 @@ a.stub:hover { border-color: var(--accent); }
 .star svg { display: block; margin: auto; }
 .star { display: flex; align-items: center; justify-content: center; padding: 0; }
 .actions .btn svg { vertical-align: -3px; }
+
+/* desktop: sorting leads, search is compact beside it */
+@media (min-width: 1000px) {
+  #sortDD { order: 1; }
+  .bar .searchbox { order: 2; flex: 0 1 300px; }
+  .dd.grow .pill { min-width: 260px; }
+}

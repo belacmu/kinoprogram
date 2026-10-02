@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 from build import REGIONS  # noqa: E402
 SEND_HOUR = 9
+DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: films only
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -71,7 +72,7 @@ def pick_announced(films, profile, now_s):
     if not prefs.get("announcements", True):
         return []
     watch = set(profile.get("watchlist") or [])
-    hide_kinds = set(prefs.get("hideKinds") or [])
+    hide_kinds = set(prefs["hideKinds"] if "hideKinds" in prefs else DEFAULT_HIDE_KINDS)
     out = [(f, bool(watch & set(f["ids"]))) for f in films if announced_ok(f, prefs, now_s)
            and (f.get("kind", "film") not in hide_kinds or watch & set(f["ids"]))]
     return sorted(out, key=lambda x: (not x[1], x[0]["premiere"] or (x[0]["shows"][0]["t"] if x[0]["shows"] else "9999")))
@@ -83,7 +84,7 @@ def pick(new_films, profile, now_s):
     watch = set(profile.get("watchlist") or [])
     always = prefs.get("watchlistAlways", True)
     out = []
-    hide_kinds = set(prefs.get("hideKinds") or [])
+    hide_kinds = set(prefs["hideKinds"] if "hideKinds" in prefs else DEFAULT_HIDE_KINDS)
     for f in new_films:
         watched = bool(watch & set(f["ids"]))
         if f.get("kind", "film") in hide_kinds and not watched:

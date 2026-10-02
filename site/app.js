@@ -37,8 +37,13 @@ const VIEWS = [["when", "Playing when", "Grouped by when it starts"], ["sale", "
   ["ann", "Newly announced", "Films that just got a date here"]];  // the Sort menu
 const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 // Order of films inside each section. "date" means the view's natural order (by time, or newest first).
-const WITHIN = [["date", "By date"], ["rating", "Best rated first"], ["fewest", "Fewest showings first"]];
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], hideKinds: [] };
+const WITHIN = [["rating", "Best rated first"], ["date", "By date"], ["fewest", "Fewest showings first"]];
+const DEFAULT_HIDE = ["short", "stage", "talk"];  // by default only films are shown
+const DEFAULTS_V = 2;                             // bump to re-apply new defaults to saved settings
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
+// Settings saved before these defaults existed get the new "films only" default once.
+const withDefaults = (saved) => ({ ...DEFAULT_PREFS, ...saved, ...(saved.defaultsV === DEFAULTS_V ? {} : { hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V }) });
+const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
 const KINDS = [["film", "Films"], ["short", "Shorts"], ["stage", "Live & stage"], ["talk", "Talks & events"]];
 const KIND_BADGE = { short: "Shorts", stage: "Live & stage", talk: "Talk / event" };
 const kindShown = (f) => !(state.prefs.hideKinds || []).includes(f.kind || "film");
@@ -50,10 +55,10 @@ const state = {
   region: REGIONS.some((r) => r.key === urlRegion) ? urlRegion : local.get("region", "oslo"),
   view: VIEWS.some(([v]) => v === local.get("view", "when")) ? local.get("view", "when") : "when",
   tix: local.get("tix", "all"),
-  within: local.get("within", "date"),
+  within: local.get("within2", "rating"),
   onlyWatch: false,
   q: "",
-  prefs: { ...DEFAULT_PREFS, ...local.get("prefs", {}) },
+  prefs: withDefaults(local.get("prefs", {})),
   watchlist: new Set(local.get("watchlist", [])),
   collapsed: new Set(local.get("collapsed", [])), // "view:sectionKey" of collapsed sections
   showAll: false,       // film sheet: show showings hidden by filters
@@ -131,16 +136,16 @@ function buildRows() {
   const started = b ? `Before ${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}` : "Before tracking began";
   const rows = [];
   for (const f of state.data.films) {
-    if (!textMatch(f, q) || !kindShown(f)) continue;
+    if (!textMatch(f, q) || (!q && !kindShown(f))) continue;  // searching finds every type
     if (state.onlyWatch && !isWatched(f)) continue;
     const shows = f.shows.filter((s) => showMatches(s, now));
     if (f.shows.length && !shows.length) continue; // has showings, none match the filters
     const bookable = shows.filter((s) => s.ticket);
     const onSale = f.status === "on_sale" && bookable.length > 0;
     const row = { f, shows: onSale ? bookable : shows, onSale, start: startDay(f, shows) };
+    if (state.tix === "on" && !onSale) continue;
+    if (state.tix === "off" && onSale) continue;
     if (state.view === "when") {
-      if (state.tix === "on" && !onSale) continue;
-      if (state.tix === "off" && onSale) continue;
       if (!row.start && !q) continue; // undated films only turn up when you search for them
       row.sec = whenSection(row, today);
     } else if (state.view === "sale") {
@@ -171,8 +176,8 @@ function buildRows() {
 
 // ---------------------------------------------------------------- render: controls + filter sidebar
 function activeFilters() {
-  return (state.view === "when" && state.tix !== "all" ? 1 : 0)
-    + ((state.prefs.hideKinds || []).length ? 1 : 0) + (myCinemas().length ? 1 : 0)
+  return (state.tix !== "all" ? 1 : 0)
+    + (sameSet(state.prefs.hideKinds || [], DEFAULT_HIDE) ? 0 : 1) + (myCinemas().length ? 1 : 0)
     + (state.region === "oslo" ? (state.prefs.hideDubbed ? 1 : 0) + (state.prefs.englishSubs ? 1 : 0) : 0);
 }
 
@@ -211,19 +216,19 @@ function renderFilters() {
     <fieldset class="fg"><legend>Order within sections</legend><div class="chips">
       ${WITHIN.map(([v, l]) => ck(`name="within" data-f="within" value="${v}"`, state.within === v, v === "date" && state.view !== "when" ? "Newest first" : l, null, "radio")).join("")}
     </div></fieldset>
-    <fieldset class="fg"${state.view === "when" ? "" : " hidden"}><legend>Tickets</legend>
+    <fieldset class="fg"><legend>Tickets</legend>
       <div class="chips">${TIX.map(([v, l]) => ck(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l, null, "radio")).join("")}</div>
     </fieldset>
-    <fieldset class="fg"><legend>Types <span class="hint">${hide.size ? `${KINDS.length - hide.size} chosen` : "All"}</span></legend><div class="chips">
-      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, hide.size > 0 && !hide.has(k), l, kindCounts[k] || 0)).join("")}
+    <fieldset class="fg"><legend>Types <span class="hint">${sameSet([...hide], DEFAULT_HIDE) ? "Films only" : `${KINDS.length - hide.size} of ${KINDS.length}`}</span></legend><div class="chips">
+      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
     </div></fieldset>
-    <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
-      <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
-      ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
-    </fieldset>
     <fieldset class="fg"${state.region === "oslo" ? "" : " hidden"}><legend>Language</legend>
       <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
       ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}</div>
+    </fieldset>
+    <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
+      <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
+      ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
     </fieldset>
 `;
   $("filtersReset").hidden = !activeFilters();
@@ -412,12 +417,12 @@ document.addEventListener("click", (e) => {
   }
   if (t.dataset.f === "reset") {
     state.tix = "all";
-    state.prefs.hideKinds = []; state.prefs.hideDubbed = false; state.prefs.englishSubs = false;
+    state.prefs.hideKinds = [...DEFAULT_HIDE]; state.prefs.hideDubbed = false; state.prefs.englishSubs = false;
     state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
     local.set("tix", "all"); savePrefs(); render(); return;
   }
   if (t.dataset.f === "cinemas-clear") {
-    state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
+    setCinemas(state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c)));
     savePrefs(); render(); return;
   }
   if (t.dataset.star) {
@@ -434,20 +439,27 @@ document.addEventListener("click", (e) => {
   render();
 });
 
+// Picking a specific cinema switches Tickets to "On sale"; going back to all cinemas switches it back to "All".
+function setCinemas(next) {
+  const here = state.data.cinemas, had = state.prefs.cinemas.some((c) => here.includes(c)), has = next.some((c) => here.includes(c));
+  state.prefs.cinemas = next;
+  if (!had && has) state.tix = "on"; else if (had && !has) state.tix = "all";
+  local.set("tix", state.tix);
+}
+
 // Filter sidebar: checkboxes and radios.
 $("filtersBody").addEventListener("change", (e) => {
   const el = e.target, f = el.dataset.f;
-  if (f === "within") { state.within = el.value; local.set("within", state.within); render(); return; }
+  if (f === "within") { state.within = el.value; local.set("within2", state.within); render(); return; }
   if (f === "tix") { state.tix = el.value; local.set("tix", state.tix); }
   else if (f === "kind") {
-    // Ticked types are the ones shown; none ticked = all. Stored as the hidden ones.
+    // Ticked types are shown; stored as the hidden ones.
     const hidden = new Set(state.prefs.hideKinds || []);
-    const shown = new Set(hidden.size ? KINDS.map(([x]) => x).filter((x) => !hidden.has(x)) : []);
-    el.checked ? shown.add(el.value) : shown.delete(el.value);
-    state.prefs.hideKinds = shown.size && shown.size < KINDS.length ? KINDS.map(([x]) => x).filter((x) => !shown.has(x)) : [];
+    el.checked ? hidden.delete(el.value) : hidden.add(el.value);
+    state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => hidden.has(x));
   } else if (f === "cinema") {
     const list = state.prefs.cinemas;
-    state.prefs.cinemas = el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value);
+    setCinemas(el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value));
   } else if (f === "dub") state.prefs.hideDubbed = el.checked;
   else if (f === "en") state.prefs.englishSubs = el.checked;
   if (f !== "tix") savePrefs();
@@ -554,7 +566,7 @@ async function loadProfile() {
   state.profile = data;
   // Merge: the account's settings win if it has any; local watchlist items are added to the account.
   const remote = data.prefs || {};
-  if (Object.keys(remote).length) state.prefs = { ...DEFAULT_PREFS, ...remote };
+  if (Object.keys(remote).length) state.prefs = withDefaults(remote);
   const merged = new Set([...(data.watchlist || []), ...state.watchlist]);
   const changed = merged.size !== (data.watchlist || []).length || !Object.keys(remote).length;
   state.watchlist = merged;

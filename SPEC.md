@@ -57,8 +57,12 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles), remembered per view. The jump bar links to each section (opening it if collapsed) and
   has Collapse all / Expand all.
-- Top bar: search (an icon on phones that opens a full-width box), the group-by menu, **★ Watchlist**
+- Top bar: search (an icon on phones that opens a full-width box), the group-by menu, **♥ Watchlist**
   (always visible, full label), and on narrow screens a Filters button.
+- Defaults: order within sections is best rated first; only Films are shown (Shorts, Live & stage and
+  Talks & events are opt-in; searching still finds every type); picking a specific cinema switches
+  Tickets to "On sale", and going back to all cinemas switches it back to "All". Tickets
+  (All / On sale / Not on sale yet) applies in every view.
 - Filters live in a sidebar (a slide-in panel on narrow screens, with Reset and "Show N films" pinned
   at the bottom): Order within sections (by date / best rated first / fewest showings first), Tickets
   (When view), Types, Cinemas (two columns), and Oslo's language options.
