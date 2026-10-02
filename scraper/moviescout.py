@@ -395,7 +395,7 @@ def films(cache, theatres, covered):
             f["shows"].append({
                 "t": t.strftime("%Y-%m-%dT%H:%M"), "cinema": cinema, "screen": "",
                 "tags": [x for x in [r.get("format") if r.get("format") not in (None, "Standard") else "",
-                                     f"{r['audio_lang']} audio" if r.get("audio_lang") not in (None, "English") else "",
+                                     f"{r['audio_lang']} audio" if r.get("audio_lang") not in (None, "English", "No Language") else "",
                                      f"{subs} subtitles" if subs else ""] if x],
                 "note": note, "ticket": r.get("url") or link, "status": "", "dub": False,
                 "en": subs.lower().startswith("english"),
