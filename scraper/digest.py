@@ -37,7 +37,7 @@ FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 # "Leaving soon": the last showing is this close (or, with few showings left, this close)...
-LEAVING_DAYS, LAST_CHANCE_DAYS, LAST_CHANCE_SHOWS = 7, 14, 2
+LAST_CHANCE_DAYS, LAST_CHANCE_SHOWS = 14, 2
 # ...and the cinema is still publishing dates beyond it (otherwise we just can't see further ahead).
 HORIZON_MARGIN = timedelta(days=3)
 
@@ -141,7 +141,7 @@ def pick_leaving(films, profile, now_s, horizon, skip_ids):
         if last["t"] >= horizon.get(last["cinema"], "") or datetime.strptime(horizon[last["cinema"]], FMT) - last_dt < HORIZON_MARGIN:
             continue  # the cinema simply hasn't published further than this
         days = (last_dt - now).total_seconds() / 86400
-        if days <= LEAVING_DAYS or (len(shows) <= LAST_CHANCE_SHOWS and days <= LAST_CHANCE_DAYS):
+        if len(shows) <= LAST_CHANCE_SHOWS and days <= LAST_CHANCE_DAYS:
             out.append((f, shows, last))
     out.sort(key=lambda x: x[2]["t"])
     return out
@@ -193,12 +193,7 @@ def watch_entries(items, announced, leaving, rkey="oslo"):
         if watched:
             out.append((f, "announced", announced_when(f)))
     for f, shows, last in leaving:
-        left = len(shows)
-        if left <= LAST_CHANCE_SHOWS:
-            detail = f"Last chance: {plural(left, 'showing')} left, {last['cinema']}, last {when(last['t'])}"
-        else:
-            detail = f"Last showing {when(last['t'])} at {last['cinema']} ({left} left)"
-        out.append((f, "leaving", detail))
+        out.append((f, "leaving", f"{plural(len(shows), 'showing')} listed, {last['cinema']}, last {when(last['t'])}"))
     return out
 
 
@@ -237,7 +232,7 @@ STYLE = """<style>
 DISPLAY = "'Big Shoulders Display','Roboto Condensed','Arial Narrow',Arial,sans-serif"
 FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&display=swap" rel="stylesheet">'
 KIND_LABEL = {"sale": ("Tickets on sale", "grn", "#1f7a45"), "announced": ("Newly announced", "mut", "#5d6470"),
-              "leaving": ("Leaving soon", "acc", "#a3213a")}
+              "leaving": ("Few showings left", "acc", "#a3213a")}
 
 
 def rating_of(f):

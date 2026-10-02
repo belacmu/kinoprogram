@@ -444,7 +444,7 @@ dialog { overscroll-behavior: contain; }
 #regionBtn svg { flex: none; color: var(--muted); }
 
 /* "Last chance" / "Leaving soon" line on a poster card. */
-.card .m .leave { color: var(--accent); font-weight: 600; }
+.card .m .leave { color: var(--accent); font-weight: 500; }
 
 /* Poster overlays stay above the image when it zooms on hover (the transformed image otherwise paints over them). */
 .poster .flag, .poster .kind, .poster .pillr { z-index: 1; }
