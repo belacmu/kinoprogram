@@ -7,7 +7,7 @@ actual passwords in your password manager. Check what's set up with `sh scripts/
 | Service | Used for | Account (fill in) | Secret / variable | Where the value lives |
 | --- | --- | --- | --- | --- |
 | GitHub | Hosting, the daily job | `belacmu` | none (the `gh` login on your Mac) | GitHub |
-| Gmail (sender) | Daily email + sign-in codes | _not created yet_: `________@gmail.com` | `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Password: your password manager. App password: GitHub secret only |
+| Gmail (sender) | Daily email + sign-in codes | `cinecrabapp@gmail.com` | `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Password: your password manager. App password: GitHub secret only |
 | Supabase | Accounts, watchlists, subscriptions | _not created yet_ (project URL: `https://________.supabase.co`) | `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (variables), `SUPABASE_SECRET_KEY` (secret) | Login: password manager (or GitHub sign-in). Keys: GitHub |
 | TMDB | Film ids, English titles | `belacmu`-linked TMDB account | `TMDB_READ_TOKEN` | GitHub secret; regenerate at themoviedb.org → Settings → API |
 | MovieScout | Westman showtimes | none (permission by email: small personal project, once a day, don't overload) | none | Their reply email: keep it |
