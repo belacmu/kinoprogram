@@ -432,11 +432,14 @@ dialog { overscroll-behavior: contain; }
 }
 
 
-/* Short confirmation message; a popover so it shows above open dialogs. */
-#toast { position: fixed; inset: auto auto calc(24px + env(safe-area-inset-bottom)) 50%; transform: translateX(-50%); margin: 0;
-  max-width: calc(100vw - 32px); padding: 10px 16px; border: 0; border-radius: 999px; background: var(--ink); color: var(--bg);
-  font-size: 14px; font-weight: 500; box-shadow: 0 6px 24px rgba(0, 0, 0, .35); }
+/* Short confirmation message (a popover, so it shows above open dialogs): one line, bottom centre, Undo on the right. */
+#toast { position: fixed; inset: auto 0 calc(20px + env(safe-area-inset-bottom)) 0; margin: 0 auto; width: max-content; max-width: calc(100vw - 32px);
+  display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; border: 0; border-radius: 12px;
+  background: var(--ink); color: var(--bg); font-size: 14px; font-weight: 500; line-height: 1.3; box-shadow: 0 6px 24px rgba(0, 0, 0, .35); }
 #toast:not(:popover-open) { display: none; }
+#toast:popover-open { animation: toast-in .2s ease-out; }
+#toast span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
 
 /* Header: the location is a plain pill with a pin; signing in is the one filled button, then a round avatar once signed in. */
 #accountBtn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
@@ -454,7 +457,8 @@ dialog { overscroll-behavior: contain; }
   display: flex; align-items: center; justify-content: center; background: rgba(10, 12, 16, .55); color: #fff; }
 .poster .kind { left: 44px; }                           /* the type label (Shorts, Live & stage, ...) sits beside the hide button */
 .card.hid .poster img, .card.hid .poster .ph, .card.hid .m, .card.hid h3 { opacity: .45; }
-#toast .linkbtn { color: var(--bg); text-decoration: underline; font-weight: 600; }
+#toast .linkbtn { flex: none; color: inherit; font-weight: 700; text-decoration: none; padding: 6px 12px; border-radius: 8px; background: color-mix(in srgb, currentColor 16%, transparent); }
+#toast .linkbtn:hover { background: color-mix(in srgb, currentColor 26%, transparent); }
 .actions .btn svg { vertical-align: -3px; }
 
 /* Hover feedback on the heart and hide buttons. */
@@ -473,3 +477,9 @@ dialog { overscroll-behavior: contain; }
   .poster .hide svg { width: 11px; height: 11px; }
   .poster .kind { left: 32px; }
 }
+
+/* Dimming (hiding a film) fades; the button that was pressed bounces once. */
+.card .poster img { transition: opacity .3s ease, transform .25s ease; }
+.card .poster .ph, .card .m, .card h3 { transition: opacity .3s ease; }
+.pop { animation: pop .35s ease; }
+@keyframes pop { 40% { transform: scale(1.28); } }

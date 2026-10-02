@@ -407,10 +407,29 @@ def fetch_profiles(filter_):
     if key.startswith("eyJ"):  # legacy service_role JWT
         headers["Authorization"] = f"Bearer {key}"
     req = urllib.request.Request(
-        url.rstrip("/") + f"/rest/v1/profiles?{filter_}&select=email,prefs,watchlist,unsubscribe_token",
+        url.rstrip("/") + f"/rest/v1/profiles?{filter_}&select=email,subscribed,prefs,watchlist,unsubscribe_token",
         headers=headers)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())
+
+
+def write_stats():
+    """Counts only (no addresses): printed, and shown on the run's summary page in GitHub (Actions)."""
+    rows = fetch_profiles("id=not.is.null")
+    if rows is None:
+        return
+    subs = [r for r in rows if r.get("subscribed")]
+    freq = lambda r: "weekly" if (r.get("prefs") or {}).get("frequency") == "weekly" else "daily"
+    regions = lambda r: (r.get("prefs") or {}).get("regions") or ["oslo"]
+    lines = [("Accounts", len(rows)), ("Subscribed to the email", len(subs)),
+             ("  daily", sum(freq(r) == "daily" for r in subs)), ("  weekly", sum(freq(r) == "weekly" for r in subs))]
+    lines += [(f"  getting {cfg['name']}", sum(k in regions(r) for r in subs)) for k, cfg in REGIONS.items()]
+    lines.append(("With a watchlist", sum(bool(r.get("watchlist")) for r in rows)))
+    print("Subscribers: " + ", ".join(f"{k.strip()} {v}" for k, v in lines))
+    out = os.environ.get("GITHUB_STEP_SUMMARY")
+    if out:
+        with open(out, "a") as f:
+            f.write("### Cinecrab subscribers\n\n| | |\n|---|---|\n" + "".join(f"| {k.replace('  ', '&nbsp;&nbsp;')} | {v} |\n" for k, v in lines))
 
 
 def subscribers():
@@ -446,6 +465,11 @@ def main():
     preview = args[args.index("--preview") + 1] if "--preview" in args else None
     site = os.environ.get("SITE_URL", "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"
     only = args[args.index("--only") + 1].split() if "--only" in args else list(REGIONS)  # regions refreshed in this run
+    if scheduled or "--stats" in args:
+        try:
+            write_stats()
+        except Exception as e:  # counting must never stop the emails
+            print(f"  ! stats failed: {e}", file=sys.stderr)
     profiles = None
     for rkey, cfg in REGIONS.items():
         if rkey not in only:

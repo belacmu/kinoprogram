@@ -88,6 +88,7 @@ const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
 // Hiding a film: prefs.hidden maps film id -> the film's onSaleSince when it was hidden. It stays hidden while that same
 // run continues; if the film goes off sale and comes back later (a new onSaleSince, the same rule as "newly on sale"),
 // it shows again. Hiding is never permanent.
+const eyeOn = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
 const eyeOff = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
 function isHidden(f) {
   const since = f.ids.map((i) => state.prefs.hidden?.[i]).find((v) => v !== undefined);
@@ -109,17 +110,29 @@ function flipRun(fadeFrom = null) {
     if (fadeFrom !== null && c.dataset.id === prev.id) for (const el of c.querySelectorAll(".poster img, .poster .ph, .m, h3")) el.animate([{ opacity: fadeFrom }, {}], { duration: 450 });
   }
 }
+// A press first shows its own result right on the button (and the dimming/filling), and only a moment later does the card
+// slide to its new place, so the press clearly registered before anything moves.
+const SETTLE_MS = 450;
+let renderTimer = null;
+const pop = (el) => { el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); };  // a quick "it registered" bounce
+const cardEl = (id) => document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+function settleThenRender(id) {
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(() => { renderTimer = null; flipBegin(id); render(); flipRun(); }, SETTLE_MS);
+}
+function flushRender() { if (renderTimer) { clearTimeout(renderTimer); renderTimer = null; render(); } }
 function toggleHidden(f) {
+  flushRender();
   const wasHidden = isHidden(f);
-  flipBegin(f.id);
   if (wasHidden) unhideFilm(f);
   else state.prefs.hidden = { ...(state.prefs.hidden || {}), [f.id]: f.onSaleSince || "" };
   savePrefs();
-  if ($("film").open && !wasHidden) $("film").close();  // hiding from the sheet closes it; unhiding keeps it open
-  render();
-  if ($("film").open) openFilm(f.id);
-  flipRun(wasHidden ? 0.45 : 1);
-  if (!wasHidden) toast(`Hidden ${titleOf(f)}`, () => { toggleHidden(f); });
+  const card = cardEl(f.id), btn = card?.querySelector(".hide");
+  if (card) card.classList.toggle("hid", !wasHidden);  // dims (or undims) with a fade
+  if (btn) { btn.innerHTML = wasHidden ? eyeOff : eyeOn; btn.title = wasHidden ? "Hide this film" : "Show this film again"; btn.setAttribute("aria-label", btn.title); pop(btn); }
+  if ($("film").open) { if (wasHidden) openFilm(f.id); else $("film").close(); }
+  if (!wasHidden) toast(`Hidden ${titleOf(f)}`, () => toggleHidden(f));
+  settleThenRender(f.id);
 }
 // "New" = went on sale (or, for announced films, first got a date) in the last 7 days, after tracking began.
 function isRecent(since) {
@@ -338,7 +351,7 @@ function cardHtml(row) {
   const { f } = row;
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
     + ratingHtml(f)
-    + `<button type="button" class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Unhide" : "Hide"} this film" title="${row.hidden ? "Unhide this film" : "Hide this film"}">${eyeOff}</button>`;
+    + `<button type="button" class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Show" : "Hide"} this film" title="${row.hidden ? "Show this film again" : "Hide this film"}">${row.hidden ? eyeOn : eyeOff}</button>`;
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}" data-id="${esc(f.id)}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
@@ -432,7 +445,7 @@ function openFilm(id) {
       <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
-      <button class="btn ghost" data-hide="${esc(f.id)}">${eyeOff} ${isHidden(f) ? "Unhide this film" : "Hide this film"}</button>
+      <button class="btn ghost" data-hide="${esc(f.id)}">${isHidden(f) ? eyeOn : eyeOff} ${isHidden(f) ? "Show this film again" : "Hide this film"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div>
     <div class="days">${days}${hiddenNote}${empty}</div>
@@ -500,10 +513,21 @@ document.addEventListener("click", (e) => {
   if (t.dataset.star) {
     e.preventDefault();
     const f = findFilm(t.dataset.star);
-    flipBegin(f.id);  // the card moves to its new place (watchlist films come first): slide it there
-    if (isWatched(f)) { f.ids.forEach((id) => state.watchlist.delete(id)); savePrefs(); }
+    flushRender();
+    const was = isWatched(f);
+    if (was) { f.ids.forEach((id) => state.watchlist.delete(id)); savePrefs(); }
     else if (requestWatch(f)) savePrefs();
+    const now = isWatched(f), star = cardEl(f.id)?.querySelector(".star");
+    if (now !== was) {  // show the heart's new state at once, then let the card slide to its new place (watchlist films come first)
+      if (star) {
+        star.classList.toggle("on", now); star.setAttribute("aria-pressed", now); star.innerHTML = heart(now);
+        star.title = now ? "On your watchlist" : "Add to watchlist"; star.setAttribute("aria-label", `${now ? "Remove from" : "Add to"} watchlist`);
+        pop(star);
+      }
+      settleThenRender(f.id);
+    }
     if ($("film").open) openFilm(f.id);
+    return;
   } else if (t.dataset.sheetcinema) {
     const c = t.dataset.sheetcinema;
     state.sheetCinemas.has(c) ? state.sheetCinemas.delete(c) : state.sheetCinemas.add(c);
@@ -654,12 +678,13 @@ function settlePendingWatch() {
 }
 function toast(msg, undo) {
   const t = $("toast");
-  t.textContent = msg;
+  t.textContent = "";
+  const m = document.createElement("span"); m.textContent = msg; t.append(m);
   if (undo) {
     const b = document.createElement("button");
     b.className = "linkbtn"; b.textContent = "Undo";
     b.onclick = () => { undo(); try { t.hidePopover(); } catch { t.hidden = true; } };
-    t.append(" ", b);
+    t.append(b);
   }
   try { t.showPopover(); } catch { t.hidden = false; }
   clearTimeout(toast.t);
