@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git pull *)",
+      "Bash(git push)",
+      "Bash(git push *)",
+      "Bash(git stash *)",
+      "Bash(gh workflow run update.yml *)",
+      "Bash(gh run watch *)",
+      "Bash(gh secret list *)",
+      "Bash(gh variable list *)",
+      "Bash(node --check *)",
+      "Bash(sh scripts/check-setup.sh)",
+      "mcp__Claude_Browser__navigate",
+      "mcp__Claude_Browser__resize_window",
+      "mcp__Claude_Browser__read_page",
+      "mcp__Claude_Browser__get_page_text",
+      "mcp__Claude_Browser__find",
+      "mcp__Claude_Browser__read_console_messages",
+      "mcp__Claude_Browser__read_network_requests",
+      "mcp__Claude_Browser__tabs_context"
+    ]
+  }
+}
