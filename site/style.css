@@ -437,3 +437,8 @@ dialog { overscroll-behavior: contain; }
   max-width: calc(100vw - 32px); padding: 10px 16px; border: 0; border-radius: 999px; background: var(--ink); color: var(--bg);
   font-size: 14px; font-weight: 500; box-shadow: 0 6px 24px rgba(0, 0, 0, .35); }
 #toast:not(:popover-open) { display: none; }
+
+/* Header: the location is a plain pill with a pin; signing in is the one filled button, then a round avatar once signed in. */
+#accountBtn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+#accountBtn.avatar { width: var(--pill-h); padding: 0; justify-content: center; font-weight: 700; background: var(--accent-tint); border-color: var(--accent); color: var(--accent); }
+#regionBtn svg { flex: none; color: var(--muted); }

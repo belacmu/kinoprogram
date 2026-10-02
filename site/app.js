@@ -188,7 +188,7 @@ function renderControls() {
   $("sortMenu").innerHTML = VIEWS.map(([v, l, d]) =>
     `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("");
   const reg = REGIONS.find((r) => r.key === state.region);
-  $("regionBtn").innerHTML = `${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
+  $("regionBtn").innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" fill="currentColor"/></svg>${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
   $("regionBtn").setAttribute("aria-label", `Location: ${reg.name}`);
   $("regionMenu").innerHTML = REGIONS.map((r) =>
     `<button role="menuitemradio" aria-checked="${r.key === state.region}" data-pick="region" data-value="${r.key}">${r.name}</button>`).join("");
@@ -681,7 +681,12 @@ function renderAccount(message = "", isErr = false) {
 
 function setUser(session) {
   state.user = session?.user ? { id: session.user.id, email: session.user.email } : null;
-  $("accountBtn").textContent = state.user ? "Account" : "Sign in";
+  // Signed out: a filled "Sign in" button. Signed in: a round avatar with the email's first letter.
+  const ab = $("accountBtn");
+  ab.textContent = state.user ? state.user.email[0].toUpperCase() : "Sign in";
+  ab.classList.toggle("primary", !state.user);
+  ab.classList.toggle("avatar", !!state.user);
+  ab.setAttribute("aria-label", state.user ? `Account (${state.user.email})` : "Sign in");
   if (!state.user) state.profile = null;
   renderAccount();
 }
