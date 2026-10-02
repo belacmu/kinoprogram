@@ -64,7 +64,8 @@ const state = {
   collapsed: new Set(), // "view:sectionKey" of collapsed sections; deliberately not remembered across reloads
   showAll: false,       // film sheet: show showings hidden by filters
   sheetCinemas: new Set(), // film sheet: cinema tags clicked to narrow its showings
-  sheetTags: new Set(),    // film sheet: format tags (IMAX, Engelsk tekst, …) clicked to narrow its showings, by tagKey
+  sheetTags: new Set(),    // film sheet: format tags (IMAX, Engelsk tekst, …) picked to narrow its showings, by tagKey
+  sheetDay: "",            // film sheet: the one day whose showings are listed; "" = all days
   user: null,           // { id, email }
   pendingEmail: (() => { try { return sessionStorage.getItem("kino:pendingEmail") || ""; } catch { return ""; } })(),
   profile: null,        // { subscribed, ... }
@@ -628,21 +629,17 @@ function openFilm(id) {
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
+  // Opened while a day is picked on the main page: list that day (if the film plays then), otherwise all days.
+  if (!dlg.open) state.sheetDay = dayMode() && pickedDay(today) && all.some((s) => s.t.startsWith(pickedDay(today))) ? pickedDay(today) : "";
   const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
   const atPicked = state.sheetCinemas.size ? filtered.filter((s) => state.sheetCinemas.has(s.cinema)) : filtered;
   const withTags = (keys) => atPicked.filter((s) => keys.every((k) => hasTag(s, k)));
   const shown = withTags([...state.sheetTags]);  // picked tags all apply: "IMAX" + "Engelsk tekst" = IMAX with English subtitles
-  // A tag that can't combine with those picked (no showing has both) is dimmed; picking it picks it alone.
-  const tagList = sheetTagList(all), pickedTags = tagList.filter((e) => state.sheetTags.has(e.k)).map((e) => e.label).join(" + ");
-  const tagChips = tagList.map((e) => {
-    const on = state.sheetTags.has(e.k), alone = !on && !withTags([...state.sheetTags, e.k]).length;
-    return `<button class="badge pick${on ? " on" : ""}${alone ? " alone" : ""}" data-sheettag="${esc(e.k)}" aria-pressed="${on}" title="${alone ? `None of these is also ${esc(pickedTags)}; show only ${esc(e.label)} instead` : `Show only ${esc(e.label)} showings`}">${esc(e.label)} · ${e.n}</button>`;
-  }).join("");
+  const listed = state.sheetDay ? shown.filter((s) => s.t.startsWith(state.sheetDay)) : shown;
   const hidden = all.length - filtered.length;
   const byDay = {};
-  for (const s of shown) (byDay[s.t.slice(0, 10)] ||= []).push(s);
+  for (const s of listed) (byDay[s.t.slice(0, 10)] ||= []).push(s);
   const meta = [f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : "", f.countries.slice(0, 3).join(", "), f.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ");
-  const cinemas = Object.entries(all.reduce((a, s) => ((a[s.cinema] = (a[s.cinema] || 0) + 1), a), {}));
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
     <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
@@ -651,14 +648,14 @@ function openFilm(id) {
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
   else if (!all.length && f.elsewhere?.length) empty = `<p class="hiddenNote">Premiere ${dayLabel(f.premiere)}. Showings so far only in ${esc(f.elsewhere.join(", "))}; none in ${esc(state.data.location)} yet.</p>`;
   else if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
-  if (all.length && !shown.length && (state.sheetCinemas.size || state.sheetTags.size)) empty = `<p class="hiddenNote">No showings match what you picked. <button class="linkbtn" data-sheetclear="1">Show all formats and cinemas</button></p>`;
+  if (all.length && !listed.length && (state.sheetCinemas.size || state.sheetTags.size || state.sheetDay)) empty = `<p class="hiddenNote">No showings match what you picked. <button class="linkbtn" data-sheetclear="1">Show all</button></p>`;
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
-  // Badges that only describe the film, then the two rows of tags that narrow its showings, each labelled.
+  // Badges that only describe the film; under the poster, the menus and day strip that narrow its showings.
   const info = (KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : "")
     + (isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "")
     + f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("");
-  const cinemaChips = cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("");
+  const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     <div class="fhead">${posterHtml(f)}<div>
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
@@ -673,11 +670,61 @@ function openFilm(id) {
       <button class="btn ghost" data-hide="${esc(f.id)}">${isHidden(f) ? eyeOn : eyeOff} ${isHidden(f) ? "Show this film again" : "Hide this film"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div>
-      ${cinemaChips || tagChips ? `<div class="picks">${cinemaChips ? `<span class="plbl" id="pickCin">Cinemas</span><div class="badges" role="group" aria-labelledby="pickCin">${cinemaChips}</div>` : ""}${tagChips ? `<span class="plbl" id="pickFmt">Format</span><div class="badges" role="group" aria-labelledby="pickFmt">${tagChips}</div>` : ""}</div>` : ""}
+      ${sheetPicks(all, shown, withTags, today)}
     </div>
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
+  const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
+  if (!strip) return;
+  // Just opened: the picked day in view (centred), only if it's off the end, so "All days" stays visible when it can.
+  if (stripAt !== undefined) strip.scrollLeft = stripAt;
+  else if (dayOn && dayOn.offsetLeft + dayOn.offsetWidth > strip.clientWidth) strip.scrollLeft = dayOn.offsetLeft - (strip.clientWidth - dayOn.offsetWidth) / 2;
+  fitDayStrip(strip);
+  strip.addEventListener("scroll", () => fitDayStrip(strip), { passive: true });
+}
+
+// The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
+// once the strip is scrolled to that end; on phones it is swiped.
+function fitDayStrip(strip) {
+  const max = strip.scrollWidth - strip.clientWidth, [prev, next] = strip.parentElement.querySelectorAll(".dnav");
+  strip.parentElement.classList.toggle("fits", max <= 1);
+  prev.disabled = strip.scrollLeft <= 1;
+  next.disabled = strip.scrollLeft >= max - 1;
+  strip.classList.toggle("more-l", !prev.disabled);  // fades the edge that has more days beyond it
+  strip.classList.toggle("more-r", !next.disabled && max > 1);
+}
+addEventListener("resize", () => { const strip = $("film").querySelector(".dstrip"); if (strip) fitDayStrip(strip); });
+
+// The film sheet's Cinemas and Format menus (pick several in each) and its strip of days (one, or all).
+// Menus only appear when they can narrow something: two or more cinemas, a tag on some showings but not all.
+function sheetPicks(all, shown, withTags, today) {
+  const cinemas = Object.entries(all.reduce((a, s) => ((a[s.cinema] = (a[s.cinema] || 0) + 1), a), {}));
+  const tags = sheetTagList(all), cin = [...state.sheetCinemas], fmt = tags.filter((e) => state.sheetTags.has(e.k));
+  const item = (attr, on, label, n, extra = "") => `<button role="menuitemcheckbox" aria-checked="${on}" ${attr}${extra}>${esc(label)}${n ? ` <span class="n">${n}</span>` : ""}</button>`;
+  const dd = (id, name, picked, items) => `<div class="dd"><button class="pill sm${picked ? " on" : ""}" aria-haspopup="menu" aria-expanded="false" aria-controls="${id}" data-sheetmenu="${id}"><span class="lbl">${esc(name)}</span><span class="chev" aria-hidden="true">▾</span></button>
+    <div class="menu" id="${id}" role="menu" hidden>${items}</div></div>`;
+  let menus = "";
+  if (cinemas.length > 1) menus += dd("sheetCinMenu", !cin.length ? "All cinemas" : cin.length === 1 ? cin[0] : `${cin[0]} +${cin.length - 1}`, cin.length,
+    item('data-sheetclear="cinemas"', !cin.length, "All cinemas", 0, ' class="plain"') + '<div class="menusep"></div>'
+    + cinemas.map(([c, n]) => item(`data-sheetcinema="${esc(c)}"`, state.sheetCinemas.has(c), c, n)).join(""));
+  // Picked tags all apply ("IMAX" + "Engelsk tekst" = IMAX with English subtitles). One that no showing has together
+  // with those picked is dimmed; picking it picks it alone.
+  if (tags.length) menus += dd("sheetFmtMenu", fmt.length ? fmt.map((e) => e.label).join(" + ") : "Any format", fmt.length,
+    item('data-sheetclear="formats"', !fmt.length, "Any format", 0, ' class="plain"') + '<div class="menusep"></div>'
+    + tags.map((e) => {
+      const on = state.sheetTags.has(e.k), alone = !on && !withTags([...state.sheetTags, e.k]).length;
+      return item(`data-sheettag="${esc(e.k)}"`, on, e.label, e.n, alone ? ` class="alone" title="None of these is also ${esc(fmt.map((x) => x.label).join(" + "))}; picks ${esc(e.label)} alone"` : "");
+    }).join(""));
+  // Days with showings under what's picked; a picked day stays even if nothing is left on it, so it can be unpicked.
+  const days = [...new Set(shown.map((s) => s.t.slice(0, 10)).concat(state.sheetDay || []))].sort();
+  const dayBtn = (day, top, bottom) => `<button data-sheetday="${day || "all"}" aria-pressed="${state.sheetDay === day}"><span>${top}</span><b>${bottom}</b></button>`;
+  const strip = days.length > 1 || state.sheetDay ? `<div class="dwrap"><button class="dnav" data-daynav="-1" aria-label="Earlier days">‹</button>
+    <div class="dstrip" role="group" aria-label="Day">${dayBtn("", "All", "days")}${days.map((day) => {
+    const d = asDate(day), name = day === today ? "Today" : day === addDays(today, 1) ? "Tmrw" : WEEKDAYS[d.getUTCDay()];
+    return dayBtn(day, name, `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`);
+  }).join("")}</div><button class="dnav" data-daynav="1" aria-label="Later days">›</button></div>` : "";
+  return (menus ? `<div class="pmenus">${menus}</div>` : "") + (strip ? `<div class="picks">${strip}</div>` : "");
 }
 
 function route() {
@@ -698,6 +745,7 @@ $("film").addEventListener("close", () => {
   state.showAll = false;
   state.sheetCinemas.clear();
   state.sheetTags.clear();
+  state.sheetDay = "";
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search);
   refreshNews();  // back in "What's new" (if the film was opened from there): show any heart or hide changes
 });
@@ -712,7 +760,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = s.key;
@@ -758,19 +806,32 @@ document.addEventListener("click", (e) => {
     }
     if ($("film").open) openFilm(f.id);
     return;
-  } else if (t.dataset.sheetcinema) {
-    const c = t.dataset.sheetcinema;
-    state.sheetCinemas.has(c) ? state.sheetCinemas.delete(c) : state.sheetCinemas.add(c);
-    openFilm(location.hash.slice(6)); return;
-  } else if (t.dataset.sheettag) {
-    const k = t.dataset.sheettag;
-    if (state.sheetTags.has(k)) state.sheetTags.delete(k);
-    else if (t.classList.contains("alone")) state.sheetTags = new Set([k]);
-    else state.sheetTags.add(k);
-    openFilm(location.hash.slice(6)); return;
-  } else if (t.dataset.sheetclear) {
-    state.sheetCinemas.clear(); state.sheetTags.clear();
-    openFilm(location.hash.slice(6)); return;
+  } else if (t.dataset.sheetmenu) { toggleMenu(t, $(t.dataset.sheetmenu)); return;
+  } else if (t.dataset.daynav) {
+    const strip = t.parentElement.querySelector(".dstrip");
+    strip.scrollBy({ left: Math.sign(+t.dataset.daynav) * strip.clientWidth * 0.8, behavior: "smooth" }); return;
+  } else if (t.dataset.sheetcinema || t.dataset.sheettag || t.dataset.sheetclear || t.dataset.sheetday) {
+    const { sheetcinema: c, sheettag: k, sheetclear: clear, sheetday: day } = t.dataset;
+    if (c) state.sheetCinemas.has(c) ? state.sheetCinemas.delete(c) : state.sheetCinemas.add(c);
+    else if (k) {
+      if (state.sheetTags.has(k)) state.sheetTags.delete(k);
+      else if (t.classList.contains("alone")) state.sheetTags = new Set([k]);
+      else state.sheetTags.add(k);
+    } else if (day) state.sheetDay = day === "all" ? "" : day;
+    else {
+      if (clear !== "formats") state.sheetCinemas.clear();
+      if (clear !== "cinemas") state.sheetTags.clear();
+      if (clear === "1") state.sheetDay = "";
+    }
+    // A menu stays open while picking in it, with the same item focused.
+    const menu = t.closest(".menu")?.id, focus = menu && [...t.attributes].find((a) => a.name.startsWith("data-sheet"));
+    openFilm(location.hash.slice(6));
+    if (menu && $(menu)) {
+      $(menu).hidden = false;
+      $("film").querySelector(`[data-sheetmenu="${menu}"]`).setAttribute("aria-expanded", "true");
+      $(menu).querySelector(`[${focus.name}="${CSS.escape(focus.value)}"]`)?.focus();
+    }
+    return;
   } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(location.hash.slice(6)); return; }
   render();
   flipRun();
@@ -845,6 +906,7 @@ document.addEventListener("keydown", (e) => {
   const menu = e.target.closest?.(".menu:not(.cal)");  // the date picker has its own arrow keys
   if (e.key === "Escape" && document.querySelector(".menu:not([hidden])")) {
     const btn = document.querySelector('[aria-haspopup][aria-expanded="true"]');
+    e.preventDefault();  // in the film sheet, Escape closes the menu, not the sheet
     closeMenus(); btn?.focus(); return;
   }
   if (menu && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
