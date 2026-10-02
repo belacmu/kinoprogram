@@ -676,10 +676,7 @@ function openFilm(id) {
     </div>
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
-  if (!dlg.open) {
-    dlg.showModal();
-    dlg.querySelector(".day.picked")?.scrollIntoView({ block: "center" });  // opened from a picked day: start there
-  }
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
 }
 
 function route() {
