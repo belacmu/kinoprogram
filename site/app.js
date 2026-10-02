@@ -41,7 +41,7 @@ const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 const WITHIN = [["rating", "Best rated first"], ["date", "By date"], ["fewest", "Fewest showings first"]];
 const DEFAULT_HIDE = ["short", "stage", "talk"];  // by default only films are shown
 const DEFAULTS_V = 2;                             // bump to re-apply new defaults to saved settings
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, audioEnNo: false, watchlistAlways: true, announcements: true, regions: ["oslo"], frequency: "daily", hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, audioEnNo: false, hidden: {}, watchlistAlways: true, announcements: true, regions: ["oslo"], frequency: "daily", hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
 // Settings saved before these defaults existed get the new "films only" default once.
 const withDefaults = (saved) => ({ ...DEFAULT_PREFS, ...saved, ...(saved.defaultsV === DEFAULTS_V ? {} : { hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V }) });
 const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
@@ -58,6 +58,7 @@ const state = {
   tix: local.get("tix", "all"),
   within: local.get("within2", "rating"),
   onlyWatch: false,
+  showHidden: false,    // show films you hid (dimmed, with an Unhide button)
   q: "",
   prefs: withDefaults(local.get("prefs", {})),
   watchlist: new Set(local.get("watchlist", [])),
@@ -84,6 +85,29 @@ function showMatches(s, now) {
   return true;
 }
 const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
+
+// Hiding a film: prefs.hidden maps film id -> the film's onSaleSince when it was hidden. It stays hidden while that same
+// run continues; if the film goes off sale and comes back later (a new onSaleSince, the same rule as "newly on sale"),
+// it shows again. Hiding is never permanent.
+const eyeOff = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+function isHidden(f) {
+  const since = f.ids.map((i) => state.prefs.hidden?.[i]).find((v) => v !== undefined);
+  if (since === undefined) return false;
+  return !(since && f.onSaleSince && f.onSaleSince > since);
+}
+function unhideFilm(f) { for (const i of f.ids) delete state.prefs.hidden?.[i]; }
+function toggleHidden(f) {
+  if (isHidden(f)) {
+    unhideFilm(f); savePrefs(); render();
+    if ($("film").open) openFilm(f.id);
+    return;
+  }
+  state.prefs.hidden = { ...(state.prefs.hidden || {}), [f.id]: f.onSaleSince || "" };
+  savePrefs();
+  if ($("film").open) $("film").close();
+  render();
+  toast(`Hidden ${titleOf(f)}`, () => { unhideFilm(f); savePrefs(); render(); });
+}
 // "New" = went on sale (or, for announced films, first got a date) in the last 7 days, after tracking began.
 function isRecent(since) {
   if (!since || since <= state.data.baseline) return false;
@@ -142,11 +166,13 @@ function buildRows() {
   for (const f of state.data.films) {
     if (!textMatch(f, q) || (!q && !kindShown(f))) continue;  // searching finds every type
     if (state.onlyWatch && !isWatched(f)) continue;
+    const hidden = isHidden(f);
+    if (hidden && !q && !state.showHidden && !state.onlyWatch) continue;  // searching and your watchlist still show them
     const shows = f.shows.filter((s) => showMatches(s, now));
     if (f.shows.length && !shows.length) continue; // has showings, none match the filters
     const bookable = shows.filter((s) => s.ticket);
     const onSale = f.status === "on_sale" && bookable.length > 0;
-    const row = { f, shows: onSale ? bookable : shows, onSale, start: startDay(f, shows) };
+    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, start: startDay(f, shows) };
     if (state.tix === "on" && !onSale) continue;
     if (state.tix === "off" && onSale) continue;
     if (state.view === "when") {
@@ -210,7 +236,7 @@ function renderFilters() {
   const now = localNow(), kindCounts = {}, cinemaCounts = {};
   for (const f of state.data.films) kindCounts[f.kind || "film"] = (kindCounts[f.kind || "film"] || 0) + 1;
   for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) cinemaCounts[s.cinema] = (cinemaCounts[s.cinema] || 0) + 1;
-  const hide = new Set(state.prefs.hideKinds || []), mine = myCinemas();
+  const hide = new Set(state.prefs.hideKinds || []), mine = myCinemas(), hiddenCount = state.data.films.filter(isHidden).length;
   // Every option is a chip: a real checkbox/radio inside a label, styled as a tappable pill.
   const ck = (attrs, checked, label, n, type = "checkbox") =>
     `<label class="opt-chip"><input type="${type}" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
@@ -234,6 +260,8 @@ function renderFilters() {
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
     </fieldset>
+    ${hiddenCount || state.showHidden ? `<fieldset class="fg"><legend>Hidden films <span class="hint">${hiddenCount}</span></legend>
+      <div class="chips">${ck('data-f="showhidden"', state.showHidden, "Show hidden films")}</div></fieldset>` : ""}
 `;
   $("filtersReset").hidden = !activeFilters();
   if (focused) { // keep keyboard focus on the control that was just changed
@@ -299,10 +327,11 @@ function cardHtml(row) {
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
     + ratingHtml(f);
   const on = isWatched(f);
-  return `<li class="card${row.onSale ? "" : " nosale"}">
+  return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
       <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
     <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${heart(on)}</button>
+    <button class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Unhide" : "Hide"} this film" title="${row.hidden ? "Unhide this film" : "Hide this film"}">${eyeOff}</button>
   </li>`;
 }
 
@@ -389,6 +418,7 @@ function openFilm(id) {
       <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
+      <button class="btn ghost" data-hide="${esc(f.id)}">${eyeOff} ${isHidden(f) ? "Unhide this film" : "Hide this film"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div></div>
     <div class="days">${days}${hiddenNote}${empty}</div>
@@ -425,7 +455,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-showall],[data-sheetcinema],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = `${state.view}:${s.key}`;
@@ -452,6 +482,7 @@ document.addEventListener("click", (e) => {
     setCinemas(state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c)));
     savePrefs(); render(); return;
   }
+  if (t.dataset.hide) { e.preventDefault(); toggleHidden(findFilm(t.dataset.hide)); return; }
   if (t.dataset.star) {
     e.preventDefault();
     const f = findFilm(t.dataset.star);
@@ -490,7 +521,8 @@ $("filtersBody").addEventListener("change", (e) => {
   } else if (f === "dub") state.prefs.hideDubbed = el.checked;
   else if (f === "en") state.prefs.englishSubs = el.checked;
   else if (f === "audio") state.prefs.audioEnNo = el.checked;
-  if (f !== "tix") savePrefs();
+  else if (f === "showhidden") state.showHidden = el.checked;
+  if (f !== "tix" && f !== "showhidden") savePrefs();
   render();
 });
 const setFiltersOpen = (open) => {
@@ -580,7 +612,7 @@ window.addEventListener("hashchange", route);
 // ---------------------------------------------------------------- saving to the watchlist needs an account
 // With accounts available, a signed-out tap on a heart asks the visitor to sign in first, then adds the film.
 function requestWatch(f) {
-  if (!sb || state.user) { state.watchlist.add(f.id); return true; }
+  if (!sb || state.user) { state.watchlist.add(f.id); unhideFilm(f); return true; }
   state.pendingWatch = f.id;
   if (state.authReady) promptSignIn();   // otherwise decided once the saved session has been checked
   return false;
@@ -598,18 +630,25 @@ function settlePendingWatch() {
   const f = findFilm(id);
   if (!f) return;
   state.watchlist.add(f.id);
+  unhideFilm(f);
   state.profile ? savePrefs() : local.set("watchlist", [...state.watchlist]);  // profile not loaded yet: the merge will save it
   if ($("account").open) $("account").close();
   render();
   if ($("film").open) openFilm(f.id);
   toast(`Added ${titleOf(f)} to your watchlist`);
 }
-function toast(msg) {
+function toast(msg, undo) {
   const t = $("toast");
   t.textContent = msg;
+  if (undo) {
+    const b = document.createElement("button");
+    b.className = "linkbtn"; b.textContent = "Undo";
+    b.onclick = () => { undo(); try { t.hidePopover(); } catch { t.hidden = true; } };
+    t.append(" ", b);
+  }
   try { t.showPopover(); } catch { t.hidden = false; }
   clearTimeout(toast.t);
-  toast.t = setTimeout(() => { try { t.hidePopover(); } catch { t.hidden = true; } }, 3500);
+  toast.t = setTimeout(() => { try { t.hidePopover(); } catch { t.hidden = true; } }, undo ? 7000 : 3500);
 }
 $("account").addEventListener("close", () => { if (!state.user) state.pendingWatch = null; });
 
@@ -642,9 +681,12 @@ async function loadProfile() {
   state.profile = data;
   // Merge: the account's settings win if it has any; local watchlist items are added to the account.
   const remote = data.prefs || {};
+  const localHidden = state.prefs.hidden || {};
   if (Object.keys(remote).length) state.prefs = withDefaults(remote);
+  state.prefs.hidden = { ...localHidden, ...(remote.hidden || {}) };  // hidden films from this device join the account's
   const merged = new Set([...(data.watchlist || []), ...state.watchlist]);
-  const changed = merged.size !== (data.watchlist || []).length || !Object.keys(remote).length;
+  const changed = merged.size !== (data.watchlist || []).length || !Object.keys(remote).length
+    || Object.keys(state.prefs.hidden).length !== Object.keys(remote.hidden || {}).length;
   state.watchlist = merged;
   local.set("prefs", state.prefs); local.set("watchlist", [...merged]);
   if (changed) await pushProfile();
@@ -808,6 +850,10 @@ async function loadRegion(key) {
     // How far ahead each cinema has published: a film that stops well before this is really ending.
     state.horizon = {};
     for (const f of state.data.films) for (const s of f.shows) if (s.t > (state.horizon[s.cinema] || "")) state.horizon[s.cinema] = s.t;
+    // A film hidden while it was only announced: once it has a sale date, remember it so a later return can show it again.
+    let adopted = false;
+    for (const f of state.data.films) for (const i of f.ids) if (state.prefs.hidden?.[i] === "" && f.onSaleSince) { state.prefs.hidden[i] = f.onSaleSince; adopted = true; }
+    if (adopted) savePrefs();
   } catch (e) {
     $("sub").textContent = `Couldn't load the ${reg.name} programme. Reload to try again.`;
     return;

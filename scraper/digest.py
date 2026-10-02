@@ -80,13 +80,25 @@ def announced_ok(f, prefs, now_s):
     return any(show_ok({**s, "ticket": s["ticket"] or "-"}, prefs, now_s) for s in f["shows"])
 
 
+def is_hidden(f, prefs, watch):
+    """Hidden on the site (prefs.hidden: film id -> onSaleSince when hidden), unless it is on the watchlist or has since
+    come back after going off sale (a newer onSaleSince), the same rule as the site."""
+    hidden = prefs.get("hidden") or {}
+    if watch & set(f["ids"]):
+        return False
+    since = next((hidden[i] for i in f["ids"] if i in hidden), None)
+    if since is None:
+        return False
+    return not (since and f.get("onSaleSince") and f["onSaleSince"] > since)
+
+
 def pick_announced(films, profile, now_s):
     prefs = profile.get("prefs") or {}
     if not prefs.get("announcements", True):
         return []
     watch = set(profile.get("watchlist") or [])
     hide_kinds = set(prefs["hideKinds"] if "hideKinds" in prefs else DEFAULT_HIDE_KINDS)
-    out = [(f, bool(watch & set(f["ids"]))) for f in films if announced_ok(f, prefs, now_s)
+    out = [(f, bool(watch & set(f["ids"]))) for f in films if announced_ok(f, prefs, now_s) and not is_hidden(f, prefs, watch)
            and (f.get("kind", "film") not in hide_kinds or watch & set(f["ids"]))]
     return sorted(out, key=lambda x: (not x[1], x[0]["premiere"] or (x[0]["shows"][0]["t"] if x[0]["shows"] else "9999")))
 
@@ -100,6 +112,8 @@ def pick(new_films, profile, now_s):
     hide_kinds = set(prefs["hideKinds"] if "hideKinds" in prefs else DEFAULT_HIDE_KINDS)
     for f in new_films:
         watched = bool(watch & set(f["ids"]))
+        if is_hidden(f, prefs, watch):
+            continue
         if f.get("kind", "film") in hide_kinds and not watched:
             continue
         shows = [s for s in f["shows"] if show_ok(s, prefs, now_s)]
