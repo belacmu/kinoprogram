@@ -4,7 +4,7 @@ Norwegian date, since the last digest. Watchlist films get their own section at 
 a status line (on sale / announced / leaving soon). A watchlist notice alone never triggers an email.
 
 Usage:
-  python3 scraper/digest.py --scheduled   # real run: per region, only after 09:00 local time, once per day
+  python3 scraper/digest.py --scheduled [--only "oslo westman"]  # real run: per region, only after 09:00 local time, once per day
   python3 scraper/digest.py --dry-run     # print what each subscriber would get; send nothing
   python3 scraper/digest.py --to ME@X.COM # send one test email (default settings); state untouched
   python3 scraper/digest.py --preview OUT.html  # write a sample email (demo watchlist) to a file; send nothing
@@ -424,8 +424,11 @@ def main():
     test_to = args[args.index("--to") + 1] if "--to" in args else None
     preview = args[args.index("--preview") + 1] if "--preview" in args else None
     site = os.environ.get("SITE_URL", "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"
+    only = args[args.index("--only") + 1].split() if "--only" in args else list(REGIONS)  # regions refreshed in this run
     profiles = None
     for rkey, cfg in REGIONS.items():
+        if rkey not in only:
+            continue
         state_path, data_path = ROOT / "state" / cfg["state"], ROOT / "site" / "data" / cfg["data"]
         if not (state_path.exists() and data_path.exists()):
             continue
