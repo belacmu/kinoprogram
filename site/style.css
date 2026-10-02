@@ -424,11 +424,12 @@ body { overflow-x: clip; }
 #dayBtn.on { background: var(--accent-tint); border-color: var(--accent); }   /* another day than today, like active filters */
 #dayBtn.on svg { color: var(--accent); }
 .dayempty { margin: 0; padding: 22px 18px 24px; color: var(--muted); }
-.menu.cal { left: 0; min-width: 0; width: 300px; padding: 8px 12px 12px; }
-.menu.cal .calq { display: block; width: 100%; text-align: left; padding: 9px 12px 9px 30px; border-radius: 8px; }
-.menu.cal .calq[aria-pressed="true"] { color: var(--accent); }
-.menu.cal .calq[aria-pressed="true"]::before { content: "✓"; position: absolute; left: 11px; top: 9px; }
-.menu.cal .calhead { margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--line); }
+.menu.cal { left: 0; min-width: 0; width: 300px; padding: 12px; }
+.menu.cal .calhead { gap: 2px; }
+.menu.cal .calhead b { margin-right: auto; padding-left: 4px; }
+.menu.cal .caltoday { display: inline-flex; align-items: center; width: auto; height: 30px; padding: 0 12px; margin-right: 4px; border: 1px solid var(--line); border-radius: 999px;
+  font: 600 13px var(--body); }
+.menu.cal .caltoday:hover { border-color: var(--ink); }
 .calhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .calhead b { font: 700 18px var(--display); text-transform: uppercase; letter-spacing: .02em; }
 .menu.cal :is(.calnav, .cday) { display: inline-flex; align-items: center; justify-content: center; padding: 0; text-align: center; }

@@ -466,10 +466,11 @@ function calHtml() {
     const label = `${longDate.format(asDate(day))}, ${n ? `${n} film${n > 1 ? "s" : ""}` : "nothing playing"}`;
     cells.push(`<button class="cday${day === today ? " now" : ""}" data-dayset="${day === today ? "" : day}" data-cal="${day}" aria-pressed="${day === chosen}" aria-label="${label}"${n ? "" : " disabled"}>${+day.slice(8)}</button>`);
   }
-  return `<button class="calq" data-dayset="" aria-pressed="${chosen === today}">Today</button>
-    <div class="calhead">
-      <button class="calnav" data-calnav="-1" aria-label="Previous month"${month <= today.slice(0, 7) ? " disabled" : ""}>‹</button>
+  // Header like most calendars: the month, then Today (always there, even when today has nothing left) and the arrows.
+  return `<div class="calhead">
       <b>${MONTH_NAMES[m - 1]} ${y}</b>
+      <button class="caltoday" data-dayset="">Today</button>
+      <button class="calnav" data-calnav="-1" aria-label="Previous month"${month <= today.slice(0, 7) ? " disabled" : ""}>‹</button>
       <button class="calnav" data-calnav="1" aria-label="Next month"${month >= last.slice(0, 7) ? " disabled" : ""}>›</button></div>
     <div class="calgrid">${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => `<span class="wd" aria-hidden="true">${d.slice(0, 2)}</span>`).join("")}${cells.join("")}</div>`;
 }
@@ -477,7 +478,7 @@ function openCal() {
   const menu = $("calMenu");
   if (menu.hidden) { state.calMonth = chosenDay(localNow().slice(0, 10)).slice(0, 7); menu.innerHTML = calHtml(); }
   toggleMenu($("dayBtn"), menu);
-  if (!menu.hidden) (menu.querySelector('[aria-pressed="true"]:not(:disabled)') || menu.querySelector("button:not(:disabled)"))?.focus();
+  if (!menu.hidden) (menu.querySelector('.cday[aria-pressed="true"]:not(:disabled)') || menu.querySelector(".cday:not(:disabled)") || menu.querySelector(".caltoday"))?.focus();
 }
 function setDay(day) {
   closeMenus();
