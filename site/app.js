@@ -226,7 +226,7 @@ function buildRows() {
       row.sec = whenSection(row, today, chosen);
       if (later && row.sec.key === DAY_KEY) row.dayShows = row.shows.filter((s) => s.t.startsWith(chosen));
     } else if (state.view === "sale") {
-      if (!onSale) continue;
+      if (!row.onSale) continue;
       row.sec = sinceSection(f.onSaleSince, today, started);
       row.since = f.onSaleSince;
     } else {
@@ -266,6 +266,7 @@ function renderControls() {
   const cur = VIEWS.find(([v]) => v === state.view);
   $("sortBtn").innerHTML = `<span class="k">Sort</span> ${cur[1]} <span class="chev" aria-hidden="true">▾</span>`;
   $("sortBtn").setAttribute("aria-label", `Sort: ${cur[1]}`);
+  renderDayControl();
   $("sortMenu").innerHTML = VIEWS.map(([v, l, d]) =>
     `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("");
   const reg = REGIONS.find((r) => r.key === state.region);
@@ -406,14 +407,14 @@ function renderGrid() {
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
   else if (state.onlyWatch && !watchedHere()) empty = `Nothing on your watchlist is in ${esc(state.data.location)}'s listings. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.`;
-  // The chosen-day section is always there in "Playing when", even empty, so its day buttons never go missing.
+  // The chosen-day section is always there in "Playing when", even empty, so it says plainly that nothing's on that day.
   const today = localNow().slice(0, 10), chosen = chosenDay(today);
   const withDay = dayMode() && !(state.onlyWatch && !watchedHere());
   if (withDay && sections[0]?.key !== DAY_KEY) sections.unshift({ key: DAY_KEY, label: dayTitle(chosen, today), rows: [] });
   const dayEmpty = `${state.onlyWatch ? "Nothing on your watchlist is" : "Nothing is"} playing ${chosen === today ? "for the rest of today" : `on ${dayLabel(chosen)}`}${activeFilters() ? " with these filters" : ""}.`;
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
-  $("grid").innerHTML = (withDay ? dayPickerHtml(today, chosen) : "") + (sections.length ? sections.map((s, i) => {
+  $("grid").innerHTML = sections.length ? sections.map((s, i) => {
     const shut = isCollapsed(s), isDay = withDay && s.key === DAY_KEY;
     const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
     return `<section class="sec${shut ? " shut" : ""}" id="sec-${i}">
@@ -421,21 +422,19 @@ function renderGrid() {
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
       ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
-  }).join("") : `<p class="empty">${empty}</p>`);
+  }).join("") : `<p class="empty">${empty}</p>`;
 }
 
-// ---------------------------------------------------------------- render: the day buttons and the date picker
-const shortDay = (day) => { const d = asDate(day); return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()}`; };
-const weekdayName = new Intl.DateTimeFormat("en-GB", { weekday: "long", timeZone: "UTC" });
-const calIcon = `<svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
-function dayPickerHtml(today, chosen) {
-  const quick = [today, addDays(today, 1), addDays(today, 2)];
-  const picked = !quick.includes(chosen);
-  return `<div class="daypick" role="group" aria-label="Day to show">
-    ${quick.map((d, i) => `<button class="daybtn" data-dayset="${i ? d : ""}" aria-pressed="${chosen === d}">${["Today", "Tomorrow", weekdayName.format(asDate(d))][i]}</button>`).join("")}
-    <div class="dd"><button class="daybtn${picked ? " on" : ""}" id="calBtn" aria-haspopup="dialog" aria-expanded="false" aria-label="${picked ? `${longDate.format(asDate(chosen))}, pick another date` : "Pick a date"}">${calIcon}${picked ? `${shortDay(chosen)}<span class="wide"> ${MONTHS[asDate(chosen).getUTCMonth()]}</span>` : `<span class="wide">Pick a date</span><span class="narrow">Date</span>`}</button>
-      <div class="menu cal" id="calMenu" role="dialog" aria-label="Pick a date" hidden></div></div>
-  </div>`;
+// ---------------------------------------------------------------- render: the day control beside Sort
+// Only in "Playing when". Phones show a calendar icon (filled once another day is picked); wider screens also say the day.
+const calIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+function renderDayControl() {
+  $("dayDD").hidden = state.view !== "when";
+  const today = localNow().slice(0, 10), chosen = chosenDay(today), d = asDate(chosen);
+  const name = chosen === today ? "Today" : chosen === addDays(today, 1) ? "Tomorrow" : `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  $("dayBtn").innerHTML = `${calIcon}<span class="lbl">${name}</span><span class="chev" aria-hidden="true">▾</span>`;
+  $("dayBtn").classList.toggle("on", chosen !== today);
+  $("dayBtn").setAttribute("aria-label", `Day: ${chosen === today ? "today" : longDate.format(d)}`);
 }
 
 // The last day anything is listed, from the cinemas' published horizons.
@@ -467,7 +466,10 @@ function calHtml() {
     const label = `${longDate.format(asDate(day))}, ${n ? `${n} film${n > 1 ? "s" : ""}` : "nothing playing"}`;
     cells.push(`<button class="cday${day === today ? " now" : ""}" data-dayset="${day === today ? "" : day}" data-cal="${day}" aria-pressed="${day === chosen}" aria-label="${label}"${n ? "" : " disabled"}>${+day.slice(8)}</button>`);
   }
-  return `<div class="calhead">
+  const tomorrow = addDays(today, 1);
+  return `<button class="calq" data-dayset="" aria-pressed="${chosen === today}">Today</button>
+    <button class="calq" data-dayset="${tomorrow}" aria-pressed="${chosen === tomorrow}"${counts[tomorrow] || tomorrow.slice(0, 7) !== month ? "" : " disabled"}>Tomorrow</button>
+    <div class="calhead">
       <button class="calnav" data-calnav="-1" aria-label="Previous month"${month <= today.slice(0, 7) ? " disabled" : ""}>‹</button>
       <b>${MONTH_NAMES[m - 1]} ${y}</b>
       <button class="calnav" data-calnav="1" aria-label="Next month"${month >= last.slice(0, 7) ? " disabled" : ""}>›</button></div>
@@ -476,19 +478,18 @@ function calHtml() {
 function openCal() {
   const menu = $("calMenu");
   if (menu.hidden) { state.calMonth = chosenDay(localNow().slice(0, 10)).slice(0, 7); menu.innerHTML = calHtml(); }
-  toggleMenu($("calBtn"), menu);
-  if (!menu.hidden) (menu.querySelector('.cday[aria-pressed="true"]:not(:disabled)') || menu.querySelector(".cday:not(:disabled)"))?.focus();
+  toggleMenu($("dayBtn"), menu);
+  if (!menu.hidden) (menu.querySelector('[aria-pressed="true"]:not(:disabled)') || menu.querySelector("button:not(:disabled)"))?.focus();
 }
 function setDay(day) {
   closeMenus();
-  state.day = day;
-  renderGrid();
-  ($("grid").querySelector('.daybtn[aria-pressed="true"]') || $("calBtn"))?.focus({ preventScroll: true });
+  if (day !== state.day) { state.day = day; render(); window.scrollTo({ top: 0 }); }
+  $("dayBtn").focus({ preventScroll: true });
 }
-document.addEventListener("click", (e) => {
-  const t = e.target.closest("#calBtn,[data-calnav],[data-dayset]");
+$("dayBtn").addEventListener("click", openCal);
+$("calMenu").addEventListener("click", (e) => {
+  const t = e.target.closest("[data-calnav],[data-dayset]");
   if (!t) return;
-  if (t.id === "calBtn") { openCal(); return; }
   if (t.dataset.calnav) {
     const [y, m] = state.calMonth.split("-").map(Number), d = new Date(Date.UTC(y, m - 1 + +t.dataset.calnav, 1));
     state.calMonth = d.toISOString().slice(0, 7);

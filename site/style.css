@@ -418,20 +418,20 @@ body { overflow-x: clip; }
   .sec > .grid { padding: 12px; }
 }
 
-/* "Playing when": the day buttons above the first section (they scroll away), and the month picker they open */
-.daypick { position: relative; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.daypick .dd { position: static; }                       /* the picker drops from the whole row, so it fits on phones */
-.daybtn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 999px;
-  border: 1px solid var(--line); background: transparent; color: var(--ink); font: 600 13px var(--body); cursor: pointer; white-space: nowrap; }
-.daybtn:hover { border-color: var(--ink); }
-.daybtn[aria-pressed="true"], .daybtn.on { background: var(--chip-on); color: var(--chip-on-ink); border-color: var(--chip-on); }
-.daybtn svg { flex: none; }
-.daybtn .narrow { display: none; }
+/* "Playing when": the day control beside Sort (a calendar icon on phones, "Today ▾" pill on wider screens) */
+#dayDD { flex: none; }
+#dayBtn svg { flex: none; color: var(--muted); }
+#dayBtn.on { background: var(--accent-tint); border-color: var(--accent); }   /* another day than today, like active filters */
+#dayBtn.on svg { color: var(--accent); }
 .dayempty { margin: 0; padding: 22px 18px 24px; color: var(--muted); }
-.menu.cal { left: 0; min-width: 0; width: min(310px, 100%); padding: 12px; }
+.menu.cal { left: 0; min-width: 0; width: 300px; padding: 8px 12px 12px; }
+.menu.cal .calq { display: block; width: 100%; text-align: left; padding: 9px 12px 9px 30px; border-radius: 8px; }
+.menu.cal .calq[aria-pressed="true"] { color: var(--accent); }
+.menu.cal .calq[aria-pressed="true"]::before { content: "✓"; position: absolute; left: 11px; top: 9px; }
+.menu.cal .calhead { margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--line); }
 .calhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .calhead b { font: 700 18px var(--display); text-transform: uppercase; letter-spacing: .02em; }
-.menu.cal button { display: inline-flex; align-items: center; justify-content: center; padding: 0; text-align: center; }
+.menu.cal :is(.calnav, .cday) { display: inline-flex; align-items: center; justify-content: center; padding: 0; text-align: center; }
 .menu.cal .calnav { width: 34px; height: 34px; border-radius: 50%; font-size: 22px; line-height: 1; }
 .calgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
 .calgrid .wd { text-align: center; font: 500 11px var(--mono); color: var(--muted); padding-bottom: 4px; }
@@ -441,15 +441,17 @@ body { overflow-x: clip; }
 .menu.cal button:disabled { color: var(--muted); opacity: .4; cursor: default; background: none; }
 .day.picked { box-shadow: inset 3px 0 0 var(--accent); padding-left: 12px; }
 .day.picked h4 { color: var(--accent); }
-@media (max-width: 560px) {
-  /* phones: one row of buttons filling the width; the date picker's button says just "Date" (or "Thu 15") */
-  .daypick { gap: 5px; }
-  .daybtn { flex: 1 1 auto; justify-content: center; padding: 0 8px; gap: 5px; }
-  .daypick .dd { display: flex; flex: 1 1 auto; }
-  .daybtn .wide { display: none; }
-  .daybtn .narrow { display: inline; }
-  .dayempty { padding: 18px 12px 20px; }
+@media (max-width: 999px) {
+  /* narrow: just the icon, round like the search button; the picker drops from the whole bar so it fits */
+  .bar { position: relative; }
+  #dayDD { position: static; }
+  #dayBtn { width: var(--pill-h); padding: 0; justify-content: center; }
+  #dayBtn .lbl, #dayBtn .chev { display: none; }
+  #dayBtn svg { color: var(--ink); }
+  .menu.cal { width: min(300px, 100%); }
 }
+@media (min-width: 1000px) { #dayDD { order: 1; } }      /* keeps it next to Sort, which the desktop bar moves first */
+@media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
 
 /* film page on phones: a bottom sheet with a Close button where the thumb is; the page behind can't scroll */
 html:has(dialog[open]), body:has(dialog[open]) { overflow: hidden; }
