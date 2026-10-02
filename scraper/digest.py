@@ -493,6 +493,8 @@ def main():
                 prefs["_cinemas"] = [c for c in prefs.get("cinemas") or [] if c in data["cinemas"]]
                 if rkey != "oslo":  # dub/subtitle filters only make sense for Oslo's data
                     prefs["hideDubbed"] = prefs["englishSubs"] = False
+                    if rkey == "costadelsol":  # there, a show's `en` flag means original version (VOSE)
+                        prefs["englishSubs"] = bool(prefs.get("originalOnly"))
                 p = {**p, "prefs": prefs}
                 items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
                 if not (items or announced):

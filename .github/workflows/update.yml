@@ -2,7 +2,7 @@ name: Update programme
 
 on:
   schedule:
-    # UTC. Oslo is refreshed on every run. Westman (Manitoba) only at 03:00 and 15:00 (see "Choose regions");
+    # UTC. Oslo is refreshed on every run. Westman (Manitoba) at 03:00 and 15:00, Costa del Sol at 08:00 and 19:00 (see "Choose regions");
     # the other runs reuse its cached data. 07:00/08:00 cover 09:00 Oslo (summer/winter), 15:00 covers 09:00 Manitoba.
     # digest.py only sends after 09:00 local and once per day per region, and only for regions refreshed in the run.
     - cron: "0 3,7,8,11,14,15,19 * * *"
@@ -40,24 +40,29 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Westman changes slowly: refresh it twice a day (03:00 and 15:00 UTC, plus an hour of slack for late
-      # scheduled starts) and on manual runs. Other runs reuse its last data, kept in the cache.
+      # Oslo is refreshed on every run. Westman and Costa del Sol change slowly: twice a day each (an hour of
+      # slack for late scheduled starts) and on manual runs. Other runs reuse their last data, kept in the cache.
       - name: Choose regions
         id: regions
         run: |
           h=$(date -u +%H)
           r="oslo"
-          if [ "${{ github.event_name }}" != "schedule" ] || [ "$h" = "03" ] || [ "$h" = "04" ] || [ "$h" = "15" ] || [ "$h" = "16" ]; then
-            r="oslo westman"
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            r="oslo westman costadelsol"
+          else
+            case "$h" in 03|04|15|16) r="$r westman" ;; esac       # 22:00 and 10:00 in Manitoba
+            case "$h" in 08|09|19|20) r="$r costadelsol" ;; esac   # 10:00/09:00 and 21:00 in Spain
           fi
           echo "list=$r" >> "$GITHUB_OUTPUT"
 
-      - name: Restore Westman data
+      - name: Restore other regions' data
         uses: actions/cache@v4
         with:
-          path: site/data/westman.json
-          key: westman-data-${{ github.run_id }}
-          restore-keys: westman-data-
+          path: |
+            site/data/westman.json
+            site/data/costadelsol.json
+          key: region-data-${{ github.run_id }}
+          restore-keys: region-data-
 
       - name: Fetch showings
         id: build
@@ -65,8 +70,10 @@ jobs:
           TMDB_READ_TOKEN: ${{ secrets.TMDB_READ_TOKEN }}
         run: |
           list="${{ steps.regions.outputs.list }}"
-          # Westman's data file is missing (first run or expired cache): build it too, or the site would lose it.
-          if [ ! -f site/data/westman.json ]; then list="oslo westman"; fi
+          # A region's data file is missing (first run or expired cache): build it too, or the site would lose it.
+          [ -f site/data/westman.json ] || list="$list westman"
+          [ -f site/data/costadelsol.json ] || list="$list costadelsol"
+          list=$(printf '%s\n' $list | sort -u | tr '\n' ' ')
           echo "regions=$list" >> "$GITHUB_OUTPUT"
           python scraper/build.py $list
 

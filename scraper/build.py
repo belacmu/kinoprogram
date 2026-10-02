@@ -20,6 +20,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).parent))
+import costadelsol  # noqa: E402
 import external  # noqa: E402
 import sources  # noqa: E402
 import westman  # noqa: E402
@@ -36,6 +37,7 @@ ID_PATTERNS = [
     ("lm-", r"landmarkcinemas\.com/movie/([^/?#]+)"),
     ("cc-", r"cinemaclock\.com/movies/([^/?#]+)"),
     ("ev-", r"evanstheatre\.ca/movie/([^/?#]+)"),
+    ("cl-", r"carteleracines\.es/#([^/?#]+)"),
 ]
 
 
@@ -202,12 +204,20 @@ def fetch_westman(now):
     return films
 
 
+def fetch_costadelsol(now):
+    print("Fetching Costa del Sol cinemas …")
+    return costadelsol.fetch_all(now)
+
+
 REGIONS = {
     "oslo": {"name": "Oslo", "tz": "Europe/Oslo", "fetch": fetch_oslo, "first": "Cinemateket",
-             "data": "films.json", "state": "seen.json", "sources": "Filmweb + Cinemateket"},
+             "idprefixes": ("fw-", "cm-"), "data": "films.json", "state": "seen.json", "sources": "Filmweb + Cinemateket"},
     "westman": {"name": "Westman", "tz": "America/Winnipeg", "fetch": fetch_westman, "first": "Landmark Brandon",
-                "data": "westman.json", "state": "seen-westman.json",
+                "idprefixes": ("lm-", "cc-", "ev-", "https-moviescout"), "data": "westman.json", "state": "seen-westman.json",
                 "sources": "Landmark + CinemaClock + Evans Theatre"},
+    "costadelsol": {"name": "Costa del Sol", "tz": "Europe/Madrid", "fetch": fetch_costadelsol,
+                    "first": "Alfil (Fuengirola)", "idprefixes": ("cl-",), "data": "costadelsol.json", "state": "seen-costadelsol.json",
+                    "sources": "CarteleraCines.es"},
 }
 
 
@@ -225,7 +235,8 @@ def main(regions=None):
 
     print("Looking up Letterboxd / IMDb links …")
     try:  # one call for all regions: the link cache is shared
-        external.enrich([f for b in built for f in b[3]], datetime.now(ZoneInfo("Europe/Oslo")).replace(tzinfo=None))
+        skipped = [p for r, cfg in REGIONS.items() if r not in regions for p in cfg["idprefixes"]]  # regions not built this run
+        external.enrich([f for b in built for f in b[3]], datetime.now(ZoneInfo("Europe/Oslo")).replace(tzinfo=None), skipped)
     except Exception as e:  # links are a nice-to-have; never fail the run over them
         print(f"  ! link lookup failed: {e}", file=sys.stderr)
 

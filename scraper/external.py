@@ -244,7 +244,7 @@ def film_year(f):
     return f["year"] or (f["premiere"][:4] if f.get("premiere") else "")
 
 
-def enrich(films, now):
+def enrich(films, now, keep_prefixes=()):
     cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
     today = now.strftime("%Y-%m-%d")
 
@@ -388,7 +388,8 @@ def enrich(films, now):
             f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
     # Keep the cache to films we still list.
     live = {i for f in films for i in f["ids"]}
-    CACHE.write_text(json.dumps({k: v for k, v in sorted(cache.items()) if k in live},
+    # (ids of regions not built in this run, `keep_prefixes`, are left alone.)
+    CACHE.write_text(json.dumps({k: v for k, v in sorted(cache.items()) if k in live or k.startswith(tuple(keep_prefixes))},
                                 ensure_ascii=False, indent=0))
     print(f"  links for {matched}/{len(films)} films ({looked} looked up on Wikidata, "
           f"{tmdb_checked} checked on TMDB ({tmdb_new} new), {min(len(rate), MAX_RATINGS)} ratings refreshed)")
