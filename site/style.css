@@ -450,10 +450,12 @@ dialog { overscroll-behavior: contain; }
 .poster .flag, .poster .kind, .poster .pillr { z-index: 1; }
 
 /* Hide-a-film button: on desktop it appears when you hover a poster; hidden films (when shown) are dimmed with an always-visible Unhide. */
-.hide { position: absolute; right: 6px; top: 44px; width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer; padding: 0;
+.hide { position: absolute; left: 6px; top: 6px; width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer; padding: 0;
   display: flex; align-items: center; justify-content: center; background: rgba(10, 12, 16, .55); color: #fff; opacity: 0; transition: opacity .15s; }
 .card:hover .hide, .hide:focus-visible, .card.hid .hide { opacity: 1; }
 @media (hover: none) { .card:not(.hid) .hide { display: none; } }
 .card.hid .poster, .card.hid .m, .card.hid h3 { opacity: .45; }
 #toast .linkbtn { color: var(--bg); text-decoration: underline; font-weight: 600; }
 .actions .btn svg { vertical-align: -3px; }
+.card.hid .flag { display: none; }                      /* the New flag and the hide button share the top-left corner */
+@media (hover: hover) { .card:hover .flag { opacity: 0; } }
