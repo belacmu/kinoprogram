@@ -2,7 +2,7 @@
 :root {
   --bg: #eef0f2; --surface: #ffffff; --ink: #16181d; --muted: #5d6470; --line: #d6dae1;
   --accent: #a3213a; --accent-ink: #ffffff; --chip: #e2e5ea; --chip-on: #16181d; --chip-on-ink: #f3f4f6;
-  --soon: #1f7a45; --scrim: rgba(10, 12, 16, .55); --edge: #a9b0bb; --stick-shadow: rgba(0, 0, 0, .2);
+  --soon: #1f7a45; --scrim: rgba(10, 12, 16, .55); --edge: #a9b0bb; --stick-shadow: rgba(0, 0, 0, .2); --band: #ffffff;
   --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
   --body: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
@@ -12,14 +12,14 @@
   :root:not([data-theme="light"]) {
     --bg: #101216; --surface: #191c22; --ink: #e9ebef; --muted: #9097a3; --line: #2b2f37;
     --accent: #f0647d; --accent-ink: #101216; --chip: #23272e; --chip-on: #e9ebef; --chip-on-ink: #101216;
-    --soon: #6fd198; --scrim: rgba(0, 0, 0, .7); --edge: #4a515d; --stick-shadow: rgba(0, 0, 0, .6);
+    --soon: #6fd198; --scrim: rgba(0, 0, 0, .7); --edge: #4a515d; --stick-shadow: rgba(0, 0, 0, .6); --band: #0a0c0f;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #101216; --surface: #191c22; --ink: #e9ebef; --muted: #9097a3; --line: #2b2f37;
   --accent: #f0647d; --accent-ink: #101216; --chip: #23272e; --chip-on: #e9ebef; --chip-on-ink: #101216;
-  --soon: #6fd198; --scrim: rgba(0, 0, 0, .7); --edge: #4a515d; --stick-shadow: rgba(0, 0, 0, .6);
+  --soon: #6fd198; --scrim: rgba(0, 0, 0, .7); --edge: #4a515d; --stick-shadow: rgba(0, 0, 0, .6); --band: #0a0c0f;
   color-scheme: dark;
 }
 
@@ -391,4 +391,29 @@ a.stub:hover { border-color: var(--accent); }
 @media (max-width: 560px) {
   #account { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; height: auto; max-height: 92dvh;
     border-radius: 18px 18px 0 0; padding: 22px 18px calc(24px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* header band: the title row and the controls share a background that differs from the page */
+.top { background: var(--band); box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax); }
+.controls { background: var(--band); }
+@media (max-width: 999px) { .controls { box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax); } }
+@media (min-width: 1000px) { .controls { border-radius: 14px; padding-inline: 12px; } .layout { margin-top: 14px; } }
+
+/* sections: even rhythm, header and posters share one left edge */
+.sec { margin: 0 0 12px; border-radius: 16px; }
+.sec .sech button { padding: 16px 18px; gap: 12px; }
+.sec .sech .n { font: 600 12px var(--mono); opacity: .55; }
+.sec .sech .chev { margin-right: -4px; width: 30px; height: 30px; align-items: center; justify-content: center; border-radius: 50%; transition: transform .15s, background .15s; }
+.sec .sech button:hover .chev { background: var(--bg); }
+.sec > .grid { padding: 4px 18px 18px; }
+@media (max-width: 560px) {
+  .sec .sech button { padding: 14px 12px; }
+  .sec > .grid { padding: 4px 12px 14px; }
+}
+
+/* optional on phones (?layout=bleed): panels run edge to edge so posters get the width */
+@media (max-width: 560px) {
+  body.bleed .sec { margin-inline: -16px; border-radius: 0; border-inline: 0; }
+  body.bleed .sec > .grid { padding-inline: 8px; }
+  body.bleed .sec .sech button { padding-inline: 10px; }
 }

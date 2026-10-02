@@ -490,6 +490,12 @@ $("searchClose").addEventListener("click", () => {
   setSearching(false); $("searchBtn").focus();
 });
 $("q").addEventListener("keydown", (e) => { if (e.key === "Escape") $("searchClose").click(); });
+// Tapping anywhere outside an empty, open search box closes it, like the × does.
+document.addEventListener("pointerdown", (e) => {
+  if (!document.body.classList.contains("searching") || $("q").value) return;
+  if (e.target.closest("#searchBox, #searchBtn")) return;
+  setSearching(false);
+});
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 // Pill menus (Sort, Location): a button that opens a small list of choices.
@@ -645,6 +651,7 @@ if (sb) {
     return "";
   };
   $("account").addEventListener("submit", async (e) => {
+    if (e.target.id !== "signinForm" && e.target.id !== "codeForm") return;  // the × button's own form must be allowed to close the dialog
     e.preventDefault();
     const btn = e.target.querySelector("button[type=submit]");
     if (e.target.id === "signinForm") {
@@ -733,6 +740,8 @@ async function loadRegion(key) {
   render();
   route();
 }
+
+if (new URLSearchParams(location.search).get("layout") === "bleed") document.body.classList.add("bleed");  // try it with ?layout=bleed
 
 (async function boot() {
   await loadRegion(state.region);
