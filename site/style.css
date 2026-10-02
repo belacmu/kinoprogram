@@ -452,10 +452,11 @@ dialog { overscroll-behavior: contain; }
 /* Poster overlays stay above the image when it zooms on hover (the transformed image otherwise paints over them). */
 .poster .flag, .poster .kind, .poster .pillr { z-index: 1; }
 
-/* Hide-a-film button: always visible, bottom-left of the poster. Hidden films are dimmed (not their buttons). */
-.poster .hide { position: absolute; left: 6px; bottom: 6px; width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; z-index: 1;
+/* Hide-a-film button: always visible, bottom-left of the poster, the height of the rating tag. Hidden films are dimmed (not their buttons). */
+.poster .hide { position: absolute; left: 6px; bottom: 6px; width: 20px; height: 20px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; z-index: 1;
   display: flex; align-items: center; justify-content: center; background: rgba(10, 12, 16, .55); color: #fff; }
-.poster .kind { left: 44px; }                           /* the type label (Shorts, Live & stage, ...) sits beside the hide button */
+.poster .hide svg { width: 11px; height: 11px; }
+.poster .kind { left: 32px; }                           /* the type label (Shorts, Live & stage, ...) sits beside the hide button */
 .card.hid .poster img, .card.hid .poster .ph, .card.hid .m, .card.hid h3 { opacity: .45; }
 #toast .linkbtn { flex: none; color: inherit; font-weight: 700; text-decoration: none; padding: 6px 12px; border-radius: 8px; background: color-mix(in srgb, currentColor 16%, transparent); }
 #toast .linkbtn:hover { background: color-mix(in srgb, currentColor 26%, transparent); }
@@ -472,10 +473,6 @@ dialog { overscroll-behavior: contain; }
 .fhead { padding-bottom: 14px; }
 @media (max-width: 600px) {
   .fmore { padding: 0 16px 6px; }
-  /* Smaller hide icon on phones: about the height of the rating tag. */
-  .poster .hide { width: 20px; height: 20px; }
-  .poster .hide svg { width: 11px; height: 11px; }
-  .poster .kind { left: 32px; }
 }
 
 /* Dimming (hiding a film) fades; the button that was pressed bounces once. */
