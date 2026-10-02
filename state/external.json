@@ -2574,6 +2574,17 @@
 "tmdbChecked": "2026-10-01",
 "tv": 2
 },
+"fw-EDI20260432": {
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1425472,
+"imdb": "tt35606013",
+"en": "The Rescue",
+"enFrom": "tmdb",
+"lbSlug": "the-rescue-2027",
+"lbRating": null,
+"rated": "2026-10-02"
+},
 "fw-EDI20260435": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4742,6 +4753,17 @@
 "fw-EDI20261614": {
 "tmdbChecked": "2026-10-01",
 "tv": 2
+},
+"fw-EDI20261615": {
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1540936,
+"imdb": "tt38120758",
+"en": "Anything but Ghosts",
+"enFrom": "tmdb",
+"lbSlug": "anything-but-ghosts",
+"lbRating": null,
+"rated": "2026-10-02"
 },
 "fw-FID20210220": {
 "tmdbChecked": "2026-10-01",
