@@ -426,12 +426,14 @@ function openFilm(id) {
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
+    </div></div>
+    <div class="fmore">
       <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
       <button class="btn ghost" data-hide="${esc(f.id)}">${eyeOff} ${isHidden(f) ? "Unhide this film" : "Hide this film"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
-    </div></div>
+    </div>
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) dlg.showModal();
