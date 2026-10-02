@@ -243,16 +243,16 @@ function renderFilters() {
 }
 
 // ---------------------------------------------------------------- render: grid
-// A quiet "Few showings left" note when only 1 or 2 showings are listed in the next two weeks. It states what is listed
-// and doesn't claim the run is ending (cinemas often add showings later). Only when the cinema publishes beyond the
-// film's last showing, so a short schedule window isn't mistaken for few showings.
+// "Last chance" when only 1 or 2 showings are listed in the next two weeks. There is deliberately no "leaving soon" for
+// films with more showings: cinemas often add showings later. Only when the cinema publishes beyond the film's last
+// showing, so a short schedule window isn't mistaken for the end.
 const ms = (t) => Date.parse(t + ":00Z");
 function endingNote(shows) {
   const last = shows[shows.length - 1];
   const horizon = state.horizon?.[last?.cinema];
   if (!last || !horizon || ms(horizon) - ms(last.t) < 3 * 864e5) return "";
   const days = (ms(last.t) - ms(localNow())) / 864e5;
-  return shows.length <= 2 && days <= 14 ? "Few showings left" : "";
+  return shows.length <= 2 && days <= 14 ? "Last chance" : "";
 }
 
 function cardMeta(row) {

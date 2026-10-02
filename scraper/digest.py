@@ -36,7 +36,7 @@ DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: fil
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-# "Leaving soon": the last showing is this close (or, with few showings left, this close)...
+# "Last chance": at most this many showings left, the last within this many days...
 LAST_CHANCE_DAYS, LAST_CHANCE_SHOWS = 14, 2
 # ...and the cinema is still publishing dates beyond it (otherwise we just can't see further ahead).
 HORIZON_MARGIN = timedelta(days=3)
@@ -193,7 +193,7 @@ def watch_entries(items, announced, leaving, rkey="oslo"):
         if watched:
             out.append((f, "announced", announced_when(f)))
     for f, shows, last in leaving:
-        out.append((f, "leaving", f"{plural(len(shows), 'showing')} listed, {last['cinema']}, last {when(last['t'])}"))
+        out.append((f, "leaving", f"{plural(len(shows), 'showing')} left, {last['cinema']}, last {when(last['t'])}"))
     return out
 
 
@@ -232,7 +232,7 @@ STYLE = """<style>
 DISPLAY = "'Big Shoulders Display','Roboto Condensed','Arial Narrow',Arial,sans-serif"
 FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&display=swap" rel="stylesheet">'
 KIND_LABEL = {"sale": ("Tickets on sale", "grn", "#1f7a45"), "announced": ("Newly announced", "mut", "#5d6470"),
-              "leaving": ("Few showings left", "acc", "#a3213a")}
+              "leaving": ("Last chance", "acc", "#a3213a")}
 
 
 def rating_of(f):
