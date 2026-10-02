@@ -19,6 +19,9 @@ asked about what CinemaClock can't see:
 - The national "coming soon" list (1-2 requests) and each film's IMDb/TMDB ids (once per film).
 - A cinema whose CinemaClock page failed: its next week per theatre instead, at most once a day.
 
+Showtimes asked for by film (`showtimes?movie_id`) carry the cinema's name and logo in `name` and `img`, not the
+film's, so titles and posters come from the film lists (`titles` in the cache) instead.
+
 MovieScout's start_time is the cinema's local wall-clock time despite the "Z" suffix (checked against Landmark's own
 data and CinemaClock), so it isn't converted; dates are asked from local midnight.
 """
@@ -101,7 +104,19 @@ def _ll(point):
 
 
 def _rows(rows, theatre_id=None):
+    """Showtimes asked for by theatre: `name` and `img` are the film's."""
     return [{**{f: r.get(f) for f in ROW_FIELDS}, **({"theatre_id": theatre_id} if theatre_id else {})} for r in rows]
+
+
+def _film_rows(rows):
+    """Showtimes asked for by film: `name` and `img` are the cinema's, so they're left out."""
+    return [{f: r.get(f) for f in ROW_FIELDS if f not in ("name", "img")} for r in rows]
+
+
+def _title(cache, mid, name, poster):
+    """A film's title and poster image, from a film list or a showtime asked for by theatre."""
+    if name:
+        cache["titles"][str(mid)] = {"name": name, "poster": poster or cache["titles"].get(str(mid), {}).get("poster", "")}
 
 
 def _learn(cache, mid, name, year, today):
@@ -125,9 +140,22 @@ def _our_theatres():
 def load():
     cache = json.loads(STATE.read_text()) if STATE.exists() else {}
     cache.setdefault("fetchedOn", "")
-    for k in ("movies", "names", "near", "filmdays", "theatredays", "fallbackOn", "log", "oneRegion"):
-        cache.setdefault(k, {})
     cache.setdefault("upcoming", [])
+    if "titles" not in cache and "filmdays" in cache:
+        # Until 3 October 2026 the cinema's name in showtimes asked for by film was taken for the film's title:
+        # forget those names, and take titles from the "coming soon" list and the showtimes asked for by theatre.
+        wrong = {norm(r["name"]) for v in cache["filmdays"].values() for r in v["rows"] if r.get("name")}
+        cache["names"] = {k: v for k, v in cache.get("names", {}).items() if k not in wrong}
+        for v in cache["filmdays"].values():
+            v["rows"] = _film_rows(v["rows"])
+        cache["titles"] = {}
+        for m in cache["upcoming"]:
+            _title(cache, m["id"], m["name"], (m.get("poster_imgs") or [""])[0])
+        for v in cache.get("theatredays", {}).values():
+            for r in v["rows"]:
+                _title(cache, r["movie_base_id"] or r["movie_id"], r["name"], r.get("img"))
+    for k in ("movies", "names", "titles", "near", "filmdays", "theatredays", "fallbackOn", "log", "oneRegion"):
+        cache.setdefault(k, {})
     if "days" in cache:
         # Before October 2026 every theatre was fetched day by day; keep what it taught us about ids.
         for rows in cache.pop("days").values():
@@ -206,6 +234,8 @@ def _daily(cache, today, b):
         cache["upcoming"] = [{k: m.get(k) for k in ("id", "name", "release_date", "duration_mins", "imdb_title_id", "tmdb_id",
                                                      "movieglu_id", "indie", "directors", "poster_imgs", "synopsis")}
                              for m in upcoming]
+        for m in cache["upcoming"]:
+            _title(cache, m["id"], m["name"], (m.get("poster_imgs") or [""])[0])
 
     # Strand and Roxy, theatre by theatre (first: the budget can run out further down on a catching-up day).
     for tid in PER_THEATRE:
@@ -219,6 +249,8 @@ def _daily(cache, today, b):
                 continue
             counts["theatres"] += 1
             cache["theatredays"][k] = {"fetched": t, "rows": _rows(rows, tid)}
+            for r in rows:
+                _title(cache, r.get("movie_base_id") or r["movie_id"], r.get("name"), r.get("img"))
 
     # Films parked for a city (no showings at our cinemas near it, though listed near the midpoint): has that city
     # scheduled them since? The lists by date don't change when the second city adds a film on dates the first one
@@ -264,6 +296,7 @@ def _daily(cache, today, b):
             entry = {"checked": t, "capped": len(found) >= CAP, "films": [m.get("base_id") or m["id"] for m in found]}
             for m in found:
                 _learn(cache, m.get("base_id") or m["id"], m["name"], (m.get("release_date") or "")[:4], t)
+                _title(cache, m.get("base_id") or m["id"], m["name"], (m.get("poster_imgs") or [""])[0])
             if entry["capped"] and offset >= SPLIT_FROM:  # too many to see from the midpoint: ask each city
                 entry["cities"] = {}
                 for city, point in CITIES.items():
@@ -291,7 +324,7 @@ def _daily(cache, today, b):
             if rows is None:
                 continue
             counts["times"] += 1
-            cache["filmdays"][k] = {"fetched": t, "rows": _rows(rows)}
+            cache["filmdays"][k] = {"fetched": t, "rows": _film_rows(rows)}
             if any(r["theatre_id"] in ours[city] for r in rows):
                 playing.add(cm)
             elif cm not in playing:  # nothing at our cinemas near this city yet: where does it start there?
@@ -304,13 +337,16 @@ def _daily(cache, today, b):
                 if not firsts[cm] or firsts[cm] == d:  # none at all, or only at a cinema we don't show: park it
                     cache["oneRegion"][cm] = {"checked": t, "first": firsts[cm]}
 
-    # Every film seen: remember its id by title; exact IMDb/TMDB ids once per film.
+    # Every film seen: remember its id by title; its title, poster and exact IMDb/TMDB ids once per film.
     rows = [r for v in list(cache["filmdays"].values()) + list(cache["theatredays"].values()) for r in v["rows"]]
-    for r in rows:
-        _learn(cache, r["movie_base_id"] or r["movie_id"], r["name"], r.get("release_year"), t)
+    for v in cache["theatredays"].values():
+        for r in v["rows"]:
+            _learn(cache, r["movie_base_id"] or r["movie_id"], r["name"], r.get("release_year"), t)
+    for mid, ti in cache["titles"].items():
+        _learn(cache, int(mid), ti["name"], "", t)
     known = {str(m["id"]): m for m in cache["upcoming"]}
     ids = {str(r["movie_base_id"] or r["movie_id"]) for r in rows} | set(known)
-    for mid in sorted(ids - set(cache["movies"]))[:60]:
+    for mid in sorted({i for i in ids if i not in cache["movies"] or i not in cache["titles"]})[:60]:
         m = known.get(mid)
         if not m:
             m = b.get(f"/movies/{mid}?lang=en")
@@ -320,6 +356,7 @@ def _daily(cache, today, b):
             m = m.get("movie", m)
         cache["movies"][mid] = {"imdb": m.get("imdb_title_id") or "", "tmdb": m.get("tmdb_id") or "",
                                 "directors": m.get("directors") or []}
+        _title(cache, mid, m.get("name"), (m.get("poster_imgs") or [""])[0])
     cutoff = (today - timedelta(days=FORGET_NAMES_DAYS)).isoformat()
     cache["names"] = {k: kept for k, v in sorted(cache["names"].items()) if (kept := [c for c in v if c["last"] >= cutoff])}
     print("  MovieScout today: " + ", ".join(f"{k} {v}" for k, v in counts.items()))
@@ -342,14 +379,17 @@ def films(cache, theatres, covered):
             if t.strftime("%Y-%m-%d") <= covered.get(cinema, ""):
                 continue
             mid = r["movie_base_id"] or r["movie_id"]
+            ti = cache["titles"].get(str(mid)) or ({"name": r["name"], "poster": r.get("img")} if r.get("name") else None)
+            if not ti:
+                continue  # no title yet (asked for in the next daily fetch)
             subs = r.get("subtitles") or ""
-            name, year_in_title = split_year(r["name"])  # "Halloween (1978)": a re-release
+            name, year_in_title = split_year(ti["name"])  # "Halloween (1978)": a re-release
             info = cache["movies"].get(str(mid), {})
             f = out.setdefault(mid, film(
                 director=", ".join(info.get("directors") or []),
                 knownIds={k: info[k] for k in ("imdb", "tmdb") if info.get(k)},
                 title=name, year=year_in_title or str(r["release_year"] or ""), runtime=r.get("duration_mins") or 0,
-                poster=f"https://cdn.moviescout.ca/{r['img']}" if r.get("img") else "",
+                poster=f"https://cdn.moviescout.ca/{ti['poster']}" if ti.get("poster") else "",
                 links=[{"label": "MovieScout", "url": f"https://moviescout.ca/movies/{mid}"}],
             ))
             f["shows"].append({
