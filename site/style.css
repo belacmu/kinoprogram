@@ -536,11 +536,17 @@ dialog { overscroll-behavior: contain; }
 .star.on:hover { transform: scale(1.12); filter: brightness(1.12); }
 .star:active, .hide:active { transform: scale(.94); }
 
-/* Film sheet: the badges, links and buttons sit under the poster and description, using the full width. */
-.fmore { padding: 0 22px 8px; }
-.fhead { padding-bottom: 14px; }
+/* Film sheet: the badges, links and buttons continue the column beside the poster; on phones they sit under the
+   poster and description, using the full width. The Cinemas/Format rows always span the full width under the poster,
+   as the header of the showings they narrow. */
+.fhead { grid-template-rows: auto 1fr auto; row-gap: 0; padding-bottom: 20px; }
+.fhead .picks { grid-column: 1 / -1; }
+.fhead .poster { grid-row: span 2; }
+.fmore { grid-column: 2; }
 @media (max-width: 600px) {
-  .fmore { padding: 0 16px 6px; }
+  .fhead { padding-bottom: 14px; }
+  .fhead .poster { grid-row: auto; }
+  .fmore { grid-column: 1 / -1; margin-top: 14px; }
 }
 
 /* Dimming (hiding a film) fades; the button that was pressed bounces once. */
@@ -548,3 +554,15 @@ dialog { overscroll-behavior: contain; }
 .card .poster .ph, .card .m, .card h3 { transition: opacity .3s ease; }
 .pop { animation: pop .35s ease; }
 @keyframes pop { 40% { transform: scale(1.28); } }
+
+/* Film sheet: the cinema and format (IMAX, Engelsk tekst, …) tags that narrow its showings, each row labelled like
+   the sidebar's headings. A format tag that can't combine with those picked is dimmed. */
+.picks { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start; margin-top: 16px; }
+.picks .badges { margin-bottom: 0; }
+.plbl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--muted); line-height: 22px; }
+@media (max-width: 600px) {
+  .picks { grid-template-columns: 1fr; gap: 4px; }
+  .picks .badges + .plbl { margin-top: 6px; }
+}
+button.badge.pick.alone { opacity: .5; }
+button.badge.pick.alone:hover { opacity: 1; }

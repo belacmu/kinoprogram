@@ -63,6 +63,7 @@ const state = {
   collapsed: new Set(), // "view:sectionKey" of collapsed sections; deliberately not remembered across reloads
   showAll: false,       // film sheet: show showings hidden by filters
   sheetCinemas: new Set(), // film sheet: cinema tags clicked to narrow its showings
+  sheetTags: new Set(),    // film sheet: format tags (IMAX, Engelsk tekst, …) clicked to narrow its showings, by tagKey
   user: null,           // { id, email }
   pendingEmail: (() => { try { return sessionStorage.getItem("kino:pendingEmail") || ""; } catch { return ""; } })(),
   profile: null,        // { subscribed, ... }
@@ -579,9 +580,27 @@ $("news").addEventListener("click", (e) => { if (e.target === $("news")) $("news
 // ---------------------------------------------------------------- film sheet
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
 
+// The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
+const showTags = (s) => [...s.tags.filter((t) => t !== "Norsk tekst"), s.dub ? "Dubbed" : ""].filter(Boolean);
+const tagKey = (t) => t.toLowerCase();  // Filmweb spells some tags several ways ("MIRAGE", "Mirage")
+const hasTag = (s, k) => showTags(s).some((t) => tagKey(t) === k);
+
+// Format tags worth filtering a film's showings by: those on some of its showings but not all, most common first,
+// each under its most used spelling. A picked tag stays even if it no longer narrows anything, so it can be unpicked.
+function sheetTagList(all) {
+  const by = new Map();
+  for (const s of all) for (const t of new Set(showTags(s))) {
+    const k = tagKey(t), e = by.get(k) || { k, n: 0, spell: {} };
+    e.n++; e.spell[t] = (e.spell[t] || 0) + 1; by.set(k, e);
+  }
+  return [...by.values()].filter((e) => e.n < all.length || state.sheetTags.has(e.k))
+    .map((e) => ({ ...e, label: Object.entries(e.spell).sort((a, b) => b[1] - a[1])[0][0] }))
+    .sort((a, b) => b.n - a.n || a.label.localeCompare(b.label));
+}
+
 function stubHtml(s) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
-  const tags = [...s.tags.filter((t) => !["Norsk tekst"].includes(t)), s.dub ? "Dubbed" : ""].filter(Boolean);
+  const tags = showTags(s);
   const inner = `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
     + (tags.length ? `<span class="tg">${esc(tags.join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
@@ -609,7 +628,15 @@ function openFilm(id) {
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
   const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
-  const shown = state.sheetCinemas.size ? filtered.filter((s) => state.sheetCinemas.has(s.cinema)) : filtered;
+  const atPicked = state.sheetCinemas.size ? filtered.filter((s) => state.sheetCinemas.has(s.cinema)) : filtered;
+  const withTags = (keys) => atPicked.filter((s) => keys.every((k) => hasTag(s, k)));
+  const shown = withTags([...state.sheetTags]);  // picked tags all apply: "IMAX" + "Engelsk tekst" = IMAX with English subtitles
+  // A tag that can't combine with those picked (no showing has both) is dimmed; picking it picks it alone.
+  const tagList = sheetTagList(all), pickedTags = tagList.filter((e) => state.sheetTags.has(e.k)).map((e) => e.label).join(" + ");
+  const tagChips = tagList.map((e) => {
+    const on = state.sheetTags.has(e.k), alone = !on && !withTags([...state.sheetTags, e.k]).length;
+    return `<button class="badge pick${on ? " on" : ""}${alone ? " alone" : ""}" data-sheettag="${esc(e.k)}" aria-pressed="${on}" title="${alone ? `None of these is also ${esc(pickedTags)}; show only ${esc(e.label)} instead` : `Show only ${esc(e.label)} showings`}">${esc(e.label)} · ${e.n}</button>`;
+  }).join("");
   const hidden = all.length - filtered.length;
   const byDay = {};
   for (const s of shown) (byDay[s.t.slice(0, 10)] ||= []).push(s);
@@ -623,21 +650,29 @@ function openFilm(id) {
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
   else if (!all.length && f.elsewhere?.length) empty = `<p class="hiddenNote">Premiere ${dayLabel(f.premiere)}. Showings so far only in ${esc(f.elsewhere.join(", "))}; none in ${esc(state.data.location)} yet.</p>`;
   else if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
+  if (all.length && !shown.length && (state.sheetCinemas.size || state.sheetTags.size)) empty = `<p class="hiddenNote">No showings match what you picked. <button class="linkbtn" data-sheetclear="1">Show all formats and cinemas</button></p>`;
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
+  // Badges that only describe the film, then the two rows of tags that narrow its showings, each labelled.
+  const info = (KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : "")
+    + (isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "")
+    + f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("");
+  const cinemaChips = cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("");
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     <div class="fhead">${posterHtml(f)}<div>
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
-    </div></div>
+    </div>
     <div class="fmore">
-      <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
+      ${info ? `<div class="badges">${info}</div>` : ""}
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
       <button class="btn ghost" data-hide="${esc(f.id)}">${isHidden(f) ? eyeOn : eyeOff} ${isHidden(f) ? "Show this film again" : "Hide this film"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
+    </div>
+      ${cinemaChips || tagChips ? `<div class="picks">${cinemaChips ? `<span class="plbl" id="pickCin">Cinemas</span><div class="badges" role="group" aria-labelledby="pickCin">${cinemaChips}</div>` : ""}${tagChips ? `<span class="plbl" id="pickFmt">Format</span><div class="badges" role="group" aria-labelledby="pickFmt">${tagChips}</div>` : ""}</div>` : ""}
     </div>
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
@@ -664,6 +699,7 @@ function route() {
 $("film").addEventListener("close", () => {
   state.showAll = false;
   state.sheetCinemas.clear();
+  state.sheetTags.clear();
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search);
   refreshNews();  // back in "What's new" (if the film was opened from there): show any heart or hide changes
 });
@@ -678,7 +714,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = s.key;
@@ -727,6 +763,15 @@ document.addEventListener("click", (e) => {
   } else if (t.dataset.sheetcinema) {
     const c = t.dataset.sheetcinema;
     state.sheetCinemas.has(c) ? state.sheetCinemas.delete(c) : state.sheetCinemas.add(c);
+    openFilm(location.hash.slice(6)); return;
+  } else if (t.dataset.sheettag) {
+    const k = t.dataset.sheettag;
+    if (state.sheetTags.has(k)) state.sheetTags.delete(k);
+    else if (t.classList.contains("alone")) state.sheetTags = new Set([k]);
+    else state.sheetTags.add(k);
+    openFilm(location.hash.slice(6)); return;
+  } else if (t.dataset.sheetclear) {
+    state.sheetCinemas.clear(); state.sheetTags.clear();
     openFilm(location.hash.slice(6)); return;
   } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(location.hash.slice(6)); return; }
   render();
