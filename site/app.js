@@ -426,15 +426,16 @@ function renderGrid() {
 }
 
 // ---------------------------------------------------------------- render: the day control beside Sort
-// Only in "Playing when". Phones show a calendar icon (filled once another day is picked); wider screens also say the day.
+// Only in "Playing when". Today is the unfiltered default, so the button just says "Date"; once another day is picked
+// it names that day and is highlighted, like active filters. Narrow bars show only the icon.
 const calIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
 function renderDayControl() {
   $("dayDD").hidden = state.view !== "when";
   const today = localNow().slice(0, 10), chosen = chosenDay(today), d = asDate(chosen);
-  const name = chosen === today ? "Today" : chosen === addDays(today, 1) ? "Tomorrow" : `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  const name = chosen === today ? "Date" : chosen === addDays(today, 1) ? "Tomorrow" : `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
   $("dayBtn").innerHTML = `${calIcon}<span class="lbl">${name}</span><span class="chev" aria-hidden="true">▾</span>`;
   $("dayBtn").classList.toggle("on", chosen !== today);
-  $("dayBtn").setAttribute("aria-label", `Day: ${chosen === today ? "today" : longDate.format(d)}`);
+  $("dayBtn").setAttribute("aria-label", chosen === today ? "Pick a date" : `Date: ${longDate.format(d)}`);
 }
 
 // The last day anything is listed, from the cinemas' published horizons.
