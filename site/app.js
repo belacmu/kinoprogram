@@ -726,18 +726,19 @@ async function loadRegion(key) {
 // Open it by tapping the Cinecrab title five times, or by adding #debug to the address.
 // It starts the "Send demo emails" run on GitHub (the Gmail password only exists there).
 const GH_REPO = "belacmu/kinoprogram";
+const debugCommand = (email) => `gh workflow run update.yml -R github.com/${GH_REPO} -f test_email=${email || "you@example.com"}`;
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch { return false; }
+}
 function openDebug(msg = "", isErr = false) {
-  const hasToken = !!local.get("ghToken", "");
   const email = local.get("debugEmail", "") || state.user?.email || "";
   $("debugBody").innerHTML = `<h2 id="debugTitle">Debug</h2>
-    <p>Send sample digest emails (one for Oslo, one for Westman, built from today's real films) to an address of your choice. They go out through the Cinecrab Gmail and arrive in about a minute.</p>
+    <p>Send sample digest emails (one for Oslo, one for Westman, built from today's real films) to an address of your choice. They go out through the Cinecrab Gmail and arrive within a minute or two.</p>
     <form id="debugForm" class="stack">
       <label class="field">Send to<input type="email" id="dbgEmail" required value="${esc(email)}" placeholder="you@example.com" autocomplete="email"></label>
-      <label class="field">GitHub token<input type="password" id="dbgToken" placeholder="${hasToken ? "Saved in this browser" : "github_pat_…"}" autocomplete="off" ${hasToken ? "" : "required"}></label>
-      <small class="hint">A fine-grained token for <b>${GH_REPO}</b> with <b>Actions: read and write</b>. It stays in this browser only.</small>
-      <div class="row"><button class="btn accent" type="submit">Send demo emails</button>
-      ${hasToken ? `<button class="linkbtn" type="button" id="dbgForget">Forget token</button>` : ""}
-      <a class="linkbtn" href="https://github.com/${GH_REPO}/actions" target="_blank" rel="noopener">See the run ↗</a></div>
+      <div class="row"><button class="btn accent" type="submit">Open the GitHub run form</button>
+      <button class="linkbtn" type="button" id="dbgCopy">Copy terminal command</button></div>
+      <small class="hint">On the GitHub page: click <b>Run workflow</b>, paste the address (already copied for you) into <b>Send a sample digest to this address</b>, then run it. You need to be signed in to GitHub.</small>
     </form>${msg ? `<div class="msg${isErr ? " err" : ""}">${esc(msg)}</div>` : ""}`;
   if (!$("debug").open) $("debug").showModal();
 }
@@ -751,28 +752,20 @@ function openDebug(msg = "", isErr = false) {
 })();
 $("debug").addEventListener("click", (e) => {
   if (e.target === $("debug")) $("debug").close();
-  if (e.target.id === "dbgForget") { local.set("ghToken", ""); openDebug("Token forgotten."); }
+  if (e.target.id === "dbgCopy") {
+    const email = $("dbgEmail").value.trim();
+    if (email) local.set("debugEmail", email);
+    copyText(debugCommand(email)).then((ok) => openDebug(ok ? "Command copied. Paste it into a terminal where you're signed in to GitHub." : "Couldn't copy. Select the address field and copy it by hand.", !ok));
+  }
 });
 $("debug").addEventListener("submit", async (e) => {
   if (e.target.id !== "debugForm") return;
   e.preventDefault();
-  const email = $("dbgEmail").value.trim(), token = $("dbgToken").value.trim() || local.get("ghToken", "");
-  if (!email || !token) { openDebug("Enter an email and a token.", true); return; }
-  local.set("ghToken", token); local.set("debugEmail", email);
-  const btn = e.target.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Sending…";
-  let msg = "", err = false;
-  try {
-    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/actions/workflows/update.yml/dispatches`, {
-      method: "POST",
-      headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${token}`, "X-GitHub-Api-Version": "2022-11-28" },
-      body: JSON.stringify({ ref: "main", inputs: { test_email: email } }),
-    });
-    if (r.status === 204) msg = `Started. Two sample emails should reach ${email} in about a minute (check spam the first time).`;
-    else { err = true; msg = r.status === 401 || r.status === 403 || r.status === 404
-      ? "GitHub rejected the token. It needs access to this repository with Actions: read and write."
-      : `GitHub answered ${r.status}. Try again, or start the run from the Actions page.`; }
-  } catch { err = true; msg = "Couldn't reach GitHub. Check your connection and try again."; }
-  openDebug(msg, err);
+  const email = $("dbgEmail").value.trim();
+  local.set("debugEmail", email);
+  const copied = await copyText(email);
+  window.open(`https://github.com/${GH_REPO}/actions/workflows/update.yml`, "_blank", "noopener");
+  openDebug(copied ? `Address copied. In the GitHub tab, click Run workflow and paste it into the sample-digest box.` : `In the GitHub tab, click Run workflow and type ${email} into the sample-digest box.`);
 });
 
 (async function boot() {
