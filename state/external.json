@@ -16,7 +16,8 @@
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1204680,
-"enFrom": "tmdb"
+"enFrom": "tmdb",
+"posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
 },
 "cc-forgotten-island-2026": {
 "tmdbChecked": "2026-10-02",
@@ -33,7 +34,8 @@
 "source": "moviescout",
 "lbSlug": "forgotten-island-2026",
 "lbRating": 3.92,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/Lr0Ng7Gg02RW1AyfYEL6P0WUvd.jpg"
 },
 "cc-practical-magic-2-2026": {
 "imdb": "tt32588798",
@@ -48,7 +50,8 @@
 "source": "moviescout",
 "lbSlug": "practical-magic-2",
 "lbRating": 2.88,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg"
 },
 "cc-the-president-s-cake-2025": {
 "imdb": "tt36580119",
@@ -67,7 +70,8 @@
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1464883,
-"enFrom": "tmdb"
+"enFrom": "tmdb",
+"posterPath": "/uSrozVUxIUaer6FIUHHFtOdbqj8.jpg"
 },
 "cc-the-weight-2026": {
 "imdb": "tt10794054",
@@ -86,7 +90,8 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1433583,
-"source": "moviescout"
+"source": "moviescout",
+"posterPath": "/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg"
 },
 "cl-bitelchus": {
 "imdb": "tt0094721",
@@ -1982,7 +1987,8 @@
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1464883,
-"enFrom": "tmdb"
+"enFrom": "tmdb",
+"posterPath": "/uSrozVUxIUaer6FIUHHFtOdbqj8.jpg"
 },
 "ev-tow": {
 "tmdbChecked": "2026-10-02",
@@ -5848,7 +5854,8 @@
 "source": "moviescout",
 "lbSlug": "avengers-doomsday",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg"
 },
 "https-moviescout-ca-movies-10002980": {
 "tmdbChecked": "2026-10-02",
@@ -5865,7 +5872,8 @@
 "source": "moviescout",
 "lbSlug": "digger-2026",
 "lbRating": 3.66,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg"
 },
 "https-moviescout-ca-movies-10003031": {
 "tmdbChecked": "2026-10-02",
@@ -5882,7 +5890,8 @@
 "source": "moviescout",
 "lbSlug": "resident-evil-2026",
 "lbRating": 3.78,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
 },
 "https-moviescout-ca-movies-10003060": {
 "imdb": "tt32588798",
@@ -5897,7 +5906,8 @@
 "source": "moviescout",
 "lbSlug": "practical-magic-2",
 "lbRating": 2.88,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg"
 },
 "https-moviescout-ca-movies-10003065": {
 "tmdbChecked": "2026-10-02",
@@ -5914,7 +5924,8 @@
 "source": "moviescout",
 "lbSlug": "forgotten-island-2026",
 "lbRating": 3.92,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/Lr0Ng7Gg02RW1AyfYEL6P0WUvd.jpg"
 },
 "https-moviescout-ca-movies-10003069": {
 "tmdbChecked": "2026-10-02",
@@ -5931,7 +5942,8 @@
 "source": "moviescout",
 "lbSlug": "heart-of-the-beast-2026",
 "lbRating": 3.3,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/mYqiF90igComG2L2qm8SwFbaMwn.jpg"
 },
 "https-moviescout-ca-movies-10003070": {
 "imdb": "tt34890576",
@@ -5946,7 +5958,8 @@
 "source": "moviescout",
 "lbSlug": "clayface",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "https-moviescout-ca-movies-10003072": {
 "tmdbChecked": "2026-10-02",
@@ -5963,7 +5976,8 @@
 "source": "moviescout",
 "lbSlug": "whalefall",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
 },
 "https-moviescout-ca-movies-10003074": {
 "imdb": "tt14371256",
@@ -5978,7 +5992,8 @@
 "source": "moviescout",
 "lbSlug": "klara-and-the-sun",
 "lbRating": null,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"posterPath": "/xqovj2p6HRsgHxN81qYAYF4StgM.jpg"
 },
 "https-moviescout-ca-movies-10003075": {
 "imdb": "tt37510326",
@@ -5993,7 +6008,8 @@
 "source": "moviescout",
 "lbSlug": "the-social-reckoning",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
 },
 "https-moviescout-ca-movies-10003103": {
 "tmdbChecked": "2026-10-02",
@@ -6010,7 +6026,8 @@
 "source": "moviescout",
 "lbSlug": "primetime-2026",
 "lbRating": 3.71,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/lmrulvLbmaejTix1YaMxo1oGhH1.jpg"
 },
 "https-moviescout-ca-movies-10003176": {
 "tmdbChecked": "2026-10-02",
@@ -6027,7 +6044,8 @@
 "source": "moviescout",
 "lbSlug": "verity-2026",
 "lbRating": 2.82,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
 },
 "https-moviescout-ca-movies-10003178": {
 "tmdbChecked": "2026-10-02",
@@ -6044,7 +6062,8 @@
 "source": "moviescout",
 "lbSlug": "other-mommy",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "https-moviescout-ca-movies-10003179": {
 "tmdbChecked": "2026-10-02",
@@ -6061,7 +6080,8 @@
 "source": "moviescout",
 "lbSlug": "street-fighter-2026",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
 },
 "https-moviescout-ca-movies-10003180": {
 "imdb": "tt43702710",
@@ -6076,7 +6096,8 @@
 "source": "moviescout",
 "lbSlug": null,
 "lbRating": null,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"posterPath": "/uTyVxPeWX8Ai30IQoyDDQONNcq.jpg"
 },
 "https-moviescout-ca-movies-10003181": {
 "imdb": "tt10794054",
@@ -6095,7 +6116,8 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1433583,
-"source": "moviescout"
+"source": "moviescout",
+"posterPath": "/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg"
 },
 "https-moviescout-ca-movies-10003229": {
 "imdb": "tt6262770",
@@ -6110,7 +6132,8 @@
 "source": "moviescout",
 "lbSlug": "tenzing",
 "lbRating": 3.59,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"posterPath": "/eI0QW02PYqhnmIvLRdn9vrfVVP7.jpg"
 },
 "https-moviescout-ca-movies-10003230": {
 "tmdbChecked": "2026-10-02",
@@ -6127,7 +6150,8 @@
 "source": "moviescout",
 "lbSlug": "sense-and-sensibility-2026",
 "lbRating": 3.92,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
 },
 "https-moviescout-ca-movies-10003231": {
 "tmdbChecked": "2026-10-02",
@@ -6144,7 +6168,8 @@
 "source": "moviescout",
 "lbSlug": "wildwood-2026",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg"
 },
 "https-moviescout-ca-movies-10003250": {
 "imdb": "tt35514120",
@@ -6159,7 +6184,8 @@
 "source": "moviescout",
 "lbSlug": "werwulf",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/imnkSt4PSQpxIuyiRpJCiLk3SZz.jpg"
 },
 "https-moviescout-ca-movies-10003271": {
 "imdb": "tt4154796",
@@ -6174,7 +6200,8 @@
 "source": "moviescout",
 "lbSlug": "avengers-endgame",
 "lbRating": 4.03,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
 },
 "https-moviescout-ca-movies-10003324": {
 "imdb": "tt33184695",
@@ -6189,7 +6216,8 @@
 "source": "moviescout",
 "lbSlug": "rolling-loud-the-movie",
 "lbRating": null,
-"rated": "2026-10-02"
+"rated": "2026-10-02",
+"posterPath": "/kx4ippA15v1Qc1xZjsjrb2r8NQZ.jpg"
 },
 "https-moviescout-ca-movies-234081": {
 "tmdbChecked": "2026-10-02",
@@ -6206,7 +6234,8 @@
 "source": "moviescout",
 "lbSlug": "arrival-2016",
 "lbRating": 4.14,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/pEzNVQfdzYDzVK0XqxERIw2x2se.jpg"
 },
 "https-moviescout-ca-movies-359230": {
 "imdb": "tt31378509",
@@ -6238,7 +6267,8 @@
 "source": "moviescout",
 "lbSlug": "super-troopers-3",
 "lbRating": 2.63,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/ecTxAyfx4fdTMy2N288oZMMn3Ey.jpg"
 },
 "https-moviescout-ca-movies-415960": {
 "tmdbChecked": "2026-10-01",
@@ -6249,7 +6279,8 @@
 "enFrom": "tmdb",
 "lbSlug": "drummer-boy",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/bhjdgMm2fFrysSzVqv5RwRwIbVf.jpg"
 },
 "https-moviescout-ca-movies-6822": {
 "tmdbChecked": "2026-10-02",
@@ -6266,6 +6297,7 @@
 "source": "moviescout",
 "lbSlug": "halloween-1978",
 "lbRating": 3.76,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"posterPath": "/wijlZ3HaYMvlDTPqJoTCWKFkCPU.jpg"
 }
 }
