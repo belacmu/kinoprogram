@@ -360,11 +360,6 @@ a.stub:hover { border-color: var(--accent); }
 .star { display: flex; align-items: center; justify-content: center; padding: 0; }
 .actions .btn svg { vertical-align: -3px; }
 
-/* desktop: Date leads, search fills the rest */
-@media (min-width: 1000px) {
-  .bar .searchbox { order: 2; }
-}
-
 /* each section is one panel: the header is its top row and the films sit inside it */
 #grid { overflow-anchor: none; padding-top: 14px; }  /* anchor: no re-jump on collapse; padding: gap under the bar's line */
 .sec { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin: 0 0 16px; overflow: clip; }  /* clip (unlike hidden) keeps the header sticky */
@@ -454,7 +449,7 @@ body { overflow-x: clip; }
   #dayBtn .lbl, #dayBtn .chev { display: none; }
   #dayBtn svg { color: var(--ink); }
 }
-@media (min-width: 1000px) { #dayDD { order: 1; } }      /* ahead of search */
+@media (min-width: 1000px) { .menu.cal { left: auto; right: 0; } }  /* the date sits at the bar's right end: open leftwards */
 @media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
 
 /* What's new: a header button (it isn't a filter) opening a feed of what went on sale or got a date lately. */
