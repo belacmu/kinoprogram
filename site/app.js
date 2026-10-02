@@ -10,6 +10,7 @@ const local = {
 const REGIONS = [
   { key: "oslo", name: "Oslo", file: "films.json", tz: "Europe/Oslo" },
   { key: "westman", name: "Westman", file: "westman.json", tz: "America/Winnipeg" },
+  { key: "winnipeg", name: "Winnipeg", file: "winnipeg.json", tz: "America/Winnipeg" },
   { key: "costadelsol", name: "Costa del Sol", file: "costadelsol.json", tz: "Europe/Madrid" },
 ];
 let clockFmt = null;
@@ -1143,6 +1144,8 @@ async function loadRegion(key) {
   $("sub").textContent = `${state.data.location} · ${state.data.sources || "Filmweb + Cinemateket"} · updated ${dayLabel(g, { short: true })} ${hhmm(g)}`;
   $("foot").innerHTML = reg.key === "costadelsol"
     ? `Showtimes from <a href="https://www.carteleracines.es" target="_blank" rel="noopener">CarteleraCines.es</a>, which collects them from the cinemas' ticketing systems, refreshed twice a day and covering about two weeks ahead. Some ticket links may pay CarteleraCines a commission; the price doesn't change. Times are Spanish time. Showings in the original language are marked "Original language" (with Spanish subtitles). Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
+    : reg.key === "winnipeg"
+    ? `Data from <a href="https://moviescout.ca" target="_blank" rel="noopener">MovieScout</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://davebarbercinematheque.com" target="_blank" rel="noopener">Dave Barber Cinematheque</a>, refreshed twice a day. CinemaClock covers about the next week; showings further ahead are the cinemas' advance sales. Times are Manitoba time. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
     : reg.key === "oslo"
     ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a>, <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a> and <a href="https://www.eventbrite.com/o/revier-117564493841" target="_blank" rel="noopener">Revier Film Club</a> (Eventbrite), refreshed several times a day. Tickets are bought on the cinemas' own sites; Revier's screenings are free but need a reserved seat. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
     : `Data from <a href="https://www.landmarkcinemas.com" target="_blank" rel="noopener">Landmark Cinemas</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://evanstheatre.ca" target="_blank" rel="noopener">Evans Theatre</a>. Small theatres sell tickets at the door. Times are Manitoba time. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`;

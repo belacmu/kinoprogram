@@ -4,6 +4,8 @@
 Usage: python3 scraper/build.py [region ...]      (default: all regions)
 Regions: oslo -> site/data/films.json, state/seen.json
          westman -> site/data/westman.json, state/seen-westman.json
+         winnipeg -> site/data/winnipeg.json, state/seen-winnipeg.json
+         costadelsol -> site/data/costadelsol.json, state/seen-costadelsol.json
 Each state file holds:
   baseline    when tracking started (films on sale then are never "new")
   lastDigest  when the daily email last went out (digest.py reads and updates it)
@@ -25,6 +27,7 @@ import external  # noqa: E402
 import revier  # noqa: E402
 import sources  # noqa: E402
 import westman  # noqa: E402
+import winnipeg  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OFF_SALE_DAYS = 7  # a film must be off sale this long before it counts as new again
@@ -38,6 +41,7 @@ ID_PATTERNS = [
     ("lm-", r"landmarkcinemas\.com/movie/([^/?#]+)"),
     ("cc-", r"cinemaclock\.com/movies/([^/?#]+)"),
     ("ev-", r"evanstheatre\.ca/movie/([^/?#]+)"),
+    ("db-", r"davebarbercinematheque\.com/movies/([^/?#]+)"),
     ("cl-", r"carteleracines\.es/#([^/?#]+)"),
     # One Eventbrite event per screening; the slug without running time and event number names the film.
     ("rv-", r"eventbrite\.[a-z.]+/e/(.+?)(?:-\d+t)?(?:-\d+m)?-tickets-\d+"),
@@ -82,7 +86,7 @@ def merge(primary, extra):
             for k in ("alt", "director", "runtime", "blurb", "poster", "year", "premiere"):
                 match[k] = match[k] or c[k]
             match["knownIds"] = match.get("knownIds") or c.get("knownIds") or {}
-            # Once a Westman cinema schedules a film, it's no longer only "opening in Canada".
+            # Once a cinema here schedules a film, it's no longer only "opening in Canada".
             match["scope"] = "" if (match["shows"] or c["shows"]) else (match.get("scope") or c.get("scope", ""))
         else:
             films.append(c)
@@ -214,6 +218,14 @@ def fetch_westman(now):
     return films
 
 
+def fetch_winnipeg(now):
+    print("Fetching Winnipeg cinemas …")
+    films = []
+    for f in winnipeg.fetch_all(now):
+        films = merge(films, [f])
+    return films
+
+
 def fetch_costadelsol(now):
     print("Fetching Costa del Sol cinemas …")
     return costadelsol.fetch_all(now)
@@ -226,6 +238,9 @@ REGIONS = {
     "westman": {"name": "Westman", "tz": "America/Winnipeg", "fetch": fetch_westman, "first": "Landmark Brandon",
                 "idprefixes": ("lm-", "cc-", "ev-", "https-moviescout"), "data": "westman.json", "state": "seen-westman.json",
                 "sources": "Landmark + CinemaClock + Evans Theatre"},
+    "winnipeg": {"name": "Winnipeg", "tz": "America/Winnipeg", "fetch": fetch_winnipeg, "first": "Cinematheque",
+                 "idprefixes": ("cc-", "db-", "https-moviescout"), "data": "winnipeg.json", "state": "seen-winnipeg.json",
+                 "sources": "MovieScout + CinemaClock + Cinematheque"},
     "costadelsol": {"name": "Costa del Sol", "tz": "Europe/Madrid", "fetch": fetch_costadelsol,
                     "first": "Alfil (Fuengirola)", "idprefixes": ("cl-",), "data": "costadelsol.json", "state": "seen-costadelsol.json",
                     "sources": "CarteleraCines.es"},

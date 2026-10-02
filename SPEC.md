@@ -1,7 +1,8 @@
 # Cinecrab — spec
 
 Browse what's on at the cinemas in a region **by film** instead of by date, and get a daily email
-when films become bookable. Regions: **Oslo** and **Westman** (Brandon / Virden area, Manitoba).
+when films become bookable. Regions: **Oslo**, **Westman** (Brandon / Virden area, Manitoba), **Winnipeg** and
+**Costa del Sol**.
 For one person and a few friends; must cost nothing to run.
 
 ## Sources
@@ -12,17 +13,28 @@ For one person and a few friends; must cost nothing to run.
 | Cinemateket | Cinemateket i Oslo (Tancred, Lillebil) | HTML: `/forestillinger/side-N` for the film list, each film page for its showings, ticket links and facts |
 | Revier Film Club | Free screenings at the Revier hotel (Kongens gate 5), Wednesdays and Fridays 18:00 | Eventbrite only, one event per screening named "Title (year, 1t 40m)": the organizer page's embedded JSON for the list, each event page for director ("Regi: …"), description and ticket release date. Free, but a seat must be reserved, so a showing counts as on sale while Eventbrite has places; "Fully booked" when it doesn't. |
 
-**Westman** (times in Manitoba time):
+**Manitoba** (Westman and Winnipeg, times in Manitoba time): CinemaClock for about the next week at every cinema,
+MovieScout beyond it (advance sales months ahead).
 
 | Source | Covers | How |
 | --- | --- | --- |
-| MovieScout | Landmark Brandon (complete, incl. advance sales months ahead), Gaiety (Glenboro), Strand (Melita), Roxy (Neepawa); Avalon (Souris) and Derrick (Virden) when they list showtimes | Public showtimes API, **used with MovieScout's permission for this small personal project** on the condition we don't overload it: fetched **once a day**, one request per second, cached in `state/moviescout.json`. Next 14 days every day; Landmark's dates 14–120 days out refreshed on a weekly rotation (~30 requests/day after the first fetch). |
-| MovieScout "coming soon" | Westman's **Coming soon**: chain releases opening in Canada (has a MovieGlu id, not flagged indie), about 3 months ahead, shown as "Opens in Canada … not scheduled here yet" until a Westman cinema lists showtimes | National upcoming list, 1–2 requests a day. MovieScout also gives each film's exact IMDb/TMDB ids (one request per film, cached), used for links instead of title matching. |
-| CinemaClock | Evans, Community Theatre (Carnduff), Moosomin; small theatres alongside MovieScout; Landmark only if MovieScout fails | Server-rendered theatre pages, about a week ahead |
-| Evans Theatre | Brandon University's cinema, whole season | Static site, one page per film |
+| CinemaClock | Every cinema both regions show except Strand and Roxy, and the Cinematheque, about the next week | Server-rendered theatre pages, twice a day |
+| MovieScout | Beyond CinemaClock's week: Landmark Brandon, the four Winnipeg Cineplex cinemas and Landmark Grant Park (advance sales months ahead), and whatever the small Westman theatres list; Strand (Melita) and Roxy (Neepawa) entirely | Public showtimes API, **used with MovieScout's permission for this small personal project** on the condition we poll it sparingly. One fetch a day for both regions, one request a second, at most 150 requests a day (normally ~70), cached in `state/moviescout.json` (the day's count is logged in it). **Discovery**: the films playing near a point between the regions (Portage la Prairie) on a date, one request per date (`movies/list/near`, at most 10 films; a full answer two weeks or more out is asked again per city): every date 7–30 days out daily, later dates out to 120 days weekly, plus the Thursday/Friday of each "coming soon" release daily. **Times**: each film and date found, near each city (`showtimes?movie_id&date&lat&lng`), when first seen and again 10 days out. A film with no showings at our cinemas near a city is parked for that city and its first showing there (`showtimes/first-showing`) is checked daily if it plays in the other region (weekly otherwise), so the second region adding it is found the next day. Strand and Roxy: per theatre, the next 14 days, each date every 3 days. A cinema whose CinemaClock page fails gets its next week from MovieScout instead. Titles seen on MovieScout are remembered with their ids, so a film CinemaClock lists keeps its MovieScout id (watchlist, "new") and gets exact IMDb/TMDB ids. |
+| MovieScout "coming soon" | Both regions' **Coming soon**: chain releases opening in Canada (has a MovieGlu id, not flagged indie), about 3 months ahead, shown as "Opens in Canada … not scheduled here yet" until a cinema in the region lists showtimes | National upcoming list, 1–2 requests a day. MovieScout also gives each film's exact IMDb/TMDB ids (one request per film, cached), used for links instead of title matching. |
+| Evans Theatre | Westman: Brandon University's cinema, whole season | Static site, one page per film |
+| Dave Barber Cinematheque | Winnipeg: about a month ahead, a ticket link per showing | Its own site (Filmbot): the calendar and Coming soon pages for the films, each film's page for dates, times, ticket links and facts |
+
+Westman cinemas: Landmark Brandon, Evans Theatre, Gaiety (Glenboro), Derrick (Virden), Avalon (Souris), Strand (Melita),
+Roxy (Neepawa), Community Theatre (Carnduff), Moosomin. Winnipeg cinemas: Scotiabank Theatre, Cineplex McGillivray,
+Cineplex Kildonan Place, SilverCity St. Vital, Landmark Grant Park, Cinema City Northgate and Garden City Cinemas
+(second-run; not on MovieScout, so only CinemaClock's week), and the Cinematheque.
+What MovieScout's sparing use doesn't give: times on a far date that a cinema adds after the film was found there
+appear 10 days out; a one-off event more than 30 days out that isn't on a release date can take up to a week to
+appear; for a day or two after the cinemas publish their next week, the days CinemaClock doesn't reach yet show
+only advance showings. MovieScout has no ticket links: its showings link the cinema's page.
 
 Landmark itself refuses automated requests (tested 2026-10-01, even from a Canadian VPN exit), so
-it isn't fetched directly; MovieScout carries its full schedule.
+it isn't fetched directly. Cineplex's site and API are behind bot protection, so neither is fetched.
 Small theatres sell at the door: their showings link to the theatre page and count as "on sale".
 Landmark re-releases: the year comes from the title ("(1978)", "20th Anniversary") or is left empty.
 
@@ -47,7 +59,7 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 
 - Poster grid; clicking a poster opens the film with all its showings grouped by day, each with a
   ticket link. Deep link: `#film/<id>`.
-- Region switcher (Oslo / Westman), remembered per browser; `?r=westman` links to a region.
+- Region switcher (Oslo / Westman / Winnipeg / Costa del Sol), remembered per browser; `?r=westman` links to a region.
 - **One grid with section headers, by when films play**: Playing today · This week · Next week ·
   Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere if
   earlier. Films without a date are left out (they appear only when you search for them).
