@@ -78,6 +78,8 @@ jobs:
       - name: Test email
         if: inputs.test_email != ''
         env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           SITE_URL: ${{ steps.deploy.outputs.page_url }}

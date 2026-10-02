@@ -16,6 +16,7 @@ import json
 import os
 import smtplib
 import sys
+import urllib.parse
 import urllib.request
 from datetime import datetime
 from email.message import EmailMessage
@@ -181,7 +182,8 @@ def render(items, announced, site, unsub_url, prefs=None, region="Oslo", rkey="o
     return subject, "\n".join(txt) + "\n" + footer, body_html
 
 
-def subscribers():
+def fetch_profiles(filter_):
+    """Rows from the profiles table (needs SUPABASE_URL and SUPABASE_SECRET_KEY); None if not configured."""
     url, key = os.environ.get("SUPABASE_URL"), os.environ.get("SUPABASE_SECRET_KEY")
     if not (url and key):
         return None
@@ -189,10 +191,20 @@ def subscribers():
     if key.startswith("eyJ"):  # legacy service_role JWT
         headers["Authorization"] = f"Bearer {key}"
     req = urllib.request.Request(
-        url.rstrip("/") + "/rest/v1/profiles?subscribed=eq.true&select=email,prefs,watchlist,unsubscribe_token",
+        url.rstrip("/") + f"/rest/v1/profiles?{filter_}&select=email,prefs,watchlist,unsubscribe_token",
         headers=headers)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())
+
+
+def subscribers():
+    return fetch_profiles("subscribed=eq.true")
+
+
+def profile_for(email):
+    """The saved profile for this address (subscribed or not), so a demo email is built exactly like a real one."""
+    rows = fetch_profiles("email=eq." + urllib.parse.quote(email, safe="")) or []
+    return rows[0] if rows else None
 
 
 def send(messages):
@@ -241,7 +253,15 @@ def main():
         print(f"Since {state['lastDigest']}: {len(new)} newly on sale, {len(ann)} newly announced")
 
         if test_to:
-            recipients = [{"email": test_to, "prefs": {"regions": [rkey]}, "watchlist": [], "unsubscribe_token": "test"}]
+            # Demo email = a real digest on command: built from this address's saved account if it has one
+            # (its filters, watchlist and real unsubscribe link), forced to include this region so both get tested.
+            real = profile_for(test_to)
+            if real:
+                print(f"Using the saved settings for {test_to}")
+                recipients = [{**real, "prefs": {**(real.get("prefs") or {}), "regions": [rkey]}}]
+            else:
+                print(f"No account for {test_to}; using default settings")
+                recipients = [{"email": test_to, "prefs": {"regions": [rkey]}, "watchlist": [], "unsubscribe_token": "test"}]
         else:
             if profiles is None:
                 profiles = subscribers()
