@@ -537,8 +537,10 @@ dialog { overscroll-behavior: contain; }
 .star:active, .hide:active { transform: scale(.94); }
 
 /* Film sheet: the badges, links and buttons continue the column beside the poster; on phones they sit under the
-   poster and description, using the full width. */
-.fhead { grid-template-rows: auto 1fr; row-gap: 0; padding-bottom: 20px; }
+   poster and description, using the full width. The Cinemas/Format rows always span the full width under the poster,
+   as the header of the showings they narrow. */
+.fhead { grid-template-rows: auto 1fr auto; row-gap: 0; padding-bottom: 20px; }
+.fhead .picks { grid-column: 1 / -1; }
 .fhead .poster { grid-row: span 2; }
 .fmore { grid-column: 2; }
 @media (max-width: 600px) {

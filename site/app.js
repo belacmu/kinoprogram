@@ -670,8 +670,9 @@ function openFilm(id) {
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
       <button class="btn ghost" data-hide="${esc(f.id)}">${isHidden(f) ? eyeOn : eyeOff} ${isHidden(f) ? "Show this film again" : "Hide this film"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
+    </div>
       ${cinemaChips || tagChips ? `<div class="picks">${cinemaChips ? `<span class="plbl" id="pickCin">Cinemas</span><div class="badges" role="group" aria-labelledby="pickCin">${cinemaChips}</div>` : ""}${tagChips ? `<span class="plbl" id="pickFmt">Format</span><div class="badges" role="group" aria-labelledby="pickFmt">${tagChips}</div>` : ""}</div>` : ""}
-    </div></div>
+    </div>
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) {
