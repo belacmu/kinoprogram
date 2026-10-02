@@ -123,7 +123,7 @@ h1 span { color: var(--accent); }
 
 /* controls */
 .controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
-  padding-block: 12px 10px; display: grid; gap: 8px; border-bottom: 1px solid var(--edge); }
+  padding-block: 12px 10px; display: grid; gap: 8px; }
 .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 input[type=search], input[type=email] { flex: 1 1 240px; min-width: 0; font: inherit; padding: 9px 12px; border-radius: 6px;
   border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
