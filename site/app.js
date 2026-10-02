@@ -734,52 +734,6 @@ async function loadRegion(key) {
   route();
 }
 
-// ---------------------------------------------------------------- hidden debug panel
-// Open it by tapping the Cinecrab title five times, or by adding #debug to the address.
-// It starts the "Send demo emails" run on GitHub (the Gmail password only exists there).
-const GH_REPO = "belacmu/kinoprogram";
-const debugCommand = (email) => `gh workflow run update.yml -R github.com/${GH_REPO} -f test_email=${email || "you@example.com"}`;
-async function copyText(text) {
-  try { await navigator.clipboard.writeText(text); return true; } catch { return false; }
-}
-function openDebug(msg = "", isErr = false) {
-  const email = local.get("debugEmail", "") || state.user?.email || "";
-  $("debugBody").innerHTML = `<h2 id="debugTitle">Debug</h2>
-    <p>Send sample digest emails (one for Oslo, one for Westman, built from today's real films) to an address of your choice. They go out through the Cinecrab Gmail and arrive within a minute or two.</p>
-    <form id="debugForm" class="stack">
-      <label class="field">Send to<input type="email" id="dbgEmail" required value="${esc(email)}" placeholder="you@example.com" autocomplete="email"></label>
-      <div class="row"><button class="btn accent" type="submit">Open the GitHub run form</button>
-      <button class="linkbtn" type="button" id="dbgCopy">Copy terminal command</button></div>
-      <small class="hint">On the GitHub page: click <b>Run workflow</b>, paste the address (already copied for you) into <b>Send a sample digest to this address</b>, then run it. You need to be signed in to GitHub.</small>
-    </form>${msg ? `<div class="msg${isErr ? " err" : ""}">${esc(msg)}</div>` : ""}`;
-  if (!$("debug").open) $("debug").showModal();
-}
-(() => {
-  let taps = 0, timer = null;
-  document.querySelector(".top h1").addEventListener("click", () => {
-    taps++; clearTimeout(timer); timer = setTimeout(() => { taps = 0; }, 2000);
-    if (taps >= 5) { taps = 0; openDebug(); }
-  });
-  if (location.hash === "#debug") openDebug();
-})();
-$("debug").addEventListener("click", (e) => {
-  if (e.target === $("debug")) $("debug").close();
-  if (e.target.id === "dbgCopy") {
-    const email = $("dbgEmail").value.trim();
-    if (email) local.set("debugEmail", email);
-    copyText(debugCommand(email)).then((ok) => openDebug(ok ? "Command copied. Paste it into a terminal where you're signed in to GitHub." : "Couldn't copy. Select the address field and copy it by hand.", !ok));
-  }
-});
-$("debug").addEventListener("submit", async (e) => {
-  if (e.target.id !== "debugForm") return;
-  e.preventDefault();
-  const email = $("dbgEmail").value.trim();
-  local.set("debugEmail", email);
-  const copied = await copyText(email);
-  window.open(`https://github.com/${GH_REPO}/actions/workflows/update.yml`, "_blank", "noopener");
-  openDebug(copied ? `Address copied. In the GitHub tab, click Run workflow and paste it into the sample-digest box.` : `In the GitHub tab, click Run workflow and type ${email} into the sample-digest box.`);
-});
-
 (async function boot() {
   await loadRegion(state.region);
   handleUnsubscribe();
