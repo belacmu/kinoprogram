@@ -398,11 +398,16 @@ def enrich(films, now, keep_prefixes=()):
             if en and len(en) < 120 and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])):
                 f["ext"]["en"] = en
             f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
-    # Cinemateket's own images are wide stills, not posters. Where the film is matched on TMDB, use its poster.
+    # Posters from TMDB where the film is matched there: instead of Cinemateket's wide stills and of missing posters, and as a
+    # fallback (`poster2`, used by the page if the first image fails to load) for Westman and Costa del Sol, whose image
+    # links can go dead (e.g. MovieScout's Avengers: Endgame Encore).
     if tmdb_enabled():
         budget = 60
         for f in films:
-            if "vrs.gd" not in (f.get("poster") or ""):
+            poster = f.get("poster") or ""
+            replace = not poster or "vrs.gd" in poster
+            fallback = not replace and f["id"].startswith(("https-moviescout", "lm-", "cc-", "cl-"))
+            if not (replace or fallback):
                 continue
             rec = next((cache[i] for i in f["ids"] if i in cache), None)
             if not rec or not rec.get("tmdb") or rec.get("conflict"):
@@ -414,7 +419,11 @@ def enrich(films, now, keep_prefixes=()):
                 except Exception as e:
                     print(f"  ! tmdb poster {f['title']}: {e}", file=sys.stderr)
             if rec.get("posterPath"):
-                f["poster"] = "https://image.tmdb.org/t/p/w342" + rec["posterPath"]
+                url = "https://image.tmdb.org/t/p/w342" + rec["posterPath"]
+                if replace:
+                    f["poster"] = url
+                else:
+                    f["poster2"] = url
 
     # Keep the cache to films we still list.
     live = {i for f in films for i in f["ids"]}
