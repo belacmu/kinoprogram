@@ -223,20 +223,22 @@
 "posterPath": "/qzZEnaXwv4wss2QalEo4Uf9BAwh.jpg"
 },
 "cc-other-mommy-2026": {
-"imdb": "tt37510326",
-"tmdb": 1281331,
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 1400837,
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
 "imdbAll": [
-"tt37510326"
+"tt36586020"
 ],
 "v": 4,
 "checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
 "source": "moviescout",
-"lbSlug": "the-social-reckoning",
+"lbSlug": "other-mommy",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "cc-practical-magic-2-2026": {
 "imdb": "tt32588798",
@@ -305,22 +307,6 @@
 "lbRating": 3.78,
 "rated": "2026-10-01",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
-},
-"cc-rolling-loud-2026": {
-"imdb": "tt33184695",
-"tmdb": 1336166,
-"imdbAll": [
-"tt33184695"
-],
-"v": 4,
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"source": "moviescout",
-"lbSlug": "rolling-loud-the-movie",
-"lbRating": null,
-"rated": "2026-10-02",
-"posterPath": "/kx4ippA15v1Qc1xZjsjrb2r8NQZ.jpg"
 },
 "cc-scooby-v-f-2020": {
 "tmdbChecked": "2026-10-03",
@@ -2634,8 +2620,8 @@
 "rated": "2026-10-01"
 },
 "fw-CIT20150068": {
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
 "tv": 2
 },
 "fw-EDI20240080": {
@@ -2704,8 +2690,8 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20240786": {
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
 "tv": 2,
 "tmdb": 1533588,
 "lang": "no",
@@ -2714,7 +2700,7 @@
 "enFrom": "tmdb",
 "lbSlug": "almost-there-2026-1",
 "lbRating": null,
-"rated": "2026-10-02"
+"rated": "2026-10-03"
 },
 "fw-EDI20240874": {
 "tmdbChecked": "2026-10-01",
@@ -3040,8 +3026,8 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20251102": {
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
 "tv": 2,
 "tmdb": 572474,
 "lang": "sv",
@@ -3049,7 +3035,7 @@
 "en": null,
 "lbSlug": "ridge",
 "lbRating": 3.43,
-"rated": "2026-10-02"
+"rated": "2026-10-03"
 },
 "fw-EDI20251106": {
 "checked": "2026-10-03",
@@ -3989,8 +3975,8 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20260797": {
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
 "tv": 2
 },
 "fw-EDI20260802": {
@@ -4960,8 +4946,8 @@
 "rated": "2026-10-03"
 },
 "fw-EDI20261349": {
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
 "tv": 2,
 "tmdb": 1729657,
 "lang": "fr",
@@ -4969,7 +4955,7 @@
 "en": null,
 "lbSlug": "revolutionaries-never-die",
 "lbRating": null,
-"rated": "2026-10-02"
+"rated": "2026-10-03"
 },
 "fw-EDI20261350": {
 "checked": "2026-10-03",
@@ -5448,8 +5434,8 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20261549": {
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
 "tv": 2
 },
 "fw-EDI20261550": {
@@ -6058,8 +6044,8 @@
 "rated": "2026-10-01"
 },
 "fw-SFN20180923": {
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
 "tv": 2
 },
 "fw-SFN20201260": {
@@ -6512,20 +6498,22 @@
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "https-moviescout-ca-movies-10003072": {
-"imdb": "tt37510326",
-"tmdb": 1281331,
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 1400837,
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
 "imdbAll": [
-"tt37510326"
+"tt36586020"
 ],
 "v": 4,
 "checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
 "source": "moviescout",
-"lbSlug": "the-social-reckoning",
+"lbSlug": "other-mommy",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "https-moviescout-ca-movies-10003074": {
 "imdb": "tt14371256",
@@ -6596,15 +6584,17 @@
 "posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
 },
 "https-moviescout-ca-movies-10003178": {
-"imdb": "tt37510326",
-"tmdb": 1281331,
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 1400837,
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
 "imdbAll": [
 "tt37510326"
 ],
 "v": 4,
 "checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
 "source": "moviescout",
 "lbSlug": "the-social-reckoning",
 "lbRating": null,
@@ -6612,20 +6602,22 @@
 "posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
 },
 "https-moviescout-ca-movies-10003179": {
-"imdb": "tt37510326",
-"tmdb": 1281331,
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 1400837,
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
 "imdbAll": [
-"tt37510326"
+"tt36586020"
 ],
 "v": 4,
 "checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
 "source": "moviescout",
-"lbSlug": "the-social-reckoning",
+"lbSlug": "other-mommy",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "https-moviescout-ca-movies-10003180": {
 "imdb": "tt43702710",
@@ -6696,14 +6688,25 @@
 "posterPath": "/eI0QW02PYqhnmIvLRdn9vrfVVP7.jpg"
 },
 "https-moviescout-ca-movies-10003230": {
-"imdb": "tt37510326",
-"tmdb": 1281331,
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 1400837,
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
 "imdbAll": [
-"tt37510326"
+"tt36586020"
 ],
 "v": 4,
 "checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
+"source": "moviescout",
+"lbSlug": "other-mommy",
+"lbRating": null,
+"rated": "2026-10-01",
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
+},
+"https-moviescout-ca-movies-10003231": {
+"tmdbChecked": "2026-10-02",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "the-social-reckoning",
@@ -6758,6 +6761,40 @@
 "lbRating": null,
 "rated": "2026-10-01",
 "posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
+},
+"https-moviescout-ca-movies-10003238": {
+"imdb": "tt36415529",
+"tmdb": 1452168,
+"imdbAll": [
+"tt36415529"
+],
+"v": 4,
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"source": "moviescout",
+"lbSlug": "behemoth-2026",
+"lbRating": null,
+"rated": "2026-10-03",
+"posterPath": "/bcyGYWfcXr0GnXewaE5gkvYy1iQ.jpg"
+},
+"https-moviescout-ca-movies-10003243": {
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 1400837,
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
+"imdbAll": [
+"tt36586020"
+],
+"v": 4,
+"checked": "2026-10-03",
+"source": "moviescout",
+"lbSlug": "other-mommy",
+"lbRating": null,
+"rated": "2026-10-01",
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "https-moviescout-ca-movies-10003250": {
 "imdb": "tt35514120",
@@ -6823,6 +6860,26 @@
 "rated": "2026-10-03",
 "posterPath": "/nuNOKDt0mVWhwq2HZ9ytczuUFSf.jpg"
 },
+"https-moviescout-ca-movies-234081": {
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 329865,
+"imdb": "tt2543164",
+"en": "Arrival",
+"enFrom": "tmdb",
+"imdbAll": [
+"tt36408401"
+],
+"v": 4,
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"source": "moviescout",
+"lbSlug": "the-further-mis-adventures-of-cliff-booth",
+"lbRating": null,
+"rated": "2026-10-03",
+"posterPath": "/nuNOKDt0mVWhwq2HZ9ytczuUFSf.jpg"
+},
 "https-moviescout-ca-movies-359230": {
 "imdb": "tt31378509",
 "tmdb": null,
@@ -6855,6 +6912,38 @@
 "lbRating": 2.63,
 "rated": "2026-10-01",
 "posterPath": "/ecTxAyfx4fdTMy2N288oZMMn3Ey.jpg"
+},
+"rv-drive-2011": {
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 64690,
+"lang": "en",
+"imdb": "tt0780504",
+"en": "Drive",
+"enFrom": "tmdb",
+"lbSlug": "drive-2011",
+"lbRating": 3.91,
+"rated": "2026-10-03",
+"posterPath": "/602vevIURmpDfzbnv5Ubi6wIkQm.jpg"
+},
+"rv-like-crazy-2011": {
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"tmdb": 60420,
+"lang": "en",
+"imdb": "tt1758692",
+"en": "Like Crazy",
+"enFrom": "tmdb",
+"imdbAll": [
+"tt0077651"
+],
+"v": 4,
+"checked": "2026-10-02",
+"source": "moviescout",
+"lbSlug": "halloween-1978",
+"lbRating": 3.76,
+"rated": "2026-10-01",
+"posterPath": "/wijlZ3HaYMvlDTPqJoTCWKFkCPU.jpg"
 },
 "rv-drive-2011": {
 "tmdbChecked": "2026-10-03",
