@@ -306,7 +306,7 @@ function renderGrid() {
     const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
     return `<section class="sec${shut ? " shut" : ""}" id="sec-${i}">
       <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
-        <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true">${shut ? "▸" : "▾"}</span>
+        <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="toggle" aria-hidden="true">${shut ? "Show" : "Hide"} <span class="arrow">${shut ? "▸" : "▾"}</span></span>
       </button></h2>
       ${shut ? "" : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
   }).join("") : `<p class="empty">${empty}</p>`;

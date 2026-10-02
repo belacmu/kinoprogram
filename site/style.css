@@ -371,3 +371,13 @@ a.stub:hover { border-color: var(--accent); }
   .bar .searchbox { order: 2; flex: 0 1 300px; }
   .dd.grow .pill { min-width: 260px; }
 }
+
+/* collapsible section headers: say what the click does */
+.sech .toggle { margin-left: auto; flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px;
+  border: 1px solid var(--edge); border-radius: 999px; background: var(--chip); color: var(--ink); font: 600 12px var(--body);
+  align-self: center; }
+.sech .toggle .arrow { color: var(--muted); font-size: 11px; }
+.sech button:hover .toggle, .sech button:focus-visible .toggle { background: var(--chip-on); color: var(--chip-on-ink); border-color: var(--chip-on); }
+.sech button:hover .lbl { color: var(--accent); }
+.sec.shut .sech .peek { display: none; }
+@media (max-width: 560px) { .sech .toggle { padding: 3px 9px; } }
