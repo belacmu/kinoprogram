@@ -723,7 +723,7 @@ function sheetPicks(all, shown, withTags, today) {
     const d = asDate(day), name = day === today ? "Today" : day === addDays(today, 1) ? "Tmrw" : WEEKDAYS[d.getUTCDay()];
     return dayBtn(day, name, `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`);
   }).join("")}</div><button class="dnav" data-daynav="1" aria-label="Later days">›</button></div>` : "";
-  return menus || strip ? `<div class="picks">${menus ? `<div class="pmenus">${menus}</div>` : ""}${strip}</div>` : "";
+  return (menus ? `<div class="pmenus">${menus}</div>` : "") + (strip ? `<div class="picks">${strip}</div>` : "");
 }
 
 function route() {

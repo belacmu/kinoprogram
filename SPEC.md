@@ -102,7 +102,7 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   cinemas, hide Norwegian dubs, English subtitles only. Nothing is hidden by default.
 - **English titles** are always shown when we found a genuine one (not just the untranslated
   original) for a confidently matched film, with the Norwegian title underneath on the film page.
-- On the film page, under the poster, two menus narrow its showings, each highlighted like an active filter once
+- On the film page, beside the poster under its buttons (under the poster on phones), two menus narrow its showings, each highlighted like an active filter once
   something is picked: **Cinemas** (several can be picked; only when it plays at two or more) and **Format** (IMAX,
   ScreenX, SUPREME, Engelsk tekst, Dubbed, …: whatever its showings carry, except "Norsk tekst", and only those on
   some showings but not all). Picked formats all apply (IMAX + Engelsk tekst = IMAX showings with English
