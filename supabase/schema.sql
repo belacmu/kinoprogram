@@ -36,6 +36,8 @@ create policy "update own profile" on public.profiles
 -- Users may only change these columns (not email or the unsubscribe token).
 revoke insert, update, delete on public.profiles from anon, authenticated;
 grant select on public.profiles to authenticated;
+-- The daily job reads subscribers with the secret (service_role) key; new projects don't grant that automatically.
+grant select on public.profiles to service_role;
 grant update (subscribed, prefs, watchlist, updated_at) on public.profiles to authenticated;
 
 -- Create the profile row when someone signs up.
