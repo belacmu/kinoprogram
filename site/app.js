@@ -332,13 +332,20 @@ const whereList = (shows) => {
   return cinemas.length > 2 ? `${cinemas.slice(0, 2).join(", ")} +${cinemas.length - 2}` : cinemas.join(", ");
 };
 
+// The tag for a film with no bookable showings: the showings' own status when they all share one ("Sold out"),
+// otherwise "Not on sale yet".
+function noSaleTag(shows) {
+  const st = new Set(shows.map((s) => s.status));
+  return `<span class="nosaletag">${esc(st.size === 1 && shows[0].status || "Not on sale yet")}</span>`;
+}
+
 function cardMeta(row) {
   const { f, shows, onSale, start, dayShows } = row;
   const today = localNow().slice(0, 10);
   if (dayShows) { // a picked day: that day's cinemas and times
     // each time stays whole; the line may wrap between them on narrow cards
     const times = dayShows.slice(0, 3).map((s) => `<span class="nw">${hhmm(s.t)}</span>`).join(" · ") + (dayShows.length > 3 ? ` <span class="nw">+${dayShows.length - 3}</span>` : "");
-    if (!onSale) return `${times}<br><span class="nosaletag">Not on sale yet</span>`;
+    if (!onSale) return `${times}<br>${noSaleTag(dayShows)}`;
     const ending = endingNote(shows);
     return `<b>${esc(whereList(dayShows))}</b><br>${times}` + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
   }
@@ -351,7 +358,7 @@ function cardMeta(row) {
     return `<b>${esc(where)}</b><br><span class="nw${cls ? " today" : ""}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`
       + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
   }
-  if (shows.length) return `${dayLabel(shows[0].t, { short: true })} ${hhmm(shows[0].t)}<br><span class="nosaletag">Not on sale yet</span>`;
+  if (shows.length) return `${dayLabel(shows[0].t, { short: true })} ${hhmm(shows[0].t)}<br>${noSaleTag(shows)}`;
   if (f.scope === "Canada" && f.premiere) return `Opens in Canada ${dayLabel(f.premiere)}<br><span class="nosaletag">Not scheduled here yet</span>`;
   if (f.premiere) {
     const d = asDate(f.premiere);

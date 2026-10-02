@@ -163,7 +163,10 @@ def pick_leaving(films, profile, now_s, horizon, skip_ids):
 
 def announced_when(f):
     if f["shows"]:
-        return f"Showings from {when(f['shows'][0]['t'])}, tickets not on sale yet"
+        statuses = {s["status"] for s in f["shows"]}  # all sold out, say, rather than not on sale yet
+        status = statuses.pop() if len(statuses) == 1 else ""
+        status = status[0].lower() + status[1:] if status else "tickets not on sale yet"
+        return f"Showings from {when(f['shows'][0]['t'])}, {status}"
     if f["premiere"] and f.get("scope") == "Canada":
         d = datetime.strptime(f["premiere"], "%Y-%m-%d")
         return f"Opens in Canada {WEEKDAYS[d.weekday()]} {d.day} {MONTHS[d.month - 1]} (not scheduled here yet)"

@@ -125,6 +125,8 @@ def fetch_filmweb(location):
 # ---------------------------------------------------------------- Cinemateket
 
 CINE = "https://www.cinemateket.no"
+# Cinemateket's button text on a showing without a ticket link, in English like the rest of the site.
+CTA_STATUS = {"Utsolgt": "Sold out", "Ikke i salg": "Not on sale yet", "Meld på": "Sign up by email"}
 
 
 def cine_listing():
@@ -187,7 +189,7 @@ def cine_film(url, listing):
             "tags": tags,
             "note": text((re.search(r'shows-table__extra-info">(.*?)</div>', item, re.S) or [None, ""])[1]),
             "ticket": ticket,
-            "status": "" if ticket else text(cta),
+            "status": "" if ticket else CTA_STATUS.get(text(cta), text(cta)),
             "dub": bool(dub),
             "en": en,
         })
