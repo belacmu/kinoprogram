@@ -7,3 +7,6 @@ site/data/
 # private notes that must never be committed
 .local/
 *.conf
+
+# git worktrees made by Claude Code sessions
+.claude/worktrees/
