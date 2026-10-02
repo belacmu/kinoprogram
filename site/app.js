@@ -481,9 +481,17 @@ function openCal() {
   toggleMenu($("dayBtn"), menu);
   if (!menu.hidden) (menu.querySelector('.cday[aria-pressed="true"]:not(:disabled)') || menu.querySelector(".cday:not(:disabled)") || menu.querySelector(".caltoday"))?.focus();
 }
+// Bring the first section up to just under the pinned bar (the page title stays scrolled away); never scrolls down.
+function scrollToFirstSection() {
+  // the bar's exact height (--stick-top is rounded), rounded up so not even a sliver of the title shows
+  const target = Math.max(0, Math.ceil($("grid").getBoundingClientRect().top + window.scrollY - $("controls").getBoundingClientRect().height));
+  if (window.scrollY > target) window.scrollTo({ top: target });
+}
+// Picking a day (Today too, even if it already was) shows the first section.
 function setDay(day) {
   closeMenus();
-  if (day !== state.day) { state.day = day; render(); window.scrollTo({ top: 0 }); }
+  if (day !== state.day) { state.day = day; render(); }
+  scrollToFirstSection();
   $("dayBtn").focus({ preventScroll: true });
 }
 $("dayBtn").addEventListener("click", openCal);
