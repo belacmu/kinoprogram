@@ -41,7 +41,7 @@ const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 const WITHIN = [["rating", "Best rated first"], ["date", "By date"], ["fewest", "Fewest showings first"]];
 const DEFAULT_HIDE = ["short", "stage", "talk"];  // by default only films are shown
 const DEFAULTS_V = 2;                             // bump to re-apply new defaults to saved settings
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], frequency: "daily", hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, audioEnNo: false, watchlistAlways: true, announcements: true, regions: ["oslo"], frequency: "daily", hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
 // Settings saved before these defaults existed get the new "films only" default once.
 const withDefaults = (saved) => ({ ...DEFAULT_PREFS, ...saved, ...(saved.defaultsV === DEFAULTS_V ? {} : { hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V }) });
 const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
@@ -72,11 +72,13 @@ const state = {
 // ---------------------------------------------------------------- filters (keep in step with scraper/digest.py: show_ok)
 // "My cinemas" is one list across regions; only the ones in the region being viewed apply.
 const myCinemas = () => state.prefs.cinemas.filter((c) => state.data.cinemas.includes(c));
+const UNDERSTOOD_AUDIO = ["en", "no", "nb"];  // audio languages that need no Spanish (Costa del Sol)
 const DUBBING_REGIONS = ["oslo", "costadelsol"];  // where the data says which showings are dubbed
 function showMatches(s, now) {
   if (s.t < now) return false;
   const p = state.prefs, mine = myCinemas();
   if (mine.length && !mine.includes(s.cinema)) return false;
+  if (state.region === "costadelsol" && p.audioEnNo && !UNDERSTOOD_AUDIO.includes(s.lang)) return false;  // English or Norwegian audio
   if (DUBBING_REGIONS.includes(state.region) && p.hideDubbed && s.dub) return false;  // "Original language only"
   if (state.region === "oslo" && p.englishSubs && !s.en) return false;
   return true;
@@ -181,7 +183,8 @@ function activeFilters() {
   return (state.tix !== "all" ? 1 : 0)
     + (sameSet(state.prefs.hideKinds || [], DEFAULT_HIDE) ? 0 : 1) + (myCinemas().length ? 1 : 0)
     + (DUBBING_REGIONS.includes(state.region) && state.prefs.hideDubbed ? 1 : 0)
-    + (state.region === "oslo" && state.prefs.englishSubs ? 1 : 0);
+    + (state.region === "oslo" && state.prefs.englishSubs ? 1 : 0)
+    + (state.region === "costadelsol" && state.prefs.audioEnNo ? 1 : 0);
 }
 
 function renderControls() {
@@ -224,7 +227,8 @@ function renderFilters() {
     </div></fieldset>
     <fieldset class="fg"${DUBBING_REGIONS.includes(state.region) ? "" : " hidden"}><legend>Language</legend>
       <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Original language only")}
-      ${state.region === "oslo" ? ck('data-f="en"', state.prefs.englishSubs, "English subtitles only") : ""}</div>
+      ${state.region === "oslo" ? ck('data-f="en"', state.prefs.englishSubs, "English subtitles only") : ""}
+      ${state.region === "costadelsol" ? ck('data-f="audio"', state.prefs.audioEnNo, "English or Norwegian audio") : ""}</div>
     </fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
@@ -441,7 +445,7 @@ document.addEventListener("click", (e) => {
   }
   if (t.dataset.f === "reset") {
     state.tix = "all";
-    state.prefs.hideKinds = [...DEFAULT_HIDE]; state.prefs.hideDubbed = false; state.prefs.englishSubs = false;
+    state.prefs.hideKinds = [...DEFAULT_HIDE]; state.prefs.hideDubbed = false; state.prefs.englishSubs = false; state.prefs.audioEnNo = false;
     state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
     local.set("tix", "all"); savePrefs(); render(); return;
   }
@@ -486,6 +490,7 @@ $("filtersBody").addEventListener("change", (e) => {
     setCinemas(el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value));
   } else if (f === "dub") state.prefs.hideDubbed = el.checked;
   else if (f === "en") state.prefs.englishSubs = el.checked;
+  else if (f === "audio") state.prefs.audioEnNo = el.checked;
   if (f !== "tix") savePrefs();
   render();
 });
@@ -681,7 +686,7 @@ function renderAccount(message = "", isErr = false) {
   }
   const p = state.profile;
   const n = state.prefs.cinemas.length;
-  const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "original language only" : "", state.prefs.englishSubs ? "English subtitles only (Oslo)" : ""].filter(Boolean).join(", ");
+  const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "original language only" : "", state.prefs.englishSubs ? "English subtitles only (Oslo)" : "", state.prefs.audioEnNo ? "English or Norwegian audio only (Costa del Sol)" : ""].filter(Boolean).join(", ");
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
     <div class="who">${esc(state.user.email)}</div>
     <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>

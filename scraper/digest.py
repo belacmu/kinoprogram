@@ -29,6 +29,7 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 from build import REGIONS  # noqa: E402
+from costadelsol import LANG_NAMES  # noqa: E402
 SEND_HOUR = 9
 WEEKLY_DAY = 4  # weekly emails go out on Fridays (Monday is 0)
 DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: films only
@@ -66,6 +67,8 @@ def show_ok(s, prefs, now_s):
     if prefs.get("hideDubbed") and s.get("dub"):
         return False
     if prefs.get("englishSubs") and not s.get("en"):
+        return False
+    if prefs.get("_audioEnNo") and s.get("lang") not in ("en", "no", "nb"):  # Costa del Sol: no Spanish needed
         return False
     return True
 
@@ -172,7 +175,10 @@ def lang_note(shows, rkey):
     """Language note for a film's showings: English subtitles in Oslo, original language in Costa del Sol."""
     if not any(s.get("en") for s in shows):
         return ""
-    return " · Original language, Spanish subtitles" if rkey == "costadelsol" else " · English subtitles"
+    if rkey == "costadelsol":
+        names = sorted({LANG_NAMES.get(s.get("lang"), "") for s in shows if s.get("en")} - {""})
+        return f" · {' / '.join(names)} audio, Spanish subtitles" if names else " · Original language, Spanish subtitles"
+    return " · English subtitles"
 
 
 def watch_entries(items, announced, leaving, rkey="oslo"):
@@ -499,6 +505,7 @@ def main():
                 prefs["_cinemas"] = [c for c in prefs.get("cinemas") or [] if c in data["cinemas"]]
                 if rkey != "oslo":  # English subtitles only make sense for Oslo's data
                     prefs["englishSubs"] = False
+                prefs["_audioEnNo"] = rkey == "costadelsol" and bool(prefs.get("audioEnNo"))
                 if rkey not in ("oslo", "costadelsol"):  # Westman's data has no dubbed/original information
                     prefs["hideDubbed"] = False
                 p = {**p, "prefs": prefs}

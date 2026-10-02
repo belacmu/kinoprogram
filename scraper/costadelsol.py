@@ -83,10 +83,22 @@ def fetch_all(now):
     return list(films.values())
 
 
+LANG_NAMES = {"en": "English", "es": "Spanish", "no": "Norwegian", "nb": "Norwegian", "sv": "Swedish", "da": "Danish",
+              "fr": "French", "de": "German", "it": "Italian", "pt": "Portuguese", "ja": "Japanese", "ko": "Korean",
+              "zh": "Chinese", "hi": "Hindi", "ru": "Russian", "nl": "Dutch", "pl": "Polish", "tr": "Turkish"}
+
+
 def mark_dubbed(films):
-    """A showing without the original-version tag is dubbed into Spanish, unless the film is Spanish-language.
-    The film's original language comes from TMDB (ext.lang); when it is unknown the showing isn't called dubbed."""
+    """Say what language each showing is in. A showing without the original-version tag is dubbed into Spanish,
+    unless the film is Spanish-language. The film's original language comes from TMDB (ext.lang); when it is
+    unknown the showing isn't called dubbed and its audio language is left blank.
+    Sets on each show: `dub`, `lang` (audio language code, "" if unknown) and the visible tag."""
     for f in films:
-        lang = (f.get("ext") or {}).get("lang")
+        lang = (f.get("ext") or {}).get("lang") or ""
+        name = LANG_NAMES.get(lang, "")
         for s in f["shows"]:
+            s["tags"] = [t for t in s["tags"] if t != "Original language"]
             s["dub"] = bool(lang) and lang != "es" and not s["en"]
+            s["lang"] = "es" if s["dub"] else lang
+            if s["en"]:  # original version, Spanish subtitles
+                s["tags"].append("English audio" if lang == "en" else f"{name} audio" if name else "Original language")
