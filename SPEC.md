@@ -103,6 +103,10 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
 - **English titles** are always shown when we found a genuine one (not just the untranslated
   original) for a confidently matched film, with the Norwegian title underneath on the film page.
 - On the film page, clicking a cinema tag narrows its showings to that cinema (several can be picked).
+- Under the cinema tags, format tags (IMAX, ScreenX, SUPREME, Engelsk tekst, Dubbed, …: whatever its showings
+  carry, except "Norsk tekst", and only those on some showings but not all) narrow them the same way. Picked tags
+  all apply (IMAX + Engelsk tekst = IMAX showings with English subtitles); a tag no remaining showing has is dimmed,
+  and clicking it picks it alone instead. Spelling variants ("MIRAGE", "Mirage") count as one tag.
 - **Types** filter: Films · Shorts · Live & stage (opera, ballet, theatre, concerts) · Talks & events
   (lectures, archive evenings, mystery screenings, launches). Classified from explicit signals only
   (title patterns, Filmweb genre/show type, under 45 min = short); non-film items carry a badge.
