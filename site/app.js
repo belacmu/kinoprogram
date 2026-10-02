@@ -306,7 +306,7 @@ function renderGrid() {
     const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
     return `<section class="sec${shut ? " shut" : ""}" id="sec-${i}">
       <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
-        <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="toggle" aria-hidden="true">${shut ? "Show" : "Hide"} <span class="arrow">${shut ? "▸" : "▾"}</span></span>
+        <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
       ${shut ? "" : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
   }).join("") : `<p class="empty">${empty}</p>`;
@@ -404,11 +404,13 @@ document.addEventListener("click", (e) => {
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = `${state.view}:${s.key}`;
-    const pinned = $("sec-" + i).getBoundingClientRect().top < 0;
+    // The header pins just below the top bar, so "pinned" means above that line, not above the screen.
+    const stick = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--stick-top")) || 0;
+    const pinned = $("sec-" + i).getBoundingClientRect().top < stick - 1;
     setCollapsed(key, !state.collapsed.has(key));
     renderGrid();
-    if (pinned) $("sec-" + i)?.scrollIntoView({ block: "start" });
-    $("grid").querySelector(`[data-sec="${i}"]`)?.focus();
+    if (pinned) window.scrollBy(0, $("sec-" + i).getBoundingClientRect().top - stick);  // keep this header where it was pinned
+    $("grid").querySelector(`[data-sec="${i}"]`)?.focus({ preventScroll: true });
     return;
   }
   if (t.dataset.collapseall) {
