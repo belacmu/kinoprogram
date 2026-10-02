@@ -549,7 +549,14 @@ dialog { overscroll-behavior: contain; }
 .pop { animation: pop .35s ease; }
 @keyframes pop { 40% { transform: scale(1.28); } }
 
-/* Film sheet: format tags (IMAX, Engelsk tekst, …) under the cinema tags. One that can't combine with those picked is dimmed. */
-.badges.fmts { margin-top: -6px; }
+/* Film sheet: the cinema and format (IMAX, Engelsk tekst, …) tags that narrow its showings, each row labelled like
+   the sidebar's headings. A format tag that can't combine with those picked is dimmed. */
+.picks { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start; margin-bottom: 12px; }
+.picks .badges { margin-bottom: 0; }
+.plbl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--muted); line-height: 22px; }
+@media (max-width: 600px) {
+  .picks { grid-template-columns: 1fr; gap: 4px; }
+  .picks .badges + .plbl { margin-top: 6px; }
+}
 button.badge.pick.alone { opacity: .5; }
 button.badge.pick.alone:hover { opacity: 1; }

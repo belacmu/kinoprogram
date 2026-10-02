@@ -652,6 +652,11 @@ function openFilm(id) {
   if (all.length && !shown.length && (state.sheetCinemas.size || state.sheetTags.size)) empty = `<p class="hiddenNote">No showings match what you picked. <button class="linkbtn" data-sheetclear="1">Show all formats and cinemas</button></p>`;
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
+  // Badges that only describe the film, then the two rows of tags that narrow its showings, each labelled.
+  const info = (KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : "")
+    + (isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "")
+    + f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("");
+  const cinemaChips = cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("");
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     <div class="fhead">${posterHtml(f)}<div>
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
@@ -660,8 +665,8 @@ function openFilm(id) {
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
     </div></div>
     <div class="fmore">
-      <div class="badges">${KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : ""}${isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : ""}${cinemas.map(([c, n]) => `<button class="badge pick${state.sheetCinemas.has(c) ? " on" : ""}" data-sheetcinema="${esc(c)}" aria-pressed="${state.sheetCinemas.has(c)}" title="Show only ${esc(c)}">${esc(c)} · ${n}</button>`).join("")}${f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("")}</div>
-      ${tagChips ? `<div class="badges fmts" role="group" aria-label="Narrow by format">${tagChips}</div>` : ""}
+      ${info ? `<div class="badges">${info}</div>` : ""}
+      ${cinemaChips || tagChips ? `<div class="picks">${cinemaChips ? `<span class="plbl" id="pickCin">Cinemas</span><div class="badges" role="group" aria-labelledby="pickCin">${cinemaChips}</div>` : ""}${tagChips ? `<span class="plbl" id="pickFmt">Format</span><div class="badges" role="group" aria-labelledby="pickFmt">${tagChips}</div>` : ""}</div>` : ""}
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
       <button class="btn ghost" data-hide="${esc(f.id)}">${isHidden(f) ? eyeOn : eyeOff} ${isHidden(f) ? "Show this film again" : "Hide this film"}</button>
