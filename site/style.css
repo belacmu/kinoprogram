@@ -370,8 +370,7 @@ a.stub:hover { border-color: var(--accent); }
 /* each section is one panel: the header is its top row and the films sit inside it */
 #grid { overflow-anchor: none; padding-top: 14px; }  /* anchor: no re-jump on collapse; padding: gap under the bar's line */
 .sec { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin: 0 0 16px; overflow: clip; }  /* clip (unlike hidden) keeps the header sticky */
-.sec .sech { top: calc(var(--stick-top, 0px) - 1px); padding: 0; background: var(--surface); border-radius: 0; border-bottom: 1px solid var(--line); }  /* a hairline under the pinned header instead of a shadow */
-.sec.shut .sech { border-bottom-color: transparent; }
+.sec .sech { top: calc(var(--stick-top, 0px) - 1px); padding: 0; background: var(--surface); border-radius: 0; }
 .sec .sech button { align-items: center; padding: 14px 16px; border: 0; border-radius: inherit; background: none; transition: background .15s; }
 .sec .sech button:hover { background: var(--chip); }
 .sec .sech button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
@@ -394,9 +393,15 @@ a.stub:hover { border-color: var(--accent); }
 }
 
 /* header band: the title row and the controls share a background that differs from the page */
-.top { background: var(--band); box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax); }
+/* The band runs edge to edge through a pseudo-element, so menus can still drop out of it (a clip-path would cut them off). */
+body { overflow-x: clip; }
+.top { position: relative; z-index: 6; isolation: isolate; background: none; }
+.top::before { content: ""; position: absolute; inset: 0 -100vmax; background: var(--band); z-index: -1; }
 .controls { background: var(--band); }
-@media (max-width: 999px) { .controls { box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax); } }
+@media (max-width: 999px) {
+  .controls { background: none; }
+  .controls::before { content: ""; position: absolute; inset: 0 -100vmax; background: var(--band); z-index: -1; }
+}
 @media (min-width: 1000px) { .controls { border-radius: 14px; padding-inline: 12px; } .layout { margin-top: 14px; } }
 
 /* sections: even rhythm, header and posters share one left edge */
@@ -405,10 +410,12 @@ a.stub:hover { border-color: var(--accent); }
 .sec .sech .n { font: 600 12px var(--mono); opacity: .55; }
 .sec .sech .chev { margin-right: -4px; width: 30px; height: 30px; align-items: center; justify-content: center; border-radius: 50%; transition: transform .15s, background .15s; }
 .sec .sech button:hover .chev { background: var(--bg); }
-.sec > .grid { padding: 4px 18px 18px; }
+.sec > .grid { padding: 16px 18px 18px; }
+/* phones: panels run edge to edge so the posters get the width, with the same breathing room on every side */
 @media (max-width: 560px) {
+  .sec { margin-inline: -16px; border-radius: 0; border-inline: 0; }
   .sec .sech button { padding: 14px 12px; }
-  .sec > .grid { padding: 4px 12px 14px; }
+  .sec > .grid { padding: 12px; }
 }
 
 /* film page on phones: a bottom sheet with a Close button where the thumb is; the page behind can't scroll */
@@ -424,9 +431,3 @@ dialog { overscroll-behavior: contain; }
   .sheetbar .btn { width: 100%; padding: 12px; border-radius: 999px; font-size: 15px; }
 }
 
-/* optional on phones (?layout=bleed): panels run edge to edge so posters get the width */
-@media (max-width: 560px) {
-  body.bleed .sec { margin-inline: -16px; border-radius: 0; border-inline: 0; }
-  body.bleed .sec > .grid { padding-inline: 8px; }
-  body.bleed .sec .sech button { padding-inline: 10px; }
-}

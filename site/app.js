@@ -186,10 +186,7 @@ function renderControls() {
   $("sortBtn").innerHTML = `<span class="k">Sort</span> ${cur[1]} <span class="chev" aria-hidden="true">▾</span>`;
   $("sortBtn").setAttribute("aria-label", `Sort: ${cur[1]}`);
   $("sortMenu").innerHTML = VIEWS.map(([v, l, d]) =>
-    `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("")
-    + `<div class="menusep" role="separator"></div>
-       <button role="menuitem" class="plain" data-collapseall="1">Collapse all sections</button>
-       <button role="menuitem" class="plain" data-collapseall="0">Expand all sections</button>`;
+    `<button role="menuitemradio" aria-checked="${v === state.view}" data-pick="view" data-value="${v}">${l}<small>${d}</small></button>`).join("");
   const reg = REGIONS.find((r) => r.key === state.region);
   $("regionBtn").innerHTML = `${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
   $("regionBtn").setAttribute("aria-label", `Location: ${reg.name}`);
@@ -740,8 +737,6 @@ async function loadRegion(key) {
   render();
   route();
 }
-
-if (new URLSearchParams(location.search).get("layout") === "bleed") document.body.classList.add("bleed");  // try it with ?layout=bleed
 
 (async function boot() {
   await loadRegion(state.region);
