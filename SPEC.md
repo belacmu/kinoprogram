@@ -51,6 +51,14 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   - **When it's playing** (default): Playing now (most recent arrivals first) · This week · Next
     week · Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere
     if earlier. Films without a date are left out (they appear only when you search for them).
+    The first section is a chosen day: buttons under its header pick Today (the default, so the
+    page is unchanged), Tomorrow, the day after, or any date from a month picker (days with nothing
+    playing under the current filters are greyed out). Picking a day shows the page as it will be
+    then: that day's films first, with that day's cinemas and times on the cards, then everything
+    after it in the usual sections; films only playing before it drop out, and a film opened from
+    there starts at (and highlights) that day. The section stays even
+    when empty, so the buttons never go missing. The day isn't remembered: reloading or switching
+    to another view goes back to Today; switching region keeps it. Searching ignores the day.
   - **Newly on sale**: Today · Yesterday · Earlier this week · Last week · Earlier, by when tickets
     went on sale.
   - **Newly announced**: the same headers, by when the film first got a date here.

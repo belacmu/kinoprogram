@@ -58,6 +58,8 @@ const state = {
   tix: local.get("tix", "all"),
   within: local.get("within2", "rating"),
   onlyWatch: false,
+  day: "",              // "Playing when": the day its first section shows; "" = today. Not remembered across reloads
+  calMonth: "",         // the month the date picker shows ("2026-10")
   q: "",
   prefs: withDefaults(local.get("prefs", {})),
   watchlist: new Set(local.get("watchlist", [])),
@@ -159,12 +161,17 @@ function startDay(f, shows) {
   return prem || "";
 }
 
-// Section labels for the "When it's playing" view.
-function whenSection(row, today) {
+// The day the first "Playing when" section shows: the one picked, or today (also once a picked day has passed).
+const chosenDay = (today) => (state.day > today ? state.day : today);
+const DAY_KEY = "0000";
+const dayTitle = (chosen, today) => (chosen === today ? "Playing today" : `Playing ${dayLabel(chosen)}`);
+// Section labels for the "When it's playing" view. The first section is the chosen day (today unless another is
+// picked); the rest group films by their next showing after it, so picking a day shows the page as it will be then.
+function whenSection(row, today, chosen = today) {
   // A film's day = its next showing; films without showings use their confirmed premiere.
   const day = row.shows[0]?.t.slice(0, 10) || row.start;
   if (!day) return { key: "9999", label: "Date not set" };
-  if (row.shows.length && day === today) return { key: "0000", label: "Playing today" };
+  if (row.shows.length && day === chosen) return { key: DAY_KEY, label: dayTitle(chosen, today) };
   const dow = asDate(today).getUTCDay();                    // 0 = Sunday
   const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
   if (day <= weekEnd) return { key: "0001", label: "This week" };
@@ -186,25 +193,38 @@ function sinceSection(since, today, before) {
   return { key: "4", label: "Earlier" };
 }
 
+// A film's showings from `from` on that pass the filters, and whether it's on sale; null when the filters leave it out.
+function filmShows(f, now, from, q = "") {
+  if (!textMatch(f, q) || (!q && !kindShown(f))) return null;  // searching finds every type
+  if (state.onlyWatch && !isWatched(f)) return null;
+  const shows = f.shows.filter((s) => s.t >= from && showMatches(s, now));
+  if (f.shows.length && !shows.length) return null; // has showings, none match the filters
+  const bookable = shows.filter((s) => s.ticket);
+  const onSale = f.status === "on_sale" && bookable.length > 0;
+  if (state.tix === "on" && !onSale) return null;
+  if (state.tix === "off" && onSale) return null;
+  return { shows: onSale ? bookable : shows, onSale, all: shows };
+}
+
+// Whether "Playing when" shows the chosen-day section with its day buttons (searching always covers every date).
+const dayMode = () => state.view === "when" && !state.q.trim();
+
 function buildRows() {
   const now = localNow(), today = now.slice(0, 10), q = state.q.trim().toLowerCase();
   const b = state.data.baseline ? asDate(state.data.baseline) : null;
   const started = b ? `Before ${b.getUTCDate()} ${MONTHS[b.getUTCMonth()]}` : "Before tracking began";
+  const chosen = dayMode() ? chosenDay(today) : today, later = chosen !== today;
   const rows = [];
   for (const f of state.data.films) {
-    if (!textMatch(f, q) || (!q && !kindShown(f))) continue;  // searching finds every type
-    if (state.onlyWatch && !isWatched(f)) continue;
-    const hidden = isHidden(f);
-    const shows = f.shows.filter((s) => showMatches(s, now));
-    if (f.shows.length && !shows.length) continue; // has showings, none match the filters
-    const bookable = shows.filter((s) => s.ticket);
-    const onSale = f.status === "on_sale" && bookable.length > 0;
-    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, watched: isWatched(f), start: startDay(f, shows) };
-    if (state.tix === "on" && !onSale) continue;
-    if (state.tix === "off" && onSale) continue;
+    // A picked day hides everything before it: only showings from that day on count.
+    const m = filmShows(f, now, later ? chosen + "T00:00" : now, q);
+    if (!m) continue;
+    const row = { f, shows: m.shows, onSale: m.onSale, hidden: isHidden(f), watched: isWatched(f), start: startDay(f, m.all) };
     if (state.view === "when") {
       if (!row.start && !q) continue; // undated films only turn up when you search for them
-      row.sec = whenSection(row, today);
+      if (later && !row.shows.length && row.start < chosen) continue;  // premiered before the picked day, nothing since
+      row.sec = whenSection(row, today, chosen);
+      if (later && row.sec.key === DAY_KEY) row.dayShows = row.shows.filter((s) => s.t.startsWith(chosen));
     } else if (state.view === "sale") {
       if (!onSale) continue;
       row.sec = sinceSection(f.onSaleSince, today, started);
@@ -311,12 +331,23 @@ function endingNote(shows) {
   return shows.length <= 2 && days <= 14 ? "Last chance" : "";
 }
 
+const whereList = (shows) => {
+  const cinemas = [...new Set(shows.map((s) => s.cinema))];
+  return cinemas.length > 2 ? `${cinemas.slice(0, 2).join(", ")} +${cinemas.length - 2}` : cinemas.join(", ");
+};
+
 function cardMeta(row) {
-  const { f, shows, onSale, start } = row;
+  const { f, shows, onSale, start, dayShows } = row;
   const today = localNow().slice(0, 10);
+  if (dayShows) { // a picked day: that day's cinemas and times
+    // each time stays whole; the line may wrap between them on narrow cards
+    const times = dayShows.slice(0, 3).map((s) => `<span class="nw">${hhmm(s.t)}</span>`).join(" · ") + (dayShows.length > 3 ? ` <span class="nw">+${dayShows.length - 3}</span>` : "");
+    if (!onSale) return `${times}<br><span class="nosaletag">Not on sale yet</span>`;
+    const ending = endingNote(shows);
+    return `<b>${esc(whereList(dayShows))}</b><br>${times}` + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
+  }
   if (onSale) {
-    const cinemas = [...new Set(shows.map((s) => s.cinema))];
-    const where = cinemas.length > 2 ? `${cinemas.slice(0, 2).join(", ")} +${cinemas.length - 2}` : cinemas.join(", ");
+    const where = whereList(shows);
     const first = shows[0];
     const cls = first.t.slice(0, 10) === today ? ' class="today"' : "";
     // keep "Tomorrow 10:15" and "11 shows" whole on narrow cards
@@ -375,18 +406,109 @@ function renderGrid() {
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
   else if (state.onlyWatch && !watchedHere()) empty = `Nothing on your watchlist is in ${esc(state.data.location)}'s listings. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.`;
+  // The chosen-day section is always there in "Playing when", even empty, so its day buttons never go missing.
+  const today = localNow().slice(0, 10), chosen = chosenDay(today);
+  const withDay = dayMode() && !(state.onlyWatch && !watchedHere());
+  if (withDay && sections[0]?.key !== DAY_KEY) sections.unshift({ key: DAY_KEY, label: dayTitle(chosen, today), rows: [] });
+  const dayEmpty = `${state.onlyWatch ? "Nothing on your watchlist is" : "Nothing is"} playing ${chosen === today ? "for the rest of today" : `on ${dayLabel(chosen)}`}${activeFilters() ? " with these filters" : ""}.`;
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
-    const shut = isCollapsed(s);
+    const shut = isCollapsed(s), isDay = withDay && s.key === DAY_KEY;
     const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
     return `<section class="sec${shut ? " shut" : ""}" id="sec-${i}">
       <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
-      ${shut ? "" : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
+      ${isDay ? dayPickerHtml(today, chosen) : ""}
+      ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
   }).join("") : `<p class="empty">${empty}</p>`;
 }
+
+// ---------------------------------------------------------------- render: the day buttons and the date picker
+const shortDay = (day) => { const d = asDate(day); return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()}`; };
+const calIcon = `<svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+function dayPickerHtml(today, chosen) {
+  const quick = [today, addDays(today, 1), addDays(today, 2)];
+  const picked = !quick.includes(chosen);
+  return `<div class="daypick" role="group" aria-label="Day to show">
+    ${quick.map((d, i) => `<button class="daybtn" data-dayset="${i ? d : ""}" aria-pressed="${chosen === d}">${["Today", "Tomorrow", shortDay(d)][i]}</button>`).join("")}
+    <div class="dd"><button class="daybtn${picked ? " on" : ""}" id="calBtn" aria-haspopup="dialog" aria-expanded="false">${calIcon}${picked ? `${shortDay(chosen)} ${MONTHS[asDate(chosen).getUTCMonth()]}` : "Pick a date"}</button>
+      <div class="menu cal" id="calMenu" role="dialog" aria-label="Pick a date" hidden></div></div>
+  </div>`;
+}
+
+// The last day anything is listed, from the cinemas' published horizons.
+const lastListedDay = () => Object.values(state.horizon || {}).reduce((a, t) => (t > a ? t : a), "").slice(0, 10);
+// How many films the chosen-day section would hold on each day of a month (only today onwards).
+function dayCounts(month, today, last) {
+  const now = localNow(), counts = {};
+  const [y, m] = month.split("-").map(Number), len = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  for (let i = 1; i <= len; i++) {
+    const day = `${month}-${String(i).padStart(2, "0")}`;
+    if (day < today || day > last) continue;
+    counts[day] = 0;
+    for (const f of state.data.films) {
+      const r = filmShows(f, now, day === today ? now : day + "T00:00");
+      if (r?.shows[0]?.t.startsWith(day)) counts[day]++;
+    }
+  }
+  return counts;
+}
+const longDate = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+// A month grid (weeks start on Monday). Days with nothing playing under the current filters can't be picked.
+function calHtml() {
+  const today = localNow().slice(0, 10), chosen = chosenDay(today), last = lastListedDay() || today;
+  const month = state.calMonth, [y, m] = month.split("-").map(Number);
+  const lead = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7, counts = dayCounts(month, today, last);
+  const cells = Array.from({ length: lead }, () => `<span></span>`);
+  for (let i = 1, len = new Date(Date.UTC(y, m, 0)).getUTCDate(); i <= len; i++) {
+    const day = `${month}-${String(i).padStart(2, "0")}`, n = counts[day] || 0;
+    const label = `${longDate.format(asDate(day))}, ${n ? `${n} film${n > 1 ? "s" : ""}` : "nothing playing"}`;
+    cells.push(`<button class="cday${day === today ? " now" : ""}" data-dayset="${day === today ? "" : day}" data-cal="${day}" aria-pressed="${day === chosen}" aria-label="${label}"${n ? "" : " disabled"}>${+day.slice(8)}</button>`);
+  }
+  return `<div class="calhead">
+      <button class="calnav" data-calnav="-1" aria-label="Previous month"${month <= today.slice(0, 7) ? " disabled" : ""}>‹</button>
+      <b>${MONTH_NAMES[m - 1]} ${y}</b>
+      <button class="calnav" data-calnav="1" aria-label="Next month"${month >= last.slice(0, 7) ? " disabled" : ""}>›</button></div>
+    <div class="calgrid">${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => `<span class="wd" aria-hidden="true">${d.slice(0, 2)}</span>`).join("")}${cells.join("")}</div>`;
+}
+function openCal() {
+  const menu = $("calMenu");
+  if (menu.hidden) { state.calMonth = chosenDay(localNow().slice(0, 10)).slice(0, 7); menu.innerHTML = calHtml(); }
+  toggleMenu($("calBtn"), menu);
+  if (!menu.hidden) (menu.querySelector('.cday[aria-pressed="true"]:not(:disabled)') || menu.querySelector(".cday:not(:disabled)"))?.focus();
+}
+function setDay(day) {
+  closeMenus();
+  state.day = day;
+  renderGrid();
+  ($("grid").querySelector('.daybtn[aria-pressed="true"]') || $("calBtn"))?.focus({ preventScroll: true });
+}
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("#calBtn,[data-calnav],[data-dayset]");
+  if (!t) return;
+  if (t.id === "calBtn") { openCal(); return; }
+  if (t.dataset.calnav) {
+    const [y, m] = state.calMonth.split("-").map(Number), d = new Date(Date.UTC(y, m - 1 + +t.dataset.calnav, 1));
+    state.calMonth = d.toISOString().slice(0, 7);
+    $("calMenu").innerHTML = calHtml();
+    $("calMenu").querySelector(`[data-calnav="${t.dataset.calnav}"]:not(:disabled)`)?.focus();
+    return;
+  }
+  setDay(t.dataset.dayset);
+});
+// Arrow keys move through the month's days (a week up or down), skipping days with nothing playing.
+document.addEventListener("keydown", (e) => {
+  const from = e.target.closest?.(".cday");
+  const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
+  if (!from || !step) return;
+  e.preventDefault();
+  for (let day = addDays(from.dataset.cal, step); day.slice(0, 7) === state.calMonth; day = addDays(day, step)) {
+    const b = $("calMenu").querySelector(`[data-cal="${day}"]`);
+    if (b && !b.disabled) { b.focus(); return; }
+  }
+});
 
 function render() { renderControls(); renderGrid(); }
 
@@ -420,6 +542,7 @@ function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
+  const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked in "Playing when"
   const all = f.shows.filter((s) => s.t >= now);
   const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
   const shown = state.sheetCinemas.size ? filtered.filter((s) => state.sheetCinemas.has(s.cinema)) : filtered;
@@ -430,7 +553,7 @@ function openFilm(id) {
   const cinemas = Object.entries(all.reduce((a, s) => ((a[s.cinema] = (a[s.cinema] || 0) + 1), a), {}));
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
-    <div class="day${day === today ? " today" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
+    <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
     <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
   let empty = "";
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
@@ -454,7 +577,10 @@ function openFilm(id) {
     </div>
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
-  if (!dlg.open) dlg.showModal();
+  if (!dlg.open) {
+    dlg.showModal();
+    dlg.querySelector(".day.picked")?.scrollIntoView({ block: "center" });  // opened from a picked day: start there
+  }
 }
 
 function route() {
@@ -619,14 +745,14 @@ document.addEventListener("click", (e) => {
   if (pick) {
     closeMenus();
     if (pick.dataset.pick === "view" && pick.dataset.value !== state.view) {
-      state.view = pick.dataset.value; local.set("view", state.view); render(); window.scrollTo({ top: 0 });
+      state.view = pick.dataset.value; state.day = ""; local.set("view", state.view); render(); window.scrollTo({ top: 0 });
     } else if (pick.dataset.pick === "region" && pick.dataset.value !== state.region) loadRegion(pick.dataset.value);
     return;
   }
   if (!e.target.closest(".dd")) closeMenus();
 });
 document.addEventListener("keydown", (e) => {
-  const menu = e.target.closest?.(".menu");
+  const menu = e.target.closest?.(".menu:not(.cal)");  // the date picker has its own arrow keys
   if (e.key === "Escape" && document.querySelector(".menu:not([hidden])")) {
     const btn = document.querySelector('[aria-haspopup][aria-expanded="true"]');
     closeMenus(); btn?.focus(); return;
