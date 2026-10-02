@@ -5370,6 +5370,21 @@
 "lbRating": null,
 "rated": "2026-10-01"
 },
+"https-moviescout-ca-movies-10003074": {
+"imdb": "tt14371256",
+"tmdb": 858035,
+"imdbAll": [
+"tt14371256"
+],
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"source": "moviescout",
+"lbSlug": "klara-and-the-sun",
+"lbRating": null,
+"rated": "2026-10-02"
+},
 "https-moviescout-ca-movies-10003075": {
 "imdb": "tt37510326",
 "tmdb": 1281331,
@@ -5453,6 +5468,21 @@
 "lbRating": null,
 "rated": "2026-10-01"
 },
+"https-moviescout-ca-movies-10003180": {
+"imdb": "tt43702710",
+"tmdb": 1727734,
+"imdbAll": [
+"tt43702710"
+],
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"source": "moviescout",
+"lbSlug": null,
+"lbRating": null,
+"rated": "2026-10-02"
+},
 "https-moviescout-ca-movies-10003181": {
 "imdb": "tt10794054",
 "imdbAll": [
@@ -5472,35 +5502,20 @@
 "tmdb": 1433583,
 "source": "moviescout"
 },
-"https-moviescout-ca-movies-10003199": {
-"imdb": "tt34966140",
-"tmdb": 1400336,
+"https-moviescout-ca-movies-10003229": {
+"imdb": "tt6262770",
+"tmdb": 1288069,
 "imdbAll": [
-"tt34966140"
+"tt6262770"
 ],
 "v": 4,
 "checked": "2026-10-02",
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "source": "moviescout",
-"lbSlug": "focker-in-law",
-"lbRating": null,
-"rated": "2026-10-01"
-},
-"https-moviescout-ca-movies-10003200": {
-"imdb": "tt32558705",
-"tmdb": 1300968,
-"imdbAll": [
-"tt32558705"
-],
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"source": "moviescout",
-"lbSlug": "the-hunger-games-sunrise-on-the-reaping",
-"lbRating": null,
-"rated": "2026-10-01"
+"lbSlug": "tenzing",
+"lbRating": 3.59,
+"rated": "2026-10-02"
 },
 "https-moviescout-ca-movies-10003230": {
 "tmdbChecked": "2026-10-02",
@@ -5536,21 +5551,6 @@
 "lbRating": null,
 "rated": "2026-10-01"
 },
-"https-moviescout-ca-movies-10003238": {
-"imdb": "tt36415529",
-"tmdb": 1452168,
-"imdbAll": [
-"tt36415529"
-],
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"source": "moviescout",
-"lbSlug": "behemoth-2026",
-"lbRating": null,
-"rated": "2026-10-01"
-},
 "https-moviescout-ca-movies-10003250": {
 "imdb": "tt35514120",
 "tmdb": 1421903,
@@ -5581,20 +5581,20 @@
 "lbRating": 4.03,
 "rated": "2026-10-01"
 },
-"https-moviescout-ca-movies-10003323": {
-"imdb": "tt42921285",
-"tmdb": 1702350,
+"https-moviescout-ca-movies-10003324": {
+"imdb": "tt33184695",
+"tmdb": 1336166,
 "imdbAll": [
-"tt42921285"
+"tt33184695"
 ],
 "v": 4,
 "checked": "2026-10-02",
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "source": "moviescout",
-"lbSlug": "fallen-angels-2026",
+"lbSlug": "rolling-loud-the-movie",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-02"
 },
 "https-moviescout-ca-movies-234081": {
 "tmdbChecked": "2026-10-02",
