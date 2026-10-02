@@ -555,7 +555,7 @@ dialog { overscroll-behavior: contain; }
 
 /* Film sheet: the cinema and format (IMAX, Engelsk tekst, …) tags that narrow its showings, each row labelled like
    the sidebar's headings. A format tag that can't combine with those picked is dimmed. */
-.picks { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start; margin-bottom: 12px; }
+.picks { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: start; margin-top: 16px; }
 .picks .badges { margin-bottom: 0; }
 .plbl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--muted); line-height: 22px; }
 @media (max-width: 600px) {
