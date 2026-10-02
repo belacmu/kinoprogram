@@ -1,0 +1,54 @@
+name: Deploy site
+
+# Publishes code changes (site/) without scraping or emailing: the programme data is taken from the live site as it is.
+# Runs on every push that touches site/, or by hand from the Actions tab.
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "scripts/write-site-config.sh", ".github/workflows/deploy-site.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Shares the programme update's group, so a deploy waits for a running update (and then picks up its fresh data)
+# instead of being overwritten by it with older code.
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+        id: pages
+
+      - name: Take the programme data from the live site
+        run: |
+          mkdir -p site/data
+          for f in films.json westman.json costadelsol.json; do
+            curl -fsS --retry 3 -o "site/data/$f" "${{ steps.pages.outputs.base_url }}/data/$f"
+            python3 -c "import json, sys; d = json.load(open(sys.argv[1])); assert d['films'], 'no films'" "site/data/$f"
+          done
+
+      - name: Write site config
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+        run: sh scripts/write-site-config.sh
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy site
+        id: deploy
+        uses: actions/deploy-pages@v4

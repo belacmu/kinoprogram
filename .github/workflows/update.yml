@@ -77,13 +77,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
-        run: |
-          printf 'window.KINO_CONFIG = { supabaseUrl: "%s", supabaseKey: "%s" };\n' \
-            "$SUPABASE_URL" "$SUPABASE_PUBLISHABLE_KEY" > site/config.js
-          # Cache-bust: browsers otherwise keep running an old app.js / style.css after a deploy.
-          v="${GITHUB_SHA::8}"
-          sed -i -e "s#src=\"app.js\"#src=\"app.js?v=$v\"#" -e "s#href=\"style.css\"#href=\"style.css?v=$v\"#" \
-                 -e "s#src=\"config.js\"#src=\"config.js?v=$v\"#" site/index.html
+        run: sh scripts/write-site-config.sh
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
