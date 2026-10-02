@@ -402,7 +402,7 @@ def enrich(films, now, keep_prefixes=()):
     # fallback (`poster2`, used by the page if the first image fails to load) for Westman and Costa del Sol, whose image
     # links can go dead (e.g. MovieScout's Avengers: Endgame Encore).
     if tmdb_enabled():
-        budget = 60
+        budget = 150   # lookups per run; the Oslo stills come first, then Westman and Costa del Sol
         for f in films:
             poster = f.get("poster") or ""
             replace = not poster or "vrs.gd" in poster
