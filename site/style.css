@@ -466,8 +466,8 @@ body { overflow-x: clip; }
 .top.fit-chev #regionBtn .chev { display: none; }
 .top.fit-title h1 { font-size: 30px; }
 /* The What's new panel: days (pinned headers), each split into labelled "Tickets on sale" / "Newly announced" grids of
-   the usual cards. Every card here is new, so no "New" flag, and announced films aren't dimmed: the label says why. */
-#news { width: min(980px, calc(100vw - 32px)); }
+   the usual cards. Every card here is new, so no "New" flag, and announced films aren't dimmed: the label says why.
+   It's as wide as a film's page (the dialog default). */
 .nhead { padding: 22px 22px 4px; }
 .nhead h2 { font: 800 34px/0.95 var(--display); text-transform: uppercase; margin: 0 0 6px; padding-right: 44px; }
 .nhead p { margin: 0; color: var(--muted); font-size: 13px; }
