@@ -109,3 +109,5 @@ Claude will then redeploy the site (so sign-in appears) and send a test email. A
 - **Run history / errors** for the daily job: https://github.com/belacmu/kinoprogram/actions
 - **Supabase project paused**: free projects pause after a week with no activity. The daily job
   reads from it every morning, which should prevent that; if it happens, click **Restore** in the dashboard.
+
+Check what is set up: `sh scripts/check-setup.sh`. Accounts and where each secret lives: [ACCOUNTS.md](ACCOUNTS.md).
