@@ -459,3 +459,7 @@ dialog { overscroll-behavior: contain; }
 .actions .btn svg { vertical-align: -3px; }
 .card.hid .flag { display: none; }                      /* the New flag and the hide button share the top-left corner */
 @media (hover: hover) { .card:hover .flag { opacity: 0; } }
+
+/* "N hidden films" note at the bottom of a section. */
+.hiddennote { margin: 0; padding: 10px 14px 14px; font-size: 13px; color: var(--muted); }
+.hiddennote .linkbtn { margin-left: 6px; }

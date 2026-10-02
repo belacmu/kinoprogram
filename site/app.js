@@ -167,12 +167,12 @@ function buildRows() {
     if (!textMatch(f, q) || (!q && !kindShown(f))) continue;  // searching finds every type
     if (state.onlyWatch && !isWatched(f)) continue;
     const hidden = isHidden(f);
-    if (hidden && !q && !state.showHidden && !state.onlyWatch) continue;  // searching and your watchlist still show them
+    const concealed = hidden && !q && !state.showHidden && !state.onlyWatch;  // searching and your watchlist still show them
     const shows = f.shows.filter((s) => showMatches(s, now));
     if (f.shows.length && !shows.length) continue; // has showings, none match the filters
     const bookable = shows.filter((s) => s.ticket);
     const onSale = f.status === "on_sale" && bookable.length > 0;
-    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, start: startDay(f, shows) };
+    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, concealed, start: startDay(f, shows) };
     if (state.tix === "on" && !onSale) continue;
     if (state.tix === "off" && onSale) continue;
     if (state.view === "when") {
@@ -201,7 +201,10 @@ function buildRows() {
     if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     return t0(a).localeCompare(t0(b)) || byTitle(a, b);
   });
-  return rows;
+  // Concealed (hidden) films are kept apart so each section can say how many it is not showing.
+  const visible = rows.filter((r) => !r.concealed);
+  visible.concealed = rows.filter((r) => r.concealed);
+  return visible;
 }
 
 // ---------------------------------------------------------------- render: controls + filter sidebar
@@ -342,6 +345,20 @@ function renderGrid() {
     if (!sections.length || sections.at(-1).key !== r.sec.key) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
     sections.at(-1).rows.push(r);
   }
+  // Sections that only contain hidden films still appear, so the "N hidden" note has somewhere to live.
+  for (const r of rows.concealed) {
+    if (!sections.some((s) => s.key === r.sec.key)) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
+  }
+  sections.sort((a, b) => a.key.localeCompare(b.key));
+  const hiddenIn = (s) => rows.concealed.filter((r) => r.sec.key === s.key).length;
+  const shownHiddenIn = (s) => s.rows.filter((r) => r.hidden).length;
+  const hiddenNote = (s) => {
+    const n = hiddenIn(s), m = shownHiddenIn(s);
+    const films = (k) => `${k} hidden film${k === 1 ? "" : "s"}`;
+    if (n) return `<p class="hiddennote">${films(n)} not shown here <button class="linkbtn" data-showhidden="1">Show</button></p>`;
+    if (m) return `<p class="hiddennote">${films(m)} shown <button class="linkbtn" data-showhidden="0">Hide again</button></p>`;
+    return "";
+  };
   const isCollapsed = (s) => state.collapsed.has(`${state.view}:${s.key}`);
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
@@ -355,7 +372,7 @@ function renderGrid() {
       <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
-      ${shut ? "" : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
+      ${shut ? "" : `${s.rows.length ? `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>` : ""}${hiddenNote(s)}`}</section>`;
   }).join("") : `<p class="empty">${empty}</p>`;
 }
 
@@ -455,7 +472,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showhidden],[data-showall],[data-sheetcinema],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = `${state.view}:${s.key}`;
@@ -483,6 +500,7 @@ document.addEventListener("click", (e) => {
     savePrefs(); render(); return;
   }
   if (t.dataset.hide) { e.preventDefault(); toggleHidden(findFilm(t.dataset.hide)); return; }
+  if (t.dataset.showhidden) { state.showHidden = t.dataset.showhidden === "1"; render(); return; }
   if (t.dataset.star) {
     e.preventDefault();
     const f = findFilm(t.dataset.star);
