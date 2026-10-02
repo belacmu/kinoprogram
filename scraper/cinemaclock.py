@@ -10,6 +10,41 @@ sys.path.insert(0, str(Path(__file__).parent))
 from sources import film, get, text  # noqa: E402
 
 CC = "https://www.cinemaclock.com"
+# A showing's feature line ("UltraAVX Recliner Seating 3D Version • Dolby Atmos") -> one tag per feature, named
+# alike across cinemas and sources. Phrases are taken out in this order; whatever is left is kept as it is.
+FEATURES = [
+    (r"Optional:.*", ""),
+    (r"Standard auditorium", ""),
+    (r"Premiere Seat", ""),                     # Landmark's name for its recliners
+    (r"\b([A-Z][a-z]+) with Eng\. subt\.", r"\1 audio|English subtitles"),
+    (r"with Eng\. subt\.|English subt\w*\.?", "English subtitles"),
+    (r"Recliner Seating", "Recliners"),
+    (r"IMAX(?: Screen)?", "IMAX"),
+    (r"ScreenX(?: 270 degrees)?", "ScreenX"),
+    (r"D-BOX(?: Motion Seats)?", "D-BOX"),
+    (r"3D Version", "3D"),
+    (r"VIP cinema reserved for ages 18\+", "VIP 18+"),
+    (r"Fan Event", "Fan event"),
+    (r"Special Event Screening", "Special event"),
+    (r"UltraAVX|Laser Ultra|Dolby Atmos|Dolby Cinema|4DX|4D|Community Day", r"\g<0>"),
+]
+
+
+def features(lines):
+    tags = []
+    for line in lines:
+        for part in line.split("•"):
+            found = []  # (position in the line, tags), to keep the line's order
+            for pattern, name in FEATURES:
+                for m in re.finditer(pattern, part):
+                    found.append((m.start(), [t for t in m.expand(name).split("|") if t]))
+                part = re.sub(pattern, lambda m: " " * len(m[0]), part)
+            for m in re.finditer(r"[^\s,·-][^,·]*[^\s,·-]|[^\s,·-]", part):  # what's left, as it is
+                found.append((m.start(), [m[0]]))
+            tags += [t for _, ts in sorted(found, key=lambda x: x[0]) for t in ts]
+    return list(dict.fromkeys(tags))
+
+
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 
 
@@ -37,9 +72,8 @@ def fetch_theatre(slug, cinema):
         shows = []
         for sub in re.findall(r'<div data-earliest-date="(\d{8})" class="filall[^"]*">(.*?)(?=<div data-earliest-date=|<!-- endsb -->)', block, re.S):
             earliest, body = sub
-            fmt = [text(x) for x in re.findall(r'<p class="timesalso(?: ccad)?">(.*?)</p>', body, re.S)]
-            fmt = [x for x in fmt if x and not x.lower().startswith(("standard", "optional"))]
-            en = any("eng. subt" in x.lower() or "english subt" in x.lower() for x in fmt)
+            fmt = features(text(x) for x in re.findall(r'<p class="timesalso(?: ccad)?">(.*?)</p>', body, re.S))
+            en = "English subtitles" in fmt
             for day, spans in re.findall(r'<span class="timesdate">([A-Z][a-z]{2} \d{1,2})</span></u><i>(.*?)</i>', body, re.S):
                 date = _cc_date(day, earliest)
                 for cls, hhmm, tix in re.findall(r'<span class="(tix|notix)[^"]*" data-time="(\d{4})"(?: id="(tix\d+)")?', spans):
