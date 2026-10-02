@@ -536,11 +536,15 @@ dialog { overscroll-behavior: contain; }
 .star.on:hover { transform: scale(1.12); filter: brightness(1.12); }
 .star:active, .hide:active { transform: scale(.94); }
 
-/* Film sheet: the badges, links and buttons sit under the poster and description, using the full width. */
-.fmore { padding: 0 22px 8px; }
-.fhead { padding-bottom: 14px; }
+/* Film sheet: the badges, links and buttons continue the column beside the poster; on phones they sit under the
+   poster and description, using the full width. */
+.fhead { grid-template-rows: auto 1fr; row-gap: 0; padding-bottom: 20px; }
+.fhead .poster { grid-row: span 2; }
+.fmore { grid-column: 2; }
 @media (max-width: 600px) {
-  .fmore { padding: 0 16px 6px; }
+  .fhead { padding-bottom: 14px; }
+  .fhead .poster { grid-row: auto; }
+  .fmore { grid-column: 1 / -1; margin-top: 14px; }
 }
 
 /* Dimming (hiding a film) fades; the button that was pressed bounces once. */
