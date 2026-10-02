@@ -565,17 +565,26 @@ dialog { overscroll-behavior: contain; }
 .pmenus .menu button.alone { opacity: .5; }
 .pmenus .menu button.alone:hover, .pmenus .menu button.alone:focus-visible { opacity: 1; }
 .pmenus .menu button[aria-checked="true"]::before { top: 50%; transform: translateY(-50%); }
-.dstrip { position: relative; display: flex; flex-wrap: wrap; gap: 6px; }
-.dstrip button { display: flex; flex-direction: column; align-items: center; min-width: 54px; padding: 5px 8px; border-radius: 10px;
+.dwrap { display: flex; align-items: center; gap: 6px; }
+.dstrip { position: relative; flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.dstrip::-webkit-scrollbar { display: none; }
+.dstrip button { flex: none; display: flex; flex-direction: column; align-items: center; min-width: 54px; padding: 5px 8px; border-radius: 10px;
   border: 1px solid transparent; background: var(--chip); color: var(--ink); cursor: pointer; font: 500 11px/1.25 var(--body); }
 .dstrip button span { color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 .dstrip button b { font-size: 13px; font-weight: 600; white-space: nowrap; }
 .dstrip button:hover { border-color: var(--line); }
 .dstrip button[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); }
 .dstrip button[aria-pressed="true"] span { color: inherit; opacity: .75; }
+.dnav { flex: none; width: 32px; height: 32px; padding: 0 0 2px; border-radius: 50%; border: 1px solid var(--line); background: none;
+  color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; }
+.dnav:hover:not(:disabled) { border-color: var(--ink); }
+.dnav:disabled { opacity: .3; cursor: default; }
+.dwrap.fits .dnav { display: none; }
+.dstrip.more-l { mask-image: linear-gradient(to right, transparent, #000 28px); }
+.dstrip.more-r { mask-image: linear-gradient(to left, transparent, #000 28px); }
+.dstrip.more-l.more-r { mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
 @media (max-width: 600px) {
-  /* one row that scrolls sideways, running to the screen's edges */
-  .dstrip { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px; scrollbar-width: none; }
-  .dstrip::-webkit-scrollbar { display: none; }
-  .dstrip button { flex: none; }
+  /* swiped, running to the screen's edges */
+  .dnav { display: none; }
+  .dstrip { margin: 0 -16px; padding: 0 16px; }
 }

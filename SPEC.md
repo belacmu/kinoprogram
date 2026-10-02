@@ -109,8 +109,10 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   subtitles); one no remaining showing has is dimmed, and picking it picks it alone instead. Spelling variants
   ("MIRAGE", "Mirage") count as one format. A menu stays open while you pick in it.
 - Under them, a strip of days (All days, then each day with showings under what's picked) lists one day or all.
-  It scrolls sideways on phones and wraps on wider screens. Opened while a day is picked on the main page, the film
-  page lists that day (if the film plays then), still opening at the top; otherwise all days.
+  It's one row that scrolls sideways, fading at an edge with more days beyond it: swiped on phones, with ‹ › arrows
+  at both ends on wider screens (only when the days don't all fit; each dimmed at its end). Picking a day keeps the
+  strip where it was. Opened while a day is picked on the main page, the film page lists that day (if the film plays
+  then), still opening at the top, with that day scrolled into view; otherwise all days.
 - **Types** filter: Films · Shorts · Live & stage (opera, ballet, theatre, concerts) · Talks & events
   (lectures, archive evenings, mystery screenings, launches). Classified from explicit signals only
   (title patterns, Filmweb genre/show type, under 45 min = short); non-film items carry a badge.

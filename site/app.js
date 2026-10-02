@@ -654,6 +654,7 @@ function openFilm(id) {
   const info = (KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : "")
     + (isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "")
     + f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("");
+  const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     <div class="fhead">${posterHtml(f)}<div>
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
@@ -674,9 +675,25 @@ function openFilm(id) {
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
   const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
-  // The picked day in view (centred), only if it's off the end, so "All days" stays visible when it can.
-  if (dayOn && dayOn.offsetLeft + dayOn.offsetWidth > strip.clientWidth) strip.scrollLeft = dayOn.offsetLeft - (strip.clientWidth - dayOn.offsetWidth) / 2;
+  if (!strip) return;
+  // Just opened: the picked day in view (centred), only if it's off the end, so "All days" stays visible when it can.
+  if (stripAt !== undefined) strip.scrollLeft = stripAt;
+  else if (dayOn && dayOn.offsetLeft + dayOn.offsetWidth > strip.clientWidth) strip.scrollLeft = dayOn.offsetLeft - (strip.clientWidth - dayOn.offsetWidth) / 2;
+  fitDayStrip(strip);
+  strip.addEventListener("scroll", () => fitDayStrip(strip), { passive: true });
 }
+
+// The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
+// once the strip is scrolled to that end; on phones it is swiped.
+function fitDayStrip(strip) {
+  const max = strip.scrollWidth - strip.clientWidth, [prev, next] = strip.parentElement.querySelectorAll(".dnav");
+  strip.parentElement.classList.toggle("fits", max <= 1);
+  prev.disabled = strip.scrollLeft <= 1;
+  next.disabled = strip.scrollLeft >= max - 1;
+  strip.classList.toggle("more-l", !prev.disabled);  // fades the edge that has more days beyond it
+  strip.classList.toggle("more-r", !next.disabled && max > 1);
+}
+addEventListener("resize", () => { const strip = $("film").querySelector(".dstrip"); if (strip) fitDayStrip(strip); });
 
 // The film sheet's Cinemas and Format menus (pick several in each) and its strip of days (one, or all).
 // Menus only appear when they can narrow something: two or more cinemas, a tag on some showings but not all.
@@ -701,10 +718,11 @@ function sheetPicks(all, shown, withTags, today) {
   // Days with showings under what's picked; a picked day stays even if nothing is left on it, so it can be unpicked.
   const days = [...new Set(shown.map((s) => s.t.slice(0, 10)).concat(state.sheetDay || []))].sort();
   const dayBtn = (day, top, bottom) => `<button data-sheetday="${day || "all"}" aria-pressed="${state.sheetDay === day}"><span>${top}</span><b>${bottom}</b></button>`;
-  const strip = days.length > 1 || state.sheetDay ? `<div class="dstrip" role="group" aria-label="Day">${dayBtn("", "All", "days")}${days.map((day) => {
+  const strip = days.length > 1 || state.sheetDay ? `<div class="dwrap"><button class="dnav" data-daynav="-1" aria-label="Earlier days">‹</button>
+    <div class="dstrip" role="group" aria-label="Day">${dayBtn("", "All", "days")}${days.map((day) => {
     const d = asDate(day), name = day === today ? "Today" : day === addDays(today, 1) ? "Tmrw" : WEEKDAYS[d.getUTCDay()];
     return dayBtn(day, name, `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`);
-  }).join("")}</div>` : "";
+  }).join("")}</div><button class="dnav" data-daynav="1" aria-label="Later days">›</button></div>` : "";
   return menus || strip ? `<div class="picks">${menus ? `<div class="pmenus">${menus}</div>` : ""}${strip}</div>` : "";
 }
 
@@ -741,7 +759,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = s.key;
@@ -788,6 +806,9 @@ document.addEventListener("click", (e) => {
     if ($("film").open) openFilm(f.id);
     return;
   } else if (t.dataset.sheetmenu) { toggleMenu(t, $(t.dataset.sheetmenu)); return;
+  } else if (t.dataset.daynav) {
+    const strip = t.parentElement.querySelector(".dstrip");
+    strip.scrollBy({ left: Math.sign(+t.dataset.daynav) * strip.clientWidth * 0.8, behavior: "smooth" }); return;
   } else if (t.dataset.sheetcinema || t.dataset.sheettag || t.dataset.sheetclear || t.dataset.sheetday) {
     const { sheetcinema: c, sheettag: k, sheetclear: clear, sheetday: day } = t.dataset;
     if (c) state.sheetCinemas.has(c) ? state.sheetCinemas.delete(c) : state.sheetCinemas.add(c);
