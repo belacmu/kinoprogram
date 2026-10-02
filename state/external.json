@@ -3648,6 +3648,17 @@
 "lbRating": null,
 "rated": "2026-10-01"
 },
+"fw-EDI20260979": {
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1496304,
+"lang": "sv",
+"imdb": "tt39920935",
+"en": null,
+"lbSlug": "amazomania",
+"lbRating": 3.64,
+"rated": "2026-10-02"
+},
 "fw-EDI20260981": {
 "imdb": "tt39150008",
 "imdbAll": [
@@ -5477,6 +5488,26 @@
 "lbSlug": "the-ring-2002",
 "lbRating": 3.34,
 "rated": "2026-10-01"
+},
+"fw-UIP20030473": {
+"imdb": "tt0314331",
+"imdbAll": [
+"tt0314331"
+],
+"lb": "love-actually",
+"rt": "m/love_actually",
+"mc": "movie/love-actually",
+"en": "Love Actually",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 508,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "love-actually",
+"lbRating": 3.51,
+"rated": "2026-10-02"
 },
 "fw-UIP20040163": {
 "lbSlug": "mean-girls",
