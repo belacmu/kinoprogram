@@ -418,6 +418,47 @@ body { overflow-x: clip; }
   .sec > .grid { padding: 12px; }
 }
 
+/* "Playing when": the day control beside Sort (a calendar icon on phones, "Today ▾" pill on wider screens) */
+#dayDD { flex: none; }
+#dayBtn svg { flex: none; color: var(--muted); }
+#dayBtn.on { background: var(--accent-tint); border-color: var(--accent); }   /* another day than today, like active filters */
+#dayBtn.on svg { color: var(--accent); }
+.dayempty { margin: 0; padding: 22px 18px 24px; color: var(--muted); }
+.menu.cal { left: 0; min-width: 0; width: 300px; padding: 12px; }
+.menu.cal .calhead { gap: 2px; }
+.menu.cal .calhead b { margin-right: auto; padding-left: 4px; }
+.menu.cal .caltoday { display: inline-flex; align-items: center; width: auto; height: 30px; padding: 0 12px; margin-right: 4px; border: 1px solid var(--line); border-radius: 999px;
+  font: 600 13px var(--body); }
+.menu.cal .caltoday:hover { border-color: var(--ink); }
+.calhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.calhead b { font: 700 18px var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.menu.cal :is(.calnav, .cday) { display: inline-flex; align-items: center; justify-content: center; padding: 0; text-align: center; }
+.menu.cal .calnav { width: 34px; height: 34px; border-radius: 50%; font-size: 22px; line-height: 1; }
+.calgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
+.calgrid .wd { text-align: center; font: 500 11px var(--mono); color: var(--muted); padding-bottom: 4px; }
+.menu.cal .cday { width: 100%; aspect-ratio: 1; border-radius: 50%; font: 500 14px var(--body); font-variant-numeric: tabular-nums; }
+.menu.cal .cday.now { box-shadow: inset 0 0 0 1px var(--edge); }
+.menu.cal .cday[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); }
+.menu.cal button:disabled { color: var(--muted); opacity: .4; cursor: default; background: none; }
+.day.picked { box-shadow: inset 3px 0 0 var(--accent); padding-left: 12px; }
+.day.picked h4 { color: var(--accent); }
+@media (max-width: 999px) {
+  /* narrow: the picker drops from the whole bar so it fits */
+  .bar { position: relative; }
+  #dayDD { position: static; }
+  .menu.cal { width: min(300px, 100%); }
+}
+/* The day's name shows beside the icon whenever the bar has room for it (about 434px with "Wed 28 Oct");
+   otherwise just the icon, round like the search button. */
+.bar { container-type: inline-size; }
+@container (max-width: 439px) {
+  #dayBtn { width: var(--pill-h); padding: 0; justify-content: center; }
+  #dayBtn .lbl, #dayBtn .chev { display: none; }
+  #dayBtn svg { color: var(--ink); }
+}
+@media (min-width: 1000px) { #dayDD { order: 1; } }      /* keeps it next to Sort, which the desktop bar moves first */
+@media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
+
 /* film page on phones: a bottom sheet with a Close button where the thumb is; the page behind can't scroll */
 html:has(dialog[open]), body:has(dialog[open]) { overflow: hidden; }
 dialog { overscroll-behavior: contain; }

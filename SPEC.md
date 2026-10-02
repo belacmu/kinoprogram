@@ -51,6 +51,17 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   - **When it's playing** (default): Playing now (most recent arrivals first) · This week · Next
     week · Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere
     if earlier. Films without a date are left out (they appear only when you search for them).
+    The first section is a chosen day, Today by default (so the page is unchanged and nothing asks
+    you to pick); once nothing more is on today under your filters, it's the next day something is
+    (usually tomorrow), still counting as the default. A day control sits beside Sort, only in this view: a calendar icon, with a label
+    whenever the bar has room (not on most phones held upright): "Date ▾" on Today, which counts
+    as no filter, or the picked day ("Thu 15 Oct ▾"), highlighted like active filters. It opens a month
+    picker with a Today button beside the month arrows, as in most calendars (days with nothing
+    playing under the current filters are greyed out). Picking a day shows the page as it will be then: that day's films first, with that day's
+    cinemas and times on the cards, then everything after it in the usual sections; films only
+    playing before it drop out, and a film opened from there starts at (and highlights) that day.
+    The section stays even when empty, saying nothing's on. The day isn't remembered: reloading or
+    switching to another view goes back to Today; switching region keeps it. Searching ignores it.
   - **Newly on sale**: Today · Yesterday · Earlier this week · Last week · Earlier, by when tickets
     went on sale.
   - **Newly announced**: the same headers, by when the film first got a date here.
