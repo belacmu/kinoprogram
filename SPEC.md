@@ -64,21 +64,23 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
     The section stays even when empty, saying nothing's on. The day isn't remembered: reloading
     goes back to Today; switching region keeps it. Searching ignores it.
 - **What's new**: a button in the header (beside the location and account buttons, since it isn't a
-  filter) opens a panel (a bottom sheet on phones) listing films that
-  went on sale or got a date here in the last 30 days, after tracking began: Today · Yesterday ·
-  Earlier this week · Last week · Earlier, newest first, watchlist films first within a day. One
-  entry per film, for what last happened: **On sale** (first showing, cinemas, number of shows) or
-  **Announced** (premiere, or first showing not yet on sale). Types, cinemas and language filters
-  apply; Tickets and the Watchlist switch don't; hidden films are left out. An entry opens the film
-  on top; closing it goes back to the list. Deep link: `#new`.
+  filter) opens a panel (a bottom sheet on phones) of films that
+  went on sale or got a date here in the last 30 days, after tracking began, by day (Today ·
+  Yesterday · Earlier this week · Last week · Earlier, newest first; the day pins while scrolling).
+  Each day has two clearly labelled grids of the usual cards: **Tickets on sale** first, then
+  **Newly announced**. One card per film, for what last happened to it; no "New" flags (it's all
+  new) and announced films aren't dimmed. Hearts and hiding work as in the grid (hidden films are
+  dimmed and last, watchlist films first). Types, cinemas and language filters apply; Tickets and
+  the Watchlist switch don't. A card opens the film on top; closing it goes back to the panel.
+  Deep link: `#new`.
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles). The jump bar links to each section (opening it if collapsed) and has Collapse all /
   Expand all.
 - Header: the title, then What's new, the location and the account button, always on one row: when
   it's tight they compact only as far as needed (What's new to an icon, the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
-- Top bar (the filters): **All films / ♥ Watchlist**, search (an icon on phones that opens a
-  full-width box), the day control, and on narrow screens a Filters button.
+- Top bar (the filters): **All films / ♥ Watchlist**, then a search field (always a field, phones
+  too; Escape clears it), the day control, and on narrow screens a Filters button.
 - Defaults: order within sections is best rated first; only Films are shown (Shorts, Live & stage and
   Talks & events are opt-in; searching still finds every type); picking a specific cinema switches
   Tickets to "On sale", and going back to all cinemas switches it back to "All". Tickets

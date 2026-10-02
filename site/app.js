@@ -99,11 +99,11 @@ function isHidden(f) {
 function unhideFilm(f) { for (const i of f.ids) delete state.prefs.hidden?.[i]; }
 // Hiding or unhiding moves the card to its new place in the section; slide it there instead of jumping.
 let flipFrom = null;
-function flipBegin(id) { flipFrom = { id, rects: new Map([...document.querySelectorAll(".card")].map((c) => [c.dataset.id, c.getBoundingClientRect()])) }; }
+function flipBegin(id) { flipFrom = { id, rects: new Map([...document.querySelectorAll("#grid .card")].map((c) => [c.dataset.id, c.getBoundingClientRect()])) }; }
 function flipRun(fadeFrom = null) {
   const prev = flipFrom; flipFrom = null;
   if (!prev || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  for (const c of document.querySelectorAll(".card")) {
+  for (const c of document.querySelectorAll("#grid .card")) {
     const a = prev.rects.get(c.dataset.id);
     if (!a) continue;
     const b = c.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top;
@@ -116,10 +116,11 @@ function flipRun(fadeFrom = null) {
 const SETTLE_MS = 450;
 let renderTimer = null;
 const pop = (el) => { el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); };  // a quick "it registered" bounce
-const cardEl = (id) => document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+// The card that was pressed: in "What's new" while it's open, else in the grid.
+const cardEl = (id) => (document.querySelector("#news[open]") || $("grid")).querySelector(`.card[data-id="${CSS.escape(id)}"]`);
 function settleThenRender(id) {
   clearTimeout(renderTimer);
-  renderTimer = setTimeout(() => { renderTimer = null; flipBegin(id); render(); flipRun(); }, SETTLE_MS);
+  renderTimer = setTimeout(() => { renderTimer = null; flipBegin(id); render(); flipRun(); refreshNews(); }, SETTLE_MS);
 }
 function flushRender() { if (renderTimer) { clearTimeout(renderTimer); renderTimer = null; render(); } }
 function toggleHidden(f) {
@@ -516,53 +517,52 @@ document.addEventListener("keydown", (e) => {
 function render() { renderControls(); renderGrid(); }
 
 // ---------------------------------------------------------------- what's new
-// Films that went on sale or were announced here lately (after tracking began), newest first, grouped by day. One entry
-// per film, for what last happened to it. Types, cinemas and language filters apply; Tickets and the Watchlist switch
-// don't. Hidden films are left out.
+// Films that went on sale or were announced here lately (after tracking began), by day, newest day first. Within a day,
+// "Tickets on sale" then "Newly announced", each a grid of the usual cards. One card per film, for what last happened
+// to it. Types, cinemas and language filters apply; Tickets and the Watchlist switch don't. Hidden films are dimmed and
+// last, as in the grid.
 const NEWS_DAYS = 30;
+const NEWS_KINDS = [["sale", "Tickets on sale", "Tickets just went on sale"], ["ann", "Newly announced", "Got a date here; tickets aren't on sale yet"]];
 function newsItems() {
   const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - NEWS_DAYS), items = [];
   for (const f of state.data.films) {
     const kind = f.status === "on_sale" ? "sale" : f.status === "announced" ? "ann" : "";
     const at = kind === "sale" ? f.onSaleSince : f.announcedSince;
-    if (!kind || !at || at <= state.data.baseline || at.slice(0, 10) < oldest || isHidden(f)) continue;
+    if (!kind || !at || at <= state.data.baseline || at.slice(0, 10) < oldest) continue;
     const m = filmShows(f, now, now, "", true);
     if (!m || (kind === "sale" && !m.onSale)) continue;
-    items.push({ f, kind, at, shows: m.shows, watched: isWatched(f) });
+    items.push({ f, kind, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: isHidden(f), watched: isWatched(f) });
   }
-  // newest first; on a given day, watchlist films first
-  return items.sort((a, b) => b.at.slice(0, 10).localeCompare(a.at.slice(0, 10)) || b.watched - a.watched || b.at.localeCompare(a.at));
-}
-function newsDetail({ f, kind, shows }) {
-  const first = shows[0];
-  if (kind === "sale") {
-    const when = shows.length > 1 ? `From ${dayLabel(first.t)}` : `${dayLabel(first.t)} ${hhmm(first.t)}`;
-    return `${when} · ${whereList(shows)}${shows.length > 1 ? ` · ${shows.length} shows` : ""}`;
-  }
-  if (first) return `First showing ${dayLabel(first.t)} · not on sale yet`;
-  if (f.premiere && f.premiereConfirmed) return `Premieres ${dayLabel(f.premiere)}`;
-  if (f.premiere) { const d = asDate(f.premiere); return `Expected ${MONTH_NAMES[d.getUTCMonth()]} ${d.getUTCFullYear()}`; }
-  return "Date not set yet";
+  // newest day first; within a group, hidden last and watchlist first (as in the grid), then the most recent
+  return items.sort((a, b) => b.at.slice(0, 10).localeCompare(a.at.slice(0, 10)) || a.hidden - b.hidden || b.watched - a.watched || b.at.localeCompare(a.at));
 }
 function openNews() {
-  const dlg = $("news"), today = localNow().slice(0, 10), items = newsItems();
-  const groups = [];
-  for (const it of items) {
+  const dlg = $("news"), today = localNow().slice(0, 10), days = [];
+  for (const it of newsItems()) {
     const sec = sinceSection(it.at, today, "");
-    if (!groups.length || groups.at(-1).key !== sec.key) groups.push({ ...sec, items: [] });
-    groups.at(-1).items.push(it);
+    if (!days.length || days.at(-1).key !== sec.key) days.push({ ...sec, items: [] });
+    days.at(-1).items.push(it);
   }
   const filtered = activeFilters() - (state.tix !== "all" ? 1 : 0);  // the Tickets filter doesn't apply here
+  const kindHtml = (items, [kind, label, about]) => {
+    const these = items.filter((it) => it.kind === kind);
+    return these.length ? `<div class="nkind ${kind}"><h4><span class="ntag">${label}</span><span class="n">${these.length}</span><small>${about}</small></h4>
+      <ul class="grid">${these.map(cardHtml).join("")}</ul></div>` : "";
+  };
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     <div class="nhead"><h2 id="newsTitle">What's new</h2>
-      <p>Films that went on sale or got a date in ${esc(state.data.location)} in the last ${NEWS_DAYS} days${filtered ? ", matching your filters" : ""}.</p></div>
-    ${groups.length ? groups.map((g) => `<section class="ngroup"><h3>${esc(g.label)}</h3><ul>${g.items.map((it) => `<li><a class="nitem" href="#film/${esc(it.f.id)}">
-      ${posterHtml(it.f)}<span class="nbody"><b>${esc(titleOf(it.f))}</b>
-      <span class="nmeta"><span class="ntag ${it.kind}">${it.kind === "sale" ? "On sale" : "Announced"}</span> ${esc(newsDetail(it))}</span></span>
-      ${it.watched ? `<span class="nheart" title="On your watchlist" aria-label="On your watchlist">${heart(true)}</span>` : ""}</a></li>`).join("")}</ul></section>`).join("")
-      : `<p class="nempty">Nothing new yet. Films show up here as soon as tickets go on sale or they get a date.</p>`}
+      <p>Films that got a date or went on sale in ${esc(state.data.location)} in the last ${NEWS_DAYS} days${filtered ? ", matching your filters" : ""}.</p></div>
+    ${days.length ? days.map((d) => `<section class="nday"><h3>${esc(d.label)}</h3>${NEWS_KINDS.map((k) => kindHtml(d.items, k)).join("")}</section>`).join("")
+      : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale.</p>`}
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) dlg.showModal();
+}
+// Redraw "What's new" if it's open (after a heart, a hide or the film page closing), staying where it was.
+function refreshNews() {
+  if (!$("news").open) return;
+  const y = $("news").scrollTop;
+  openNews();
+  $("news").scrollTop = y;
 }
 $("newsBtn").addEventListener("click", openNews);
 $("news").addEventListener("close", () => { if (location.hash === "#new") history.replaceState(null, "", location.pathname + location.search); });
@@ -657,8 +657,7 @@ $("film").addEventListener("close", () => {
   state.showAll = false;
   state.sheetCinemas.clear();
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search);
-  // back in "What's new" (if the film was opened from there): show any heart or hide changes, staying where it was
-  if ($("news").open) { const y = $("news").scrollTop; openNews(); $("news").scrollTop = y; }
+  refreshNews();  // back in "What's new" (if the film was opened from there): show any heart or hide changes
 });
 $("film").addEventListener("click", (e) => { if (e.target === $("film")) $("film").close(); });
 $("account").addEventListener("click", (e) => { if (e.target === $("account")) $("account").close(); });
@@ -764,24 +763,8 @@ $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("fil
 $("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
 
-// Search: an icon on phones that opens a full-width box; always open on wide screens.
-const setSearching = (on) => {
-  document.body.classList.toggle("searching", on);
-  $("searchBtn").setAttribute("aria-expanded", on);
-  if (on) $("q").focus();
-};
-$("searchBtn").addEventListener("click", () => setSearching(true));
-$("searchClose").addEventListener("click", () => {
-  $("q").value = ""; state.q = ""; renderGrid();
-  setSearching(false); $("searchBtn").focus();
-});
-$("q").addEventListener("keydown", (e) => { if (e.key === "Escape") $("searchClose").click(); });
-// Tapping anywhere outside an empty, open search box closes it, like the × does.
-document.addEventListener("pointerdown", (e) => {
-  if (!document.body.classList.contains("searching") || $("q").value) return;
-  if (e.target.closest("#searchBox, #searchBtn")) return;
-  setSearching(false);
-});
+// Search: always a field in the bar. Escape clears it (as does the field's own ×, which fires "input").
+$("q").addEventListener("keydown", (e) => { if (e.key === "Escape" && $("q").value) { $("q").value = ""; state.q = ""; renderGrid(); } });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 // Pill menus (Location, the date picker): a button that opens a small list of choices.
