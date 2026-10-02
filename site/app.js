@@ -380,7 +380,7 @@ function route() {
   const w = location.hash.match(/^#watch\/(.+)$/);
   if (w) {
     const id = decodeURIComponent(w[1]), f = findFilm(id);
-    if (f && !isWatched(f)) { state.watchlist.add(f.id); savePrefs(); render(); }
+    if (f && !isWatched(f) && requestWatch(f)) { savePrefs(); render(); }
     history.replaceState(null, "", location.pathname + location.search + "#film/" + encodeURIComponent(id));
   }
   const m = location.hash.match(/^#film\/(.+)$/);
@@ -434,8 +434,8 @@ document.addEventListener("click", (e) => {
   if (t.dataset.star) {
     e.preventDefault();
     const f = findFilm(t.dataset.star);
-    if (isWatched(f)) f.ids.forEach((id) => state.watchlist.delete(id)); else state.watchlist.add(f.id);
-    savePrefs();
+    if (isWatched(f)) { f.ids.forEach((id) => state.watchlist.delete(id)); savePrefs(); }
+    else if (requestWatch(f)) savePrefs();
     if ($("film").open) openFilm(f.id);
   } else if (t.dataset.sheetcinema) {
     const c = t.dataset.sheetcinema;
@@ -555,13 +555,49 @@ new ResizeObserver(syncStickTop).observe($("controls"));
 window.addEventListener("resize", syncStickTop);
 window.addEventListener("hashchange", route);
 
+// ---------------------------------------------------------------- saving to the watchlist needs an account
+// With accounts available, a signed-out tap on a heart asks the visitor to sign in first, then adds the film.
+function requestWatch(f) {
+  if (!sb || state.user) { state.watchlist.add(f.id); return true; }
+  state.pendingWatch = f.id;
+  if (state.authReady) promptSignIn();   // otherwise decided once the saved session has been checked
+  return false;
+}
+function promptSignIn() {
+  renderAccount();
+  if (!$("account").open) $("account").showModal();
+}
+// Called once we know who's signed in: finish a watchlist add that was waiting on it.
+function settlePendingWatch() {
+  const id = state.pendingWatch;
+  if (!id) return;
+  if (!state.user) { promptSignIn(); return; }
+  state.pendingWatch = null;
+  const f = findFilm(id);
+  if (!f) return;
+  state.watchlist.add(f.id);
+  state.profile ? savePrefs() : local.set("watchlist", [...state.watchlist]);  // profile not loaded yet: the merge will save it
+  if ($("account").open) $("account").close();
+  render();
+  if ($("film").open) openFilm(f.id);
+  toast(`Added ${titleOf(f)} to your watchlist`);
+}
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  try { t.showPopover(); } catch { t.hidden = false; }
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => { try { t.hidePopover(); } catch { t.hidden = true; } }, 3500);
+}
+$("account").addEventListener("close", () => { if (!state.user) state.pendingWatch = null; });
+
 // ---------------------------------------------------------------- accounts (Supabase magic link)
 const cfg = window.KINO_CONFIG || {};
 const sb = cfg.supabaseUrl && cfg.supabaseKey && window.supabase ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey) : null;
 let syncTimer = null;
 
 function queueSync() {
-  if (!sb || !state.user) return;
+  if (!sb || !state.user || !state.profile) return;  // before the account's saved list has loaded, changes stay local and get merged in
   clearTimeout(syncTimer);
   syncTimer = setTimeout(pushProfile, 600);
 }
@@ -609,7 +645,12 @@ function renderAccount(message = "", isErr = false) {
     return;
   }
   if (!state.user) { // step 1: email
-    body.innerHTML = `<h2 id="accountTitle">Sign in or sign up</h2>
+    const want = state.pendingWatch && findFilm(state.pendingWatch);
+    body.innerHTML = want ? `<h2 id="accountTitle">Sign in to save to your watchlist</h2>
+      <p><b>${esc(titleOf(want))}</b> will be added as soon as you're in. Your watchlist is saved to your account, so it follows you to other devices and you can get an email when films on it go on sale.</p>
+      <p>Enter your email and we'll send a one-time code. No password, and new emails get an account automatically.</p>
+      <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
+      <button class="btn accent" type="submit">Send code</button></form>${msg}` : `<h2 id="accountTitle">Sign in or sign up</h2>
       <p>Enter your email and we'll send you a one-time code. No password. Signing in syncs your watchlist and filters across devices, and lets you get the daily email of films newly on sale.</p>
       <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
       <button class="btn accent" type="submit">Send code</button></form>${msg}`;
@@ -702,8 +743,10 @@ if (sb) {
   });
   sb.auth.onAuthStateChange((event, session) => {
     const had = state.user?.id;
+    state.authReady = true;
     setUser(session);
     if (state.user && state.user.id !== had) setTimeout(loadProfile, 0);
+    settlePendingWatch();
   });
 }
 
