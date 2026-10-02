@@ -443,13 +443,18 @@ body { overflow-x: clip; }
 .day.picked { box-shadow: inset 3px 0 0 var(--accent); padding-left: 12px; }
 .day.picked h4 { color: var(--accent); }
 @media (max-width: 999px) {
-  /* narrow: just the icon, round like the search button; the picker drops from the whole bar so it fits */
+  /* narrow: the picker drops from the whole bar so it fits */
   .bar { position: relative; }
   #dayDD { position: static; }
+  .menu.cal { width: min(300px, 100%); }
+}
+/* The day's name shows beside the icon whenever the bar has room for it (about 434px with "Wed 28 Oct");
+   otherwise just the icon, round like the search button. */
+.bar { container-type: inline-size; }
+@container (max-width: 439px) {
   #dayBtn { width: var(--pill-h); padding: 0; justify-content: center; }
   #dayBtn .lbl, #dayBtn .chev { display: none; }
   #dayBtn svg { color: var(--ink); }
-  .menu.cal { width: min(300px, 100%); }
 }
 @media (min-width: 1000px) { #dayDD { order: 1; } }      /* keeps it next to Sort, which the desktop bar moves first */
 @media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
