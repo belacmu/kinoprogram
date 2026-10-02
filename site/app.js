@@ -58,7 +58,6 @@ const state = {
   tix: local.get("tix", "all"),
   within: local.get("within2", "rating"),
   onlyWatch: false,
-  showHidden: false,    // show films you hid (dimmed, with an Unhide button)
   q: "",
   prefs: withDefaults(local.get("prefs", {})),
   watchlist: new Set(local.get("watchlist", [])),
@@ -96,17 +95,31 @@ function isHidden(f) {
   return !(since && f.onSaleSince && f.onSaleSince > since);
 }
 function unhideFilm(f) { for (const i of f.ids) delete state.prefs.hidden?.[i]; }
-function toggleHidden(f) {
-  if (isHidden(f)) {
-    unhideFilm(f); savePrefs(); render();
-    if ($("film").open) openFilm(f.id);
-    return;
+// Hiding or unhiding moves the card to its new place in the section; slide it there instead of jumping.
+let flipFrom = null;
+function flipBegin(id) { flipFrom = { id, rects: new Map([...document.querySelectorAll(".card")].map((c) => [c.dataset.id, c.getBoundingClientRect()])) }; }
+function flipRun(fadeFrom) {
+  const prev = flipFrom; flipFrom = null;
+  if (!prev || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  for (const c of document.querySelectorAll(".card")) {
+    const a = prev.rects.get(c.dataset.id);
+    if (!a) continue;
+    const b = c.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top;
+    if (dx || dy) c.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], { duration: 450, easing: "cubic-bezier(.2, .8, .2, 1)" });
+    if (c.dataset.id === prev.id) for (const el of c.querySelectorAll(".poster, .m, h3")) el.animate([{ opacity: fadeFrom }, {}], { duration: 450 });
   }
-  state.prefs.hidden = { ...(state.prefs.hidden || {}), [f.id]: f.onSaleSince || "" };
+}
+function toggleHidden(f) {
+  const wasHidden = isHidden(f);
+  flipBegin(f.id);
+  if (wasHidden) unhideFilm(f);
+  else state.prefs.hidden = { ...(state.prefs.hidden || {}), [f.id]: f.onSaleSince || "" };
   savePrefs();
-  if ($("film").open) $("film").close();
+  if ($("film").open && !wasHidden) $("film").close();  // hiding from the sheet closes it; unhiding keeps it open
   render();
-  toast(`Hidden ${titleOf(f)}`, () => { unhideFilm(f); savePrefs(); render(); });
+  if ($("film").open) openFilm(f.id);
+  flipRun(wasHidden ? 0.45 : 1);
+  if (!wasHidden) toast(`Hidden ${titleOf(f)}`, () => { toggleHidden(f); });
 }
 // "New" = went on sale (or, for announced films, first got a date) in the last 7 days, after tracking began.
 function isRecent(since) {
@@ -167,12 +180,11 @@ function buildRows() {
     if (!textMatch(f, q) || (!q && !kindShown(f))) continue;  // searching finds every type
     if (state.onlyWatch && !isWatched(f)) continue;
     const hidden = isHidden(f);
-    const concealed = hidden && !q && !state.showHidden && !state.onlyWatch;  // searching and your watchlist still show them
     const shows = f.shows.filter((s) => showMatches(s, now));
     if (f.shows.length && !shows.length) continue; // has showings, none match the filters
     const bookable = shows.filter((s) => s.ticket);
     const onSale = f.status === "on_sale" && bookable.length > 0;
-    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, concealed, start: startDay(f, shows) };
+    const row = { f, shows: onSale ? bookable : shows, onSale, hidden, start: startDay(f, shows) };
     if (state.tix === "on" && !onSale) continue;
     if (state.tix === "off" && onSale) continue;
     if (state.view === "when") {
@@ -193,6 +205,7 @@ function buildRows() {
   const rating = (r) => r.f.ext?.lbRating ?? -1;
   rows.sort((a, b) => {
     if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
+    if (a.hidden !== b.hidden) return a.hidden ? 1 : -1;  // hidden films are dimmed and always last in their section
     if (state.within === "rating") return rating(b) - rating(a) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     if (state.within === "fewest") { // one-off screenings first; films with no showings yet (just a premiere) last
       const n = (r) => r.shows.length || Infinity;
@@ -201,10 +214,7 @@ function buildRows() {
     if (state.view !== "when") return (b.since || "").localeCompare(a.since || "") || t0(a).localeCompare(t0(b)) || byTitle(a, b);
     return t0(a).localeCompare(t0(b)) || byTitle(a, b);
   });
-  // Concealed (hidden) films are kept apart so each section can say how many it is not showing.
-  const visible = rows.filter((r) => !r.concealed);
-  visible.concealed = rows.filter((r) => r.concealed);
-  return visible;
+  return rows;
 }
 
 // ---------------------------------------------------------------- render: controls + filter sidebar
@@ -239,7 +249,7 @@ function renderFilters() {
   const now = localNow(), kindCounts = {}, cinemaCounts = {};
   for (const f of state.data.films) kindCounts[f.kind || "film"] = (kindCounts[f.kind || "film"] || 0) + 1;
   for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) cinemaCounts[s.cinema] = (cinemaCounts[s.cinema] || 0) + 1;
-  const hide = new Set(state.prefs.hideKinds || []), mine = myCinemas(), hiddenCount = state.data.films.filter(isHidden).length;
+  const hide = new Set(state.prefs.hideKinds || []), mine = myCinemas();
   // Every option is a chip: a real checkbox/radio inside a label, styled as a tappable pill.
   const ck = (attrs, checked, label, n, type = "checkbox") =>
     `<label class="opt-chip"><input type="${type}" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
@@ -263,8 +273,6 @@ function renderFilters() {
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
     </fieldset>
-    ${hiddenCount || state.showHidden ? `<fieldset class="fg"><legend>Hidden films <span class="hint">${hiddenCount}</span></legend>
-      <div class="chips">${ck('data-f="showhidden"', state.showHidden, "Show hidden films")}</div></fieldset>` : ""}
 `;
   $("filtersReset").hidden = !activeFilters();
   if (focused) { // keep keyboard focus on the control that was just changed
@@ -330,7 +338,7 @@ function cardHtml(row) {
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
     + ratingHtml(f);
   const on = isWatched(f);
-  return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}">
+  return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}" data-id="${esc(f.id)}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
       <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
     <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${heart(on)}</button>
@@ -345,20 +353,6 @@ function renderGrid() {
     if (!sections.length || sections.at(-1).key !== r.sec.key) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
     sections.at(-1).rows.push(r);
   }
-  // Sections that only contain hidden films still appear, so the "N hidden" note has somewhere to live.
-  for (const r of rows.concealed) {
-    if (!sections.some((s) => s.key === r.sec.key)) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
-  }
-  sections.sort((a, b) => a.key.localeCompare(b.key));
-  const hiddenIn = (s) => rows.concealed.filter((r) => r.sec.key === s.key).length;
-  const shownHiddenIn = (s) => s.rows.filter((r) => r.hidden).length;
-  const hiddenNote = (s) => {
-    const n = hiddenIn(s), m = shownHiddenIn(s);
-    const films = (k) => `${k} hidden film${k === 1 ? "" : "s"}`;
-    if (n) return `<p class="hiddennote">${films(n)} not shown here <button class="linkbtn" data-showhidden="1">Show</button></p>`;
-    if (m) return `<p class="hiddennote">${films(m)} shown <button class="linkbtn" data-showhidden="0">Hide again</button></p>`;
-    return "";
-  };
   const isCollapsed = (s) => state.collapsed.has(`${state.view}:${s.key}`);
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
@@ -372,7 +366,7 @@ function renderGrid() {
       <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
-      ${shut ? "" : `${s.rows.length ? `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>` : ""}${hiddenNote(s)}`}</section>`;
+      ${shut ? "" : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
   }).join("") : `<p class="empty">${empty}</p>`;
 }
 
@@ -472,7 +466,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showhidden],[data-showall],[data-sheetcinema],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-showall],[data-sheetcinema],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = `${state.view}:${s.key}`;
@@ -500,7 +494,6 @@ document.addEventListener("click", (e) => {
     savePrefs(); render(); return;
   }
   if (t.dataset.hide) { e.preventDefault(); toggleHidden(findFilm(t.dataset.hide)); return; }
-  if (t.dataset.showhidden) { state.showHidden = t.dataset.showhidden === "1"; render(); return; }
   if (t.dataset.star) {
     e.preventDefault();
     const f = findFilm(t.dataset.star);
@@ -539,8 +532,7 @@ $("filtersBody").addEventListener("change", (e) => {
   } else if (f === "dub") state.prefs.hideDubbed = el.checked;
   else if (f === "en") state.prefs.englishSubs = el.checked;
   else if (f === "audio") state.prefs.audioEnNo = el.checked;
-  else if (f === "showhidden") state.showHidden = el.checked;
-  if (f !== "tix" && f !== "showhidden") savePrefs();
+  if (f !== "tix") savePrefs();
   render();
 });
 const setFiltersOpen = (open) => {

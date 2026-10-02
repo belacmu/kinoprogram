@@ -460,6 +460,8 @@ dialog { overscroll-behavior: contain; }
 .card.hid .flag { display: none; }                      /* the New flag and the hide button share the top-left corner */
 @media (hover: hover) { .card:hover .flag { opacity: 0; } }
 
-/* "N hidden films" note at the bottom of a section. */
-.hiddennote { margin: 0; padding: 10px 14px 14px; font-size: 13px; color: var(--muted); }
-.hiddennote .linkbtn { margin-left: 6px; }
+/* Hover feedback on the heart and hide buttons. */
+.star, .hide { transition: transform .15s ease, background-color .15s ease, opacity .15s ease; }
+.star:hover:not(.on), .hide:hover { background: rgba(10, 12, 16, .88); transform: scale(1.12); }
+.star.on:hover { transform: scale(1.12); filter: brightness(1.12); }
+.star:active, .hide:active { transform: scale(.94); }
