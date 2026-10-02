@@ -106,7 +106,7 @@ function flipRun(fadeFrom) {
     if (!a) continue;
     const b = c.getBoundingClientRect(), dx = a.left - b.left, dy = a.top - b.top;
     if (dx || dy) c.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], { duration: 450, easing: "cubic-bezier(.2, .8, .2, 1)" });
-    if (c.dataset.id === prev.id) for (const el of c.querySelectorAll(".poster, .m, h3")) el.animate([{ opacity: fadeFrom }, {}], { duration: 450 });
+    if (c.dataset.id === prev.id) for (const el of c.querySelectorAll(".poster img, .poster .ph, .m, h3")) el.animate([{ opacity: fadeFrom }, {}], { duration: 450 });
   }
 }
 function toggleHidden(f) {
@@ -336,13 +336,13 @@ const heart = (filled) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-
 function cardHtml(row) {
   const { f } = row;
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
-    + ratingHtml(f);
+    + ratingHtml(f)
+    + `<button type="button" class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Unhide" : "Hide"} this film" title="${row.hidden ? "Unhide this film" : "Hide this film"}">${eyeOff}</button>`;
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}" data-id="${esc(f.id)}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
       <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
     <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${heart(on)}</button>
-    <button class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Unhide" : "Hide"} this film" title="${row.hidden ? "Unhide this film" : "Hide this film"}">${eyeOff}</button>
   </li>`;
 }
 

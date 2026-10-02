@@ -449,16 +449,13 @@ dialog { overscroll-behavior: contain; }
 /* Poster overlays stay above the image when it zooms on hover (the transformed image otherwise paints over them). */
 .poster .flag, .poster .kind, .poster .pillr { z-index: 1; }
 
-/* Hide-a-film button: on desktop it appears when you hover a poster; hidden films (when shown) are dimmed with an always-visible Unhide. */
-.hide { position: absolute; left: 6px; top: 6px; width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer; padding: 0;
-  display: flex; align-items: center; justify-content: center; background: rgba(10, 12, 16, .55); color: #fff; opacity: 0; transition: opacity .15s; }
-.card:hover .hide, .hide:focus-visible, .card.hid .hide { opacity: 1; }
-@media (hover: none) { .card:not(.hid) .hide { display: none; } }
-.card.hid .poster, .card.hid .m, .card.hid h3 { opacity: .45; }
+/* Hide-a-film button: always visible, bottom-left of the poster. Hidden films are dimmed (not their buttons). */
+.poster .hide { position: absolute; left: 6px; bottom: 6px; width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; z-index: 1;
+  display: flex; align-items: center; justify-content: center; background: rgba(10, 12, 16, .55); color: #fff; }
+.poster .kind { left: 44px; }                           /* the type label (Shorts, Live & stage, ...) sits beside the hide button */
+.card.hid .poster img, .card.hid .poster .ph, .card.hid .m, .card.hid h3 { opacity: .45; }
 #toast .linkbtn { color: var(--bg); text-decoration: underline; font-weight: 600; }
 .actions .btn svg { vertical-align: -3px; }
-.card.hid .flag { display: none; }                      /* the New flag and the hide button share the top-left corner */
-@media (hover: hover) { .card:hover .flag { opacity: 0; } }
 
 /* Hover feedback on the heart and hide buttons. */
 .star, .hide { transition: transform .15s ease, background-color .15s ease, opacity .15s ease; }
