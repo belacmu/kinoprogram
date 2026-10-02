@@ -563,8 +563,14 @@ async function pushProfile(extra = {}) {
 }
 
 async function loadProfile() {
+  state.profileFailed = false;
   const { data, error } = await sb.from("profiles").select("subscribed,prefs,watchlist").eq("id", state.user.id).maybeSingle();
-  if (error || !data) { console.error("Loading profile failed:", error?.message); return; }
+  if (error || !data) {
+    console.error("Loading profile failed:", error?.message);
+    state.profileFailed = true;
+    if ($("account").open) renderAccount();
+    return;
+  }
   state.profile = data;
   // Merge: the account's settings win if it has any; local watchlist items are added to the account.
   const remote = data.prefs || {};
@@ -575,6 +581,7 @@ async function loadProfile() {
   local.set("prefs", state.prefs); local.set("watchlist", [...merged]);
   if (changed) await pushProfile();
   render();
+  if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
 }
 
 function renderAccount(message = "", isErr = false) {
@@ -598,7 +605,12 @@ function renderAccount(message = "", isErr = false) {
       <button class="btn accent" type="submit">Send code</button></form>${msg}`;
     return;
   }
-  const p = state.profile || {};
+  if (!state.profile) { // signed in, but this account's saved settings haven't arrived yet
+    body.innerHTML = `<h2 id="accountTitle">Your account</h2><div class="who">${esc(state.user.email)}</div>
+      <p>${state.profileFailed ? "Couldn't load your saved settings. Close this and try again in a moment." : "Loading your settings…"}</p>${msg}`;
+    return;
+  }
+  const p = state.profile;
   const n = state.prefs.cinemas.length;
   const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "no Norwegian dubs" : "", state.prefs.englishSubs ? "English subtitles only" : ""].filter(Boolean).join(", ");
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
