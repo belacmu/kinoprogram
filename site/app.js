@@ -40,7 +40,7 @@ const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 const WITHIN = [["rating", "Best rated first"], ["date", "By date"], ["fewest", "Fewest showings first"]];
 const DEFAULT_HIDE = ["short", "stage", "talk"];  // by default only films are shown
 const DEFAULTS_V = 2;                             // bump to re-apply new defaults to saved settings
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], frequency: "daily", hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
 // Settings saved before these defaults existed get the new "films only" default once.
 const withDefaults = (saved) => ({ ...DEFAULT_PREFS, ...saved, ...(saved.defaultsV === DEFAULTS_V ? {} : { hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V }) });
 const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
@@ -667,7 +667,9 @@ function renderAccount(message = "", isErr = false) {
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
     <div class="who">${esc(state.user.email)}</div>
     <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>
-      <span>Daily email at 9:00<small>Only sent on days with something new. Uses your filters: ${esc(filters)}.</small></span></label>
+      <span>Email me about new films<small>At 9:00, only when something is new. Uses your filters: ${esc(filters)}.</small></span></label>
+    <div class="opt regionsopt"><span></span><span>How often<small>Weekly goes out on Fridays with everything new that week.</small>
+      <span class="row">${[["daily", "Daily"], ["weekly", "Weekly"]].map(([v, l]) => `<label class="toggle"><input type="radio" name="freq" value="${v}"${(state.prefs.frequency || "daily") === v ? " checked" : ""}> ${l}</label>`).join("")}</span></span></div>
     <div class="opt regionsopt"><span></span><span>Regions<small>One email per region, at 9:00 local time.</small>
       <span class="row">${REGIONS.map((r) => `<label class="toggle"><input type="checkbox" data-optregion="${r.key}"${(state.prefs.regions || ["oslo"]).includes(r.key) ? " checked" : ""}> ${r.name}</label>`).join("")}</span></span></div>
     <label class="opt"><input type="checkbox" id="optAnn"${state.prefs.announcements ? " checked" : ""}>
@@ -718,7 +720,9 @@ if (sb) {
     if (e.target.id === "optSub") {
       state.profile = { ...state.profile, subscribed: e.target.checked };
       await pushProfile({ subscribed: e.target.checked });
-      renderAccount(e.target.checked ? "Subscribed. You'll get an email after 9:00 on days with new films." : "Unsubscribed.");
+      renderAccount(e.target.checked ? "Subscribed. You'll get an email at 9:00 when there are new films." : "Unsubscribed.");
+    } else if (e.target.name === "freq") {
+      state.prefs.frequency = e.target.value; savePrefs(); renderAccount();
     } else if (e.target.dataset.optregion) {
       const k = e.target.dataset.optregion, cur = new Set(state.prefs.regions || ["oslo"]);
       e.target.checked ? cur.add(k) : cur.delete(k);

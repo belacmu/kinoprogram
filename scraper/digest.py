@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 from build import REGIONS  # noqa: E402
 SEND_HOUR = 9
+WEEKLY_DAY = 4  # weekly emails go out on Fridays (Monday is 0)
 DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: films only
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -419,6 +420,7 @@ def send(messages):
 def main():
     args = sys.argv[1:]
     dry = "--dry-run" in args
+    scheduled = "--scheduled" in args
     test_to = args[args.index("--to") + 1] if "--to" in args else None
     preview = args[args.index("--preview") + 1] if "--preview" in args else None
     site = os.environ.get("SITE_URL", "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"
@@ -428,81 +430,89 @@ def main():
         if not (state_path.exists() and data_path.exists()):
             continue
         now = datetime.now(ZoneInfo(cfg["tz"])).replace(tzinfo=None)
-        now_s = now.strftime(FMT)
+        now_s, today = now.strftime(FMT), now.strftime("%Y-%m-%d")
         state, data = json.loads(state_path.read_text()), json.loads(data_path.read_text())
-        print(f"== {cfg['name']}")
-        if "--scheduled" in args:
-            if now.hour < SEND_HOUR:
-                print(f"Too early ({now:%H:%M} local); goes out after {SEND_HOUR}:00.")
-                continue
-            if state["lastDigest"][:10] >= now.strftime("%Y-%m-%d"):
-                print("Already sent today.")
-                continue
-
-        new = [f for f in data["films"] if f.get("onSaleSince") and f["onSaleSince"] > state["lastDigest"]]
-        ann = [f for f in data["films"] if f["status"] == "announced"
-               and f.get("announcedSince") and f["announcedSince"] > state["lastDigest"]]
-        if (test_to or preview) and not (new or ann):  # make the test email show something
-            new = sorted((f for f in data["films"] if f["status"] == "on_sale"), key=lambda f: f["shows"][0]["t"])[:3]
-            ann = [f for f in data["films"] if f["status"] == "announced" and f["premiere"]][:3]
-        if preview:  # a fuller sample than the test email, so the grid shows
-            new = sorted((f for f in data["films"] if f["status"] == "on_sale" and f.get("kind") == "film" and f["poster"]),
-                         key=lambda f: f["shows"][0]["t"])[:7]
-            ann = [f for f in data["films"] if f["status"] == "announced" and f["premiere"]][:5]
-        print(f"Since {state['lastDigest']}: {len(new)} newly on sale, {len(ann)} newly announced")
-
-        if preview:
-            everyone = {"prefs": {}, "watchlist": [f["id"] for f in data["films"]]}
-            ending = pick_leaving(data["films"], everyone, now_s, horizons(data["films"]), {new[0]["id"], ann[0]["id"]})
-            demo = [new[0]["id"], ann[0]["id"]] + [f["id"] for f, *_ in ending[:2]]
-            recipients = [{"email": "you@example.com", "prefs": {"regions": [rkey]}, "watchlist": demo, "unsubscribe_token": "preview"}]
-        elif test_to:
-            # Demo email = a real digest on command: built from this address's saved account if it has one
-            # (its filters, watchlist and real unsubscribe link), forced to include this region so both get tested.
-            real = profile_for(test_to)
-            if real:
-                print(f"Using the saved settings for {test_to}")
-                recipients = [{**real, "prefs": {**(real.get("prefs") or {}), "regions": [rkey]}}]
-            else:
-                print(f"No account for {test_to}; using default settings")
-                recipients = [{"email": test_to, "prefs": {"regions": [rkey]}, "watchlist": [], "unsubscribe_token": "test"}]
-        else:
-            if profiles is None:
-                profiles = subscribers()
-                if profiles is None:
-                    print("Supabase isn't configured (SUPABASE_URL / SUPABASE_SECRET_KEY); no emails sent.")
-                    profiles = []
-            recipients = [p for p in profiles if rkey in ((p.get("prefs") or {}).get("regions") or ["oslo"])]
         horizon = horizons(data["films"])
-        messages = []
-        for p in recipients:
-            prefs = dict(p.get("prefs") or {})
-            prefs["_cinemas"] = [c for c in prefs.get("cinemas") or [] if c in data["cinemas"]]
-            if rkey != "oslo":  # dub/subtitle filters only make sense for Oslo's data
-                prefs["hideDubbed"] = prefs["englishSubs"] = False
-            p = {**p, "prefs": prefs}
-            items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
-            if not (items or announced):
-                continue  # a watchlist notice (e.g. leaving soon) alone never sends an email
-            leaving = pick_leaving(data["films"], p, now_s, horizon, {f["id"] for f, *_ in items} | {f["id"] for f, _ in announced})
-            unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
-            messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey)))
-        print(f"{len(recipients)} subscriber(s), {len(messages)} with something new")
+        print(f"== {cfg['name']}")
+        # Daily subscribers get what is new since the last daily email; weekly subscribers get what is new
+        # since the last weekly one, on Fridays. A test or preview is one email built like a daily one.
+        modes = [("test", "lastDigest")] if (test_to or preview) else [("daily", "lastDigest"), ("weekly", "lastWeekly")]
+        for mode, key in modes:
+            if scheduled:
+                if now.hour < SEND_HOUR:
+                    print(f"{mode}: too early ({now:%H:%M} local); goes out after {SEND_HOUR}:00.")
+                    continue
+                if mode == "weekly" and now.weekday() != WEEKLY_DAY:
+                    print("weekly: goes out on Fridays.")
+                    continue
+                if (state.get(key) or "")[:10] >= today:
+                    print(f"{mode}: already sent today.")
+                    continue
+            since = state.get(key) or max((now - timedelta(days=7)).strftime(FMT), state["baseline"])  # first weekly: not the films we only started tracking on the baseline day
+            new = [f for f in data["films"] if f.get("onSaleSince") and f["onSaleSince"] > since]
+            ann = [f for f in data["films"] if f["status"] == "announced"
+                   and f.get("announcedSince") and f["announcedSince"] > since]
+            if (test_to or preview) and not (new or ann):  # make the test email show something
+                new = sorted((f for f in data["films"] if f["status"] == "on_sale"), key=lambda f: f["shows"][0]["t"])[:3]
+                ann = [f for f in data["films"] if f["status"] == "announced" and f["premiere"]][:3]
+            if preview:  # a fuller sample than the test email, so the grid shows
+                new = sorted((f for f in data["films"] if f["status"] == "on_sale" and f.get("kind") == "film" and f["poster"]),
+                             key=lambda f: f["shows"][0]["t"])[:7]
+                ann = [f for f in data["films"] if f["status"] == "announced" and f["premiere"]][:5]
+            print(f"{mode}: since {since}: {len(new)} newly on sale, {len(ann)} newly announced")
 
-        if preview:
+            if preview:
+                everyone = {"prefs": {}, "watchlist": [f["id"] for f in data["films"]]}
+                ending = pick_leaving(data["films"], everyone, now_s, horizon, {new[0]["id"], ann[0]["id"]})
+                demo = [new[0]["id"], ann[0]["id"]] + [f["id"] for f, *_ in ending[:2]]
+                recipients = [{"email": "you@example.com", "prefs": {"regions": [rkey]}, "watchlist": demo, "unsubscribe_token": "preview"}]
+            elif test_to:
+                # Demo email = a real digest on command: built from this address's saved account if it has one
+                # (its filters, watchlist and real unsubscribe link), forced to include this region so both get tested.
+                real = profile_for(test_to)
+                if real:
+                    print(f"Using the saved settings for {test_to}")
+                    recipients = [{**real, "prefs": {**(real.get("prefs") or {}), "regions": [rkey]}}]
+                else:
+                    print(f"No account for {test_to}; using default settings")
+                    recipients = [{"email": test_to, "prefs": {"regions": [rkey]}, "watchlist": [], "unsubscribe_token": "test"}]
+            else:
+                if profiles is None:
+                    profiles = subscribers()
+                    if profiles is None:
+                        print("Supabase isn't configured (SUPABASE_URL / SUPABASE_SECRET_KEY); no emails sent.")
+                        profiles = []
+                recipients = [p for p in profiles if rkey in ((p.get("prefs") or {}).get("regions") or ["oslo"])
+                              and (((p.get("prefs") or {}).get("frequency") == "weekly") == (mode == "weekly"))]
+            messages = []
+            for p in recipients:
+                prefs = dict(p.get("prefs") or {})
+                prefs["_cinemas"] = [c for c in prefs.get("cinemas") or [] if c in data["cinemas"]]
+                if rkey != "oslo":  # dub/subtitle filters only make sense for Oslo's data
+                    prefs["hideDubbed"] = prefs["englishSubs"] = False
+                p = {**p, "prefs": prefs}
+                items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
+                if not (items or announced):
+                    continue  # a watchlist notice (e.g. leaving soon) alone never sends an email
+                leaving = pick_leaving(data["films"], p, now_s, horizon, {f["id"] for f, *_ in items} | {f["id"] for f, _ in announced})
+                unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
+                messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey)))
+            print(f"{mode}: {len(recipients)} subscriber(s), {len(messages)} with something new")
+
+            if preview:
+                if messages:
+                    Path(preview).write_text(messages[0][3])
+                    print(f"Wrote {preview}\n{messages[0][1]}")
+                return
+            if dry:
+                for to, subject, txt, _ in messages:
+                    print(f"\n=== {to}\n{subject}\n\n{txt}")
+                continue
             if messages:
-                Path(preview).write_text(messages[0][3])
-                print(f"Wrote {preview}\n{messages[0][1]}")
-            break
-        if dry:
-            for to, subject, txt, _ in messages:
-                print(f"\n=== {to}\n{subject}\n\n{txt}")
-            continue
-        if messages:
-            send(messages)
-        if not test_to:
-            state["lastDigest"] = now_s
-            state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
+                send(messages)
+            if not test_to:
+                state[key] = now_s
+                state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":
