@@ -35,6 +35,21 @@
 "lbRating": 3.92,
 "rated": "2026-10-01"
 },
+"cc-practical-magic-2-2026": {
+"imdb": "tt32588798",
+"tmdb": 1302904,
+"imdbAll": [
+"tt32588798"
+],
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"source": "moviescout",
+"lbSlug": "practical-magic-2",
+"lbRating": 2.88,
+"rated": "2026-10-01"
+},
 "cc-the-president-s-cake-2025": {
 "imdb": "tt36580119",
 "imdbAll": [
@@ -53,6 +68,25 @@
 "tv": 2,
 "tmdb": 1464883,
 "enFrom": "tmdb"
+},
+"cc-the-weight-2026": {
+"imdb": "tt10794054",
+"imdbAll": [
+"tt10794054"
+],
+"lb": "the-weight-2026",
+"rt": "m/the_weight_2026",
+"mc": "movie/the-weight",
+"en": "The Weight",
+"v": 4,
+"checked": "2026-10-02",
+"lbSlug": "the-weight-2026",
+"lbRating": 3.49,
+"rated": "2026-10-01",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1433583,
+"source": "moviescout"
 },
 "cm-11-x14": {
 "tmdbChecked": "2026-10-01",
@@ -117,6 +151,17 @@
 "cm-aktivisten": {
 "tmdbChecked": "2026-10-01",
 "tv": 2
+},
+"cm-aldri-annet-enn-brak": {
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 56643,
+"imdb": "tt0179068",
+"en": "Nothing but Troubles",
+"enFrom": "tmdb",
+"lbSlug": "nothing-but-troubles",
+"lbRating": null,
+"rated": "2026-10-02"
 },
 "cm-all-the-beauty-and-the-bloodshed": {
 "tmdbChecked": "2026-10-01",
@@ -518,6 +563,17 @@
 "lbRating": 3.58,
 "rated": "2026-10-01"
 },
+"cm-harold-and-maude": {
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 343,
+"imdb": "tt0067185",
+"en": "Harold and Maude",
+"enFrom": "tmdb",
+"lbSlug": "harold-and-maude",
+"lbRating": 4.11,
+"rated": "2026-10-02"
+},
 "cm-herr-bachmann-og-klassen-hans": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -862,6 +918,10 @@
 "lbSlug": "melody-of-a-murder",
 "lbRating": 3.4,
 "rated": "2026-10-01"
+},
+"cm-my-national-gallery": {
+"tmdbChecked": "2026-10-02",
+"tv": 2
 },
 "cm-naqoyqatsi": {
 "tmdbChecked": "2026-10-01",
@@ -1352,6 +1412,10 @@
 "tmdbChecked": "2026-10-01",
 "tv": 2
 },
+"cm-utopiske-signaler": {
+"tmdbChecked": "2026-10-02",
+"tv": 2
+},
 "cm-vampires": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1416,6 +1480,41 @@
 "lbSlug": "white-paradise",
 "lbRating": null,
 "rated": "2026-10-01"
+},
+"ev-at-the-place-of-ghosts": {
+"tmdbChecked": "2026-10-02",
+"tv": 2
+},
+"ev-behind-the-castle-doors": {
+"tmdbChecked": "2026-10-02",
+"tv": 2
+},
+"ev-once-upon-a-time-in-a-cinema": {
+"tmdbChecked": "2026-10-02",
+"tv": 2
+},
+"ev-the-presidents-cake": {
+"imdb": "tt36580119",
+"imdbAll": [
+"tt36580119"
+],
+"lb": "the-presidents-cake",
+"rt": "m/the_presidents_cake",
+"mc": "movie/the-presidents-cake",
+"en": "The President's Cake",
+"v": 4,
+"checked": "2026-10-01",
+"lbSlug": "the-presidents-cake",
+"lbRating": 4.02,
+"rated": "2026-10-01",
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 1464883,
+"enFrom": "tmdb"
+},
+"ev-tow": {
+"tmdbChecked": "2026-10-02",
+"tv": 2
 },
 "fw-ART20020802": {
 "imdb": "tt0245429",
@@ -2788,7 +2887,10 @@
 "tv": 2,
 "tmdb": 1503771,
 "imdb": "tt31995671",
-"en": null
+"en": null,
+"lbSlug": "the-beauty-of-errors",
+"lbRating": 3.65,
+"rated": "2026-10-02"
 },
 "fw-EDI20260748": {
 "tmdbChecked": "2026-10-01",
@@ -3569,7 +3671,9 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20261232": {
-"checked": "2026-10-02"
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2
 },
 "fw-EDI20261256": {
 "tmdbChecked": "2026-10-01",
@@ -3688,10 +3792,27 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20261317": {
-"checked": "2026-10-02"
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1228911,
+"imdb": "tt30460036",
+"en": "At Night",
+"enFrom": "tmdb",
+"lbSlug": "at-night-2026",
+"lbRating": 3.38,
+"rated": "2026-10-02"
 },
 "fw-EDI20261318": {
-"checked": "2026-10-02"
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1616878,
+"imdb": "tt39382662",
+"en": null,
+"lbSlug": "doggerland-2026",
+"lbRating": null,
+"rated": "2026-10-02"
 },
 "fw-EDI20261320": {
 "checked": "2026-10-02",
@@ -3726,7 +3847,15 @@
 "rated": "2026-10-02"
 },
 "fw-EDI20261349": {
-"checked": "2026-10-02"
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1729657,
+"imdb": "tt43660223",
+"en": null,
+"lbSlug": "revolutionaries-never-die",
+"lbRating": null,
+"rated": "2026-10-02"
 },
 "fw-EDI20261350": {
 "checked": "2026-10-02",
@@ -3984,7 +4113,10 @@
 "tmdb": 1770234,
 "imdb": null,
 "en": "BTS World Tour 'Arirang' In São Paulo: Live Viewing",
-"enFrom": "tmdb"
+"enFrom": "tmdb",
+"lbSlug": "bts-world-tour-arirang-in-sao-paulo-live",
+"lbRating": null,
+"rated": "2026-10-02"
 },
 "fw-EDI20261467": {
 "checked": "2026-10-02",
@@ -4039,7 +4171,9 @@
 "rated": "2026-10-01"
 },
 "fw-EDI20261479": {
-"checked": "2026-10-02"
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2
 },
 "fw-EDI20261483": {
 "tmdbChecked": "2026-10-01",
@@ -4202,7 +4336,10 @@
 "tv": 2,
 "tmdb": 1785968,
 "imdb": null,
-"en": null
+"en": null,
+"lbSlug": "enhypen-world-tour-blood-saga",
+"lbRating": null,
+"rated": "2026-10-02"
 },
 "fw-EDI20261552": {
 "checked": "2026-10-02",
