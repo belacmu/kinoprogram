@@ -241,6 +241,8 @@ def main(regions=None):
         print(f"  ! link lookup failed: {e}", file=sys.stderr)
 
     for r, cfg, now, films, state, state_path in built:
+        if r == "costadelsol":
+            costadelsol.mark_dubbed(films)
         new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
         ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
         print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "

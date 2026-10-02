@@ -214,6 +214,7 @@ def tmdb(f):
         if en and d.get("original_language") != "en" and any(spelling_variant(en, t) for t in titles):
             en = None  # "Matloob Aaeleyan" for "Matloob Aelian" is a transliteration, not a translation
         hits.append({"tmdb": mid, "imdb": (d.get("external_ids") or {}).get("imdb_id") or None, "en": en,
+                     "lang": d.get("original_language") or None,
                      "premiereOk": bool(f.get("premiere") and f["premiere"] in no_dates),
                      "runtimeOk": bool(f["runtime"] and rt),
                      "yearExact": (d.get("release_date") or "")[:4] == str(year)})
@@ -222,7 +223,7 @@ def tmdb(f):
             hits = [h for h in hits if h[k]]
     if len(hits) != 1:
         return None
-    return {k: hits[0][k] for k in ("tmdb", "imdb", "en")}
+    return {k: hits[0][k] for k in ("tmdb", "imdb", "en", "lang")}
 
 
 def letterboxd(rec):
@@ -342,6 +343,7 @@ def enrich(films, now, keep_prefixes=()):
                         for k in ("lbSlug", "lbRating", "rated"):
                             rec.pop(k, None)
                     rec["tmdb"] = t["tmdb"]
+                    rec["lang"] = t.get("lang") or rec.get("lang")
                     # IMDb sometimes has duplicate ids for one film; prefer TMDB's (Letterboxd uses it).
                     rec["imdb"] = t["imdb"] or rec.get("imdb")
                     rec["en"] = (rec.get("en") if rec.get("enFrom") != "tmdb" else None) or t["en"]
@@ -349,6 +351,16 @@ def enrich(films, now, keep_prefixes=()):
                         rec["enFrom"] = "tmdb"
             for i in f["ids"]:
                 cache[i] = rec
+
+    # Original language (TMDB) for Costa del Sol films: it tells a Spanish-language film from a dubbed one.
+    if tmdb_enabled():
+        for f in [f for f in films if f["id"].startswith("cl-")][:40]:
+            rec = next((cache[i] for i in f["ids"] if i in cache), None)
+            if rec and rec.get("tmdb") and not rec.get("lang") and not rec.get("conflict"):
+                try:
+                    rec["lang"] = tmdb_get(f"/movie/{rec['tmdb']}", language="en-US").get("original_language") or ""
+                except Exception as e:
+                    print(f"  ! tmdb language {f['title']}: {e}", file=sys.stderr)
 
     # Letterboxd ratings, refreshed weekly for films we've matched.
     rate = []
@@ -381,7 +393,7 @@ def enrich(films, now, keep_prefixes=()):
                 cache[i] = rec
         if rec and (rec.get("imdb") or rec.get("tmdb")) and not rec.get("conflict"):
             matched += 1
-            f["ext"] = {k: rec.get(k) for k in ("imdb", "tmdb", "rt", "mc", "lbRating") if rec.get(k)}
+            f["ext"] = {k: rec.get(k) for k in ("imdb", "tmdb", "rt", "mc", "lbRating", "lang") if rec.get(k)}
             en = rec.get("en") or ""
             if en and len(en) < 120 and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])):
                 f["ext"]["en"] = en

@@ -497,10 +497,10 @@ def main():
             for p in recipients:
                 prefs = dict(p.get("prefs") or {})
                 prefs["_cinemas"] = [c for c in prefs.get("cinemas") or [] if c in data["cinemas"]]
-                if rkey != "oslo":  # dub/subtitle filters only make sense for Oslo's data
-                    prefs["hideDubbed"] = prefs["englishSubs"] = False
-                    if rkey == "costadelsol":  # there, a show's `en` flag means original version (VOSE)
-                        prefs["englishSubs"] = bool(prefs.get("originalOnly"))
+                if rkey != "oslo":  # English subtitles only make sense for Oslo's data
+                    prefs["englishSubs"] = False
+                if rkey not in ("oslo", "costadelsol"):  # Westman's data has no dubbed/original information
+                    prefs["hideDubbed"] = False
                 p = {**p, "prefs": prefs}
                 items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
                 if not (items or announced):

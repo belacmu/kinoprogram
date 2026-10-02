@@ -41,7 +41,7 @@ const TIX = [["all", "All"], ["on", "On sale"], ["off", "Not on sale yet"]];
 const WITHIN = [["rating", "Best rated first"], ["date", "By date"], ["fewest", "Fewest showings first"]];
 const DEFAULT_HIDE = ["short", "stage", "talk"];  // by default only films are shown
 const DEFAULTS_V = 2;                             // bump to re-apply new defaults to saved settings
-const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, originalOnly: false, watchlistAlways: true, announcements: true, regions: ["oslo"], frequency: "daily", hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
+const DEFAULT_PREFS = { cinemas: [], hideDubbed: false, englishSubs: false, watchlistAlways: true, announcements: true, regions: ["oslo"], frequency: "daily", hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V };
 // Settings saved before these defaults existed get the new "films only" default once.
 const withDefaults = (saved) => ({ ...DEFAULT_PREFS, ...saved, ...(saved.defaultsV === DEFAULTS_V ? {} : { hideKinds: DEFAULT_HIDE, defaultsV: DEFAULTS_V }) });
 const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
@@ -72,13 +72,13 @@ const state = {
 // ---------------------------------------------------------------- filters (keep in step with scraper/digest.py: show_ok)
 // "My cinemas" is one list across regions; only the ones in the region being viewed apply.
 const myCinemas = () => state.prefs.cinemas.filter((c) => state.data.cinemas.includes(c));
+const DUBBING_REGIONS = ["oslo", "costadelsol"];  // where the data says which showings are dubbed
 function showMatches(s, now) {
   if (s.t < now) return false;
   const p = state.prefs, mine = myCinemas();
   if (mine.length && !mine.includes(s.cinema)) return false;
-  if (state.region === "oslo" && p.hideDubbed && s.dub) return false;
+  if (DUBBING_REGIONS.includes(state.region) && p.hideDubbed && s.dub) return false;  // "Original language only"
   if (state.region === "oslo" && p.englishSubs && !s.en) return false;
-  if (state.region === "costadelsol" && p.originalOnly && !s.en) return false;  // `en` = original language (not dubbed) in this region
   return true;
 }
 const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
@@ -180,8 +180,8 @@ function buildRows() {
 function activeFilters() {
   return (state.tix !== "all" ? 1 : 0)
     + (sameSet(state.prefs.hideKinds || [], DEFAULT_HIDE) ? 0 : 1) + (myCinemas().length ? 1 : 0)
-    + (state.region === "oslo" ? (state.prefs.hideDubbed ? 1 : 0) + (state.prefs.englishSubs ? 1 : 0) : 0)
-    + (state.region === "costadelsol" && state.prefs.originalOnly ? 1 : 0);
+    + (DUBBING_REGIONS.includes(state.region) && state.prefs.hideDubbed ? 1 : 0)
+    + (state.region === "oslo" && state.prefs.englishSubs ? 1 : 0);
 }
 
 function renderControls() {
@@ -222,12 +222,9 @@ function renderFilters() {
     <fieldset class="fg"><legend>Types <span class="hint">${sameSet([...hide], DEFAULT_HIDE) ? "Films only" : `${KINDS.length - hide.size} of ${KINDS.length}`}</span></legend><div class="chips">
       ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
     </div></fieldset>
-    <fieldset class="fg"${state.region === "oslo" ? "" : " hidden"}><legend>Language</legend>
-      <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Hide Norwegian dubs")}
-      ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}</div>
-    </fieldset>
-    <fieldset class="fg"${state.region === "costadelsol" ? "" : " hidden"}><legend>Language</legend>
-      <div class="chips">${ck('data-f="vose"', state.prefs.originalOnly, "Original audio (not dubbed)")}</div>
+    <fieldset class="fg"${DUBBING_REGIONS.includes(state.region) ? "" : " hidden"}><legend>Language</legend>
+      <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Original language only")}
+      ${state.region === "oslo" ? ck('data-f="en"', state.prefs.englishSubs, "English subtitles only") : ""}</div>
     </fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
@@ -444,7 +441,7 @@ document.addEventListener("click", (e) => {
   }
   if (t.dataset.f === "reset") {
     state.tix = "all";
-    state.prefs.hideKinds = [...DEFAULT_HIDE]; state.prefs.hideDubbed = false; state.prefs.englishSubs = false; state.prefs.originalOnly = false;
+    state.prefs.hideKinds = [...DEFAULT_HIDE]; state.prefs.hideDubbed = false; state.prefs.englishSubs = false;
     state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
     local.set("tix", "all"); savePrefs(); render(); return;
   }
@@ -489,7 +486,6 @@ $("filtersBody").addEventListener("change", (e) => {
     setCinemas(el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value));
   } else if (f === "dub") state.prefs.hideDubbed = el.checked;
   else if (f === "en") state.prefs.englishSubs = el.checked;
-  else if (f === "vose") state.prefs.originalOnly = el.checked;
   if (f !== "tix") savePrefs();
   render();
 });
@@ -685,7 +681,7 @@ function renderAccount(message = "", isErr = false) {
   }
   const p = state.profile;
   const n = state.prefs.cinemas.length;
-  const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "no Norwegian dubs" : "", state.prefs.englishSubs ? "English subtitles only" : "", state.prefs.originalOnly ? "original audio only in Costa del Sol" : ""].filter(Boolean).join(", ");
+  const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "original language only" : "", state.prefs.englishSubs ? "English subtitles only (Oslo)" : ""].filter(Boolean).join(", ");
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
     <div class="who">${esc(state.user.email)}</div>
     <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>

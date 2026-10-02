@@ -81,3 +81,12 @@ def fetch_all(now):
                     count += 1
         print(f"  {name}: {count} sessions")
     return list(films.values())
+
+
+def mark_dubbed(films):
+    """A showing without the original-version tag is dubbed into Spanish, unless the film is Spanish-language.
+    The film's original language comes from TMDB (ext.lang); when it is unknown the showing isn't called dubbed."""
+    for f in films:
+        lang = (f.get("ext") or {}).get("lang")
+        for s in f["shows"]:
+            s["dub"] = bool(lang) and lang != "es" and not s["en"]
