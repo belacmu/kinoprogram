@@ -685,9 +685,9 @@ function renderAccount(message = "", isErr = false) {
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
     <div class="who">${esc(state.user.email)}</div>
     <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>
-      <span>Email me about new films<small>At 9:00, only when something is new. Uses your filters: ${esc(filters)}.</small></span></label>
-    <div class="opt regionsopt"><span></span><span>How often<small>Weekly goes out on Fridays with everything new that week.</small>
-      <span class="row">${[["daily", "Daily"], ["weekly", "Weekly"]].map(([v, l]) => `<label class="toggle"><input type="radio" name="freq" value="${v}"${(state.prefs.frequency || "daily") === v ? " checked" : ""}> ${l}</label>`).join("")}</span></span></div>
+      <span>Email me about new films<small>Only sent when there is something new to tell you, and never more than once a day. Uses your filters: ${esc(filters)}.</small></span></label>
+    <div class="opt regionsopt"><span></span><span>How often<small>Daily: at most one email a day, sent in the morning (after 9:00 local time), and none on days with nothing new. Weekly: one email on Fridays with everything new that week, if there is any.</small>
+      <span class="row">${[["daily", "Daily, if there's news"], ["weekly", "Weekly, on Fridays"]].map(([v, l]) => `<label class="toggle"><input type="radio" name="freq" value="${v}"${(state.prefs.frequency || "daily") === v ? " checked" : ""}> ${l}</label>`).join("")}</span></span></div>
     <div class="opt regionsopt"><span></span><span>Regions<small>One email per region, at 9:00 local time.</small>
       <span class="row">${REGIONS.map((r) => `<label class="toggle"><input type="checkbox" data-optregion="${r.key}"${(state.prefs.regions || ["oslo"]).includes(r.key) ? " checked" : ""}> ${r.name}</label>`).join("")}</span></span></div>
     <label class="opt"><input type="checkbox" id="optAnn"${state.prefs.announcements ? " checked" : ""}>
@@ -743,7 +743,7 @@ if (sb) {
     if (e.target.id === "optSub") {
       state.profile = { ...state.profile, subscribed: e.target.checked };
       await pushProfile({ subscribed: e.target.checked });
-      renderAccount(e.target.checked ? "Subscribed. You'll get an email at 9:00 when there are new films." : "Unsubscribed.");
+      renderAccount(e.target.checked ? "Subscribed. You'll get an email in the morning on days when there is something new." : "Unsubscribed.");
     } else if (e.target.name === "freq") {
       state.prefs.frequency = e.target.value; savePrefs(); renderAccount();
     } else if (e.target.dataset.optregion) {
