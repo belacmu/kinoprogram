@@ -32,6 +32,10 @@
   <header class="top">
     <h1>Cinecrab</h1>
     <div class="topright">
+      <button class="pill" id="newsBtn" aria-haspopup="dialog" aria-label="What's new">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z" fill="currentColor"/></svg>
+        <span class="lbl">What's new</span>
+      </button>
       <div class="dd" id="regionDD">
         <button class="pill" id="regionBtn" aria-haspopup="menu" aria-expanded="false"></button>
         <div class="menu right" id="regionMenu" role="menu" hidden></div>
@@ -71,11 +75,7 @@
             <input type="search" id="q" placeholder="Search for a film, director or series" autocomplete="off" aria-label="Search">
             <button class="iconbtn" id="searchClose" aria-label="Close search">×</button>
           </div>
-          <div class="dd grow" id="sortDD">
-            <button class="pill" id="sortBtn" aria-haspopup="menu" aria-expanded="false"></button>
-            <div class="menu" id="sortMenu" role="menu" hidden></div>
-          </div>
-          <div class="dd" id="dayDD" hidden>
+          <div class="dd" id="dayDD">
             <button class="pill" id="dayBtn" aria-haspopup="dialog" aria-expanded="false"></button>
             <div class="menu cal" id="calMenu" role="dialog" aria-label="Pick a day" hidden></div>
           </div>
@@ -90,6 +90,8 @@
 </div>
 
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>
+
+<dialog id="news" aria-labelledby="newsTitle"></dialog>
 
 <dialog id="film" aria-labelledby="filmTitle"></dialog>
 
