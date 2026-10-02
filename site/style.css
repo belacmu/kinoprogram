@@ -396,11 +396,11 @@ a.stub:hover { border-color: var(--accent); }
 /* The band runs edge to edge through a pseudo-element, so menus can still drop out of it (a clip-path would cut them off). */
 body { overflow-x: clip; }
 .top { position: relative; z-index: 6; isolation: isolate; background: none; }
-.top::before { content: ""; position: absolute; inset: 0 -100vmax; background: var(--band); z-index: -1; }
+.top::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: var(--band); z-index: -1; }
 .controls { background: var(--band); }
 @media (max-width: 999px) {
   .controls { background: none; }
-  .controls::before { content: ""; position: absolute; inset: 0 -100vmax; background: var(--band); z-index: -1; }
+  .controls::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: var(--band); z-index: -1; }
 }
 @media (min-width: 1000px) { .controls { border-radius: 14px; padding-inline: 12px; } .layout { margin-top: 14px; } }
 
