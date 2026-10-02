@@ -379,5 +379,4 @@ a.stub:hover { border-color: var(--accent); }
 .sech .toggle .arrow { color: var(--muted); font-size: 11px; }
 .sech button:hover .toggle, .sech button:focus-visible .toggle { background: var(--chip-on); color: var(--chip-on-ink); border-color: var(--chip-on); }
 .sech button:hover .lbl { color: var(--accent); }
-.sec.shut .sech .peek { display: none; }
 @media (max-width: 560px) { .sech .toggle { padding: 3px 9px; } }
