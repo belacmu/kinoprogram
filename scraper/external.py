@@ -398,6 +398,24 @@ def enrich(films, now, keep_prefixes=()):
             if en and len(en) < 120 and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])):
                 f["ext"]["en"] = en
             f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
+    # Cinemateket's own images are wide stills, not posters. Where the film is matched on TMDB, use its poster.
+    if tmdb_enabled():
+        budget = 60
+        for f in films:
+            if "vrs.gd" not in (f.get("poster") or ""):
+                continue
+            rec = next((cache[i] for i in f["ids"] if i in cache), None)
+            if not rec or not rec.get("tmdb") or rec.get("conflict"):
+                continue
+            if "posterPath" not in rec and budget > 0:
+                budget -= 1
+                try:
+                    rec["posterPath"] = tmdb_get(f"/movie/{rec['tmdb']}", language="en-US").get("poster_path") or ""
+                except Exception as e:
+                    print(f"  ! tmdb poster {f['title']}: {e}", file=sys.stderr)
+            if rec.get("posterPath"):
+                f["poster"] = "https://image.tmdb.org/t/p/w342" + rec["posterPath"]
+
     # Keep the cache to films we still list.
     live = {i for f in films for i in f["ids"]}
     # (ids of regions not built in this run, `keep_prefixes`, are left alone.)
