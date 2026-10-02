@@ -398,14 +398,14 @@ def enrich(films, now, keep_prefixes=()):
             if en and len(en) < 120 and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])):
                 f["ext"]["en"] = en
             f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
-    # Posters from TMDB where the film is matched there: instead of Cinemateket's wide stills and of missing posters, and as a
+    # Posters from TMDB where the film is matched there: instead of Cinemateket's and Revier's wide stills and of missing posters, and as a
     # fallback (`poster2`, used by the page if the first image fails to load) for Westman and Costa del Sol, whose image
     # links can go dead (e.g. MovieScout's Avengers: Endgame Encore).
     if tmdb_enabled():
         budget = 150   # lookups per run; the Oslo stills come first, then Westman and Costa del Sol
         for f in films:
             poster = f.get("poster") or ""
-            replace = not poster or "vrs.gd" in poster
+            replace = not poster or "vrs.gd" in poster or "evbuc.com" in poster
             fallback = not replace and f["id"].startswith(("https-moviescout", "lm-", "cc-", "cl-"))
             if not (replace or fallback):
                 continue

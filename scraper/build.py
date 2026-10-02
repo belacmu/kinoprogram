@@ -22,6 +22,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).parent))
 import costadelsol  # noqa: E402
 import external  # noqa: E402
+import revier  # noqa: E402
 import sources  # noqa: E402
 import westman  # noqa: E402
 
@@ -38,6 +39,8 @@ ID_PATTERNS = [
     ("cc-", r"cinemaclock\.com/movies/([^/?#]+)"),
     ("ev-", r"evanstheatre\.ca/movie/([^/?#]+)"),
     ("cl-", r"carteleracines\.es/#([^/?#]+)"),
+    # One Eventbrite event per screening; the slug without running time and event number names the film.
+    ("rv-", r"eventbrite\.[a-z.]+/e/(.+?)(?:-\d+t)?(?:-\d+m)?-tickets-\d+"),
 ]
 
 
@@ -193,7 +196,14 @@ def fetch_oslo(now):
         # only pruned after OFF_SALE_DAYS, so a short outage won't make films look new.
         print(f"  ! Cinemateket failed: {e}", file=sys.stderr)
         cm = []
-    return merge(fw, cm)
+    print("Fetching Revier Film Club …")
+    try:
+        rv = revier.fetch_all(now)
+        print(f"  {len(rv)} films, {sum(len(f['shows']) for f in rv)} showings")
+    except Exception as e:
+        print(f"  ! Revier failed: {e}", file=sys.stderr)
+        rv = []
+    return merge(merge(fw, cm), rv)
 
 
 def fetch_westman(now):
@@ -211,7 +221,8 @@ def fetch_costadelsol(now):
 
 REGIONS = {
     "oslo": {"name": "Oslo", "tz": "Europe/Oslo", "fetch": fetch_oslo, "first": "Cinemateket",
-             "idprefixes": ("fw-", "cm-"), "data": "films.json", "state": "seen.json", "sources": "Filmweb + Cinemateket"},
+             "idprefixes": ("fw-", "cm-", "rv-"), "data": "films.json", "state": "seen.json",
+             "sources": "Filmweb + Cinemateket + Revier"},
     "westman": {"name": "Westman", "tz": "America/Winnipeg", "fetch": fetch_westman, "first": "Landmark Brandon",
                 "idprefixes": ("lm-", "cc-", "ev-", "https-moviescout"), "data": "westman.json", "state": "seen-westman.json",
                 "sources": "Landmark + CinemaClock + Evans Theatre"},
