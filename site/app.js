@@ -78,7 +78,7 @@ function showMatches(s, now) {
   if (mine.length && !mine.includes(s.cinema)) return false;
   if (state.region === "oslo" && p.hideDubbed && s.dub) return false;
   if (state.region === "oslo" && p.englishSubs && !s.en) return false;
-  if (state.region === "costadelsol" && p.originalOnly && !s.en) return false;  // `en` = original version (VOSE) in this region
+  if (state.region === "costadelsol" && p.originalOnly && !s.en) return false;  // `en` = original language (not dubbed) in this region
   return true;
 }
 const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
@@ -227,7 +227,7 @@ function renderFilters() {
       ${ck('data-f="en"', state.prefs.englishSubs, "English subtitles only")}</div>
     </fieldset>
     <fieldset class="fg"${state.region === "costadelsol" ? "" : " hidden"}><legend>Language</legend>
-      <div class="chips">${ck('data-f="vose"', state.prefs.originalOnly, "Original version only (VOSE)")}</div>
+      <div class="chips">${ck('data-f="vose"', state.prefs.originalOnly, "Original audio (not dubbed)")}</div>
     </fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
       <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
@@ -242,6 +242,19 @@ function renderFilters() {
 }
 
 // ---------------------------------------------------------------- render: grid
+// "Last chance" (2 or fewer showings left, within two weeks) or "Leaving soon" (last showing within a week), but only
+// when the cinema publishes beyond the film's last showing, so a short schedule window isn't mistaken for the end.
+const ms = (t) => Date.parse(t + ":00Z");
+function endingNote(shows) {
+  const last = shows[shows.length - 1];
+  const horizon = state.horizon?.[last?.cinema];
+  if (!last || !horizon || ms(horizon) - ms(last.t) < 3 * 864e5) return "";
+  const days = (ms(last.t) - ms(localNow())) / 864e5;
+  if (shows.length <= 2 && days <= 14) return "Last chance";
+  if (days <= 7) return `Leaving soon \u00b7 until ${dayLabel(last.t, { short: true })}`;
+  return "";
+}
+
 function cardMeta(row) {
   const { f, shows, onSale, start } = row;
   const today = localNow().slice(0, 10);
@@ -251,7 +264,9 @@ function cardMeta(row) {
     const first = shows[0];
     const cls = first.t.slice(0, 10) === today ? ' class="today"' : "";
     // keep "Tomorrow 10:15" and "11 shows" whole on narrow cards
-    return `<b>${esc(where)}</b><br><span class="nw${cls ? " today" : ""}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`;
+    const ending = endingNote(shows);
+    return `<b>${esc(where)}</b><br><span class="nw${cls ? " today" : ""}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`
+      + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
   }
   if (shows.length) return `${dayLabel(shows[0].t, { short: true })} ${hhmm(shows[0].t)}<br><span class="nosaletag">Not on sale yet</span>`;
   if (f.scope === "Canada" && f.premiere) return `Opens in Canada ${dayLabel(f.premiere)}<br><span class="nosaletag">Not scheduled here yet</span>`;
@@ -670,7 +685,7 @@ function renderAccount(message = "", isErr = false) {
   }
   const p = state.profile;
   const n = state.prefs.cinemas.length;
-  const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "no Norwegian dubs" : "", state.prefs.englishSubs ? "English subtitles only" : "", state.prefs.originalOnly ? "original version only in Costa del Sol" : ""].filter(Boolean).join(", ");
+  const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "no Norwegian dubs" : "", state.prefs.englishSubs ? "English subtitles only" : "", state.prefs.originalOnly ? "original audio only in Costa del Sol" : ""].filter(Boolean).join(", ");
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
     <div class="who">${esc(state.user.email)}</div>
     <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>
@@ -790,6 +805,9 @@ async function loadRegion(key) {
   try {
     const r = await fetch(`${window.KINO_BASE || ""}data/${reg.file}`, { cache: "no-cache" });
     state.data = await r.json();
+    // How far ahead each cinema has published: a film that stops well before this is really ending.
+    state.horizon = {};
+    for (const f of state.data.films) for (const s of f.shows) if (s.t > (state.horizon[s.cinema] || "")) state.horizon[s.cinema] = s.t;
   } catch (e) {
     $("sub").textContent = `Couldn't load the ${reg.name} programme. Reload to try again.`;
     return;
@@ -797,7 +815,7 @@ async function loadRegion(key) {
   const g = state.data.generated;
   $("sub").textContent = `${state.data.location} · ${state.data.sources || "Filmweb + Cinemateket"} · updated ${dayLabel(g, { short: true })} ${hhmm(g)}`;
   $("foot").innerHTML = reg.key === "costadelsol"
-    ? `Showtimes from <a href="https://www.carteleracines.es" target="_blank" rel="noopener">CarteleraCines.es</a>, which collects them from the cinemas' ticketing systems, refreshed twice a day and covering about two weeks ahead. Some ticket links may pay CarteleraCines a commission; the price doesn't change. Times are Spanish time. Original-version films are marked VOSE.`
+    ? `Showtimes from <a href="https://www.carteleracines.es" target="_blank" rel="noopener">CarteleraCines.es</a>, which collects them from the cinemas' ticketing systems, refreshed twice a day and covering about two weeks ahead. Some ticket links may pay CarteleraCines a commission; the price doesn't change. Times are Spanish time. Showings in the original language are marked "Original language" (with Spanish subtitles).`
     : reg.key === "oslo"
     ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a> and <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, refreshed several times a day. Tickets are bought on the cinemas' own sites.`
     : `Data from <a href="https://www.landmarkcinemas.com" target="_blank" rel="noopener">Landmark Cinemas</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://evanstheatre.ca" target="_blank" rel="noopener">Evans Theatre</a>. Small theatres sell tickets at the door. Times are Manitoba time.`;

@@ -168,13 +168,20 @@ def plural(n, word):
     return f"{n} {word}{'' if n == 1 else 's'}"
 
 
-def watch_entries(items, announced, leaving):
+def lang_note(shows, rkey):
+    """Language note for a film's showings: English subtitles in Oslo, original language in Costa del Sol."""
+    if not any(s.get("en") for s in shows):
+        return ""
+    return " · Original language, Spanish subtitles" if rkey == "costadelsol" else " · English subtitles"
+
+
+def watch_entries(items, announced, leaving, rkey="oslo"):
     """The watchlist section: [(film, kind, detail)] with kind 'sale' | 'announced' | 'leaving'."""
     out = []
     for f, shows, watched in items:
         if watched:
             cinemas = cinemas_of(shows)
-            en = " · English subtitles" if any(s.get("en") for s in shows) else ""
+            en = lang_note(shows, rkey)
             out.append((f, "sale", f"{cinemas} · {plural(len(shows), 'showing')} from {when(shows[0]['t'])}{en}"))
     for f, watched in announced:
         if watched:
@@ -316,7 +323,7 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
     site = site if rkey == "oslo" else f"{site}?r={rkey}"
     link_of = lambda f: f"{site}#film/{f['id']}"
     watch_of = lambda f: f"{site}#watch/{f['id']}"  # the site adds it to the watchlist, then opens the film
-    watching = watch_entries(items, announced, leaving)
+    watching = watch_entries(items, announced, leaving, rkey)
     sale = [(f, shows, w) for f, shows, w in items]       # watchlist films appear here too, with a filled heart
     ann = [(f, w) for f, w in announced]
 
@@ -345,7 +352,7 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
         cards = []
         for f, shows, w in sale:
             cinemas = cinemas_of(shows)
-            en = " · English subtitles" if any(s.get("en") for s in shows) else ""
+            en = lang_note(shows, rkey)
             cards.append(card_html(f, link_of(f), [
                 cinemas, f"{when(shows[0]['t'])} · {plural(len(shows), 'showing')}{en}"], heart_link=watch_of(f), watched=w))
         blocks.append(section_head("New on sale", len(sale), "Tickets went on sale since the last email.") + grid_html(cards))

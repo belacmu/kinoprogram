@@ -74,8 +74,9 @@ def fetch_all(now):
                     version = s.get("version") or ""
                     f["shows"].append({
                         "t": s["fecha_hora"][:16].replace(" ", "T"), "cinema": name, "screen": "",
-                        "tags": [version] if version else [], "note": "", "ticket": s.get("urlticket") or "",
-                        "status": "", "dub": False, "en": version.upper() in ORIGINAL,  # `en` = original version here
+                        "tags": ["Original language"] if version.upper() in ORIGINAL else [],
+                        "note": "Spanish subtitles" if version.upper() in ORIGINAL else "", "ticket": s.get("urlticket") or "",
+                        "status": "", "dub": False, "en": version.upper() in ORIGINAL,  # `en` = original language here
                     })
                     count += 1
         print(f"  {name}: {count} sessions")
