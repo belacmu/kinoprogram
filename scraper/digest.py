@@ -199,20 +199,20 @@ def subject_for(items, announced, leaving, prefs, region="Oslo"):
         else:
             head = f"♥ {short(marked[0][0])}, {short(marked[1][0])}" + (f" and {len(marked) - 2} more" if len(marked) > 2 else "") + " on your watchlist"
         tail = f" · {len(others)} more new" if others else ""
-        return f"Cinecrab · {region}: {head}{tail}"
+        return f"{head}{tail}"
     parts = []
     if items:
         parts.append(f"{len(items)} new on sale")
     if announced:
         parts.append(f"{len(announced)} newly announced")
     names = [short(f) for f in others]
-    return f"Cinecrab · {region}: " + " · ".join(parts) + " — " + ", ".join(names[:3]) + (" …" if len(names) > 3 else "")
+    return " · ".join(parts) + " — " + ", ".join(names[:3]) + (" …" if len(names) > 3 else "")
 
 
 # ---- HTML pieces. Email has no CSS grid: cards are inline-blocks (3 across, 2 on phones). ----
 
 STYLE = """<style>
-@media (max-width:520px){.c{width:50%!important}.pad{padding-left:14px!important;padding-right:14px!important}}
+@media (max-width:599px){.c{width:170px!important}.pt{height:237px!important}.pm{height:169px!important}.pad{padding-left:10px!important;padding-right:10px!important}}
 @media (prefers-color-scheme:dark){
 .page{background:#101216!important}.wrap{background:#191c22!important}
 .ink,.ink a{color:#e9ebef!important}.mut{color:#9097a3!important}.line{border-color:#2b2f37!important}
@@ -249,9 +249,9 @@ def section_head(title, count, sub=""):
 
 
 def grid_html(cards):
-    cells = "".join(f'<div class="c" style="display:inline-block;vertical-align:top;width:33.33%;font-size:14px"><div style="padding:0 6px 16px">{c}</div></div>'
+    cells = "".join(f'<div class="c" style="display:inline-block;vertical-align:top;width:186px;font-size:14px;line-height:1.3;text-align:left"><div style="padding:0 6px 16px">{c}</div></div>'
                     for c in cards)
-    return f'<div style="margin:0 -6px;font-size:0;line-height:0">{cells}</div>'
+    return f'<div style="text-align:center;font-size:0;line-height:0">{cells}</div>'
 
 
 ASSET_BASE = ""  # set by render(): where site/email/*.png is published
@@ -261,7 +261,10 @@ def asset_url(name):
     return f"{ASSET_BASE}email/{name}"
 
 
-POSTER_H = 258  # cards are ~172px wide on phones and desktop alike, so a fixed 2:3 height works
+# Cards have a fixed pixel size so a poster is always exactly 2:3: 186px wide (3 across the 600px email) on desktop,
+# 170px wide (2 across even a 360px phone) below 600px, where the .pt/.pm classes in STYLE switch the heights.
+POSTER_H = 261   # 174px poster
+POSTER_H_SMALL = 237  # 158px poster
 
 
 def poster_card(f, link, heart_link, dim=False):
@@ -274,14 +277,14 @@ def poster_card(f, link, heart_link, dim=False):
     shade = "linear-gradient(rgba(120,124,132,.6),rgba(120,124,132,.6)),url(" if dim else "url("
     img = e(f["poster"]) if f["poster"] else ""
     bg = f"background-color:#e2e5ea;background-image:{shade}{img});background-size:cover;background-position:center;" if img else "background-color:#e2e5ea;"
-    middle = (f'<a href="{e(link)}" style="display:block;height:{POSTER_H - 78}px;font-size:0;line-height:0;text-decoration:none">&nbsp;</a>' if img else
-              f'<a class="mut" href="{e(link)}" style="display:block;height:{POSTER_H - 78}px;padding:0 10px;font-size:13px;font-weight:700;line-height:1.2;color:#5d6470;text-decoration:none;overflow:hidden">{e(f["title"])}</a>')
+    middle = (f'<a href="{e(link)}" class="pm" style="display:block;height:{POSTER_H - 68}px;font-size:0;line-height:0;text-decoration:none">&nbsp;</a>' if img else
+              f'<a class="mut pm" href="{e(link)}" style="display:block;height:{POSTER_H - 68}px;padding:0 10px;font-size:13px;font-weight:700;line-height:1.2;color:#5d6470;text-decoration:none;overflow:hidden">{e(f["title"])}</a>')
     return (f'<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:separate;width:100%"><tr>'
-            f'<td{f" background={chr(34)}{img}{chr(34)}" if img else ""} height="{POSTER_H}" valign="top" style="height:{POSTER_H}px;border-radius:6px;overflow:hidden;{bg}">'
-            f'<table role="presentation" width="100%" height="{POSTER_H}" cellspacing="0" cellpadding="0" style="width:100%;height:{POSTER_H}px">'
-            f'<tr><td align="right" valign="top" style="padding:6px;height:40px">{heart}</td></tr>'
+            f'<td class="pt"{f" background={chr(34)}{img}{chr(34)}" if img else ""} height="{POSTER_H}" valign="top" style="height:{POSTER_H}px;border-radius:6px;overflow:hidden;{bg}">'
+            f'<table class="pt" role="presentation" width="100%" height="{POSTER_H}" cellspacing="0" cellpadding="0" style="width:100%;height:{POSTER_H}px">'
+            f'<tr><td align="right" valign="top" style="padding:6px 6px 0 0;height:32px">{heart}</td></tr>'
             f'<tr><td valign="top">{middle}</td></tr>'
-            f'<tr><td align="right" valign="bottom" style="padding:6px;height:38px">{rating}</td></tr></table></td></tr></table>')
+            f'<tr><td align="right" valign="bottom" style="padding:0 6px 6px 0;height:24px">{rating}</td></tr></table></td></tr></table>')
 
 
 def card_html(f, link, lines, dim=False, heart_link=None):

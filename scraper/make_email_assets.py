@@ -38,6 +38,13 @@ def dist_to_segment(px, py, a, b):
     return ((px - ax - t * dx) ** 2 + (py - ay - t * dy) ** 2) ** 0.5
 
 
+def png_bytes(w, h, raw):
+    def chunk(kind, data):
+        return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
+    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 6, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
+
+
 def main():
     pts = flatten()
     segs = list(zip(pts, pts[1:]))
@@ -69,13 +76,9 @@ def main():
         rows.append(bytes(row))
     raw = b"".join(rows)
 
-    def chunk(kind, data):
-        return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
-    png = (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", SIZE, SIZE, 8, 6, 0, 0, 0))
-           + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b""))
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_bytes(png)
-    print(f"Wrote {OUT} ({len(png)} bytes)")
+    OUT.write_bytes(png_bytes(SIZE, SIZE, raw))
+    print(f"Wrote {OUT}")
 
 
 if __name__ == "__main__":
