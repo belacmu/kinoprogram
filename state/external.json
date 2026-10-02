@@ -507,17 +507,6 @@
 "rated": "2026-10-01",
 "posterPath": "/pWhGSn4IaPOfNAgh9ZhGVhkuvO1.jpg"
 },
-"cm-agnus-dei": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1517103,
-"imdb": "tt37673394",
-"en": null,
-"lbSlug": "agnus-dei-2025-1",
-"lbRating": 3.36,
-"rated": "2026-10-01",
-"posterPath": "/2M9fNwi6FjKHu80T6fLHJjQPSNJ.jpg"
-},
 "cm-aktivisten": {
 "tmdbChecked": "2026-10-01",
 "tv": 2
@@ -2164,6 +2153,7 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1533588,
+"lang": "no",
 "imdb": null,
 "en": "Almost There",
 "enFrom": "tmdb",
@@ -4836,7 +4826,7 @@
 "imdb": "tt27050858",
 "en": null,
 "lbSlug": "drishyam-the-conclusion",
-"lbRating": 3.56,
+"lbRating": 3.53,
 "rated": "2026-10-02"
 },
 "fw-EDI20261511": {
@@ -5261,6 +5251,18 @@
 "lbSlug": "holy-wood-dust",
 "lbRating": null,
 "rated": "2026-10-01"
+},
+"fw-EDI20261601": {
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1234139,
+"lang": "ta",
+"imdb": "tt33318732",
+"en": null,
+"lbSlug": "jailer-2-2026",
+"lbRating": null,
+"rated": "2026-10-02"
 },
 "fw-EDI20261603": {
 "checked": "2026-10-02",
