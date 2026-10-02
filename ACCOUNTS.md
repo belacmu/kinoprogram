@@ -10,7 +10,7 @@ actual passwords in your password manager. Check what's set up with `sh scripts/
 | Gmail (sender) | Daily email + sign-in codes | `cinecrabapp@gmail.com` | `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Password: your password manager. App password: GitHub secret only |
 | Supabase | Accounts, watchlists, subscriptions | _not created yet_ (project URL: `https://________.supabase.co`) | `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (variables), `SUPABASE_SECRET_KEY` (secret) | Login: password manager (or GitHub sign-in). Keys: GitHub |
 | TMDB | Film ids, English titles | `belacmu`-linked TMDB account | `TMDB_READ_TOKEN` | GitHub secret; regenerate at themoviedb.org → Settings → API |
-| MovieScout | Westman showtimes | none (permission by email: small personal project, once a day, don't overload) | none | Their reply email: keep it |
+| MovieScout | Westman and Winnipeg showtimes | none (permission by email: small personal project, once a day, don't overload; extended to Winnipeg in October 2026 on the condition we poll sparingly) | none | Their reply emails: keep them. Daily request counts are in `state/moviescout.json` (`log`) |
 
 ## Rules
 - Never commit passwords, API keys, tokens or `.conf` files. Secrets go in GitHub Actions secrets

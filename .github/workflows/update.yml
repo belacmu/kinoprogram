@@ -2,7 +2,7 @@ name: Update programme
 
 on:
   schedule:
-    # UTC. Oslo is refreshed on every run; Westman and Costa del Sol twice a day each, by their local clocks (scraper/due.py);
+    # UTC. Oslo is refreshed on every run; Westman, Winnipeg and Costa del Sol twice a day each, by their local clocks (scraper/due.py);
     # other runs reuse their cached data. 07:00/08:00 cover 09:00 Oslo, 07:00/08:00 Spain, 14:00/15:00 Manitoba (summer/winter).
     # digest.py only sends after 09:00 local and once per day per region, and only for regions refreshed in the run.
     - cron: "0 3,7,8,11,14,15,19 * * *"
@@ -45,17 +45,18 @@ jobs:
         with:
           path: |
             site/data/westman.json
+            site/data/winnipeg.json
             site/data/costadelsol.json
           key: region-data-${{ github.run_id }}
           restore-keys: region-data-
 
-      # Oslo is refreshed on every run. Westman and Costa del Sol change slowly: scraper/due.py picks them twice a day
+      # Oslo is refreshed on every run. Westman, Winnipeg and Costa del Sol change slowly: scraper/due.py picks them twice a day
       # by their own local clock (first run after 09:00 local, and after an evening hour), and every manual run does all.
       - name: Choose regions
         id: regions
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
-            echo "list=oslo westman costadelsol" >> "$GITHUB_OUTPUT"
+            echo "list=oslo westman winnipeg costadelsol" >> "$GITHUB_OUTPUT"
           else
             echo "list=$(python scraper/due.py)" >> "$GITHUB_OUTPUT"
           fi
@@ -68,6 +69,7 @@ jobs:
           list="${{ steps.regions.outputs.list }}"
           # A region's data file is missing (first run or expired cache): build it too, or the site would lose it.
           [ -f site/data/westman.json ] || list="$list westman"
+          [ -f site/data/winnipeg.json ] || list="$list winnipeg"
           [ -f site/data/costadelsol.json ] || list="$list costadelsol"
           list=$(printf '%s\n' $list | sort -u | tr '\n' ' ')
           echo "regions=$list" >> "$GITHUB_OUTPUT"
