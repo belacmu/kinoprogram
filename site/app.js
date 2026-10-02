@@ -342,12 +342,13 @@ function noSaleTag(shows) {
 function cardMeta(row) {
   const { f, shows, onSale, start, dayShows } = row;
   const today = localNow().slice(0, 10);
-  if (dayShows) { // a picked day: that day's cinemas and times
+  if (dayShows) { // a picked day: that day's cinemas and times, and how many showings from then on
     // each time stays whole; the line may wrap between them on narrow cards
     const times = dayShows.slice(0, 3).map((s) => `<span class="nw">${hhmm(s.t)}</span>`).join(" · ") + (dayShows.length > 3 ? ` <span class="nw">+${dayShows.length - 3}</span>` : "");
     if (!onSale) return `${times}<br>${noSaleTag(dayShows)}`;
     const ending = endingNote(shows);
-    return `<b>${esc(whereList(dayShows))}</b><br>${times}` + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
+    return `<b>${esc(whereList(dayShows))}</b><br>${times} · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`
+      + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
   }
   if (onSale) {
     const where = whereList(shows);
