@@ -53,8 +53,8 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   - The first section is a chosen day, Today by default (so nothing asks you to pick); once nothing
     more is on today under your filters, it's the next day something is (usually tomorrow), still
     counting as the default.
-  - A day control in the bar: a calendar icon, with a label whenever the bar has room (not on most
-    phones held upright): "Date ▾" on Today, which counts as no filter, or the picked day
+  - A day control in the bar: a calendar icon with a label (just the icon only on very narrow
+    bars): "Date ▾" on Today, which counts as no filter, or the picked day
     ("Thu 15 Oct ▾"), highlighted like active filters. It opens a month picker with a Today button
     beside the month arrows, as in most calendars (days with nothing playing under the current
     filters are greyed out).
@@ -80,7 +80,9 @@ trailing "(1946)" in the title are ignored when matching; the latter is used as 
   it's tight they compact only as far as needed (What's new to an icon, the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
 - Top bar (the filters): **All films / ♥ Watchlist**, then a search field (always a field, phones
-  too; Escape clears it), the day control, and on narrow screens a Filters button.
+  too; Escape clears it), the day control, and on narrow screens a Filters button. From 640px wide
+  the switch and the bar share one row; on phones they're two rows. The day control keeps its label
+  and the search field gives way; while you type in a narrow search field it takes the whole bar.
 - Defaults: order within sections is best rated first; only Films are shown (Shorts, Live & stage and
   Talks & events are opt-in; searching still finds every type); picking a specific cinema switches
   Tickets to "On sale", and going back to all cinemas switches it back to "All". Tickets

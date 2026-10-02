@@ -522,7 +522,7 @@ function render() { renderControls(); renderGrid(); }
 // to it. Types, cinemas and language filters apply; Tickets and the Watchlist switch don't. Hidden films are dimmed and
 // last, as in the grid.
 const NEWS_DAYS = 30;
-const NEWS_KINDS = [["sale", "Tickets on sale", "Tickets just went on sale"], ["ann", "Newly announced", "Got a date here; tickets aren't on sale yet"]];
+const NEWS_KINDS = [["sale", "Tickets on sale"], ["ann", "Newly announced"]];
 function newsItems() {
   const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - NEWS_DAYS), items = [];
   for (const f of state.data.films) {
@@ -544,9 +544,9 @@ function openNews() {
     days.at(-1).items.push(it);
   }
   const filtered = activeFilters() - (state.tix !== "all" ? 1 : 0);  // the Tickets filter doesn't apply here
-  const kindHtml = (items, [kind, label, about]) => {
+  const kindHtml = (items, [kind, label]) => {
     const these = items.filter((it) => it.kind === kind);
-    return these.length ? `<div class="nkind ${kind}"><h4><span class="ntag">${label}</span><span class="n">${these.length}</span><small>${about}</small></h4>
+    return these.length ? `<div class="nkind ${kind}"><h4><span class="ntag">${label}</span><span class="n">${these.length}</span></h4>
       <ul class="grid">${these.map(cardHtml).join("")}</ul></div>` : "";
   };
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>

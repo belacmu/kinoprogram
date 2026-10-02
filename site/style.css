@@ -105,10 +105,20 @@ h1 span { color: var(--accent); }
 .filters-foot { display: flex; gap: 8px; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); }
 #filtersShow { display: none; }
 @media (max-width: 999px) {
+  /* narrow bar: Date and Filters keep their size and the search field gives way (down to its icon) */
+  .bar { flex-wrap: nowrap; }
+  .searchbox { flex: 1 1 0; min-width: var(--pill-h); }
   #filtersShow { display: inline-block; flex: 1; }
   .filters { display: flex; flex-direction: column; }
   #filtersBody { flex: 1; overflow: auto; }
   .filters-foot { position: sticky; bottom: 0; background: var(--surface); padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* while you're typing in a narrow search field (phones, small tablets), it takes the whole bar */
+@container (max-width: 459px) { .bar:has(#q:focus) > :not(.searchbox) { display: none; } }
+/* tablets and small laptops: the switch and the bar share one row, as on desktop, instead of two stretched rows */
+@media (min-width: 640px) and (max-width: 999px) {
+  .controls { grid-template-columns: minmax(220px, 280px) minmax(0, 1fr); align-items: center; }
 }
 
 @media (min-width: 1000px) {
@@ -179,7 +189,7 @@ dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); b
   width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto; }
 dialog::backdrop { background: var(--scrim); }
 #account { width: min(440px, calc(100vw - 32px)); padding: 22px; }
-.dlg-close { position: sticky; top: 0; height: 0; display: flex; justify-content: flex-end; z-index: 2; }
+.dlg-close { position: sticky; top: 0; height: 0; display: flex; justify-content: flex-end; z-index: 5; }  /* above pinned headings and card overlays */
 .x { width: 36px; height: 36px; margin: 8px; border-radius: 50%; border: 0; background: var(--chip); font-size: 22px; line-height: 1; cursor: pointer; }
 .fhead { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 22px; }
 .fhead .poster { width: 150px; }
@@ -436,10 +446,10 @@ body { overflow-x: clip; }
   #dayDD { position: static; }
   .menu.cal { width: min(300px, 100%); }
 }
-/* The day's name shows beside the icon whenever the bar has room for it and a usable search field (about 390px with
-   "Wed 28 Oct"); otherwise just the icon, round. */
+/* The day's name shows beside the icon (it matters more than the search field, which shrinks first); only on very
+   narrow bars, where the search field would be squeezed to under its icon, is the date button just the icon. */
 .bar { container-type: inline-size; }
-@container (max-width: 389px) {
+@container (max-width: 299px) {
   #dayBtn { width: var(--pill-h); padding: 0; justify-content: center; }
   #dayBtn .lbl, #dayBtn .chev { display: none; }
   #dayBtn svg { color: var(--ink); }
@@ -474,7 +484,6 @@ body { overflow-x: clip; }
 .nkind.ann .ntag { background: var(--accent-tint); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .nkind.sale .ntag { background: var(--soon); color: var(--bg); }
 .nkind .n { font: 600 12px var(--mono); color: var(--muted); }
-.nkind small { flex-basis: 100%; color: var(--muted); font-size: 13px; }
 .nkind .grid { padding-bottom: 6px; }
 #news .flag { display: none; }
 #news .card.nosale .poster img { opacity: 1; filter: none; }
