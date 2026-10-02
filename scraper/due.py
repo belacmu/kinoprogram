@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Print the regions that should be refreshed in this run (space separated).
 
-Oslo is refreshed on every run. Westman and Costa del Sol change slowly, so each is refreshed twice a day by
+Oslo is refreshed on every run. Westman, Winnipeg and Costa del Sol change slowly, so each is refreshed twice a day by
 its own local clock: the first run after 09:00 local (this is also the run that sends its morning email) and
 the first run after its evening hour. Going by the last refresh instead of the clock hour keeps this right when
 GitHub starts a scheduled run late, and when daylight saving shifts the UTC times.
@@ -19,7 +19,7 @@ from build import REGIONS  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 FMT = "%Y-%m-%dT%H:%M"
 MORNING = 9
-EVENING = {"westman": 21, "costadelsol": 20}   # local hour of the second daily refresh
+EVENING = {"westman": 21, "winnipeg": 21, "costadelsol": 20}   # local hour of the second daily refresh
 
 
 def due(rkey, cfg, now_utc):
