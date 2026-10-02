@@ -88,6 +88,332 @@
 "tmdb": 1433583,
 "source": "moviescout"
 },
+"cl-bitelchus": {
+"imdb": "tt0094721",
+"imdbAll": [
+"tt0094721"
+],
+"lb": "beetlejuice",
+"rt": "m/beetlejuice",
+"mc": "movie/beetlejuice",
+"en": "Beetlejuice",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 4011,
+"enFrom": "tmdb",
+"lbSlug": "beetlejuice",
+"lbRating": 3.73,
+"rated": "2026-10-02"
+},
+"cl-bola-negra": {
+"imdb": "tt35511966",
+"imdbAll": [
+"tt35511966"
+],
+"lb": "the-black-ball-2026",
+"rt": "m/la_bola_negra",
+"mc": "movie/the-black-ball",
+"en": null,
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1422041,
+"lbSlug": "la-bola-negra",
+"lbRating": 4.32,
+"rated": "2026-10-02"
+},
+"cl-castillo-ambulante": {
+"imdb": "tt0347149",
+"imdbAll": [
+"tt0347149"
+],
+"lb": "howls-moving-castle",
+"rt": "m/howls_moving_castle",
+"mc": "movie/howls-moving-castle",
+"en": "Howl's Moving Castle",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"lbSlug": "howls-moving-castle",
+"lbRating": 4.36,
+"rated": "2026-10-02"
+},
+"cl-corazon-bestia": {
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1263337,
+"imdb": "tt7526136",
+"en": "Heart of the Beast",
+"enFrom": "tmdb",
+"lbSlug": "heart-of-the-beast-2026",
+"lbRating": 3.3,
+"rated": "2026-10-02"
+},
+"cl-coyote-vs-acme": {
+"imdb": "tt1756855",
+"imdbAll": [
+"tt1756855"
+],
+"lb": "coyote-vs-acme",
+"rt": "m/coyote_vs_acme",
+"mc": "movie/coyote-vs-acme",
+"en": "Coyote vs. Acme",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1204680,
+"enFrom": "tmdb",
+"lbSlug": "coyote-vs-acme",
+"lbRating": 3.83,
+"rated": "2026-10-02"
+},
+"cl-digger": {
+"imdb": "tt31450459",
+"imdbAll": [
+"tt31450459"
+],
+"lb": "digger-2026",
+"rt": "m/digger_2026",
+"mc": "movie/digger-2026",
+"en": "Digger",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1248832,
+"enFrom": "tmdb",
+"lbSlug": "digger-2026",
+"lbRating": 3.72,
+"rated": "2026-10-02"
+},
+"cl-isla-olvidada": {
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2
+},
+"cl-isla-perros": {
+"imdb": "tt5104604",
+"imdbAll": [
+"tt5104604"
+],
+"lb": "isle-of-dogs-2018",
+"rt": "m/isle_of_dogs_2018",
+"mc": "movie/isle-of-dogs",
+"en": "Isle of Dogs",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 399174,
+"enFrom": "tmdb",
+"lbSlug": "isle-of-dogs-2018",
+"lbRating": 4.09,
+"rated": "2026-10-02"
+},
+"cl-l-elisir-d-amore-26-27": {
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2
+},
+"cl-odisea": {
+"imdb": "tt33764258",
+"imdbAll": [
+"tt33764258"
+],
+"lb": "the-odyssey-2026",
+"rt": "m/the_odyssey_2026",
+"mc": "movie/the-odyssey-2026",
+"en": "The Odyssey",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1368337,
+"enFrom": "tmdb",
+"lbSlug": "the-odyssey-2026",
+"lbRating": 4.35,
+"rated": "2026-10-02"
+},
+"cl-patrulla-canina-dino-pelicula": {
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1185806,
+"imdb": "tt29356163",
+"en": "PAW Patrol: The Dino Movie",
+"enFrom": "tmdb",
+"lbSlug": "paw-patrol-the-dino-movie",
+"lbRating": 2.86,
+"rated": "2026-10-02"
+},
+"cl-ponyo-acantilado": {
+"imdb": "tt0876563",
+"imdbAll": [
+"tt0876563"
+],
+"lb": "ponyo",
+"rt": "m/ponyo",
+"mc": "movie/ponyo",
+"en": "Ponyo",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 12429,
+"enFrom": "tmdb",
+"lbSlug": "ponyo",
+"lbRating": 4.13,
+"rated": "2026-10-02"
+},
+"cl-practicamente-magia-2": {
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1302904,
+"imdb": "tt32588798",
+"en": "Practical Magic 2",
+"enFrom": "tmdb",
+"lbSlug": "practical-magic-2",
+"lbRating": 2.88,
+"rated": "2026-10-02"
+},
+"cl-resident-evil": {
+"imdb": "tt35538033",
+"imdbAll": [
+"tt35538033"
+],
+"lb": "untitled-resident-evil-reboot",
+"rt": "m/resident_evil_2026",
+"mc": "movie/resident-evil-2026",
+"en": "Resident Evil",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1423191,
+"enFrom": "tmdb",
+"lbSlug": "resident-evil-2026",
+"lbRating": 3.77,
+"rated": "2026-10-02"
+},
+"cl-septimo-sello": {
+"imdb": "tt0050976",
+"imdbAll": [
+"tt0050976"
+],
+"lb": "the-seventh-seal",
+"rt": "m/seventh_seal",
+"mc": "movie/the-seventh-seal",
+"en": "The Seventh Seal",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 490,
+"enFrom": "tmdb",
+"lbSlug": "the-seventh-seal",
+"lbRating": 4.31,
+"rated": "2026-10-02"
+},
+"cl-spider-man-brand-new-day": {
+"imdb": "tt22084616",
+"imdbAll": [
+"tt22084616"
+],
+"lb": "spider-man-brand-new-day",
+"rt": "m/spider_man_brand_new_day",
+"mc": "movie/spider-man-brand-new-day",
+"en": "Spider-Man: Brand New Day",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 969681,
+"enFrom": "tmdb",
+"lbSlug": "spider-man-brand-new-day",
+"lbRating": 4.04,
+"rated": "2026-10-02"
+},
+"cl-tadeo-jones-lampara-maravillosa": {
+"imdb": "tt36164852",
+"imdbAll": [
+"tt36164852"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Tad and the Magic Lamp",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1187326,
+"lbSlug": "tad-and-the-magic-lamp",
+"lbRating": 3.05,
+"rated": "2026-10-02"
+},
+"cl-vengadores-endgame": {
+"imdb": "tt4154796",
+"imdbAll": [
+"tt4154796"
+],
+"lb": "avengers-endgame",
+"rt": "m/avengers_endgame",
+"mc": "movie/avengers-endgame",
+"en": "Avengers: Endgame",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 299534,
+"enFrom": "tmdb",
+"lbSlug": "avengers-endgame",
+"lbRating": 4.03,
+"rated": "2026-10-02"
+},
+"cl-verity-sombra-engano": {
+"imdb": "tt32261958",
+"imdbAll": [
+"tt32261958"
+],
+"lb": "verity-2026",
+"rt": "m/verity",
+"mc": "movie/verity",
+"en": "Verity",
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1283515,
+"enFrom": "tmdb",
+"lbSlug": "verity-2026",
+"lbRating": 2.78,
+"rated": "2026-10-02"
+},
+"cl-viridiana": {
+"imdb": "tt0055601",
+"imdbAll": [
+"tt0055601"
+],
+"lb": "viridiana",
+"rt": "m/viridiana",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 4497,
+"lbSlug": "viridiana",
+"lbRating": 4.05,
+"rated": "2026-10-02"
+},
 "cm-11-x14": {
 "tmdbChecked": "2026-10-01",
 "tv": 2
