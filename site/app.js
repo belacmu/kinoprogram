@@ -376,6 +376,13 @@ function openFilm(id) {
 }
 
 function route() {
+  // The heart in the daily email: add the film to the watchlist, then show it (its button now reads "On your watchlist").
+  const w = location.hash.match(/^#watch\/(.+)$/);
+  if (w) {
+    const id = decodeURIComponent(w[1]), f = findFilm(id);
+    if (f && !isWatched(f)) { state.watchlist.add(f.id); savePrefs(); render(); }
+    history.replaceState(null, "", location.pathname + location.search + "#film/" + encodeURIComponent(id));
+  }
   const m = location.hash.match(/^#film\/(.+)$/);
   if (m) { openFilm(decodeURIComponent(m[1])); return; }
   if ($("film").open) $("film").close();
