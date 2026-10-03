@@ -4,43 +4,43 @@
  "films": {
   "cl-bitelchus": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-bola-negra": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-cars": {
    "since": "2026-10-03T00:33",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-castillo-ambulante": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-corazon-bestia": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-coyote-vs-acme": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-digger": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-isla-olvidada": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-isla-perros": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-l-elisir-d-amore-26-27": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-odisea": {
    "since": "2026-10-02T11:10",
@@ -48,89 +48,89 @@
   },
   "cl-patrulla-canina-dino-pelicula": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-ponyo-acantilado": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-practicamente-magia-2": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-resident-evil": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-septimo-sello": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-spider-man-brand-new-day": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-street-fighter": {
    "since": "2026-10-03T00:33",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-tadeo-jones-lampara-maravillosa": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-vengadores-endgame": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-verity-sombra-engano": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-viridiana": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   }
  },
  "dated": {
   "cl-bitelchus": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-bola-negra": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-cars": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-castillo-ambulante": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-corazon-bestia": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-coyote-vs-acme": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-digger": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-isla-olvidada": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-isla-perros": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-l-elisir-d-amore-26-27": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-odisea": {
    "first": "2026-10-02T11:10",
@@ -138,49 +138,49 @@
   },
   "cl-patrulla-canina-dino-pelicula": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-ponyo-acantilado": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-practicamente-magia-2": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-resident-evil": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-septimo-sello": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-spider-man-brand-new-day": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-street-fighter": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-tadeo-jones-lampara-maravillosa": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-vengadores-endgame": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-verity-sombra-engano": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   },
   "cl-viridiana": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-03T10:40"
+   "last": "2026-10-03T20:33"
   }
  },
- "lastRun": "2026-10-03T10:40",
+ "lastRun": "2026-10-03T20:33",
  "lastWeekly": "2026-10-02T11:14"
 }

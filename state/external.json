@@ -651,27 +651,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cl-odisea": {
-"imdb": "tt33764258",
-"imdbAll": [
-"tt33764258"
-],
-"lb": "the-odyssey-2026",
-"rt": "m/the_odyssey_2026",
-"mc": "movie/the-odyssey-2026",
-"en": "The Odyssey",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1368337,
-"enFrom": "tmdb",
-"lbSlug": "the-odyssey-2026",
-"lbRating": 4.35,
-"rated": "2026-10-02",
-"lang": "en",
-"posterPath": "/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg"
-},
 "cl-patrulla-canina-dino-pelicula": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -891,7 +870,9 @@
 },
 "cm-11-x14": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-13-lakes": {
 "tmdbChecked": "2026-10-01",
@@ -911,11 +892,18 @@
 "tmdb": 62,
 "imdb": "tt0062622",
 "en": "2001: A Space Odyssey",
-"enFrom": "tmdb",
 "lbSlug": "2001-a-space-odyssey",
 "lbRating": 4.23,
 "rated": "2026-10-01",
-"posterPath": "/ve72VxNqjGM69Uky4WTo2bK6rfq.jpg"
+"posterPath": "/ve72VxNqjGM69Uky4WTo2bK6rfq.jpg",
+"imdbAll": [
+"tt0062622"
+],
+"lb": "2001-a-space-odyssey",
+"rt": "m/2001_a_space_odyssey",
+"mc": "movie/2001-a-space-odyssey",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-2026-troll-i-eske-oktober": {
 "tmdbChecked": "2026-10-01",
@@ -945,7 +933,9 @@
 },
 "cm-aktivisten": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-aldri-annet-enn-brak": {
 "tmdbChecked": "2026-10-02",
@@ -980,7 +970,9 @@
 },
 "cm-allowed-to-birth": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-angst": {
 "tmdbChecked": "2026-10-01",
@@ -996,17 +988,6 @@
 "cm-bawke-hedda": {
 "tmdbChecked": "2026-10-01",
 "tv": 2
-},
-"cm-below-the-clouds": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1457188,
-"imdb": "tt36874833",
-"en": null,
-"lbSlug": "pompei-below-the-clouds",
-"lbRating": 3.53,
-"rated": "2026-10-01",
-"posterPath": "/xbmmOezxwLIOdjq7adujO6RyjTs.jpg"
 },
 "cm-blood-for-dracula": {
 "tmdbChecked": "2026-10-01",
@@ -1054,7 +1035,15 @@
 "lbSlug": "cafe-paradis",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/1WMUNafH6OENZVvZX5r80Ow0nRs.jpg"
+"posterPath": "/1WMUNafH6OENZVvZX5r80Ow0nRs.jpg",
+"imdbAll": [
+"tt0042294"
+],
+"lb": "cafe-paradis",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-cecilia": {
 "tmdbChecked": "2026-10-01",
@@ -1065,7 +1054,15 @@
 "lbSlug": "cecilia-1954",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/haIzMXwPaCBaljT3Kvw1pG58BuI.jpg"
+"posterPath": "/haIzMXwPaCBaljT3Kvw1pG58BuI.jpg",
+"imdbAll": [
+"tt0309427"
+],
+"lb": "cecilia-1954",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-celine-og-julie": {
 "tmdbChecked": "2026-10-01",
@@ -1084,12 +1081,19 @@
 "tv": 2,
 "tmdb": 99272,
 "imdb": "tt0038043",
-"en": "Red Meadows",
-"enFrom": "tmdb",
+"en": "The Red Meadows",
 "lbSlug": "red-meadows",
 "lbRating": 3.37,
 "rated": "2026-10-01",
-"posterPath": "/vpO08S6GWb8zD6FexLp1MIddo7i.jpg"
+"posterPath": "/vpO08S6GWb8zD6FexLp1MIddo7i.jpg",
+"imdbAll": [
+"tt0038043"
+],
+"lb": "red-meadows",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-death-of-death": {
 "tmdbChecked": "2026-10-01",
@@ -1100,7 +1104,9 @@
 "lbSlug": "death-of-death",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/bJQZpXFzKSKxaJFSC0loqBzu4r9.jpg"
+"posterPath": "/bJQZpXFzKSKxaJFSC0loqBzu4r9.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-den-fremmede": {
 "tmdbChecked": "2026-10-01",
@@ -1127,11 +1133,18 @@
 "tmdb": 54898,
 "imdb": "tt0091830",
 "en": "The Green Ray",
-"enFrom": "tmdb",
 "lbSlug": "the-green-ray",
 "lbRating": 4.17,
 "rated": "2026-10-01",
-"posterPath": "/1E3pliSC7lXWw6zJhMvG6ba0UNX.jpg"
+"posterPath": "/1E3pliSC7lXWw6zJhMvG6ba0UNX.jpg",
+"imdbAll": [
+"tt0091830"
+],
+"lb": "the-green-ray",
+"rt": "m/summer_2011",
+"mc": "movie/le-rayon-vert-1986",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-der-behandling-finner-sted": {
 "tmdbChecked": "2026-10-01",
@@ -1149,7 +1162,15 @@
 "lbSlug": "a-good-marriage",
 "lbRating": 3.61,
 "rated": "2026-10-01",
-"posterPath": "/ny5UBhczFyJ2Nnp8CMIBFZ184jd.jpg"
+"posterPath": "/ny5UBhczFyJ2Nnp8CMIBFZ184jd.jpg",
+"imdbAll": [
+"tt0082053"
+],
+"lb": "a-good-marriage",
+"rt": "m/a_good_marriage",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-det-morkebla-evangeliet": {
 "tmdbChecked": "2026-10-01",
@@ -1161,7 +1182,9 @@
 "lbSlug": "red-code-blue",
 "lbRating": 3.77,
 "rated": "2026-10-01",
-"posterPath": "/fIUGwb2b3h91pyz165VwLTFofff.jpg"
+"posterPath": "/fIUGwb2b3h91pyz165VwLTFofff.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-det-sande-ansigt": {
 "tmdbChecked": "2026-10-01",
@@ -1173,7 +1196,15 @@
 "lbSlug": "the-face-of-truth",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/vgBSECTIzJttIJo1VIQF4nozc5y.jpg"
+"posterPath": "/vgBSECTIzJttIJo1VIQF4nozc5y.jpg",
+"imdbAll": [
+"tt0043990"
+],
+"lb": "the-face-of-truth",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-die-hard": {
 "tmdbChecked": "2026-10-01",
@@ -1204,11 +1235,19 @@
 "tv": 2,
 "tmdb": 1282280,
 "imdb": "tt33738802",
-"en": null,
+"en": "Dog of God",
 "lbSlug": "dog-of-god",
 "lbRating": 3.11,
 "rated": "2026-10-01",
-"posterPath": "/pBL4KrMAFk8iKo5T2yXvLMEe3ag.jpg"
+"posterPath": "/pBL4KrMAFk8iKo5T2yXvLMEe3ag.jpg",
+"imdbAll": [
+"tt33738802"
+],
+"lb": "dog-of-god",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-donnie-darko": {
 "imdb": "tt0246578",
@@ -1249,7 +1288,15 @@
 "lbSlug": "a-gentleman-in-top-hat-and-tails",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/lIslUAE9em7gcq2I2iDu5eAM6Fo.jpg"
+"posterPath": "/lIslUAE9em7gcq2I2iDu5eAM6Fo.jpg",
+"imdbAll": [
+"tt0124742"
+],
+"lb": "a-gentleman-in-top-hat-and-tails",
+"rt": "m/herre-i-kjole-og-hvidt-en-a-gentleman-in-top-hat-and-tails",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-everything-everywhere-all-at-once": {
 "tmdbChecked": "2026-10-01",
@@ -1273,7 +1320,15 @@
 "lbSlug": "exposed-1971",
 "lbRating": 3.02,
 "rated": "2026-10-01",
-"posterPath": "/nXEmZ4upGgwOgLXNfApjFnxyDoP.jpg"
+"posterPath": "/nXEmZ4upGgwOgLXNfApjFnxyDoP.jpg",
+"imdbAll": [
+"tt0067076"
+],
+"lb": "exposed-1971",
+"rt": "m/771245533",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-eyes-wide-shut": {
 "tmdbChecked": "2026-10-01",
@@ -1338,7 +1393,9 @@
 "lbSlug": "born-in-the-jungle",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/Ajl53X10Nk9ohrTnmxXEnmpEkdX.jpg"
+"posterPath": "/Ajl53X10Nk9ohrTnmxXEnmpEkdX.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-for-harde-livet": {
 "tmdbChecked": "2026-10-01",
@@ -1350,11 +1407,21 @@
 "lbSlug": "for-dear-life-1989",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/dzNhY6Py7ngC4nYjR8NUeUAo7k0.jpg"
+"posterPath": "/dzNhY6Py7ngC4nYjR8NUeUAo7k0.jpg",
+"imdbAll": [
+"tt0097374"
+],
+"lb": "for-dear-life-1989",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-fra-nrk-arkivet-erik-bye": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-fra-nrk-arkivet-julekalender-spesial": {
 "tmdbChecked": "2026-10-01",
@@ -1366,11 +1433,18 @@
 "tmdb": 3597,
 "imdb": "tt0119345",
 "en": "I Know What You Did Last Summer",
-"enFrom": "tmdb",
 "lbSlug": "i-know-what-you-did-last-summer",
 "lbRating": 3.02,
 "rated": "2026-10-01",
-"posterPath": "/dQyaJx0SptDqvQcAewAr8FAtLB2.jpg"
+"posterPath": "/dQyaJx0SptDqvQcAewAr8FAtLB2.jpg",
+"imdbAll": [
+"tt0119345"
+],
+"lb": "i-know-what-you-did-last-summer",
+"rt": "m/i_know_what_you_did_last_summer",
+"mc": "movie/i-know-what-you-did-last-summer",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-fullmanenetter": {
 "tmdbChecked": "2026-10-01",
@@ -1390,11 +1464,18 @@
 "tmdb": 13320,
 "imdb": "tt0050419",
 "en": "Funny Face",
-"enFrom": "tmdb",
 "lbSlug": "funny-face",
 "lbRating": 3.69,
 "rated": "2026-10-01",
-"posterPath": "/tzTjalpIz6NyFrWPPlOBFoBjb7z.jpg"
+"posterPath": "/tzTjalpIz6NyFrWPPlOBFoBjb7z.jpg",
+"imdbAll": [
+"tt0050419"
+],
+"lb": "funny-face",
+"rt": "m/funny_face",
+"mc": "movie/funny-face",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-gaza": {
 "tmdbChecked": "2026-10-01",
@@ -1414,11 +1495,18 @@
 "tmdb": 202573,
 "imdb": "tt2402091",
 "en": "The Reunion",
-"enFrom": "tmdb",
 "lbSlug": "the-reunion",
 "lbRating": 3.49,
 "rated": "2026-10-01",
-"posterPath": "/2m4ncyUtpBQbYZoSxwrR80Nkq6H.jpg"
+"posterPath": "/2m4ncyUtpBQbYZoSxwrR80Nkq6H.jpg",
+"imdbAll": [
+"tt2402091"
+],
+"lb": "the-reunion",
+"rt": "m/atertraffen",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-go-friend-go": {
 "tmdbChecked": "2026-10-01",
@@ -1467,11 +1555,19 @@
 "tv": 2,
 "tmdb": 12493,
 "imdb": "tt0057565",
-"en": null,
+"en": "High and Low",
 "lbSlug": "high-and-low",
 "lbRating": 4.61,
 "rated": "2026-10-01",
-"posterPath": "/tgNjemQPG96uIezpiUiXFcer5ga.jpg"
+"posterPath": "/tgNjemQPG96uIezpiUiXFcer5ga.jpg",
+"imdbAll": [
+"tt0057565"
+],
+"lb": "high-and-low",
+"rt": "m/high_and_low",
+"mc": "movie/high-and-low",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-i-lovens-tegn": {
 "tmdbChecked": "2026-10-01",
@@ -1483,7 +1579,9 @@
 "lbSlug": "sign-of-the-lion",
 "lbRating": 3.5,
 "rated": "2026-10-01",
-"posterPath": "/b5jY3jyISYMY0ReGjqtbgaPq7dr.jpg"
+"posterPath": "/b5jY3jyISYMY0ReGjqtbgaPq7dr.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-innocent-blood": {
 "tmdbChecked": "2026-10-01",
@@ -1533,7 +1631,9 @@
 "lbSlug": "a-goodnight-kiss",
 "lbRating": 3.6,
 "rated": "2026-10-01",
-"posterPath": "/2vVJujsQHDnvY0uOrfSiDzhxRdi.jpg"
+"posterPath": "/2vVJujsQHDnvY0uOrfSiDzhxRdi.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-its-a-wonderful-life": {
 "imdb": "tt0038650",
@@ -1560,11 +1660,18 @@
 "tmdb": 374473,
 "imdb": "tt5168192",
 "en": "I, Daniel Blake",
-"enFrom": "tmdb",
 "lbSlug": "i-daniel-blake",
 "lbRating": 4.04,
 "rated": "2026-10-01",
-"posterPath": "/nu3WVABXz2W85N6JXTZOT1aWS3b.jpg"
+"posterPath": "/nu3WVABXz2W85N6JXTZOT1aWS3b.jpg",
+"imdbAll": [
+"tt5168192"
+],
+"lb": "i-daniel-blake",
+"rt": "m/i_daniel_blake",
+"mc": "movie/i-daniel-blake",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-jeg-sa-en-ulv-en-rev-en-hare": {
 "tmdbChecked": "2026-10-01",
@@ -1576,7 +1683,9 @@
 "lbSlug": "notes-from-the-woods",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/qnpnBXaNXYWNpbUWxBqcXWFKybs.jpg"
+"posterPath": "/qnpnBXaNXYWNpbUWxBqcXWFKybs.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-john-wick": {
 "tmdbChecked": "2026-10-01",
@@ -1584,11 +1693,18 @@
 "tmdb": 245891,
 "imdb": "tt2911666",
 "en": "John Wick",
-"enFrom": "tmdb",
 "lbSlug": "john-wick",
 "lbRating": 3.86,
 "rated": "2026-10-01",
-"posterPath": "/wXqWR7dHncNRbxoEGybEy7QTe9h.jpg"
+"posterPath": "/wXqWR7dHncNRbxoEGybEy7QTe9h.jpg",
+"imdbAll": [
+"tt2911666"
+],
+"lb": "john-wick",
+"rt": "m/john_wick",
+"mc": "movie/john-wick",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-kampen-om-algerie": {
 "tmdbChecked": "2026-10-01",
@@ -1661,7 +1777,9 @@
 "lbSlug": "the-art-of-negative-thinking",
 "lbRating": 3.44,
 "rated": "2026-10-01",
-"posterPath": "/1Ze2048EyOqImLuDo2XNNEduqSe.jpg"
+"posterPath": "/1Ze2048EyOqImLuDo2XNNEduqSe.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-la-carnada": {
 "tmdbChecked": "2026-10-01",
@@ -1707,7 +1825,15 @@
 "lbSlug": "little-ida",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/n8PDMGU7PLwjbH7LLM7ddm3ZNbC.jpg"
+"posterPath": "/n8PDMGU7PLwjbH7LLM7ddm3ZNbC.jpg",
+"imdbAll": [
+"tt0084255"
+],
+"lb": "little-ida",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-lop-lola-lop": {
 "tmdbChecked": "2026-10-01",
@@ -1715,11 +1841,18 @@
 "tmdb": 104,
 "imdb": "tt0130827",
 "en": "Run Lola Run",
-"enFrom": "tmdb",
 "lbSlug": "run-lola-run",
 "lbRating": 3.86,
 "rated": "2026-10-01",
-"posterPath": "/v0giIi4bTILVhNhJajet3WWY3FA.jpg"
+"posterPath": "/v0giIi4bTILVhNhJajet3WWY3FA.jpg",
+"imdbAll": [
+"tt0130827"
+],
+"lb": "run-lola-run",
+"rt": "m/run_lola_run",
+"mc": "movie/run-lola-run",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-lost-highway": {
 "tmdbChecked": "2026-10-01",
@@ -1727,11 +1860,18 @@
 "tmdb": 638,
 "imdb": "tt0116922",
 "en": "Lost Highway",
-"enFrom": "tmdb",
 "lbSlug": "lost-highway",
 "lbRating": 4.12,
 "rated": "2026-10-01",
-"posterPath": "/5POhfNeFPIi4VUNwCTaK85sh98r.jpg"
+"posterPath": "/5POhfNeFPIi4VUNwCTaK85sh98r.jpg",
+"imdbAll": [
+"tt0116922"
+],
+"lb": "lost-highway",
+"rt": "m/lost_highway",
+"mc": "movie/lost-highway",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-luca": {
 "tmdbChecked": "2026-10-01",
@@ -1758,11 +1898,18 @@
 "tmdb": 76341,
 "imdb": "tt1392190",
 "en": "Mad Max: Fury Road",
-"enFrom": "tmdb",
 "lbSlug": "mad-max-fury-road",
 "lbRating": 4.17,
 "rated": "2026-10-01",
-"posterPath": "/ulcAi4dKpAjHwYGS08vNyx9H6I9.jpg"
+"posterPath": "/ulcAi4dKpAjHwYGS08vNyx9H6I9.jpg",
+"imdbAll": [
+"tt1392190"
+],
+"lb": "mad-max-fury-road",
+"rt": "m/mad_max_fury_road",
+"mc": "movie/mad-max-fury-road",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-maria-marusjka": {
 "tmdbChecked": "2026-10-01",
@@ -1773,11 +1920,32 @@
 "lbSlug": "maria-marusjka",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/9UqhZBA4prdgczL8otSti7r9bLU.jpg"
+"posterPath": "/9UqhZBA4prdgczL8otSti7r9bLU.jpg",
+"imdbAll": [
+"tt0232054"
+],
+"lb": "maria-marusjka",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-menneskebarnet": {
-"tmdbChecked": "2026-10-01",
-"tv": 2
+"imdb": "tt0103971",
+"imdbAll": [
+"tt0103971"
+],
+"lb": "the-child-of-man",
+"rt": null,
+"mc": null,
+"en": "The Child of Man",
+"v": 4,
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"lbSlug": "the-child-of-man",
+"lbRating": 3.49,
+"rated": "2026-10-03"
 },
 "cm-min-natt-med-maud": {
 "tmdbChecked": "2026-10-01",
@@ -1785,11 +1953,18 @@
 "tmdb": 48831,
 "imdb": "tt0064612",
 "en": "My Night at Maud's",
-"enFrom": "tmdb",
 "lbSlug": "my-night-at-mauds",
 "lbRating": 4.14,
 "rated": "2026-10-01",
-"posterPath": "/9usKgth3ROn4LwPQ7tTvxKnpBGL.jpg"
+"posterPath": "/9usKgth3ROn4LwPQ7tTvxKnpBGL.jpg",
+"imdbAll": [
+"tt0064612"
+],
+"lb": "my-night-at-mauds",
+"rt": "m/my_night_at_mauds",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-min-venninnes-venn": {
 "tmdbChecked": "2026-10-01",
@@ -1813,7 +1988,9 @@
 "lbSlug": "my-partners",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/7JdFCKQQp5ee21ggDKOAUwziXDg.jpg"
+"posterPath": "/7JdFCKQQp5ee21ggDKOAUwziXDg.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-miracle-on-34th-street": {
 "tmdbChecked": "2026-10-01",
@@ -1854,12 +2031,19 @@
 "tv": 2,
 "tmdb": 73271,
 "imdb": "tt0122619",
-"en": "Melody of a Murder",
-"enFrom": "tmdb",
+"en": "Melody of Murder",
 "lbSlug": "melody-of-a-murder",
 "lbRating": 3.4,
 "rated": "2026-10-01",
-"posterPath": "/z9IDKdPfGFBQK2cASz0dk0znYji.jpg"
+"posterPath": "/z9IDKdPfGFBQK2cASz0dk0znYji.jpg",
+"imdbAll": [
+"tt0122619"
+],
+"lb": "melody-of-a-murder",
+"rt": "m/murder_melody",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-my-national-gallery": {
 "tmdbChecked": "2026-10-02",
@@ -1871,22 +2055,37 @@
 "tmdb": 21925,
 "imdb": "tt0145937",
 "en": "Naqoyqatsi",
-"enFrom": "tmdb",
 "lbSlug": "naqoyqatsi",
 "lbRating": 3.08,
 "rated": "2026-10-01",
-"posterPath": "/buDo6FcSlOVEQJomKB0IviNV0Do.jpg"
+"posterPath": "/buDo6FcSlOVEQJomKB0IviNV0Do.jpg",
+"imdbAll": [
+"tt0145937"
+],
+"lb": "naqoyqatsi",
+"rt": "m/naqoyqatsi",
+"mc": "movie/naqoyqatsi",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-nouvelle-vague-2": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1254808,
 "imdb": "tt31688586",
-"en": null,
+"en": "Nouvelle Vague",
 "lbSlug": "nouvelle-vague-2025",
 "lbRating": 3.73,
 "rated": "2026-10-01",
-"posterPath": "/AfE7DZ0DPgme6I58dlYp1Bo9xeN.jpg"
+"posterPath": "/AfE7DZ0DPgme6I58dlYp1Bo9xeN.jpg",
+"imdbAll": [
+"tt31688586"
+],
+"lb": "nouvelle-vague-2025",
+"rt": "m/nouvelle_vague_2025",
+"mc": "movie/nouvelle-vague",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-o-brother-where-art-thou": {
 "tmdbChecked": "2026-10-01",
@@ -1938,12 +2137,27 @@
 "checked": "2026-10-03"
 },
 "cm-om-tilla": {
-"tmdbChecked": "2026-10-01",
-"tv": 2
+"imdb": "tt0057584",
+"imdbAll": [
+"tt0057584"
+],
+"lb": "about-tilla",
+"rt": null,
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"lbSlug": "about-tilla",
+"lbRating": null,
+"rated": "2026-10-03"
 },
 "cm-one-of-one": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-oppussing": {
 "tmdbChecked": "2026-10-01",
@@ -1951,11 +2165,18 @@
 "tmdb": 1492004,
 "imdb": "tt37266315",
 "en": "Renovation",
-"enFrom": "tmdb",
 "lbSlug": "renovation-2025",
 "lbRating": 3.48,
 "rated": "2026-10-01",
-"posterPath": "/iCL4xpecdXMwgrwvBjT0onepEV7.jpg"
+"posterPath": "/iCL4xpecdXMwgrwvBjT0onepEV7.jpg",
+"imdbAll": [
+"tt37266315"
+],
+"lb": "renovation-2025",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-orlando": {
 "tmdbChecked": "2026-10-01",
@@ -1983,7 +2204,9 @@
 },
 "cm-pan": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-paraplyene-i-cherbourg": {
 "tmdbChecked": "2026-10-01",
@@ -2034,11 +2257,18 @@
 "tmdb": 27145,
 "imdb": "tt0080728",
 "en": "The Aviator's Wife",
-"enFrom": "tmdb",
 "lbSlug": "the-aviators-wife",
 "lbRating": 3.99,
 "rated": "2026-10-01",
-"posterPath": "/xgXj1Fcgq1nHjhj9i7BiqvZarn5.jpg"
+"posterPath": "/xgXj1Fcgq1nHjhj9i7BiqvZarn5.jpg",
+"imdbAll": [
+"tt0080728"
+],
+"lb": "the-aviators-wife",
+"rt": "m/the_aviators_wife",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-powaqqatsi": {
 "tmdbChecked": "2026-10-01",
@@ -2068,7 +2298,15 @@
 "lbSlug": "prop-and-berta",
 "lbRating": 3.49,
 "rated": "2026-10-01",
-"posterPath": "/osjRrT3Om08WHSa0dDi7sswzrTP.jpg"
+"posterPath": "/osjRrT3Om08WHSa0dDi7sswzrTP.jpg",
+"imdbAll": [
+"tt0258050"
+],
+"lb": "prop-and-berta",
+"rt": "m/prop_og_berta",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-pushwagner": {
 "tmdbChecked": "2026-10-01",
@@ -2083,7 +2321,9 @@
 },
 "cm-redistribution-2026-2007": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-reisen-til-julestjernen": {
 "lbSlug": "journey-to-the-christmas-star-1976",
@@ -2143,11 +2383,21 @@
 "lbSlug": "rodblatt-paradis",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/Z3qOcY5TEFkAvFrqha6ByWhkt6.jpg"
+"posterPath": "/Z3qOcY5TEFkAvFrqha6ByWhkt6.jpg",
+"imdbAll": [
+"tt0190730"
+],
+"lb": "rodblatt-paradis",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-sculpting-in-time-kreativt-samarbeid-regi-klipp-lyd": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-searching-for-sugar-man": {
 "tmdbChecked": "2026-10-01",
@@ -2155,11 +2405,18 @@
 "tmdb": 84334,
 "imdb": "tt2125608",
 "en": "Searching for Sugar Man",
-"enFrom": "tmdb",
 "lbSlug": "searching-for-sugar-man",
 "lbRating": 4.15,
 "rated": "2026-10-01",
-"posterPath": "/ucM98HuBHSWmn44oiE83hIDc6VB.jpg"
+"posterPath": "/ucM98HuBHSWmn44oiE83hIDc6VB.jpg",
+"imdbAll": [
+"tt2125608"
+],
+"lb": "searching-for-sugar-man",
+"rt": "m/searching_for_sugar_man",
+"mc": "movie/searching-for-sugar-man",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-sirkus": {
 "tmdbChecked": "2026-10-01",
@@ -2198,11 +2455,18 @@
 "tmdb": 4232,
 "imdb": "tt0117571",
 "en": "Scream",
-"enFrom": "tmdb",
 "lbSlug": "scream",
 "lbRating": 4.02,
 "rated": "2026-10-01",
-"posterPath": "/lr9ZIrmuwVmZhpZuTCW8D9g0ZJe.jpg"
+"posterPath": "/lr9ZIrmuwVmZhpZuTCW8D9g0ZJe.jpg",
+"imdbAll": [
+"tt0117571"
+],
+"lb": "scream",
+"rt": "m/1074316-scream",
+"mc": "movie/scream",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-small-roads": {
 "tmdbChecked": "2026-10-01",
@@ -2234,7 +2498,9 @@
 },
 "cm-soundings": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-stargate-en-julefortelling": {
 "tmdbChecked": "2026-10-01",
@@ -2304,7 +2570,9 @@
 "lbSlug": "tai-chi-master",
 "lbRating": 3.69,
 "rated": "2026-10-01",
-"posterPath": "/vzodCpQ3xBaVuFLUl0w0iYp4V7G.jpg"
+"posterPath": "/vzodCpQ3xBaVuFLUl0w0iYp4V7G.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-taxi-driver": {
 "tmdbChecked": "2026-10-01",
@@ -2331,11 +2599,18 @@
 "tmdb": 59266,
 "imdb": "tt1623008",
 "en": "The Arbor",
-"enFrom": "tmdb",
 "lbSlug": "the-arbor",
 "lbRating": 3.79,
 "rated": "2026-10-01",
-"posterPath": "/1ILtGNSUTyrZi8LAco4zkMWXM3q.jpg"
+"posterPath": "/1ILtGNSUTyrZi8LAco4zkMWXM3q.jpg",
+"imdbAll": [
+"tt1623008"
+],
+"lb": "the-arbor",
+"rt": "m/the_arbor_2010",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-the-big-lebowski": {
 "tmdbChecked": "2026-10-01",
@@ -2373,11 +2648,18 @@
 "tmdb": 11412,
 "imdb": "tt0116908",
 "en": "The Long Kiss Goodnight",
-"enFrom": "tmdb",
 "lbSlug": "the-long-kiss-goodnight",
 "lbRating": 3.43,
 "rated": "2026-10-01",
-"posterPath": "/yREdXX5lMFUKhTvb0ofI7mzUHlR.jpg"
+"posterPath": "/yREdXX5lMFUKhTvb0ofI7mzUHlR.jpg",
+"imdbAll": [
+"tt0116908"
+],
+"lb": "the-long-kiss-goodnight",
+"rt": "m/long_kiss_goodnight",
+"mc": "movie/the-long-kiss-goodnight",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-the-night-is-fading-away": {
 "tmdbChecked": "2026-10-01",
@@ -2479,26 +2761,43 @@
 "tmdb": 241001,
 "imdb": "tt0065106",
 "en": "Tintin and the Temple of the Sun",
-"enFrom": "tmdb",
 "lbSlug": "tintin-and-the-temple-of-the-sun",
 "lbRating": 3.49,
 "rated": "2026-10-01",
-"posterPath": "/bSiuapguCBSjjF5Cqezj123F2J6.jpg"
+"posterPath": "/bSiuapguCBSjjF5Cqezj123F2J6.jpg",
+"imdbAll": [
+"tt0065106"
+],
+"lb": "tintin-and-the-temple-of-the-sun",
+"rt": "m/tintin-et-le-temple-du-soleil-tintin-and-the-temple-of-the-sun",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-ulya": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 1490241,
 "imdb": "tt26751523",
-"en": null,
+"en": "Ulya",
 "lbSlug": "ulya",
 "lbRating": 3.51,
 "rated": "2026-10-01",
-"posterPath": "/denvPIlNmETvBjmXofNDVU6l9C1.jpg"
+"posterPath": "/denvPIlNmETvBjmXofNDVU6l9C1.jpg",
+"imdbAll": [
+"tt26751523"
+],
+"lb": "ulya",
+"rt": "m/ulya",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-uten-tittel-xviii": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-utopiske-signaler": {
 "tmdbChecked": "2026-10-02",
@@ -2529,11 +2828,18 @@
 "tmdb": 1316398,
 "imdb": "tt33256507",
 "en": "Our Erika",
-"enFrom": "tmdb",
 "lbSlug": "our-erika",
 "lbRating": 3.7,
 "rated": "2026-10-01",
-"posterPath": "/gtNfOp2H7xlEoR1Hsk1s3EXEbkG.jpg"
+"posterPath": "/gtNfOp2H7xlEoR1Hsk1s3EXEbkG.jpg",
+"imdbAll": [
+"tt33256507"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-veiviseren": {
 "tmdbChecked": "2026-10-01",
@@ -2541,11 +2847,18 @@
 "tmdb": 2172,
 "imdb": "tt0093668",
 "en": "Pathfinder",
-"enFrom": "tmdb",
 "lbSlug": "pathfinder",
 "lbRating": 3.56,
 "rated": "2026-10-01",
-"posterPath": "/cpJvdyNZaD3j2DUHO10Xa7vG8rJ.jpg"
+"posterPath": "/cpJvdyNZaD3j2DUHO10Xa7vG8rJ.jpg",
+"imdbAll": [
+"tt0093668"
+],
+"lb": "pathfinder",
+"rt": "m/1032907-pathfinder",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-vinterhjerte": {
 "tmdbChecked": "2026-10-01",
@@ -2572,11 +2885,18 @@
 "tmdb": 7509,
 "imdb": "tt0240200",
 "en": "Water",
-"enFrom": "tmdb",
 "lbSlug": "water-2005",
 "lbRating": 3.71,
 "rated": "2026-10-01",
-"posterPath": "/tdg6JKcqjS7szenmabGAbe5RGdN.jpg"
+"posterPath": "/tdg6JKcqjS7szenmabGAbe5RGdN.jpg",
+"imdbAll": [
+"tt0240200"
+],
+"lb": "water-2005",
+"rt": "m/water",
+"mc": "movie/water",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-white-paradise": {
 "tmdbChecked": "2026-10-01",
@@ -6679,25 +6999,6 @@
 "lbSlug": "love-actually",
 "lbRating": 3.51,
 "rated": "2026-10-02"
-},
-"fw-UIP20040163": {
-"lbSlug": "mean-girls",
-"lbRating": 3.81,
-"rated": "2026-10-01",
-"imdb": "tt0377092",
-"imdbAll": [
-"tt0377092"
-],
-"lb": "mean-girls",
-"rt": "m/mean_girls",
-"mc": "movie/mean-girls",
-"en": "Mean Girls",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 10625,
-"enFrom": "tmdb"
 },
 "fw-UIP20221468": {
 "tmdbChecked": "2026-10-01",
