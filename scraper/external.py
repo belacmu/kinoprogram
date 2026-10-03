@@ -301,8 +301,20 @@ def enrich(films, now, keep_prefixes=()):
             continue
         looked += 1
         old = next((cache[i] for i in f["ids"] if i in cache), {})
-        keep = {k: old[k] for k in ("lbSlug", "lbRating", "rated") if k in old and old.get("imdb") == hit.get("imdb")}
-        rec = {**keep, **hit, "checked": today}
+        if hit and not old.get("conflict") and old.get("imdb") in hit["imdbAll"]:
+            # The film we already had: keep what TMDB and Letterboxd added (TMDB's IMDb id wins for duplicates).
+            rec = {**old, **hit, "imdb": old["imdb"], "en": hit["en"] or old.get("en")}
+            if hit["en"]:
+                rec.pop("enFrom", None)
+        elif hit:
+            rec = dict(hit)  # a different film than before: TMDB checks it again (no "tv")
+        elif old.get("tmdb"):
+            # Not on Wikidata but matched on TMDB: keep that match, without anything Wikidata had said.
+            rec = {k: v for k, v in old.items() if k not in ("imdbAll", "lb", "rt", "mc", "conflict")}
+        else:
+            rec = {k: old[k] for k in ("tmdbChecked", "tv") if k in old}
+        # "v" on misses too, or they'd be looked up again every run and use up MAX_LOOKUPS.
+        rec.update(v=4, checked=today)
         for i in f["ids"]:
             cache[i] = rec
 
