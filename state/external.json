@@ -880,11 +880,18 @@
 "tmdb": 36067,
 "imdb": "tt0445158",
 "en": "13 Lakes",
-"enFrom": "tmdb",
 "lbSlug": "13-lakes",
 "lbRating": 3.68,
 "rated": "2026-10-01",
-"posterPath": "/E845D3OOuXVY2VvrbsBHoYHo1d.jpg"
+"posterPath": "/E845D3OOuXVY2VvrbsBHoYHo1d.jpg",
+"imdbAll": [
+"tt0445158"
+],
+"lb": "13-lakes",
+"rt": "m/thirteen-lakes",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-2001": {
 "tmdbChecked": "2026-10-01",
@@ -914,11 +921,19 @@
 "tv": 2,
 "tmdb": 11471,
 "imdb": "tt0092263",
-"en": null,
+"en": "A Better Tomorrow",
 "lbSlug": "a-better-tomorrow",
 "lbRating": 3.94,
 "rated": "2026-10-01",
-"posterPath": "/uxZIWxOm2yonHyjLARzW37aEZjF.jpg"
+"posterPath": "/uxZIWxOm2yonHyjLARzW37aEZjF.jpg",
+"imdbAll": [
+"tt0092263"
+],
+"lb": "a-better-tomorrow",
+"rt": "m/better_tomorrow",
+"mc": "movie/a-better-tomorrow",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-a-fox-under-a-pink-moon": {
 "tmdbChecked": "2026-10-01",
@@ -929,7 +944,9 @@
 "lbSlug": "a-fox-under-a-pink-moon",
 "lbRating": 4.0,
 "rated": "2026-10-01",
-"posterPath": "/pWhGSn4IaPOfNAgh9ZhGVhkuvO1.jpg"
+"posterPath": "/pWhGSn4IaPOfNAgh9ZhGVhkuvO1.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-aktivisten": {
 "tmdbChecked": "2026-10-01",
@@ -947,7 +964,15 @@
 "lbSlug": "nothing-but-troubles",
 "lbRating": null,
 "rated": "2026-10-02",
-"posterPath": "/qR0JFg3Xzenxxida03G7fr5MaZy.jpg"
+"posterPath": "/qR0JFg3Xzenxxida03G7fr5MaZy.jpg",
+"imdbAll": [
+"tt0179068"
+],
+"lb": "nothing-but-troubles",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-all-the-beauty-and-the-bloodshed": {
 "tmdbChecked": "2026-10-01",
@@ -983,11 +1008,21 @@
 "lbSlug": "angst-1976",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/cYSqlHsnHHz4wVgeOp1xRSp2Z15.jpg"
+"posterPath": "/cYSqlHsnHHz4wVgeOp1xRSp2Z15.jpg",
+"imdbAll": [
+"tt0185882"
+],
+"lb": "angst-1976",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-bawke-hedda": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-blood-for-dracula": {
 "tmdbChecked": "2026-10-01",
@@ -1069,12 +1104,19 @@
 "tv": 2,
 "tmdb": 27019,
 "imdb": "tt0071381",
-"en": "Céline and Julie Go Boating",
-"enFrom": "tmdb",
+"en": "Celine and Julie Go Boating",
 "lbSlug": "celine-and-julie-go-boating",
 "lbRating": 4.18,
 "rated": "2026-10-01",
-"posterPath": "/h62tGTMdVVUThFwl5b4EP18cBhb.jpg"
+"posterPath": "/h62tGTMdVVUThFwl5b4EP18cBhb.jpg",
+"imdbAll": [
+"tt0071381"
+],
+"lb": "celine-and-julie-go-boating",
+"rt": "m/celine-et-julie-vont-en-bateau-celine-and-julie-go-boating",
+"mc": "movie/celine-and-julie-go-boating",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-de-rode-enge": {
 "tmdbChecked": "2026-10-01",
@@ -1212,11 +1254,18 @@
 "tmdb": 562,
 "imdb": "tt0095016",
 "en": "Die Hard",
-"enFrom": "tmdb",
 "lbSlug": "die-hard",
 "lbRating": 4.06,
 "rated": "2026-10-01",
-"posterPath": "/7Bjd8kfmDSOzpmhySpEhkUyK2oH.jpg"
+"posterPath": "/7Bjd8kfmDSOzpmhySpEhkUyK2oH.jpg",
+"imdbAll": [
+"tt0095016"
+],
+"lb": "die-hard",
+"rt": "m/die_hard",
+"mc": "movie/die-hard",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-die-hard-2": {
 "tmdbChecked": "2026-10-01",
@@ -1224,11 +1273,18 @@
 "tmdb": 1573,
 "imdb": "tt0099423",
 "en": "Die Hard 2",
-"enFrom": "tmdb",
 "lbSlug": "die-hard-2",
 "lbRating": 3.37,
 "rated": "2026-10-01",
-"posterPath": "/ybki0UWO3OPhaM6MSniuKC7sy1R.jpg"
+"posterPath": "/ybki0UWO3OPhaM6MSniuKC7sy1R.jpg",
+"imdbAll": [
+"tt0099423"
+],
+"lb": "die-hard-2",
+"rt": "m/die_hard_2_1990",
+"mc": "movie/die-hard-2",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-dog-of-god": {
 "tmdbChecked": "2026-10-01",
@@ -1276,7 +1332,9 @@
 "lbSlug": "the-stranger-2017",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/4PCliaC45WdVi5VI50Ky1dmI7E1.jpg"
+"posterPath": "/4PCliaC45WdVi5VI50Ky1dmI7E1.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-en-herre-i-kjole-og-hvidt": {
 "tmdbChecked": "2026-10-01",
@@ -1304,11 +1362,18 @@
 "tmdb": 545611,
 "imdb": "tt6710474",
 "en": "Everything Everywhere All at Once",
-"enFrom": "tmdb",
 "lbSlug": "everything-everywhere-all-at-once",
 "lbRating": 4.24,
 "rated": "2026-10-01",
-"posterPath": "/u68AjlvlutfEIcpmbYpKcdi09ut.jpg"
+"posterPath": "/u68AjlvlutfEIcpmbYpKcdi09ut.jpg",
+"imdbAll": [
+"tt6710474"
+],
+"lb": "everything-everywhere-all-at-once",
+"rt": "m/everything_everywhere_all_at_once",
+"mc": "movie/everything-everywhere-all-at-once",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-exponerad": {
 "tmdbChecked": "2026-10-01",
@@ -1336,22 +1401,37 @@
 "tmdb": 345,
 "imdb": "tt0120663",
 "en": "Eyes Wide Shut",
-"enFrom": "tmdb",
 "lbSlug": "eyes-wide-shut",
 "lbRating": 3.98,
 "rated": "2026-10-01",
-"posterPath": "/knEIz1eNGl5MQDbrEAVWA7iRqF9.jpg"
+"posterPath": "/knEIz1eNGl5MQDbrEAVWA7iRqF9.jpg",
+"imdbAll": [
+"tt0120663"
+],
+"lb": "eyes-wide-shut",
+"rt": "m/eyes_wide_shut",
+"mc": "movie/eyes-wide-shut",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-fanny-og-alexander": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 5961,
 "imdb": "tt0083922",
-"en": null,
+"en": "Fanny and Alexander",
 "lbSlug": "fanny-and-alexander",
 "lbRating": 4.4,
 "rated": "2026-10-01",
-"posterPath": "/q8jlA3Wc1Z987hNKRFA44g5OugC.jpg"
+"posterPath": "/q8jlA3Wc1Z987hNKRFA44g5OugC.jpg",
+"imdbAll": [
+"tt0083922"
+],
+"lb": "fanny-and-alexander",
+"rt": "m/fanny_and_alexander",
+"mc": "movie/fanny-and-alexander",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-fia-og-klovnene": {
 "tmdbChecked": "2026-10-01",
@@ -1381,7 +1461,15 @@
 "lbSlug": "four-adventures-of-reinette-and-mirabelle",
 "lbRating": 4.04,
 "rated": "2026-10-01",
-"posterPath": "/iXydrbtUGX7CUutomhtMtlUd3Cb.jpg"
+"posterPath": "/iXydrbtUGX7CUutomhtMtlUd3Cb.jpg",
+"imdbAll": [
+"tt0090565"
+],
+"lb": "four-adventures-of-reinette-and-mirabelle",
+"rt": "m/four_adventures_of_reinette_and_mirabelle",
+"mc": "movie/four-adventures-of-reinette-and-mirabelle",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-fodt-i-jungelen": {
 "tmdbChecked": "2026-10-01",
@@ -1425,7 +1513,9 @@
 },
 "cm-fra-nrk-arkivet-julekalender-spesial": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-fryktens-sommer": {
 "tmdbChecked": "2026-10-01",
@@ -1452,11 +1542,18 @@
 "tmdb": 27102,
 "imdb": "tt0087821",
 "en": "Full Moon in Paris",
-"enFrom": "tmdb",
 "lbSlug": "full-moon-in-paris",
 "lbRating": 3.82,
 "rated": "2026-10-01",
-"posterPath": "/5HQU7dfVnB8HHRkdZzo1hV724gs.jpg"
+"posterPath": "/5HQU7dfVnB8HHRkdZzo1hV724gs.jpg",
+"imdbAll": [
+"tt0087821"
+],
+"lb": "full-moon-in-paris",
+"rt": "m/full_moon_in_paris",
+"mc": "movie/full-moon-in-paris",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-funny-face": {
 "tmdbChecked": "2026-10-01",
@@ -1483,11 +1580,18 @@
 "tmdb": 566212,
 "imdb": "tt8995252",
 "en": "Gaza",
-"enFrom": "tmdb",
 "lbSlug": "gaza",
 "lbRating": 3.63,
 "rated": "2026-10-01",
-"posterPath": "/kEVxWlON82VVGtIcTQdMYgNXMD0.jpg"
+"posterPath": "/kEVxWlON82VVGtIcTQdMYgNXMD0.jpg",
+"imdbAll": [
+"tt8995252"
+],
+"lb": "gaza",
+"rt": "m/gaza",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-gjenforeningen": {
 "tmdbChecked": "2026-10-01",
@@ -1519,12 +1623,19 @@
 "tv": 2,
 "tmdb": 39702,
 "imdb": "tt0493440",
-"en": "Pettson & Findus: The Santa Machine",
-"enFrom": "tmdb",
+"en": "Pettson & Findus III - Pettson's Promise",
 "lbSlug": "pettson-findus-the-santa-machine",
 "lbRating": 3.58,
 "rated": "2026-10-01",
-"posterPath": "/AeX1SUwD6SQllu4QufaZI9i2D8G.jpg"
+"posterPath": "/AeX1SUwD6SQllu4QufaZI9i2D8G.jpg",
+"imdbAll": [
+"tt0493440"
+],
+"lb": "pettson-findus-the-tomte-machine",
+"rt": "m/770684223",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-harold-and-maude": {
 "tmdbChecked": "2026-10-02",
@@ -1532,11 +1643,18 @@
 "tmdb": 343,
 "imdb": "tt0067185",
 "en": "Harold and Maude",
-"enFrom": "tmdb",
 "lbSlug": "harold-and-maude",
 "lbRating": 4.11,
 "rated": "2026-10-02",
-"posterPath": "/t7qEuGwDjcYu8ajaKZ68DeDnOxw.jpg"
+"posterPath": "/t7qEuGwDjcYu8ajaKZ68DeDnOxw.jpg",
+"imdbAll": [
+"tt0067185"
+],
+"lb": "harold-and-maude",
+"rt": "m/harold_and_maude",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-herr-bachmann-og-klassen-hans": {
 "tmdbChecked": "2026-10-01",
@@ -1544,11 +1662,18 @@
 "tmdb": 795812,
 "imdb": "tt14035048",
 "en": "Mr. Bachmann and His Class",
-"enFrom": "tmdb",
 "lbSlug": "mr-bachmann-and-his-class",
 "lbRating": 4.12,
 "rated": "2026-10-01",
-"posterPath": "/nSAwo5X1eltjTVYWYcRj64vAxVa.jpg"
+"posterPath": "/nSAwo5X1eltjTVYWYcRj64vAxVa.jpg",
+"imdbAll": [
+"tt14035048"
+],
+"lb": "mr-bachmann-and-his-class",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-high-and-low": {
 "tmdbChecked": "2026-10-01",
@@ -1731,11 +1856,18 @@
 "tmdb": 30576,
 "imdb": "tt0073227",
 "en": "Karlsson on the Roof",
-"enFrom": "tmdb",
 "lbSlug": "karlsson-on-the-roof-1974",
 "lbRating": 3.3,
 "rated": "2026-10-01",
-"posterPath": "/m02v0kOqAUZKvWecht5it3KZFYE.jpg"
+"posterPath": "/m02v0kOqAUZKvWecht5it3KZFYE.jpg",
+"imdbAll": [
+"tt0073227"
+],
+"lb": "karlsson-on-the-roof-1974",
+"rt": "m/770681352",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-koyaanisqatsi": {
 "tmdbChecked": "2026-10-01",
@@ -1765,7 +1897,15 @@
 "lbSlug": "kristin-lavransdatter",
 "lbRating": 3.17,
 "rated": "2026-10-01",
-"posterPath": "/cqlKvprLXyUtLuWcPIf16TzkQJD.jpg"
+"posterPath": "/cqlKvprLXyUtLuWcPIf16TzkQJD.jpg",
+"imdbAll": [
+"tt0113576"
+],
+"lb": "kristin-lavransdatter",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-kunsten-a-tenke-negativt": {
 "tmdbChecked": "2026-10-01",
@@ -1802,7 +1942,9 @@
 },
 "cm-la-defense-trilogien": {
 "tmdbChecked": "2026-10-02",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-ladyhawke": {
 "tmdbChecked": "2026-10-01",
@@ -1810,11 +1952,18 @@
 "tmdb": 526,
 "imdb": "tt0089457",
 "en": "Ladyhawke",
-"enFrom": "tmdb",
 "lbSlug": "ladyhawke",
 "lbRating": 3.36,
 "rated": "2026-10-01",
-"posterPath": "/l3nRJ9Cs7C1AZ7das8S76QqwqjI.jpg"
+"posterPath": "/l3nRJ9Cs7C1AZ7das8S76QqwqjI.jpg",
+"imdbAll": [
+"tt0089457"
+],
+"lb": "ladyhawke",
+"rt": "m/ladyhawke",
+"mc": "movie/ladyhawke",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-liten-ida": {
 "tmdbChecked": "2026-10-01",
@@ -1972,11 +2121,18 @@
 "tmdb": 64544,
 "imdb": "tt0092550",
 "en": "Boyfriends and Girlfriends",
-"enFrom": "tmdb",
 "lbSlug": "boyfriends-and-girlfriends",
 "lbRating": 4.08,
 "rated": "2026-10-01",
-"posterPath": "/obfJYuVMGFZRlMeNQklFlvhShFu.jpg"
+"posterPath": "/obfJYuVMGFZRlMeNQklFlvhShFu.jpg",
+"imdbAll": [
+"tt0092550"
+],
+"lb": "boyfriends-and-girlfriends",
+"rt": "m/boyfriends_and_girlfriends",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-mine-kjaerester": {
 "tmdbChecked": "2026-10-01",
@@ -1998,11 +2154,18 @@
 "tmdb": 11881,
 "imdb": "tt0039628",
 "en": "Miracle on 34th Street",
-"enFrom": "tmdb",
 "lbSlug": "miracle-on-34th-street",
 "lbRating": 3.82,
 "rated": "2026-10-01",
-"posterPath": "/vehuIm3y6BeMI7mYjxzaA1H8M0k.jpg"
+"posterPath": "/vehuIm3y6BeMI7mYjxzaA1H8M0k.jpg",
+"imdbAll": [
+"tt0039628"
+],
+"lb": "miracle-on-34th-street",
+"rt": "m/miracle_on_34th_street",
+"mc": "movie/miracle-on-34th-street",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-mitt-palestina": {
 "tmdbChecked": "2026-10-01",
@@ -2024,7 +2187,15 @@
 "lbSlug": "mongoland",
 "lbRating": 3.49,
 "rated": "2026-10-01",
-"posterPath": "/nnc7UM7XpQg0pkWwNRVs6Dwt8J6.jpg"
+"posterPath": "/nnc7UM7XpQg0pkWwNRVs6Dwt8J6.jpg",
+"imdbAll": [
+"tt0273833"
+],
+"lb": "mongoland",
+"rt": "m/573759462",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-mordets-melodi": {
 "tmdbChecked": "2026-10-01",
@@ -2047,7 +2218,9 @@
 },
 "cm-my-national-gallery": {
 "tmdbChecked": "2026-10-02",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-naqoyqatsi": {
 "tmdbChecked": "2026-10-01",
@@ -2115,7 +2288,9 @@
 "lbSlug": "of-mud-and-blood",
 "lbRating": 3.6,
 "rated": "2026-10-01",
-"posterPath": "/nrlLcvB9xi2MjXP8UjGEIygkEoE.jpg"
+"posterPath": "/nrlLcvB9xi2MjXP8UjGEIygkEoE.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-ole-aleksander-filibom-bom-bom": {
 "tmdbChecked": "2026-10-01",
@@ -2184,11 +2359,18 @@
 "tmdb": 9300,
 "imdb": "tt0107756",
 "en": "Orlando",
-"enFrom": "tmdb",
 "lbSlug": "orlando",
 "lbRating": 3.9,
 "rated": "2026-10-01",
-"posterPath": "/seRawEs8eQ8rWfkBm6QC39EQEAU.jpg"
+"posterPath": "/seRawEs8eQ8rWfkBm6QC39EQEAU.jpg",
+"imdbAll": [
+"tt0107756"
+],
+"lb": "orlando",
+"rt": "m/orlando",
+"mc": "movie/orlando",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-oslo-31-august": {
 "tmdbChecked": "2026-10-01",
@@ -2196,11 +2378,18 @@
 "tmdb": 75233,
 "imdb": "tt1736633",
 "en": "Oslo, August 31st",
-"enFrom": "tmdb",
 "lbSlug": "oslo-august-31st",
 "lbRating": 4.1,
 "rated": "2026-10-01",
-"posterPath": "/a9WUrw5Dkl8mumi2YlOlpt2f5Dc.jpg"
+"posterPath": "/a9WUrw5Dkl8mumi2YlOlpt2f5Dc.jpg",
+"imdbAll": [
+"tt1736633"
+],
+"lb": "oslo-august-31st",
+"rt": "m/oslo_august_31st",
+"mc": "movie/oslo-august-31st",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-pan": {
 "tmdbChecked": "2026-10-01",
@@ -2214,11 +2403,18 @@
 "tmdb": 5967,
 "imdb": "tt0058450",
 "en": "The Umbrellas of Cherbourg",
-"enFrom": "tmdb",
 "lbSlug": "the-umbrellas-of-cherbourg",
 "lbRating": 4.14,
 "rated": "2026-10-01",
-"posterPath": "/tAgTf64XKK5ir7w5C7dnB53jWWG.jpg"
+"posterPath": "/tAgTf64XKK5ir7w5C7dnB53jWWG.jpg",
+"imdbAll": [
+"tt0058450"
+],
+"lb": "the-umbrellas-of-cherbourg",
+"rt": "m/the_umbrellas_of_cherbourg_1964",
+"mc": "movie/the-umbrellas-of-cherbourg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-pauline-pa-stranden": {
 "tmdbChecked": "2026-10-01",
@@ -2226,11 +2422,18 @@
 "tmdb": 10293,
 "imdb": "tt0086087",
 "en": "Pauline at the Beach",
-"enFrom": "tmdb",
 "lbSlug": "pauline-at-the-beach",
 "lbRating": 3.83,
 "rated": "2026-10-01",
-"posterPath": "/osw9SwpoQEEjQdKh747MC8fT2VM.jpg"
+"posterPath": "/osw9SwpoQEEjQdKh747MC8fT2VM.jpg",
+"imdbAll": [
+"tt0086087"
+],
+"lb": "pauline-at-the-beach",
+"rt": "m/pauline_at_the_beach",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-perfect-days": {
 "tmdbChecked": "2026-10-01",
@@ -2317,7 +2520,15 @@
 "lbSlug": "pushwagner",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/gHx0SEIywyCeXeJeK0rivvjMQpX.jpg"
+"posterPath": "/gHx0SEIywyCeXeJeK0rivvjMQpX.jpg",
+"imdbAll": [
+"tt1941627"
+],
+"lb": "pushwagner",
+"rt": "m/pushwagner",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-redistribution-2026-2007": {
 "tmdbChecked": "2026-10-01",
@@ -2372,7 +2583,9 @@
 "lbSlug": "resilience-2025",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/e67rFXSnk0ZgOOI3TpfM4EKa5PH.jpg"
+"posterPath": "/e67rFXSnk0ZgOOI3TpfM4EKa5PH.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-rodblatt-paradis": {
 "tmdbChecked": "2026-10-01",
@@ -2424,11 +2637,18 @@
 "tmdb": 28978,
 "imdb": "tt0018773",
 "en": "The Circus",
-"enFrom": "tmdb",
 "lbSlug": "the-circus",
 "lbRating": 4.05,
 "rated": "2026-10-01",
-"posterPath": "/sihWAgBYa8yZFVAonGFGbLTVUj2.jpg"
+"posterPath": "/sihWAgBYa8yZFVAonGFGbLTVUj2.jpg",
+"imdbAll": [
+"tt0018773"
+],
+"lb": "the-circus",
+"rt": "m/1052608-circus",
+"mc": "movie/the-circus",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-sirocco-og-vindens-rike": {
 "tmdbChecked": "2026-10-01",
@@ -2470,7 +2690,9 @@
 },
 "cm-small-roads": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-snekker-andersen-og-julenissen": {
 "tmdbChecked": "2026-10-01",
@@ -2478,23 +2700,38 @@
 "tmdb": 422791,
 "imdb": "tt5531536",
 "en": "Santa Swap: Merry Christmas Mr. Andersen",
-"enFrom": "tmdb",
 "lbSlug": "santa-swap-merry-christmas-mr-andersen",
 "lbRating": 3.15,
 "rated": "2026-10-01",
-"posterPath": "/24G46pFg8o8IaPPvjlerRmaf0f3.jpg"
+"posterPath": "/24G46pFg8o8IaPPvjlerRmaf0f3.jpg",
+"imdbAll": [
+"tt5531536",
+"tt10474510"
+],
+"lb": "santa-swap-merry-christmas-mr-andersen",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-solan-og-ludvig---jul-i-flaklypa": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
 "tmdb": 230731,
 "imdb": "tt2769896",
-"en": "Louis & Luca and the Snow Machine",
-"enFrom": "tmdb",
+"en": "Snow for Christmas",
 "lbSlug": "louis-luca-and-the-snow-machine",
 "lbRating": 3.46,
 "rated": "2026-10-01",
-"posterPath": "/nbm4qwrIsCys0CpEJhNnHh5yIbI.jpg"
+"posterPath": "/nbm4qwrIsCys0CpEJhNnHh5yIbI.jpg",
+"imdbAll": [
+"tt2769896"
+],
+"lb": "louis-luca-and-the-snow-machine",
+"rt": "m/louis_and_luca_and_the_snow_machine",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-soundings": {
 "tmdbChecked": "2026-10-01",
@@ -2525,7 +2762,9 @@
 "lbSlug": "stemple-pass",
 "lbRating": 3.8,
 "rated": "2026-10-01",
-"posterPath": "/tlgVjZn9YSYaolOUONJcn1l44Uu.jpg"
+"posterPath": "/tlgVjZn9YSYaolOUONJcn1l44Uu.jpg",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-streik-bull-tuhus": {
 "tmdbChecked": "2026-10-01",
@@ -2536,11 +2775,21 @@
 "lbSlug": "streik",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/2AV4qz3BRXyr6sLTzCbwynOTiVe.jpg"
+"posterPath": "/2AV4qz3BRXyr6sLTzCbwynOTiVe.jpg",
+"imdbAll": [
+"tt0217070"
+],
+"lb": "streik",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-sublimations-toxiques": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-symbiopsychotaxiplasm": {
 "tmdbChecked": "2026-10-01",
@@ -2618,11 +2867,18 @@
 "tmdb": 115,
 "imdb": "tt0118715",
 "en": "The Big Lebowski",
-"enFrom": "tmdb",
 "lbSlug": "the-big-lebowski",
 "lbRating": 4.11,
 "rated": "2026-10-01",
-"posterPath": "/3bv6WAp6BSxxYvB5ozKFUYuRA8C.jpg"
+"posterPath": "/3bv6WAp6BSxxYvB5ozKFUYuRA8C.jpg",
+"imdbAll": [
+"tt0118715"
+],
+"lb": "the-big-lebowski",
+"rt": "m/the_big_lebowski",
+"mc": "movie/the-big-lebowski",
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-the-devils": {
 "tmdbChecked": "2026-10-01",
@@ -2753,7 +3009,15 @@
 "lbSlug": "tillitsmannen",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": ""
+"posterPath": "",
+"imdbAll": [
+"tt0261355"
+],
+"lb": "tillitsmannen",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-tintin---solens-tempel": {
 "tmdbChecked": "2026-10-01",
@@ -2801,7 +3065,9 @@
 },
 "cm-utopiske-signaler": {
 "tmdbChecked": "2026-10-02",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "cm-vampires": {
 "tmdbChecked": "2026-10-01",
@@ -2903,11 +3169,19 @@
 "tv": 2,
 "tmdb": 404224,
 "imdb": "tt0165659",
-"en": null,
+"en": "White Paradise",
 "lbSlug": "white-paradise",
 "lbRating": null,
 "rated": "2026-10-01",
-"posterPath": "/8Zmd8XMZxzpAVN3teD7Uqwdeqhk.jpg"
+"posterPath": "/8Zmd8XMZxzpAVN3teD7Uqwdeqhk.jpg",
+"imdbAll": [
+"tt0165659"
+],
+"lb": "white-paradise",
+"rt": null,
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "db-a-rimbaud": {
 "tmdbChecked": "2026-10-03",
@@ -3945,7 +4219,15 @@
 "en": null,
 "lbSlug": "franz-2025",
 "lbRating": 3.1,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"imdbAll": [
+"tt17070412"
+],
+"lb": "franz-1",
+"rt": "m/franz",
+"mc": "movie/franz",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-10-01",
@@ -4687,10 +4969,17 @@
 "tmdb": 791523,
 "imdb": "tt2056785",
 "en": "Wildwood",
-"enFrom": "tmdb",
 "lbSlug": "wildwood-2026",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"imdbAll": [
+"tt2056785"
+],
+"lb": "wildwood-1",
+"rt": "m/wildwood",
+"mc": "movie/wildwood",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20260848": {
 "tmdbChecked": "2026-10-01",
@@ -4887,10 +5176,17 @@
 "tmdb": 1329016,
 "imdb": "tt33095251",
 "en": "Tony",
-"enFrom": "tmdb",
 "lbSlug": "tony-2026",
 "lbRating": 3.83,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"imdbAll": [
+"tt33095251"
+],
+"lb": "tony-2026",
+"rt": "m/tony_2026",
+"mc": "movie/tony",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20260922": {
 "tmdbChecked": "2026-10-01",
@@ -4927,10 +5223,17 @@
 "tmdb": 858035,
 "imdb": "tt14371256",
 "en": "Klara and the Sun",
-"enFrom": "tmdb",
 "lbSlug": "klara-and-the-sun",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"imdbAll": [
+"tt14371256"
+],
+"lb": "klara-and-the-sun",
+"rt": "m/klara_and_the_sun",
+"mc": "movie/klara-and-the-sun",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20260961": {
 "tmdbChecked": "2026-10-01",
@@ -4988,7 +5291,9 @@
 },
 "fw-EDI20260975": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20260978": {
 "tmdbChecked": "2026-10-01",
@@ -5215,25 +5520,6 @@
 "lbRating": null,
 "rated": "2026-10-03",
 "v": 4
-},
-"fw-EDI20261156": {
-"lbSlug": "linkin-park-unshatter",
-"lbRating": 4.24,
-"rated": "2026-10-01",
-"imdb": "tt43442522",
-"imdbAll": [
-"tt43442522"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Linkin Park: Unshatter",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1388805,
-"posterPath": "/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg"
 },
 "fw-EDI20261159": {
 "tmdbChecked": "2026-10-01",
@@ -5743,7 +6029,9 @@
 "en": null,
 "lbSlug": "never-after-dark",
 "lbRating": 3.61,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20261385": {
 "tmdbChecked": "2026-10-01",
@@ -5858,12 +6146,6 @@
 "tv": 2,
 "tmdb": 1321666,
 "enFrom": "tmdb"
-},
-"fw-EDI20261416": {
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-03"
 },
 "fw-EDI20261418": {
 "tmdbChecked": "2026-10-03",
@@ -6064,28 +6346,19 @@
 "enFrom": "tmdb",
 "lbSlug": "gupi-and-the-king-who-doesnt-smile",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20261492": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20261493": {
 "tmdbChecked": "2026-10-01",
 "tv": 2
-},
-"fw-EDI20261495": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1640396,
-"lang": "hi",
-"imdb": "tt44090550",
-"en": null,
-"lbSlug": "prem-keetanu",
-"lbRating": null,
-"rated": "2026-10-03",
-"v": 4
 },
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
@@ -6135,11 +6408,18 @@
 "tmdb": 1755291,
 "imdb": "tt44766123",
 "en": "NAZA",
-"enFrom": "tmdb",
 "lbSlug": "naza",
 "lbRating": 4.16,
 "rated": "2026-10-01",
-"posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg"
+"posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg",
+"imdbAll": [
+"tt44766123"
+],
+"lb": "naza",
+"rt": "m/naza",
+"mc": "movie/naza",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20261520": {
 "tmdbChecked": "2026-10-01",
@@ -6221,7 +6501,9 @@
 },
 "fw-EDI20261556": {
 "tmdbChecked": "2026-10-01",
-"tv": 2
+"tv": 2,
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-EDI20261557": {
 "tmdbChecked": "2026-10-01",
@@ -6608,8 +6890,21 @@
 "posterPath": "/afV0ZsYPWcCEZ1gIx0ndi4rd2jd.jpg"
 },
 "fw-FID20210220": {
-"tmdbChecked": "2026-10-01",
-"tv": 2
+"imdb": "tt13322726",
+"imdbAll": [
+"tt13322726"
+],
+"lb": "captain-volkonogov-escaped",
+"rt": null,
+"mc": null,
+"en": "Captain Volkonogov Escaped",
+"v": 4,
+"checked": "2026-10-03",
+"tmdbChecked": "2026-10-03",
+"tv": 2,
+"lbSlug": "captain-volkonogov-escaped",
+"lbRating": 3.76,
+"rated": "2026-10-03"
 },
 "fw-GRI20171335": {
 "tmdbChecked": "2026-10-01",
@@ -7127,10 +7422,17 @@
 "tmdb": 1400940,
 "imdb": "tt34890576",
 "en": "Clayface",
-"enFrom": "tmdb",
 "lbSlug": "clayface",
 "lbRating": null,
-"rated": "2026-10-01"
+"rated": "2026-10-01",
+"imdbAll": [
+"tt34890576"
+],
+"lb": "clayface",
+"rt": "m/clayface",
+"mc": null,
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-WAB20240290": {
 "lbSlug": "practical-magic-2",
@@ -7706,11 +8008,18 @@
 "lang": "en",
 "imdb": "tt0780504",
 "en": "Drive",
-"enFrom": "tmdb",
 "lbSlug": "drive-2011",
 "lbRating": 3.91,
 "rated": "2026-10-03",
-"posterPath": "/602vevIURmpDfzbnv5Ubi6wIkQm.jpg"
+"posterPath": "/602vevIURmpDfzbnv5Ubi6wIkQm.jpg",
+"imdbAll": [
+"tt0780504"
+],
+"lb": "drive-2011",
+"rt": "m/drive_2011",
+"mc": "movie/drive",
+"v": 4,
+"checked": "2026-10-03"
 },
 "rv-like-crazy-2011": {
 "tmdbChecked": "2026-10-03",
@@ -7719,10 +8028,17 @@
 "lang": "en",
 "imdb": "tt1758692",
 "en": "Like Crazy",
-"enFrom": "tmdb",
 "lbSlug": "like-crazy",
 "lbRating": 3.31,
 "rated": "2026-10-03",
-"posterPath": "/8eIhNKnRfayRwWChx0atZh4vGua.jpg"
+"posterPath": "/8eIhNKnRfayRwWChx0atZh4vGua.jpg",
+"imdbAll": [
+"tt1758692"
+],
+"lb": "like-crazy",
+"rt": "m/like_crazy",
+"mc": "movie/like-crazy",
+"v": 4,
+"checked": "2026-10-03"
 }
 }
