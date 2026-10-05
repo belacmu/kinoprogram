@@ -36,12 +36,6 @@ DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: fil
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-# "Last chance": the last showing within this many calendar days (0 = today), however many showings are left, or at
-# most this many showings left with the last within this many days...
-LAST_CHANCE_SOON = 2
-LAST_CHANCE_DAYS, LAST_CHANCE_SHOWS = 14, 2
-# ...and the cinema is still publishing dates beyond it (otherwise we just can't see further ahead).
-HORIZON_MARGIN = timedelta(days=3)
 
 e = html.escape
 
@@ -127,39 +121,19 @@ def pick(new_films, profile, now_s):
     return out
 
 
-def horizons(films):
-    """Per cinema: the latest showing it has published (how far ahead we can see)."""
-    h = {}
-    for f in films:
-        for s in f["shows"]:
-            if s["t"] > h.get(s["cinema"], ""):
-                h[s["cinema"]] = s["t"]
-    return h
-
-
-def pick_leaving(films, profile, now_s, horizon, skip_ids):
-    """Watchlist films whose showings are about to run out: [(film, shows_left, last_show)].
-    Only when the cinema still publishes dates beyond the film's last showing."""
+def pick_leaving(films, profile, now_s, skip_ids):
+    """Watchlist films showing "Last chance" (build.mark_last_chance): [(film, shows_left, last_show)]."""
     prefs = profile.get("prefs") or {}
     watch = set(profile.get("watchlist") or [])
-    now = datetime.strptime(now_s, FMT)
     out = []
     for f in films:
-        if f["id"] in skip_ids or not watch & set(f["ids"]):
+        if f["id"] in skip_ids or not watch & set(f["ids"]) or not f.get("lastChance") or f["lastChance"] > now_s:
             continue
         shows = sorted((s for s in f["shows"] if s["ticket"] and s["t"] >= now_s), key=lambda s: s["t"])
         mine = [s for s in shows if show_ok(s, prefs, now_s)]
         shows = mine or (shows if prefs.get("watchlistAlways", True) else [])
-        if not shows:
-            continue
-        last = shows[-1]
-        last_dt = datetime.strptime(last["t"], FMT)
-        if last["t"] >= horizon.get(last["cinema"], "") or datetime.strptime(horizon[last["cinema"]], FMT) - last_dt < HORIZON_MARGIN:
-            continue  # the cinema simply hasn't published further than this
-        days = (last_dt - now).total_seconds() / 86400
-        soon = (last_dt.date() - now.date()).days <= LAST_CHANCE_SOON
-        if soon or (len(shows) <= LAST_CHANCE_SHOWS and days <= LAST_CHANCE_DAYS):
-            out.append((f, shows, last))
+        if shows:
+            out.append((f, shows, shows[-1]))
     out.sort(key=lambda x: x[2]["t"])
     return out
 
@@ -486,7 +460,6 @@ def main():
         now = datetime.now(ZoneInfo(cfg["tz"])).replace(tzinfo=None)
         now_s, today = now.strftime(FMT), now.strftime("%Y-%m-%d")
         state, data = json.loads(state_path.read_text()), json.loads(data_path.read_text())
-        horizon = horizons(data["films"])
         print(f"== {cfg['name']}")
         # Daily subscribers get what is new since the last daily email; weekly subscribers get what is new
         # since the last weekly one, on Fridays. A test or preview is one email built like a daily one.
@@ -517,7 +490,7 @@ def main():
 
             if preview:
                 everyone = {"prefs": {}, "watchlist": [f["id"] for f in data["films"]]}
-                ending = pick_leaving(data["films"], everyone, now_s, horizon, {new[0]["id"], ann[0]["id"]})
+                ending = pick_leaving(data["films"], everyone, now_s, {new[0]["id"], ann[0]["id"]})
                 demo = [new[0]["id"], ann[0]["id"]] + [f["id"] for f, *_ in ending[:2]]
                 recipients = [{"email": "you@example.com", "prefs": {"regions": [rkey]}, "watchlist": demo, "unsubscribe_token": "preview"}]
             elif test_to:
@@ -551,7 +524,7 @@ def main():
                 items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
                 if not (items or announced):
                     continue  # a watchlist notice (e.g. leaving soon) alone never sends an email
-                leaving = pick_leaving(data["films"], p, now_s, horizon, {f["id"] for f, *_ in items} | {f["id"] for f, _ in announced})
+                leaving = pick_leaving(data["films"], p, now_s, {f["id"] for f, *_ in items} | {f["id"] for f, _ in announced})
                 unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
                 messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey)))
             print(f"{mode}: {len(recipients)} subscriber(s), {len(messages)} with something new")

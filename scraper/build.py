@@ -17,7 +17,7 @@ Each state file holds:
 import json
 import re
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -33,6 +33,12 @@ ROOT = Path(__file__).resolve().parent.parent
 OFF_SALE_DAYS = 7  # a film must be off sale this long before it counts as new again
 FORGET_DATED_DAYS = 90  # forget announced films not seen for this long
 FMT = "%Y-%m-%dT%H:%M"
+# "Last chance" (see mark_last_chance): from this many days before the day of the last showing...
+LAST_CHANCE_SOON = 2
+# ...or once at most this many showings are left, the last within this many days...
+LAST_CHANCE_SHOWS, LAST_CHANCE_DAYS = 2, 14
+# ...as long as the cinema publishes dates this far beyond it (otherwise we just can't see further ahead).
+HORIZON_MARGIN = timedelta(days=3)
 
 
 ID_PATTERNS = [
@@ -142,6 +148,28 @@ def finalise(films, now):
             continue  # premiered a while ago but not playing in this city
         out.append(f)
     return out
+
+
+def mark_last_chance(films):
+    """Set lastChance on films about to stop playing: the time from which the site and the digest show "Last chance".
+    The one place this rule lives. There is deliberately no "leaving soon" for films with more showings further out:
+    cinemas often add showings later."""
+    horizon = {}  # per cinema: the latest showing it has published (how far ahead we can see)
+    for f in films:
+        for s in f["shows"]:
+            horizon[s["cinema"]] = max(horizon.get(s["cinema"], ""), s["t"])
+    for f in films:
+        shows = [s for s in f["shows"] if s["ticket"]]
+        if not shows:
+            continue
+        last = datetime.strptime(shows[-1]["t"], FMT)
+        if datetime.strptime(horizon[shows[-1]["cinema"]], FMT) - last < HORIZON_MARGIN:
+            continue
+        soon = datetime.combine(last.date() - timedelta(days=LAST_CHANCE_SOON), time())
+        few = last - timedelta(days=LAST_CHANCE_DAYS)
+        if len(shows) > LAST_CHANCE_SHOWS:  # once the showings before the last few have started
+            few = max(few, datetime.strptime(shows[-LAST_CHANCE_SHOWS - 1]["t"], FMT))
+        f["lastChance"] = min(soon, few).strftime(FMT)
 
 
 def track(films, now, state_path):
@@ -269,6 +297,7 @@ def main(regions=None):
     for r, cfg, now, films, state, state_path in built:
         if r == "costadelsol":
             costadelsol.mark_dubbed(films)
+        mark_last_chance(films)
         new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
         ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
         print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "
