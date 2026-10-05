@@ -36,7 +36,9 @@ DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: fil
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-# "Last chance": at most this many showings left, the last within this many days...
+# "Last chance": the last showing within this many calendar days (0 = today), however many showings are left, or at
+# most this many showings left with the last within this many days...
+LAST_CHANCE_SOON = 2
 LAST_CHANCE_DAYS, LAST_CHANCE_SHOWS = 14, 2
 # ...and the cinema is still publishing dates beyond it (otherwise we just can't see further ahead).
 HORIZON_MARGIN = timedelta(days=3)
@@ -155,7 +157,8 @@ def pick_leaving(films, profile, now_s, horizon, skip_ids):
         if last["t"] >= horizon.get(last["cinema"], "") or datetime.strptime(horizon[last["cinema"]], FMT) - last_dt < HORIZON_MARGIN:
             continue  # the cinema simply hasn't published further than this
         days = (last_dt - now).total_seconds() / 86400
-        if len(shows) <= LAST_CHANCE_SHOWS and days <= LAST_CHANCE_DAYS:
+        soon = (last_dt.date() - now.date()).days <= LAST_CHANCE_SOON
+        if soon or (len(shows) <= LAST_CHANCE_SHOWS and days <= LAST_CHANCE_DAYS):
             out.append((f, shows, last))
     out.sort(key=lambda x: x[2]["t"])
     return out

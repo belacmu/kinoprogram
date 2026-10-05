@@ -318,15 +318,18 @@ function renderFilters() {
 }
 
 // ---------------------------------------------------------------- render: grid
-// "Last chance" when only 1 or 2 showings are listed in the next two weeks. There is deliberately no "leaving soon" for
-// films with more showings: cinemas often add showings later. Only when the cinema publishes beyond the film's last
-// showing, so a short schedule window isn't mistaken for the end.
+// "Last chance" when the last showing is today, tomorrow or the day after, however many showings are left, or when only
+// 1 or 2 showings are listed in the next two weeks. There is deliberately no "leaving soon" for films with more showings
+// further out: cinemas often add showings later. Only when the cinema publishes beyond the film's last showing, so a
+// short schedule window isn't mistaken for the end.
 const ms = (t) => Date.parse(t + ":00Z");
 function endingNote(shows) {
   const last = shows[shows.length - 1];
   const horizon = state.horizon?.[last?.cinema];
   if (!last || !horizon || ms(horizon) - ms(last.t) < 3 * 864e5) return "";
-  const days = (ms(last.t) - ms(localNow())) / 864e5;
+  const now = localNow();
+  if (last.t.slice(0, 10) <= addDays(now.slice(0, 10), 2)) return "Last chance";
+  const days = (ms(last.t) - ms(now)) / 864e5;
   return shows.length <= 2 && days <= 14 ? "Last chance" : "";
 }
 
