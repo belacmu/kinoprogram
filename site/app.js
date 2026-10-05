@@ -318,17 +318,8 @@ function renderFilters() {
 }
 
 // ---------------------------------------------------------------- render: grid
-// "Last chance" when only 1 or 2 showings are listed in the next two weeks. There is deliberately no "leaving soon" for
-// films with more showings: cinemas often add showings later. Only when the cinema publishes beyond the film's last
-// showing, so a short schedule window isn't mistaken for the end.
-const ms = (t) => Date.parse(t + ":00Z");
-function endingNote(shows) {
-  const last = shows[shows.length - 1];
-  const horizon = state.horizon?.[last?.cinema];
-  if (!last || !horizon || ms(horizon) - ms(last.t) < 3 * 864e5) return "";
-  const days = (ms(last.t) - ms(localNow())) / 864e5;
-  return shows.length <= 2 && days <= 14 ? "Last chance" : "";
-}
+// "Last chance": from the time the build sets for a film about to stop playing (scraper/build.py: mark_last_chance).
+const endingNote = (f) => (f.lastChance && f.lastChance <= localNow() ? "Last chance" : "");
 
 const whereList = (shows) => {
   const cinemas = [...new Set(shows.map((s) => s.cinema))];
@@ -349,7 +340,7 @@ function cardMeta(row) {
     // each time stays whole; the line may wrap between them on narrow cards
     const times = dayShows.slice(0, 3).map((s) => `<span class="nw">${hhmm(s.t)}</span>`).join(" · ") + (dayShows.length > 3 ? ` <span class="nw">+${dayShows.length - 3}</span>` : "");
     if (!onSale) return `${times}<br>${noSaleTag(dayShows)}`;
-    const ending = endingNote(shows);
+    const ending = endingNote(f);
     return `<b>${esc(whereList(dayShows))}</b><br>${times} · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`
       + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
   }
@@ -358,7 +349,7 @@ function cardMeta(row) {
     const first = shows[0];
     const cls = first.t.slice(0, 10) === today ? ' class="today"' : "";
     // keep "Tomorrow 10:15" and "11 shows" whole on narrow cards
-    const ending = endingNote(shows);
+    const ending = endingNote(f);
     return `<b>${esc(where)}</b><br><span class="nw${cls ? " today" : ""}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`
       + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
   }
