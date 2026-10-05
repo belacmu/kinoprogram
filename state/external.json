@@ -4686,6 +4686,12 @@
 "lbRating": 3.3,
 "rated": "2026-10-01"
 },
+"fw-EDI20260207": {
+"v": 4,
+"checked": "2026-10-05",
+"tmdbChecked": "2026-10-05",
+"tv": 2
+},
 "fw-EDI20260236": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -8096,6 +8102,26 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"fw-SFN20191100": {
+"imdb": "tt1160419",
+"imdbAll": [
+"tt1160419"
+],
+"lb": "dune-2021",
+"rt": "m/dune_2021",
+"mc": "movie/dune-part-one",
+"en": "Dune",
+"v": 4,
+"checked": "2026-10-05",
+"tmdbChecked": "2026-10-05",
+"tv": 2,
+"tmdb": 438631,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "dune-2021",
+"lbRating": 3.89,
+"rated": "2026-10-05"
+},
 "fw-SFN20201260": {
 "imdb": "tt4540534",
 "imdbAll": [
@@ -8118,6 +8144,26 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-03"
+},
+"fw-SFN20211456": {
+"imdb": "tt15239678",
+"imdbAll": [
+"tt15239678"
+],
+"lb": "dune-part-two",
+"rt": "m/dune_part_two",
+"mc": "movie/dune-part-two",
+"en": "Dune: Part Two",
+"v": 4,
+"checked": "2026-10-05",
+"tmdbChecked": "2026-10-05",
+"tv": 2,
+"tmdb": 693134,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "dune-part-two",
+"lbRating": 4.38,
+"rated": "2026-10-05"
 },
 "fw-SFN20221545": {
 "tmdbChecked": "2026-10-01",
