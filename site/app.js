@@ -239,20 +239,25 @@ function buildRows() {
     if (later && row.sec.key === DAY_KEY) row.dayShows = row.shows.filter((s) => s.t.startsWith(chosen));
     rows.push(row);
   }
-  const t0 = (r) => r.shows[0]?.t || (r.start ? r.start + "T00:00" : "9999");
-  const rating = (r) => r.f.ext?.lbRating ?? -1;
   rows.sort((a, b) => {
     if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
     if (a.hidden !== b.hidden) return a.hidden ? 1 : -1;  // hidden films are dimmed and always last in their section
     if (a.watched !== b.watched) return a.watched ? -1 : 1;  // watchlist films come first
-    if (state.within === "rating") return rating(b) - rating(a) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
-    if (state.within === "fewest") { // one-off screenings first; films with no showings yet (just a premiere) last
-      const n = (r) => r.shows.length || Infinity;
-      return n(a) - n(b) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
-    }
-    return t0(a).localeCompare(t0(b)) || byTitle(a, b);
+    return byWithin(a, b);
   });
   return rows;
+}
+
+// The "Order within sections" choice, for two rows ({ f, shows, start }); the grid and "What's new" share it.
+const t0 = (r) => r.shows[0]?.t || (r.start ? r.start + "T00:00" : "9999");
+const rating = (r) => r.f.ext?.lbRating ?? -1;
+function byWithin(a, b) {
+  if (state.within === "rating") return rating(b) - rating(a) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
+  if (state.within === "fewest") { // one-off screenings first; films with no showings yet (just a premiere) last
+    const n = (r) => r.shows.length || Infinity;
+    return n(a) - n(b) || t0(a).localeCompare(t0(b)) || byTitle(a, b);
+  }
+  return t0(a).localeCompare(t0(b)) || byTitle(a, b);
 }
 
 // ---------------------------------------------------------------- render: controls + filter sidebar
@@ -535,8 +540,9 @@ function newsItems() {
     if (!m || (kind === "sale" && !m.onSale)) continue;
     items.push({ f, kind, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: isHidden(f), watched: isWatched(f) });
   }
-  // newest day first; within a group, hidden last and watchlist first (as in the grid), then the most recent
-  return items.sort((a, b) => b.at.slice(0, 10).localeCompare(a.at.slice(0, 10)) || a.hidden - b.hidden || b.watched - a.watched || b.at.localeCompare(a.at));
+  // newest day first; within a group, hidden last and watchlist first (as in the grid), then the most recent; films that
+  // share a timestamp follow the "Order within sections" choice
+  return items.sort((a, b) => b.at.slice(0, 10).localeCompare(a.at.slice(0, 10)) || a.hidden - b.hidden || b.watched - a.watched || b.at.localeCompare(a.at) || byWithin(a, b));
 }
 function openNews() {
   const dlg = $("news"), today = localNow().slice(0, 10), days = [];

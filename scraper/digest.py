@@ -88,6 +88,11 @@ def is_hidden(f, prefs, watch):
     return not (since and f.get("onSaleSince") and f["onSaleSince"] > since)
 
 
+def rating_value(f):
+    """Letterboxd rating for sorting; unrated films count as lowest (as on the site)."""
+    return (f.get("ext") or {}).get("lbRating") or -1
+
+
 def pick_announced(films, profile, now_s):
     prefs = profile.get("prefs") or {}
     if not prefs.get("announcements", True):
@@ -96,7 +101,8 @@ def pick_announced(films, profile, now_s):
     hide_kinds = set(prefs["hideKinds"] if "hideKinds" in prefs else DEFAULT_HIDE_KINDS)
     out = [(f, bool(watch & set(f["ids"]))) for f in films if announced_ok(f, prefs, now_s) and not is_hidden(f, prefs, watch)
            and (f.get("kind", "film") not in hide_kinds or watch & set(f["ids"]))]
-    return sorted(out, key=lambda x: (not x[1], x[0]["premiere"] or (x[0]["shows"][0]["t"] if x[0]["shows"] else "9999")))
+    return sorted(out, key=lambda x: (not x[1], x[0]["premiere"] or (x[0]["shows"][0]["t"] if x[0]["shows"] else "9999"),
+                                      -rating_value(x[0])))  # ties: best rated first, the site's default
 
 
 def pick(new_films, profile, now_s):
@@ -117,7 +123,7 @@ def pick(new_films, profile, now_s):
             shows = [s for s in f["shows"] if s["ticket"] and s["t"] >= now_s]
         if shows:
             out.append((f, shows, watched))
-    out.sort(key=lambda x: (not x[2], x[1][0]["t"]))
+    out.sort(key=lambda x: (not x[2], x[1][0]["t"], -rating_value(x[0])))  # ties: best rated first, the site's default
     return out
 
 
