@@ -2685,25 +2685,6 @@
 "tmdb": 60767,
 "enFrom": "tmdb"
 },
-"cm-reservoir-dogs": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 500,
-"imdb": "tt0105236",
-"en": "Reservoir Dogs",
-"lbSlug": "reservoir-dogs",
-"lbRating": 4.14,
-"rated": "2026-10-01",
-"posterPath": "/xi8Iu6qyTfyZVDVy60raIOYJJmk.jpg",
-"imdbAll": [
-"tt0105236"
-],
-"lb": "reservoir-dogs",
-"rt": "m/reservoir_dogs",
-"mc": "movie/reservoir-dogs",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-resilience": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -6731,12 +6712,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"fw-EDI20261278": {
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20261279": {
 "lbSlug": "imperfect-strangers-2026",
 "lbRating": null,
@@ -7519,8 +7494,8 @@
 "mc": "movie/archangel-2026",
 "en": "Ghost Soldier",
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "conflict": [
 "tt38686316",
@@ -7687,8 +7662,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -8322,6 +8297,19 @@
 "lbRating": null,
 "rated": "2026-10-06"
 },
+"fw-EDI20261642": {
+"v": 4,
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"tmdb": 869152,
+"lang": "ml",
+"imdb": "tt37547793",
+"en": null,
+"lbSlug": "titans-2026",
+"lbRating": null,
+"rated": "2026-10-07"
+},
 "fw-FID20210220": {
 "imdb": "tt13322726",
 "imdbAll": [
@@ -8825,24 +8813,6 @@
 "rated": "2026-10-03",
 "posterPath": "/xFhat7pdDaAMNSZSwO15LPHzs7i.jpg",
 "v": 4
-},
-"fw-UAV20236492": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 44018,
-"imdb": "tt0089960",
-"en": "Vagabond",
-"lbSlug": "vagabond",
-"lbRating": 4.11,
-"rated": "2026-10-01",
-"imdbAll": [
-"tt0089960"
-],
-"lb": "vagabond",
-"rt": "m/vagabond",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
 },
 "fw-UAV20237568": {
 "tmdbChecked": "2026-10-01",
