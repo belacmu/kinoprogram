@@ -665,6 +665,36 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"cl-mascotas-rescate": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1107216,
+"lang": "fr",
+"imdb": "tt36424914",
+"en": "Pets on a Train",
+"enFrom": "tmdb",
+"lbSlug": "pets-on-a-train",
+"lbRating": 2.74,
+"rated": "2026-10-06",
+"posterPath": "/b10qy1KwrfmH0MGS2rBUJ0BxgYB.jpg"
+},
+"cl-otra-madre": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1400837,
+"lang": "en",
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
+"lbSlug": "other-mommy",
+"lbRating": null,
+"rated": "2026-10-06",
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
+},
 "cl-patrulla-canina-dino-pelicula": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -715,6 +745,21 @@
 "rated": "2026-10-03",
 "posterPath": "/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
 "v": 4
+},
+"cl-precio-red": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1281331,
+"lang": "en",
+"imdb": "tt37510326",
+"en": "The Social Reckoning",
+"enFrom": "tmdb",
+"lbSlug": "the-social-reckoning",
+"lbRating": null,
+"rated": "2026-10-06",
+"posterPath": "/hDe0OryfBINwmZDRtQjnh6UKUJf.jpg"
 },
 "cl-resident-evil": {
 "imdb": "tt35538033",
@@ -1681,6 +1726,26 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"cm-herman": {
+"imdb": "tt0099764",
+"imdbAll": [
+"tt0099764"
+],
+"lb": "herman",
+"rt": "m/herman",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 52890,
+"lang": "nb",
+"lbSlug": "herman",
+"lbRating": 3.33,
+"rated": "2026-10-06",
+"posterPath": "/yYIf5LlyzhzeJKNkHWX276U8Nbr.jpg"
+},
 "cm-herr-bachmann-og-klassen-hans": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1971,6 +2036,26 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"cm-lacombe-lucien": {
+"imdb": "tt0071733",
+"imdbAll": [
+"tt0071733"
+],
+"lb": "lacombe-lucien",
+"rt": "m/lacombe_lucien",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 55368,
+"lang": "fr",
+"lbSlug": "lacombe-lucien",
+"lbRating": 3.8,
+"rated": "2026-10-06",
+"posterPath": "/gHlorDyJrigxzcuZaQ5p4mseAPC.jpg"
+},
 "cm-ladyhawke": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1989,6 +2074,27 @@
 "mc": "movie/ladyhawke",
 "v": 4,
 "checked": "2026-10-03"
+},
+"cm-lidenskapens-vinger": {
+"imdb": "tt0093191",
+"imdbAll": [
+"tt0093191"
+],
+"lb": "wings-of-desire",
+"rt": "m/wings_of_desire",
+"mc": "movie/wings-of-desire",
+"en": "Wings of Desire",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 144,
+"lang": "de",
+"enFrom": "tmdb",
+"lbSlug": "wings-of-desire",
+"lbRating": 4.3,
+"rated": "2026-10-06",
+"posterPath": "/iZQs2vUeCzvS1KfZJ6uYNCGJBBV.jpg"
 },
 "cm-liten-ida": {
 "tmdbChecked": "2026-10-01",
@@ -2254,6 +2360,21 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-03"
+},
+"cm-napoleon-dynamite": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 8193,
+"lang": "en",
+"imdb": "tt0374900",
+"en": "Napoleon Dynamite",
+"enFrom": "tmdb",
+"lbSlug": "napoleon-dynamite",
+"lbRating": 3.73,
+"rated": "2026-10-06",
+"posterPath": "/6Iv6Uwa2SBLN0dSGM00rdrwN4MJ.jpg"
 },
 "cm-naqoyqatsi": {
 "tmdbChecked": "2026-10-01",
@@ -3557,6 +3678,26 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"fw-BVI20240798": {
+"imdb": "tt29355505",
+"imdbAll": [
+"tt29355505"
+],
+"lb": "toy-story-5",
+"rt": "m/toy_story_5",
+"mc": "movie/toy-story-5",
+"en": "Toy Story 5",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1084244,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "toy-story-5",
+"lbRating": 3.63,
+"rated": "2026-10-06"
+},
 "fw-CIT20150068": {
 "tmdbChecked": "2026-10-03",
 "tv": 2,
@@ -3581,6 +3722,23 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
+},
+"fw-EDI20240140": {
+"imdb": "tt26245982",
+"imdbAll": [
+"tt26245982"
+],
+"lb": "afternoons-of-solitude",
+"rt": "m/afternoons_of_solitude",
+"mc": "movie/afternoons-of-solitude",
+"en": "Afternoons of Solitude",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"lbSlug": "afternoons-of-solitude",
+"lbRating": 3.78,
+"rated": "2026-10-06"
 },
 "fw-EDI20240230": {
 "tmdbChecked": "2026-10-01",
@@ -4036,6 +4194,25 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
+},
+"fw-EDI20250867": {
+"imdb": "tt32298285",
+"imdbAll": [
+"tt32298285"
+],
+"lb": "sirat-2025",
+"rt": "m/sirat",
+"mc": "movie/sirat",
+"en": "Sirāt",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1151272,
+"lang": "es",
+"lbSlug": "sirat-2025",
+"lbRating": 3.57,
+"rated": "2026-10-06"
 },
 "fw-EDI20250893": {
 "lbSlug": "other-mommy",
@@ -4692,6 +4869,12 @@
 "tmdbChecked": "2026-10-05",
 "tv": 2
 },
+"fw-EDI20260224": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2
+},
 "fw-EDI20260236": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4764,6 +4947,25 @@
 "tv": 2,
 "tmdb": 1214130,
 "enFrom": "tmdb"
+},
+"fw-EDI20260293": {
+"imdb": "tt37531036",
+"imdbAll": [
+"tt37531036"
+],
+"lb": "belen-2025",
+"rt": "m/belen",
+"mc": "movie/belen",
+"en": null,
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1301844,
+"lang": "es",
+"lbSlug": "belen-2025",
+"lbRating": 3.82,
+"rated": "2026-10-06"
 },
 "fw-EDI20260296": {
 "tmdbChecked": "2026-10-01",
@@ -5506,24 +5708,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260873": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1240889,
-"imdb": "tt35298123",
-"en": "Teenage Sex and Death at Camp Miasma",
-"lbSlug": "teenage-sex-and-death-at-camp-miasma",
-"lbRating": 3.69,
-"rated": "2026-10-01",
-"imdbAll": [
-"tt35298123"
-],
-"lb": "teenage-sex-and-death-at-camp-miasma",
-"rt": "m/teenage_sex_and_death_at_camp_miasma",
-"mc": "movie/teenage-sex-and-death-at-camp-miasma",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20260878": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5600,6 +5784,26 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
+},
+"fw-EDI20260889": {
+"imdb": "tt27541205",
+"imdbAll": [
+"tt27541205"
+],
+"lb": "queen-at-sea",
+"rt": "m/queen_at_sea",
+"mc": null,
+"en": "Queen at Sea",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1021848,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "queen-at-sea",
+"lbRating": 3.85,
+"rated": "2026-10-06"
 },
 "fw-EDI20260903": {
 "tmdbChecked": "2026-10-01",
@@ -6462,25 +6666,6 @@
 "tmdb": 1449737,
 "enFrom": "tmdb"
 },
-"fw-EDI20261315": {
-"imdb": "tt0381061",
-"imdbAll": [
-"tt0381061"
-],
-"lb": "casino-royale-2006",
-"rt": "m/casino_royale",
-"mc": "movie/casino-royale",
-"en": "Casino Royale",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 36557,
-"enFrom": "tmdb",
-"lbSlug": "casino-royale-2006",
-"lbRating": 4.04,
-"rated": "2026-10-01"
-},
 "fw-EDI20261316": {
 "imdb": "tt17497960",
 "imdbAll": [
@@ -7210,8 +7395,8 @@
 "mc": "movie/archangel-2026",
 "en": "Ghost Soldier",
 "v": 4,
-"checked": "2026-10-05",
-"tmdbChecked": "2026-10-05",
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
 "tv": 2,
 "conflict": [
 "tt38686316",
@@ -7378,8 +7563,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-05",
-"tmdbChecked": "2026-10-05",
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7839,6 +8024,147 @@
 "lbRating": 3.68,
 "rated": "2026-10-05"
 },
+"fw-EDI20261627": {
+"imdb": "tt0255589",
+"imdbAll": [
+"tt0255589"
+],
+"lb": "the-isle",
+"rt": "m/seom-the-isle",
+"mc": "movie/the-isle",
+"en": "The Isle",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 8653,
+"lang": "ko",
+"lbSlug": "the-isle",
+"lbRating": 3.58,
+"rated": "2026-10-06"
+},
+"fw-EDI20261628": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 63107,
+"lang": "ru",
+"imdb": "tt0079020",
+"en": null,
+"lbSlug": "que-viva-mexico",
+"lbRating": 3.85,
+"rated": "2026-10-06"
+},
+"fw-EDI20261629": {
+"imdb": "tt41742035",
+"imdbAll": [
+"tt41742035"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Six Months in a Pink and Blue Building",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1025407,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "six-months-in-a-pink-and-blue-building",
+"lbRating": 3.58,
+"rated": "2026-10-06"
+},
+"fw-EDI20261630": {
+"imdb": "tt35513027",
+"imdbAll": [
+"tt35513027"
+],
+"lb": "sundays-2025",
+"rt": "m/los_domingos",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1443576,
+"lang": "es",
+"lbSlug": "sundays-2025",
+"lbRating": 3.79,
+"rated": "2026-10-06"
+},
+"fw-EDI20261631": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2
+},
+"fw-EDI20261632": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 811169,
+"lang": "es",
+"imdb": "tt13158292",
+"en": null,
+"lbSlug": "toroboro-the-name-of-the-plants",
+"lbRating": null,
+"rated": "2026-10-06"
+},
+"fw-EDI20261633": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1188761,
+"lang": "pt",
+"imdb": "tt26244290",
+"en": null,
+"lbSlug": "entroncamento",
+"lbRating": 3.34,
+"rated": "2026-10-06"
+},
+"fw-EDI20261634": {
+"imdb": "tt0292542",
+"imdbAll": [
+"tt0292542"
+],
+"lb": "son-of-the-bride",
+"rt": "m/son_of_the_bride",
+"mc": "movie/son-of-the-bride",
+"en": "Son of the Bride",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 19460,
+"lang": "es",
+"lbSlug": "son-of-the-bride",
+"lbRating": 3.91,
+"rated": "2026-10-06"
+},
+"fw-EDI20261636": {
+"imdb": "tt0245574",
+"imdbAll": [
+"tt0245574"
+],
+"lb": "y-tu-mama-tambien",
+"rt": "m/y_tu_mama_tambien",
+"mc": "movie/y-tu-mama-tambien",
+"en": null,
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1391,
+"lang": "es",
+"lbSlug": "y-tu-mama-tambien",
+"lbRating": 4.2,
+"rated": "2026-10-06"
+},
 "fw-FID20210220": {
 "imdb": "tt13322726",
 "imdbAll": [
@@ -8213,6 +8539,26 @@
 "lbSlug": "the-nations-gambit",
 "lbRating": 3.32,
 "rated": "2026-10-01"
+},
+"fw-SFN20241757": {
+"imdb": "tt32393988",
+"imdbAll": [
+"tt32393988"
+],
+"lb": "insidious-out-of-the-further",
+"rt": "m/insidious_out_of_the_further",
+"mc": "movie/insidious-out-of-the-further",
+"en": "Insidious: Out of the Further",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1291595,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "insidious-out-of-the-further",
+"lbRating": 2.71,
+"rated": "2026-10-06"
 },
 "fw-SFN20241760": {
 "imdb": "tt32810662",
