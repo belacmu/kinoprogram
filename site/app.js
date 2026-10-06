@@ -591,11 +591,13 @@ function sheetTagList(all) {
     .sort((a, b) => b.n - a.n || a.label.localeCompare(b.label));
 }
 
+const MEAL_TAG = "Meal + film";  // dinner/brunch packages (Sommerro, sometimes Vega): priced far above a cinema ticket
+
 function stubHtml(s) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const tags = showTags(s);
   const inner = `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
-    + (tags.length ? `<span class="tg">${esc(tags.join(" · "))}</span>` : "")
+    + (tags.length ? `<span class="tg">${esc(tags.map((t) => (t === MEAL_TAG ? "🍽 " : "") + t).join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
     + (!s.ticket ? `<span class="c">${esc(s.status || "Not on sale yet")}</span>` : "");
   return s.ticket
@@ -1197,7 +1199,7 @@ async function loadRegion(key) {
     : reg.key === "winnipeg"
     ? `Data from <a href="https://moviescout.ca" target="_blank" rel="noopener">MovieScout</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://davebarbercinematheque.com" target="_blank" rel="noopener">Dave Barber Cinematheque</a>, refreshed twice a day. CinemaClock covers about the next week; showings further ahead are the cinemas' advance sales. Times are Manitoba time. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
     : reg.key === "oslo"
-    ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a>, <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a> and <a href="https://www.eventbrite.com/o/revier-117564493841" target="_blank" rel="noopener">Revier Film Club</a> (Eventbrite), refreshed several times a day. Tickets are bought on the cinemas' own sites; Revier's screenings are free but need a reserved seat. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
+    ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a>, <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, <a href="https://www.eventbrite.com/o/revier-117564493841" target="_blank" rel="noopener">Revier Film Club</a> (Eventbrite), <a href="https://deichman.hoopla.no" target="_blank" rel="noopener">Deichman Bjørvika</a> (Hoopla) and <a href="https://www.sommerrohouse.com/kultur/filmopplevelser/" target="_blank" rel="noopener">Sommerro</a>, refreshed several times a day. Tickets are bought on the cinemas' own sites; Revier's and Deichman's screenings are free but need a reserved seat, and Sommerro's are prepaid dinner + film packages. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
     : `Data from <a href="https://www.landmarkcinemas.com" target="_blank" rel="noopener">Landmark Cinemas</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://evanstheatre.ca" target="_blank" rel="noopener">Evans Theatre</a>. Small theatres sell tickets at the door. Times are Manitoba time. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`;
   document.title = `Cinecrab · ${reg.name}`;
   render();

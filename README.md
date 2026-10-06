@@ -1,6 +1,6 @@
 # Cinecrab
 
-Every film showing in Oslo (Filmweb, Cinemateket, Revier Film Club) and Westman, Manitoba (MovieScout, CinemaClock,
+Every film showing in Oslo (Filmweb, Cinemateket, Revier Film Club, Deichman Bjørvika, Sommerro) and Westman, Manitoba (MovieScout, CinemaClock,
 Evans Theatre), browsed **by film** instead of by date, with a daily email of films newly on sale and
 newly announced. See [SPEC.md](SPEC.md).
 
@@ -14,6 +14,8 @@ newly announced. See [SPEC.md](SPEC.md).
 | --- | --- |
 | `scraper/sources.py` | Fetches Filmweb (GraphQL) and Cinemateket (HTML) |
 | `scraper/revier.py` | Fetches Revier Film Club (Eventbrite organizer page) |
+| `scraper/deichman.py` | Fetches the library's film screenings (Hoopla API) |
+| `scraper/sommerro.py` | Fetches Sommerro's dinner + film evenings (HTML) |
 | `scraper/build.py` | Merges by film, tracks what's new, writes `site/data/films.json` and `state/seen.json` |
 | `scraper/digest.py` | Sends each subscriber their personalised email via Gmail |
 | `site/` | The static site (no build step) |

@@ -12,6 +12,8 @@ For one person and a few friends; must cost nothing to run.
 | Filmweb | Every Oslo cinema on Filmweb (ODEON, Saga, Ringen, Vega, Klingenberg, Colosseum, Vika, Symra, Gimle, Kunstnernes Hus) | Public GraphQL API `movieinfoqs.filmweb.no/graphql`: `getCurrentMovies` (on sale) and `getUpcomingMovies` (announced) |
 | Cinemateket | Cinemateket i Oslo (Tancred, Lillebil) | HTML: `/forestillinger/side-N` for the film list, each film page for its showings, ticket links and facts |
 | Revier Film Club | Free screenings at the Revier hotel (Kongens gate 5), Wednesdays and Fridays 18:00 | Eventbrite only, one event per screening named "Title (year, 1t 40m)": the organizer page's embedded JSON for the list, each event page for director ("Regi: …"), description and ticket release date. Free, but a seat must be reserved, so a showing counts as on sale while Eventbrite has places; "Fully booked" when it doesn't. |
+| Deichman Bjørvika | The main library's film screenings (Kinoen, Kinosalen), free | Its Hoopla ticket shop's public JSON API (`/api/public/v3.0/organizations/915950447`; behind a queue-it redirect that only needs cookies kept). The event list holds everything the library does; the film showings are those labelled "Filmvisning" / "Film og samtale" (the "Barnas kino:", "Film fra Sør:" and "Filmvisning:" prefixes and a trailing ". Lør kl. 14" are stripped from the title; year, running time and English subtitles come from the facts line in the description). A film-and-talk night or a double bill keeps its event name and is type Talks & events. Bookable when the event has ticket types (`available_ticket_types`), otherwise "Free tickets from <date>" (tickets open a week ahead, children's screenings the same morning). School and kindergarten "Utekino" screenings are for booked groups and left out. |
+| Sommerro | Hotel Sommerro's film evenings: a dinner, brunch or tea **package** and a film, prepaid | HTML: `/kultur/filmopplevelser/` has one block per screening (film, year, date, "(Utsolgt)" / "(Få plasser igjen)"); each series page gives what the package includes. Sold out shows as "Sold out", a few left in the note. Booking is a widget on the site, so a showing links to its series page. |
 
 **Manitoba** (Westman and Winnipeg, times in Manitoba time): CinemaClock for about the next week at every cinema,
 MovieScout beyond it (advance sales months ahead).
@@ -41,6 +43,14 @@ Landmark re-releases: the year comes from the title ("(1978)", "20th Anniversary
 A film shown at more than one source is merged into one entry (normalised title, production year within ±1, so
 two different films with the same title stay separate). Version suffixes such as "– 70mm" and a
 trailing "(1946)" in the title are ignored when matching; the latter is used as the year.
+
+## Meal packages
+
+A showing that comes with a meal (Sommerro always; Vega's dinner screenings when Filmweb says so in the showing's
+info) carries the tag **Meal + film** (🍽 on its showing), and Sommerro's note says it's a prepaid package. It costs
+far more than a cinema ticket, so the tag keeps it from passing as a normal showing; it is also a format filter on the
+film page like IMAX. Films that only play as a meal package are never "new" or "newly announced" (they're always on
+offer), so they don't reach the email or What's new. Prices aren't published in a scrapable way, so none are shown.
 
 ## Definitions
 

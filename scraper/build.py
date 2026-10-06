@@ -23,8 +23,10 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).parent))
 import costadelsol  # noqa: E402
+import deichman  # noqa: E402
 import external  # noqa: E402
 import revier  # noqa: E402
+import sommerro  # noqa: E402
 import sources  # noqa: E402
 import westman  # noqa: E402
 import winnipeg  # noqa: E402
@@ -50,6 +52,9 @@ ID_PATTERNS = [
     ("db-", r"davebarbercinematheque\.com/movies/([^/?#]+)"),
     ("cl-", r"carteleracines\.es/#([^/?#]+)"),
     # One Eventbrite event per screening; the slug without running time and event number names the film.
+    ("dm-", r"deichman\.hoopla\.no/event/(\d+)"),
+    # Every film in a Sommerro series shares the series page, so each film's link carries its own #anchor.
+    ("sr-", r"sommerrohouse\.com/events/([^/?#]+)/?#(.+)"),
     ("rv-", r"eventbrite\.[a-z.]+/e/(.+?)(?:-\d+t)?(?:-\d+m)?-tickets-\d+"),
 ]
 
@@ -58,7 +63,7 @@ def film_id(url):
     for prefix, pattern in ID_PATTERNS:
         m = re.search(pattern, url)
         if m:
-            return prefix + m[1]
+            return prefix + "-".join(m.groups())
     return re.sub(r"[^a-z0-9]+", "-", url.lower())
 
 
@@ -110,6 +115,8 @@ TALKS = re.compile(r"^(filmhistorie:|fra nrk-arkivet|jack presenterer!|lansering
 def film_kind(f):
     """'stage' (opera, ballet, theatre, concerts), 'talk' (lectures, special events), 'short', or 'film'.
     Mystery movies/screenings are secret films, so they stay 'film'."""
+    if f.get("kindHint"):  # set by a source that knows, e.g. a library's film-and-talk evening
+        return f["kindHint"]
     genres = " ".join(f.get("genres") or []).lower()
     tags = {t for s in f["shows"] for t in s["tags"]}
     if STAGE.search(f["title"]) or "Opera" in tags or "konsert" in genres:
@@ -132,6 +139,7 @@ def finalise(films, now):
         f["id"] = f["ids"][0]
         f["series"] = list(dict.fromkeys(f["series"]))
         f["kind"] = film_kind(f)
+        f.pop("kindHint", None)
         if not f["shows"] and f.get("checkedNationwide") and f["premiere"]:
             # Checked films premiere within 14 days; by then the cinemas here have normally published
             # showings. Playing elsewhere (e.g. only at a festival in Bergen) but not here: not coming
@@ -183,6 +191,8 @@ def track(films, now, state_path):
     dated_first_run = "dated" not in state
     dated = state.setdefault("dated", {})
     for f in films:
+        # Films that only play as a meal package (Sommerro's weekly classics) are never "new": they're always on offer.
+        meal_only = bool(f["shows"]) and all(sources.MEAL_TAG in s["tags"] for s in f["shows"])
         # Newly announced: first time this film has a concrete date (any status counts as
         # "known", so a film dropping from on sale back to announced doesn't trigger).
         f["announcedSince"] = ""
@@ -191,7 +201,7 @@ def track(films, now, state_path):
             first = min((r["first"] for r in drecs), default=None)
             if not first:
                 # Baseline runs and films that go straight on sale never count as announced.
-                first = state["baseline"] if dated_first_run or f["status"] == "on_sale" else now_s
+                first = state["baseline"] if dated_first_run or meal_only or f["status"] == "on_sale" else now_s
             for i in f["ids"]:
                 dated[i] = {"first": first, "last": now_s}
             if f["status"] == "announced":
@@ -202,7 +212,7 @@ def track(films, now, state_path):
             continue
         last = max((r["last"] for r in recs), default=None)
         gone_too_long = last and datetime.strptime(last, FMT) < datetime.strptime(now_s, FMT) - timedelta(days=OFF_SALE_DAYS)
-        since = now_s if (not recs or gone_too_long) else min(r["since"] for r in recs)
+        since = state["baseline"] if meal_only else now_s if (not recs or gone_too_long) else min(r["since"] for r in recs)
         for i in f["ids"]:
             seen[i] = {"since": since, "last": now_s}
         f["onSaleSince"] = since
@@ -235,7 +245,16 @@ def fetch_oslo(now):
     except Exception as e:
         print(f"  ! Revier failed: {e}", file=sys.stderr)
         rv = []
-    return merge(merge(fw, cm), rv)
+    films = merge(merge(fw, cm), rv)
+    for name, mod in (("Deichman Bjørvika", deichman), ("Sommerro", sommerro)):
+        print(f"Fetching {name} …")
+        try:
+            got = mod.fetch_all(now)
+            print(f"  {len(got)} films, {sum(len(f['shows']) for f in got)} showings")
+            films = merge(films, got)
+        except Exception as e:
+            print(f"  ! {name} failed: {e}", file=sys.stderr)
+    return films
 
 
 def fetch_westman(now):
@@ -261,8 +280,8 @@ def fetch_costadelsol(now):
 
 REGIONS = {
     "oslo": {"name": "Oslo", "tz": "Europe/Oslo", "fetch": fetch_oslo, "first": "Cinemateket",
-             "idprefixes": ("fw-", "cm-", "rv-"), "data": "films.json", "state": "seen.json",
-             "sources": "Filmweb + Cinemateket + Revier"},
+             "idprefixes": ("fw-", "cm-", "rv-", "dm-", "sr-"), "data": "films.json", "state": "seen.json",
+             "sources": "Filmweb + Cinemateket + Revier + Deichman + Sommerro"},
     "westman": {"name": "Westman", "tz": "America/Winnipeg", "fetch": fetch_westman, "first": "Landmark Brandon",
                 "idprefixes": ("lm-", "cc-", "ev-", "https-moviescout"), "data": "westman.json", "state": "seen-westman.json",
                 "sources": "Landmark + CinemaClock + Evans Theatre"},

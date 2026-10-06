@@ -20,6 +20,11 @@ def text(s):
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", s or ""))).strip()
 
 
+# A showing that comes with a meal (dinner + film packages): priced far above a plain cinema ticket, so the site tags it.
+MEAL_TAG = "Meal + film"
+MEAL = re.compile(r"\b(middag|dinner|lunsj|lunch|brunsj|brunch|buffet|[2-6]-retters)\b", re.I)
+
+
 def film(**kw):
     base = {"title": "", "alt": "", "year": "", "runtime": 0, "genres": [], "director": "",
             "countries": [], "blurb": "", "poster": "", "links": [], "series": [], "shows": [],
@@ -89,6 +94,8 @@ def fetch_filmweb(location):
         for s in m.get("shows") or []:
             tags = [t["tag"] for t in s.get("versionTags") or [] if t["tag"] != "2D"]
             tags += [t.strip() for t in (s.get("showType") or "").split(",") if t.strip()]
+            if MEAL.search((s.get("showInfo") or "") + " " + (s.get("showType") or "")):  # e.g. a Vega dinner screening
+                tags.append(MEAL_TAG)
             shows.append({
                 "t": s["showStart"][:16],
                 "cinema": s["theaterName"],
