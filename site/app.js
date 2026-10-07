@@ -193,7 +193,7 @@ function whenSection(row, today, chosen = today) {
   if (day <= addDays(weekEnd, 7)) return { key: "0002", label: "From next week" };
   const [y, m] = day.split("-").map(Number);
   const [ty, tm] = today.split("-").map(Number);
-  const label = y === ty && m === tm ? `From later in ${MONTH_NAMES[m - 1]}` : `From ${MONTH_NAMES[m - 1]}${y !== ty ? " " + y : ""}`;
+  const label = y === ty && m === tm ? `Later in ${MONTH_NAMES[m - 1]}` : `${MONTH_NAMES[m - 1]}${y !== ty ? " " + y : ""}`;
   return { key: day.slice(0, 7), label };
 }
 

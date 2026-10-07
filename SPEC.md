@@ -71,7 +71,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   ticket link. Deep link: `#film/<id>`.
 - Region switcher (Oslo / Westman / Winnipeg / Costa del Sol), remembered per browser; `?r=westman` links to a region.
 - **One grid with section headers, by when films play**: Playing from today (or tomorrow, or the picked day) · From this week · From next week ·
-  From later in <month> · From <month>… A film "starts" at its first showing, or its confirmed premiere if
+  Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere if
   earlier. Films without a date are left out (they appear only when you search for them).
   - The first section is a chosen day, Today by default (so nothing asks you to pick); once nothing
     more is on today under your filters, it's the next day something is (usually tomorrow), still
