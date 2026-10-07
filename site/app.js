@@ -178,7 +178,8 @@ function chosenDay(today) {
   return next ? next.slice(0, 10) : today;
 }
 const DAY_KEY = "0000";
-const dayTitle = (chosen, today) => (chosen === today ? "Playing today" : `Playing ${dayLabel(chosen)}`);
+// "from", since the section is when these films start playing
+const dayTitle = (chosen, today) => `Playing from ${chosen === today || chosen === addDays(today, 1) ? dayLabel(chosen).toLowerCase() : dayLabel(chosen)}`;
 // Section labels for the "When it's playing" view. The first section is the chosen day (today unless another is
 // picked); the rest group films by their next showing after it, so picking a day shows the page as it will be then.
 function whenSection(row, today, chosen = today) {

@@ -70,7 +70,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Poster grid; clicking a poster opens the film with all its showings grouped by day, each with a
   ticket link. Deep link: `#film/<id>`.
 - Region switcher (Oslo / Westman / Winnipeg / Costa del Sol), remembered per browser; `?r=westman` links to a region.
-- **One grid with section headers, by when films play**: Playing today · This week · Next week ·
+- **One grid with section headers, by when films play**: Playing from today (or tomorrow, or the picked day) · This week · Next week ·
   Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere if
   earlier. Films without a date are left out (they appear only when you search for them).
   - The first section is a chosen day, Today by default (so nothing asks you to pick); once nothing
