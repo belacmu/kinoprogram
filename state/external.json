@@ -1,4 +1,25 @@
 {
+"cc-angel-and-the-badman-1947": {
+"imdb": "tt0039152",
+"imdbAll": [
+"tt0039152"
+],
+"lb": "angel-and-the-badman",
+"rt": "m/1000957-angel_and_the_badman",
+"mc": null,
+"en": "Angel and the Badman",
+"v": 4,
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"tmdb": 22356,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "angel-and-the-badman",
+"lbRating": 3.3,
+"rated": "2026-10-07",
+"posterPath": "/tbnte13MT1mke828R0rKmNZ41G6.jpg"
+},
 "cc-avengers-endgame-2019": {
 "imdb": "tt4154796",
 "tmdb": 299534,
@@ -6,8 +27,8 @@
 "tt4154796"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "avengers-endgame",
@@ -90,7 +111,7 @@
 "posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
 },
 "cc-digger-2026": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1248832,
 "imdb": "tt31450459",
@@ -100,7 +121,7 @@
 "tt31450459"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "digger-2026",
 "lbRating": 3.66,
@@ -112,6 +133,20 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-04"
+},
+"cc-eh-din-roz-ni-aune-2026": {
+"v": 4,
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"tmdb": 1651316,
+"lang": "pa",
+"imdb": null,
+"en": null,
+"lbSlug": "eh-din-roz-ni-aune",
+"lbRating": null,
+"rated": "2026-10-07",
+"posterPath": "/6Xb3U9L59uZ0eoiSXA81FjesfDT.jpg"
 },
 "cc-el-laberinto-del-fauno-2006": {
 "tmdbChecked": "2026-10-03",
@@ -134,7 +169,7 @@
 "checked": "2026-10-04"
 },
 "cc-forgotten-island-2026": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1465063,
 "imdb": "tt36583977",
@@ -144,7 +179,7 @@
 "tt36583977"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "forgotten-island-2026",
 "lbRating": 3.92,
@@ -172,7 +207,7 @@
 "checked": "2026-10-04"
 },
 "cc-heart-of-the-beast-2026": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1263337,
 "imdb": "tt7526136",
@@ -182,7 +217,7 @@
 "tt7526136"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "heart-of-the-beast-2026",
 "lbRating": 3.3,
@@ -237,28 +272,28 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"cc-ninja-scroll-1993": {
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 14282,
-"lang": "ja",
-"imdb": "tt0107692",
-"en": "Ninja Scroll",
-"lbSlug": "ninja-scroll",
-"lbRating": 3.84,
-"rated": "2026-10-03",
-"posterPath": "/qzZEnaXwv4wss2QalEo4Uf9BAwh.jpg",
+"cc-once-upon-a-time-in-the-middle-east-2026": {
+"imdb": "tt34386754",
 "imdbAll": [
-"tt0107692"
+"tt34386754"
 ],
-"lb": "ninja-scroll",
-"rt": "m/ninja-scroll",
+"lb": "once-upon-a-time-in-the-middle-east",
+"rt": null,
 "mc": null,
+"en": "Once Upon a Time in the Middle East",
 "v": 4,
-"checked": "2026-10-04"
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"tmdb": 1391021,
+"lang": "zh",
+"lbSlug": "once-upon-a-time-in-the-middle-east",
+"lbRating": 3.88,
+"rated": "2026-10-07",
+"posterPath": "/wAuGgXjA7GV8NrKfmUKl2AP8vqG.jpg"
 },
 "cc-other-mommy-2026": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1400837,
 "imdb": "tt36586020",
@@ -268,12 +303,32 @@
 "tt36586020"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "the-social-reckoning",
 "lbRating": null,
 "rated": "2026-10-01",
 "posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
+},
+"cc-paw-patrol-the-dino-movie-2026": {
+"imdb": "tt29356163",
+"imdbAll": [
+"tt29356163"
+],
+"lb": "paw-patrol-the-dino-movie",
+"rt": "m/paw_patrol_the_dino_movie",
+"mc": "movie/paw-patrol-the-dino-movie",
+"en": "Paw Patrol: The Dino Movie",
+"v": 4,
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"tmdb": 1185806,
+"lang": "en",
+"lbSlug": "paw-patrol-the-dino-movie",
+"lbRating": 2.86,
+"rated": "2026-10-07",
+"posterPath": "/qnin56Syy5rbG7KCaxWY7SPuy6p.jpg"
 },
 "cc-practical-magic-2-2026": {
 "imdb": "tt32588798",
@@ -282,8 +337,8 @@
 "tt32588798"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "practical-magic-2",
@@ -306,7 +361,7 @@
 "checked": "2026-10-04"
 },
 "cc-primetime-2026": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1375441,
 "imdb": "tt34206385",
@@ -316,7 +371,7 @@
 "tt34206385"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "primetime-2026",
 "lbRating": 3.71,
@@ -330,7 +385,7 @@
 "checked": "2026-10-04"
 },
 "cc-resident-evil-2026": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1423191,
 "imdb": "tt35538033",
@@ -340,7 +395,7 @@
 "tt35538033"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "resident-evil-2026",
 "lbRating": 3.78,
@@ -354,8 +409,8 @@
 "tt33184695"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "rolling-loud-the-movie",
@@ -370,8 +425,8 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "run-terry-run",
@@ -401,7 +456,7 @@
 "posterPath": "/SGH7mlgfDyGgRCi2At62Ljg3zV.jpg"
 },
 "cc-spider-man-brand-new-day-2026": {
-"tmdbChecked": "2026-10-03",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 969681,
 "lang": "en",
@@ -418,7 +473,8 @@
 "rt": "m/spider_man_brand_new_day",
 "mc": "movie/spider-man-brand-new-day",
 "v": 4,
-"checked": "2026-10-04"
+"checked": "2026-10-07",
+"source": "moviescout"
 },
 "cc-the-odyssey-2026": {
 "tmdbChecked": "2026-10-03",
@@ -447,8 +503,8 @@
 "tt37510326"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "the-social-reckoning",
@@ -497,7 +553,7 @@
 "checked": "2026-10-04"
 },
 "cc-verity-2026": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1283515,
 "imdb": "tt32261958",
@@ -507,7 +563,7 @@
 "tt32261958"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "verity-2026",
 "lbRating": 2.82,
@@ -1042,25 +1098,6 @@
 "lb": "nothing-but-troubles",
 "rt": null,
 "mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-all-the-beauty-and-the-bloodshed": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1004663,
-"imdb": "tt21374850",
-"en": "All the Beauty and the Bloodshed",
-"lbSlug": "all-the-beauty-and-the-bloodshed",
-"lbRating": 4.22,
-"rated": "2026-10-01",
-"posterPath": "/cvO51xxtIUHc5w5ZgFsigiFaUaO.jpg",
-"imdbAll": [
-"tt21374850"
-],
-"lb": "all-the-beauty-and-the-bloodshed",
-"rt": "m/all_the_beauty_and_the_bloodshed",
-"mc": "movie/all-the-beauty-and-the-bloodshed",
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -3352,25 +3389,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"db-lucid": {
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1409632,
-"lang": "en",
-"imdb": "tt33306263",
-"en": "Lucid",
-"lbSlug": "lucid-2025-1",
-"lbRating": 3.39,
-"rated": "2026-10-03",
-"imdbAll": [
-"tt33306263"
-],
-"lb": "lucid-2025-1",
-"rt": "m/lucid_2025",
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
-},
 "db-moving-still-animation-at-the-winnipeg-film-group": {
 "tmdbChecked": "2026-10-03",
 "tv": 2,
@@ -3445,25 +3463,6 @@
 "lb": "the-devils",
 "rt": "m/the_devils",
 "mc": "movie/the-devils",
-"v": 4,
-"checked": "2026-10-04"
-},
-"db-the-history-of-concrete": {
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1596296,
-"lang": "en",
-"imdb": "tt39150234",
-"en": "The History of Concrete",
-"lbSlug": "the-history-of-concrete",
-"lbRating": 3.99,
-"rated": "2026-10-03",
-"imdbAll": [
-"tt39150234"
-],
-"lb": "the-history-of-concrete",
-"rt": "m/the_history_of_concrete",
-"mc": "movie/the-history-of-concrete",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -3637,12 +3636,6 @@
 "lbRating": 3.8,
 "rated": "2026-10-06",
 "posterPath": "/rZqolYhxMEe6TZZTjSmFw9crDTD.jpg"
-},
-"dm-2009675098": {
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2
 },
 "dm-221733318": {
 "tmdbChecked": "2026-10-01",
@@ -9051,7 +9044,7 @@
 "checked": "2026-10-05"
 },
 "https-moviescout-ca-movies-10002913": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1003596,
 "imdb": "tt21357150",
@@ -9061,7 +9054,7 @@
 "tt21357150"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "avengers-doomsday",
 "lbRating": null,
@@ -9069,7 +9062,7 @@
 "posterPath": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg"
 },
 "https-moviescout-ca-movies-10002980": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1248832,
 "imdb": "tt31450459",
@@ -9079,7 +9072,7 @@
 "tt31450459"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "digger-2026",
 "lbRating": 3.66,
@@ -9087,7 +9080,7 @@
 "posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg"
 },
 "https-moviescout-ca-movies-10003031": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1423191,
 "imdb": "tt35538033",
@@ -9097,7 +9090,7 @@
 "tt35538033"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "resident-evil-2026",
 "lbRating": 3.78,
@@ -9111,8 +9104,8 @@
 "tt32588798"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "practical-magic-2",
@@ -9121,7 +9114,7 @@
 "posterPath": "/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg"
 },
 "https-moviescout-ca-movies-10003065": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1465063,
 "imdb": "tt36583977",
@@ -9131,7 +9124,7 @@
 "tt36583977"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "forgotten-island-2026",
 "lbRating": 3.92,
@@ -9139,7 +9132,7 @@
 "posterPath": "/Lr0Ng7Gg02RW1AyfYEL6P0WUvd.jpg"
 },
 "https-moviescout-ca-movies-10003069": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1263337,
 "imdb": "tt7526136",
@@ -9149,7 +9142,7 @@
 "tt7526136"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "heart-of-the-beast-2026",
 "lbRating": 3.3,
@@ -9163,8 +9156,8 @@
 "tt34890576"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "clayface",
@@ -9179,8 +9172,8 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "run-terry-run",
@@ -9195,8 +9188,8 @@
 "tt28535715"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "whalefall",
@@ -9211,8 +9204,8 @@
 "tt14371256"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "klara-and-the-sun",
@@ -9227,8 +9220,8 @@
 "tt37510326"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "the-social-reckoning",
@@ -9237,7 +9230,7 @@
 "posterPath": "/2RmNbvlv9jDrLGDDkdYZDifKGCm.jpg"
 },
 "https-moviescout-ca-movies-10003103": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1375441,
 "imdb": "tt34206385",
@@ -9247,7 +9240,7 @@
 "tt34206385"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "primetime-2026",
 "lbRating": 3.71,
@@ -9255,7 +9248,7 @@
 "posterPath": "/lmrulvLbmaejTix1YaMxo1oGhH1.jpg"
 },
 "https-moviescout-ca-movies-10003176": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1283515,
 "imdb": "tt32261958",
@@ -9265,7 +9258,7 @@
 "tt32261958"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "verity-2026",
 "lbRating": 2.82,
@@ -9273,7 +9266,7 @@
 "posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
 },
 "https-moviescout-ca-movies-10003178": {
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "tmdb": 1400837,
 "imdb": "tt36586020",
@@ -9283,7 +9276,7 @@
 "tt36586020"
 ],
 "v": 4,
-"checked": "2026-10-06",
+"checked": "2026-10-07",
 "source": "moviescout",
 "lbSlug": "the-social-reckoning",
 "lbRating": null,
@@ -9297,8 +9290,8 @@
 "tt27419420"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "street-fighter-2026",
@@ -9313,14 +9306,30 @@
 "tt43702710"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": null,
 "lbRating": null,
 "rated": "2026-10-02",
 "posterPath": "/uTyVxPeWX8Ai30IQoyDDQONNcq.jpg"
+},
+"https-moviescout-ca-movies-10003197": {
+"imdb": "tt34384661",
+"tmdb": 1381071,
+"imdbAll": [
+"tt34384661"
+],
+"v": 4,
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"source": "moviescout",
+"lbSlug": "godzilla-minus-zero",
+"lbRating": 3.89,
+"rated": "2026-10-07",
+"posterPath": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg"
 },
 "https-moviescout-ca-movies-10003199": {
 "imdb": "tt34966140",
@@ -9329,8 +9338,8 @@
 "tt34966140"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "focker-in-law",
@@ -9345,8 +9354,8 @@
 "tt6262770"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "tenzing",
@@ -9361,8 +9370,8 @@
 "tt13609648"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "sense-and-sensibility-2026",
@@ -9377,8 +9386,8 @@
 "tt2056785"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "wildwood-2026",
@@ -9393,8 +9402,8 @@
 "tt36415529"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "behemoth-2026",
@@ -9409,8 +9418,8 @@
 "tt45368240"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "you-can-see-everything",
@@ -9425,8 +9434,8 @@
 "tt35514120"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "werwulf",
@@ -9441,8 +9450,8 @@
 "tt4154796"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "avengers-endgame",
@@ -9457,8 +9466,8 @@
 "tt42921285"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "fallen-angels-2026",
@@ -9473,8 +9482,8 @@
 "tt33184695"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "rolling-loud-the-movie",
@@ -9489,8 +9498,8 @@
 "tt46055956"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "back-to-the-beginning-ozzys-final-bow",
@@ -9505,8 +9514,8 @@
 "tt36408401"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "the-further-mis-adventures-of-cliff-booth",
@@ -9521,8 +9530,8 @@
 "tt0070047"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "the-exorcist",
@@ -9537,13 +9546,33 @@
 "tt2543164"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "arrival-2016",
 "lbRating": 4.14,
 "rated": "2026-10-03"
+},
+"https-moviescout-ca-movies-315543": {
+"imdb": "tt1756855",
+"imdbAll": [
+"tt1756855"
+],
+"lb": "coyote-vs-acme",
+"rt": "m/coyote_vs_acme",
+"mc": "movie/coyote-vs-acme",
+"en": "Coyote vs. Acme",
+"v": 4,
+"checked": "2026-10-01",
+"lbSlug": "coyote-vs-acme",
+"lbRating": 3.84,
+"rated": "2026-10-01",
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 1204680,
+"enFrom": "tmdb",
+"posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
 },
 "https-moviescout-ca-movies-359230": {
 "imdb": "tt31378509",
@@ -9552,13 +9581,34 @@
 "tt31378509"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "dune-part-three",
 "lbRating": null,
 "rated": "2026-10-01"
+},
+"https-moviescout-ca-movies-374538": {
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"tmdb": 969681,
+"lang": "en",
+"imdb": "tt22084616",
+"en": "Spider-Man: Brand New Day",
+"lbSlug": "spider-man-brand-new-day",
+"lbRating": 4.04,
+"rated": "2026-10-03",
+"posterPath": "/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg",
+"imdbAll": [
+"tt22084616"
+],
+"lb": "spider-man-brand-new-day",
+"rt": "m/spider_man_brand_new_day",
+"mc": "movie/spider-man-brand-new-day",
+"v": 4,
+"checked": "2026-10-07",
+"source": "moviescout"
 },
 "https-moviescout-ca-movies-415960": {
 "tmdbChecked": "2026-10-03",
@@ -9582,8 +9632,8 @@
 "tt0077651"
 ],
 "v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
 "tv": 2,
 "source": "moviescout",
 "lbSlug": "halloween-1978",
@@ -9607,26 +9657,6 @@
 "lb": "drive-2011",
 "rt": "m/drive_2011",
 "mc": "movie/drive",
-"v": 4,
-"checked": "2026-10-03"
-},
-"rv-like-crazy-2011": {
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 60420,
-"lang": "en",
-"imdb": "tt1758692",
-"en": "Like Crazy",
-"lbSlug": "like-crazy",
-"lbRating": 3.31,
-"rated": "2026-10-03",
-"posterPath": "/8eIhNKnRfayRwWChx0atZh4vGua.jpg",
-"imdbAll": [
-"tt1758692"
-],
-"lb": "like-crazy",
-"rt": "m/like_crazy",
-"mc": "movie/like-crazy",
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -10159,26 +10189,6 @@
 "enFrom": "tmdb",
 "lbSlug": "the-godfather",
 "lbRating": 4.51,
-"rated": "2026-10-06"
-},
-"sr-winedinecrime-the-untouchables-1987": {
-"imdb": "tt0094226",
-"imdbAll": [
-"tt0094226"
-],
-"lb": "the-untouchables",
-"rt": "m/untouchables",
-"mc": "movie/the-untouchables",
-"en": "The Untouchables",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 117,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-untouchables",
-"lbRating": 3.86,
 "rated": "2026-10-06"
 }
 }
