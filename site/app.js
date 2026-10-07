@@ -189,11 +189,11 @@ function whenSection(row, today, chosen = today) {
   if (row.shows.length && day === chosen) return { key: DAY_KEY, label: dayTitle(chosen, today) };
   const dow = asDate(today).getUTCDay();                    // 0 = Sunday
   const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
-  if (day <= weekEnd) return { key: "0001", label: "This week" };
-  if (day <= addDays(weekEnd, 7)) return { key: "0002", label: "Next week" };
+  if (day <= weekEnd) return { key: "0001", label: "From this week" };
+  if (day <= addDays(weekEnd, 7)) return { key: "0002", label: "From next week" };
   const [y, m] = day.split("-").map(Number);
   const [ty, tm] = today.split("-").map(Number);
-  const label = y === ty && m === tm ? `Later in ${MONTH_NAMES[m - 1]}` : `${MONTH_NAMES[m - 1]}${y !== ty ? " " + y : ""}`;
+  const label = y === ty && m === tm ? `From later in ${MONTH_NAMES[m - 1]}` : `From ${MONTH_NAMES[m - 1]}${y !== ty ? " " + y : ""}`;
   return { key: day.slice(0, 7), label };
 }
 
