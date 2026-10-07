@@ -633,6 +633,21 @@
 "lang": "en",
 "posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg"
 },
+"cl-doraemon-aventures-mon-l-art": {
+"v": 4,
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2,
+"tmdb": 1372489,
+"lang": "ja",
+"imdb": "tt33512868",
+"en": "Doraemon the Movie: Nobita's Art World Tales",
+"enFrom": "tmdb",
+"lbSlug": "doraemon-the-movie-nobitas-art-world-tales",
+"lbRating": 3.59,
+"rated": "2026-10-07",
+"posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
+},
 "cl-isla-olvidada": {
 "tmdbChecked": "2026-10-03",
 "tv": 2,
@@ -782,27 +797,6 @@
 "rated": "2026-10-02",
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
-},
-"cl-septimo-sello": {
-"imdb": "tt0050976",
-"imdbAll": [
-"tt0050976"
-],
-"lb": "the-seventh-seal",
-"rt": "m/seventh_seal",
-"mc": "movie/the-seventh-seal",
-"en": "The Seventh Seal",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 490,
-"enFrom": "tmdb",
-"lbSlug": "the-seventh-seal",
-"lbRating": 4.31,
-"rated": "2026-10-02",
-"lang": "sv",
-"posterPath": "/wcZ21zrOsy0b52AfAF50XpTiv75.jpg"
 },
 "cl-spider-man-brand-new-day": {
 "imdb": "tt22084616",
@@ -8136,6 +8130,12 @@
 "lbSlug": "the-lost-boys",
 "lbRating": 3.68,
 "rated": "2026-10-05"
+},
+"fw-EDI20261618": {
+"v": 4,
+"checked": "2026-10-07",
+"tmdbChecked": "2026-10-07",
+"tv": 2
 },
 "fw-EDI20261627": {
 "imdb": "tt0255589",
