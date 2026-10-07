@@ -1407,23 +1407,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-donnie-darko": {
-"imdb": "tt0246578",
-"imdbAll": [
-"tt0246578"
-],
-"lb": "donnie-darko",
-"rt": "m/donnie_darko",
-"mc": "movie/donnie-darko",
-"en": "Donnie Darko",
-"v": 4,
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"lbSlug": "donnie-darko",
-"lbRating": 3.98,
-"rated": "2026-10-03"
-},
 "cm-en-fremmed-flytter-inn": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5393,24 +5376,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260623": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 950028,
-"imdb": "tt14173636",
-"en": "The Invite",
-"lbSlug": "the-invite-2026",
-"lbRating": 3.96,
-"rated": "2026-10-01",
-"imdbAll": [
-"tt14173636"
-],
-"lb": "the-invite-2026",
-"rt": "m/the_invite",
-"mc": "movie/the-invite",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20260632": {
 "lbSlug": "siri-hustvedt-dance-around-the-self",
 "lbRating": 3.67,
@@ -7481,8 +7446,8 @@
 "mc": "movie/archangel-2026",
 "en": "Ghost Soldier",
 "v": 4,
-"checked": "2026-10-07",
-"tmdbChecked": "2026-10-07",
+"checked": "2026-10-08",
+"tmdbChecked": "2026-10-08",
 "tv": 2,
 "conflict": [
 "tt38686316",
@@ -7649,8 +7614,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-07",
-"tmdbChecked": "2026-10-07",
+"checked": "2026-10-08",
+"tmdbChecked": "2026-10-08",
 "tv": 2,
 "conflict": [
 "tt30345011",
