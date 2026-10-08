@@ -689,10 +689,10 @@
 "lang": "en",
 "posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg"
 },
-"cl-doraemon-aventures-mon-l-art": {
+"cl-doraemon-aventuras-mundo-arte": {
 "v": 4,
-"checked": "2026-10-07",
-"tmdbChecked": "2026-10-07",
+"checked": "2026-10-08",
+"tmdbChecked": "2026-10-08",
 "tv": 2,
 "tmdb": 1372489,
 "lang": "ja",
@@ -701,7 +701,7 @@
 "enFrom": "tmdb",
 "lbSlug": "doraemon-the-movie-nobitas-art-world-tales",
 "lbRating": 3.59,
-"rated": "2026-10-07",
+"rated": "2026-10-08",
 "posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
 },
 "cl-isla-olvidada": {
@@ -752,6 +752,27 @@
 "rated": "2026-10-06",
 "posterPath": "/b10qy1KwrfmH0MGS2rBUJ0BxgYB.jpg"
 },
+"cl-naza": {
+"imdb": "tt44766123",
+"imdbAll": [
+"tt44766123"
+],
+"lb": "naza",
+"rt": "m/naza",
+"mc": "movie/naza",
+"en": "NAZA",
+"v": 4,
+"checked": "2026-10-08",
+"tmdbChecked": "2026-10-08",
+"tv": 2,
+"tmdb": 1755291,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "naza",
+"lbRating": 4.37,
+"rated": "2026-10-08",
+"posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg"
+},
 "cl-otra-madre": {
 "v": 4,
 "checked": "2026-10-06",
@@ -766,21 +787,6 @@
 "lbRating": null,
 "rated": "2026-10-06",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
-},
-"cl-patrulla-canina-dino-pelicula": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1185806,
-"lang": "en",
-"imdb": "tt29356163",
-"en": "PAW Patrol: The Dino Movie",
-"enFrom": "tmdb",
-"lbSlug": "paw-patrol-the-dino-movie",
-"lbRating": 2.86,
-"rated": "2026-10-03",
-"posterPath": "/qnin56Syy5rbG7KCaxWY7SPuy6p.jpg",
-"v": 4
 },
 "cl-ponyo-acantilado": {
 "imdb": "tt0876563",
@@ -8267,6 +8273,27 @@
 "lbSlug": "titans-2026",
 "lbRating": null,
 "rated": "2026-10-07"
+},
+"fw-EDI20261651": {
+"imdb": "tt0075148",
+"imdbAll": [
+"tt0075148"
+],
+"lb": "rocky",
+"rt": "m/1017776-rocky",
+"mc": "movie/rocky",
+"en": "Rocky",
+"v": 4,
+"checked": "2026-10-08",
+"tmdbChecked": "2026-10-08",
+"tv": 2,
+"tmdb": 1366,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "rocky",
+"lbRating": 4.12,
+"rated": "2026-10-08",
+"posterPath": "/xSI0dbKLDETwhiVUy6hGE8KXUln.jpg"
 },
 "fw-FID20210220": {
 "imdb": "tt13322726",
