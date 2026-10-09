@@ -730,27 +730,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cl-isla-perros": {
-"imdb": "tt5104604",
-"imdbAll": [
-"tt5104604"
-],
-"lb": "isle-of-dogs-2018",
-"rt": "m/isle_of_dogs_2018",
-"mc": "movie/isle-of-dogs",
-"en": "Isle of Dogs",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 399174,
-"enFrom": "tmdb",
-"lbSlug": "isle-of-dogs-2018",
-"lbRating": 4.09,
-"rated": "2026-10-02",
-"lang": "en",
-"posterPath": "/4C7ZHv5LUPq7XzxC3nq8mBr77sP.jpg"
-},
 "cl-l-elisir-d-amore-26-27": {
 "tmdbChecked": "2026-10-03",
 "tv": 2,
@@ -829,21 +808,6 @@
 "lang": "ja",
 "posterPath": "/yp8vEZflGynlEylxEesbYasc06i.jpg"
 },
-"cl-practicamente-magia-2": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1302904,
-"lang": "en",
-"imdb": "tt32588798",
-"en": "Practical Magic 2",
-"enFrom": "tmdb",
-"lbSlug": "practical-magic-2",
-"lbRating": 2.87,
-"rated": "2026-10-03",
-"posterPath": "/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
-"v": 4
-},
 "cl-precio-red": {
 "v": 4,
 "checked": "2026-10-06",
@@ -879,27 +843,6 @@
 "rated": "2026-10-02",
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
-},
-"cl-spider-man-brand-new-day": {
-"imdb": "tt22084616",
-"imdbAll": [
-"tt22084616"
-],
-"lb": "spider-man-brand-new-day",
-"rt": "m/spider_man_brand_new_day",
-"mc": "movie/spider-man-brand-new-day",
-"en": "Spider-Man: Brand New Day",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 969681,
-"enFrom": "tmdb",
-"lbSlug": "spider-man-brand-new-day",
-"lbRating": 4.04,
-"rated": "2026-10-02",
-"lang": "en",
-"posterPath": "/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg"
 },
 "cl-street-fighter": {
 "imdb": "tt27419420",
@@ -1058,7 +1001,7 @@
 "en": "2001: A Space Odyssey",
 "lbSlug": "2001-a-space-odyssey",
 "lbRating": 4.23,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/ve72VxNqjGM69Uky4WTo2bK6rfq.jpg",
 "imdbAll": [
 "tt0062622"
@@ -1187,7 +1130,7 @@
 "en": "Blood for Dracula",
 "lbSlug": "blood-for-dracula",
 "lbRating": 3.22,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/cLyCHzPT5kLBEPn4DMcqgNbjwke.jpg",
 "imdbAll": [
 "tt0071233"
@@ -1224,7 +1167,7 @@
 "en": null,
 "lbSlug": "cafe-paradis",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/1WMUNafH6OENZVvZX5r80Ow0nRs.jpg",
 "imdbAll": [
 "tt0042294"
@@ -1281,7 +1224,7 @@
 "en": "The Red Meadows",
 "lbSlug": "red-meadows",
 "lbRating": 3.37,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/vpO08S6GWb8zD6FexLp1MIddo7i.jpg",
 "imdbAll": [
 "tt0038043"
@@ -1313,7 +1256,7 @@
 "en": "The Stranger",
 "lbSlug": "the-stranger-2025-1",
 "lbRating": 3.56,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/c7p06jlv8Lp2B5HjUhmFRTRaqJS.jpg",
 "imdbAll": [
 "tt36243564"
@@ -1477,7 +1420,7 @@
 "enFrom": "tmdb",
 "lbSlug": "a-gentleman-in-top-hat-and-tails",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/lIslUAE9em7gcq2I2iDu5eAM6Fo.jpg",
 "imdbAll": [
 "tt0124742"
@@ -1573,7 +1516,7 @@
 "en": "Fia!",
 "lbSlug": "fia-og-klovnene",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/2dXvwcAwMe5SGMZLzgMqYQ9alUu.jpg",
 "imdbAll": [
 "tt0354577"
@@ -1626,7 +1569,7 @@
 "enFrom": "tmdb",
 "lbSlug": "for-dear-life-1989",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/dzNhY6Py7ngC4nYjR8NUeUAo7k0.jpg",
 "imdbAll": [
 "tt0097374"
@@ -1849,7 +1792,7 @@
 "enFrom": "tmdb",
 "lbSlug": "sign-of-the-lion",
 "lbRating": 3.5,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/b5jY3jyISYMY0ReGjqtbgaPq7dr.jpg",
 "v": 4,
 "checked": "2026-10-03"
@@ -1862,7 +1805,7 @@
 "en": "Innocent Blood",
 "lbSlug": "innocent-blood",
 "lbRating": 3.14,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/bloBdkHtAHSAJWa31Gls59z0xfb.jpg",
 "imdbAll": [
 "tt0104511"
@@ -1966,7 +1909,7 @@
 "en": "The Battle of Algiers",
 "lbSlug": "the-battle-of-algiers",
 "lbRating": 4.48,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/2p3AFtOHFvP6OeVMqlnL1zLKOqL.jpg",
 "imdbAll": [
 "tt0058946"
@@ -2004,7 +1947,7 @@
 "en": "Koyaanisqatsi",
 "lbSlug": "koyaanisqatsi",
 "lbRating": 4.32,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/6zCNciRcob8lwuydVXgq0esla8L.jpg",
 "imdbAll": [
 "tt0085809"
@@ -2179,7 +2122,7 @@
 "en": "Luca",
 "lbSlug": "luca-2021",
 "lbRating": 3.66,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/9x4i9uKGXt8IiiIF5Ey0DIoY738.jpg",
 "imdbAll": [
 "tt12801262"
@@ -2253,7 +2196,7 @@
 "en": "My Night at Maud's",
 "lbSlug": "my-night-at-mauds",
 "lbRating": 4.14,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/9usKgth3ROn4LwPQ7tTvxKnpBGL.jpg",
 "imdbAll": [
 "tt0064612"
@@ -2362,7 +2305,7 @@
 "en": "Melody of Murder",
 "lbSlug": "melody-of-a-murder",
 "lbRating": 3.4,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/z9IDKdPfGFBQK2cASz0dk0znYji.jpg",
 "imdbAll": [
 "tt0122619"
@@ -2402,7 +2345,7 @@
 "en": "Naqoyqatsi",
 "lbSlug": "naqoyqatsi",
 "lbRating": 3.08,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/buDo6FcSlOVEQJomKB0IviNV0Do.jpg",
 "imdbAll": [
 "tt0145937"
@@ -2440,7 +2383,7 @@
 "en": "O Brother, Where Art Thou?",
 "lbSlug": "o-brother-where-art-thou",
 "lbRating": 3.96,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/2YztYilviFCYcEtDAnrOstUWGie.jpg",
 "imdbAll": [
 "tt0190590"
@@ -2472,7 +2415,7 @@
 "en": "Ollie Alexander Tiddly-Om-Pom-Pom",
 "lbSlug": "ole-aleksander-filibom-bom-bom",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/3t7kb97aln6ptdFimdjiVnp3Btr.jpg",
 "imdbAll": [
 "tt0181731"
@@ -2615,7 +2558,7 @@
 "en": "Perfect Days",
 "lbSlug": "perfect-days-2023",
 "lbRating": 4.32,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/tvUHVSTJV9ITON3oyHaWp7oaAc8.jpg",
 "imdbAll": [
 "tt27503384"
@@ -2652,8 +2595,8 @@
 "imdb": "tt0095895",
 "en": "Powaqqatsi",
 "lbSlug": "powaqqatsi",
-"lbRating": 3.65,
-"rated": "2026-10-01",
+"lbRating": 3.66,
+"rated": "2026-10-09",
 "posterPath": "/xh8Pvtq4dYry9B4uRT3VbmSI4Wi.jpg",
 "imdbAll": [
 "tt0095895"
@@ -2671,8 +2614,8 @@
 "imdb": "tt0258050",
 "en": null,
 "lbSlug": "prop-and-berta",
-"lbRating": 3.49,
-"rated": "2026-10-01",
+"lbRating": 3.5,
+"rated": "2026-10-09",
 "posterPath": "/osjRrT3Om08WHSa0dDi7sswzrTP.jpg",
 "imdbAll": [
 "tt0258050"
@@ -2811,7 +2754,7 @@
 "en": "Sirocco and the Kingdom of the Winds",
 "lbSlug": "sirocco-and-the-kingdom-of-winds",
 "lbRating": 3.9,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/3n8tWaBBGS6Df1MtX44aTFws7WJ.jpg",
 "imdbAll": [
 "tt12015692"
@@ -2901,7 +2844,7 @@
 "enFrom": "tmdb",
 "lbSlug": "brightly-shining",
 "lbRating": 3.51,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -3142,7 +3085,7 @@
 "en": "Tintin and the Temple of the Sun",
 "lbSlug": "tintin-and-the-temple-of-the-sun",
 "lbRating": 3.49,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/bSiuapguCBSjjF5Cqezj123F2J6.jpg",
 "imdbAll": [
 "tt0065106"
@@ -3192,7 +3135,7 @@
 "en": "Vampires",
 "lbSlug": "vampires",
 "lbRating": 2.95,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/4JhaFBPwyC5IM1rKaRR07Gzutse.jpg",
 "imdbAll": [
 "tt0120877"
@@ -3616,7 +3559,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-curse-of-kane",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -3690,7 +3633,7 @@
 "en": "Star Wars: Starfighter",
 "lbSlug": "star-wars-starfighter",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/6LJetiEQjXUE9kDpXavXpZN1Vjk.jpg",
 "imdbAll": [
 "tt28069611"
@@ -3772,7 +3715,7 @@
 "en": "Miami Vice '85",
 "lbSlug": "miami-vice-85",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "",
 "imdbAll": [
 "tt36731244"
@@ -3808,7 +3751,7 @@
 "en": "Viqueens",
 "lbSlug": "viqueens-2026",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt38886307"
 ],
@@ -3863,7 +3806,7 @@
 "en": "Ice Age: Boiling Point",
 "lbSlug": "ice-age-boiling-point",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt34512981"
 ],
@@ -3894,8 +3837,8 @@
 "imdb": "tt28301231",
 "en": "Kevlar Soul",
 "lbSlug": "kevlar-soul",
-"lbRating": 3.56,
-"rated": "2026-10-01",
+"lbRating": 3.57,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt28301231"
 ],
@@ -3913,7 +3856,7 @@
 "en": "Children of Blood and Bone",
 "lbSlug": "children-of-blood-and-bone",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt6779038"
 ],
@@ -3937,7 +3880,7 @@
 "en": "Not Alone",
 "lbSlug": "not-alone-2027",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/9HqA8Hxwd7KNs6ttYqRbXtYHLpv.jpg",
 "imdbAll": [
 "tt43609247"
@@ -3956,7 +3899,7 @@
 "en": "Werwulf",
 "lbSlug": "werwulf",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt35514120"
 ],
@@ -3974,7 +3917,7 @@
 "en": "Sonic the Hedgehog 4",
 "lbSlug": "sonic-the-hedgehog-4",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/t8uoHBODkFlSQJRL6qc4IclUBlH.jpg",
 "imdbAll": [
 "tt16744566"
@@ -4037,7 +3980,7 @@
 "en": "The Angry Birds Movie 3",
 "lbSlug": "the-angry-birds-movie-3",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/oxaW6X3xohnzdFSBKCrCjRDckMe.jpg",
 "imdbAll": [
 "tt32557122"
@@ -4132,7 +4075,7 @@
 "en": "Frost without Snow and Ice",
 "lbSlug": "frost-without-snow-and-ice",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/4UXoIhWxIKR13E76l47LJ0SFTnB.jpg",
 "imdbAll": [
 "tt40335152"
@@ -4158,7 +4101,7 @@
 "enFrom": "tmdb",
 "lbSlug": "det-nye-museet",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -4195,7 +4138,7 @@
 "en": "Gatto",
 "lbSlug": "gatto",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt26443610"
 ],
@@ -4213,7 +4156,7 @@
 "en": "Focker-in-Law",
 "lbSlug": "focker-in-law",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt34966140"
 ],
@@ -4231,7 +4174,7 @@
 "en": "The Legend of Zelda",
 "lbSlug": "the-legend-of-zelda",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt29873948"
 ],
@@ -4287,7 +4230,7 @@
 "en": "Wicker",
 "lbSlug": "wicker",
 "lbRating": 3.81,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg",
 "imdbAll": [
 "tt29611136"
@@ -4342,7 +4285,7 @@
 "en": "The Hunger Games: Sunrise on the Reaping",
 "lbSlug": "the-hunger-games-sunrise-on-the-reaping",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32558705"
 ],
@@ -4397,7 +4340,7 @@
 "en": "Hexed",
 "lbSlug": "hexed-2026",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt38077943"
 ],
@@ -4433,7 +4376,7 @@
 "en": "The Bluey Movie",
 "lbSlug": "the-bluey-movie",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt35050152"
 ],
@@ -4572,7 +4515,7 @@
 "en": "Fast Forever",
 "lbSlug": "fast-forever",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/xaRzhQZ3zK5lN6vEetG8PD17KPF.jpg",
 "imdbAll": [
 "tt27550022"
@@ -4591,7 +4534,7 @@
 "en": "Ebenezer",
 "lbSlug": "ebenezer-2026",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt38773219"
 ],
@@ -4609,28 +4552,10 @@
 "en": null,
 "lbSlug": "small-talk-2026-2",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/aN1SBXBrlcxK7T3224fm2TJTJMV.jpg",
 "v": 4,
 "checked": "2026-10-04"
-},
-"fw-EDI20251744": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1157322,
-"imdb": "tt17070412",
-"en": null,
-"lbSlug": "franz-2025",
-"lbRating": 3.1,
-"rated": "2026-10-09",
-"imdbAll": [
-"tt17070412"
-],
-"lb": "franz-1",
-"rt": "m/franz",
-"mc": "movie/franz",
-"v": 4,
-"checked": "2026-10-03"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-10-09",
@@ -4646,7 +4571,7 @@
 "en": "CoComelon: The Movie",
 "lbSlug": "cocomelon-the-movie",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/dDYSKF9VWmcgOy2sruIJkHs5DDG.jpg",
 "imdbAll": [
 "tt31339071"
@@ -4731,7 +4656,7 @@
 "en": null,
 "lbSlug": "calle-malaga",
 "lbRating": 3.68,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32429174"
 ],
@@ -4810,7 +4735,7 @@
 "en": "The Exorcist: Martyrs",
 "lbSlug": "the-exorcist-martyrs",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/zMD6qOYZYdhJLidlHdhD5a4GtCN.jpg",
 "imdbAll": [
 "tt32492552"
@@ -4830,7 +4755,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-comeback-king",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/37ii02yqhWAbNYS3VxXYPp9wDGD.jpg",
 "v": 4,
 "checked": "2026-10-05"
@@ -4873,8 +4798,8 @@
 "imdb": "tt32461003",
 "en": "The Last Supper",
 "lbSlug": "the-last-supper-2025-1",
-"lbRating": 2.72,
-"rated": "2026-10-01",
+"lbRating": 2.71,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32461003"
 ],
@@ -4966,7 +4891,7 @@
 "en": null,
 "lbSlug": "vanilla-2025-1",
 "lbRating": 3.74,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt29135677"
 ],
@@ -4996,7 +4921,7 @@
 "en": "Wild Horse Nine",
 "lbSlug": "wild-horse-nine",
 "lbRating": 4.09,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt15799564"
 ],
@@ -5039,7 +4964,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-curse-of-kane",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -5135,7 +5060,7 @@
 "en": null,
 "lbSlug": "dante-2026",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -5184,7 +5109,7 @@
 "en": "Yellow Letters",
 "lbSlug": "yellow-letters",
 "lbRating": 3.52,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32888226"
 ],
@@ -5202,7 +5127,7 @@
 "en": null,
 "lbSlug": "in-cod-we-trust",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -5214,7 +5139,7 @@
 "en": "Árru",
 "lbSlug": "arru",
 "lbRating": 3.24,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/UFAIK0f9qvQYndcUF6i2hrSqSb.jpg",
 "imdbAll": [
 "tt13975248"
@@ -5233,7 +5158,7 @@
 "en": "Josephine",
 "lbSlug": "josephine-2026",
 "lbRating": 4.03,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32321285"
 ],
@@ -5251,7 +5176,7 @@
 "en": "Everybody Digs Bill Evans",
 "lbSlug": "everybody-digs-bill-evans",
 "lbRating": 3.33,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt34347792"
 ],
@@ -5270,7 +5195,7 @@
 "enFrom": "tmdb",
 "lbSlug": "murder-she-wrote",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "",
 "v": 4,
 "checked": "2026-10-05"
@@ -5297,7 +5222,7 @@
 "en": "K-Pop: The Debut",
 "lbSlug": "k-pop-the-debut",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/bGz5IMugwOsoyASG5AwEy0NpZMg.jpg",
 "imdbAll": [
 "tt8992304"
@@ -5335,7 +5260,7 @@
 "en": "How to Rob a Bank",
 "lbSlug": "how-to-rob-a-bank-2026",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt35866986"
 ],
@@ -5390,7 +5315,7 @@
 "en": "The Beekeeper 2",
 "lbSlug": "the-beekeeper-2",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt35935357"
 ],
@@ -5408,7 +5333,7 @@
 "en": null,
 "lbSlug": "khan-tumhara",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -5459,7 +5384,7 @@
 "en": "The Resurrection of the Christ: Part One",
 "lbSlug": "the-resurrection-of-the-christ-part-one",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt5795232"
 ],
@@ -5477,7 +5402,7 @@
 "en": "The Resurrection of the Christ: Part Two",
 "lbSlug": "the-resurrection-of-the-christ-part-two",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32021219"
 ],
@@ -5500,8 +5425,8 @@
 "imdb": "tt14129116",
 "en": "A Talent for Murder",
 "lbSlug": "a-talent-for-murder-2026",
-"lbRating": 3.46,
-"rated": "2026-10-01",
+"lbRating": 3.44,
+"rated": "2026-10-09",
 "posterPath": "/mstDPKNKgSGFvVFVdfzeMNkcyw2.jpg",
 "imdbAll": [
 "tt14129116"
@@ -5520,7 +5445,7 @@
 "en": "Frozen 3",
 "lbSlug": "frozen-iii",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/qzVuYNqRX7rBBuUdobS2SWEni5R.jpg",
 "imdbAll": [
 "tt26680923"
@@ -5570,7 +5495,7 @@
 "enFrom": "tmdb",
 "lbSlug": "november-1963",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -5583,7 +5508,7 @@
 "enFrom": "tmdb",
 "lbSlug": "asterix-the-kingdom-of-nubia",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32243339"
 ],
@@ -5637,8 +5562,8 @@
 "imdb": "tt41592086",
 "en": "Congo Boy",
 "lbSlug": "congo-boy",
-"lbRating": 3.61,
-"rated": "2026-10-01",
+"lbRating": 3.62,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt41592086"
 ],
@@ -5656,8 +5581,8 @@
 "en": "Julián",
 "enFrom": "tmdb",
 "lbSlug": "julian-2026",
-"lbRating": 3.66,
-"rated": "2026-10-01",
+"lbRating": 3.67,
+"rated": "2026-10-09",
 "posterPath": "/j36gobU51TFw7LCxl92AOIRBdwd.jpg",
 "imdbAll": [
 "tt31109276"
@@ -5696,7 +5621,7 @@
 "en": "A Place in Hell",
 "lbSlug": "a-place-in-hell-2027",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/4gSgzVw59vhegejEh1yMMfStXsU.jpg",
 "imdbAll": [
 "tt36931184"
@@ -5714,8 +5639,8 @@
 "imdb": "tt34385689",
 "en": "Paper Tiger",
 "lbSlug": "paper-tiger-2026",
-"lbRating": 3.47,
-"rated": "2026-10-01",
+"lbRating": 3.48,
+"rated": "2026-10-09",
 "posterPath": "/zVYm9mNSyr9EYhUUI72DOGgYRZH.jpg",
 "imdbAll": [
 "tt34385689"
@@ -5734,7 +5659,7 @@
 "en": "Her Private Hell",
 "lbSlug": "her-private-hell-2026",
 "lbRating": 2.22,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/aD2z0Q6OXOibLDZTYG13joyKd4a.jpg",
 "imdbAll": [
 "tt36629665",
@@ -5754,7 +5679,7 @@
 "en": null,
 "lbSlug": "just-an-illusion-2026",
 "lbRating": 3.82,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/eWPq3wSvJEMakESTXzaBECUNBYr.jpg",
 "imdbAll": [
 "tt36842933"
@@ -5898,24 +5823,6 @@
 "lbRating": 3.8,
 "rated": "2026-10-09"
 },
-"fw-EDI20260950": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 858035,
-"imdb": "tt14371256",
-"en": "Klara and the Sun",
-"lbSlug": "klara-and-the-sun",
-"lbRating": null,
-"rated": "2026-10-09",
-"imdbAll": [
-"tt14371256"
-],
-"lb": "klara-and-the-sun",
-"rt": "m/klara_and_the_sun",
-"mc": "movie/klara-and-the-sun",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20260961": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5923,8 +5830,8 @@
 "imdb": "tt36834996",
 "en": "All of a Sudden",
 "lbSlug": "all-of-a-sudden-2026",
-"lbRating": 4.11,
-"rated": "2026-10-01",
+"lbRating": 4.13,
+"rated": "2026-10-09",
 "posterPath": "/tTmSoi5eiLk1pNFMHyk2ejnfZz1.jpg",
 "imdbAll": [
 "tt36834996"
@@ -5942,8 +5849,8 @@
 "imdb": "tt37304295",
 "en": "Fatherland",
 "lbSlug": "fatherland-2026",
-"lbRating": 3.61,
-"rated": "2026-10-01",
+"lbRating": 3.63,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt37304295"
 ],
@@ -5960,8 +5867,8 @@
 "imdb": "tt13652154",
 "en": "Mouse",
 "lbSlug": "mouse-2026",
-"lbRating": 3.91,
-"rated": "2026-10-01",
+"lbRating": 3.92,
+"rated": "2026-10-09",
 "posterPath": "/iKBFfOCdeu21lxxLxWaSAXxkmJ5.jpg",
 "imdbAll": [
 "tt13652154"
@@ -5979,8 +5886,8 @@
 "imdb": "tt27739255",
 "en": "Charlie Harper",
 "lbSlug": "charlie-harper",
-"lbRating": 3.37,
-"rated": "2026-10-01",
+"lbRating": 3.35,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt27739255"
 ],
@@ -5998,7 +5905,7 @@
 "en": "Nightborn",
 "lbSlug": "nightborn",
 "lbRating": 2.64,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt34383465"
 ],
@@ -6007,12 +5914,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-04"
-},
-"fw-EDI20260975": {
-"tmdbChecked": "2026-10-09",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-03"
 },
 "fw-EDI20260978": {
 "tmdbChecked": "2026-10-01",
@@ -6023,7 +5924,7 @@
 "enFrom": "tmdb",
 "lbSlug": "at-the-end-of-the-santa-fe-trail",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -6099,8 +6000,8 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "lbSlug": "blue-lock-2026",
-"lbRating": 3.48,
-"rated": "2026-10-01"
+"lbRating": 3.47,
+"rated": "2026-10-09"
 },
 "fw-EDI20261027": {
 "imdb": "tt34384661",
@@ -6126,8 +6027,8 @@
 "imdb": "tt39382808",
 "en": "The Loneliest Man in Town",
 "lbSlug": "the-loneliest-man-in-town-2026",
-"lbRating": 3.64,
-"rated": "2026-10-01",
+"lbRating": 3.66,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt39382808"
 ],
@@ -6145,7 +6046,7 @@
 "en": "The Thomas Crown Affair",
 "lbSlug": "the-thomas-crown-affair-2027",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt5500064"
 ],
@@ -6164,7 +6065,7 @@
 "enFrom": "tmdb",
 "lbSlug": "berlin-hero",
 "lbRating": 3.02,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/o83t6sTDBqN5hhUZZW4uUJNbWEg.jpg",
 "imdbAll": [
 "tt35010081"
@@ -6201,7 +6102,7 @@
 "en": "A Brief Affair",
 "lbSlug": "a-brief-affair",
 "lbRating": 3.26,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32528560"
 ],
@@ -6237,8 +6138,8 @@
 "imdb": "tt6155016",
 "en": "The Quiet Beekeper",
 "lbSlug": "the-quiet-beekeeper",
-"lbRating": 3.46,
-"rated": "2026-10-01",
+"lbRating": 3.45,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt6155016"
 ],
@@ -6256,7 +6157,7 @@
 "en": "Club Kid",
 "lbSlug": "club-kid",
 "lbRating": 4.26,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt38058097"
 ],
@@ -6273,8 +6174,8 @@
 "imdb": "tt27369017",
 "en": "Hope",
 "lbSlug": "hope-2026",
-"lbRating": 3.21,
-"rated": "2026-10-01",
+"lbRating": 3.2,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt27369017"
 ],
@@ -6434,8 +6335,8 @@
 "imdb": "tt37967547",
 "en": "Ink",
 "lbSlug": "ink-2026",
-"lbRating": 3.45,
-"rated": "2026-10-01",
+"lbRating": 3.44,
+"rated": "2026-10-09",
 "posterPath": "/aZECpoGsveEXtxogaz0GMiyVB6n.jpg",
 "imdbAll": [
 "tt37967547"
@@ -6484,8 +6385,8 @@
 "imdb": "tt35511966",
 "en": null,
 "lbSlug": "la-bola-negra",
-"lbRating": 4.32,
-"rated": "2026-10-01",
+"lbRating": 4.36,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt35511966"
 ],
@@ -6503,7 +6404,7 @@
 "en": "Minotaur",
 "lbSlug": "minotaur-2026",
 "lbRating": 3.74,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt37118301"
 ],
@@ -6520,8 +6421,8 @@
 "imdb": "tt36415529",
 "en": "Behemoth!",
 "lbSlug": "behemoth-2026",
-"lbRating": null,
-"rated": "2026-10-01",
+"lbRating": 3.6,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt36415529"
 ],
@@ -6540,7 +6441,7 @@
 "enFrom": "tmdb",
 "lbSlug": "possession-2027",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/4Le0CZgOhEDCG4aTzEOB3sNVHAD.jpg",
 "v": 4,
 "checked": "2026-10-05"
@@ -6566,8 +6467,8 @@
 "imdb": "tt11995650",
 "en": "I Play Rocky",
 "lbSlug": "i-play-rocky",
-"lbRating": 3.7,
-"rated": "2026-10-01",
+"lbRating": 3.71,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt11995650"
 ],
@@ -6877,8 +6778,8 @@
 "imdb": "tt9601292",
 "en": "The Fix",
 "lbSlug": "the-fix-2026",
-"lbRating": 2.51,
-"rated": "2026-10-01",
+"lbRating": 2.49,
+"rated": "2026-10-09",
 "posterPath": "/9iSkee8DPpwBQI3GhXSTGZJKNYM.jpg",
 "imdbAll": [
 "tt9601292"
@@ -6940,7 +6841,7 @@
 "en": null,
 "lbSlug": "witch-on-the-holy-night",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -7079,6 +6980,27 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"fw-EDI20261481": {
+"imdb": "tt34206385",
+"imdbAll": [
+"tt34206385"
+],
+"lb": "primetime-1",
+"rt": "m/primetime",
+"mc": "movie/primetime",
+"en": "Primetime",
+"v": 4,
+"checked": "2026-10-09",
+"tmdbChecked": "2026-10-09",
+"tv": 2,
+"tmdb": 1375441,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "primetime-2026",
+"lbRating": 3.68,
+"rated": "2026-10-09",
+"posterPath": "/lmrulvLbmaejTix1YaMxo1oGhH1.jpg"
+},
 "fw-EDI20261483": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -7087,7 +7009,7 @@
 "en": null,
 "lbSlug": "lek-med-alfons-aberg",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
 },
@@ -7097,9 +7019,9 @@
 "tmdb": 1492198,
 "imdb": "tt37171180",
 "en": "Artificial",
-"lbSlug": "artificial-2026-1",
+"lbSlug": "artificial-2026",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt37171180"
 ],
@@ -7129,19 +7051,6 @@
 "rated": "2026-10-03",
 "v": 4
 },
-"fw-EDI20261491": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1727244,
-"imdb": null,
-"en": "Gupi and the King Who Doesn't Smile",
-"enFrom": "tmdb",
-"lbSlug": "gupi-and-the-king-who-doesnt-smile",
-"lbRating": null,
-"rated": "2026-10-09",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20261492": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
@@ -7161,8 +7070,8 @@
 "imdb": "tt37363222",
 "en": "Elsinore",
 "lbSlug": "elsinore",
-"lbRating": 3.76,
-"rated": "2026-10-01",
+"lbRating": 3.87,
+"rated": "2026-10-09",
 "posterPath": "/mTd1B0Nq4vwMRilsf7eGNpdGIrv.jpg",
 "imdbAll": [
 "tt37363222"
@@ -7194,7 +7103,7 @@
 "en": "Narnia: The Magician's Nephew",
 "lbSlug": "narnia-the-magicians-nephew",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt9077514"
 ],
@@ -7253,7 +7162,7 @@
 "enFrom": "tmdb",
 "lbSlug": "monitor-2026",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/4mNVblPF1tTRok3PINiQnZW7RMl.jpg",
 "v": 4,
 "checked": "2026-10-05"
@@ -7265,8 +7174,8 @@
 "imdb": "tt34718200",
 "en": "The Debut",
 "lbSlug": "the-debut-2026",
-"lbRating": 4.05,
-"rated": "2026-10-01",
+"lbRating": 4.07,
+"rated": "2026-10-09",
 "imdbAll": [
 "tt34718200"
 ],
@@ -7622,7 +7531,7 @@
 "en": "The World of Love",
 "lbSlug": "the-world-of-love",
 "lbRating": 4.0,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt37661885"
 ],
@@ -7640,7 +7549,7 @@
 "en": null,
 "lbSlug": "vanishing-tracks",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -7651,8 +7560,8 @@
 "imdb": "tt43672139",
 "en": null,
 "lbSlug": "wind-up-the-movie",
-"lbRating": 3.33,
-"rated": "2026-10-01",
+"lbRating": 3.34,
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -7664,8 +7573,8 @@
 "en": "Zi",
 "enFrom": "tmdb",
 "lbSlug": "zi-2026",
-"lbRating": 2.98,
-"rated": "2026-10-01",
+"lbRating": 2.99,
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -7862,7 +7771,7 @@
 "en": null,
 "lbSlug": "where-the-river-begins",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -8303,7 +8212,10 @@
 "tmdb": 1063963,
 "lang": "no",
 "imdb": "tt15164340",
-"en": null
+"en": null,
+"lbSlug": "hans-nielsen-hauge-2025",
+"lbRating": null,
+"rated": "2026-10-09"
 },
 "fw-NFD20230388": {
 "lbSlug": "journey-to-the-christmas-star-1976",
@@ -8373,7 +8285,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-brothers-gruff-go-on-a-holiday",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -8391,7 +8303,7 @@
 "en": null,
 "lbSlug": "vampyr-2027",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/u0rmkQr32u1UkC8GdluAqnVd1de.jpg",
 "v": 4,
 "checked": "2026-10-05"
@@ -8457,7 +8369,7 @@
 "en": "The Passion of the Christ",
 "lbSlug": "the-passion-of-the-christ",
 "lbRating": 3.62,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt0335345"
 ],
@@ -8565,7 +8477,7 @@
 "en": "Spider-Man: Beyond the Spider-Verse",
 "lbSlug": "spider-man-beyond-the-spider-verse",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt16360004"
 ],
@@ -8584,7 +8496,7 @@
 "enFrom": "tmdb",
 "lbSlug": "brightly-shining",
 "lbRating": 3.51,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -8781,7 +8693,7 @@
 "en": "Shrek 5",
 "lbSlug": "shrek-5",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/m9jLiemA7t2umlXKptDwtIUHU8l.jpg",
 "imdbAll": [
 "tt6113186"
@@ -8837,7 +8749,7 @@
 "en": "Violent Night 2",
 "lbSlug": "violent-night-2",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "imdbAll": [
 "tt32432428"
 ],
@@ -8874,7 +8786,7 @@
 "en": "How to Train Your Dragon 2",
 "lbSlug": "how-to-train-your-dragon-2-2027",
 "lbRating": null,
-"rated": "2026-10-01",
+"rated": "2026-10-09",
 "posterPath": "/6VlnDSuTmBPW6a45Qxp5qeDINBq.jpg",
 "imdbAll": [
 "tt36416299"
@@ -8921,24 +8833,6 @@
 "lbSlug": "digger-2026",
 "lbRating": 3.85,
 "rated": "2026-10-09"
-},
-"fw-WAB20240262": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1400940,
-"imdb": "tt34890576",
-"en": "Clayface",
-"lbSlug": "clayface",
-"lbRating": null,
-"rated": "2026-10-09",
-"imdbAll": [
-"tt34890576"
-],
-"lb": "clayface",
-"rt": "m/clayface",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
 },
 "fw-WAB20240290": {
 "lbSlug": "practical-magic-2",
