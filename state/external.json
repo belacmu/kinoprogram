@@ -1038,7 +1038,7 @@
 "enFrom": "tmdb",
 "lbSlug": "nothing-but-troubles",
 "lbRating": null,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "posterPath": "/qR0JFg3Xzenxxida03G7fr5MaZy.jpg",
 "imdbAll": [
 "tt0179068"
@@ -1048,27 +1048,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-all-the-beauty-and-the-bloodshed": {
-"imdb": "tt21374850",
-"imdbAll": [
-"tt21374850"
-],
-"lb": "all-the-beauty-and-the-bloodshed",
-"rt": "m/all_the_beauty_and_the_bloodshed",
-"mc": "movie/all-the-beauty-and-the-bloodshed",
-"en": "All the Beauty and the Bloodshed",
-"v": 4,
-"checked": "2026-10-08",
-"tmdbChecked": "2026-10-08",
-"tv": 2,
-"tmdb": 1004663,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "all-the-beauty-and-the-bloodshed",
-"lbRating": 4.22,
-"rated": "2026-10-08",
-"posterPath": "/cvO51xxtIUHc5w5ZgFsigiFaUaO.jpg"
 },
 "cm-allowed-to-birth": {
 "tmdbChecked": "2026-10-09",
@@ -1110,25 +1089,6 @@
 "cm-bawke-hedda": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-blood-for-dracula": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 25944,
-"imdb": "tt0071233",
-"en": "Blood for Dracula",
-"lbSlug": "blood-for-dracula",
-"lbRating": 3.22,
-"rated": "2026-10-09",
-"posterPath": "/cLyCHzPT5kLBEPn4DMcqgNbjwke.jpg",
-"imdbAll": [
-"tt0071233"
-],
-"lb": "blood-for-dracula",
-"rt": "m/blood_for_dracula",
-"mc": null,
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -1705,7 +1665,7 @@
 "en": "Harold and Maude",
 "lbSlug": "harold-and-maude",
 "lbRating": 4.11,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "posterPath": "/t7qEuGwDjcYu8ajaKZ68DeDnOxw.jpg",
 "imdbAll": [
 "tt0067185"
@@ -1945,7 +1905,7 @@
 "checked": "2026-10-03"
 },
 "cm-la-defense-trilogien": {
-"tmdbChecked": "2026-10-02",
+"tmdbChecked": "2026-10-10",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-03"
@@ -2270,7 +2230,7 @@
 "checked": "2026-10-03"
 },
 "cm-my-national-gallery": {
-"tmdbChecked": "2026-10-02",
+"tmdbChecked": "2026-10-10",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-03"
@@ -2957,7 +2917,8 @@
 "lbRating": 3.74,
 "rated": "2026-10-09",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"posterPath": "/39jzHk0VK2kdt9lRAb8CqNuGcGc.jpg"
 },
 "cm-the-odyssey-70mm": {
 "tmdbChecked": "2026-10-01",
@@ -2976,23 +2937,6 @@
 "mc": "movie/the-odyssey-2026",
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-the-sealed-soil": {
-"imdb": "tt0154728",
-"imdbAll": [
-"tt0154728"
-],
-"lb": "the-sealed-soil",
-"rt": "m/the_sealed_soil",
-"mc": null,
-"en": "The Sealed Soil",
-"v": 4,
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"lbSlug": "the-sealed-soil",
-"lbRating": 3.68,
-"rated": "2026-10-03"
 },
 "cm-the-shining": {
 "imdb": "tt0081505",
@@ -3075,27 +3019,8 @@
 "checked": "2026-10-03"
 },
 "cm-utopiske-signaler": {
-"tmdbChecked": "2026-10-02",
+"tmdbChecked": "2026-10-10",
 "tv": 2,
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-vampires": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 9945,
-"imdb": "tt0120877",
-"en": "Vampires",
-"lbSlug": "vampires",
-"lbRating": 2.95,
-"rated": "2026-10-09",
-"posterPath": "/4JhaFBPwyC5IM1rKaRR07Gzutse.jpg",
-"imdbAll": [
-"tt0120877"
-],
-"lb": "vampires",
-"rt": "m/john_carpenters_vampires",
-"mc": "movie/vampire",
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -4897,7 +4822,7 @@
 "en": "The Rescue",
 "lbSlug": "the-rescue-2027",
 "lbRating": null,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "imdbAll": [
 "tt35606013"
 ],
@@ -5908,8 +5833,8 @@
 "imdb": "tt39920935",
 "en": null,
 "lbSlug": "amazomania",
-"lbRating": 3.64,
-"rated": "2026-10-02",
+"lbRating": 3.65,
+"rated": "2026-10-10",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -6190,18 +6115,6 @@
 "rated": "2026-10-03",
 "v": 4
 },
-"fw-EDI20261159": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1554544,
-"imdb": "tt38689439",
-"en": null,
-"lbSlug": "the-night-is-fading-away",
-"lbRating": 3.74,
-"rated": "2026-10-09",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20261164": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -6214,24 +6127,6 @@
 "lbRating": null,
 "rated": "2026-10-03",
 "v": 4
-},
-"fw-EDI20261165": {
-"lbSlug": "paikar",
-"lbRating": null,
-"rated": "2026-10-09",
-"imdb": "tt38687903",
-"imdbAll": [
-"tt38687903"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1568184
 },
 "fw-EDI20261166": {
 "imdb": "tt32284798",
@@ -6268,25 +6163,6 @@
 "lbSlug": "hair-paper-water",
 "lbRating": 3.66,
 "rated": "2026-10-09"
-},
-"fw-EDI20261168": {
-"lbSlug": "once-upon-a-time-in-harlem",
-"lbRating": 3.94,
-"rated": "2026-10-09",
-"imdb": "tt39163347",
-"imdbAll": [
-"tt39163347"
-],
-"lb": "once-upon-a-time-in-harlem",
-"rt": null,
-"mc": null,
-"en": "Once Upon a Time in Harlem",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1596300,
-"enFrom": "tmdb"
 },
 "fw-EDI20261191": {
 "tmdbChecked": "2026-10-01",
@@ -7179,8 +7055,8 @@
 "mc": "movie/archangel-2026",
 "en": "Ghost Soldier",
 "v": 4,
-"checked": "2026-10-09",
-"tmdbChecked": "2026-10-09",
+"checked": "2026-10-10",
+"tmdbChecked": "2026-10-10",
 "tv": 2,
 "conflict": [
 "tt38686316",
@@ -7354,8 +7230,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-09",
-"tmdbChecked": "2026-10-09",
+"checked": "2026-10-10",
+"tmdbChecked": "2026-10-10",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7798,7 +7674,7 @@
 "en": "Anything but Ghosts",
 "lbSlug": "anything-but-ghosts",
 "lbRating": null,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "posterPath": "/afV0ZsYPWcCEZ1gIx0ndi4rd2jd.jpg",
 "imdbAll": [
 "tt38120758"
@@ -8092,7 +7968,7 @@
 "checked": "2026-10-03"
 },
 "fw-KUL20260508": {
-"tmdbChecked": "2026-10-02",
+"tmdbChecked": "2026-10-10",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-03"
@@ -8643,7 +8519,7 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-10-02"
+"rated": "2026-10-10"
 },
 "fw-UIP20221468": {
 "tmdbChecked": "2026-10-01",
@@ -9604,7 +9480,7 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-10-02"
+"rated": "2026-10-10"
 },
 "sr-brunsj-filmklassiker-10-roman-holiday-1953": {
 "imdb": "tt0046250",
