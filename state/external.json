@@ -586,7 +586,7 @@
 "enFrom": "tmdb",
 "lbSlug": "beetlejuice",
 "lbRating": 3.73,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "lang": "en",
 "posterPath": "/nnl6OWkyPpuMm595hmAxNW3rZFn.jpg"
 },
@@ -605,8 +605,8 @@
 "tv": 2,
 "tmdb": 1422041,
 "lbSlug": "la-bola-negra",
-"lbRating": 4.32,
-"rated": "2026-10-02",
+"lbRating": 4.36,
+"rated": "2026-10-10",
 "lang": "es",
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
@@ -630,6 +630,27 @@
 "lbRating": 3.95,
 "rated": "2026-10-03",
 "posterPath": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg"
+},
+"cl-clayface": {
+"imdb": "tt34890576",
+"imdbAll": [
+"tt34890576"
+],
+"lb": "clayface",
+"rt": "m/clayface",
+"mc": null,
+"en": "Clayface",
+"v": 4,
+"checked": "2026-10-10",
+"tmdbChecked": "2026-10-10",
+"tv": 2,
+"tmdb": 1400940,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "clayface",
+"lbRating": null,
+"rated": "2026-10-10",
+"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "cl-corazon-bestia": {
 "checked": "2026-10-03",
@@ -662,8 +683,8 @@
 "tmdb": 1204680,
 "enFrom": "tmdb",
 "lbSlug": "coyote-vs-acme",
-"lbRating": 3.83,
-"rated": "2026-10-02",
+"lbRating": 3.82,
+"rated": "2026-10-10",
 "lang": "en",
 "posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
 },
@@ -683,8 +704,8 @@
 "tmdb": 1248832,
 "enFrom": "tmdb",
 "lbSlug": "digger-2026",
-"lbRating": 3.72,
-"rated": "2026-10-02",
+"lbRating": 3.86,
+"rated": "2026-10-10",
 "lang": "en",
 "posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg"
 },
@@ -783,7 +804,7 @@
 "enFrom": "tmdb",
 "lbSlug": "ponyo",
 "lbRating": 4.13,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "lang": "ja",
 "posterPath": "/yp8vEZflGynlEylxEesbYasc06i.jpg"
 },
@@ -818,8 +839,8 @@
 "tmdb": 1423191,
 "enFrom": "tmdb",
 "lbSlug": "resident-evil-2026",
-"lbRating": 3.77,
-"rated": "2026-10-02",
+"lbRating": 3.76,
+"rated": "2026-10-10",
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
 },
@@ -859,8 +880,8 @@
 "tv": 2,
 "tmdb": 1187326,
 "lbSlug": "tad-and-the-magic-lamp",
-"lbRating": 3.05,
-"rated": "2026-10-02",
+"lbRating": 3.03,
+"rated": "2026-10-10",
 "lang": "es",
 "posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
 },
@@ -881,7 +902,7 @@
 "enFrom": "tmdb",
 "lbSlug": "avengers-endgame",
 "lbRating": 4.03,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "lang": "en",
 "posterPath": "/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
 },
@@ -901,8 +922,8 @@
 "tmdb": 1283515,
 "enFrom": "tmdb",
 "lbSlug": "verity-2026",
-"lbRating": 2.78,
-"rated": "2026-10-02",
+"lbRating": 2.66,
+"rated": "2026-10-10",
 "lang": "en",
 "posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
 },
@@ -943,7 +964,7 @@
 "tmdb": 4497,
 "lbSlug": "viridiana",
 "lbRating": 4.05,
-"rated": "2026-10-02",
+"rated": "2026-10-10",
 "lang": "es",
 "posterPath": "/mYPuSx5JwL8AdTwS1iQW4Un1cYP.jpg"
 },
