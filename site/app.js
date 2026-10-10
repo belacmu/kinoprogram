@@ -384,6 +384,9 @@ function ratingHtml(f) {
 }
 // Watchlist heart (inline SVG so it's crisp and the same everywhere).
 const shareIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const linkIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+// The system share sheet on phones and tablets (touch); on a computer a plain "Copy link", as most sites do.
+const canShare = !!navigator.share && matchMedia("(pointer: coarse)").matches;
 const heart = (filled) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2 0 3.6 1 5.3 3 1.7-2 3.3-3 5.3-3 3.7 0 5.8 3.8 4.3 7.2C19.5 16.3 12 21 12 21z" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
 
 function cardHtml(row) {
@@ -668,7 +671,7 @@ function openFilm(id) {
       ${info ? `<div class="badges">${info}</div>` : ""}
       ${extLinks(f)}
       <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
-      <button class="btn ghost" data-share="${esc(f.id)}">${shareIcon} Share</button>
+      <button class="btn ghost" data-share="${esc(f.id)}">${canShare ? shareIcon : linkIcon} ${canShare ? "Share" : "Copy link"}</button>
       <button class="btn ghost" data-hide="${esc(f.id)}">${isHidden(f) ? eyeOn : eyeOff} ${isHidden(f) ? "Show this film again" : "Hide this film"}</button>
       ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
     </div>
@@ -965,10 +968,11 @@ function settlePendingWatch() {
 // and title in the preview, which it can't for "#film/..." links (it never sees the fragment).
 async function shareFilm(f) {
   const url = new URL(`f/${state.region}/${encodeURIComponent(f.id)}/`, location.href.split(/[?#]/)[0]).href;
-  if (navigator.share) {
-    try { await navigator.share({ title: titleOf(f), url }); return; } catch (err) { if (err.name === "AbortError") return; }
+  if (canShare) {
+    try { await navigator.share({ title: titleOf(f), url }); } catch {}  // closing the sheet counts as an error: nothing to do
+    return;
   }
-  try { await navigator.clipboard.writeText(url); toast("Link copied"); } catch { prompt("Copy this link", url); }
+  try { await navigator.clipboard.writeText(url); toast("Link copied"); } catch { toast("Couldn't copy the link"); }
 }
 
 function toast(msg, undo) {
