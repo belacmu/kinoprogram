@@ -54,7 +54,6 @@ def page(f, region, location):
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{e(here)}">
 {image}
-<meta http-equiv="refresh" content="0; url={e(app)}">
 <link rel="canonical" href="{e(here)}">
 <script>location.replace({json.dumps(app)});</script>
 </head>
