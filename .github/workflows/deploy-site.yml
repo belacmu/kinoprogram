@@ -5,7 +5,7 @@ name: Deploy site
 on:
   push:
     branches: [main]
-    paths: ["site/**", "scripts/write-site-config.sh", ".github/workflows/deploy-site.yml"]
+    paths: ["site/**", "scripts/write-site-config.sh", "scripts/write-film-pages.py", ".github/workflows/deploy-site.yml"]
   workflow_dispatch:
 
 permissions:
@@ -45,6 +45,9 @@ jobs:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
         run: sh scripts/write-site-config.sh
+
+      - name: Write film preview pages
+        run: python3 scripts/write-film-pages.py
 
       - uses: actions/upload-pages-artifact@v3
         with:

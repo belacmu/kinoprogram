@@ -81,6 +81,9 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
         run: sh scripts/write-site-config.sh
 
+      - name: Write film preview pages
+        run: python3 scripts/write-film-pages.py
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
