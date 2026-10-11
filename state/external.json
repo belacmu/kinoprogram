@@ -631,9 +631,31 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "cars",
-"lbRating": 3.95,
-"rated": "2026-10-03",
+"lbRating": 3.96,
+"rated": "2026-10-11",
 "posterPath": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg"
+},
+"cl-chico-garza": {
+"imdb": "tt6587046",
+"imdbAll": [
+"tt8055182",
+"tt6587046"
+],
+"lb": "the-boy-and-the-heron",
+"rt": "m/the_boy_and_the_heron",
+"mc": "movie/the-boy-and-the-heron",
+"en": "The Boy and the Heron",
+"v": 4,
+"checked": "2026-10-11",
+"tmdbChecked": "2026-10-11",
+"tv": 2,
+"tmdb": 508883,
+"lang": "ja",
+"enFrom": "tmdb",
+"lbSlug": "the-boy-and-the-heron",
+"lbRating": 3.9,
+"rated": "2026-10-11",
+"posterPath": "/f4oZTcfGrVTXKTWg157AwikXqmP.jpg"
 },
 "cl-clayface": {
 "imdb": "tt34890576",
@@ -667,7 +689,7 @@
 "enFrom": "tmdb",
 "lbSlug": "heart-of-the-beast-2026",
 "lbRating": 3.3,
-"rated": "2026-10-03",
+"rated": "2026-10-11",
 "posterPath": "/mYqiF90igComG2L2qm8SwFbaMwn.jpg",
 "v": 4
 },
@@ -729,16 +751,16 @@
 "posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
 },
 "cl-isla-olvidada": {
-"tmdbChecked": "2026-10-03",
+"tmdbChecked": "2026-10-11",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-11"
 },
 "cl-l-elisir-d-amore-26-27": {
-"tmdbChecked": "2026-10-03",
+"tmdbChecked": "2026-10-11",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-11"
 },
 "cl-mascotas-rescate": {
 "v": 4,
@@ -866,7 +888,7 @@
 "enFrom": "tmdb",
 "lbSlug": "street-fighter-2026",
 "lbRating": null,
-"rated": "2026-10-03",
+"rated": "2026-10-11",
 "posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
 },
 "cl-tadeo-jones-lampara-maravillosa": {
@@ -3638,6 +3660,12 @@
 "v": 4,
 "checked": "2026-10-05"
 },
+"fw-EDI20240654": {
+"v": 4,
+"checked": "2026-10-11",
+"tmdbChecked": "2026-10-11",
+"tv": 2
+},
 "fw-EDI20240688": {
 "lbSlug": "spider-man-brand-new-day",
 "lbRating": 4.04,
@@ -4795,24 +4823,6 @@
 "rated": "2026-10-09",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20260454": {
-"lbSlug": "marsupilami-2025",
-"lbRating": 2.68,
-"rated": "2026-10-09",
-"imdb": "tt33029380",
-"imdbAll": [
-"tt33029380"
-],
-"lb": "marsupilami-2026",
-"rt": "m/marsupilami",
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1145899
 },
 "fw-EDI20260513": {
 "lbSlug": "monster-mia",
