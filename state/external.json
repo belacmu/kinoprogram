@@ -2290,25 +2290,6 @@
 "rated": "2026-10-06",
 "posterPath": "/6Iv6Uwa2SBLN0dSGM00rdrwN4MJ.jpg"
 },
-"cm-naqoyqatsi": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 21925,
-"imdb": "tt0145937",
-"en": "Naqoyqatsi",
-"lbSlug": "naqoyqatsi",
-"lbRating": 3.08,
-"rated": "2026-10-09",
-"posterPath": "/buDo6FcSlOVEQJomKB0IviNV0Do.jpg",
-"imdbAll": [
-"tt0145937"
-],
-"lb": "naqoyqatsi",
-"rt": "m/naqoyqatsi",
-"mc": "movie/naqoyqatsi",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-nouvelle-vague-2": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3819,24 +3800,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"fw-EDI20250270": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1374313,
-"imdb": "tt34673862",
-"en": null,
-"lbSlug": "trains-2024",
-"lbRating": 3.67,
-"rated": "2026-10-09",
-"imdbAll": [
-"tt34673862"
-],
-"lb": "trains-2024",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20250282": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3955,7 +3918,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-04"
+"checked": "2026-10-12"
 },
 "fw-EDI20250777": {
 "tmdbChecked": "2026-10-01",
@@ -4184,24 +4147,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20251285": {
-"imdb": "tt35492581",
-"imdbAll": [
-"tt35492581"
-],
-"lb": "kontinental-25",
-"rt": "m/kontinental_25",
-"mc": "movie/kontinental-25",
-"en": "Kontinental '25",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1410189,
-"lbSlug": "kontinental-25",
-"lbRating": 3.52,
-"rated": "2026-10-09"
-},
 "fw-EDI20251288": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4370,7 +4315,7 @@
 "rated": "2026-10-09",
 "posterPath": "/aN1SBXBrlcxK7T3224fm2TJTJMV.jpg",
 "v": 4,
-"checked": "2026-10-04"
+"checked": "2026-10-12"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-10-09",
@@ -4654,11 +4599,11 @@
 "en": "King",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "king-2026",
 "lbRating": null,
-"rated": "2026-10-04"
+"rated": "2026-10-12"
 },
 "fw-EDI20260285": {
 "lbSlug": "stitch-head",
@@ -5209,12 +5154,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260797": {
-"tmdbChecked": "2026-10-11",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-11"
-},
 "fw-EDI20260811": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5544,7 +5483,7 @@
 "enFrom": "tmdb",
 "lbSlug": null,
 "lbRating": null,
-"rated": "2026-10-04"
+"rated": "2026-10-12"
 },
 "fw-EDI20260915": {
 "imdb": "tt1756855",
@@ -5790,19 +5729,6 @@
 "rated": "2026-10-11",
 "v": 4
 },
-"fw-EDI20261004": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1490707,
-"lang": "sv",
-"imdb": "tt40054398",
-"en": null,
-"lbSlug": "a-sweetness-from-nowhere",
-"lbRating": null,
-"rated": "2026-10-11",
-"v": 4
-},
 "fw-EDI20261025": {
 "imdb": "tt39400168",
 "imdbAll": [
@@ -5831,11 +5757,11 @@
 "en": "Godzilla Minus Zero",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "godzilla-minus-zero",
-"lbRating": 3.89,
-"rated": "2026-10-04"
+"lbRating": 3.91,
+"rated": "2026-10-12"
 },
 "fw-EDI20261033": {
 "tmdbChecked": "2026-10-01",
@@ -6035,19 +5961,6 @@
 "rated": "2026-10-11",
 "v": 4
 },
-"fw-EDI20261164": {
-"checked": "2026-10-11",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1635569,
-"lang": "no",
-"imdb": null,
-"en": null,
-"lbSlug": "in-defense-of-self",
-"lbRating": null,
-"rated": "2026-10-11",
-"v": 4
-},
 "fw-EDI20261191": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -6222,38 +6135,6 @@
 "lbSlug": "i-want-your-sex",
 "lbRating": 3.18,
 "rated": "2026-10-09"
-},
-"fw-EDI20261316": {
-"imdb": "tt17497960",
-"imdbAll": [
-"tt17497960"
-],
-"lb": "blknws-terms-conditions",
-"rt": null,
-"mc": null,
-"en": "BLKNWS: Terms & Conditions",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 931942,
-"enFrom": "tmdb",
-"lbSlug": "blknws-terms-conditions",
-"lbRating": 3.84,
-"rated": "2026-10-09"
-},
-"fw-EDI20261353": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1568038,
-"lang": "xx",
-"imdb": "tt38773523",
-"en": null,
-"lbSlug": "krakatoa-2026",
-"lbRating": 3.39,
-"rated": "2026-10-11",
-"v": 4
 },
 "fw-EDI20261380": {
 "tmdbChecked": "2026-10-01",
@@ -6621,7 +6502,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-04"
+"checked": "2026-10-12"
 },
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
@@ -6798,8 +6679,8 @@
 "mc": "movie/archangel-2026",
 "en": "Ghost Soldier",
 "v": 4,
-"checked": "2026-10-11",
-"tmdbChecked": "2026-10-11",
+"checked": "2026-10-12",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "conflict": [
 "tt38686316",
@@ -6973,8 +6854,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-11",
-"tmdbChecked": "2026-10-11",
+"checked": "2026-10-12",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7046,11 +6927,11 @@
 "en": "The Furious",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "the-furious",
 "lbRating": 3.82,
-"rated": "2026-10-04"
+"rated": "2026-10-12"
 },
 "fw-EDI20261574": {
 "tmdbChecked": "2026-10-01",
@@ -7197,11 +7078,13 @@
 "en": "Ashes",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "ashes-2026-3",
-"lbRating": 3.29,
-"rated": "2026-10-04"
+"lbRating": 3.3,
+"rated": "2026-10-12",
+"tmdb": 1623608,
+"lang": "es"
 },
 "fw-EDI20261586": {
 "imdb": "tt38111477",
@@ -7214,11 +7097,15 @@
 "en": "Lady",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "lady-2026",
 "lbRating": 3.46,
-"rated": "2026-10-04"
+"rated": "2026-10-04",
+"conflict": [
+"tt38111477",
+"tt35636239"
+]
 },
 "fw-EDI20261587": {
 "tmdbChecked": "2026-10-01",
@@ -7291,11 +7178,15 @@
 "en": "Paradise",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "paradise-2026",
 "lbRating": 3.47,
-"rated": "2026-10-04"
+"rated": "2026-10-04",
+"conflict": [
+"tt27027989",
+"tt38573542"
+]
 },
 "fw-EDI20261593": {
 "v": 4,
@@ -8164,11 +8055,11 @@
 "en": "Caravaggio",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
+"tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "caravaggio-2025",
-"lbRating": 3.33,
-"rated": "2026-10-04"
+"lbRating": 3.34,
+"rated": "2026-10-12"
 },
 "fw-UAV20213413": {
 "tmdbChecked": "2026-10-01",
