@@ -583,27 +583,6 @@
 "rated": "2026-10-11",
 "posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg"
 },
-"cl-bitelchus": {
-"imdb": "tt0094721",
-"imdbAll": [
-"tt0094721"
-],
-"lb": "beetlejuice",
-"rt": "m/beetlejuice",
-"mc": "movie/beetlejuice",
-"en": "Beetlejuice",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 4011,
-"enFrom": "tmdb",
-"lbSlug": "beetlejuice",
-"lbRating": 3.73,
-"rated": "2026-10-10",
-"lang": "en",
-"posterPath": "/nnl6OWkyPpuMm595hmAxNW3rZFn.jpg"
-},
 "cl-bola-negra": {
 "imdb": "tt35511966",
 "imdbAll": [
@@ -766,12 +745,6 @@
 "v": 4,
 "checked": "2026-10-11"
 },
-"cl-l-elisir-d-amore-26-27": {
-"tmdbChecked": "2026-10-11",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-11"
-},
 "cl-mascotas-rescate": {
 "v": 4,
 "checked": "2026-10-06",
@@ -822,27 +795,6 @@
 "lbRating": null,
 "rated": "2026-10-06",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
-},
-"cl-ponyo-acantilado": {
-"imdb": "tt0876563",
-"imdbAll": [
-"tt0876563"
-],
-"lb": "ponyo",
-"rt": "m/ponyo",
-"mc": "movie/ponyo",
-"en": "Ponyo",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 12429,
-"enFrom": "tmdb",
-"lbSlug": "ponyo",
-"lbRating": 4.13,
-"rated": "2026-10-10",
-"lang": "ja",
-"posterPath": "/yp8vEZflGynlEylxEesbYasc06i.jpg"
 },
 "cl-precio-red": {
 "v": 4,
@@ -981,7 +933,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-wind-rises",
 "lbRating": 4.13,
-"rated": "2026-10-04",
+"rated": "2026-10-12",
 "posterPath": "/jfwSexzlIzaOgxP9A8bTA6t8YYb.jpg"
 },
 "cl-viridiana": {
@@ -7096,12 +7048,9 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-04",
+"checked": "2026-10-12",
 "tmdbChecked": "2026-10-12",
 "tv": 2,
-"lbSlug": "lady-2026",
-"lbRating": 3.46,
-"rated": "2026-10-04",
 "conflict": [
 "tt38111477",
 "tt35636239"
@@ -7177,12 +7126,9 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-04",
+"checked": "2026-10-12",
 "tmdbChecked": "2026-10-12",
 "tv": 2,
-"lbSlug": "paradise-2026",
-"lbRating": 3.47,
-"rated": "2026-10-04",
 "conflict": [
 "tt27027989",
 "tt38573542"
@@ -8285,6 +8231,26 @@
 "lbSlug": "digger-2026",
 "lbRating": 3.85,
 "rated": "2026-10-09"
+},
+"fw-WAB20240262": {
+"imdb": "tt34890576",
+"imdbAll": [
+"tt34890576"
+],
+"lb": "clayface",
+"rt": "m/clayface",
+"mc": null,
+"en": "Clayface",
+"v": 4,
+"checked": "2026-10-12",
+"tmdbChecked": "2026-10-12",
+"tv": 2,
+"tmdb": 1400940,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "clayface",
+"lbRating": null,
+"rated": "2026-10-12"
 },
 "fw-WAB20240290": {
 "lbSlug": "practical-magic-2",
