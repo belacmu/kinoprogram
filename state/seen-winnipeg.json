@@ -1,10 +1,10 @@
 {
  "baseline": "2026-10-02T17:44",
- "lastDigest": "2026-10-11T11:36",
+ "lastDigest": "2026-10-12T15:13",
  "films": {
   "cc-always-lalisa-2026": {
    "since": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-angel-and-the-badman-1947": {
    "since": "2026-10-07T12:43",
@@ -12,7 +12,7 @@
   },
   "cc-avengers-endgame-2019": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-baththa-2026": {
    "since": "2026-10-02T17:44",
@@ -32,43 +32,43 @@
   },
   "cc-coyote-vs-acme-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-digger-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-drishyam-the-conclusion-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-e-t-the-extra-terrestrial-1982": {
    "since": "2026-10-11T11:35",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-eh-din-roz-ni-aune-2026": {
    "since": "2026-10-07T12:43",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-el-laberinto-del-fauno-2006": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-forgotten-island-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-fresh-meat-2012": {
    "since": "2026-10-09T12:19",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-hanuman-ansh-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-heart-of-the-beast-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-insidious-out-of-the-further-2026": {
    "since": "2026-10-02T17:44",
@@ -88,11 +88,11 @@
   },
   "cc-mirzapur-the-movie-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-mitti-de-putt-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-ninja-scroll-1993": {
    "since": "2026-10-02T17:44",
@@ -100,7 +100,7 @@
   },
   "cc-once-upon-a-time-in-the-middle-east-2026": {
    "since": "2026-10-07T12:43",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-opera-cosi-fan-tutte-event": {
    "since": "2026-10-02T17:44",
@@ -108,11 +108,11 @@
   },
   "cc-opera-macbeth-event": {
    "since": "2026-10-11T11:35",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-other-mommy-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-paw-patrol-the-dino-movie-2026": {
    "since": "2026-10-07T12:43",
@@ -120,7 +120,7 @@
   },
   "cc-practical-magic-2-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-prem-keetanu-2026": {
    "since": "2026-10-02T17:44",
@@ -128,7 +128,7 @@
   },
   "cc-primetime-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-queen-budapest-event": {
    "since": "2026-10-02T17:44",
@@ -136,15 +136,19 @@
   },
   "cc-resident-evil-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-run-terry-run-2025": {
    "since": "2026-10-04T10:43",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-sacrifice-2025": {
    "since": "2026-10-06T12:07",
    "last": "2026-10-08T12:47"
+  },
+  "cc-saw-2004": {
+   "since": "2026-10-12T15:11",
+   "last": "2026-10-12T15:11"
   },
   "cc-sb19-wakas-at-simula-the-trilogy-concert-finale-2026": {
    "since": "2026-10-02T17:44",
@@ -156,7 +160,7 @@
   },
   "cc-sense-and-sensibility-1995": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-sigma-2026": {
    "since": "2026-10-02T17:44",
@@ -164,19 +168,19 @@
   },
   "cc-spider-man-brand-new-day-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-street-fighter-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-the-odyssey-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-the-social-reckoning-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-the-vvaan-force-of-the-forrest-2026": {
    "since": "2026-10-02T17:44",
@@ -184,35 +188,35 @@
   },
   "cc-tutt-paini-english-ne-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-verity-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-whalefall-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-you-can-see-everything-2026": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-a-rimbaud": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-begotten-4k-restoration": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-black-zombie": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-dreams-in-nightmares": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-evil-dead-ii": {
    "since": "2026-10-02T17:44",
@@ -224,23 +228,23 @@
   },
   "db-moving-still-animation-at-the-winnipeg-film-group": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-once-upon-a-time-in-harlem": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-revelations-of-divine-love": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-screamplay-4k-restoration": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-the-devils-4k-restoration": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-the-history-of-concrete": {
    "since": "2026-10-02T17:44",
@@ -252,137 +256,141 @@
   },
   "db-the-saturday-morning-all-you-can-eat-cereal-cartoon-party-halloween-edition": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-treasure-planet": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10002913": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10002980": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003031": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003060": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003065": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003069": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003070": {
    "since": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003071": {
    "since": "2026-10-04T10:43",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003072": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003073": {
    "since": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003075": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003082": {
    "since": "2026-10-11T11:35",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003103": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003176": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003178": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003179": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003197": {
    "since": "2026-10-07T12:43",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003230": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003231": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003243": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003271": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003323": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003328": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003338": {
    "since": "2026-10-06T12:07",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003378": {
    "since": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-234081": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-315543": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-359230": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-374538": {
    "since": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-415960": {
    "since": "2026-10-03T10:10",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
+  },
+  "https-moviescout-ca-movies-70573": {
+   "since": "2026-10-12T15:11",
+   "last": "2026-10-12T15:11"
   }
  },
  "dated": {
   "cc-always-lalisa-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-angel-and-the-badman-1947": {
    "first": "2026-10-02T17:44",
@@ -390,7 +398,7 @@
   },
   "cc-avengers-endgame-2019": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-baththa-2026": {
    "first": "2026-10-02T17:44",
@@ -410,43 +418,43 @@
   },
   "cc-coyote-vs-acme-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-digger-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-drishyam-the-conclusion-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-e-t-the-extra-terrestrial-1982": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-eh-din-roz-ni-aune-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-el-laberinto-del-fauno-2006": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-forgotten-island-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-fresh-meat-2012": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-hanuman-ansh-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-heart-of-the-beast-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-insidious-out-of-the-further-2026": {
    "first": "2026-10-02T17:44",
@@ -466,11 +474,11 @@
   },
   "cc-mirzapur-the-movie-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-mitti-de-putt-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-ninja-scroll-1993": {
    "first": "2026-10-02T17:44",
@@ -478,7 +486,7 @@
   },
   "cc-once-upon-a-time-in-the-middle-east-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-opera-cosi-fan-tutte-event": {
    "first": "2026-10-02T17:44",
@@ -486,11 +494,11 @@
   },
   "cc-opera-macbeth-event": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-other-mommy-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-paw-patrol-the-dino-movie-2026": {
    "first": "2026-10-02T17:44",
@@ -498,7 +506,7 @@
   },
   "cc-practical-magic-2-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-prem-keetanu-2026": {
    "first": "2026-10-02T17:44",
@@ -506,7 +514,7 @@
   },
   "cc-primetime-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-queen-budapest-event": {
    "first": "2026-10-02T17:44",
@@ -514,15 +522,19 @@
   },
   "cc-resident-evil-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-run-terry-run-2025": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-sacrifice-2025": {
    "first": "2026-10-02T17:44",
    "last": "2026-10-08T12:47"
+  },
+  "cc-saw-2004": {
+   "first": "2026-10-02T17:44",
+   "last": "2026-10-12T15:11"
   },
   "cc-sb19-wakas-at-simula-the-trilogy-concert-finale-2026": {
    "first": "2026-10-02T17:44",
@@ -534,7 +546,7 @@
   },
   "cc-sense-and-sensibility-1995": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-sigma-2026": {
    "first": "2026-10-02T17:44",
@@ -542,19 +554,19 @@
   },
   "cc-spider-man-brand-new-day-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-street-fighter-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-the-odyssey-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-the-social-reckoning-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-the-vvaan-force-of-the-forrest-2026": {
    "first": "2026-10-02T17:44",
@@ -562,35 +574,35 @@
   },
   "cc-tutt-paini-english-ne-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-verity-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-whalefall-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "cc-you-can-see-everything-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-a-rimbaud": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-begotten-4k-restoration": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-black-zombie": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-dreams-in-nightmares": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-evil-dead-ii": {
    "first": "2026-10-02T17:44",
@@ -602,23 +614,23 @@
   },
   "db-moving-still-animation-at-the-winnipeg-film-group": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-once-upon-a-time-in-harlem": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-revelations-of-divine-love": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-screamplay-4k-restoration": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-the-devils-4k-restoration": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-the-history-of-concrete": {
    "first": "2026-10-02T17:44",
@@ -630,87 +642,87 @@
   },
   "db-the-saturday-morning-all-you-can-eat-cereal-cartoon-party-halloween-edition": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "db-treasure-planet": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10002913": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10002980": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003031": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003060": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003065": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003069": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003070": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003071": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003072": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003073": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003074": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003075": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003082": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003103": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003176": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003178": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003179": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003180": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003197": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003199": {
    "first": "2026-10-02T17:44",
@@ -722,35 +734,35 @@
   },
   "https-moviescout-ca-movies-10003230": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003231": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003238": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003243": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003250": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003271": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003323": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003328": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003332": {
    "first": "2026-10-02T17:44",
@@ -758,57 +770,61 @@
   },
   "https-moviescout-ca-movies-10003338": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003354": {
    "first": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003355": {
    "first": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003357": {
    "first": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003364": {
    "first": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003365": {
    "first": "2026-10-08T12:47",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-10003378": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-234081": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-315543": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-359230": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-374538": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-415960": {
    "first": "2026-10-02T17:44",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
   },
   "https-moviescout-ca-movies-6377": {
    "first": "2026-10-09T12:19",
-   "last": "2026-10-11T11:35"
+   "last": "2026-10-12T15:11"
+  },
+  "https-moviescout-ca-movies-70573": {
+   "first": "2026-10-02T17:44",
+   "last": "2026-10-12T15:11"
   }
  },
- "lastRun": "2026-10-11T11:35",
+ "lastRun": "2026-10-12T15:11",
  "lastWeekly": "2026-10-09T12:20"
 }
