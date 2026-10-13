@@ -3556,13 +3556,13 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20240550": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20240654": {
 "v": 4,
@@ -3593,7 +3593,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20240731": {
 "tmdbChecked": "2026-10-01",
@@ -3806,8 +3806,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "remain-2026-1",
-"lbRating": null,
-"rated": "2026-10-05"
+"lbRating": 3.53,
+"rated": "2026-10-13"
 },
 "fw-EDI20250509": {
 "lbSlug": "low-expectations",
@@ -3832,7 +3832,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20250688": {
 "tmdbChecked": "2026-10-11",
@@ -3882,13 +3882,13 @@
 "lbRating": null,
 "rated": "2026-10-09",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20250783": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20250794": {
 "lbSlug": "shaun-the-sheep-the-beast-of-mossy-bottom",
@@ -4031,11 +4031,11 @@
 "en": "Wife & Dog",
 "v": 4,
 "checked": "2026-10-05",
-"tmdbChecked": "2026-10-05",
+"tmdbChecked": "2026-10-13",
 "tv": 2,
 "lbSlug": "wife-dog",
 "lbRating": null,
-"rated": "2026-10-05"
+"rated": "2026-10-13"
 },
 "fw-EDI20251026": {
 "imdb": "tt31378509",
@@ -4177,7 +4177,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20251487": {
 "lbSlug": "let-our-mountains-live",
@@ -4216,7 +4216,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20251646": {
 "tmdbChecked": "2026-10-01",
@@ -4291,7 +4291,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20251759": {
 "tmdbChecked": "2026-10-01",
@@ -4400,7 +4400,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260077": {
 "lbSlug": "no-good-men-2026",
@@ -4510,10 +4510,10 @@
 "rated": "2026-10-09"
 },
 "fw-EDI20260207": {
+"tmdbChecked": "2026-10-13",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-05",
-"tmdbChecked": "2026-10-05",
-"tv": 2
+"checked": "2026-10-13"
 },
 "fw-EDI20260224": {
 "v": 4,
@@ -4665,7 +4665,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260432": {
 "tmdbChecked": "2026-10-02",
@@ -4757,7 +4757,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260552": {
 "tmdbChecked": "2026-10-01",
@@ -4781,7 +4781,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260562": {
 "tmdbChecked": "2026-10-01",
@@ -4860,7 +4860,7 @@
 "lbRating": null,
 "rated": "2026-10-09",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260574": {
 "tmdbChecked": "2026-10-01",
@@ -5099,7 +5099,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260755": {
 "v": 4,
@@ -5185,7 +5185,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260840": {
 "tmdbChecked": "2026-10-11",
@@ -5439,7 +5439,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260912": {
 "checked": "2026-10-03",
@@ -5497,7 +5497,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20260920": {
 "tmdbChecked": "2026-10-01",
@@ -5659,6 +5659,12 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-04"
+},
+"fw-EDI20260975": {
+"v": 4,
+"checked": "2026-10-13",
+"tmdbChecked": "2026-10-13",
+"tv": 2
 },
 "fw-EDI20260978": {
 "tmdbChecked": "2026-10-01",
@@ -6465,7 +6471,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20261486": {
 "checked": "2026-10-03",
@@ -6566,7 +6572,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20261525": {
 "v": 4,
@@ -6668,8 +6674,8 @@
 "mc": "movie/archangel-2026",
 "en": "Ghost Soldier",
 "v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
+"checked": "2026-10-13",
+"tmdbChecked": "2026-10-13",
 "tv": 2,
 "conflict": [
 "tt38686316",
@@ -6843,8 +6849,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
+"checked": "2026-10-13",
+"tmdbChecked": "2026-10-13",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7085,8 +7091,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
+"checked": "2026-10-13",
+"tmdbChecked": "2026-10-13",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -7163,8 +7169,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
+"checked": "2026-10-13",
+"tmdbChecked": "2026-10-13",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -7263,7 +7269,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-EDI20261615": {
 "tmdbChecked": "2026-10-02",
@@ -7302,7 +7308,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-lost-boys",
 "lbRating": 3.68,
-"rated": "2026-10-05"
+"rated": "2026-10-13"
 },
 "fw-EDI20261618": {
 "v": 4,
@@ -7525,6 +7531,20 @@
 "tmdbChecked": "2026-10-12",
 "tv": 2
 },
+"fw-EDI20261663": {
+"v": 4,
+"checked": "2026-10-13",
+"tmdbChecked": "2026-10-13",
+"tv": 2,
+"tmdb": 1708712,
+"lang": "si",
+"imdb": null,
+"en": null,
+"lbSlug": "adaraneeya-tharuwak",
+"lbRating": null,
+"rated": "2026-10-13",
+"posterPath": "/b84eoB1ztvS260wUKbfbX8Y0gPT.jpg"
+},
 "fw-FID20210220": {
 "imdb": "tt13322726",
 "imdbAll": [
@@ -7594,7 +7614,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-MER20240096": {
 "imdb": "tt37496603",
@@ -7618,13 +7638,13 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-MMF20210053": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-MMF20220064": {
 "v": 4,
@@ -7662,13 +7682,13 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-NOR20230680": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-NOR20230682": {
 "checked": "2026-10-03",
@@ -7715,7 +7735,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-NOR20240724": {
 "tmdbChecked": "2026-10-01",
@@ -7734,13 +7754,13 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-NOR20240728": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-OKI20040581": {
 "tmdbChecked": "2026-10-01",
@@ -7865,7 +7885,7 @@
 "enFrom": "tmdb",
 "lbSlug": "dune-2021",
 "lbRating": 3.89,
-"rated": "2026-10-05"
+"rated": "2026-10-13"
 },
 "fw-SFN20201260": {
 "imdb": "tt4540534",
@@ -7878,11 +7898,11 @@
 "en": "The Nightingale",
 "v": 4,
 "checked": "2026-10-05",
-"tmdbChecked": "2026-10-05",
+"tmdbChecked": "2026-10-13",
 "tv": 2,
 "lbSlug": "the-nightingale-2027",
 "lbRating": null,
-"rated": "2026-10-05"
+"rated": "2026-10-13"
 },
 "fw-SFN20201290": {
 "tmdbChecked": "2026-10-11",
@@ -7907,8 +7927,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "dune-part-two",
-"lbRating": 4.38,
-"rated": "2026-10-05"
+"lbRating": 4.37,
+"rated": "2026-10-13"
 },
 "fw-SFN20221545": {
 "tmdbChecked": "2026-10-01",
@@ -8066,7 +8086,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "fw-UIP20020728": {
 "tmdbChecked": "2026-10-01",
@@ -8298,7 +8318,7 @@
 "tmdbChecked": "2026-10-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-13"
 },
 "https-moviescout-ca-movies-10002913": {
 "tmdbChecked": "2026-10-12",
