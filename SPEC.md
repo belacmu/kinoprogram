@@ -15,6 +15,13 @@ For one person and a few friends; must cost nothing to run.
 | Deichman Bjørvika | The main library's film screenings (Kinoen, Kinosalen), free | Its Hoopla ticket shop's public JSON API (`/api/public/v3.0/organizations/915950447`; behind a queue-it redirect that only needs cookies kept). The event list holds everything the library does; the film showings are those labelled "Filmvisning" / "Film og samtale" (the "Barnas kino:", "Film fra Sør:" and "Filmvisning:" prefixes and a trailing ". Lør kl. 14" are stripped from the title; year, running time and English subtitles come from the facts line in the description). A film-and-talk night or a double bill keeps its event name and is type Talks & events. Bookable when the event has ticket types (`available_ticket_types`), otherwise "Free tickets from <date>" (tickets open a week ahead, children's screenings the same morning). School and kindergarten "Utekino" screenings are for booked groups and left out. |
 | Sommerro | Hotel Sommerro's film evenings: a dinner, brunch or tea **package** and a film, prepaid | HTML: `/kultur/filmopplevelser/` has one block per screening (film, year, date, "(Utsolgt)" / "(Få plasser igjen)"); each series page gives what the package includes. Sold out shows as "Sold out", a few left in the note. Booking is a widget on the site, so a showing links to its series page. |
 
+**Costa del Sol** (Spanish time, twice a day):
+
+| Source | Covers | How |
+| --- | --- | --- |
+| CarteleraCines.es | Alfil, mk2 Miramar, Kinépolis La Cañada, Red Dog | Read-only JSON-RPC endpoint, up to 14 days per cinema; sessions marked `VOSE` are original language. Lags behind the cinemas for new films. |
+| mk2 Miramar's own site | mk2 Miramar, original-language (VOSE) sessions | HTML: the `/vose` page has one block per day (a few weeks of dates) with every film, time and ticket link. Replaces CarteleraCines' VOSE sessions for Miramar (its dubbed ones stay); if the page fails or changes, CarteleraCines' are used. Films merge by title. |
+
 **Manitoba** (Westman and Winnipeg, times in Manitoba time): CinemaClock for about the next week at every cinema,
 MovieScout beyond it (advance sales months ahead).
 

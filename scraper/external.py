@@ -366,7 +366,7 @@ def enrich(films, now, keep_prefixes=()):
 
     # Original language (TMDB) for Costa del Sol films: it tells a Spanish-language film from a dubbed one.
     if tmdb_enabled():
-        for f in [f for f in films if f["id"].startswith("cl-")][:40]:
+        for f in [f for f in films if f["id"].startswith(("cl-", "mk-"))][:40]:
             rec = next((cache[i] for i in f["ids"] if i in cache), None)
             if rec and rec.get("tmdb") and not rec.get("lang") and not rec.get("conflict"):
                 try:
@@ -418,7 +418,7 @@ def enrich(films, now, keep_prefixes=()):
         for f in films:
             poster = f.get("poster") or ""
             replace = not poster or "vrs.gd" in poster or "evbuc.com" in poster
-            fallback = not replace and f["id"].startswith(("https-moviescout", "lm-", "cc-", "cl-"))
+            fallback = not replace and f["id"].startswith(("https-moviescout", "lm-", "cc-", "cl-", "mk-"))
             if not (replace or fallback):
                 continue
             rec = next((cache[i] for i in f["ids"] if i in cache), None)
