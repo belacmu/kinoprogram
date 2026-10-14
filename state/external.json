@@ -7581,6 +7581,21 @@
 "lbRating": null,
 "rated": "2026-10-07"
 },
+"fw-EDI20261645": {
+"v": 4,
+"checked": "2026-10-14",
+"tmdbChecked": "2026-10-14",
+"tv": 2,
+"tmdb": 1768608,
+"lang": "tr",
+"imdb": "tt42886802",
+"en": "Bloodline",
+"enFrom": "tmdb",
+"lbSlug": "bloodline-2026-3",
+"lbRating": null,
+"rated": "2026-10-14",
+"posterPath": "/l10MXtbaO8G0IZzWToXnr21zG97.jpg"
+},
 "fw-EDI20261651": {
 "imdb": "tt0075148",
 "imdbAll": [
