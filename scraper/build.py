@@ -23,6 +23,7 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).parent))
 import costadelsol  # noqa: E402
+import mk2  # noqa: E402
 import deichman  # noqa: E402
 import external  # noqa: E402
 import revier  # noqa: E402
@@ -51,6 +52,7 @@ ID_PATTERNS = [
     ("ev-", r"evanstheatre\.ca/movie/([^/?#]+)"),
     ("db-", r"davebarbercinematheque\.com/movies/([^/?#]+)"),
     ("cl-", r"carteleracines\.es/#([^/?#]+)"),
+    ("mk-", r"mk2cines\.es/es/[^/]+/([^/?#]+)"),
     # One Eventbrite event per screening; the slug without running time and event number names the film.
     ("dm-", r"deichman\.hoopla\.no/event/(\d+)"),
     # Every film in a Sommerro series shares the series page, so each film's link carries its own #anchor.
@@ -275,7 +277,16 @@ def fetch_winnipeg(now):
 
 def fetch_costadelsol(now):
     print("Fetching Costa del Sol cinemas …")
-    return costadelsol.fetch_all(now)
+    films = costadelsol.fetch_all(now)
+    # mk2's own site is ahead of the aggregator, so its VOSE sessions replace CarteleraCines' for Miramar (dubbed ones stay).
+    try:
+        own = mk2.fetch_all(now)
+    except Exception as e:  # keep CarteleraCines' Miramar sessions if mk2's site is down or changed
+        print(f"  ! {mk2.CINEMA}: {e}", file=sys.stderr)
+        return films
+    for f in films:
+        f["shows"] = [s for s in f["shows"] if not (s["cinema"] == mk2.CINEMA and s["en"])]
+    return merge(films, own)
 
 
 REGIONS = {
@@ -289,8 +300,8 @@ REGIONS = {
                  "idprefixes": ("cc-", "db-", "https-moviescout"), "data": "winnipeg.json", "state": "seen-winnipeg.json",
                  "sources": "MovieScout + CinemaClock + Cinematheque"},
     "costadelsol": {"name": "Costa del Sol", "tz": "Europe/Madrid", "fetch": fetch_costadelsol,
-                    "first": "Alfil (Fuengirola)", "idprefixes": ("cl-",), "data": "costadelsol.json", "state": "seen-costadelsol.json",
-                    "sources": "CarteleraCines.es"},
+                    "first": "Alfil (Fuengirola)", "idprefixes": ("cl-", "mk-"), "data": "costadelsol.json", "state": "seen-costadelsol.json",
+                    "sources": "CarteleraCines.es + mk2 Miramar"},
 }
 
 
