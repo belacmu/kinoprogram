@@ -818,6 +818,21 @@
 "tmdbChecked": "2026-10-12",
 "tv": 2
 },
+"cl-leones-invierno": {
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 1689329,
+"lang": "es",
+"imdb": "tt39583295",
+"en": "Winter Lions",
+"enFrom": "tmdb",
+"lbSlug": "winter-lions",
+"lbRating": null,
+"rated": "2026-10-15",
+"posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
+},
 "cl-maleta": {
 "v": 4,
 "checked": "2026-10-14",
@@ -971,27 +986,6 @@
 "rated": "2026-10-10",
 "lang": "es",
 "posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
-},
-"cl-vengadores-endgame": {
-"imdb": "tt4154796",
-"imdbAll": [
-"tt4154796"
-],
-"lb": "avengers-endgame",
-"rt": "m/avengers_endgame",
-"mc": "movie/avengers-endgame",
-"en": "Avengers: Endgame",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 299534,
-"enFrom": "tmdb",
-"lbSlug": "avengers-endgame",
-"lbRating": 4.03,
-"rated": "2026-10-10",
-"lang": "en",
-"posterPath": "/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
 },
 "cl-verity-sombra-engano": {
 "imdb": "tt32261958",
@@ -1228,24 +1222,6 @@
 "v": 4,
 "checked": "2026-10-11"
 },
-"cm-butterfly": {
-"imdb": "tt37496603",
-"imdbAll": [
-"tt37496603"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Butterfly",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1261032,
-"lbSlug": "butterfly-2026",
-"lbRating": 3.16,
-"rated": "2026-10-09"
-},
 "cm-cafe-paradis": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1334,25 +1310,6 @@
 "posterPath": "/bJQZpXFzKSKxaJFSC0loqBzu4r9.jpg",
 "v": 4,
 "checked": "2026-10-11"
-},
-"cm-den-fremmede": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1429348,
-"imdb": "tt36243564",
-"en": "The Stranger",
-"lbSlug": "the-stranger-2025-1",
-"lbRating": 3.56,
-"rated": "2026-10-09",
-"posterPath": "/c7p06jlv8Lp2B5HjUhmFRTRaqJS.jpg",
-"imdbAll": [
-"tt36243564"
-],
-"lb": "letranger-2",
-"rt": "m/the_stranger_2025",
-"mc": "movie/the-stranger-2025",
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-den-gronne-solstralen": {
 "tmdbChecked": "2026-10-01",
@@ -3371,26 +3328,6 @@
 "rated": "2026-10-14",
 "posterPath": "/uelB3c00dwePr5QoHvbuLngf12c.jpg"
 },
-"dm-1851594560": {
-"imdb": "tt27847051",
-"imdbAll": [
-"tt27847051"
-],
-"lb": "the-secret-agent-2025",
-"rt": "m/the_secret_agent_2025",
-"mc": "movie/the-secret-agent-2025",
-"en": null,
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1220564,
-"lang": "pt",
-"lbSlug": "the-secret-agent-2025",
-"lbRating": 3.8,
-"rated": "2026-10-14",
-"posterPath": "/rZqolYhxMEe6TZZTjSmFw9crDTD.jpg"
-},
 "dm-221733318": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4471,25 +4408,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"fw-EDI20251820": {
-"lbSlug": "obsession-2025",
-"lbRating": 4.06,
-"rated": "2026-10-09",
-"imdb": "tt37287335",
-"imdbAll": [
-"tt37287335"
-],
-"lb": "obsession-2025-2",
-"rt": "m/obsession_2025",
-"mc": "movie/obsession-2025",
-"en": "Obsession",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1339713,
-"enFrom": "tmdb"
-},
 "fw-EDI20251836": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4549,25 +4467,6 @@
 "lbSlug": "fjord-2026",
 "lbRating": 3.8,
 "rated": "2026-10-09"
-},
-"fw-EDI20260091": {
-"lbSlug": "steal-this-story-please",
-"lbRating": 4.15,
-"rated": "2026-10-09",
-"imdb": "tt36748956",
-"imdbAll": [
-"tt36748956"
-],
-"lb": null,
-"rt": "m/steal_this_story_please",
-"mc": "movie/steal-this-story-please",
-"en": "Steal This Story, Please!",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1492865,
-"enFrom": "tmdb"
 },
 "fw-EDI20260129": {
 "tmdbChecked": "2026-10-01",
@@ -6801,8 +6700,8 @@
 "mc": "movie/archangel-2026",
 "en": "Ghost Soldier",
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
 "tv": 2,
 "conflict": [
 "tt38686316",
@@ -6976,8 +6875,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7218,8 +7117,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -7296,8 +7195,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -7438,10 +7337,10 @@
 "rated": "2026-10-13"
 },
 "fw-EDI20261618": {
+"tmdbChecked": "2026-10-15",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-07",
-"tmdbChecked": "2026-10-07",
-"tv": 2
+"checked": "2026-10-15"
 },
 "fw-EDI20261627": {
 "imdb": "tt0255589",
@@ -7614,7 +7513,7 @@
 "en": null,
 "lbSlug": "titans-2026",
 "lbRating": null,
-"rated": "2026-10-07"
+"rated": "2026-10-15"
 },
 "fw-EDI20261645": {
 "v": 4,
@@ -9943,26 +9842,6 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "chinatown",
-"lbRating": 4.3,
-"rated": "2026-10-14"
-},
-"sr-winedinecrime-no-country-for-old-men-2007": {
-"imdb": "tt0477348",
-"imdbAll": [
-"tt0477348"
-],
-"lb": "no-country-for-old-men",
-"rt": "m/no_country_for_old_men",
-"mc": "movie/no-country-for-old-men",
-"en": "No Country for Old Men",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 6977,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "no-country-for-old-men",
 "lbRating": 4.3,
 "rated": "2026-10-14"
 },
