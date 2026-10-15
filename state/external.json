@@ -1094,6 +1094,12 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"cm-2026-troll-i-eske-november": {
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2
+},
 "cm-a-better-tomorrow": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3813,6 +3819,26 @@
 "v": 4,
 "checked": "2026-10-05"
 },
+"fw-EDI20250338": {
+"imdb": "tt32246771",
+"imdbAll": [
+"tt32246771"
+],
+"lb": "bring-her-back",
+"rt": "m/bring_her_back",
+"mc": "movie/bring-her-back",
+"en": "Bring Her Back",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 1151031,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "bring-her-back",
+"lbRating": 3.68,
+"rated": "2026-10-15"
+},
 "fw-EDI20250432": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4408,6 +4434,26 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"fw-EDI20251820": {
+"imdb": "tt37287335",
+"imdbAll": [
+"tt37287335"
+],
+"lb": "obsession-2025-2",
+"rt": "m/obsession_2025",
+"mc": "movie/obsession-2025",
+"en": "Obsession",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 1339713,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "obsession-2025",
+"lbRating": 4.06,
+"rated": "2026-10-15"
+},
 "fw-EDI20251836": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4531,6 +4577,26 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-14"
+},
+"fw-EDI20260230": {
+"imdb": "tt26657236",
+"imdbAll": [
+"tt26657236"
+],
+"lb": "backrooms-2026",
+"rt": "m/backrooms",
+"mc": "movie/backrooms",
+"en": "Backrooms",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 1083381,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "backrooms-2026",
+"lbRating": 3.31,
+"rated": "2026-10-15"
 },
 "fw-EDI20260236": {
 "tmdbChecked": "2026-10-01",
@@ -4974,6 +5040,26 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
+},
+"fw-EDI20260626": {
+"imdb": "tt31170389",
+"imdbAll": [
+"tt31170389"
+],
+"lb": "evil-dead-burn",
+"rt": "m/evil_dead_burn",
+"mc": "movie/evil-dead-burn",
+"en": "Evil Dead Burn",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 1212763,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "evil-dead-burn",
+"lbRating": 3.03,
+"rated": "2026-10-15"
 },
 "fw-EDI20260632": {
 "lbSlug": "siri-hustvedt-dance-around-the-self",
@@ -8039,6 +8125,26 @@
 "lbRating": 3.31,
 "rated": "2026-10-09"
 },
+"fw-SFN20241757": {
+"imdb": "tt32393988",
+"imdbAll": [
+"tt32393988"
+],
+"lb": "insidious-out-of-the-further",
+"rt": "m/insidious_out_of_the_further",
+"mc": "movie/insidious-out-of-the-further",
+"en": "Insidious: Out of the Further",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 1291595,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "insidious-out-of-the-further",
+"lbRating": 2.71,
+"rated": "2026-10-15"
+},
 "fw-SFN20241760": {
 "imdb": "tt32810662",
 "imdbAll": [
@@ -8113,6 +8219,27 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"fw-UAV20191871": {
+"imdb": "tt0084787",
+"imdbAll": [
+"tt0084787"
+],
+"lb": "the-thing",
+"rt": "m/1021244-thing",
+"mc": "movie/the-thing-1982",
+"en": "The Thing",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 1091,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-thing",
+"lbRating": 4.35,
+"rated": "2026-10-15",
+"posterPath": "/tzGY49kseSE9QAKk47uuDGwnSCu.jpg"
+},
 "fw-UAV20213349": {
 "imdb": "tt38351366",
 "imdbAll": [
@@ -8147,6 +8274,25 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-04"
+},
+"fw-UAV20213914": {
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 4232,
+"imdb": "tt0117571",
+"en": "Scream",
+"lbSlug": "scream",
+"lbRating": 4.02,
+"rated": "2026-10-09",
+"posterPath": "/lr9ZIrmuwVmZhpZuTCW8D9g0ZJe.jpg",
+"imdbAll": [
+"tt0117571"
+],
+"lb": "scream",
+"rt": "m/1074316-scream",
+"mc": "movie/scream",
+"v": 4,
+"checked": "2026-10-03"
 },
 "fw-UAV20214278": {
 "checked": "2026-10-03",
@@ -9400,6 +9546,27 @@
 "rated": "2026-10-14",
 "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
 },
+"rv-fargo-1996": {
+"imdb": "tt0116282",
+"imdbAll": [
+"tt0116282"
+],
+"lb": "fargo",
+"rt": "m/fargo",
+"mc": "movie/fargo",
+"en": "Fargo",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 275,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "fargo",
+"lbRating": 4.13,
+"rated": "2026-10-15",
+"posterPath": "/rt7cpEr1uP6RTZykBFhBTcRaKvG.jpg"
+},
 "rv-the-curious-case-of-benjamin-button-2008": {
 "imdb": "tt0421715",
 "imdbAll": [
@@ -9441,6 +9608,27 @@
 "lbRating": 4.35,
 "rated": "2026-10-12",
 "posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg"
+},
+"rv-the-truman-show-1998": {
+"imdb": "tt0120382",
+"imdbAll": [
+"tt0120382"
+],
+"lb": "the-truman-show",
+"rt": "m/truman_show",
+"mc": "movie/the-truman-show",
+"en": "The Truman Show",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 37165,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-truman-show",
+"lbRating": 4.22,
+"rated": "2026-10-15",
+"posterPath": "/vuza0WqY239yBXOadKlGwJsZJFE.jpg"
 },
 "sr-brunsj-filmklassiker-10-breakfast-at-tiffany-s-1961": {
 "imdb": "tt0054698",
@@ -9697,6 +9885,25 @@
 "lbSlug": "princess-mononoke",
 "lbRating": 4.4,
 "rated": "2026-10-14"
+},
+"sr-izakaya-ghibli-nights-spirited-away-2001": {
+"imdb": "tt0245429",
+"imdbAll": [
+"tt0245429"
+],
+"lb": "spirited-away",
+"rt": "m/spirited_away",
+"mc": "movie/spirited-away",
+"en": "Spirited Away",
+"v": 4,
+"checked": "2026-10-15",
+"tmdbChecked": "2026-10-15",
+"tv": 2,
+"tmdb": 129,
+"lang": "ja",
+"lbSlug": "spirited-away",
+"lbRating": 4.43,
+"rated": "2026-10-15"
 },
 "sr-tea-treats-tales-about-time-2013": {
 "imdb": "tt2194499",
