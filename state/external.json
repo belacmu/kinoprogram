@@ -663,27 +663,6 @@
 "tmdbChecked": "2026-10-14",
 "tv": 2
 },
-"cl-bitelchus": {
-"imdb": "tt0094721",
-"imdbAll": [
-"tt0094721"
-],
-"lb": "beetlejuice",
-"rt": "m/beetlejuice",
-"mc": "movie/beetlejuice",
-"en": "Beetlejuice",
-"v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
-"tv": 2,
-"tmdb": 4011,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "beetlejuice",
-"lbRating": 3.73,
-"rated": "2026-10-12",
-"posterPath": "/nnl6OWkyPpuMm595hmAxNW3rZFn.jpg"
-},
 "cl-bola-negra": {
 "imdb": "tt35511966",
 "imdbAll": [
@@ -840,7 +819,7 @@
 "rated": "2026-10-08",
 "posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
 },
-"cl-invitacion-the-invite": {
+"cl-invitacion": {
 "imdb": "tt14173636",
 "imdbAll": [
 "tt14173636"
@@ -866,12 +845,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-11"
-},
-"cl-l-elisir-d-amore-26-27": {
-"v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
-"tv": 2
 },
 "cl-leones-invierno": {
 "v": 4,
@@ -9371,27 +9344,6 @@
 "tmdbChecked": "2026-10-14",
 "tv": 2
 },
-"mk-bitelchus": {
-"imdb": "tt0094721",
-"imdbAll": [
-"tt0094721"
-],
-"lb": "beetlejuice",
-"rt": "m/beetlejuice",
-"mc": "movie/beetlejuice",
-"en": "Beetlejuice",
-"v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
-"tv": 2,
-"tmdb": 4011,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "beetlejuice",
-"lbRating": 3.73,
-"rated": "2026-10-12",
-"posterPath": "/nnl6OWkyPpuMm595hmAxNW3rZFn.jpg"
-},
 "mk-blade-runner": {
 "v": 4,
 "checked": "2026-10-14",
@@ -9468,21 +9420,6 @@
 "rated": "2026-10-11",
 "posterPath": "/f4oZTcfGrVTXKTWg157AwikXqmP.jpg"
 },
-"mk-el-precio-de-la-red": {
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1281331,
-"lang": "en",
-"imdb": "tt37510326",
-"en": "The Social Reckoning",
-"enFrom": "tmdb",
-"lbSlug": "the-social-reckoning",
-"lbRating": 3.04,
-"rated": "2026-10-14",
-"posterPath": "/hDe0OryfBINwmZDRtQjnh6UKUJf.jpg"
-},
 "mk-el-viento-se-levanta-5dd26fc82887c": {
 "imdb": "tt2013293",
 "imdbAll": [
@@ -9503,21 +9440,6 @@
 "lbRating": 4.13,
 "rated": "2026-10-12",
 "posterPath": "/jfwSexzlIzaOgxP9A8bTA6t8YYb.jpg"
-},
-"mk-en-el-corazon-de-la-bestia": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1263337,
-"lang": "en",
-"imdb": "tt7526136",
-"en": "Heart of the Beast",
-"enFrom": "tmdb",
-"lbSlug": "heart-of-the-beast-2026",
-"lbRating": 3.3,
-"rated": "2026-10-11",
-"posterPath": "/mYqiF90igComG2L2qm8SwFbaMwn.jpg",
-"v": 4
 },
 "mk-fargo": {
 "v": 4,
@@ -9612,53 +9534,11 @@
 "tmdbChecked": "2026-10-14",
 "tv": 2
 },
-"mk-resident-evil": {
-"imdb": "tt35538033",
-"imdbAll": [
-"tt35538033"
-],
-"lb": "untitled-resident-evil-reboot",
-"rt": "m/resident_evil_2026",
-"mc": "movie/resident-evil-2026",
-"en": "Resident Evil",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1423191,
-"enFrom": "tmdb",
-"lbSlug": "resident-evil-2026",
-"lbRating": 3.76,
-"rated": "2026-10-10",
-"lang": "en",
-"posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
-},
 "mk-vengadores-doomsday4": {
 "v": 4,
 "checked": "2026-10-14",
 "tmdbChecked": "2026-10-14",
 "tv": 2
-},
-"mk-verity-la-sombra-de-un-engano": {
-"imdb": "tt32261958",
-"imdbAll": [
-"tt32261958"
-],
-"lb": "verity-2026",
-"rt": "m/verity",
-"mc": "movie/verity",
-"en": "Verity",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1283515,
-"enFrom": "tmdb",
-"lbSlug": "verity-2026",
-"lbRating": 2.66,
-"rated": "2026-10-10",
-"lang": "en",
-"posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
 },
 "mk-whalefall": {
 "imdb": "tt28535715",
