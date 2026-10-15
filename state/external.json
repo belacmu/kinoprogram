@@ -6142,18 +6142,6 @@
 "lbRating": 3.18,
 "rated": "2026-10-09"
 },
-"fw-EDI20261380": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1629051,
-"imdb": "tt38589433",
-"en": null,
-"lbSlug": "never-after-dark",
-"lbRating": 3.61,
-"rated": "2026-10-09",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20261386": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -6691,22 +6679,23 @@
 "checked": "2026-10-04"
 },
 "fw-EDI20261555": {
-"imdb": "tt38686316",
+"imdb": "tt37740247",
 "imdbAll": [
-"tt38686316"
+"tt37740247"
 ],
-"lb": "archangel-2026",
-"rt": "m/archangel_2026",
-"mc": "movie/archangel-2026",
-"en": "Ghost Soldier",
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "9 Temples to Heaven",
 "v": 4,
 "checked": "2026-10-15",
 "tmdbChecked": "2026-10-15",
 "tv": 2,
-"conflict": [
-"tt38686316",
-"tt37740247"
-]
+"tmdb": 1046304,
+"lang": "th",
+"lbSlug": "9-temples-to-heaven",
+"lbRating": 3.57,
+"rated": "2026-10-15"
 },
 "fw-EDI20261556": {
 "tmdbChecked": "2026-10-09",
