@@ -3519,6 +3519,26 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"fw-BVI20230736": {
+"imdb": "tt27419466",
+"imdbAll": [
+"tt27419466"
+],
+"lb": "moana-2026",
+"rt": "m/moana_2026",
+"mc": "movie/moana-2026",
+"en": "Moana",
+"v": 4,
+"checked": "2026-10-16",
+"tmdbChecked": "2026-10-16",
+"tv": 2,
+"tmdb": 1108427,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "moana",
+"lbRating": 2.68,
+"rated": "2026-10-16"
+},
 "fw-BVI20240798": {
 "imdb": "tt29355505",
 "imdbAll": [
@@ -4188,6 +4208,26 @@
 "mc": "movie/bluey-the-movie",
 "v": 4,
 "checked": "2026-10-05"
+},
+"fw-EDI20251307": {
+"imdb": "tt0068646",
+"imdbAll": [
+"tt0068646"
+],
+"lb": "the-godfather",
+"rt": "m/the_godfather",
+"mc": "movie/the-godfather",
+"en": "The Godfather",
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 238,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-godfather",
+"lbRating": 4.51,
+"rated": "2026-10-14"
 },
 "fw-EDI20251333": {
 "lbSlug": "street-fighter-2026",
@@ -7693,6 +7733,12 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-11"
+},
+"fw-KUL20260530": {
+"v": 4,
+"checked": "2026-10-16",
+"tmdbChecked": "2026-10-16",
+"tv": 2
 },
 "fw-KUL20260653": {
 "tmdbChecked": "2026-10-11",
