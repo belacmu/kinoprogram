@@ -815,8 +815,8 @@
 "en": "Doraemon the Movie: Nobita's Art World Tales",
 "enFrom": "tmdb",
 "lbSlug": "doraemon-the-movie-nobitas-art-world-tales",
-"lbRating": 3.59,
-"rated": "2026-10-08",
+"lbRating": 3.58,
+"rated": "2026-10-16",
 "posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
 },
 "cl-invitacion": {
@@ -919,8 +919,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "naza",
-"lbRating": 4.37,
-"rated": "2026-10-08",
+"lbRating": 4.49,
+"rated": "2026-10-16",
 "posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg"
 },
 "cl-otra-madre": {
@@ -937,6 +937,12 @@
 "lbRating": 2.24,
 "rated": "2026-10-14",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
+},
+"cl-pesadilla-elm-street": {
+"v": 4,
+"checked": "2026-10-14",
+"tmdbChecked": "2026-10-14",
+"tv": 2
 },
 "cl-precio-red": {
 "v": 4,
@@ -3242,7 +3248,7 @@
 "enFrom": "tmdb",
 "lbSlug": "american-agitators",
 "lbRating": null,
-"rated": "2026-10-08",
+"rated": "2026-10-16",
 "posterPath": ""
 },
 "dm-1442512996": {
@@ -5171,19 +5177,6 @@
 "lbRating": 3.67,
 "rated": "2026-10-14"
 },
-"fw-EDI20260732": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1503771,
-"lang": "fi",
-"imdb": "tt31995671",
-"en": null,
-"lbSlug": "the-beauty-of-errors",
-"lbRating": 3.65,
-"rated": "2026-10-11",
-"v": 4
-},
 "fw-EDI20260748": {
 "tmdbChecked": "2026-10-09",
 "tv": 2,
@@ -5191,10 +5184,10 @@
 "checked": "2026-10-13"
 },
 "fw-EDI20260755": {
+"tmdbChecked": "2026-10-16",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-08",
-"tmdbChecked": "2026-10-08",
-"tv": 2
+"checked": "2026-10-16"
 },
 "fw-EDI20260767": {
 "tmdbChecked": "2026-10-01",
@@ -6280,24 +6273,6 @@
 "rated": "2026-10-14",
 "posterPath": "/2m9ts8LfjG8d4xcUtx66aApngJL.jpg"
 },
-"fw-EDI20261396": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1308767,
-"imdb": "tt32104007",
-"en": "Young Washington",
-"lbSlug": "young-washington",
-"lbRating": 2.7,
-"rated": "2026-10-09",
-"imdbAll": [
-"tt32104007"
-],
-"lb": "young-washington",
-"rt": "m/young_washington",
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
-},
 "fw-EDI20261399": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -6942,8 +6917,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
+"checked": "2026-10-16",
+"tmdbChecked": "2026-10-16",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7184,8 +7159,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
+"checked": "2026-10-16",
+"tmdbChecked": "2026-10-16",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -7262,8 +7237,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
+"checked": "2026-10-16",
+"tmdbChecked": "2026-10-16",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -7615,12 +7590,12 @@
 "enFrom": "tmdb",
 "lbSlug": "rocky",
 "lbRating": 4.12,
-"rated": "2026-10-08",
+"rated": "2026-10-16",
 "posterPath": "/xSI0dbKLDETwhiVUy6hGE8KXUln.jpg"
 },
 "fw-EDI20261653": {
 "v": 4,
-"checked": "2026-10-08",
+"checked": "2026-10-16",
 "tmdbChecked": "2026-10-08",
 "tv": 2,
 "tmdb": 1734404,
@@ -7630,7 +7605,7 @@
 "enFrom": "tmdb",
 "lbSlug": "instructor",
 "lbRating": null,
-"rated": "2026-10-08",
+"rated": "2026-10-16",
 "posterPath": "/1lwqHiX6MgfmLSffXQwpnKpX8I4.jpg"
 },
 "fw-EDI20261662": {
@@ -7670,29 +7645,6 @@
 "checked": "2026-10-14",
 "tmdbChecked": "2026-10-14",
 "tv": 2
-},
-"fw-EDI20261687": {
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2
-},
-"fw-FID20210220": {
-"imdb": "tt13322726",
-"imdbAll": [
-"tt13322726"
-],
-"lb": "captain-volkonogov-escaped",
-"rt": null,
-"mc": null,
-"en": "Captain Volkonogov Escaped",
-"v": 4,
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-11",
-"tv": 2,
-"lbSlug": "captain-volkonogov-escaped",
-"lbRating": 3.76,
-"rated": "2026-10-11"
 },
 "fw-FOP20210164": {
 "v": 4,
@@ -7996,7 +7948,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-conjuring",
 "lbRating": 3.64,
-"rated": "2026-10-08",
+"rated": "2026-10-16",
 "posterPath": "/wVYREutTvI2tmxr6ujrHT704wGF.jpg"
 },
 "fw-SFN20180923": {
@@ -9518,8 +9470,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "naza",
-"lbRating": 4.37,
-"rated": "2026-10-08",
+"lbRating": 4.49,
+"rated": "2026-10-16",
 "posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg"
 },
 "mk-origen": {
