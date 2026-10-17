@@ -6200,26 +6200,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20261389": {
-"imdb": "tt37108970",
-"imdbAll": [
-"tt43696886",
-"tt37108970"
-],
-"lb": "always-lalisa",
-"rt": "m/always_lalisa",
-"mc": null,
-"en": "Always Lalisa",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1489932,
-"enFrom": "tmdb",
-"lbSlug": "always-lalisa",
-"lbRating": 3.98,
-"rated": "2026-10-17"
-},
 "fw-EDI20261390": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
