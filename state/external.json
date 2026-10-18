@@ -1543,25 +1543,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-fia-og-klovnene": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 14329,
-"imdb": "tt0354577",
-"en": "Fia!",
-"lbSlug": "fia-og-klovnene",
-"lbRating": null,
-"rated": "2026-10-17",
-"posterPath": "/2dXvwcAwMe5SGMZLzgMqYQ9alUu.jpg",
-"imdbAll": [
-"tt0354577"
-],
-"lb": "fia-og-klovnene",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-fire-eventyr-med-reinette-mirabelle": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3270,27 +3251,6 @@
 "rated": "2026-10-14",
 "posterPath": "/uelB3c00dwePr5QoHvbuLngf12c.jpg"
 },
-"dm-1915173823": {
-"imdb": "tt28650488",
-"imdbAll": [
-"tt28650488"
-],
-"lb": "untitled-super-mario-bros-movie",
-"rt": "m/the_super_mario_galaxy_movie",
-"mc": "movie/the-super-mario-bros-movie-sequel",
-"en": "The Super Mario Galaxy Movie",
-"v": 4,
-"checked": "2026-10-17",
-"tmdbChecked": "2026-10-17",
-"tv": 2,
-"tmdb": 1226863,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-super-mario-galaxy-movie",
-"lbRating": 2.89,
-"rated": "2026-10-17",
-"posterPath": "/eJGWx219ZcEMVQJhAgMiqo8tYY.jpg"
-},
 "dm-221733318": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3321,7 +3281,8 @@
 "enFrom": "tmdb",
 "lbSlug": "bamse-and-the-secret-of-the-sea",
 "lbRating": null,
-"rated": "2026-10-17"
+"rated": "2026-10-17",
+"posterPath": "/kPPdjitatE1HKQHWO8XhKA64FjG.jpg"
 },
 "ev-at-the-place-of-ghosts": {
 "tmdbChecked": "2026-10-10",
@@ -3383,25 +3344,6 @@
 "checked": "2026-10-11",
 "tmdbChecked": "2026-10-11",
 "tv": 2
-},
-"fw-ART20020802": {
-"imdb": "tt0245429",
-"imdbAll": [
-"tt0245429"
-],
-"lb": "spirited-away",
-"rt": "m/spirited_away",
-"mc": "movie/spirited-away",
-"en": "Spirited Away",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 129,
-"enFrom": "tmdb",
-"lbSlug": "spirited-away",
-"lbRating": 4.43,
-"rated": "2026-10-17"
 },
 "fw-ART20180008": {
 "imdb": "tt0097814",
@@ -4613,25 +4555,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260241": {
-"imdb": "tt32140230",
-"imdbAll": [
-"tt32140230"
-],
-"lb": "bamse-and-the-secret-of-the-sea",
-"rt": null,
-"mc": null,
-"en": "Bamse and the Secret of the Sea",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1275785,
-"enFrom": "tmdb",
-"lbSlug": "bamse-and-the-secret-of-the-sea",
-"lbRating": null,
-"rated": "2026-10-17"
-},
 "fw-EDI20260251": {
 "imdb": "tt28228084",
 "imdbAll": [
@@ -4779,25 +4702,6 @@
 "rated": "2026-10-17",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20260454": {
-"imdb": "tt33029380",
-"imdbAll": [
-"tt33029380"
-],
-"lb": "marsupilami-2026",
-"rt": "m/marsupilami",
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
-"tv": 2,
-"tmdb": 1145899,
-"lang": "fr",
-"lbSlug": "marsupilami-2025",
-"lbRating": 2.67,
-"rated": "2026-10-12"
 },
 "fw-EDI20260513": {
 "lbSlug": "monster-mia",
@@ -8091,23 +7995,6 @@
 "lbSlug": "insidious-out-of-the-further",
 "lbRating": 2.71,
 "rated": "2026-10-15"
-},
-"fw-SFN20241760": {
-"imdb": "tt32810662",
-"imdbAll": [
-"tt32810662"
-],
-"lb": "lilla-spoket-laban-spokar-igen",
-"rt": null,
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-17",
-"tv": 2,
-"lbSlug": "lilla-spoket-laban-spokar-igen",
-"lbRating": null,
-"rated": "2026-10-17"
 },
 "fw-TIF20171411": {
 "imdb": "tt0063522",
