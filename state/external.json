@@ -648,8 +648,8 @@
 "tv": 2,
 "tmdb": 1422041,
 "lbSlug": "la-bola-negra",
-"lbRating": 4.36,
-"rated": "2026-10-10",
+"lbRating": 4.41,
+"rated": "2026-10-18",
 "lang": "es",
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
@@ -714,7 +714,7 @@
 "enFrom": "tmdb",
 "lbSlug": "clayface",
 "lbRating": null,
-"rated": "2026-10-10",
+"rated": "2026-10-18",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "cl-corazon-bestia": {
@@ -749,7 +749,7 @@
 "enFrom": "tmdb",
 "lbSlug": "coyote-vs-acme",
 "lbRating": 3.82,
-"rated": "2026-10-10",
+"rated": "2026-10-18",
 "lang": "en",
 "posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
 },
@@ -769,8 +769,8 @@
 "tmdb": 1248832,
 "enFrom": "tmdb",
 "lbSlug": "digger-2026",
-"lbRating": 3.86,
-"rated": "2026-10-10",
+"lbRating": 3.9,
+"rated": "2026-10-18",
 "lang": "en",
 "posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg"
 },
@@ -945,8 +945,8 @@
 "tmdb": 1423191,
 "enFrom": "tmdb",
 "lbSlug": "resident-evil-2026",
-"lbRating": 3.76,
-"rated": "2026-10-10",
+"lbRating": 3.75,
+"rated": "2026-10-18",
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
 },
@@ -986,8 +986,8 @@
 "tv": 2,
 "tmdb": 1187326,
 "lbSlug": "tad-and-the-magic-lamp",
-"lbRating": 3.03,
-"rated": "2026-10-10",
+"lbRating": 2.96,
+"rated": "2026-10-18",
 "lang": "es",
 "posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
 },
@@ -1007,8 +1007,8 @@
 "tmdb": 1283515,
 "enFrom": "tmdb",
 "lbSlug": "verity-2026",
-"lbRating": 2.66,
-"rated": "2026-10-10",
+"lbRating": 2.65,
+"rated": "2026-10-18",
 "lang": "en",
 "posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
 },
@@ -1132,7 +1132,7 @@
 "enFrom": "tmdb",
 "lbSlug": "nothing-but-troubles",
 "lbRating": null,
-"rated": "2026-10-10",
+"rated": "2026-10-18",
 "posterPath": "/qR0JFg3Xzenxxida03G7fr5MaZy.jpg",
 "imdbAll": [
 "tt0179068"
@@ -1161,7 +1161,7 @@
 "enFrom": "tmdb",
 "lbSlug": "all-the-beauty-and-the-bloodshed",
 "lbRating": 4.22,
-"rated": "2026-10-10",
+"rated": "2026-10-18",
 "posterPath": "/cvO51xxtIUHc5w5ZgFsigiFaUaO.jpg"
 },
 "cm-allowed-to-birth": {
@@ -1749,7 +1749,7 @@
 "en": "Harold and Maude",
 "lbSlug": "harold-and-maude",
 "lbRating": 4.11,
-"rated": "2026-10-10",
+"rated": "2026-10-18",
 "posterPath": "/t7qEuGwDjcYu8ajaKZ68DeDnOxw.jpg",
 "imdbAll": [
 "tt0067185"
@@ -1956,7 +1956,7 @@
 "checked": "2026-10-03"
 },
 "cm-la-defense-trilogien": {
-"tmdbChecked": "2026-10-10",
+"tmdbChecked": "2026-10-18",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-11"
@@ -2262,7 +2262,7 @@
 "checked": "2026-10-03"
 },
 "cm-my-national-gallery": {
-"tmdbChecked": "2026-10-10",
+"tmdbChecked": "2026-10-18",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-11"
@@ -2958,7 +2958,7 @@
 "checked": "2026-10-11"
 },
 "cm-utopiske-signaler": {
-"tmdbChecked": "2026-10-10",
+"tmdbChecked": "2026-10-18",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-11"
@@ -4757,7 +4757,7 @@
 "en": "The Rescue",
 "lbSlug": "the-rescue-2027",
 "lbRating": null,
-"rated": "2026-10-10",
+"rated": "2026-10-18",
 "imdbAll": [
 "tt35606013"
 ],
@@ -6888,8 +6888,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-17",
-"tmdbChecked": "2026-10-17",
+"checked": "2026-10-18",
+"tmdbChecked": "2026-10-18",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7130,8 +7130,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-17",
-"tmdbChecked": "2026-10-17",
+"checked": "2026-10-18",
+"tmdbChecked": "2026-10-18",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -7208,8 +7208,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-17",
-"tmdbChecked": "2026-10-17",
+"checked": "2026-10-18",
+"tmdbChecked": "2026-10-18",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -7318,7 +7318,7 @@
 "en": "Anything but Ghosts",
 "lbSlug": "anything-but-ghosts",
 "lbRating": null,
-"rated": "2026-10-10",
+"rated": "2026-10-18",
 "posterPath": "/afV0ZsYPWcCEZ1gIx0ndi4rd2jd.jpg",
 "imdbAll": [
 "tt38120758"
@@ -7680,7 +7680,7 @@
 "checked": "2026-10-11"
 },
 "fw-KUL20260508": {
-"tmdbChecked": "2026-10-10",
+"tmdbChecked": "2026-10-18",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-11"
@@ -8297,7 +8297,7 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-10-10"
+"rated": "2026-10-18"
 },
 "fw-UIP20221468": {
 "tmdbChecked": "2026-10-01",
@@ -9781,7 +9781,7 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-10-10"
+"rated": "2026-10-18"
 },
 "sr-brunsj-filmklassiker-10-mamma-mia-2008": {
 "imdb": "tt0795421",
