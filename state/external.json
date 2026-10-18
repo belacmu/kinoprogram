@@ -983,27 +983,6 @@
 "lang": "en",
 "posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
 },
-"cl-viento-levanta": {
-"imdb": "tt2013293",
-"imdbAll": [
-"tt2013293"
-],
-"lb": "the-wind-rises",
-"rt": "m/the_wind_rises",
-"mc": "movie/the-wind-rises",
-"en": "The Wind Rises",
-"v": 4,
-"checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
-"tv": 2,
-"tmdb": 149870,
-"lang": "ja",
-"enFrom": "tmdb",
-"lbSlug": "the-wind-rises",
-"lbRating": 4.13,
-"rated": "2026-10-12",
-"posterPath": "/jfwSexzlIzaOgxP9A8bTA6t8YYb.jpg"
-},
 "cl-whalefall": {
 "imdb": "tt28535715",
 "imdbAll": [
@@ -2063,25 +2042,6 @@
 "lbSlug": "the-child-of-man",
 "lbRating": 3.49,
 "rated": "2026-10-11"
-},
-"cm-min-natt-med-maud": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 48831,
-"imdb": "tt0064612",
-"en": "My Night at Maud's",
-"lbSlug": "my-night-at-mauds",
-"lbRating": 4.14,
-"rated": "2026-10-17",
-"posterPath": "/9usKgth3ROn4LwPQ7tTvxKnpBGL.jpg",
-"imdbAll": [
-"tt0064612"
-],
-"lb": "my-night-at-mauds",
-"rt": "m/my_night_at_mauds",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-min-venninnes-venn": {
 "tmdbChecked": "2026-10-01",
@@ -7086,19 +7046,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20261601": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1234139,
-"lang": "ta",
-"imdb": "tt33318732",
-"en": null,
-"lbSlug": "jailer-2-2026",
-"lbRating": null,
-"rated": "2026-10-11",
-"v": 4
-},
 "fw-EDI20261609": {
 "tmdbChecked": "2026-10-17",
 "tv": 2,
@@ -9194,27 +9141,6 @@
 "lbRating": 3.9,
 "rated": "2026-10-11",
 "posterPath": "/f4oZTcfGrVTXKTWg157AwikXqmP.jpg"
-},
-"mk-el-viento-se-levanta-5dd26fc82887c": {
-"imdb": "tt2013293",
-"imdbAll": [
-"tt2013293"
-],
-"lb": "the-wind-rises",
-"rt": "m/the_wind_rises",
-"mc": "movie/the-wind-rises",
-"en": "The Wind Rises",
-"v": 4,
-"checked": "2026-10-04",
-"tmdbChecked": "2026-10-04",
-"tv": 2,
-"tmdb": 149870,
-"lang": "ja",
-"enFrom": "tmdb",
-"lbSlug": "the-wind-rises",
-"lbRating": 4.13,
-"rated": "2026-10-12",
-"posterPath": "/jfwSexzlIzaOgxP9A8bTA6t8YYb.jpg"
 },
 "mk-fargo": {
 "v": 4,
