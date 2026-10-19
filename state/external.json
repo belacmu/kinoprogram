@@ -1192,10 +1192,10 @@
 "checked": "2026-10-17"
 },
 "cm-baltisk-kortfilmprogram": {
+"tmdbChecked": "2026-10-20",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
-"tv": 2
+"checked": "2026-10-20"
 },
 "cm-bawke-hedda": {
 "tmdbChecked": "2026-10-17",
@@ -3373,7 +3373,7 @@
 "enFrom": "tmdb",
 "lbSlug": "toy-story-5",
 "lbRating": 3.62,
-"rated": "2026-10-12"
+"rated": "2026-10-20"
 },
 "fw-CIT20150068": {
 "tmdbChecked": "2026-10-19",
@@ -3760,7 +3760,7 @@
 "tmdbChecked": "2026-10-17",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-12"
+"checked": "2026-10-20"
 },
 "fw-EDI20250777": {
 "tmdbChecked": "2026-10-01",
@@ -4183,7 +4183,7 @@
 "rated": "2026-10-17",
 "posterPath": "/aN1SBXBrlcxK7T3224fm2TJTJMV.jpg",
 "v": 4,
-"checked": "2026-10-12"
+"checked": "2026-10-20"
 },
 "fw-EDI20251744": {
 "imdb": "tt17070412",
@@ -4202,7 +4202,7 @@
 "lang": "cs",
 "lbSlug": "franz-2025",
 "lbRating": 3.1,
-"rated": "2026-10-12"
+"rated": "2026-10-20"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-10-17",
@@ -4469,11 +4469,11 @@
 "en": "King",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-12",
+"tmdbChecked": "2026-10-20",
 "tv": 2,
 "lbSlug": "king-2026",
 "lbRating": null,
-"rated": "2026-10-12"
+"rated": "2026-10-20"
 },
 "fw-EDI20260255": {
 "imdb": "tt35672862",
@@ -5291,26 +5291,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260873": {
-"imdb": "tt35298123",
-"imdbAll": [
-"tt35298123"
-],
-"lb": "teenage-sex-and-death-at-camp-miasma",
-"rt": "m/teenage_sex_and_death_at_camp_miasma",
-"mc": "movie/teenage-sex-and-death-at-camp-miasma",
-"en": "Teenage Sex and Death at Camp Miasma",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1240889,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "teenage-sex-and-death-at-camp-miasma",
-"lbRating": 3.66,
-"rated": "2026-10-14"
-},
 "fw-EDI20260878": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5445,7 +5425,7 @@
 "enFrom": "tmdb",
 "lbSlug": null,
 "lbRating": null,
-"rated": "2026-10-12"
+"rated": "2026-10-20"
 },
 "fw-EDI20260915": {
 "imdb": "tt1756855",
@@ -5712,11 +5692,13 @@
 "en": "Godzilla Minus Zero",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-12",
+"tmdbChecked": "2026-10-20",
 "tv": 2,
 "lbSlug": "godzilla-minus-zero",
-"lbRating": 3.91,
-"rated": "2026-10-12"
+"lbRating": 4.01,
+"rated": "2026-10-20",
+"tmdb": 1381071,
+"lang": "ja"
 },
 "fw-EDI20261033": {
 "tmdbChecked": "2026-10-01",
@@ -6412,7 +6394,7 @@
 "tmdbChecked": "2026-10-17",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-12"
+"checked": "2026-10-20"
 },
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
@@ -6432,19 +6414,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20261501": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1269325,
-"lang": "hi",
-"imdb": "tt27050858",
-"en": null,
-"lbSlug": "drishyam-the-conclusion",
-"lbRating": 3.52,
-"rated": "2026-10-19",
-"v": 4
 },
 "fw-EDI20261511": {
 "tmdbChecked": "2026-10-01",
@@ -6773,8 +6742,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-19",
-"tmdbChecked": "2026-10-19",
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -6846,11 +6815,11 @@
 "en": "The Furious",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-12",
+"tmdbChecked": "2026-10-20",
 "tv": 2,
 "lbSlug": "the-furious",
-"lbRating": 3.82,
-"rated": "2026-10-12"
+"lbRating": 3.81,
+"rated": "2026-10-20"
 },
 "fw-EDI20261574": {
 "tmdbChecked": "2026-10-01",
@@ -7000,8 +6969,8 @@
 "tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "ashes-2026-3",
-"lbRating": 3.3,
-"rated": "2026-10-12",
+"lbRating": 3.28,
+"rated": "2026-10-20",
 "tmdb": 1623608,
 "lang": "es"
 },
@@ -7015,8 +6984,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-19",
-"tmdbChecked": "2026-10-19",
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -7093,8 +7062,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-19",
-"tmdbChecked": "2026-10-19",
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -7138,6 +7107,12 @@
 "rated": "2026-10-17",
 "v": 4,
 "checked": "2026-10-04"
+},
+"fw-EDI20261601": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
 },
 "fw-EDI20261609": {
 "tmdbChecked": "2026-10-17",
@@ -7189,6 +7164,12 @@
 "lbSlug": "the-lost-boys",
 "lbRating": 3.68,
 "rated": "2026-10-13"
+},
+"fw-EDI20261618": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
 },
 "fw-EDI20261627": {
 "imdb": "tt0255589",
@@ -7435,10 +7416,10 @@
 "posterPath": "/1lwqHiX6MgfmLSffXQwpnKpX8I4.jpg"
 },
 "fw-EDI20261662": {
+"tmdbChecked": "2026-10-20",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-12",
-"tmdbChecked": "2026-10-12",
-"tv": 2
+"checked": "2026-10-20"
 },
 "fw-EDI20261663": {
 "v": 4,
@@ -8090,11 +8071,11 @@
 "en": "Caravaggio",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-12",
+"tmdbChecked": "2026-10-20",
 "tv": 2,
 "lbSlug": "caravaggio-2025",
-"lbRating": 3.34,
-"rated": "2026-10-12"
+"lbRating": 3.33,
+"rated": "2026-10-20"
 },
 "fw-UAV20213413": {
 "tmdbChecked": "2026-10-01",
@@ -8344,7 +8325,7 @@
 "enFrom": "tmdb",
 "lbSlug": "clayface",
 "lbRating": null,
-"rated": "2026-10-12"
+"rated": "2026-10-20"
 },
 "fw-WAB20240290": {
 "lbSlug": "practical-magic-2",
