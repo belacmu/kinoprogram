@@ -3622,18 +3622,6 @@
 "rated": "2026-10-19",
 "v": 4
 },
-"fw-EDI20250201": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1515138,
-"imdb": "tt37408560",
-"en": null,
-"lbSlug": "trango",
-"lbRating": 3.6,
-"rated": "2026-10-17",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20250282": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -7202,12 +7190,6 @@
 "lbRating": 3.68,
 "rated": "2026-10-13"
 },
-"fw-EDI20261618": {
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-15"
-},
 "fw-EDI20261627": {
 "imdb": "tt0255589",
 "imdbAll": [
@@ -8150,20 +8132,6 @@
 "mc": "movie/scream",
 "v": 4,
 "checked": "2026-10-03"
-},
-"fw-UAV20214278": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1128552,
-"lang": "no",
-"imdb": "tt15939018",
-"en": null,
-"lbSlug": "little-axel",
-"lbRating": null,
-"rated": "2026-10-19",
-"posterPath": "/xFhat7pdDaAMNSZSwO15LPHzs7i.jpg",
-"v": 4
 },
 "fw-UAV20237568": {
 "tmdbChecked": "2026-10-17",
