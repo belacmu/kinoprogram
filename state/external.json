@@ -665,6 +665,20 @@
 "tmdbChecked": "2026-10-14",
 "tv": 2
 },
+"cl-arriba-tutto": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2,
+"tmdb": 1518395,
+"lang": "es",
+"imdb": "tt37676022",
+"en": null,
+"lbSlug": "arriba-tutto",
+"lbRating": 3.19,
+"rated": "2026-10-20",
+"posterPath": "/cO5d1CHpb1ravVNqHQmJr7NLcTN.jpg"
+},
 "cl-bola-negra": {
 "imdb": "tt35511966",
 "imdbAll": [
@@ -7165,12 +7179,6 @@
 "lbRating": 3.68,
 "rated": "2026-10-13"
 },
-"fw-EDI20261618": {
-"v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
-},
 "fw-EDI20261627": {
 "imdb": "tt0255589",
 "imdbAll": [
@@ -7513,6 +7521,23 @@
 "lbRating": 3.12,
 "rated": "2026-10-19",
 "posterPath": "/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg"
+},
+"fw-FID20210220": {
+"imdb": "tt13322726",
+"imdbAll": [
+"tt13322726"
+],
+"lb": "captain-volkonogov-escaped",
+"rt": null,
+"mc": null,
+"en": "Captain Volkonogov Escaped",
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2,
+"lbSlug": "captain-volkonogov-escaped",
+"lbRating": 3.77,
+"rated": "2026-10-20"
 },
 "fw-FOP20210164": {
 "v": 4,
@@ -9203,6 +9228,208 @@
 "lbSlug": "halloween-1978",
 "lbRating": 3.76,
 "rated": "2026-10-19"
+},
+"mk-akira": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-blade-runner": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-centauros-del-desierto": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-con-la-muerte-en-los-talones": {
+"v": 4,
+"checked": "2026-10-14",
+"tmdbChecked": "2026-10-14",
+"tv": 2
+},
+"mk-cuentos-de-tokio": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-delitos-y-faltas": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-dune-parte-3": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-el-apartamento-cine": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-el-bazar-de-las-sorpresas": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-el-buscavidas": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-el-chico-y-la-garza": {
+"imdb": "tt6587046",
+"imdbAll": [
+"tt8055182",
+"tt6587046"
+],
+"lb": "the-boy-and-the-heron",
+"rt": "m/the_boy_and_the_heron",
+"mc": "movie/the-boy-and-the-heron",
+"en": "The Boy and the Heron",
+"v": 4,
+"checked": "2026-10-11",
+"tmdbChecked": "2026-10-11",
+"tv": 2,
+"tmdb": 508883,
+"lang": "ja",
+"enFrom": "tmdb",
+"lbSlug": "the-boy-and-the-heron",
+"lbRating": 3.9,
+"rated": "2026-10-19",
+"posterPath": "/f4oZTcfGrVTXKTWg157AwikXqmP.jpg"
+},
+"mk-fargo": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-gremlins": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-la-invitacion": {
+"imdb": "tt14173636",
+"imdbAll": [
+"tt14173636"
+],
+"lb": "the-invite-2026",
+"rt": "m/the_invite",
+"mc": "movie/the-invite",
+"en": "The Invite",
+"v": 4,
+"checked": "2026-10-14",
+"tmdbChecked": "2026-10-14",
+"tv": 2,
+"tmdb": 950028,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-invite-2026",
+"lbRating": 3.95,
+"rated": "2026-10-14",
+"posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
+},
+"mk-la-otra-madre": {
+"v": 4,
+"checked": "2026-10-06",
+"tmdbChecked": "2026-10-06",
+"tv": 2,
+"tmdb": 1400837,
+"lang": "en",
+"imdb": "tt36586020",
+"en": "Other Mommy",
+"enFrom": "tmdb",
+"lbSlug": "other-mommy",
+"lbRating": 2.24,
+"rated": "2026-10-14",
+"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
+},
+"mk-ladron-de-bicicletas": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-lady-bird": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-naza": {
+"imdb": "tt44766123",
+"imdbAll": [
+"tt44766123"
+],
+"lb": "naza",
+"rt": "m/naza",
+"mc": "movie/naza",
+"en": "NAZA",
+"v": 4,
+"checked": "2026-10-08",
+"tmdbChecked": "2026-10-08",
+"tv": 2,
+"tmdb": 1755291,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "naza",
+"lbRating": 4.49,
+"rated": "2026-10-16",
+"posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg"
+},
+"mk-origen": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-pesadilla-en-elm-street": {
+"v": 4,
+"checked": "2026-10-14",
+"tmdbChecked": "2026-10-14",
+"tv": 2
+},
+"mk-vengadores-doomsday4": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
+"mk-whalefall": {
+"imdb": "tt28535715",
+"imdbAll": [
+"tt28535715"
+],
+"lb": "whalefall",
+"rt": "m/whalefall",
+"mc": "movie/whalefall",
+"en": "Whalefall",
+"v": 4,
+"checked": "2026-10-14",
+"tmdbChecked": "2026-10-14",
+"tv": 2,
+"tmdb": 1255833,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "whalefall",
+"lbRating": null,
+"rated": "2026-10-14",
+"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
 },
 "rv-fargo-1996": {
 "imdb": "tt0116282",
