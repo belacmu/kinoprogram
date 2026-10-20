@@ -3293,6 +3293,19 @@
 "lbRating": 4.15,
 "rated": "2026-10-17"
 },
+"fw-AWE20180071": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2,
+"tmdb": 11216,
+"lang": "it",
+"imdb": "tt0095765",
+"en": null,
+"lbSlug": "cinema-paradiso",
+"lbRating": 4.52,
+"rated": "2026-10-20"
+},
 "fw-BVI20190482": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4661,6 +4674,25 @@
 "v": 4,
 "checked": "2026-10-05"
 },
+"fw-EDI20260454": {
+"imdb": "tt33029380",
+"imdbAll": [
+"tt33029380"
+],
+"lb": "marsupilami-2026",
+"rt": "m/marsupilami",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2,
+"tmdb": 1145899,
+"lang": "fr",
+"lbSlug": "marsupilami-2025",
+"lbRating": 2.67,
+"rated": "2026-10-20"
+},
 "fw-EDI20260513": {
 "lbSlug": "monster-mia",
 "lbRating": null,
@@ -5046,20 +5078,6 @@
 "lbRating": null,
 "rated": "2026-10-19",
 "posterPath": ""
-},
-"fw-EDI20260709": {
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2,
-"tmdb": 1229827,
-"lang": "sv",
-"imdb": "tt29330202",
-"en": "The Unmeasureable",
-"enFrom": "tmdb",
-"lbSlug": "the-unmeasureable",
-"lbRating": 3.67,
-"rated": "2026-10-14"
 },
 "fw-EDI20260739": {
 "imdb": "tt32102935",
@@ -6602,6 +6620,19 @@
 "lbRating": 3.57,
 "rated": "2026-10-15"
 },
+"fw-EDI20261556": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2,
+"tmdb": 1375156,
+"lang": "hi",
+"imdb": "tt31806773",
+"en": null,
+"lbSlug": "udta-teer",
+"lbRating": null,
+"rated": "2026-10-20"
+},
 "fw-EDI20261557": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -7127,6 +7158,25 @@
 "checked": "2026-10-20",
 "tmdbChecked": "2026-10-20",
 "tv": 2
+},
+"fw-EDI20261602": {
+"imdb": "tt29943166",
+"imdbAll": [
+"tt29943166"
+],
+"lb": "pepita-the-gunslinger",
+"rt": null,
+"mc": null,
+"en": "Pepita the Gunslinger",
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2,
+"tmdb": 1634739,
+"lang": "es",
+"lbSlug": "pepita-the-gunslinger",
+"lbRating": 3.23,
+"rated": "2026-10-20"
 },
 "fw-EDI20261609": {
 "tmdbChecked": "2026-10-17",
