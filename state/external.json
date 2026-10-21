@@ -803,6 +803,12 @@
 "lang": "en",
 "posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
 },
+"cl-cuentos-tokio": {
+"v": 4,
+"checked": "2026-10-20",
+"tmdbChecked": "2026-10-20",
+"tv": 2
+},
 "cl-digger": {
 "imdb": "tt31450459",
 "imdbAll": [
@@ -838,6 +844,26 @@
 "lbRating": 3.58,
 "rated": "2026-10-16",
 "posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
+},
+"cl-ficiv-superthings-pelicula": {
+"imdb": "tt43600835",
+"imdbAll": [
+"tt43600835"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-21",
+"tmdbChecked": "2026-10-21",
+"tv": 2,
+"tmdb": 1744346,
+"lang": "es",
+"lbSlug": "superthings-la-pelicula",
+"lbRating": null,
+"rated": "2026-10-21",
+"posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
 "cl-invitacion": {
 "imdb": "tt14173636",
@@ -1000,6 +1026,21 @@
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
 },
+"cl-sentido-sensibilidad": {
+"v": 4,
+"checked": "2026-10-21",
+"tmdbChecked": "2026-10-21",
+"tv": 2,
+"tmdb": 1503762,
+"lang": "en",
+"imdb": "tt13609648",
+"en": "Sense and Sensibility",
+"enFrom": "tmdb",
+"lbSlug": "sense-and-sensibility-2026",
+"lbRating": 4.0,
+"rated": "2026-10-21",
+"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
+},
 "cl-street-fighter": {
 "imdb": "tt27419420",
 "imdbAll": [
@@ -1082,6 +1123,12 @@
 "lbRating": null,
 "rated": "2026-10-14",
 "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
+},
+"cl-wildwood-1": {
+"v": 4,
+"checked": "2026-10-21",
+"tmdbChecked": "2026-10-21",
+"tv": 2
 },
 "cm-11-x14": {
 "tmdbChecked": "2026-10-17",
@@ -5682,6 +5729,19 @@
 "v": 4,
 "checked": "2026-10-05"
 },
+"fw-EDI20260979": {
+"v": 4,
+"checked": "2026-10-21",
+"tmdbChecked": "2026-10-21",
+"tv": 2,
+"tmdb": 1496304,
+"lang": "sv",
+"imdb": "tt39920935",
+"en": null,
+"lbSlug": "amazomania",
+"lbRating": 3.65,
+"rated": "2026-10-21"
+},
 "fw-EDI20260981": {
 "imdb": "tt39150008",
 "imdbAll": [
@@ -7577,6 +7637,12 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2
 },
+"fw-EDI20261729": {
+"v": 4,
+"checked": "2026-10-21",
+"tmdbChecked": "2026-10-21",
+"tv": 2
+},
 "fw-FID20210220": {
 "imdb": "tt13322726",
 "imdbAll": [
@@ -9350,6 +9416,27 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2
 },
+"mk-clayface": {
+"imdb": "tt34890576",
+"imdbAll": [
+"tt34890576"
+],
+"lb": "clayface",
+"rt": "m/clayface",
+"mc": null,
+"en": "Clayface",
+"v": 4,
+"checked": "2026-10-10",
+"tmdbChecked": "2026-10-10",
+"tv": 2,
+"tmdb": 1400940,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "clayface",
+"lbRating": null,
+"rated": "2026-10-18",
+"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
+},
 "mk-con-la-muerte-en-los-talones": {
 "v": 4,
 "checked": "2026-10-14",
@@ -9506,6 +9593,21 @@
 "checked": "2026-10-14",
 "tmdbChecked": "2026-10-14",
 "tv": 2
+},
+"mk-sentido-y-sensibilidad": {
+"v": 4,
+"checked": "2026-10-21",
+"tmdbChecked": "2026-10-21",
+"tv": 2,
+"tmdb": 1503762,
+"lang": "en",
+"imdb": "tt13609648",
+"en": "Sense and Sensibility",
+"enFrom": "tmdb",
+"lbSlug": "sense-and-sensibility-2026",
+"lbRating": 4.0,
+"rated": "2026-10-21",
+"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
 },
 "mk-vengadores-doomsday4": {
 "v": 4,

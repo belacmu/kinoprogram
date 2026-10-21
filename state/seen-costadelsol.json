@@ -1,10 +1,10 @@
 {
  "baseline": "2026-10-02T11:10",
- "lastDigest": "2026-10-20T10:02",
+ "lastDigest": "2026-10-21T10:07",
  "films": {
   "cl-arriba-tutto": {
    "since": "2026-10-20T10:00",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-bitelchus": {
    "since": "2026-10-02T11:10",
@@ -12,39 +12,47 @@
   },
   "cl-bola-negra": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-cars": {
    "since": "2026-10-03T00:33",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-chico-garza": {
    "since": "2026-10-11T11:26",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-clayface": {
    "since": "2026-10-10T11:11",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-corazon-bestia": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-coyote-vs-acme": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "cl-cuentos-tokio": {
+   "since": "2026-10-14T09:36",
+   "last": "2026-10-21T10:05"
   },
   "cl-digger": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-doraemon-aventuras-mundo-arte": {
    "since": "2026-10-08T11:40",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "cl-ficiv-superthings-pelicula": {
+   "since": "2026-10-21T10:05",
+   "last": "2026-10-21T10:05"
   },
   "cl-invitacion": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-invitacion-the-invite": {
    "since": "2026-10-14T09:36",
@@ -52,7 +60,7 @@
   },
   "cl-isla-olvidada": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-l-elisir-d-amore-26-27": {
    "since": "2026-10-02T11:10",
@@ -60,35 +68,35 @@
   },
   "cl-leones-invierno": {
    "since": "2026-10-14T23:59",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-maleta": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-manon-26-27": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-mascotas-rescate": {
    "since": "2026-10-06T11:33",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-muerte-talones": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-naza": {
    "since": "2026-10-08T11:40",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-otra-madre": {
    "since": "2026-10-06T11:33",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-pesadilla-elm-street": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-ponyo-acantilado": {
    "since": "2026-10-02T11:10",
@@ -96,19 +104,23 @@
   },
   "cl-precio-red": {
    "since": "2026-10-06T11:33",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-resident-evil": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "cl-sentido-sensibilidad": {
+   "since": "2026-10-21T10:05",
+   "last": "2026-10-21T10:05"
   },
   "cl-street-fighter": {
    "since": "2026-10-03T00:33",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-tadeo-jones-lampara-maravillosa": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-vengadores-endgame": {
    "since": "2026-10-02T11:10",
@@ -116,7 +128,7 @@
   },
   "cl-verity-sombra-engano": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-viento-levanta": {
    "since": "2026-10-04T10:55",
@@ -128,11 +140,15 @@
   },
   "cl-whalefall": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "cl-wildwood-1": {
+   "since": "2026-10-21T10:05",
+   "last": "2026-10-21T10:05"
   },
   "mk-akira": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-bitelchus": {
    "since": "2026-10-02T11:10",
@@ -140,43 +156,47 @@
   },
   "mk-blade-runner": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-centauros-del-desierto": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "mk-clayface": {
+   "since": "2026-10-10T11:11",
+   "last": "2026-10-21T10:05"
   },
   "mk-con-la-muerte-en-los-talones": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-cuentos-de-tokio": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-delitos-y-faltas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-dune-parte-3": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-apartamento-cine": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-bazar-de-las-sorpresas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-buscavidas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-chico-y-la-garza": {
    "since": "2026-10-11T11:26",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-precio-de-la-red": {
    "since": "2026-10-06T11:33",
@@ -192,47 +212,51 @@
   },
   "mk-fargo": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-gremlins": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-la-invitacion": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-la-otra-madre": {
    "since": "2026-10-06T11:33",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-ladron-de-bicicletas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-lady-bird": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-naza": {
    "since": "2026-10-08T11:40",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-origen": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-pesadilla-en-elm-street": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-resident-evil": {
    "since": "2026-10-02T11:10",
    "last": "2026-10-15T09:48"
   },
+  "mk-sentido-y-sensibilidad": {
+   "since": "2026-10-21T10:05",
+   "last": "2026-10-21T10:05"
+  },
   "mk-vengadores-doomsday4": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-verity-la-sombra-de-un-engano": {
    "since": "2026-10-02T11:10",
@@ -240,13 +264,13 @@
   },
   "mk-whalefall": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   }
  },
  "dated": {
   "cl-arriba-tutto": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-bitelchus": {
    "first": "2026-10-02T11:10",
@@ -254,11 +278,11 @@
   },
   "cl-bola-negra": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-cars": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-castillo-ambulante": {
    "first": "2026-10-02T11:10",
@@ -266,35 +290,43 @@
   },
   "cl-chico-garza": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-clayface": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-corazon-bestia": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-coyote-vs-acme": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "cl-cuentos-tokio": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-10-21T10:05"
   },
   "cl-digger": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-doraemon-aventuras-mundo-arte": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-doraemon-aventures-mon-l-art": {
    "first": "2026-10-02T11:10",
    "last": "2026-10-07T11:29"
   },
+  "cl-ficiv-superthings-pelicula": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-10-21T10:05"
+  },
   "cl-invitacion": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-invitacion-the-invite": {
    "first": "2026-10-02T11:10",
@@ -302,7 +334,7 @@
   },
   "cl-isla-olvidada": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-isla-perros": {
    "first": "2026-10-02T11:10",
@@ -314,27 +346,27 @@
   },
   "cl-leones-invierno": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-maleta": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-manon-26-27": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-mascotas-rescate": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-muerte-talones": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-naza": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-odisea": {
    "first": "2026-10-02T11:10",
@@ -342,7 +374,7 @@
   },
   "cl-otra-madre": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-patrulla-canina-dino-pelicula": {
    "first": "2026-10-02T11:10",
@@ -350,7 +382,7 @@
   },
   "cl-pesadilla-elm-street": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-ponyo-acantilado": {
    "first": "2026-10-02T11:10",
@@ -362,11 +394,15 @@
   },
   "cl-precio-red": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-resident-evil": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "cl-sentido-sensibilidad": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-10-21T10:05"
   },
   "cl-septimo-sello": {
    "first": "2026-10-02T11:10",
@@ -378,11 +414,11 @@
   },
   "cl-street-fighter": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-tadeo-jones-lampara-maravillosa": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-vengadores-endgame": {
    "first": "2026-10-02T11:10",
@@ -390,7 +426,7 @@
   },
   "cl-verity-sombra-engano": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "cl-viento-levanta": {
    "first": "2026-10-02T11:10",
@@ -402,11 +438,15 @@
   },
   "cl-whalefall": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "cl-wildwood-1": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-10-21T10:05"
   },
   "mk-akira": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-bitelchus": {
    "first": "2026-10-02T11:10",
@@ -414,43 +454,47 @@
   },
   "mk-blade-runner": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-centauros-del-desierto": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
+  },
+  "mk-clayface": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-10-21T10:05"
   },
   "mk-con-la-muerte-en-los-talones": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-cuentos-de-tokio": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-delitos-y-faltas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-dune-parte-3": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-apartamento-cine": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-bazar-de-las-sorpresas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-buscavidas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-chico-y-la-garza": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-el-precio-de-la-red": {
    "first": "2026-10-02T11:10",
@@ -466,47 +510,51 @@
   },
   "mk-fargo": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-gremlins": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-la-invitacion": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-la-otra-madre": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-ladron-de-bicicletas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-lady-bird": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-naza": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-origen": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-pesadilla-en-elm-street": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-resident-evil": {
    "first": "2026-10-02T11:10",
    "last": "2026-10-15T09:48"
   },
+  "mk-sentido-y-sensibilidad": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-10-21T10:05"
+  },
   "mk-vengadores-doomsday4": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   },
   "mk-verity-la-sombra-de-un-engano": {
    "first": "2026-10-02T11:10",
@@ -514,9 +562,9 @@
   },
   "mk-whalefall": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-20T20:10"
+   "last": "2026-10-21T10:05"
   }
  },
- "lastRun": "2026-10-20T20:10",
+ "lastRun": "2026-10-21T10:05",
  "lastWeekly": "2026-10-16T09:39"
 }
