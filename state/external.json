@@ -858,6 +858,20 @@
 "rated": "2026-10-18",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
+"cl-concert-rammstein-live-in-mexico-city": {
+"v": 4,
+"checked": "2026-10-22",
+"tmdbChecked": "2026-10-22",
+"tv": 2,
+"tmdb": 1753205,
+"lang": "de",
+"imdb": "tt46000907",
+"en": null,
+"lbSlug": "rammstein-live-in-mexico-city",
+"lbRating": null,
+"rated": "2026-10-22",
+"posterPath": "/qYdaSPHfZP3gwgGCxizegdN2kDc.jpg"
+},
 "cl-corazon-bestia": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -900,27 +914,6 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2
 },
-"cl-digger": {
-"imdb": "tt31450459",
-"imdbAll": [
-"tt31450459"
-],
-"lb": "digger-2026",
-"rt": "m/digger_2026",
-"mc": "movie/digger-2026",
-"en": "Digger",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1248832,
-"enFrom": "tmdb",
-"lbSlug": "digger-2026",
-"lbRating": 3.9,
-"rated": "2026-10-18",
-"lang": "en",
-"posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg"
-},
 "cl-doraemon-aventuras-mundo-arte": {
 "v": 4,
 "checked": "2026-10-08",
@@ -935,26 +928,6 @@
 "lbRating": 3.58,
 "rated": "2026-10-16",
 "posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
-},
-"cl-ficiv-superthings-pelicula": {
-"imdb": "tt43600835",
-"imdbAll": [
-"tt43600835"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1744346,
-"lang": "es",
-"lbSlug": "superthings-la-pelicula",
-"lbRating": null,
-"rated": "2026-10-21",
-"posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
 "cl-invitacion": {
 "imdb": "tt14173636",
@@ -974,7 +947,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-invite-2026",
 "lbRating": 3.95,
-"rated": "2026-10-14",
+"rated": "2026-10-22",
 "posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
 },
 "cl-isla-olvidada": {
@@ -1009,14 +982,14 @@
 "en": null,
 "lbSlug": "la-maleta",
 "lbRating": null,
-"rated": "2026-10-14",
+"rated": "2026-10-22",
 "posterPath": "/Ap0WExOWEL4DMcRKsAoDehi05J6.jpg"
 },
 "cl-manon-26-27": {
+"tmdbChecked": "2026-10-22",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2
+"checked": "2026-10-22"
 },
 "cl-mascotas-rescate": {
 "v": 4,
@@ -1030,14 +1003,14 @@
 "enFrom": "tmdb",
 "lbSlug": "pets-on-a-train",
 "lbRating": 2.74,
-"rated": "2026-10-14",
+"rated": "2026-10-22",
 "posterPath": "/b10qy1KwrfmH0MGS2rBUJ0BxgYB.jpg"
 },
 "cl-muerte-talones": {
+"tmdbChecked": "2026-10-22",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2
+"checked": "2026-10-22"
 },
 "cl-naza": {
 "imdb": "tt44766123",
@@ -1071,30 +1044,15 @@
 "en": "Other Mommy",
 "enFrom": "tmdb",
 "lbSlug": "other-mommy",
-"lbRating": 2.24,
-"rated": "2026-10-14",
+"lbRating": 2.19,
+"rated": "2026-10-22",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "cl-pesadilla-elm-street": {
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2
-},
-"cl-precio-red": {
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
+"tmdbChecked": "2026-10-22",
 "tv": 2,
-"tmdb": 1281331,
-"lang": "en",
-"imdb": "tt37510326",
-"en": "The Social Reckoning",
-"enFrom": "tmdb",
-"lbSlug": "the-social-reckoning",
-"lbRating": 3.04,
-"rated": "2026-10-14",
-"posterPath": "/hDe0OryfBINwmZDRtQjnh6UKUJf.jpg"
+"v": 4,
+"checked": "2026-10-22"
 },
 "cl-resident-evil": {
 "imdb": "tt35538033",
@@ -1152,6 +1110,26 @@
 "lbRating": 2.83,
 "rated": "2026-10-19",
 "posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
+},
+"cl-superthings-pelicula": {
+"imdb": "tt43600835",
+"imdbAll": [
+"tt43600835"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-10-22",
+"tmdbChecked": "2026-10-22",
+"tv": 2,
+"tmdb": 1744346,
+"lang": "es",
+"lbSlug": "superthings-la-pelicula",
+"lbRating": null,
+"rated": "2026-10-22",
+"posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
 "cl-tadeo-jones-lampara-maravillosa": {
 "imdb": "tt36164852",
@@ -1211,15 +1189,24 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "whalefall",
-"lbRating": null,
-"rated": "2026-10-14",
+"lbRating": 3.24,
+"rated": "2026-10-22",
 "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
 },
-"cl-wildwood-1": {
+"cl-wildwood-bosque-salvaje": {
 "v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2
+"checked": "2026-10-22",
+"tmdbChecked": "2026-10-22",
+"tv": 2,
+"tmdb": 791523,
+"lang": "en",
+"imdb": "tt2056785",
+"en": "Wildwood",
+"enFrom": "tmdb",
+"lbSlug": "wildwood-2026",
+"lbRating": 4.28,
+"rated": "2026-10-22",
+"posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg"
 },
 "cm-11-x14": {
 "tmdbChecked": "2026-10-17",
@@ -9330,6 +9317,12 @@
 "tmdbChecked": "2026-10-21",
 "tv": 2
 },
+"fw-EDI20261733": {
+"v": 4,
+"checked": "2026-10-22",
+"tmdbChecked": "2026-10-22",
+"tv": 2
+},
 "fw-FID20210220": {
 "imdb": "tt13322726",
 "imdbAll": [
@@ -9393,6 +9386,12 @@
 "v": 4,
 "checked": "2026-10-16",
 "tmdbChecked": "2026-10-16",
+"tv": 2
+},
+"fw-KUL20260648": {
+"v": 4,
+"checked": "2026-10-22",
+"tmdbChecked": "2026-10-22",
 "tv": 2
 },
 "fw-KUL20260653": {
@@ -9865,6 +9864,12 @@
 "mc": "movie/a-silent-voice",
 "v": 4,
 "checked": "2026-10-04"
+},
+"fw-UAV20191573": {
+"v": 4,
+"checked": "2026-10-22",
+"tmdbChecked": "2026-10-22",
+"tv": 2
 },
 "fw-UAV20191871": {
 "imdb": "tt0084787",
@@ -11201,10 +11206,10 @@
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "mk-con-la-muerte-en-los-talones": {
+"tmdbChecked": "2026-10-22",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2
+"checked": "2026-10-22"
 },
 "mk-cuentos-de-tokio": {
 "v": 4,
@@ -11294,7 +11299,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-invite-2026",
 "lbRating": 3.95,
-"rated": "2026-10-14",
+"rated": "2026-10-22",
 "posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
 },
 "mk-la-otra-madre": {
@@ -11308,8 +11313,8 @@
 "en": "Other Mommy",
 "enFrom": "tmdb",
 "lbSlug": "other-mommy",
-"lbRating": 2.24,
-"rated": "2026-10-14",
+"lbRating": 2.19,
+"rated": "2026-10-22",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "mk-ladron-de-bicicletas": {
@@ -11352,10 +11357,10 @@
 "tv": 2
 },
 "mk-pesadilla-en-elm-street": {
+"tmdbChecked": "2026-10-22",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2
+"checked": "2026-10-22"
 },
 "mk-sentido-y-sensibilidad": {
 "v": 4,
@@ -11395,8 +11400,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "whalefall",
-"lbRating": null,
-"rated": "2026-10-14",
+"lbRating": 3.24,
+"rated": "2026-10-22",
 "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
 },
 "rv-fargo-1996": {
@@ -11419,6 +11424,46 @@
 "lbRating": 4.13,
 "rated": "2026-10-15",
 "posterPath": "/rt7cpEr1uP6RTZykBFhBTcRaKvG.jpg"
+},
+"rv-the-big-lebowski-1998": {
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 115,
+"imdb": "tt0118715",
+"en": "The Big Lebowski",
+"lbSlug": "the-big-lebowski",
+"lbRating": 4.11,
+"rated": "2026-10-17",
+"posterPath": "/3bv6WAp6BSxxYvB5ozKFUYuRA8C.jpg",
+"imdbAll": [
+"tt0118715"
+],
+"lb": "the-big-lebowski",
+"rt": "m/the_big_lebowski",
+"mc": "movie/the-big-lebowski",
+"v": 4,
+"checked": "2026-10-03"
+},
+"rv-the-darjeeling-limited-2007": {
+"imdb": "tt0838221",
+"imdbAll": [
+"tt0838221"
+],
+"lb": "the-darjeeling-limited",
+"rt": "m/darjeeling_limited",
+"mc": "movie/the-darjeeling-limited",
+"en": "The Darjeeling Limited",
+"v": 4,
+"checked": "2026-10-22",
+"tmdbChecked": "2026-10-22",
+"tv": 2,
+"tmdb": 4538,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-darjeeling-limited",
+"lbRating": 3.86,
+"rated": "2026-10-22",
+"posterPath": "/oSW5OVXTulaIXcoNwJAp5YEKpbP.jpg"
 },
 "sr-brunsj-filmklassiker-10-breakfast-at-tiffany-s-1961": {
 "imdb": "tt0054698",
