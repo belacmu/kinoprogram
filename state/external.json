@@ -849,47 +849,11 @@
 "posterPath": "/mYqiF90igComG2L2qm8SwFbaMwn.jpg",
 "v": 4
 },
-"cl-coyote-vs-acme": {
-"imdb": "tt1756855",
-"imdbAll": [
-"tt1756855"
-],
-"lb": "coyote-vs-acme",
-"rt": "m/coyote_vs_acme",
-"mc": "movie/coyote-vs-acme",
-"en": "Coyote vs. Acme",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1204680,
-"enFrom": "tmdb",
-"lbSlug": "coyote-vs-acme",
-"lbRating": 3.82,
-"rated": "2026-10-18",
-"lang": "en",
-"posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
-},
 "cl-cuentos-tokio": {
 "v": 4,
 "checked": "2026-10-20",
 "tmdbChecked": "2026-10-20",
 "tv": 2
-},
-"cl-doraemon-aventuras-mundo-arte": {
-"v": 4,
-"checked": "2026-10-08",
-"tmdbChecked": "2026-10-08",
-"tv": 2,
-"tmdb": 1372489,
-"lang": "ja",
-"imdb": "tt33512868",
-"en": "Doraemon the Movie: Nobita's Art World Tales",
-"enFrom": "tmdb",
-"lbSlug": "doraemon-the-movie-nobitas-art-world-tales",
-"lbRating": 3.58,
-"rated": "2026-10-16",
-"posterPath": "/scVA8g9J0xIhRmywxScDjKZpp7v.jpg"
 },
 "cl-invitacion": {
 "imdb": "tt14173636",
@@ -930,7 +894,7 @@
 "enFrom": "tmdb",
 "lbSlug": "winter-lions",
 "lbRating": null,
-"rated": "2026-10-15",
+"rated": "2026-10-23",
 "posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
 },
 "cl-maleta": {
@@ -973,27 +937,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-22"
-},
-"cl-naza": {
-"imdb": "tt44766123",
-"imdbAll": [
-"tt44766123"
-],
-"lb": "naza",
-"rt": "m/naza",
-"mc": "movie/naza",
-"en": "NAZA",
-"v": 4,
-"checked": "2026-10-08",
-"tmdbChecked": "2026-10-08",
-"tv": 2,
-"tmdb": 1755291,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "naza",
-"lbRating": 4.49,
-"rated": "2026-10-16",
-"posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg"
 },
 "cl-otra-madre": {
 "v": 4,
@@ -1196,10 +1139,10 @@
 "checked": "2026-10-03"
 },
 "cm-2026-troll-i-eske-november": {
+"tmdbChecked": "2026-10-23",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2
+"checked": "2026-10-23"
 },
 "cm-9-temples-to-heaven": {
 "imdb": "tt37740247",
@@ -1218,7 +1161,7 @@
 "lang": "th",
 "lbSlug": "9-temples-to-heaven",
 "lbRating": 3.57,
-"rated": "2026-10-15"
+"rated": "2026-10-23"
 },
 "cm-a-better-tomorrow": {
 "tmdbChecked": "2026-10-01",
@@ -1549,25 +1492,6 @@
 "mc": "movie/cronos",
 "v": 4,
 "checked": "2026-10-04"
-},
-"cm-de-rode-enge": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 99272,
-"imdb": "tt0038043",
-"en": "The Red Meadows",
-"lbSlug": "red-meadows",
-"lbRating": 3.37,
-"rated": "2026-10-17",
-"posterPath": "/vpO08S6GWb8zD6FexLp1MIddo7i.jpg",
-"imdbAll": [
-"tt0038043"
-],
-"lb": "red-meadows",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-death-of-death": {
 "tmdbChecked": "2026-10-01",
@@ -2270,8 +2194,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -2460,26 +2384,6 @@
 "v": 4,
 "checked": "2026-10-19"
 },
-"cm-lacombe-lucien": {
-"imdb": "tt0071733",
-"imdbAll": [
-"tt0071733"
-],
-"lb": "lacombe-lucien",
-"rt": "m/lacombe_lucien",
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 55368,
-"lang": "fr",
-"lbSlug": "lacombe-lucien",
-"lbRating": 3.8,
-"rated": "2026-10-22",
-"posterPath": "/gHlorDyJrigxzcuZaQ5p4mseAPC.jpg"
-},
 "cm-lady": {
 "imdb": "tt38111477",
 "imdbAll": [
@@ -2490,8 +2394,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -3020,8 +2924,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -3757,25 +3661,6 @@
 ],
 "lb": "tintin-and-the-temple-of-the-sun",
 "rt": "m/tintin-et-le-temple-du-soleil-tintin-and-the-temple-of-the-sun",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-ulya": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1490241,
-"imdb": "tt26751523",
-"en": "Ulya",
-"lbSlug": "ulya",
-"lbRating": 3.5,
-"rated": "2026-10-17",
-"posterPath": "/denvPIlNmETvBjmXofNDVU6l9C1.jpg",
-"imdbAll": [
-"tt26751523"
-],
-"lb": "ulya",
-"rt": "m/ulya",
 "mc": null,
 "v": 4,
 "checked": "2026-10-03"
@@ -5047,7 +4932,7 @@
 "enFrom": "tmdb",
 "lbSlug": "bring-her-back",
 "lbRating": 3.68,
-"rated": "2026-10-15"
+"rated": "2026-10-23"
 },
 "fw-EDI20250432": {
 "tmdbChecked": "2026-10-01",
@@ -5114,12 +4999,6 @@
 "checked": "2026-10-21"
 },
 "fw-EDI20250688": {
-"tmdbChecked": "2026-10-19",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-19"
-},
-"fw-EDI20250693": {
 "tmdbChecked": "2026-10-19",
 "tv": 2,
 "v": 4,
@@ -5715,7 +5594,7 @@
 "enFrom": "tmdb",
 "lbSlug": "obsession-2025",
 "lbRating": 4.06,
-"rated": "2026-10-15"
+"rated": "2026-10-23"
 },
 "fw-EDI20251836": {
 "tmdbChecked": "2026-10-01",
@@ -5877,8 +5756,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "backrooms-2026",
-"lbRating": 3.31,
-"rated": "2026-10-15"
+"lbRating": 3.3,
+"rated": "2026-10-23"
 },
 "fw-EDI20260236": {
 "tmdbChecked": "2026-10-01",
@@ -5953,25 +5832,6 @@
 "tv": 2,
 "tmdb": 1214130,
 "enFrom": "tmdb"
-},
-"fw-EDI20260293": {
-"imdb": "tt37531036",
-"imdbAll": [
-"tt37531036"
-],
-"lb": "belen-2025",
-"rt": "m/belen",
-"mc": "movie/belen",
-"en": null,
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1301844,
-"lang": "es",
-"lbSlug": "belen-2025",
-"lbRating": 3.82,
-"rated": "2026-10-22"
 },
 "fw-EDI20260296": {
 "tmdbChecked": "2026-10-01",
@@ -6383,8 +6243,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "evil-dead-burn",
-"lbRating": 3.03,
-"rated": "2026-10-15"
+"lbRating": 3.02,
+"rated": "2026-10-23"
 },
 "fw-EDI20260641": {
 "tmdbChecked": "2026-10-01",
@@ -7848,25 +7708,6 @@
 "v": 4,
 "checked": "2026-10-19"
 },
-"fw-EDI20261411": {
-"lbSlug": "the-doll-2026",
-"lbRating": 3.55,
-"rated": "2026-10-17",
-"imdb": "tt37082105",
-"imdbAll": [
-"tt37082105"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "The Doll",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1321666,
-"enFrom": "tmdb"
-},
 "fw-EDI20261418": {
 "tmdbChecked": "2026-10-19",
 "tv": 2,
@@ -8303,7 +8144,7 @@
 "lang": "th",
 "lbSlug": "9-temples-to-heaven",
 "lbRating": 3.57,
-"rated": "2026-10-15"
+"rated": "2026-10-23"
 },
 "fw-EDI20261556": {
 "v": 4,
@@ -8472,8 +8313,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -8727,8 +8568,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -8824,8 +8665,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -8963,19 +8804,6 @@
 "lang": "ko",
 "lbSlug": "the-isle",
 "lbRating": 3.57,
-"rated": "2026-10-22"
-},
-"fw-EDI20261628": {
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 63107,
-"lang": "ru",
-"imdb": "tt0079020",
-"en": null,
-"lbSlug": "que-viva-mexico",
-"lbRating": 3.85,
 "rated": "2026-10-22"
 },
 "fw-EDI20261629": {
@@ -9117,7 +8945,7 @@
 "en": null,
 "lbSlug": "titans-2026",
 "lbRating": null,
-"rated": "2026-10-15"
+"rated": "2026-10-23"
 },
 "fw-EDI20261645": {
 "v": 4,
@@ -9842,7 +9670,7 @@
 "enFrom": "tmdb",
 "lbSlug": "insidious-out-of-the-further",
 "lbRating": 2.71,
-"rated": "2026-10-15"
+"rated": "2026-10-23"
 },
 "fw-TIF20171411": {
 "imdb": "tt0063522",
@@ -9906,7 +9734,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-thing",
 "lbRating": 4.35,
-"rated": "2026-10-15",
+"rated": "2026-10-23",
 "posterPath": "/tzGY49kseSE9QAKk47uuDGwnSCu.jpg"
 },
 "fw-UAV20213349": {
@@ -11260,21 +11088,6 @@
 "rated": "2026-10-22",
 "posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
 },
-"mk-la-otra-madre": {
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1400837,
-"lang": "en",
-"imdb": "tt36586020",
-"en": "Other Mommy",
-"enFrom": "tmdb",
-"lbSlug": "other-mommy",
-"lbRating": 2.19,
-"rated": "2026-10-22",
-"posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
-},
 "mk-ladron-de-bicicletas": {
 "v": 4,
 "checked": "2026-10-20",
@@ -11286,27 +11099,6 @@
 "checked": "2026-10-20",
 "tmdbChecked": "2026-10-20",
 "tv": 2
-},
-"mk-naza": {
-"imdb": "tt44766123",
-"imdbAll": [
-"tt44766123"
-],
-"lb": "naza",
-"rt": "m/naza",
-"mc": "movie/naza",
-"en": "NAZA",
-"v": 4,
-"checked": "2026-10-08",
-"tmdbChecked": "2026-10-08",
-"tv": 2,
-"tmdb": 1755291,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "naza",
-"lbRating": 4.49,
-"rated": "2026-10-16",
-"posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg"
 },
 "mk-origen": {
 "v": 4,
@@ -11341,27 +11133,6 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2
 },
-"mk-whalefall": {
-"imdb": "tt28535715",
-"imdbAll": [
-"tt28535715"
-],
-"lb": "whalefall",
-"rt": "m/whalefall",
-"mc": "movie/whalefall",
-"en": "Whalefall",
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2,
-"tmdb": 1255833,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "whalefall",
-"lbRating": 3.24,
-"rated": "2026-10-22",
-"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
-},
 "rv-fargo-1996": {
 "imdb": "tt0116282",
 "imdbAll": [
@@ -11380,7 +11151,7 @@
 "enFrom": "tmdb",
 "lbSlug": "fargo",
 "lbRating": 4.13,
-"rated": "2026-10-15",
+"rated": "2026-10-23",
 "posterPath": "/rt7cpEr1uP6RTZykBFhBTcRaKvG.jpg"
 },
 "rv-the-big-lebowski-1998": {
@@ -11696,7 +11467,7 @@
 "lang": "ja",
 "lbSlug": "spirited-away",
 "lbRating": 4.43,
-"rated": "2026-10-15"
+"rated": "2026-10-23"
 },
 "sr-tea-treats-tales-about-time-2013": {
 "imdb": "tt2194499",
