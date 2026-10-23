@@ -814,6 +814,53 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2
 },
+"cl-gato-sombrero": {
+"imdb": "tt2321555",
+"imdbAll": [
+"tt2321555"
+],
+"lb": "the-cat-in-the-hat-2026",
+"rt": "m/the_cat_in_the_hat",
+"mc": null,
+"en": "The Cat in the Hat",
+"v": 4,
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
+"tv": 2,
+"tmdb": 1117898,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-cat-in-the-hat-2026",
+"lbRating": null,
+"rated": "2026-10-23",
+"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
+},
+"cl-hope-1": {
+"imdb": "tt27369017",
+"imdbAll": [
+"tt27369017"
+],
+"lb": "hope-2026",
+"rt": "m/hope_2026",
+"mc": "movie/hope-2026",
+"en": "Hope",
+"v": 4,
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
+"tv": 2,
+"tmdb": 1058424,
+"lang": "ko",
+"lbSlug": "hope-2026",
+"lbRating": 3.18,
+"rated": "2026-10-23",
+"posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
+},
+"cl-hotel-transilvania": {
+"v": 4,
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
+"tv": 2
+},
 "cl-invitacion": {
 "imdb": "tt14173636",
 "imdbAll": [
@@ -840,6 +887,20 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-19"
+},
+"cl-karateka": {
+"v": 4,
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
+"tv": 2,
+"tmdb": 1365224,
+"lang": "es",
+"imdb": "tt36462691",
+"en": null,
+"lbSlug": "karateka-2026",
+"lbRating": null,
+"rated": "2026-10-23",
+"posterPath": "/bJh97VEUn9TWygQSrOOyJrwQXek.jpg"
 },
 "cl-lady-bird": {
 "v": 4,
@@ -917,6 +978,21 @@
 "lbRating": 2.19,
 "rated": "2026-10-22",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
+},
+"cl-oveja-shaun-mision-calabaza": {
+"v": 4,
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
+"tv": 2,
+"tmdb": 1477104,
+"lang": "en",
+"imdb": "tt36841161",
+"en": "Shaun the Sheep: The Beast of Mossy Bottom",
+"enFrom": "tmdb",
+"lbSlug": "shaun-the-sheep-the-beast-of-mossy-bottom",
+"lbRating": 3.59,
+"rated": "2026-10-23",
+"posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
 },
 "cl-pesadilla-elm-street": {
 "tmdbChecked": "2026-10-22",
@@ -1451,19 +1527,6 @@
 "mc": "movie/cronos",
 "v": 4,
 "checked": "2026-10-04"
-},
-"cm-death-of-death": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1490252,
-"imdb": null,
-"en": null,
-"lbSlug": "death-of-death",
-"lbRating": null,
-"rated": "2026-10-17",
-"posterPath": "/bJQZpXFzKSKxaJFSC0loqBzu4r9.jpg",
-"v": 4,
-"checked": "2026-10-19"
 },
 "cm-den-gronne-solstralen": {
 "tmdbChecked": "2026-10-01",
@@ -2476,25 +2539,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-mad-max-fury-road": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 76341,
-"imdb": "tt1392190",
-"en": "Mad Max: Fury Road",
-"lbSlug": "mad-max-fury-road",
-"lbRating": 4.17,
-"rated": "2026-10-17",
-"posterPath": "/ulcAi4dKpAjHwYGS08vNyx9H6I9.jpg",
-"imdbAll": [
-"tt1392190"
-],
-"lb": "mad-max-fury-road",
-"rt": "m/mad_max_fury_road",
-"mc": "movie/mad-max-fury-road",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-maria-marusjka": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -2777,25 +2821,6 @@
 "lbSlug": "about-tilla",
 "lbRating": null,
 "rated": "2026-10-19"
-},
-"cm-oppussing": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1492004,
-"imdb": "tt37266315",
-"en": "Renovation",
-"lbSlug": "renovation-2025",
-"lbRating": 3.48,
-"rated": "2026-10-17",
-"posterPath": "/iCL4xpecdXMwgrwvBjT0onepEV7.jpg",
-"imdbAll": [
-"tt37266315"
-],
-"lb": "renovation-2025",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-orlando": {
 "tmdbChecked": "2026-10-01",
@@ -8369,45 +8394,6 @@
 "lbRating": 3.57,
 "rated": "2026-10-22"
 },
-"fw-EDI20261629": {
-"imdb": "tt41742035",
-"imdbAll": [
-"tt41742035"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Six Months in a Pink and Blue Building",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1025407,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "six-months-in-a-pink-and-blue-building",
-"lbRating": 3.62,
-"rated": "2026-10-22"
-},
-"fw-EDI20261630": {
-"imdb": "tt35513027",
-"imdbAll": [
-"tt35513027"
-],
-"lb": "sundays-2025",
-"rt": "m/los_domingos",
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1443576,
-"lang": "es",
-"lbSlug": "sundays-2025",
-"lbRating": 3.78,
-"rated": "2026-10-22"
-},
 "fw-EDI20261631": {
 "tmdbChecked": "2026-10-22",
 "tv": 2,
@@ -8510,21 +8496,6 @@
 "lbRating": null,
 "rated": "2026-10-23"
 },
-"fw-EDI20261645": {
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2,
-"tmdb": 1768608,
-"lang": "tr",
-"imdb": "tt42886802",
-"en": "Bloodline",
-"enFrom": "tmdb",
-"lbSlug": "bloodline-2026-3",
-"lbRating": null,
-"rated": "2026-10-22",
-"posterPath": "/l10MXtbaO8G0IZzWToXnr21zG97.jpg"
-},
 "fw-EDI20261651": {
 "imdb": "tt0075148",
 "imdbAll": [
@@ -8580,12 +8551,6 @@
 "lbRating": null,
 "rated": "2026-10-16",
 "posterPath": "/1lwqHiX6MgfmLSffXQwpnKpX8I4.jpg"
-},
-"fw-EDI20261662": {
-"tmdbChecked": "2026-10-20",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-20"
 },
 "fw-EDI20261663": {
 "v": 4,
@@ -10624,6 +10589,26 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2
 },
+"mk-la-bola-negra": {
+"imdb": "tt35511966",
+"imdbAll": [
+"tt35511966"
+],
+"lb": "the-black-ball-2026",
+"rt": "m/la_bola_negra",
+"mc": "movie/the-black-ball",
+"en": null,
+"v": 4,
+"checked": "2026-10-02",
+"tmdbChecked": "2026-10-02",
+"tv": 2,
+"tmdb": 1422041,
+"lbSlug": "la-bola-negra",
+"lbRating": 4.41,
+"rated": "2026-10-18",
+"lang": "es",
+"posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
+},
 "mk-la-invitacion": {
 "imdb": "tt14173636",
 "imdbAll": [
@@ -10689,27 +10674,6 @@
 "checked": "2026-10-20",
 "tmdbChecked": "2026-10-20",
 "tv": 2
-},
-"rv-fargo-1996": {
-"imdb": "tt0116282",
-"imdbAll": [
-"tt0116282"
-],
-"lb": "fargo",
-"rt": "m/fargo",
-"mc": "movie/fargo",
-"en": "Fargo",
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 275,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "fargo",
-"lbRating": 4.13,
-"rated": "2026-10-23",
-"posterPath": "/rt7cpEr1uP6RTZykBFhBTcRaKvG.jpg"
 },
 "rv-the-big-lebowski-1998": {
 "tmdbChecked": "2026-10-01",
