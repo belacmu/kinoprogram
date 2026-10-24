@@ -88,7 +88,11 @@ h1 span { color: var(--accent); }
 #view { flex: 1 1 auto; min-width: 0; }
 .searchbox { position: relative; display: flex; align-items: center; flex: 1 1 160px; min-width: 0; }
 .searchbox input { flex: 1; min-width: 0; text-overflow: ellipsis; }
-.searchbox svg { position: absolute; left: 13px; color: var(--muted); pointer-events: none; }
+.searchbox input::-webkit-search-cancel-button { display: none; }
+.qclear { position: absolute; right: 6px; display: grid; place-items: center; width: 28px; height: 28px; border: 0; border-radius: 999px; background: none; color: var(--muted); cursor: pointer; }
+.qclear:hover { color: var(--ink); background: color-mix(in srgb, currentColor 12%, transparent); }
+.qclear[hidden] { display: none; }
+.searchbox > svg { position: absolute; left: 13px; color: var(--muted); pointer-events: none; }
 .iconbtn { flex: none; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px;
   border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; font-size: 20px; line-height: 1; padding: 0; }
 .chip.watch { font-weight: 600; flex: none; border-color: var(--accent); }
@@ -269,7 +273,7 @@ a.stub:hover { border-color: var(--accent); }
 .pill .chev { color: var(--muted); font-size: 11px; margin-left: 2px; }
 #filtersBtn[aria-pressed="true"] { background: var(--accent-tint); border-color: var(--accent); }
 .iconbtn { width: var(--pill-h); height: var(--pill-h); border-radius: 999px; border: 1px solid transparent; background: var(--chip); }
-.searchbox input { height: var(--pill-h); border-radius: 999px; border: 1px solid transparent; background: var(--chip); padding: 0 14px 0 36px; }
+.searchbox input { height: var(--pill-h); border-radius: 999px; border: 1px solid transparent; background: var(--chip); padding: 0 36px 0 36px; }
 
 /* All films / My watchlist: a pill switch, like 17:54's switches */
 .listswitch { display: flex; gap: 2px; padding: 3px; border: 0; border-radius: 999px; background: var(--chip); }

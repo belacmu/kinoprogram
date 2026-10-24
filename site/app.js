@@ -403,6 +403,7 @@ function cardHtml(row) {
 }
 
 function renderGrid() {
+  $("qClear").hidden = !state.q;
   const rows = buildRows();
   const sections = [];
   for (const r of rows) {
@@ -419,6 +420,10 @@ function renderGrid() {
   const withDay = dayMode() && !(state.onlyWatch && !watchedHere());
   if (withDay && sections[0]?.key !== DAY_KEY) sections.unshift({ key: DAY_KEY, label: dayTitle(chosen, today), rows: [] });
   const dayEmpty = `${state.onlyWatch ? "Nothing on your watchlist is" : "Nothing is"} playing ${chosen === today ? "for the rest of today" : `on ${dayLabel(chosen)}`}${activeFilters() ? " with these filters" : ""}.`;
+  // When nothing (or nothing on the day) turns up, offer a way back out of the search and filters.
+  const q = state.q.trim(), nf = activeFilters();
+  const clearBtn = (withSearch) => (withSearch && q) || nf
+    ? ` <button class="linkbtn" data-clearall="${withSearch ? "q" : "f"}">${withSearch && q && nf ? "Clear search and filters" : withSearch && q ? "Clear search" : "Clear filters"}</button>` : "";
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
@@ -428,8 +433,8 @@ function renderGrid() {
       <h2 class="sech"><button data-sec="${i}" aria-expanded="${!shut}" aria-controls="secgrid-${i}">
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
-      ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
-  }).join("") : `<p class="empty">${empty}</p>`;
+      ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}${clearBtn(false)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
+  }).join("") : `<p class="empty">${empty}${clearBtn(true)}</p>`;
 }
 
 // ---------------------------------------------------------------- render: the day control in the bar
@@ -765,7 +770,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],button[data-f]");
   if (!t) return;
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = s.key;
@@ -782,7 +787,8 @@ document.addEventListener("click", (e) => {
     for (const s of state.sections) setCollapsed(s.key, t.dataset.collapseall === "1");
     closeMenus(); renderGrid(); window.scrollTo({ top: 0 }); return;
   }
-  if (t.dataset.f === "reset") {
+  if (t.dataset.clearall === "q") { clearSearch(); if (!activeFilters()) return; }
+  if (t.dataset.f === "reset" || t.dataset.clearall) {
     state.tix = "all";
     state.prefs.hideKinds = [...DEFAULT_HIDE]; state.prefs.hideDubbed = false; state.prefs.englishSubs = false; state.prefs.audioEnNo = false;
     state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
@@ -881,8 +887,10 @@ $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("fil
 $("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
 
-// Search: always a field in the bar. Escape clears it (as does the field's own ×, which fires "input").
-$("q").addEventListener("keydown", (e) => { if (e.key === "Escape" && $("q").value) { $("q").value = ""; state.q = ""; renderGrid(); } });
+// Search: always a field in the bar. Escape or the × button clears it.
+function clearSearch() { $("q").value = ""; state.q = ""; renderGrid(); }
+$("q").addEventListener("keydown", (e) => { if (e.key === "Escape" && $("q").value) clearSearch(); });
+$("qClear").addEventListener("click", () => { clearSearch(); $("q").focus(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 // Pill menus (Location, the date picker): a button that opens a small list of choices.
