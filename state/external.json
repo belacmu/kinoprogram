@@ -1354,12 +1354,6 @@
 "v": 4,
 "checked": "2026-10-17"
 },
-"cm-animasjonsverksted-for-ungdom": {
-"tmdbChecked": "2026-10-17",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-17"
-},
 "cm-asako-i-ii": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1895,20 +1889,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"cm-fodt-i-jungelen": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 947474,
-"imdb": "tt37162310",
-"en": "Born in the Jungle",
-"enFrom": "tmdb",
-"lbSlug": "born-in-the-jungle",
-"lbRating": null,
-"rated": "2026-10-17",
-"posterPath": "/Ajl53X10Nk9ohrTnmxXEnmpEkdX.jpg",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-fra-nrk-arkivet-erik-bye": {
 "tmdbChecked": "2026-10-17",
 "tv": 2,
@@ -2333,7 +2313,8 @@
 "enFrom": "tmdb",
 "lbSlug": "kikis-delivery-service",
 "lbRating": 4.15,
-"rated": "2026-10-17"
+"rated": "2026-10-17",
+"posterPath": "/Aufa4YdZIv4AXpR9rznwVA5SEfd.jpg"
 },
 "cm-knife-the-attempted-murder-of-salman-rushdie": {
 "v": 4,
@@ -3992,25 +3973,6 @@
 "lbRating": 3.76,
 "rated": "2026-10-21",
 "posterPath": "/dEDLY3KeghKFzks5nTDWdigVikr.jpg"
-},
-"fw-ART20180008": {
-"imdb": "tt0097814",
-"imdbAll": [
-"tt0097814"
-],
-"lb": "kikis-delivery-service",
-"rt": "m/kikis_delivery_service",
-"mc": "movie/kikis-delivery-service",
-"en": "Kiki's Delivery Service",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 16859,
-"enFrom": "tmdb",
-"lbSlug": "kikis-delivery-service",
-"lbRating": 4.15,
-"rated": "2026-10-17"
 },
 "fw-ART20200497": {
 "imdb": "tt1216496",
@@ -8394,12 +8356,6 @@
 "lbRating": 3.57,
 "rated": "2026-10-22"
 },
-"fw-EDI20261631": {
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-22"
-},
 "fw-EDI20261632": {
 "v": 4,
 "checked": "2026-10-06",
@@ -8682,6 +8638,23 @@
 "lbSlug": "scene-2026",
 "lbRating": null,
 "rated": "2026-10-22"
+},
+"fw-FID20210220": {
+"imdb": "tt13322726",
+"imdbAll": [
+"tt13322726"
+],
+"lb": "captain-volkonogov-escaped",
+"rt": null,
+"mc": null,
+"en": "Captain Volkonogov Escaped",
+"v": 4,
+"checked": "2026-10-24",
+"tmdbChecked": "2026-10-24",
+"tv": 2,
+"lbSlug": "captain-volkonogov-escaped",
+"lbRating": 3.77,
+"rated": "2026-10-24"
 },
 "fw-GRI20171335": {
 "tmdbChecked": "2026-10-01",
