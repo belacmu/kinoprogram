@@ -403,6 +403,7 @@ function cardHtml(row) {
 }
 
 function renderGrid() {
+  $("qClear").hidden = !state.q;
   const rows = buildRows();
   const sections = [];
   for (const r of rows) {
@@ -423,7 +424,6 @@ function renderGrid() {
   const q = state.q.trim(), nf = activeFilters();
   const clearBtn = (withSearch) => (withSearch && q) || nf
     ? ` <button class="linkbtn" data-clearall="${withSearch ? "q" : "f"}">${withSearch && q && nf ? "Clear search and filters" : withSearch && q ? "Clear search" : "Clear filters"}</button>` : "";
-  $("qClear").hidden = !state.q;
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
