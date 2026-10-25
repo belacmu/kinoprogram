@@ -731,28 +731,6 @@
 "rated": "2026-10-19",
 "posterPath": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg"
 },
-"cl-chico-garza": {
-"imdb": "tt6587046",
-"imdbAll": [
-"tt8055182",
-"tt6587046"
-],
-"lb": "the-boy-and-the-heron",
-"rt": "m/the_boy_and_the_heron",
-"mc": "movie/the-boy-and-the-heron",
-"en": "The Boy and the Heron",
-"v": 4,
-"checked": "2026-10-11",
-"tmdbChecked": "2026-10-11",
-"tv": 2,
-"tmdb": 508883,
-"lang": "ja",
-"enFrom": "tmdb",
-"lbSlug": "the-boy-and-the-heron",
-"lbRating": 3.9,
-"rated": "2026-10-19",
-"posterPath": "/f4oZTcfGrVTXKTWg157AwikXqmP.jpg"
-},
 "cl-clayface": {
 "imdb": "tt34890576",
 "imdbAll": [
@@ -1077,26 +1055,6 @@
 "lbRating": null,
 "rated": "2026-10-22",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
-},
-"cl-tadeo-jones-lampara-maravillosa": {
-"imdb": "tt36164852",
-"imdbAll": [
-"tt36164852"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Tad and the Magic Lamp",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1187326,
-"lbSlug": "tad-and-the-magic-lamp",
-"lbRating": 2.96,
-"rated": "2026-10-18",
-"lang": "es",
-"posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
 },
 "cl-verity-sombra-engano": {
 "imdb": "tt32261958",
@@ -7562,21 +7520,6 @@
 "posterPath": "/kK5wiFE800cMVIjsj2TTyLCQqZo.jpg",
 "v": 4
 },
-"fw-EDI20261467": {
-"checked": "2026-10-19",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1770237,
-"lang": "en",
-"imdb": null,
-"en": "BTS World Tour 'Arirang'  in Buenos Aires: Live Viewing",
-"enFrom": "tmdb",
-"lbSlug": "bts-world-tour-arirang-in-buenos-aires",
-"lbRating": null,
-"rated": "2026-10-19",
-"posterPath": "/kK5wiFE800cMVIjsj2TTyLCQqZo.jpg",
-"v": 4
-},
 "fw-EDI20261468": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -8588,44 +8531,6 @@
 "lang": "ko",
 "lbSlug": "the-isle",
 "lbRating": 3.57,
-"rated": "2026-10-22"
-},
-"fw-EDI20261634": {
-"imdb": "tt0292542",
-"imdbAll": [
-"tt0292542"
-],
-"lb": "son-of-the-bride",
-"rt": "m/son_of_the_bride",
-"mc": "movie/son-of-the-bride",
-"en": "Son of the Bride",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 19460,
-"lang": "es",
-"lbSlug": "son-of-the-bride",
-"lbRating": 3.91,
-"rated": "2026-10-22"
-},
-"fw-EDI20261636": {
-"imdb": "tt0245574",
-"imdbAll": [
-"tt0245574"
-],
-"lb": "y-tu-mama-tambien",
-"rt": "m/y_tu_mama_tambien",
-"mc": "movie/y-tu-mama-tambien",
-"en": null,
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1391,
-"lang": "es",
-"lbSlug": "y-tu-mama-tambien",
-"lbRating": 4.2,
 "rated": "2026-10-22"
 },
 "fw-EDI20261637": {
@@ -10689,28 +10594,6 @@
 "checked": "2026-10-20",
 "tmdbChecked": "2026-10-20",
 "tv": 2
-},
-"mk-el-chico-y-la-garza": {
-"imdb": "tt6587046",
-"imdbAll": [
-"tt8055182",
-"tt6587046"
-],
-"lb": "the-boy-and-the-heron",
-"rt": "m/the_boy_and_the_heron",
-"mc": "movie/the-boy-and-the-heron",
-"en": "The Boy and the Heron",
-"v": 4,
-"checked": "2026-10-11",
-"tmdbChecked": "2026-10-11",
-"tv": 2,
-"tmdb": 508883,
-"lang": "ja",
-"enFrom": "tmdb",
-"lbSlug": "the-boy-and-the-heron",
-"lbRating": 3.9,
-"rated": "2026-10-19",
-"posterPath": "/f4oZTcfGrVTXKTWg157AwikXqmP.jpg"
 },
 "mk-fargo": {
 "v": 4,
