@@ -106,6 +106,21 @@ Claude will then redeploy the site (so sign-in appears) and send a test email. A
 
 ---
 
+### Trying a change before it goes live (preview)
+
+The `preview` branch is published at `https://belacmu.github.io/kinoprogram/preview/` (marked with a red PREVIEW
+tag, hidden from search engines), next to the real site. To preview a branch, point `preview` at it:
+`git push --force origin my-branch:preview`. Pushing starts a deploy; a minute or so later it's up.
+
+- It uses the real programme data and the **same Supabase project and login** as the live site, so anything you do
+  there (watchlist, friends) is real. A database change a preview needs (a new `schema.sql`) has to be run first.
+- It's rebuilt on every deploy of the live site too (the scheduled update included), so it stays up until the
+  `preview` branch is deleted.
+- The `preview` branch needs `.github/workflows/preview.yml` (it has it if it was made from a recent `main`), or
+  pushing to it won't start a deploy. The home-screen app only ever opens the live site; open the preview in Safari.
+
+---
+
 ### If something goes wrong
 
 - **No sign-in email arrives**: check spam; check step 2.5 (SMTP). In Supabase,

@@ -84,6 +84,9 @@ jobs:
       - name: Write film preview pages
         run: python3 scripts/write-film-pages.py
 
+      - name: Add the preview branch
+        run: sh scripts/add-preview.sh
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
