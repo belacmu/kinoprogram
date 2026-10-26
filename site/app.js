@@ -1073,6 +1073,7 @@ async function loadProfile() {
   local.set("prefs", state.prefs); local.set("watchlist", [...merged]);
   if (changed) await pushProfile();
   render();
+  refreshAvatar();
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
   if (data.friend_code) loadFriends();
 }
@@ -1102,8 +1103,7 @@ document.addEventListener("visibilitychange", () => {  // coming back to the app
 
 function renderFriends(msg) {
   const p = state.profile;
-  $("accountBody").innerHTML = `<button class="linkbtn back" data-acct="">‹ Account</button>
-    <h2 id="accountTitle">Friends</h2>
+  $("accountBody").innerHTML = `<h2 id="accountTitle">Friends</h2>
     <p class="lead">Friends see which films are on each other's watchlists. Share your code, or enter a friend's.</p>
     <div class="codebox" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div>
     <div class="row codebtns"><button class="btn ghost" data-friend="copy">Copy code</button>
@@ -1116,13 +1116,12 @@ function renderFriends(msg) {
     ${state.friendsError && !state.friends.length ? `<p class="nofriends">Couldn't load your friends. Try again in a moment.</p>` : state.friends.length ? `<ul class="friendlist">${state.friends.map((fr) => `<li><span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>
       <span class="fname">${esc(fr.name)}</span><button class="linkbtn" data-unfriend="${esc(fr.id)}">Remove</button></li>`).join("")}</ul>`
       : `<p class="nofriends">No friends yet.</p>`}
-    <form class="signin namef" id="nameForm"><label for="dispName" class="subh">Your name, as friends see it</label>
-      <input type="text" id="dispName" maxlength="40" value="${esc(p.display_name || "")}" placeholder="${esc(state.user.email)}" autocomplete="off">
-      <button class="btn ghost" type="submit">Save name</button></form>${msg}`;
+    <p class="hint">Friends see you as <b>${esc(p.display_name || state.user.email)}</b>. <button class="linkbtn" data-acct="profile">Change your name</button></p>${msg}`;
 }
 
 function renderAccount(message = "", isErr = false) {
   const body = $("accountBody");
+  $("account").classList.toggle("wide", !!state.user && !!state.profile);
   const msg = message ? `<div class="msg${isErr ? " err" : ""}">${esc(message)}</div>` : "";
   if (!state.user && state.pendingEmail) { // step 2: type the code from the email
     body.innerHTML = `<h2 id="accountTitle">Enter your code</h2>
@@ -1166,22 +1165,77 @@ function renderAccount(message = "", isErr = false) {
   }
   const p = state.profile;
   if (state.acctView === "friends" && p.friend_code) { renderFriends(msg); return; }
+  if (state.acctView === "email") { renderEmailSettings(msg); return; }
+  renderProfile(msg);
+}
+
+// ---- account menu (the avatar's dropdown) and its panels: Profile, Friends, Email notifications
+const menuIcon = (d) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const MENU_ICONS = {
+  profile: menuIcon("M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"),
+  friends: menuIcon("M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.3a3.5 3.5 0 0 1 0 6.4M18 14.4c2 .7 3.5 2.4 3.5 5.6"),
+  email: menuIcon("M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM3.5 7.5l8.5 6 8.5-6"),
+  signout: menuIcon("M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10"),
+};
+const emailStatus = () => {
+  if (!state.profile) return "";
+  if (!state.profile.subscribed) return "Off";
+  const names = REGIONS.filter((r) => (state.prefs.regions || ["oslo"]).includes(r.key)).map((r) => r.name);
+  return `${state.prefs.frequency === "weekly" ? "Weekly" : "Daily"} · ${names.length > 2 ? names.length + " regions" : names.join(", ") || "no region"}`;
+};
+function renderAcctMenu() {
+  const p = state.profile, name = p?.display_name || "";
+  const item = (k, label, status) => `<button role="menuitem" data-open="${k}"><span class="mi">${MENU_ICONS[k]}</span>${label}${status ? `<small>${esc(status)}</small>` : ""}</button>`;
+  $("acctMenu").innerHTML = `<div class="menuhead">${name ? `<b>${esc(name)}</b>` : ""}<span>${esc(state.user.email)}</span></div><div class="menusep"></div>
+    ${item("profile", "Profile")}
+    ${p?.friend_code ? item("friends", "Friends", state.friends.length ? `${state.friends.length} friend${state.friends.length > 1 ? "s" : ""}` : "Add friends") : ""}
+    ${item("email", "Email notifications", emailStatus())}
+    <div class="menusep"></div>
+    <button role="menuitem" data-open="signout" class="signout"><span class="mi">${MENU_ICONS.signout}</span>Sign out</button>`;
+}
+function refreshAvatar() {
+  if (!state.user) return;
+  $("accountBtn").textContent = shortName(state.profile?.display_name || state.user.email)[0]?.toUpperCase() || "?";
+}
+
+function renderProfile(msg) {
+  const p = state.profile;
+  $("accountBody").innerHTML = `<h2 id="accountTitle">Profile</h2>
+    <div class="subh">Email</div><div class="who">${esc(state.user.email)}</div>
+    <p class="hint">What you sign in with, and where notification emails go.</p>
+    ${p.friend_code ? `<form class="signin namef" id="nameForm"><label for="dispName" class="subh">Name</label>
+      <input type="text" id="dispName" maxlength="40" value="${esc(p.display_name || "")}" placeholder="${esc(state.user.email)}" autocomplete="off">
+      <p class="hint">Shown to your friends. Left empty, they see your email.</p>
+      <button class="btn ghost" type="submit">Save name</button></form>` : ""}${msg}`;
+}
+
+function renderEmailSettings(msg) {
+  const p = state.profile, on = !!p.subscribed, freq = state.prefs.frequency || "daily", regs = state.prefs.regions || ["oslo"];
   const n = state.prefs.cinemas.length;
   const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "original language only" : "", state.prefs.englishSubs ? "English subtitles only (Oslo)" : "", state.prefs.audioEnNo ? "English or Norwegian audio only (Costa del Sol)" : ""].filter(Boolean).join(", ");
-  body.innerHTML = `<h2 id="accountTitle">Your account</h2>
-    <div class="who">${esc(state.user.email)}</div>
-    ${p.friend_code ? `<button class="linkrow" data-acct="friends"><span>Friends<small>${state.friends.length ? `${state.friends.length} friend${state.friends.length > 1 ? "s" : ""}. See who wants to see what.` : "Add friends to see which films they want to see."}</small></span><span aria-hidden="true">›</span></button>` : ""}
-    <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>
-      <span>Email me about new films<small>Only sent when there is something new to tell you, and never more than once a day. Uses your filters: ${esc(filters)}.</small></span></label>
-    <div class="opt regionsopt"><span></span><span>How often<small>Daily: at most one email a day, sent in the morning (after 9:00 local time), and none on days with nothing new. Weekly: one email on Fridays with everything new that week, if there is any.</small>
-      <span class="row">${[["daily", "Daily, if there's news"], ["weekly", "Weekly, on Fridays"]].map(([v, l]) => `<label class="toggle"><input type="radio" name="freq" value="${v}"${(state.prefs.frequency || "daily") === v ? " checked" : ""}> ${l}</label>`).join("")}</span></span></div>
-    <div class="opt regionsopt"><span></span><span>Regions<small>One email per region, at 9:00 local time.</small>
-      <span class="row">${REGIONS.map((r) => `<label class="toggle"><input type="checkbox" data-optregion="${r.key}"${(state.prefs.regions || ["oslo"]).includes(r.key) ? " checked" : ""}> ${r.name}</label>`).join("")}</span></span></div>
-    <label class="opt"><input type="checkbox" id="optAnn"${state.prefs.announcements ? " checked" : ""}>
-      <span>Include newly announced films<small>Films that just got a Norwegian release date or showings, before tickets are on sale.</small></span></label>
-    <label class="opt"><input type="checkbox" id="optWatch"${state.prefs.watchlistAlways ? " checked" : ""}>
-      <span>Always include watchlist films<small>Email me when a film on my watchlist goes on sale, even if it doesn't match my filters.</small></span></label>
-    <div class="row" style="margin-top:12px"><button class="btn ghost" id="signOut">Sign out</button></div>${msg}`;
+  const names = REGIONS.filter((r) => regs.includes(r.key)).map((r) => r.name);
+  const summary = !on ? "Email is off. You won't get any emails from Cinecrab."
+    : !names.length ? "Pick at least one region to get emails."
+    : `You'll get ${freq === "weekly" ? "one email on Fridays" : "an email each morning there's news"} for ${nameList(names)}, with films newly on sale${state.prefs.announcements ? " and newly announced films" : ""}${state.prefs.watchlistAlways ? ", plus anything on your watchlist" : ""}.`;
+  $("accountBody").innerHTML = `<h2 id="accountTitle">Email notifications</h2>
+    <p class="lead">Hear about films as soon as they're on sale, without checking the site. Sent only when there's something new for you, and never more than once a day.</p>
+    <label class="opt master"><input type="checkbox" id="optSub"${on ? " checked" : ""}>
+      <span>Email me about new films<small>Sent to ${esc(state.user.email)}. Every email has an unsubscribe link.</small></span></label>
+    <fieldset class="emailopts"${on ? "" : " disabled"}>
+      <div class="subh">How often</div>
+      <div class="cardopts">${[["daily", "Daily", "An email each morning, only on days with something new."], ["weekly", "Weekly", "One email on Fridays with everything new that week."]]
+        .map(([v, t, d]) => `<label class="cardopt"><input type="radio" name="freq" value="${v}"${freq === v ? " checked" : ""}><b>${t}</b><small>${d}</small></label>`).join("")}</div>
+      <div class="subh">Where</div>
+      <div class="chips">${REGIONS.map((r) => `<label class="opt-chip"><input type="checkbox" data-optregion="${r.key}"${regs.includes(r.key) ? " checked" : ""}> ${r.name}</label>`).join("")}</div>
+      <p class="hint">One email per region, at 9:00 local time.</p>
+      <div class="subh">What's included</div>
+      <label class="opt"><input type="checkbox" checked disabled><span>Films newly on sale<small>Always included. Your film filters apply: ${esc(filters)}.</small></span></label>
+      <label class="opt"><input type="checkbox" id="optAnn"${state.prefs.announcements ? " checked" : ""}>
+        <span>Newly announced films<small>Films that just got a Norwegian release date or showings, before tickets are on sale.</small></span></label>
+      <label class="opt"><input type="checkbox" id="optWatch"${state.prefs.watchlistAlways ? " checked" : ""}>
+        <span>Watchlist films, always<small>Email me when a film on my watchlist goes on sale, even if my filters would hide it.</small></span></label>
+    </fieldset>
+    <div class="summary">${esc(summary)}</div>${msg}`;
 }
 
 function setUser(session) {
@@ -1189,11 +1243,13 @@ function setUser(session) {
   // Signed out: a filled "Sign in" button (a person icon when the header is tight). Signed in: a round avatar with the
   // email's first letter.
   const ab = $("accountBtn");
-  if (state.user) ab.textContent = state.user.email[0].toUpperCase();
+  if (state.user) refreshAvatar();
   else ab.innerHTML = `<svg class="ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lbl">Sign in</span>`;
   ab.classList.toggle("primary", !state.user);
   ab.classList.toggle("avatar", !!state.user);
   ab.setAttribute("aria-label", state.user ? `Account (${state.user.email})` : "Sign in");
+  ab.setAttribute("aria-haspopup", state.user ? "menu" : "dialog");
+  if (!state.user) closeMenus();
   if (!state.user) { state.profile = null; state.friends = []; state.acctView = ""; }
   renderAccount();
   fitHeader();
@@ -1216,8 +1272,24 @@ new ResizeObserver(([e]) => { if (e.contentRect.width !== topWidth) { topWidth =
 document.fonts.ready.then(fitHeader);  // the title's font changes its width once it loads
 
 if (sb) {
-  $("accountBtn").hidden = false;
-  $("accountBtn").addEventListener("click", () => { renderAccount(); $("account").showModal(); });
+  $("acctDD").hidden = false;
+  // Signed in: the avatar drops a menu (Profile, Friends, Email notifications, Sign out); each opens its own panel.
+  $("accountBtn").addEventListener("click", () => {
+    if (!state.user) { renderAccount(); $("account").showModal(); return; }
+    renderAcctMenu();
+    toggleMenu($("accountBtn"), $("acctMenu"));
+  });
+  $("acctMenu").addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-open]");
+    if (!b) return;
+    closeMenus();
+    if (b.dataset.open === "signout") { await sb.auth.signOut(); toast("Signed out"); return; }
+    state.acctView = b.dataset.open;
+    renderAccount();
+    $("accountBtn").focus();  // where focus returns when the panel closes
+    $("account").showModal();
+    $("account").scrollTop = 0;
+  });
   let pendingName = "";  // the optional name typed at sign-up; only used when the email turns out to be new
   const sendCode = async (email) => {
     const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, ...(pendingName ? { data: { display_name: pendingName } } : {}) } });
@@ -1244,7 +1316,7 @@ if (sb) {
       if (error) { renderAccount("That code didn't work. Check it, or send a new one (codes expire after an hour).", true); return; }
       state.pendingEmail = "";
       try { sessionStorage.removeItem("kino:pendingEmail"); } catch {}
-      renderAccount("Signed in. Your watchlist and filters now sync across devices.");
+      if (!state.pendingFriend && !state.pendingWatch && $("account").open) { $("account").close(); toast("Signed in. Your watchlist and filters now sync across devices."); }
     }
   });
   $("account").addEventListener("change", async (e) => {
@@ -1266,8 +1338,7 @@ if (sb) {
     }
   });
   $("account").addEventListener("click", async (e) => {
-    if (e.target.id === "signOut") { await sb.auth.signOut(); renderAccount("Signed out."); }
-    else if (e.target.id === "resendCode") {
+    if (e.target.id === "resendCode") {
       const err = await sendCode(state.pendingEmail);
       renderAccount(err || `New code sent to ${state.pendingEmail}.`, !!err);
     } else if (e.target.id === "otherEmail") {
@@ -1355,6 +1426,7 @@ if (sb) {
       const v = $("dispName").value.trim().slice(0, 40);
       state.profile = { ...state.profile, display_name: v || null };
       const ok = await pushProfile({ display_name: v || null });
+      refreshAvatar();
       renderAccount(ok ? "Name saved." : "Couldn't save your name. Try again in a moment.", !ok);
     }
   });
