@@ -1,0 +1,21 @@
+name: Preview
+
+# Pushing to the `preview` branch republishes the site with that branch's version at /preview/ (see scripts/add-preview.sh).
+# The deploy itself runs from main: this only starts it, so Pages deployments never come from another branch.
+on:
+  push:
+    branches: [preview]
+
+permissions:
+  actions: write
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Start the site deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run deploy-site.yml --ref main
