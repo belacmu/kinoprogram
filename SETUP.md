@@ -40,6 +40,8 @@ A dedicated account keeps your personal address out of it.
      another app's data, you're in the wrong project. Stop and don't paste anything.
 3. Create the table: left sidebar **SQL Editor** → **New query** → paste the entire contents of
    [`supabase/schema.sql`](supabase/schema.sql) → **Run**. It should say "Success. No rows returned".
+   Already set up? Paste and run it again whenever it changes (e.g. when friends were added): it's safe
+   to re-run and keeps existing accounts and watchlists.
 4. Site address: **Authentication → URL Configuration** → Site URL:
    `https://belacmu.github.io/kinoprogram/` → Save.
 5. Send sign-in emails through your Gmail (required: Supabase's built-in mailer only delivers to

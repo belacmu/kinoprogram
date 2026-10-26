@@ -155,6 +155,43 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   password; works across devices). Signed-in users get:
   settings synced across devices, a watchlist, and the daily email.
 
+## Friends
+
+Signed-in users can add each other as friends to see which films their friends want to see.
+Being friends means you each see the other's watchlist; that's the whole point, so there's no
+privacy setting.
+
+- **Display name**: an optional name field on the sign-in form, used only if the email is new; existing users default to their email until they set
+  one. Changeable on the Friends screen. Only friends see it.
+- **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
+  0/O, 1/I/L). Entry is forgiving: lowercase, spaces or a missing dash all work.
+- **Friends screen** (account menu): your code with a **Share** button, a box to enter a friend's
+  code with a **Paste** button, your display name, and your friends with **Remove** (confirmed).
+- **Sharing** sends a link with the code in it, plus the code written out ("Add me on Cinecrab:
+  <link>, or code K7Q-M4P"), so it can be typed in without opening the link.
+- **Opening the link**: signed in → the friend is added at once ("You and Anna are now friends").
+  Signed out → the page offers both **Sign in** (then adds the friend) and the code with **Copy**
+  and "Or open Cinecrab from your Home Screen and enter this code under Friends". This covers
+  iPhone home-screen web apps: links always open in Safari, which keeps a separate login, but the
+  friendship lives in the database, so the app sees it on its next load.
+- Friendships are mutual and made by redeeming a code; no request/accept step. Removing deletes it
+  for both, silently; reconnecting needs a code again. Adding yourself or an existing friend does
+  nothing.
+- **On posters**: small stacked initials of friends with the film on their watchlist (up to 3,
+  then "+N"), separate from your own ♥.
+- **Film sheet**: "On Anna's and Jon's watchlists".
+- Friends in other regions show up only on films with the same id (ids are per source), which is
+  fine.
+
+Data (Supabase):
+- `profiles` gains `display_name` and `friend_code` (unique, generated at sign-up and backfilled).
+- `friendships (a, b, created_at)`: one row per pair, `a < b`. Users can read and delete rows they're
+  in; no direct inserts.
+- `redeem_friend_code(code)` (security definer) creates the friendship and returns the friend's name.
+- `friends_watchlists()` (security definer) returns each friend's id, display name and watchlist,
+  never their email-only fields such as prefs or the unsubscribe token (the email is only returned
+  as the name fallback).
+
 ## Daily email
 
 - Sent at about 09:00 local time per region, to subscribers who chose that region (default Oslo),
@@ -183,3 +220,5 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Derrick Theatre (Virden): Facebook only; best route is getting it listed on CinemaClock.
 - Per-user alert when a specific watchlist film gets a new showing (beyond becoming new).
 - Push notifications.
+- Friends: a **Friends** tab beside All films / Watchlist listing friends' watchlist films; rate
+  limiting wrong code attempts; "Get a new code"; friends' films in the daily email.
