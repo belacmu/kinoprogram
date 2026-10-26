@@ -161,7 +161,7 @@ Signed-in users can add each other as friends to see which films their friends w
 Being friends means you each see the other's watchlist; that's the whole point, so there's no
 privacy setting.
 
-- **Display name**: asked for at sign-up; existing users default to their email until they set
+- **Display name**: an optional name field on the sign-in form, used only if the email is new; existing users default to their email until they set
   one. Changeable on the Friends screen. Only friends see it.
 - **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
   0/O, 1/I/L). Entry is forgiving: lowercase, spaces or a missing dash all work.

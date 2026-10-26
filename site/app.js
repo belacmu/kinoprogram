@@ -69,6 +69,10 @@ const state = {
   user: null,           // { id, email }
   pendingEmail: (() => { try { return sessionStorage.getItem("kino:pendingEmail") || ""; } catch { return ""; } })(),
   profile: null,        // { subscribed, ... }
+  friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
+  friendsAt: 0,         // when the friends were last loaded
+  acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
+  pendingFriend: (() => { try { return sessionStorage.getItem("kino:pendingFriend") || ""; } catch { return ""; } })(),  // a code from an invite link, waiting for sign-in
 };
 
 // ---------------------------------------------------------------- filters (keep in step with scraper/digest.py: show_ok)
@@ -389,6 +393,26 @@ const linkIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="t
 const canShare = !!navigator.share && matchMedia("(pointer: coarse)").matches;
 const heart = (filled) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2 0 3.6 1 5.3 3 1.7-2 3.3-3 5.3-3 3.7 0 5.8 3.8 4.3 7.2C19.5 16.3 12 21 12 21z" fill="${filled ? "currentColor" : "none"}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`;
 
+// ---------------------------------------------------------------- friends on films
+// Friends' watchlists come from the account (friends_watchlists); a film shows the initials of those who want to see it.
+const shortName = (n) => String(n || "").split("@")[0];  // a name that's still an email shows its first part
+const fmtCode = (c) => String(c || "").replace(/^(.{3})(.+)$/, "$1-$2");
+const friendsOn = (f) => state.friends.filter((fr) => f.ids.some((i) => fr.list.has(i)));
+function initialsOf(name) {
+  const w = shortName(name).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+  return ((w[0]?.[0] || "?") + (w.length > 1 ? w[1][0] : "")).toUpperCase();
+}
+const friendHue = (id) => [...String(id)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
+const nameList = (names) => names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+const friendsLine = (fs) => `On ${nameList(fs.map((fr) => shortName(fr.name) + "’s"))} watchlist${fs.length > 1 ? "s" : ""}`;
+function friendsStack(f) {
+  const fs = friendsOn(f);
+  if (!fs.length) return "";
+  const dots = fs.slice(0, 3).map((fr) => `<span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>`).join("")
+    + (fs.length > 3 ? `<span class="fdot more">+${fs.length - 3}</span>` : "");
+  return `<span class="fstack" role="img" aria-label="${esc(friendsLine(fs))}" title="${esc(friendsLine(fs))}">${dots}</span>`;
+}
+
 function cardHtml(row) {
   const { f } = row;
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
@@ -396,7 +420,7 @@ function cardHtml(row) {
     + `<button type="button" class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Show" : "Hide"} this film" title="${row.hidden ? "Show this film again" : "Hide this film"}">${row.hidden ? eyeOn : eyeOff}</button>`;
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}" data-id="${esc(f.id)}">
-    <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}`)}
+    <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}${friendsStack(f)}`)}
       <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
     <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${heart(on)}</button>
   </li>`;
@@ -670,6 +694,7 @@ function openFilm(id) {
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
+      ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
     </div>
     <div class="fmore">
@@ -997,7 +1022,10 @@ function toast(msg, undo) {
   clearTimeout(toast.t);
   toast.t = setTimeout(() => { try { t.hidePopover(); } catch { t.hidden = true; } }, undo ? 7000 : 3500);
 }
-$("account").addEventListener("close", () => { if (!state.user) state.pendingWatch = null; });
+$("account").addEventListener("close", () => {
+  if (!state.user) { state.pendingWatch = null; state.pendingFriend = ""; try { sessionStorage.removeItem("kino:pendingFriend"); } catch {} }
+  state.acctView = "";
+});
 
 // ---------------------------------------------------------------- accounts (Supabase magic link)
 const cfg = window.KINO_CONFIG || {};
@@ -1018,7 +1046,9 @@ async function pushProfile(extra = {}) {
 
 async function loadProfile() {
   state.profileFailed = false;
-  const { data, error } = await sb.from("profiles").select("subscribed,prefs,watchlist").eq("id", state.user.id).maybeSingle();
+  let { data, error } = await sb.from("profiles").select("subscribed,prefs,watchlist,display_name,friend_code").eq("id", state.user.id).maybeSingle();
+  // The friends columns arrive with a database update; until it's been applied, load without them.
+  if (error) ({ data, error } = await sb.from("profiles").select("subscribed,prefs,watchlist").eq("id", state.user.id).maybeSingle());
   if (error || !data) {
     console.error("Loading profile failed:", error?.message);
     state.profileFailed = true;
@@ -1039,6 +1069,42 @@ async function loadProfile() {
   if (changed) await pushProfile();
   render();
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
+  if (data.friend_code) loadFriends();
+}
+
+async function loadFriends() {
+  if (!sb || !state.user) return;
+  const { data, error } = await sb.rpc("friends_watchlists");
+  if (error) { console.error("Loading friends failed:", error.message); return; }
+  state.friends = (data || []).map((r) => ({ id: r.friend_id, name: r.name, list: new Set(r.watchlist || []) }));
+  state.friendsAt = Date.now();
+  render();
+  if ($("account").open) renderAccount();
+  if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));  // a film sheet that's already open
+}
+document.addEventListener("visibilitychange", () => {  // coming back to the app: friends may have added you or changed their lists
+  if (document.visibilityState === "visible" && state.user && state.profile?.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
+});
+
+function renderFriends(msg) {
+  const p = state.profile;
+  $("accountBody").innerHTML = `<button class="linkbtn back" data-acct="">‹ Account</button>
+    <h2 id="accountTitle">Friends</h2>
+    <p class="lead">Friends see which films are on each other's watchlists. Share your code, or enter a friend's.</p>
+    <div class="codebox" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div>
+    <div class="row codebtns"><button class="btn ghost" data-friend="copy">Copy code</button>
+      <button class="btn ghost" data-friend="share">${canShare ? "Share invite" : "Copy invite"}</button></div>
+    <form class="signin" id="addFriendForm"><input type="text" id="friendCode" required placeholder="Enter a friend's code" autocapitalize="characters"
+        autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200" aria-label="Friend's code">
+      <div class="row">${navigator.clipboard?.readText ? `<button type="button" class="btn ghost" data-friend="paste">Paste</button>` : ""}
+      <button class="btn accent" type="submit">Add friend</button></div></form>
+    <h3 class="subh">Your friends</h3>
+    ${state.friends.length ? `<ul class="friendlist">${state.friends.map((fr) => `<li><span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>
+      <span class="fname">${esc(fr.name)}</span><button class="linkbtn" data-unfriend="${esc(fr.id)}">Remove</button></li>`).join("")}</ul>`
+      : `<p class="nofriends">No friends yet.</p>`}
+    <form class="signin namef" id="nameForm"><label for="dispName" class="subh">Your name, as friends see it</label>
+      <input type="text" id="dispName" maxlength="40" value="${esc(p.display_name || "")}" placeholder="${esc(state.user.email)}" autocomplete="off">
+      <button class="btn ghost" type="submit">Save name</button></form>${msg}`;
 }
 
 function renderAccount(message = "", isErr = false) {
@@ -1057,13 +1123,25 @@ function renderAccount(message = "", isErr = false) {
   }
   if (!state.user) { // step 1: email
     const want = state.pendingWatch && findFilm(state.pendingWatch);
+    const nameField = `<input type="text" id="name" maxlength="40" placeholder="Name, if you're new (optional)" autocomplete="given-name">`;
+    if (state.pendingFriend && !want) {
+      const c = state.pendingFriend.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+      body.innerHTML = `<h2 id="accountTitle">Sign in to add a friend</h2>
+        <p class="lead">You've been invited to Cinecrab. Sign in or sign up and you'll be friends as soon as you're in.</p>
+        <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
+        <button class="btn accent" type="submit">Send code</button></form>
+        <p class="alt">Using Cinecrab from your Home Screen? Links open in Safari, which keeps its own sign-in. Instead, copy this code, open Cinecrab from your Home Screen and enter it under Account → Friends.</p>
+        <div class="codebox">${esc(fmtCode(c))}</div>
+        <div class="row codebtns"><button class="btn ghost" data-friend="copyinvite">Copy code</button></div>${msg}`;
+      return;
+    }
     body.innerHTML = want ? `<h2 id="accountTitle">Sign in to save to your watchlist</h2>
       <p><b>${esc(titleOf(want))}</b> will be added as soon as you're in. Your watchlist is saved to your account, so it follows you to other devices and you can get an email when films on it go on sale.</p>
       <p>Enter your email and we'll send a one-time code. No password, and new emails get an account automatically.</p>
-      <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
+      <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
       <button class="btn accent" type="submit">Send code</button></form>${msg}` : `<h2 id="accountTitle">Sign in or sign up</h2>
       <p>Enter your email and we'll send you a one-time code. No password. Signing in syncs your watchlist and filters across devices, and lets you get the daily email of films newly on sale.</p>
-      <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
+      <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
       <button class="btn accent" type="submit">Send code</button></form>${msg}`;
     return;
   }
@@ -1073,10 +1151,12 @@ function renderAccount(message = "", isErr = false) {
     return;
   }
   const p = state.profile;
+  if (state.acctView === "friends" && p.friend_code) { renderFriends(msg); return; }
   const n = state.prefs.cinemas.length;
   const filters = [n ? `${n} chosen cinema${n > 1 ? "s" : ""}` : "all cinemas", state.prefs.hideDubbed ? "original language only" : "", state.prefs.englishSubs ? "English subtitles only (Oslo)" : "", state.prefs.audioEnNo ? "English or Norwegian audio only (Costa del Sol)" : ""].filter(Boolean).join(", ");
   body.innerHTML = `<h2 id="accountTitle">Your account</h2>
     <div class="who">${esc(state.user.email)}</div>
+    ${p.friend_code ? `<button class="linkrow" data-acct="friends"><span>Friends<small>${state.friends.length ? `${state.friends.length} friend${state.friends.length > 1 ? "s" : ""}. See who wants to see what.` : "Add friends to see which films they want to see."}</small></span><span aria-hidden="true">›</span></button>` : ""}
     <label class="opt"><input type="checkbox" id="optSub"${p.subscribed ? " checked" : ""}>
       <span>Email me about new films<small>Only sent when there is something new to tell you, and never more than once a day. Uses your filters: ${esc(filters)}.</small></span></label>
     <div class="opt regionsopt"><span></span><span>How often<small>Daily: at most one email a day, sent in the morning (after 9:00 local time), and none on days with nothing new. Weekly: one email on Fridays with everything new that week, if there is any.</small>
@@ -1100,7 +1180,7 @@ function setUser(session) {
   ab.classList.toggle("primary", !state.user);
   ab.classList.toggle("avatar", !!state.user);
   ab.setAttribute("aria-label", state.user ? `Account (${state.user.email})` : "Sign in");
-  if (!state.user) state.profile = null;
+  if (!state.user) { state.profile = null; state.friends = []; state.acctView = ""; }
   renderAccount();
   fitHeader();
 }
@@ -1124,8 +1204,9 @@ document.fonts.ready.then(fitHeader);  // the title's font changes its width onc
 if (sb) {
   $("accountBtn").hidden = false;
   $("accountBtn").addEventListener("click", () => { renderAccount(); $("account").showModal(); });
+  let pendingName = "";  // the optional name typed at sign-up; only used when the email turns out to be new
   const sendCode = async (email) => {
-    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, ...(pendingName ? { data: { display_name: pendingName } } : {}) } });
     if (error) return error.status === 429 || /rate|seconds/i.test(error.message)
       ? "Wait a minute before asking for another code." : `Couldn't send a code: ${error.message}`;
     state.pendingEmail = email;
@@ -1138,6 +1219,7 @@ if (sb) {
     const btn = e.target.querySelector("button[type=submit]");
     if (e.target.id === "signinForm") {
       btn.disabled = true;
+      pendingName = $("name")?.value.trim().slice(0, 40) || "";
       const err = await sendCode($("email").value.trim());
       btn.disabled = false;
       renderAccount(err, !!err);
@@ -1186,7 +1268,88 @@ if (sb) {
     setUser(session);
     if (state.user && state.user.id !== had) setTimeout(loadProfile, 0);
     settlePendingWatch();
+    settlePendingFriend();
   });
+
+  // Friends: add by code, remove, rename, share.
+  const clip = async (text) => { try { await navigator.clipboard.writeText(text); return true; } catch { return false; } };
+  // A code pasted on its own, inside an invite link ("?friend=K7QM4P") or inside the invite message ("... code K7Q-M4P ...").
+  const extractCode = (t) => {
+    t = String(t || "").trim();
+    return t.match(/[?&]friend=([A-Za-z0-9-]+)/)?.[1] || (t.length <= 12 ? t : t.match(/code\s+([A-Za-z0-9-]{6,8})/i)?.[1] || t);
+  };
+  async function redeemFriendCode(raw) {
+    const { data, error } = await sb.rpc("redeem_friend_code", { code: extractCode(raw) });
+    if (error) return { msg: "Couldn't add the friend. Try again in a moment.", err: true };
+    const who = shortName(data.name);
+    if (data.status === "ok") { await loadFriends(); return { msg: `You and ${who} are now friends.` }; }
+    if (data.status === "already") { await loadFriends(); return { msg: `You and ${who} are already friends.` }; }
+    if (data.status === "self") return { msg: "That's your own code. Send it to a friend instead.", err: true };
+    return { msg: "That code wasn't recognised. Check it and try again.", err: true };
+  }
+  async function settlePendingFriend() {
+    const code = state.pendingFriend;
+    if (!code) return;
+    if (!state.user) { promptSignIn(); return; }
+    state.pendingFriend = "";
+    try { sessionStorage.removeItem("kino:pendingFriend"); } catch {}
+    const r = await redeemFriendCode(code);
+    if ($("account").open) $("account").close();
+    toast(r.msg);
+  }
+  const inviteText = () => {
+    const c = state.profile.friend_code, url = location.href.split(/[?#]/)[0] + "?friend=" + c;
+    return `Add me on Cinecrab: ${url} or enter my code ${fmtCode(c)} under Account → Friends`;
+  };
+  $("account").addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-acct],[data-friend],[data-unfriend]");
+    if (!b) return;
+    if (b.dataset.acct !== undefined) { state.acctView = b.dataset.acct; renderAccount(); $("account").scrollTop = 0; return; }
+    if (b.dataset.unfriend) {
+      const fr = state.friends.find((x) => x.id === b.dataset.unfriend), me = state.user.id, id = b.dataset.unfriend;
+      if (!fr || !confirm(`Remove ${fr.name} as a friend? You'll stop seeing each other's watchlists.`)) return;
+      const { data, error } = await sb.from("friendships").delete().or(`and(a.eq.${me},b.eq.${id}),and(a.eq.${id},b.eq.${me})`).select();
+      if (error || !data?.length) { renderAccount("Couldn't remove them. Try again in a moment.", true); return; }
+      await loadFriends();
+      renderAccount(`Removed ${fr.name}.`);
+      return;
+    }
+    const what = b.dataset.friend;
+    if (what === "copy") renderAccount(await clip(fmtCode(state.profile.friend_code)) ? "Code copied." : "Couldn't copy. Select the code and copy it.", false);
+    else if (what === "copyinvite") { const ok = await clip(fmtCode(state.pendingFriend.replace(/[^A-Za-z0-9]/g, "").toUpperCase())); renderAccount(ok ? "Code copied." : "Couldn't copy. Select the code and copy it.", !ok); }
+    else if (what === "share") {
+      if (canShare) { try { await navigator.share({ text: inviteText() }); } catch {} }
+      else renderAccount(await clip(inviteText()) ? "Invite copied. Paste it into a message." : "Couldn't copy the invite.", false);
+    } else if (what === "paste") {
+      try { $("friendCode").value = extractCode(await navigator.clipboard.readText()); $("friendCode").focus(); }
+      catch { renderAccount("Couldn't read the clipboard. Paste into the box instead.", true); }
+    }
+  });
+  $("account").addEventListener("submit", async (e) => {
+    if (e.target.id === "addFriendForm") {
+      e.preventDefault();
+      const btn = e.target.querySelector("button[type=submit]"); btn.disabled = true;
+      const r = await redeemFriendCode($("friendCode").value);
+      renderAccount(r.msg, !!r.err);
+    } else if (e.target.id === "nameForm") {
+      e.preventDefault();
+      const v = $("dispName").value.trim().slice(0, 40);
+      state.profile = { ...state.profile, display_name: v || null };
+      await pushProfile({ display_name: v || null });
+      renderAccount("Name saved.");
+    }
+  });
+}
+
+// An invite link (?friend=CODE): remember the code; it's redeemed once we know who's signed in (settlePendingFriend).
+function takeFriendLink() {
+  const u = new URL(location.href), code = u.searchParams.get("friend");
+  if (!code) return;
+  u.searchParams.delete("friend");
+  history.replaceState(null, "", u.pathname + u.search + u.hash);
+  if (!sb) return;
+  state.pendingFriend = code.slice(0, 20);
+  try { sessionStorage.setItem("kino:pendingFriend", state.pendingFriend); } catch {}
 }
 
 async function handleUnsubscribe() {
@@ -1239,6 +1402,7 @@ async function loadRegion(key) {
 }
 
 (async function boot() {
+  takeFriendLink();
   await loadRegion(state.region);
   handleUnsubscribe();
 })();
