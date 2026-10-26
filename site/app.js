@@ -71,6 +71,7 @@ const state = {
   profile: null,        // { subscribed, ... }
   friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
   friendsAt: 0,         // when the friends were last loaded
+  friendsError: false,  // the last load failed
   acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
   pendingFriend: (() => { try { return sessionStorage.getItem("kino:pendingFriend") || ""; } catch { return ""; } })(),  // a code from an invite link, waiting for sign-in
 };
@@ -395,7 +396,7 @@ const heart = (filled) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-
 
 // ---------------------------------------------------------------- friends on films
 // Friends' watchlists come from the account (friends_watchlists); a film shows the initials of those who want to see it.
-const shortName = (n) => String(n || "").split("@")[0];  // a name that's still an email shows its first part
+const shortName = (n) => /^[^@\s]+@[^@\s]+$/.test(n) ? n.split("@")[0] : String(n || "");  // a name that's still an email shows its first part
 const fmtCode = (c) => String(c || "").replace(/^(.{3})(.+)$/, "$1-$2");
 const friendsOn = (f) => state.friends.filter((fr) => f.ids.some((i) => fr.list.has(i)));
 function initialsOf(name) {
@@ -1023,7 +1024,10 @@ function toast(msg, undo) {
   toast.t = setTimeout(() => { try { t.hidePopover(); } catch { t.hidden = true; } }, undo ? 7000 : 3500);
 }
 $("account").addEventListener("close", () => {
-  if (!state.user) { state.pendingWatch = null; state.pendingFriend = ""; try { sessionStorage.removeItem("kino:pendingFriend"); } catch {} }
+  if (!state.user) {
+    state.pendingWatch = null;
+    if (!state.pendingEmail) { state.pendingFriend = ""; try { sessionStorage.removeItem("kino:pendingFriend"); } catch {} }  // mid sign-in (code sent) the invite is kept
+  }
   state.acctView = "";
 });
 
@@ -1038,10 +1042,11 @@ function queueSync() {
   syncTimer = setTimeout(pushProfile, 600);
 }
 async function pushProfile(extra = {}) {
-  if (!sb || !state.user) return;
+  if (!sb || !state.user) return false;
   const row = { prefs: state.prefs, watchlist: [...state.watchlist], updated_at: new Date().toISOString(), ...extra };
   const { error } = await sb.from("profiles").update(row).eq("id", state.user.id);
   if (error) console.error("Saving settings failed:", error.message);
+  return !error;
 }
 
 async function loadProfile() {
@@ -1072,16 +1077,25 @@ async function loadProfile() {
   if (data.friend_code) loadFriends();
 }
 
+let friendsSeq = 0;
 async function loadFriends() {
   if (!sb || !state.user) return;
+  const uid = state.user.id, seq = ++friendsSeq;
   const { data, error } = await sb.rpc("friends_watchlists");
-  if (error) { console.error("Loading friends failed:", error.message); return; }
-  state.friends = (data || []).map((r) => ({ id: r.friend_id, name: r.name, list: new Set(r.watchlist || []) }));
+  if (state.user?.id !== uid || seq !== friendsSeq) return;  // signed out or in as someone else meanwhile, or a newer load is under way
+  if (error) { console.error("Loading friends failed:", error.message); state.friendsError = true; if ($("account").open && !typing()) renderAccount(); return; }
+  const fresh = (data || []).map((r) => ({ id: r.friend_id, name: r.name, list: new Set(r.watchlist || []) }));
+  const sig = (fs) => JSON.stringify(fs.map((f) => [f.id, f.name, [...f.list].sort()]));
+  const same = sig(fresh) === sig(state.friends) && !state.friendsError;
+  state.friendsError = false;
   state.friendsAt = Date.now();
+  if (same) return;
+  state.friends = fresh;
   render();
-  if ($("account").open) renderAccount();
+  if ($("account").open && !typing()) renderAccount();  // not while something is being typed in it
   if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));  // a film sheet that's already open
 }
+const typing = () => { const a = document.activeElement; return $("account").contains(a) && a.matches("input") && !!(a.value || a.defaultValue); };  // a box in the account dialog with text in it
 document.addEventListener("visibilitychange", () => {  // coming back to the app: friends may have added you or changed their lists
   if (document.visibilityState === "visible" && state.user && state.profile?.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
 });
@@ -1099,7 +1113,7 @@ function renderFriends(msg) {
       <div class="row">${navigator.clipboard?.readText ? `<button type="button" class="btn ghost" data-friend="paste">Paste</button>` : ""}
       <button class="btn accent" type="submit">Add friend</button></div></form>
     <h3 class="subh">Your friends</h3>
-    ${state.friends.length ? `<ul class="friendlist">${state.friends.map((fr) => `<li><span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>
+    ${state.friendsError && !state.friends.length ? `<p class="nofriends">Couldn't load your friends. Try again in a moment.</p>` : state.friends.length ? `<ul class="friendlist">${state.friends.map((fr) => `<li><span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>
       <span class="fname">${esc(fr.name)}</span><button class="linkbtn" data-unfriend="${esc(fr.id)}">Remove</button></li>`).join("")}</ul>`
       : `<p class="nofriends">No friends yet.</p>`}
     <form class="signin namef" id="nameForm"><label for="dispName" class="subh">Your name, as friends see it</label>
@@ -1280,20 +1294,25 @@ if (sb) {
   };
   async function redeemFriendCode(raw) {
     const { data, error } = await sb.rpc("redeem_friend_code", { code: extractCode(raw) });
-    if (error) return { msg: "Couldn't add the friend. Try again in a moment.", err: true };
+    if (error) return { msg: "Couldn't add the friend. Try again in a moment.", err: true, retry: true };
     const who = shortName(data.name);
     if (data.status === "ok") { await loadFriends(); return { msg: `You and ${who} are now friends.` }; }
     if (data.status === "already") { await loadFriends(); return { msg: `You and ${who} are already friends.` }; }
     if (data.status === "self") return { msg: "That's your own code. Send it to a friend instead.", err: true };
     return { msg: "That code wasn't recognised. Check it and try again.", err: true };
   }
+  let settling = false;
   async function settlePendingFriend() {
     const code = state.pendingFriend;
-    if (!code) return;
+    if (!code || settling) return;
     if (!state.user) { promptSignIn(); return; }
-    state.pendingFriend = "";
-    try { sessionStorage.removeItem("kino:pendingFriend"); } catch {}
+    settling = true;
     const r = await redeemFriendCode(code);
+    settling = false;
+    if (!r.retry) {  // an answer, good or bad; a network error keeps the invite for the next try
+      state.pendingFriend = "";
+      try { sessionStorage.removeItem("kino:pendingFriend"); } catch {}
+    }
     if ($("account").open) $("account").close();
     toast(r.msg);
   }
@@ -1335,8 +1354,8 @@ if (sb) {
       e.preventDefault();
       const v = $("dispName").value.trim().slice(0, 40);
       state.profile = { ...state.profile, display_name: v || null };
-      await pushProfile({ display_name: v || null });
-      renderAccount("Name saved.");
+      const ok = await pushProfile({ display_name: v || null });
+      renderAccount(ok ? "Name saved." : "Couldn't save your name. Try again in a moment.", !ok);
     }
   });
 }
