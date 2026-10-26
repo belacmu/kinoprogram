@@ -104,7 +104,16 @@ function isHidden(f) {
   if (since === undefined) return false;
   return !(since && f.onSaleSince && f.onSaleSince > since);
 }
-function unhideFilm(f) { for (const i of f.ids) delete state.prefs.hidden?.[i]; }
+// A film hidden while it was only announced: once it has a sale date, remember it so a later return can show it again. It only
+// counts as a change to save once the account's own list is loaded (before that, a stale local entry would win over the account's).
+function adoptSaleDates() {
+  let changed = false;
+  for (const f of state.data.films) for (const i of f.ids) if (state.prefs.hidden?.[i] === "" && f.onSaleSince) {
+    state.prefs.hidden[i] = f.onSaleSince; if (state.profile) hidChange(i, f.onSaleSince); changed = true;
+  }
+  return changed;
+}
+function unhideFilm(f) { for (const i of f.ids) if (state.prefs.hidden && i in state.prefs.hidden) { delete state.prefs.hidden[i]; hidChange(i); } }
 // Hiding or unhiding moves the card to its new place in the section; slide it there instead of jumping.
 let flipFrom = null;
 function flipBegin(id) { flipFrom = { id, rects: new Map([...document.querySelectorAll("#grid .card")].map((c) => [c.dataset.id, c.getBoundingClientRect()])) }; }
@@ -135,7 +144,7 @@ function toggleHidden(f) {
   flushRender();
   const wasHidden = isHidden(f);
   if (wasHidden) unhideFilm(f);
-  else state.prefs.hidden = { ...(state.prefs.hidden || {}), [f.id]: f.onSaleSince || "" };
+  else { state.prefs.hidden = { ...(state.prefs.hidden || {}), [f.id]: f.onSaleSince || "" }; hidChange(f.id, f.onSaleSince || ""); }
   savePrefs();
   const card = cardEl(f.id), btn = card?.querySelector(".hide");
   if (card) card.classList.toggle("hid", !wasHidden);  // dims (or undims) with a fade
@@ -789,6 +798,23 @@ $("film").addEventListener("click", (e) => { if (e.target === $("film")) $("film
 $("account").addEventListener("click", (e) => { if (e.target === $("account")) $("account").close(); });
 
 // ---------------------------------------------------------------- events
+// The watchlist syncs as changes (films added, films removed), not as a whole list: sending a whole list from a device that
+// is behind would bring back films removed elsewhere. Changes not yet saved to the account are remembered here (and across
+// reloads) until they are, and applied on top of the account's list.
+const wlPending = { add: new Set(local.get("wlAdd", [])), del: new Set(local.get("wlDel", [])) };
+function wlChange(ids, adding) {
+  for (const i of ids) { (adding ? wlPending.add : wlPending.del).add(i); (adding ? wlPending.del : wlPending.add).delete(i); }
+  local.set("wlAdd", [...wlPending.add]); local.set("wlDel", [...wlPending.del]);
+}
+const wlApply = (base) => { const w = new Set(base); wlPending.add.forEach((i) => w.add(i)); wlPending.del.forEach((i) => w.delete(i)); return w; };
+// Hidden films (prefs.hidden) sync the same way: films hidden (id -> value) and films un-hidden, not the whole map.
+const hidPending = { set: local.get("hidSet", {}), del: new Set(local.get("hidDel", [])) };
+function hidChange(id, value) {  // value undefined: un-hidden
+  if (value === undefined) { hidPending.del.add(id); delete hidPending.set[id]; } else { hidPending.set[id] = value; hidPending.del.delete(id); }
+  local.set("hidSet", hidPending.set); local.set("hidDel", [...hidPending.del]);
+}
+const hidApply = (base) => { const h = { ...base, ...hidPending.set }; hidPending.del.forEach((i) => delete h[i]); return h; };
+const sameHidden = (a, b) => Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => a[k] === b[k]);
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
 function setCollapsed(key, shut) {
@@ -831,7 +857,7 @@ document.addEventListener("click", (e) => {
     const f = findFilm(t.dataset.star);
     flushRender();
     const was = isWatched(f);
-    if (was) { f.ids.forEach((id) => state.watchlist.delete(id)); savePrefs(); }
+    if (was) { f.ids.forEach((id) => state.watchlist.delete(id)); wlChange(f.ids, false); savePrefs(); }
     else if (requestWatch(f)) savePrefs();
     const now = isWatched(f), star = cardEl(f.id)?.querySelector(".star");
     if (now !== was) {  // show the heart's new state at once, then let the card slide to its new place (watchlist films come first)
@@ -973,7 +999,7 @@ window.addEventListener("hashchange", route);
 // ---------------------------------------------------------------- saving to the watchlist needs an account
 // With accounts available, a signed-out tap on a heart asks the visitor to sign in first, then adds the film.
 function requestWatch(f) {
-  if (!sb || state.user) { state.watchlist.add(f.id); unhideFilm(f); return true; }
+  if (!sb || state.user) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); return true; }
   state.pendingWatch = f.id;
   if (state.authReady) promptSignIn();   // otherwise decided once the saved session has been checked
   return false;
@@ -991,6 +1017,7 @@ function settlePendingWatch() {
   const f = findFilm(id);
   if (!f) return;
   state.watchlist.add(f.id);
+  wlChange([f.id], true);
   unhideFilm(f);
   state.profile ? savePrefs() : local.set("watchlist", [...state.watchlist]);  // profile not loaded yet: the merge will save it
   if ($("account").open) $("account").close();
@@ -1039,14 +1066,50 @@ let syncTimer = null;
 function queueSync() {
   if (!sb || !state.user || !state.profile) return;  // before the account's saved list has loaded, changes stay local and get merged in
   clearTimeout(syncTimer);
-  syncTimer = setTimeout(pushProfile, 600);
+  syncTimer = setTimeout(() => saveAccount({}, true), 600);
 }
-async function pushProfile(extra = {}) {
-  if (!sb || !state.user) return false;
-  const row = { prefs: state.prefs, watchlist: [...state.watchlist], updated_at: new Date().toISOString(), ...extra };
-  const { error } = await sb.from("profiles").update(row).eq("id", state.user.id);
-  if (error) console.error("Saving settings failed:", error.message);
-  return !error;
+// Saving to the account always starts from what the account has now, with this device's unsaved changes (watchlist and hidden
+// films) applied on top, so a device that is behind can't bring back what was removed elsewhere. One save at a time, so two
+// can't overwrite each other. withPrefs: also write this device's settings (after the person changed one). Otherwise only
+// pending changes are saved, and this is also how changes made on another device reach this one (when the app is opened or
+// comes back to the front). Returns whether it worked.
+let acctQueue = Promise.resolve();
+const saveAccount = (extra = {}, withPrefs = false) => (acctQueue = acctQueue.then(() => saveAccountNow(extra, withPrefs), () => saveAccountNow(extra, withPrefs)));
+const pushProfile = (extra = {}) => saveAccount(extra, true);
+const syncWatchlist = () => saveAccount({}, false);
+async function saveAccountNow(extra, withPrefs) {
+  if (!sb || !state.user || !state.profile) return false;
+  const uid = state.user.id;
+  const { data, error } = await sb.from("profiles").select("prefs,watchlist").eq("id", uid).maybeSingle();
+  if (error || !data || state.user?.id !== uid) { if (error) console.error("Saving settings failed:", error.message); return false; }
+  const remotePrefs = data.prefs || {}, remoteList = data.watchlist || [];
+  const sent = { add: [...wlPending.add], del: [...wlPending.del], set: { ...hidPending.set }, hdel: [...hidPending.del] };
+  const list = wlApply(remoteList), hidden = hidApply(remotePrefs.hidden || {});
+  const row = { ...extra };
+  if (withPrefs) row.prefs = { ...state.prefs, hidden };
+  else if (!sameHidden(hidden, remotePrefs.hidden || {})) row.prefs = { ...remotePrefs, hidden };
+  if (list.size !== remoteList.length || remoteList.some((i) => !list.has(i))) row.watchlist = [...list];
+  if (Object.keys(row).length) {
+    const { error: e2 } = await sb.from("profiles").update({ ...row, updated_at: new Date().toISOString() }).eq("id", uid);
+    if (e2) { console.error("Saving settings failed:", e2.message); return false; }  // the changes stay pending for the next try
+  }
+  // Saved now (unless changed again meanwhile).
+  sent.add.forEach((i) => { if (wlPending.add.has(i)) wlPending.add.delete(i); });
+  sent.del.forEach((i) => { if (wlPending.del.has(i)) wlPending.del.delete(i); });
+  Object.entries(sent.set).forEach(([k, v]) => { if (hidPending.set[k] === v) delete hidPending.set[k]; });
+  sent.hdel.forEach((i) => { if (hidPending.del.has(i)) hidPending.del.delete(i); });
+  local.set("wlAdd", [...wlPending.add]); local.set("wlDel", [...wlPending.del]); local.set("hidSet", hidPending.set); local.set("hidDel", [...hidPending.del]);
+  // Show the result (plus anything changed while this was running).
+  const shownList = wlApply(list), shownHidden = hidApply(hidden);
+  const listChanged = shownList.size !== state.watchlist.size || [...shownList].some((i) => !state.watchlist.has(i));
+  const hiddenChanged = !sameHidden(shownHidden, state.prefs.hidden || {});
+  if (listChanged || hiddenChanged) {
+    state.watchlist = shownList; state.prefs.hidden = shownHidden;
+    local.set("watchlist", [...shownList]); local.set("prefs", state.prefs);
+    render();
+    if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));
+  }
+  return true;
 }
 
 async function loadProfile() {
@@ -1065,13 +1128,16 @@ async function loadProfile() {
   const remote = data.prefs || {};
   const localHidden = state.prefs.hidden || {};
   if (Object.keys(remote).length) state.prefs = withDefaults(remote);
-  state.prefs.hidden = { ...localHidden, ...(remote.hidden || {}) };  // hidden films from this device join the account's
-  const merged = new Set([...(data.watchlist || []), ...state.watchlist]);
-  const changed = merged.size !== (data.watchlist || []).length || !Object.keys(remote).length
-    || Object.keys(state.prefs.hidden).length !== Object.keys(remote.hidden || {}).length;
-  state.watchlist = merged;
-  local.set("prefs", state.prefs); local.set("watchlist", [...merged]);
-  if (changed) await pushProfile();
+  // A brand-new account takes on this device's list; after that the account's list is the truth, with this device's unsaved
+  // changes on top. (Merging the two would bring back films removed on another device.)
+  // The same goes for hidden films.
+  const first = !Object.keys(remote).length;
+  if (first) { wlChange([...state.watchlist], true); for (const [k, v] of Object.entries(localHidden)) hidChange(k, v); }
+  state.watchlist = wlApply(data.watchlist || []);
+  state.prefs.hidden = hidApply(remote.hidden || {});
+  if (state.data) adoptSaleDates();
+  local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]);
+  if (first || wlPending.add.size || wlPending.del.size || hidPending.del.size || Object.keys(hidPending.set).length) await saveAccount({}, first);
   render();
   refreshAvatar();
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
@@ -1098,7 +1164,9 @@ async function loadFriends() {
 }
 const typing = () => { const a = document.activeElement; return $("account").contains(a) && a.matches("input") && !!(a.value || a.defaultValue); };  // a box in the account dialog with text in it
 document.addEventListener("visibilitychange", () => {  // coming back to the app: friends may have added you or changed their lists
-  if (document.visibilityState === "visible" && state.user && state.profile?.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
+  if (document.visibilityState !== "visible" || !state.user || !state.profile) return;
+  syncWatchlist();
+  if (state.profile.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
 });
 
 function renderFriends(msg) {
@@ -1470,10 +1538,7 @@ async function loadRegion(key) {
     // How far ahead each cinema has published: a film that stops well before this is really ending.
     state.horizon = {};
     for (const f of state.data.films) for (const s of f.shows) if (s.t > (state.horizon[s.cinema] || "")) state.horizon[s.cinema] = s.t;
-    // A film hidden while it was only announced: once it has a sale date, remember it so a later return can show it again.
-    let adopted = false;
-    for (const f of state.data.films) for (const i of f.ids) if (state.prefs.hidden?.[i] === "" && f.onSaleSince) { state.prefs.hidden[i] = f.onSaleSince; adopted = true; }
-    if (adopted) savePrefs();
+    if (adoptSaleDates()) savePrefs();
   } catch (e) {
     $("sub").textContent = `Couldn't load the ${reg.name} programme. Reload to try again.`;
     return;
