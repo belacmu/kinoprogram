@@ -789,6 +789,15 @@ $("film").addEventListener("click", (e) => { if (e.target === $("film")) $("film
 $("account").addEventListener("click", (e) => { if (e.target === $("account")) $("account").close(); });
 
 // ---------------------------------------------------------------- events
+// The watchlist syncs as changes (films added, films removed), not as a whole list: sending a whole list from a device that
+// is behind would bring back films removed elsewhere. Changes not yet saved to the account are remembered here (and across
+// reloads) until they are, and applied on top of the account's list.
+const wlPending = { add: new Set(local.get("wlAdd", [])), del: new Set(local.get("wlDel", [])) };
+function wlChange(ids, adding) {
+  for (const i of ids) { (adding ? wlPending.add : wlPending.del).add(i); (adding ? wlPending.del : wlPending.add).delete(i); }
+  local.set("wlAdd", [...wlPending.add]); local.set("wlDel", [...wlPending.del]);
+}
+const wlApply = (base) => { const w = new Set(base); wlPending.add.forEach((i) => w.add(i)); wlPending.del.forEach((i) => w.delete(i)); return w; };
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
 function setCollapsed(key, shut) {
@@ -831,7 +840,7 @@ document.addEventListener("click", (e) => {
     const f = findFilm(t.dataset.star);
     flushRender();
     const was = isWatched(f);
-    if (was) { f.ids.forEach((id) => state.watchlist.delete(id)); savePrefs(); }
+    if (was) { f.ids.forEach((id) => state.watchlist.delete(id)); wlChange(f.ids, false); savePrefs(); }
     else if (requestWatch(f)) savePrefs();
     const now = isWatched(f), star = cardEl(f.id)?.querySelector(".star");
     if (now !== was) {  // show the heart's new state at once, then let the card slide to its new place (watchlist films come first)
@@ -973,7 +982,7 @@ window.addEventListener("hashchange", route);
 // ---------------------------------------------------------------- saving to the watchlist needs an account
 // With accounts available, a signed-out tap on a heart asks the visitor to sign in first, then adds the film.
 function requestWatch(f) {
-  if (!sb || state.user) { state.watchlist.add(f.id); unhideFilm(f); return true; }
+  if (!sb || state.user) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); return true; }
   state.pendingWatch = f.id;
   if (state.authReady) promptSignIn();   // otherwise decided once the saved session has been checked
   return false;
@@ -991,6 +1000,7 @@ function settlePendingWatch() {
   const f = findFilm(id);
   if (!f) return;
   state.watchlist.add(f.id);
+  wlChange([f.id], true);
   unhideFilm(f);
   state.profile ? savePrefs() : local.set("watchlist", [...state.watchlist]);  // profile not loaded yet: the merge will save it
   if ($("account").open) $("account").close();
@@ -1039,11 +1049,37 @@ let syncTimer = null;
 function queueSync() {
   if (!sb || !state.user || !state.profile) return;  // before the account's saved list has loaded, changes stay local and get merged in
   clearTimeout(syncTimer);
-  syncTimer = setTimeout(pushProfile, 600);
+  syncTimer = setTimeout(() => { pushProfile(); syncWatchlist(); }, 600);
+}
+let wlQueue = Promise.resolve();
+const syncWatchlist = () => (wlQueue = wlQueue.then(syncWatchlistNow, syncWatchlistNow));
+// Reads the account's list, applies this device's unsaved changes on top, saves if that differs, and shows the result.
+// Also how changes made on another device reach this one (when the app is opened or comes back to the front).
+async function syncWatchlistNow() {
+  if (!sb || !state.user || !state.profile) return;
+  const uid = state.user.id;
+  const { data, error } = await sb.from("profiles").select("watchlist").eq("id", uid).maybeSingle();
+  if (error || !data || state.user?.id !== uid) return;
+  const remote = data.watchlist || [], sent = { add: [...wlPending.add], del: [...wlPending.del] };
+  const next = wlApply(remote);
+  if (next.size !== remote.length || remote.some((i) => !next.has(i))) {
+    const { error: e2 } = await sb.from("profiles").update({ watchlist: [...next], updated_at: new Date().toISOString() }).eq("id", uid);
+    if (e2) { console.error("Saving the watchlist failed:", e2.message); return; }  // the changes stay pending for the next try
+  }
+  sent.add.forEach((i) => { if (wlPending.add.has(i)) wlPending.add.delete(i); });  // saved now (unless changed again meanwhile)
+  sent.del.forEach((i) => { if (wlPending.del.has(i)) wlPending.del.delete(i); });
+  local.set("wlAdd", [...wlPending.add]); local.set("wlDel", [...wlPending.del]);
+  const shown = wlApply(next);  // plus anything changed while this was running
+  if (shown.size !== state.watchlist.size || [...shown].some((i) => !state.watchlist.has(i))) {
+    state.watchlist = shown;
+    local.set("watchlist", [...shown]);
+    render();
+    if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));
+  }
 }
 async function pushProfile(extra = {}) {
   if (!sb || !state.user) return false;
-  const row = { prefs: state.prefs, watchlist: [...state.watchlist], updated_at: new Date().toISOString(), ...extra };
+  const row = { prefs: state.prefs, updated_at: new Date().toISOString(), ...extra };
   const { error } = await sb.from("profiles").update(row).eq("id", state.user.id);
   if (error) console.error("Saving settings failed:", error.message);
   return !error;
@@ -1066,12 +1102,15 @@ async function loadProfile() {
   const localHidden = state.prefs.hidden || {};
   if (Object.keys(remote).length) state.prefs = withDefaults(remote);
   state.prefs.hidden = { ...localHidden, ...(remote.hidden || {}) };  // hidden films from this device join the account's
-  const merged = new Set([...(data.watchlist || []), ...state.watchlist]);
-  const changed = merged.size !== (data.watchlist || []).length || !Object.keys(remote).length
-    || Object.keys(state.prefs.hidden).length !== Object.keys(remote.hidden || {}).length;
+  // A brand-new account takes on this device's list; after that the account's list is the truth, with this device's unsaved
+  // changes on top. (Merging the two would bring back films removed on another device.)
+  if (!Object.keys(remote).length) wlChange([...state.watchlist], true);
+  const merged = wlApply(data.watchlist || []);
+  const changed = !Object.keys(remote).length || Object.keys(state.prefs.hidden).length !== Object.keys(remote.hidden || {}).length;
   state.watchlist = merged;
   local.set("prefs", state.prefs); local.set("watchlist", [...merged]);
   if (changed) await pushProfile();
+  if (wlPending.add.size || wlPending.del.size) await syncWatchlistNow();
   render();
   refreshAvatar();
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
@@ -1098,7 +1137,9 @@ async function loadFriends() {
 }
 const typing = () => { const a = document.activeElement; return $("account").contains(a) && a.matches("input") && !!(a.value || a.defaultValue); };  // a box in the account dialog with text in it
 document.addEventListener("visibilitychange", () => {  // coming back to the app: friends may have added you or changed their lists
-  if (document.visibilityState === "visible" && state.user && state.profile?.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
+  if (document.visibilityState !== "visible" || !state.user || !state.profile) return;
+  syncWatchlist();
+  if (state.profile.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
 });
 
 function renderFriends(msg) {
