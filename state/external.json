@@ -8623,12 +8623,6 @@
 "rated": "2026-10-21",
 "posterPath": "/b84eoB1ztvS260wUKbfbX8Y0gPT.jpg"
 },
-"fw-EDI20261671": {
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-21"
-},
 "fw-EDI20261673": {
 "imdb": "tt33085567",
 "imdbAll": [
@@ -8971,6 +8965,25 @@
 "lbSlug": "no-paradise-if-you-are-killed-by-a-woman",
 "lbRating": 3.45,
 "rated": "2026-10-25"
+},
+"fw-NOR20220583": {
+"imdb": "tt21421052",
+"imdbAll": [
+"tt21421052"
+],
+"lb": "the-brothers-gruff-go-to-splash-world",
+"rt": null,
+"mc": null,
+"en": "The Brothers Gruff go to Splash world",
+"v": 4,
+"checked": "2026-10-26",
+"tmdbChecked": "2026-10-26",
+"tv": 2,
+"tmdb": 1064299,
+"lang": "no",
+"lbSlug": "the-brothers-gruff-go-to-splash-world",
+"lbRating": 3.17,
+"rated": "2026-10-26"
 },
 "fw-NOR20230680": {
 "tmdbChecked": "2026-10-25",
