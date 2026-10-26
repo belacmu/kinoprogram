@@ -625,3 +625,28 @@ dialog { overscroll-behavior: contain; }
   background: none; color: var(--ink); font: inherit; font-size: 14px; text-align: left; cursor: pointer; }
 .linkrow small { display: block; color: var(--muted); font-size: 12px; }
 #account p.lead { padding-right: 44px; }
+
+/* account dropdown (avatar menu) and its wider panels */
+#acctMenu { min-width: 250px; }
+.menuhead { display: flex; flex-direction: column; gap: 1px; padding: 8px 12px 6px; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.menuhead b { color: var(--ink); font-size: 14px; }
+.menu button .mi { position: absolute; left: 10px; top: 10px; display: block; color: var(--muted); }
+.menu button.signout { color: var(--muted); }
+.menu button.signout:hover { color: var(--ink); }
+@media (min-width: 561px) { #account.wide { width: min(580px, calc(100vw - 32px)); padding: 26px 28px; } }
+#account .hint { margin: 6px 0 14px; font-size: 13px; color: var(--muted); }
+#account .hint b { color: var(--ink); font-weight: 600; }
+#account .hint .linkbtn { padding: 0 2px; font-size: inherit; }
+#account .opt.master { border-top: 0; padding-top: 4px; font-weight: 600; }
+#account .opt.master small { font-weight: 400; }
+#account fieldset.emailopts { border: 0; margin: 0; padding: 0; min-width: 0; }
+#account fieldset.emailopts:disabled { opacity: .45; }
+#account .cardopts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 340px) { #account .cardopts { grid-template-columns: 1fr; } }
+.cardopt { position: relative; display: flex; flex-direction: column; gap: 3px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; font-size: 14px; }
+.cardopt input { position: absolute; opacity: 0; pointer-events: none; }
+.cardopt small { color: var(--muted); font-size: 12px; line-height: 1.35; }
+.cardopt:has(input:checked) { border-color: var(--accent); background: var(--accent-tint); }
+.cardopt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+#account .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+#account .summary { margin-top: 16px; padding: 12px 14px; border-radius: 10px; background: var(--chip); font-size: 13px; line-height: 1.4; }
