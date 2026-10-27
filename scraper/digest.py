@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Email each subscriber the films that became bookable, and films newly announced with a
 Norwegian date, since the last digest. Watchlist films get their own section at the top, with
-a status line (on sale / announced / leaving soon). A watchlist notice alone never triggers an email.
+a status line (on sale / new showing / leaving soon). A rare watchlist film (under FEW_SHOWS showings)
+getting another showing is news on its own; other watchlist notices alone never trigger an email.
+At the bottom: films friends added to their watchlists since the last digest.
 
 Usage:
   python3 scraper/digest.py --scheduled [--only "oslo westman"]  # real run: per region, only after 09:00 local time, once per day
@@ -33,6 +35,8 @@ from costadelsol import LANG_NAMES  # noqa: E402
 SEND_HOUR = 9
 WEEKLY_DAY = 4  # weekly emails go out on Fridays (Monday is 0)
 DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: films only
+FEW_SHOWS = 5  # a watchlist film with fewer showings than this that gets another one is worth an email
+FRIEND_PICKS_MAX = 12
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -127,13 +131,15 @@ def pick(new_films, profile, now_s):
     return out
 
 
-def pick_leaving(films, profile, now_s, skip_ids):
-    """Watchlist films showing "Last chance" (build.mark_last_chance): [(film, shows_left, last_show)]."""
+def pick_leaving(films, profile, now_s, skip_ids, since=""):
+    """Watchlist films leaving by the email's stricter rule (build.mark_last_chance: leavingEmail), each mentioned once:
+    in the first email after it applies. [(film, shows_left, last_show)]."""
     prefs = profile.get("prefs") or {}
     watch = set(profile.get("watchlist") or [])
     out = []
     for f in films:
-        if f["id"] in skip_ids or not watch & set(f["ids"]) or not f.get("lastChance") or f["lastChance"] > now_s:
+        leaving = f.get("leavingEmail")
+        if f["id"] in skip_ids or not watch & set(f["ids"]) or not leaving or leaving > now_s or leaving <= since:
             continue
         shows = sorted((s for s in f["shows"] if s["ticket"] and s["t"] >= now_s), key=lambda s: s["t"])
         mine = [s for s in shows if show_ok(s, prefs, now_s)]
@@ -142,6 +148,53 @@ def pick_leaving(films, profile, now_s, skip_ids):
             out.append((f, shows, shows[-1]))
     out.sort(key=lambda x: x[2]["t"])
     return out
+
+
+def pick_new_showings(films, profile, now_s, since, tracked, skip_ids):
+    """Watchlist films with only a few showings that got more since `since` (build.track_shows):
+    [(film, new_shows, all_shows)]."""
+    prefs = profile.get("prefs") or {}
+    watch = set(profile.get("watchlist") or [])
+    out = []
+    for f in films:
+        if f["id"] in skip_ids or not watch & set(f["ids"]):
+            continue
+        rec = next((tracked[i] for i in f["ids"] if i in tracked), None)
+        if not rec:
+            continue
+        shows = [s for s in f["shows"] if s["t"] >= now_s]
+        added = [s for s in shows if rec["shows"].get(f"{s['t']}|{s['cinema']}", "") > since]
+        if not added or len(shows) - len(added) >= FEW_SHOWS:
+            continue
+        mine = [s for s in added if show_ok({**s, "ticket": s["ticket"] or "-"}, prefs, now_s)]
+        added = mine or (added if prefs.get("watchlistAlways", True) else [])
+        if added:
+            out.append((f, added, shows))
+    out.sort(key=lambda x: x[1][0]["t"])
+    return out
+
+
+def local_time(utc_s, tz):
+    """'2026-10-27T08:28' (UTC, as the database stamps watchlist adds) in the region's local time, as FMT."""
+    return datetime.strptime(utc_s, FMT).replace(tzinfo=ZoneInfo("UTC")).astimezone(ZoneInfo(tz)).strftime(FMT)
+
+
+def pick_friend_picks(films, profile, since, friends, tz):
+    """Films friends added to their watchlists since `since`: [(film, names)], newest first."""
+    prefs = profile.get("prefs") or {}
+    by_id = {i: f for f in films for i in f["ids"]}
+    picks = {}  # film id -> (film, names, latest add)
+    for name, added in friends.get(profile.get("id"), []):
+        for fid, at in (added or {}).items():
+            f = by_id.get(fid)
+            if not f or not at or local_time(at, tz) <= since or is_hidden(f, prefs, set(profile.get("watchlist") or [])):
+                continue
+            film, names, latest = picks.get(f["id"], (f, [], ""))
+            if name not in names:
+                names.append(name)
+            picks[f["id"]] = (film, names, max(latest, at))
+    out = sorted(picks.values(), key=lambda x: x[2], reverse=True)
+    return [(f, names) for f, names, _ in out[:FRIEND_PICKS_MAX]]
 
 
 def announced_when(f):
@@ -167,6 +220,10 @@ def cinemas_of(shows):
     return ", ".join(names[:2]) + (f" +{len(names) - 2}" if len(names) > 2 else "")
 
 
+def name_list(names):
+    return names[0] if len(names) == 1 else f"{', '.join(names[:-1])} and {names[-1]}"
+
+
 def plural(n, word):
     return f"{n} {word}{'' if n == 1 else 's'}"
 
@@ -181,30 +238,34 @@ def lang_note(shows, rkey):
     return " · English subtitles"
 
 
-def watch_entries(items, announced, leaving, rkey="oslo"):
-    """The watchlist section: [(film, kind, detail)] with kind 'sale' | 'announced' | 'leaving'."""
+def watch_entries(items, showings, leaving, rkey="oslo"):
+    """The watchlist section: [(film, kind, detail)] with kind 'sale' | 'showing' | 'leaving'.
+    Newly announced watchlist films aren't repeated here; they have a filled heart in Newly announced."""
     out = []
     for f, shows, watched in items:
         if watched:
             cinemas = cinemas_of(shows)
             en = lang_note(shows, rkey)
             out.append((f, "sale", f"{cinemas} · {plural(len(shows), 'showing')} from {when(shows[0]['t'])}{en}"))
-    for f, watched in announced:
-        if watched:
-            out.append((f, "announced", announced_when(f)))
+    for f, added, shows in showings:
+        new = f"{when(added[0]['t'])}, {added[0]['cinema']}" if len(added) == 1 else \
+            f"{plural(len(added), 'new showing')} from {when(added[0]['t'])}, {cinemas_of(added)}"
+        status = "" if any(s["ticket"] for s in added) else ", tickets not on sale yet"
+        out.append((f, "showing", f"{new}{status} · {plural(len(shows), 'showing')} in all"))
     for f, shows, last in leaving:
         out.append((f, "leaving", f"{plural(len(shows), 'showing')} left, {last['cinema']}, last {when(last['t'])}"))
     return out
 
 
-def subject_for(items, announced, leaving, prefs, region="Oslo"):
+def subject_for(items, announced, showings, prefs, region="Oslo"):
     short = lambda f: title_of(f, prefs).split(" (")[0]
-    marked = [(f, "sale") for f, _, w in items if w] + [(f, "announced") for f, w in announced if w]
+    marked = ([(f, "sale") for f, _, w in items if w] + [(f, "showing") for f, *_ in showings]
+              + [(f, "announced") for f, w in announced if w])
     others = [f for f, _, w in items if not w] + [f for f, w in announced if not w]
     if marked:
         if len(marked) == 1:
             f, kind = marked[0]
-            head = f"♥ {short(f)} " + ("is on sale" if kind == "sale" else "was announced")
+            head = f"♥ {short(f)} " + {"sale": "is on sale", "showing": "has a new showing", "announced": "was announced"}[kind]
         else:
             head = f"♥ {short(marked[0][0])}, {short(marked[1][0])}" + (f" and {len(marked) - 2} more" if len(marked) > 2 else "") + " on your watchlist"
         tail = f" · {len(others)} more new" if others else ""
@@ -231,7 +292,7 @@ STYLE = """<style>
 # The site's heading font. Apple Mail / iOS Mail load it from Google Fonts; Gmail can't, and falls back to a narrow system font.
 DISPLAY = "'Big Shoulders Display','Roboto Condensed','Arial Narrow',Arial,sans-serif"
 FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&display=swap" rel="stylesheet">'
-KIND_LABEL = {"sale": ("Tickets on sale", "grn", "#1f7a45"), "announced": ("Newly announced", "mut", "#5d6470"),
+KIND_LABEL = {"sale": ("Tickets on sale", "grn", "#1f7a45"), "showing": ("New showing", "grn", "#1f7a45"),
               "leaving": ("Last chance", "acc", "#a3213a")}
 
 
@@ -308,7 +369,7 @@ def watch_item_html(f, kind, detail, link):
     meta = " · ".join(x for x in [f["year"], f"{f['runtime']} min" if f["runtime"] else "", rating_of(f)] if x)
     return f"""<div class="wc" style="display:inline-block;vertical-align:top;width:276px;max-width:100%;font-size:14px;line-height:1.3;text-align:left">
 <table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse"><tr>
-<td style="width:64px;padding:0 12px 14px 0;vertical-align:top"><a href="{e(link)}" style="text-decoration:none">{poster_html(f, 64, kind == 'announced')}</a></td>
+<td style="width:64px;padding:0 12px 14px 0;vertical-align:top"><a href="{e(link)}" style="text-decoration:none">{poster_html(f, 64)}</a></td>
 <td style="padding:0 8px 14px 0;vertical-align:top">
   <div class="{cls}" style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:{color}">♥ {label}</div>
   <a class="ink" href="{e(link)}" style="font-size:16px;font-weight:700;line-height:1.25;color:#16181d;text-decoration:none">{e(title_of(f))}</a>
@@ -323,15 +384,21 @@ def watch_grid_html(entries, link_of):
     return f'<div style="text-align:left;font-size:0;line-height:0">{cells}</div>'
 
 
-def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo", rkey="oslo"):
+def friend_status(f):
+    shows = [s for s in f["shows"] if s["ticket"]]
+    return f"{cinemas_of(shows)} · from {when(shows[0]['t'])}" if shows else announced_when(f)
+
+
+def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo", rkey="oslo", showings=(), friend_picks=(),
+           watch=frozenset()):
     global ASSET_BASE
     prefs = prefs or {}
     ASSET_BASE = site
-    subject = subject_for(items, announced, leaving, prefs, region)
+    subject = subject_for(items, announced, showings, prefs, region)
     site = site if rkey == "oslo" else f"{site}?r={rkey}"
     link_of = lambda f: f"{site}#film/{f['id']}"
     watch_of = lambda f: f"{site}#watch/{f['id']}"  # the site adds it to the watchlist, then opens the film
-    watching = watch_entries(items, announced, leaving, rkey)
+    watching = watch_entries(items, showings, leaving, rkey)
     sale = [(f, shows, w) for f, shows, w in items]       # watchlist films appear here too, with a filled heart
     ann = [(f, w) for f, w in announced]
 
@@ -350,6 +417,11 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
         txt += ["NEWLY ANNOUNCED", ""]
         for f, w in ann:
             txt += [f"{'♥ ' if w else ''}{title_of(f)}", f"  {announced_when(f)}", f"  {link_of(f)}", ""]
+    if friend_picks:
+        txt += ["FRIENDS' NEW PICKS", ""]
+        for f, names in friend_picks:
+            txt += [f"{'♥ ' if watch & set(f['ids']) else ''}{title_of(f)}", f"  Added by {name_list(names)} · {friend_status(f)}",
+                    f"  {link_of(f)}", ""]
 
     blocks = []
     if watching:
@@ -365,6 +437,13 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
     if ann:
         cards = [card_html(f, link_of(f), [announced_when(f)], dim=True, heart_link=watch_of(f), watched=w) for f, w in ann]
         blocks.append(section_head("Newly announced", len(ann), "Just got a date. Tap ♡ to add it to your watchlist.") + grid_html(cards))
+    if friend_picks:
+        cards = []
+        for f, names in friend_picks:
+            w = bool(watch & set(f["ids"]))
+            cards.append(card_html(f, link_of(f), [f"Added by {name_list(names)}", friend_status(f)],
+                                   dim=f["status"] != "on_sale", heart_link=watch_of(f), watched=w))
+        blocks.append(section_head("Friends' new picks", len(friend_picks), "Recently added to your friends' watchlists.") + grid_html(cards))
 
     footer = f"Settings and watchlist: {site}\nUnsubscribe: {unsub_url}"
     sep = '<div class="line" style="border-top:1px solid #e2e5ea;margin:8px 0 22px"></div>'
@@ -389,19 +468,39 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
     return subject, "\n".join(txt) + "\n" + footer, body_html
 
 
-def fetch_profiles(filter_):
-    """Rows from the profiles table (needs SUPABASE_URL and SUPABASE_SECRET_KEY); None if not configured."""
+def fetch_rows(table, query):
+    """Rows from a Supabase table (needs SUPABASE_URL and SUPABASE_SECRET_KEY); None if not configured."""
     url, key = os.environ.get("SUPABASE_URL"), os.environ.get("SUPABASE_SECRET_KEY")
     if not (url and key):
         return None
     headers = {"apikey": key}
     if key.startswith("eyJ"):  # legacy service_role JWT
         headers["Authorization"] = f"Bearer {key}"
-    req = urllib.request.Request(
-        url.rstrip("/") + f"/rest/v1/profiles?{filter_}&select=email,subscribed,prefs,watchlist,unsubscribe_token",
-        headers=headers)
+    req = urllib.request.Request(url.rstrip("/") + f"/rest/v1/{table}?{query}", headers=headers)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())
+
+
+def fetch_profiles(filter_):
+    return fetch_rows("profiles", f"{filter_}&select=id,email,subscribed,prefs,watchlist,unsubscribe_token")
+
+
+def fetch_friends():
+    """{user id: [(friend's name, {film id: when added, UTC})]} for Friends' new picks. Empty if the database doesn't
+    have watchlist_added yet (supabase/schema.sql not re-run): the section is a nice-to-have, never a reason to fail."""
+    try:
+        pairs = fetch_rows("friendships", "select=a,b") or []
+        people = {r["id"]: r for r in fetch_rows("profiles", "select=id,email,display_name,watchlist_added") or []}
+    except Exception as ex:
+        print(f"  ! friends' watchlists unavailable: {ex}", file=sys.stderr)
+        return {}
+    name = lambda r: (r.get("display_name") or "").strip() or r["email"].split("@")[0]  # as on the site (shortName)
+    out = {}
+    for p in pairs:
+        for me, friend in ((p["a"], p["b"]), (p["b"], p["a"])):
+            if friend in people:
+                out.setdefault(me, []).append((name(people[friend]), people[friend].get("watchlist_added") or {}))
+    return out
 
 
 def write_stats():
@@ -461,7 +560,7 @@ def main():
             write_stats()
         except Exception as e:  # counting must never stop the emails
             print(f"  ! stats failed: {e}", file=sys.stderr)
-    profiles = None
+    profiles = friends = None
     for rkey, cfg in REGIONS.items():
         if rkey not in only:
             continue
@@ -503,7 +602,17 @@ def main():
                 everyone = {"prefs": {}, "watchlist": [f["id"] for f in data["films"]]}
                 ending = pick_leaving(data["films"], everyone, now_s, {new[0]["id"], ann[0]["id"]})
                 demo = [new[0]["id"], ann[0]["id"]] + [f["id"] for f, *_ in ending[:2]]
-                recipients = [{"email": "you@example.com", "prefs": {"regions": [rkey]}, "watchlist": demo, "unsubscribe_token": "preview"}]
+                recipients = [{"id": "preview", "email": "you@example.com", "prefs": {"regions": [rkey]}, "watchlist": demo,
+                               "unsubscribe_token": "preview"}]
+                # A sample of the rarer sections: a film whose latest showing is "new", and a friend's picks.
+                rare = next((f for f in data["films"] if 1 < len(f["shows"]) < FEW_SHOWS and f not in new + ann and f["poster"]), None)
+                if rare:
+                    demo.append(rare["id"])
+                    state.setdefault("shows", {})[rare["id"]] = {"shows": {f"{s['t']}|{s['cinema']}": "" if s is not rare["shows"][-1] else now_s
+                                                                    for s in rare["shows"]}}
+                stamp = datetime.now(ZoneInfo("UTC")).strftime(FMT)
+                picks = [f["id"] for f in data["films"] if f["poster"] and f["id"] not in demo][10:13]
+                friends = {"preview": [("Anna", {i: stamp for i in picks[:2]}), ("Jon", {i: stamp for i in picks[1:]})]}
             elif test_to:
                 # Demo email = a real digest on command: built from this address's saved account if it has one
                 # (its filters, watchlist and real unsubscribe link), forced to include this region so both get tested.
@@ -522,6 +631,8 @@ def main():
                         profiles = []
                 recipients = [p for p in profiles if rkey in ((p.get("prefs") or {}).get("regions") or ["oslo"])
                               and (((p.get("prefs") or {}).get("frequency") == "weekly") == (mode == "weekly"))]
+            if friends is None:
+                friends = fetch_friends() if any(p.get("id") for p in recipients) else {}
             messages = []
             for p in recipients:
                 prefs = dict(p.get("prefs") or {})
@@ -533,11 +644,15 @@ def main():
                     prefs["hideDubbed"] = False
                 p = {**p, "prefs": prefs}
                 items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
-                if not (items or announced):
-                    continue  # a watchlist notice (e.g. leaving soon) alone never sends an email
-                leaving = pick_leaving(data["films"], p, now_s, {f["id"] for f, *_ in items} | {f["id"] for f, _ in announced})
+                listed = {f["id"] for f, *_ in items} | {f["id"] for f, _ in announced}
+                showings = pick_new_showings(data["films"], p, now_s, since, state.get("shows") or {}, listed)
+                if not (items or announced or showings):
+                    continue  # other watchlist notices (leaving soon) and friends' picks alone never send an email
+                leaving = pick_leaving(data["films"], p, now_s, listed | {f["id"] for f, *_ in showings}, "" if preview else since)
+                picks = pick_friend_picks(data["films"], p, since, friends, cfg["tz"])
                 unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
-                messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey)))
+                messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey,
+                                                     showings, picks, frozenset(p.get("watchlist") or []))))
             print(f"{mode}: {len(recipients)} subscriber(s), {len(messages)} with something new")
 
             if preview:

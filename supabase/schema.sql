@@ -48,6 +48,28 @@ alter table public.profiles alter column friend_code set default public.new_frie
 alter table public.profiles alter column friend_code set not null;
 create unique index if not exists profiles_friend_code_key on public.profiles (friend_code);
 
+-- When each watchlist film was added ({film id: "2026-10-27T08:28"}, UTC), for "Friends' new picks" in the daily email.
+-- Kept by a trigger, never written by the app; films already on a list before this existed have no time (never "new").
+alter table public.profiles add column if not exists watchlist_added jsonb not null default '{}'::jsonb;
+
+create or replace function public.stamp_watchlist_adds()
+returns trigger language plpgsql set search_path = '' as $$
+begin
+  new.watchlist_added := coalesce((
+    select jsonb_object_agg(i, v) filter (where v is not null)
+    from (select i, coalesce(old.watchlist_added -> i,
+                             case when i <> all(old.watchlist)
+                                  then to_jsonb(to_char(now() at time zone 'utc', 'YYYY-MM-DD"T"HH24:MI')) end) as v
+          from unnest(new.watchlist) as i) x), '{}'::jsonb);
+  return new;
+end;
+$$;
+
+drop trigger if exists on_watchlist_changed on public.profiles;
+create trigger on_watchlist_changed
+  before update of watchlist on public.profiles
+  for each row execute function public.stamp_watchlist_adds();
+
 alter table public.profiles enable row level security;
 
 -- Each user can read and change only their own row.
@@ -131,6 +153,8 @@ create policy "remove own friendships" on public.friendships
 
 revoke all on public.friendships from anon, authenticated;
 grant select, delete on public.friendships to authenticated;
+-- The daily job lists friends' recent watchlist adds.
+grant select on public.friendships to service_role;
 
 -- Enter a friend's code. Returns {status: ok | already | self | unknown, name}; typing is forgiving
 -- (case, spaces and dashes are ignored).
