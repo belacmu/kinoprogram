@@ -557,13 +557,11 @@ dialog { overscroll-behavior: contain; }
 .actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; }
 .actions .btn.primary { flex: 1 1 auto; max-width: 300px; }
 .actions .btn.icon { flex: none; width: 40px; padding: 0; }
+.actions .btn.share { flex: none; padding: 0 14px; }
+@media (max-width: 359px) { .actions .btn.share { width: 40px; padding: 0; } .actions .btn.share .lbl { display: none; } }  /* too narrow for the label */
 .actions .dd { flex: none; }
 .actions .menu { min-width: 190px; }
-.flinks { margin-top: 12px; font-size: 13px; color: var(--muted); }
-.flinks a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-.flinks a:hover { color: var(--ink); }
 .fhead .friendline { margin: 12px 0 0; }
-.friendline + .flinks { margin-top: 8px; }
 .showings { margin: 0 22px; padding-top: 16px; border-top: 1px solid var(--line); }
 .showhead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 12px; }
 .showhead h3 { margin: 0; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
@@ -649,7 +647,9 @@ dialog { overscroll-behavior: contain; }
 #acctMenu { min-width: 250px; }
 .menuhead { display: flex; flex-direction: column; gap: 1px; padding: 8px 12px 6px; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
 .menuhead b { color: var(--ink); font-size: 14px; }
-.menu button .mi { position: absolute; left: 10px; top: 10px; display: block; color: var(--muted); }
+.menu .mi { position: absolute; left: 10px; top: 10px; display: block; color: var(--muted); }
+.menu a { display: block; position: relative; padding: 9px 12px 9px 30px; border-radius: 8px; font: 500 14px var(--body); color: var(--ink); text-decoration: none; }
+.menu a:hover, .menu a:focus-visible { background: var(--chip); outline: none; }
 .menu button.signout { color: var(--muted); }
 .menu button.signout:hover { color: var(--ink); }
 @media (min-width: 561px) { #account.wide { width: min(580px, calc(100vw - 32px)); padding: 26px 28px; } }

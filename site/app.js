@@ -658,19 +658,18 @@ function stubHtml(s) {
 
 // Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
 // confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
-// The Letterboxd rating (a link) goes with the film's details; the other links are one quiet line under the buttons.
-// (The cinema listing's own "Filmweb" link isn't shown.)
+// The Letterboxd link is always at the top, with the rating when there is one; the cinema listing's own links (Filmweb, ...)
+// go in the "more" menu.
 function extLinks(f) {
   const x = f.ext || {};
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
-  const a = (url, label) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`;
-  const rating = lb && x.lbRating ? `<a class="rate" href="${esc(lb)}" target="_blank" rel="noopener" title="Letterboxd rating"><b>★ ${x.lbRating.toFixed(1)}</b> Letterboxd</a>` : "";
-  const links = [];
-  if (!rating) links.push(lb ? a(lb, "Letterboxd")
-    : a(`https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`, "Search Letterboxd"));
-  for (const l of f.links) if (l.label !== "Filmweb") links.push(a(l.url, l.label));
-  return { rating, links: links.length ? `<div class="flinks">${links.join('<span aria-hidden="true"> · </span>')}</div>` : "" };
+  const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
+  const label = lb && x.lbRating ? `<b>★ ${x.lbRating.toFixed(1)}</b> Letterboxd` : lb ? "Letterboxd ↗" : "Search Letterboxd ↗";
+  return {
+    top: `<a class="rate" href="${esc(url)}" target="_blank" rel="noopener"${lb && x.lbRating ? ' title="Letterboxd rating"' : ""}>${label}</a>`,
+    menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
+  };
 }
 
 function openFilm(id) {
@@ -713,18 +712,17 @@ function openFilm(id) {
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
-      ${ext.rating}
+      ${ext.top}
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
     </div>
     <div class="fmore">
       <div class="actions">
         <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
-        <button class="btn ghost icon" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}" title="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}</button>
+        <button class="btn ghost share" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}<span class="lbl">${canShare ? "Share" : "Copy link"}</span></button>
         <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
-          <div class="menu right" id="sheetMoreMenu" role="menu" hidden><button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
+          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
       </div>
       ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
-      ${ext.links}
     </div>
     </div>
     ${picks.menus || picks.strip ? `<div class="showings"><div class="showhead"><h3>Showings</h3>${picks.menus}</div>${picks.strip}</div>` : ""}
@@ -967,7 +965,7 @@ function toggleMenu(btn, menu) {
   if (!open) return;
   menu.hidden = false;
   btn.setAttribute("aria-expanded", "true");
-  (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button"))?.focus();
+  (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button, a"))?.focus();
 }
 $("regionBtn").addEventListener("click", () => toggleMenu($("regionBtn"), $("regionMenu")));
 document.addEventListener("click", (e) => {
@@ -988,7 +986,7 @@ document.addEventListener("keydown", (e) => {
   }
   if (menu && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
     e.preventDefault();
-    const items = [...menu.querySelectorAll("button")], i = items.indexOf(document.activeElement);
+    const items = [...menu.querySelectorAll("button, a")], i = items.indexOf(document.activeElement);
     items[(i + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length].focus();
   }
 });
