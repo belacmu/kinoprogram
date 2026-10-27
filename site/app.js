@@ -316,27 +316,30 @@ function renderFilters() {
   const order = [...state.data.cinemas].sort((a, b) => (cinemaCounts[b] || 0) - (cinemaCounts[a] || 0) || a.localeCompare(b));
   const collapsed = order.length > CINEMAS_COLLAPSE_AT && !state.cinemasOpen;
   const listed = collapsed ? order.filter((c, i) => i < CINEMAS_SHOWN || mine.includes(c)) : order, more = order.length - listed.length;
-  const langHint = state.region === "costadelsol" ? "Hide Spanish-dubbed showings, or keep only English or Norwegian audio." : "Hide showings dubbed into Norwegian, or keep only those with English subtitles.";
+  // Language: one choice, each with what it does. (Oslo: no dubbed showings, or only English subtitles. Costa del Sol: no
+  // Spanish-dubbed showings, or only English / Norwegian audio.)
+  const langNow = state.region === "oslo" && state.prefs.englishSubs ? "subs" : state.region === "costadelsol" && state.prefs.audioEnNo ? "audio" : state.prefs.hideDubbed ? "original" : "any";
+  const langOptions = [["any", "Any language", ""],
+    ["original", "Original language only", state.region === "costadelsol" ? "Not dubbed into Spanish" : "Not dubbed into Norwegian"],
+    state.region === "oslo" ? ["subs", "English subtitles only", "Only showings with English subtitles"] : ["audio", "English or Norwegian audio", "Only showings spoken in English or Norwegian"]];
+  const radioD = (attrs, checked, label, desc) => `<label class="radio"><input type="radio" ${attrs}${checked ? " checked" : ""}><span>${label}${desc ? `<small>${desc}</small>` : ""}</span></label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
+    <fieldset class="fg"><legend>Sort films by</legend>
+      <div class="fghint">Within each group of films.</div>
+      ${WITHIN.map(([v, l]) => radio(`name="within" data-f="within" value="${v}"`, state.within === v, l)).join("")}
+    </fieldset>
     <fieldset class="fg"><legend>Tickets</legend>
       ${TIX.map(([v, l]) => radio(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l)).join("")}
     </fieldset>
     <fieldset class="fg"${DUBBING_REGIONS.includes(state.region) ? "" : " hidden"}><legend>Language</legend>
-      <div class="fghint">${langHint}</div>
-      <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Original language only")}
-      ${state.region === "oslo" ? ck('data-f="en"', state.prefs.englishSubs, "English subtitles only") : ""}
-      ${state.region === "costadelsol" ? ck('data-f="audio"', state.prefs.audioEnNo, "English or Norwegian audio") : ""}</div>
+      ${langOptions.map(([v, l, d]) => radioD(`name="lang" data-f="lang" value="${v}"`, langNow === v, l, d)).join("")}
     </fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
       <div class="fghint">Pick one or more. The numbers are showings on sale.</div>
       <div class="chips">${listed.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       <div class="fgrow">${more ? `<button class="linkbtn" data-f="cinemas-more">Show ${more} more</button>` : state.cinemasOpen && order.length > CINEMAS_COLLAPSE_AT ? `<button class="linkbtn" data-f="cinemas-more">Show fewer</button>` : ""}
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Clear selection</button>` : ""}</div>
-    </fieldset>
-    <fieldset class="fg"><legend>Sort films by</legend>
-      <div class="fghint">Within each group of films.</div>
-      ${WITHIN.map(([v, l]) => radio(`name="within" data-f="within" value="${v}"`, state.within === v, l)).join("")}
     </fieldset>
 `;
   $("filtersReset").hidden = !activeFilters();
@@ -1017,9 +1020,9 @@ $("filtersBody").addEventListener("change", (e) => {
   else if (f === "cinema") {
     const list = state.prefs.cinemas;
     setCinemas(el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value));
-  } else if (f === "dub") state.prefs.hideDubbed = el.checked;
-  else if (f === "en") state.prefs.englishSubs = el.checked;
-  else if (f === "audio") state.prefs.audioEnNo = el.checked;
+  } else if (f === "lang") {
+    state.prefs.hideDubbed = el.value === "original"; state.prefs.englishSubs = el.value === "subs"; state.prefs.audioEnNo = el.value === "audio";
+  }
   if (f !== "tix") savePrefs();
   render();
 });
@@ -1391,9 +1394,9 @@ function renderAcctMenu() {
   const item = (k, label, status) => `<button role="menuitem" data-open="${k}"><span class="mi">${MENU_ICONS[k]}</span>${label}${status ? `<small>${esc(status)}</small>` : ""}</button>`;
   $("acctMenu").innerHTML = `<div class="menuhead">${name ? `<b>${esc(name)}</b>` : ""}<span>${esc(state.user.email)}</span></div><div class="menusep"></div>
     ${item("profile", "Profile")}
-    ${item("prefs", "Preferences", prefsStatus())}
     ${p?.friend_code ? item("friends", "Friends", state.friends.length ? `${state.friends.length} friend${state.friends.length > 1 ? "s" : ""}` : "Add friends") : ""}
     ${item("email", "Email notifications", emailStatus())}
+    ${item("prefs", "Preferences", prefsStatus())}
     <div class="menusep"></div>
     <button role="menuitem" data-open="signout" class="signout"><span class="mi">${MENU_ICONS.signout}</span>Sign out</button>`;
 }
