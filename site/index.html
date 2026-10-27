@@ -71,6 +71,7 @@
           <button data-list="watch" aria-pressed="false">♥ Watchlist<span id="wlCount"></span></button>
         </div>
         <div class="bar">
+          <button class="pill" id="filtersBtn" aria-controls="filters" aria-expanded="false">Filters</button>
           <div class="searchbox" id="searchBox">
             <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             <input type="search" id="q" placeholder="Search films, directors, series" autocomplete="off" aria-label="Search">
@@ -80,14 +81,15 @@
             <button class="pill" id="dayBtn" aria-haspopup="dialog" aria-expanded="false"></button>
             <div class="menu cal" id="calMenu" role="dialog" aria-label="Pick a day" hidden></div>
           </div>
-          <button class="pill" id="filtersBtn" aria-controls="filters" aria-expanded="false">Filters</button>
         </div>
+        <div class="activechips" id="activeChips" aria-label="Filters in use" hidden><div class="chiplist" id="chipList"></div><button type="button" class="linkbtn" id="chipsClear" data-chip="all">Clear all</button></div>
       </div>
       <div id="grid"></div>
+      <p class="hiddenkinds" id="hiddenKinds" hidden></p>
     </main>
   </div>
 
-  <footer class="foot"><div class="sub" id="sub">Loading the programme…</div><div id="foot"></div></footer>
+  <footer class="foot"><div class="sub" id="sub">Loading the programme…</div><div id="foot"></div><div class="foot-links"><button type="button" class="linkbtn" id="prefsLink">Preferences</button></div></footer>
 </div>
 
 <div id="toast" popover="manual" role="status" aria-live="polite"></div>

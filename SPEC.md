@@ -142,10 +142,22 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   at both ends on wider screens (only when the days don't all fit; each dimmed at its end). Picking a day keeps the
   strip where it was. Opened while a day is picked on the main page, the film page lists that day (if the film plays
   then), still opening at the top, with that day scrolled into view; otherwise all days.
-- **Types** filter: Films · Shorts · Live & stage (opera, ballet, theatre, concerts) · Talks & events
+- **Types**: Films · Shorts · Live & stage (opera, ballet, theatre, concerts) · Talks & events
   (lectures, archive evenings, mystery screenings, launches). Classified from explicit signals only
   (title patterns, Filmweb genre/show type, under 45 min = short); non-film items carry a badge.
-  Nothing hidden by default; also applies to the email.
+  Only films are listed by default; shorts, live & stage and talks are turned on under **Preferences**
+  (account menu when signed in, the page footer for everyone, or the line under the list that says how many
+  are turned off). Preferences are kept on the device and in the account, and also apply to the email.
+  Searching always finds every type.
+- **Filters** panel: Sort films by (one choice), Tickets (one choice), Spoken language (one choice, where the region has
+  dubbing: any / original language only, plus English or Norwegian audio in Costa del Sol) and Subtitles (Oslo:
+  any / English subtitles). The two are separate and can be combined and Cinemas (several; busiest first, with "Show more" once there are many; picked ones always show).
+  The filters in force show as one line of removable chips under the toolbar, with "Clear all". While any are on,
+  the Filters button moves from the search bar to the start of that line (one row with its chips); with none it is
+  back in the bar. Several cinemas make one chip ("5 cinemas"). The Filters button scrolls with the chips (sideways on phones and tablets; they wrap on
+  desktop), while "Clear all" stays pinned at the end of the line, where the panel is always
+  open and there is no button. Picking a cinema also sets
+  Tickets to "On sale" (the cinema counts are showings on sale), and clearing the cinemas resets it.
 - Norwegian-dub and English-subtitle filters are Oslo-only (hidden in Westman, ignored in its email).
 - Oslo Coming soon drops films that premiere within 14 days but only have showings elsewhere in
   Norway (e.g. festival titles in Bergen), and films that premiered 3+ days ago with no showings

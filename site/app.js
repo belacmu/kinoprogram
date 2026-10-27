@@ -70,6 +70,7 @@ const state = {
   pendingEmail: (() => { try { return sessionStorage.getItem("kino:pendingEmail") || ""; } catch { return ""; } })(),
   profile: null,        // { subscribed, ... }
   blurbOpen: "",        // film sheet: the film whose description is expanded
+  cinemasOpen: false,   // filter panel: all cinemas listed, not just the busiest
   friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
   friendsAt: 0,         // when the friends were last loaded
   friendsError: false,  // the last load failed
@@ -279,7 +280,7 @@ function byWithin(a, b) {
 // ---------------------------------------------------------------- render: controls + filter sidebar
 function activeFilters() {
   return (state.tix !== "all" ? 1 : 0)
-    + (sameSet(state.prefs.hideKinds || [], DEFAULT_HIDE) ? 0 : 1) + (myCinemas().length ? 1 : 0)
+    + (myCinemas().length ? 1 : 0)
     + (DUBBING_REGIONS.includes(state.region) && state.prefs.hideDubbed ? 1 : 0)
     + (state.region === "oslo" && state.prefs.englishSubs ? 1 : 0)
     + (state.region === "costadelsol" && state.prefs.audioEnNo ? 1 : 0);
@@ -302,33 +303,46 @@ function renderControls() {
   renderFilters();
 }
 
+const CINEMAS_COLLAPSE_AT = 8, CINEMAS_SHOWN = 6;  // more cinemas than this: only the busiest few are listed until "Show more"
 function renderFilters() {
-  const now = localNow(), kindCounts = {}, cinemaCounts = {};
-  for (const f of state.data.films) kindCounts[f.kind || "film"] = (kindCounts[f.kind || "film"] || 0) + 1;
+  const now = localNow(), cinemaCounts = {};
   for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) cinemaCounts[s.cinema] = (cinemaCounts[s.cinema] || 0) + 1;
-  const hide = new Set(state.prefs.hideKinds || []), mine = myCinemas();
-  // Every option is a chip: a real checkbox/radio inside a label, styled as a tappable pill.
-  const ck = (attrs, checked, label, n, type = "checkbox") =>
-    `<label class="opt-chip"><input type="${type}" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
+  const mine = myCinemas();
+  // One choice: a list of radio buttons. Any number: pills with a check mark. (Both are real inputs inside labels.)
+  const radio = (attrs, checked, label) => `<label class="radio"><input type="radio" ${attrs}${checked ? " checked" : ""}><span>${label}</span></label>`;
+  const ck = (attrs, checked, label, n) =>
+    `<label class="opt-chip"><input type="checkbox" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
+  // Cinemas, busiest first. With many, only the busiest few (and any that are picked) show until "Show more".
+  const order = [...state.data.cinemas].sort((a, b) => (cinemaCounts[b] || 0) - (cinemaCounts[a] || 0) || a.localeCompare(b));
+  const collapsed = order.length > CINEMAS_COLLAPSE_AT && !state.cinemasOpen;
+  const listed = collapsed ? order.filter((c, i) => i < CINEMAS_SHOWN || mine.includes(c)) : order, more = order.length - listed.length;
+  // Spoken language and subtitles are separate choices (they can be combined). Spoken: any, original language only (not dubbed)
+  // and, in Costa del Sol, English or Norwegian audio. Subtitles (Oslo): any, or only showings with English subtitles.
+  const spokenNow = state.region === "costadelsol" && state.prefs.audioEnNo ? "audio" : state.prefs.hideDubbed ? "original" : "any";
+  const spokenOptions = [["any", "Any", ""], ["original", "Original language only", state.region === "costadelsol" ? "Not dubbed into Spanish" : "Not dubbed into Norwegian"],
+    ...(state.region === "costadelsol" ? [["audio", "English or Norwegian audio", "Spoken in English or Norwegian"]] : [])];
+  const subsOptions = [["any", "Any", ""], ["subs", "English subtitles", "Only showings with English subtitles"]];
+  const radioD = (attrs, checked, label, desc) => `<label class="radio"><input type="radio" ${attrs}${checked ? " checked" : ""}><span>${label}${desc ? `<small>${desc}</small>` : ""}</span></label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
-    <fieldset class="fg"><legend>Order within sections</legend><div class="chips">
-      ${WITHIN.map(([v, l]) => ck(`name="within" data-f="within" value="${v}"`, state.within === v, l, null, "radio")).join("")}
-    </div></fieldset>
-    <fieldset class="fg"><legend>Tickets</legend>
-      <div class="chips">${TIX.map(([v, l]) => ck(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l, null, "radio")).join("")}</div>
+    <fieldset class="fg"><legend>Sort films by</legend>
+      <div class="fghint">Within each group of films.</div>
+      ${WITHIN.map(([v, l]) => radio(`name="within" data-f="within" value="${v}"`, state.within === v, l)).join("")}
     </fieldset>
-    <fieldset class="fg"><legend>Types <span class="hint">${sameSet([...hide], DEFAULT_HIDE) ? "Films only" : `${KINDS.length - hide.size} of ${KINDS.length}`}</span></legend><div class="chips">
-      ${KINDS.map(([k, l]) => ck(`data-f="kind" value="${k}"`, !hide.has(k), l, kindCounts[k] || 0)).join("")}
-    </div></fieldset>
-    <fieldset class="fg"${DUBBING_REGIONS.includes(state.region) ? "" : " hidden"}><legend>Language</legend>
-      <div class="chips">${ck('data-f="dub"', state.prefs.hideDubbed, "Original language only")}
-      ${state.region === "oslo" ? ck('data-f="en"', state.prefs.englishSubs, "English subtitles only") : ""}
-      ${state.region === "costadelsol" ? ck('data-f="audio"', state.prefs.audioEnNo, "English or Norwegian audio") : ""}</div>
+    <fieldset class="fg"><legend>Tickets</legend>
+      ${TIX.map(([v, l]) => radio(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l)).join("")}
+    </fieldset>
+    <fieldset class="fg"${DUBBING_REGIONS.includes(state.region) ? "" : " hidden"}><legend>Spoken language</legend>
+      ${spokenOptions.map(([v, l, d]) => radioD(`name="spoken" data-f="spoken" value="${v}"`, spokenNow === v, l, d)).join("")}
+    </fieldset>
+    <fieldset class="fg"${state.region === "oslo" ? "" : " hidden"}><legend>Subtitles</legend>
+      ${subsOptions.map(([v, l, d]) => radioD(`name="subs" data-f="subs" value="${v}"`, (state.prefs.englishSubs ? "subs" : "any") === v, l, d)).join("")}
     </fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
-      <div class="chips">${state.data.cinemas.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
-      ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Show all cinemas</button>` : ""}
+      <div class="fghint">Pick one or more. The numbers are showings on sale.</div>
+      <div class="chips">${listed.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
+      <div class="fgrow">${more ? `<button class="linkbtn" data-f="cinemas-more">Show ${more} more</button>` : state.cinemasOpen && order.length > CINEMAS_COLLAPSE_AT ? `<button class="linkbtn" data-f="cinemas-more">Show fewer</button>` : ""}
+      ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Clear selection</button>` : ""}</div>
     </fieldset>
 `;
   $("filtersReset").hidden = !activeFilters();
@@ -462,6 +476,7 @@ function renderGrid() {
     ? ` <button class="linkbtn" data-clearall="${withSearch ? "q" : "f"}">${withSearch && q && nf ? "Clear search and filters" : withSearch && q ? "Clear search" : "Clear filters"}</button>` : "";
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
+  renderActiveChips();
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
     const shut = isCollapsed(s), isDay = withDay && s.key === DAY_KEY;
     const peek = shut ? `<span class="peek">${esc(s.rows.slice(0, 4).map((r) => titleOf(r.f)).join(" · "))}${s.rows.length > 4 ? " …" : ""}</span>` : "";
@@ -471,6 +486,9 @@ function renderGrid() {
       </button></h2>
       ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}${clearBtn(false)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
   }).join("") : `<p class="empty">${empty}${clearBtn(true)}</p>`;
+  const hk = hiddenKindsLine();
+  $("hiddenKinds").hidden = !hk;
+  $("hiddenKinds").innerHTML = hk;
 }
 
 // ---------------------------------------------------------------- render: the day control in the bar
@@ -860,7 +878,7 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
   if (t.dataset.blurb) {
@@ -885,12 +903,10 @@ document.addEventListener("click", (e) => {
     closeMenus(); renderGrid(); window.scrollTo({ top: 0 }); return;
   }
   if (t.dataset.clearall === "q") { clearSearch(); if (!activeFilters()) return; }
-  if (t.dataset.f === "reset" || t.dataset.clearall) {
-    state.tix = "all";
-    state.prefs.hideKinds = [...DEFAULT_HIDE]; state.prefs.hideDubbed = false; state.prefs.englishSubs = false; state.prefs.audioEnNo = false;
-    state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
-    local.set("tix", "all"); savePrefs(); render(); return;
-  }
+  if (t.dataset.f === "reset" || t.dataset.clearall) { resetFilters(); return; }
+  if (t.dataset.f === "cinemas-more") { state.cinemasOpen = !state.cinemasOpen; renderFilters(); return; }
+  if (t.dataset.chip) { removeChip(t.dataset.chip); return; }
+  if (t.hasAttribute("data-open-prefs")) { openPrefs(); return; }
   if (t.dataset.f === "cinemas-clear") {
     setCinemas(state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c)));
     savePrefs(); render(); return;
@@ -954,22 +970,72 @@ function setCinemas(next) {
   local.set("tix", state.tix);
 }
 
+function resetFilters() {
+  state.tix = "all";
+  state.prefs.hideDubbed = false; state.prefs.englishSubs = false; state.prefs.audioEnNo = false;
+  state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
+  local.set("tix", "all"); savePrefs(); render();
+}
+// The filters in force, as removable chips above the list (nothing shows when none are).
+function activeChips() {
+  const chips = [];
+  if (state.tix !== "all") chips.push(["tix", state.tix === "on" ? "Tickets on sale" : "Not on sale yet"]);
+  if (DUBBING_REGIONS.includes(state.region) && state.prefs.hideDubbed) chips.push(["dub", "Original language only"]);
+  if (state.region === "oslo" && state.prefs.englishSubs) chips.push(["en", "English subtitles only"]);
+  if (state.region === "costadelsol" && state.prefs.audioEnNo) chips.push(["audio", "English or Norwegian audio"]);
+  const mine = myCinemas();  // several cinemas are one chip, to keep the line short (the panel lists them)
+  if (mine.length === 1) chips.push(["cinema:" + mine[0], mine[0]]);
+  else if (mine.length > 1) chips.push(["cinemas", `${mine.length} cinemas`]);
+  return chips;
+}
+function renderActiveChips() {
+  const chips = activeChips(), el = $("activeChips"), btn = $("filtersBtn");
+  el.hidden = !chips.length;
+  // With filters on, the Filters button heads the chips (and scrolls with them), so button and chips read as one; with none it
+  // sits in the search bar (no row of its own). "Clear all" stays put at the end of the line.
+  const list = $("chipList"), had = document.activeElement === btn;
+  if (chips.length && btn.parentElement !== list) list.prepend(btn);
+  else if (!chips.length && btn.parentElement === list) $("searchBox").before(btn);
+  if (had) btn.focus();
+  list.querySelectorAll(".achip").forEach((n) => n.remove());
+  list.insertAdjacentHTML("beforeend", chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join(""));
+  $("chipsClear").hidden = chips.length < 2;
+}
+function removeChip(k) {
+  if (k === "all") { resetFilters(); return; }
+  if (k === "tix") { state.tix = "all"; local.set("tix", "all"); }
+  else if (k === "dub") state.prefs.hideDubbed = false;
+  else if (k === "en") state.prefs.englishSubs = false;
+  else if (k === "audio") state.prefs.audioEnNo = false;
+  else if (k === "cinemas") setCinemas(state.prefs.cinemas.filter((x) => !state.data.cinemas.includes(x)));  // this region's cinemas
+  else if (k.startsWith("cinema:")) setCinemas(state.prefs.cinemas.filter((x) => x !== k.slice(7)));
+  savePrefs(); render();
+}
+
+// Shorts, live & stage and talks are turned off by default (Preferences); a line under the list says how many that hides.
+function hiddenKindsLine() {
+  const hide = state.prefs.hideKinds || [];
+  if (!hide.length || state.q.trim() || state.onlyWatch) return "";
+  state.prefs.hideKinds = [];  // what the list would hold with everything on
+  let rows; try { rows = buildRows(); } finally { state.prefs.hideKinds = hide; }
+  const n = {}; for (const r of rows) { const k = r.f.kind || "film"; if (hide.includes(k)) n[k] = (n[k] || 0) + 1; }
+  const names = { short: ["short", "shorts"], stage: ["live or stage event", "live and stage events"], talk: ["talk or event", "talks and events"] };
+  const parts = KINDS.filter(([k]) => n[k]).map(([k]) => `${n[k]} ${names[k][n[k] === 1 ? 0 : 1]}`);
+  const one = Object.values(n).reduce((a, b) => a + b, 0) === 1;
+  return parts.length ? `${nameList(parts)} ${one ? "is" : "are"} turned off in <button type="button" class="linkbtn" data-open-prefs>Preferences</button>.` : "";
+}
+
 // Filter sidebar: checkboxes and radios.
 $("filtersBody").addEventListener("change", (e) => {
   const el = e.target, f = el.dataset.f;
   if (f === "within") { state.within = el.value; local.set("within2", state.within); render(); return; }
   if (f === "tix") { state.tix = el.value; local.set("tix", state.tix); }
-  else if (f === "kind") {
-    // Ticked types are shown; stored as the hidden ones.
-    const hidden = new Set(state.prefs.hideKinds || []);
-    el.checked ? hidden.delete(el.value) : hidden.add(el.value);
-    state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => hidden.has(x));
-  } else if (f === "cinema") {
+  else if (f === "cinema") {
     const list = state.prefs.cinemas;
     setCinemas(el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value));
-  } else if (f === "dub") state.prefs.hideDubbed = el.checked;
-  else if (f === "en") state.prefs.englishSubs = el.checked;
-  else if (f === "audio") state.prefs.audioEnNo = el.checked;
+  } else if (f === "spoken") {
+    state.prefs.hideDubbed = el.value === "original"; state.prefs.audioEnNo = el.value === "audio";
+  } else if (f === "subs") state.prefs.englishSubs = el.value === "subs";
   if (f !== "tix") savePrefs();
   render();
 });
@@ -1227,6 +1293,27 @@ document.addEventListener("visibilitychange", () => {  // coming back to the app
   if (state.profile.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
 });
 
+// Preferences: what else shows in the film list besides films. Kept on this device, and in the account when signed in.
+const PREF_KINDS = [["short", "Shorts", "Short film programmes."], ["stage", "Live & stage", "Opera, ballet, theatre and concerts."], ["talk", "Talks & events", "Lectures, workshops, quizzes and special evenings."]];
+function openPrefs() { state.acctView = "prefs"; renderAccount(); $("account").showModal(); $("account").scrollTop = 0; }
+function renderPrefs(msg) {
+  const hide = new Set(state.prefs.hideKinds || []);
+  $("accountBody").innerHTML = `<h2 id="accountTitle">Preferences</h2>
+    <p class="lead">Films are always listed. Choose what else you'd like to see in the list${state.user ? ", and in your email notifications" : ""}.</p>
+    <div class="subh">Also show</div>
+    ${PREF_KINDS.map(([k, l, d]) => `<label class="opt"><input type="checkbox" data-pref-kind="${k}"${hide.has(k) ? "" : " checked"}><span>${l}<small>${d}</small></span></label>`).join("")}
+    <p class="hint">Searching always finds everything, whatever you choose here.</p>${msg}`;
+}
+$("account").addEventListener("change", (e) => {
+  const k = e.target.dataset?.prefKind;
+  if (!k) return;
+  const hidden = new Set(state.prefs.hideKinds || []);
+  e.target.checked ? hidden.delete(k) : hidden.add(k);
+  state.prefs.hideKinds = KINDS.map(([x]) => x).filter((x) => hidden.has(x));
+  savePrefs(); render(); renderAccount();
+});
+$("prefsLink").addEventListener("click", openPrefs);
+
 function renderFriends(msg) {
   const p = state.profile;
   $("accountBody").innerHTML = `<h2 id="accountTitle">Friends</h2>
@@ -1247,8 +1334,9 @@ function renderFriends(msg) {
 
 function renderAccount(message = "", isErr = false) {
   const body = $("accountBody");
-  $("account").classList.toggle("wide", !!state.user && !!state.profile);
+  $("account").classList.toggle("wide", (!!state.user && !!state.profile) || state.acctView === "prefs");
   const msg = message ? `<div class="msg${isErr ? " err" : ""}">${esc(message)}</div>` : "";
+  if (state.acctView === "prefs") { renderPrefs(msg); return; }
   if (!state.user && state.pendingEmail) { // step 2: type the code from the email
     body.innerHTML = `<h2 id="accountTitle">Enter your code</h2>
       <p>We sent a sign-in code to <b>${esc(state.pendingEmail)}</b>. It works on any device, so you can read the email on your phone and type the code here.</p>
@@ -1299,6 +1387,7 @@ function renderAccount(message = "", isErr = false) {
 const menuIcon = (d) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const MENU_ICONS = {
   profile: menuIcon("M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"),
+  prefs: menuIcon("M4 7h9M17 7h3M4 17h3M11 17h9M15 4v6M9 14v6"),
   friends: menuIcon("M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.3a3.5 3.5 0 0 1 0 6.4M18 14.4c2 .7 3.5 2.4 3.5 5.6"),
   email: menuIcon("M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM3.5 7.5l8.5 6 8.5-6"),
   signout: menuIcon("M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10"),
@@ -1309,6 +1398,10 @@ const emailStatus = () => {
   const names = REGIONS.filter((r) => (state.prefs.regions || ["oslo"]).includes(r.key)).map((r) => r.name);
   return `${state.prefs.frequency === "weekly" ? "Weekly" : "Daily"} · ${names.length > 2 ? names.length + " regions" : names.join(", ") || "no region"}`;
 };
+const prefsStatus = () => {
+  const on = PREF_KINDS.filter(([k]) => !(state.prefs.hideKinds || []).includes(k)).map(([, l]) => l);
+  return on.length ? `Also ${on.length > 2 ? on.length + " more" : on.join(", ")}` : "Films only";
+};
 function renderAcctMenu() {
   const p = state.profile, name = p?.display_name || "";
   const item = (k, label, status) => `<button role="menuitem" data-open="${k}"><span class="mi">${MENU_ICONS[k]}</span>${label}${status ? `<small>${esc(status)}</small>` : ""}</button>`;
@@ -1316,6 +1409,7 @@ function renderAcctMenu() {
     ${item("profile", "Profile")}
     ${p?.friend_code ? item("friends", "Friends", state.friends.length ? `${state.friends.length} friend${state.friends.length > 1 ? "s" : ""}` : "Add friends") : ""}
     ${item("email", "Email notifications", emailStatus())}
+    ${item("prefs", "Preferences", prefsStatus())}
     <div class="menusep"></div>
     <button role="menuitem" data-open="signout" class="signout"><span class="mi">${MENU_ICONS.signout}</span>Sign out</button>`;
 }
