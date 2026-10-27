@@ -213,6 +213,13 @@ Data (Supabase):
   be set to always be included regardless of filters.
 - **Newly announced** (can be turned off): films newly announced since the previous email, with
   their premiere date. Filters apply only where showings are known.
+- **On your watchlist** (top): watchlist films newly on sale; a watchlist film with fewer than 5
+  showings that got another one (`state` `shows`, kept by build.py for films with few showings;
+  this alone sends an email); and "Last chance", by a stricter rule than the site's (at most 2
+  showings left, the last within 5 days, and the cinema listing a week beyond it), mentioned once.
+  Newly announced watchlist films aren't repeated here; they have a filled heart in Newly announced.
+- **Friends' new picks** (bottom): films friends added to their watchlists since the previous email
+  (`profiles.watchlist_added`, stamped by a database trigger). Never sends an email on its own.
 - Every email has a one-click unsubscribe link.
 
 ## Infrastructure (all free tiers)
@@ -230,7 +237,6 @@ Data (Supabase):
 
 - More Oslo-area venues (Deichman, Cinema Neuf, Weird and Wonderful Cinema, FilmrullKlubb).
 - Derrick Theatre (Virden): Facebook only; best route is getting it listed on CinemaClock.
-- Per-user alert when a specific watchlist film gets a new showing (beyond becoming new).
 - Push notifications.
 - Friends: a **Friends** tab beside All films / Watchlist listing friends' watchlist films; rate
-  limiting wrong code attempts; "Get a new code"; friends' films in the daily email.
+  limiting wrong code attempts; "Get a new code".

@@ -13,6 +13,9 @@ Each state file holds:
   dated       {film id: {"first": first seen with a date, "last": last seen with a date}}
               A film is "newly announced" the first time it has a concrete date (a Filmweb
               premiere date, or showings) while not yet on sale.
+  shows       {film id: {"last": last seen, "shows": {"<time>|<cinema>": first seen}}} for films with
+              few showings, so the digest can tell a watchlist film got another showing ("" = there
+              when tracking of the film started).
 """
 import json
 import re
@@ -42,6 +45,11 @@ LAST_CHANCE_SOON = 2
 LAST_CHANCE_SHOWS, LAST_CHANCE_DAYS = 2, 14
 # ...as long as the cinema publishes dates this far beyond it (otherwise we just can't see further ahead).
 HORIZON_MARGIN = timedelta(days=3)
+# The email is stricter (leavingEmail): at most LAST_CHANCE_SHOWS showings left and the last within this many days, and the
+# cinema publishing a week beyond it, so a film it calls leaving really is.
+EMAIL_LEAVING_DAYS, EMAIL_HORIZON_MARGIN = 5, timedelta(days=7)
+# Showings are tracked (track_shows) for films with fewer than this many, enough to catch one with a handful getting more.
+TRACK_SHOWS_MAX = 30
 
 
 ID_PATTERNS = [
@@ -180,6 +188,34 @@ def mark_last_chance(films):
         if len(shows) > LAST_CHANCE_SHOWS:  # once the showings before the last few have started
             few = max(few, datetime.strptime(shows[-LAST_CHANCE_SHOWS - 1]["t"], FMT))
         f["lastChance"] = min(soon, few).strftime(FMT)
+        if datetime.strptime(horizon[shows[-1]["cinema"]], FMT) - last >= EMAIL_HORIZON_MARGIN:
+            leaving = datetime.combine(last.date() - timedelta(days=EMAIL_LEAVING_DAYS), time())
+            if len(shows) > LAST_CHANCE_SHOWS:
+                leaving = max(leaving, datetime.strptime(shows[-LAST_CHANCE_SHOWS - 1]["t"], FMT))
+            f["leavingEmail"] = leaving.strftime(FMT)
+
+
+def track_shows(films, now, state):
+    """Remember when each showing of a film with few showings was first seen (state["shows"]). A film's record is kept a
+    while after it drops out, so a film whose only showing has passed and that gets another one is noticed too."""
+    now_s = now.strftime(FMT)
+    first_run = "shows" not in state
+    old = state.get("shows") or {}
+    out = {}
+    for f in films:
+        rec = next((old[i] for i in f["ids"] if i in old), None)
+        if len(f["shows"]) >= TRACK_SHOWS_MAX or (rec is None and not f["shows"]):
+            continue
+        known = {k: v for k, v in (rec or {}).get("shows", {}).items() if k.split("|")[0] >= now_s}  # cancelled ones too
+        stamp = now_s if rec is not None and not first_run else ""  # a film new to tracking: what it has now isn't news
+        for s in f["shows"]:
+            known.setdefault(f"{s['t']}|{s['cinema']}", stamp)
+        out[f["id"]] = {"last": now_s, "shows": known}
+    cutoff = (now - timedelta(days=OFF_SALE_DAYS + 3)).strftime(FMT)
+    for k, v in old.items():
+        if k not in out and v["last"] >= cutoff and not any(k in f["ids"] for f in films):
+            out[k] = v
+    state["shows"] = dict(sorted(out.items()))
 
 
 def track(films, now, state_path):
@@ -328,6 +364,7 @@ def main(regions=None):
         if r == "costadelsol":
             costadelsol.mark_dubbed(films)
         mark_last_chance(films)
+        track_shows(films, now, state)
         new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
         ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
         print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "
