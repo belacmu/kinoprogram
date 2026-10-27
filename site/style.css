@@ -552,7 +552,8 @@ dialog { overscroll-behavior: contain; }
 .fhead .meta:has(+ .rate) { margin-bottom: 4px; }
 .rate { display: flex; align-items: baseline; gap: 6px; width: fit-content; margin-bottom: 10px; font-size: 13px; color: var(--muted); text-decoration: none; }
 .rate b { font: 500 13px var(--mono); color: var(--soon); }
-.rate:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+.rate span { text-decoration: underline; text-underline-offset: 2px; }
+.rate:hover { color: var(--ink); }
 .actions { flex-wrap: nowrap; }
 .actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; }
 .actions .btn.primary { flex: 1 1 auto; max-width: 300px; }
