@@ -842,7 +842,7 @@
 "rated": "2026-10-23",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
-"cl-hope-1": {
+"cl-hope": {
 "imdb": "tt27369017",
 "imdbAll": [
 "tt27369017"
@@ -852,14 +852,14 @@
 "mc": "movie/hope-2026",
 "en": "Hope",
 "v": 4,
-"checked": "2026-10-23",
-"tmdbChecked": "2026-10-23",
+"checked": "2026-10-27",
+"tmdbChecked": "2026-10-27",
 "tv": 2,
 "tmdb": 1058424,
 "lang": "ko",
 "lbSlug": "hope-2026",
-"lbRating": 3.18,
-"rated": "2026-10-23",
+"lbRating": 3.17,
+"rated": "2026-10-27",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "cl-hotel-transilvania": {
@@ -944,12 +944,6 @@
 "rated": "2026-10-22",
 "posterPath": "/Ap0WExOWEL4DMcRKsAoDehi05J6.jpg"
 },
-"cl-manon-26-27": {
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-22"
-},
 "cl-mascotas-rescate": {
 "v": 4,
 "checked": "2026-10-06",
@@ -964,12 +958,6 @@
 "lbRating": 2.74,
 "rated": "2026-10-22",
 "posterPath": "/b10qy1KwrfmH0MGS2rBUJ0BxgYB.jpg"
-},
-"cl-muerte-talones": {
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-22"
 },
 "cl-otra-madre": {
 "v": 4,
@@ -1089,6 +1077,26 @@
 "lbRating": null,
 "rated": "2026-10-22",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
+},
+"cl-tadeo-jones-lampara-maravillosa": {
+"imdb": "tt36164852",
+"imdbAll": [
+"tt36164852"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Tad and the Magic Lamp",
+"v": 4,
+"checked": "2026-10-27",
+"tmdbChecked": "2026-10-27",
+"tv": 2,
+"tmdb": 1187326,
+"lang": "es",
+"lbSlug": "tad-and-the-magic-lamp",
+"lbRating": 2.89,
+"rated": "2026-10-27",
+"posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
 },
 "cl-verity-sombra-engano": {
 "imdb": "tt32261958",
@@ -1404,25 +1412,6 @@
 "tt0042294"
 ],
 "lb": "cafe-paradis",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-cecilia": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 463247,
-"imdb": "tt0309427",
-"en": null,
-"lbSlug": "cecilia-1954",
-"lbRating": null,
-"rated": "2026-10-25",
-"posterPath": "/haIzMXwPaCBaljT3Kvw1pG58BuI.jpg",
-"imdbAll": [
-"tt0309427"
-],
-"lb": "cecilia-1954",
 "rt": null,
 "mc": null,
 "v": 4,
@@ -2156,27 +2145,6 @@
 "lbSlug": "its-a-wonderful-life",
 "lbRating": 4.45,
 "rated": "2026-10-25"
-},
-"cm-jeg-daniel-blake": {
-"imdb": "tt5168192",
-"imdbAll": [
-"tt5168192"
-],
-"lb": "i-daniel-blake",
-"rt": "m/i_daniel_blake",
-"mc": "movie/i-daniel-blake",
-"en": "I, Daniel Blake",
-"v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"tmdb": 374473,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "i-daniel-blake",
-"lbRating": 4.04,
-"rated": "2026-10-22",
-"posterPath": "/nu3WVABXz2W85N6JXTZOT1aWS3b.jpg"
 },
 "cm-john-wick": {
 "tmdbChecked": "2026-10-01",
@@ -7683,24 +7651,6 @@
 "enFrom": "tmdb",
 "posterPath": "/rVNpkV6ksY1hqjkun1WCTxqyK9v.jpg"
 },
-"fw-EDI20261476": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 12106,
-"imdb": "tt0114214",
-"en": "The Quick and the Dead",
-"lbSlug": "the-quick-and-the-dead-1995",
-"lbRating": 3.48,
-"rated": "2026-10-25",
-"imdbAll": [
-"tt0114214"
-],
-"lb": "the-quick-and-the-dead-1995",
-"rt": "m/1059629-quick_and_the_dead",
-"mc": "movie/the-quick-and-the-dead",
-"v": 4,
-"checked": "2026-10-03"
-},
 "fw-EDI20261479": {
 "tmdbChecked": "2026-10-11",
 "tv": 2,
@@ -7928,19 +7878,6 @@
 "lbRating": null,
 "rated": "2026-10-27"
 },
-"fw-EDI20261550": {
-"tmdbChecked": "2026-10-17",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-11",
-"tmdb": 1688795,
-"lang": "ko",
-"imdb": "tt46658752",
-"en": null,
-"lbSlug": "tomorrow-x-together-world-tour-act-tomorrow",
-"lbRating": null,
-"rated": "2026-10-25"
-},
 "fw-EDI20261551": {
 "checked": "2026-10-27",
 "tmdbChecked": "2026-10-03",
@@ -7997,19 +7934,6 @@
 "lbSlug": "9-temples-to-heaven",
 "lbRating": 3.57,
 "rated": "2026-10-23"
-},
-"fw-EDI20261556": {
-"v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2,
-"tmdb": 1375156,
-"lang": "hi",
-"imdb": "tt31806773",
-"en": null,
-"lbSlug": "udta-teer",
-"lbRating": null,
-"rated": "2026-10-20"
 },
 "fw-EDI20261557": {
 "tmdbChecked": "2026-10-01",
@@ -9287,12 +9211,6 @@
 "lbSlug": "godzilla-minus-one",
 "lbRating": 4.08,
 "rated": "2026-10-25"
-},
-"fw-QLT20170502": {
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-22"
 },
 "fw-SBX20040038": {
 "tmdbChecked": "2026-10-01",
@@ -10753,12 +10671,6 @@
 "rated": "2026-10-26",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
-"mk-con-la-muerte-en-los-talones": {
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-22"
-},
 "mk-cuentos-de-tokio": {
 "v": 4,
 "checked": "2026-10-20",
@@ -10806,26 +10718,6 @@
 "checked": "2026-10-20",
 "tmdbChecked": "2026-10-20",
 "tv": 2
-},
-"mk-la-bola-negra": {
-"imdb": "tt35511966",
-"imdbAll": [
-"tt35511966"
-],
-"lb": "the-black-ball-2026",
-"rt": "m/la_bola_negra",
-"mc": "movie/the-black-ball",
-"en": null,
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1422041,
-"lbSlug": "la-bola-negra",
-"lbRating": 4.43,
-"rated": "2026-10-26",
-"lang": "es",
-"posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
 "mk-la-invitacion": {
 "imdb": "tt14173636",
