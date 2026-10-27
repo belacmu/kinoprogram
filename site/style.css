@@ -541,20 +541,39 @@ dialog { overscroll-behavior: contain; }
 .star.on:hover { transform: scale(1.12); filter: brightness(1.12); }
 .star:active, .hide:active { transform: scale(.94); }
 
-/* Film sheet: the badges, links and buttons, then the Cinemas/Format menus, continue the column beside the poster; on
-   phones they sit under the poster and description, using the full width. The strip of days always spans the full
-   width under the poster, as the header of the showings it lists. */
-.fhead { grid-template-rows: auto auto 1fr auto; row-gap: 0; padding-bottom: 20px; }
-.fhead .picks { grid-column: 1 / -1; }
-.fhead .poster { grid-row: span 3; }
-.fmore, .fhead .pmenus { grid-column: 2; }
-.fhead .pmenus { margin-top: 14px; align-self: start; }
+/* Film sheet header: the details (badges, title, rating, description) beside the poster, then one main action with
+   share and a "more" menu, then a quiet line of links. The showings below have their own heading, with the Cinemas /
+   Format menus on it and the strip of days under it. On phones the buttons sit under the poster using the full width. */
+.fhead { grid-template-rows: auto 1fr; row-gap: 0; padding-bottom: 18px; }
+.fhead .poster { grid-row: span 2; }
+.fmore { grid-column: 2; margin-top: 4px; }
+.ftext .badges { margin-bottom: 8px; }
+.fhead .meta { margin-bottom: 10px; }
+.fhead .meta:has(+ .rate) { margin-bottom: 4px; }
+.rate { display: flex; align-items: baseline; gap: 6px; width: fit-content; margin-bottom: 10px; font-size: 13px; color: var(--muted); text-decoration: none; }
+.rate b { font: 500 13px var(--mono); color: var(--soon); }
+.rate:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+.actions { flex-wrap: nowrap; }
+.actions .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; }
+.actions .btn.primary { flex: 1 1 auto; max-width: 300px; }
+.actions .btn.icon { flex: none; width: 40px; padding: 0; }
+.actions .dd { flex: none; }
+.actions .menu { min-width: 190px; }
+.flinks { margin-top: 12px; font-size: 13px; color: var(--muted); }
+.flinks a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.flinks a:hover { color: var(--ink); }
+.fhead .friendline { margin: 12px 0 0; }
+.friendline + .flinks { margin-top: 8px; }
+.showings { margin: 0 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+.showhead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 12px; }
+.showhead h3 { margin: 0; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.showings .picks { margin-top: 0; }
 @media (max-width: 600px) {
   .fhead { padding-bottom: 14px; }
   .fhead .poster { grid-row: auto; }
-  .fmore, .fhead .pmenus { grid-column: 1 / -1; }
-  .fmore { margin-top: 14px; }
-  .pmenus + .picks { margin-top: 10px; }
+  .fmore { grid-column: 1 / -1; margin-top: 14px; }
+  .actions .btn.primary { max-width: none; }
+  .showings { margin: 0 16px; }
 }
 
 /* Dimming (hiding a film) fades; the button that was pressed bounces once. */
