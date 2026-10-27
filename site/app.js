@@ -69,6 +69,7 @@ const state = {
   user: null,           // { id, email }
   pendingEmail: (() => { try { return sessionStorage.getItem("kino:pendingEmail") || ""; } catch { return ""; } })(),
   profile: null,        // { subscribed, ... }
+  blurbOpen: "",        // film sheet: the film whose description is expanded
   friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
   friendsAt: 0,         // when the friends were last loaded
   friendsError: false,  // the last load failed
@@ -641,6 +642,15 @@ function openZoom(id, from) {
 $("zoom").addEventListener("click", () => $("zoom").close());  // a tap anywhere closes it (Escape and the × do too)
 $("zoom").addEventListener("close", () => { $("zoom").innerHTML = ""; });
 
+// A long description is cut to a few lines with "Show more"; the button only appears when something is actually cut.
+function fitBlurb() {
+  const b = $("film").querySelector(".blurb");
+  if (!b) return;
+  const p = b.querySelector("p"), btn = b.querySelector("button");
+  btn.hidden = !b.classList.contains("open") && p.scrollHeight <= p.clientHeight + 1;
+}
+window.addEventListener("resize", () => { if ($("film").open) fitBlurb(); });
+
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
 
 // The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
@@ -707,7 +717,7 @@ function openFilm(id) {
   const hidden = all.length - filtered.length;
   const byDay = {};
   for (const s of listed) (byDay[s.t.slice(0, 10)] ||= []).push(s);
-  const meta = [f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : "", f.countries.slice(0, 3).join(", "), f.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ");
+  const meta = [KIND_BADGE[f.kind], f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : "", f.countries.slice(0, 3).join(", "), f.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ");
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
     <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
@@ -720,9 +730,7 @@ function openFilm(id) {
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
   // Badges that only describe the film; under the poster, the menus and day strip that narrow its showings.
-  const info = (KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : "")
-    + (isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "")
-    + f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("");
+  const info = isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "";
   const ext = extLinks(f), picks = sheetPicks(all, shown, withTags, today);
   const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
@@ -732,7 +740,7 @@ function openFilm(id) {
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
       ${ext.top}
-      ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
+      ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}
     </div>
     <div class="fmore">
       <div class="actions">
@@ -748,6 +756,7 @@ function openFilm(id) {
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
+  fitBlurb();
   const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
   if (!strip) return;
   // Just opened: the picked day in view (centred), only if it's off the end, so "All days" stays visible when it can.
@@ -816,6 +825,7 @@ function route() {
 
 $("film").addEventListener("close", () => {
   state.showAll = false;
+  state.blurbOpen = "";
   state.sheetCinemas.clear();
   state.sheetTags.clear();
   state.sheetDay = "";
@@ -850,9 +860,15 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
+  if (t.dataset.blurb) {
+    const b = t.closest(".blurb"), open = b.classList.toggle("open");
+    state.blurbOpen = open ? t.dataset.blurb : "";
+    t.textContent = open ? "Show less" : "Show more"; t.setAttribute("aria-expanded", open);
+    return;
+  }
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = s.key;
     // The header pins just below the top bar, so "pinned" means above that line, not above the screen.
@@ -980,10 +996,12 @@ $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid()
 function keepOnScreen(menu) {
   menu.style.left = menu.style.right = "";
   const vw = document.documentElement.clientWidth, edge = 8;
-  if (menu.getBoundingClientRect().right <= vw - edge) return;
+  const host = menu.closest("dialog"), box = host ? host.getBoundingClientRect() : { left: 0, right: vw };  // a menu in a sheet must stay inside it
+  const maxRight = Math.min(vw, box.right) - edge, minLeft = Math.max(0, box.left) + edge;
+  if (menu.getBoundingClientRect().right <= maxRight) return;
   menu.style.left = "auto"; menu.style.right = "0";
   const left = menu.getBoundingClientRect().left;
-  if (left < edge) menu.style.right = `${left - edge}px`;
+  if (left < minLeft) menu.style.right = `${left - minLeft}px`;
 }
 function closeMenus() {
   document.querySelectorAll(".menu").forEach((m) => { m.hidden = true; m.style.left = m.style.right = ""; });
