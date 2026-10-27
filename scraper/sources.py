@@ -189,6 +189,8 @@ def cine_film(url, listing):
             tags.append(facts["Visningsformat"])
         if en:
             tags.append("Engelsk tekst")
+        # The series (Cinemateket's "concepts") belongs to these showings, not to the film as a whole, which may also play elsewhere.
+        tags += [x for x in series if x not in tags]
         shows.append({
             "t": f"{d[3]}-{d[2]}-{d[1]}T{int(tm[1]):02d}:{tm[2]}",
             "cinema": "Cinemateket",

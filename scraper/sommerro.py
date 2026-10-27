@@ -83,7 +83,7 @@ def fetch_all(now):
         note = "Meal + film package, prepaid" + (" · few seats left" if e["few"] and not e["sold_out"] else "")
         f["shows"].append({
             "t": e["t"].strftime("%Y-%m-%dT%H:%M"), "cinema": CINEMA, "screen": e["place"],
-            "tags": [MEAL_TAG], "note": note, "ticket": "" if e["sold_out"] else base,
+            "tags": [MEAL_TAG, e["series"].title()], "note": note, "ticket": "" if e["sold_out"] else base,
             "status": "Sold out" if e["sold_out"] else "", "dub": False, "en": False,
         })
         if package and package not in f["blurb"]:
