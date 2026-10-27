@@ -987,10 +987,17 @@ function activeChips() {
   return chips;
 }
 function renderActiveChips() {
-  const chips = activeChips(), el = $("activeChips");
+  const chips = activeChips(), el = $("activeChips"), btn = $("filtersBtn");
   el.hidden = !chips.length;
-  el.innerHTML = chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join("")
-    + (chips.length > 1 ? `<button type="button" class="linkbtn" data-chip="all">Clear all</button>` : "");
+  // With filters on, the Filters button heads the row of chips, so button and chips read as one; with none it sits in the
+  // search bar (no row of its own).
+  const had = document.activeElement === btn;
+  if (chips.length && btn.parentElement !== el) el.prepend(btn);
+  else if (!chips.length && btn.parentElement === el) $("searchBox").before(btn);
+  if (had) btn.focus();
+  el.querySelectorAll(".achip, [data-chip=all]").forEach((n) => n.remove());
+  el.insertAdjacentHTML("beforeend", chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join("")
+    + (chips.length > 1 ? `<button type="button" class="linkbtn" data-chip="all">Clear all</button>` : ""));
 }
 function removeChip(k) {
   if (k === "all") { resetFilters(); return; }
