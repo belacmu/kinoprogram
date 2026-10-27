@@ -622,6 +622,25 @@ $("news").addEventListener("close", () => { if (location.hash === "#new") histor
 $("news").addEventListener("click", (e) => { if (e.target === $("news")) $("news").close(); });
 
 // ---------------------------------------------------------------- film sheet
+// ---------------------------------------------------------------- the poster, enlarged
+// A bigger version of the poster where the image service allows it (TMDB: w342 -> w780; Cinemateket's: 360x540 -> 900x1350);
+// otherwise the one already loaded, shown larger. If an upgraded image fails to load, the next best is tried.
+const bigPoster = (url) => String(url).replace("/t/p/w342/", "/t/p/w780/").replace(/([?&])w=\d+&h=\d+/, "$1w=900&h=1350");
+function openZoom(id, from) {
+  const f = findFilm(id), dlg = $("zoom");
+  if (!f || !f.poster || !from?.querySelector("img")) return;  // no poster image (it failed to load, or there's only the title card)
+  const urls = [...new Set([bigPoster(f.poster), f.poster, f.poster2].filter(Boolean))];
+  dlg.innerHTML = `<form method="dialog" class="dlg-close zclose"><button class="x" aria-label="Close">×</button></form><img alt="Poster of ${esc(titleOf(f))}">`;
+  dlg.setAttribute("aria-label", `Poster of ${titleOf(f)}`);
+  const img = dlg.querySelector("img");
+  let n = 0;
+  img.onerror = () => { if (++n < urls.length) img.src = urls[n]; else dlg.close(); };
+  img.src = urls[0];
+  dlg.showModal();
+}
+$("zoom").addEventListener("click", () => $("zoom").close());  // a tap anywhere closes it (Escape and the × do too)
+$("zoom").addEventListener("close", () => { $("zoom").innerHTML = ""; });
+
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
 
 // The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
@@ -707,7 +726,7 @@ function openFilm(id) {
   const ext = extLinks(f), picks = sheetPicks(all, shown, withTags, today);
   const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="fhead">${posterHtml(f)}<div class="ftext">
+    <div class="fhead">${f.poster ? `<button type="button" class="pzoom" data-zoom="${esc(f.id)}" aria-label="Enlarge the poster of ${esc(titleOf(f))}">${posterHtml(f)}</button>` : posterHtml(f)}<div class="ftext">
       ${info ? `<div class="badges">${info}</div>` : ""}
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
@@ -831,8 +850,9 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],button[data-f]");
   if (!t) return;
+  if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = s.key;
     // The header pins just below the top bar, so "pinned" means above that line, not above the screen.
