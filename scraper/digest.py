@@ -221,7 +221,7 @@ def subject_for(items, announced, leaving, prefs, region="Oslo"):
 # ---- HTML pieces. Email has no CSS grid: cards are inline-blocks (3 across, 2 on phones). ----
 
 STYLE = """<style>
-@media (max-width:599px){.c{width:170px!important}.pt{height:237px!important}.pm{height:169px!important}.pad{padding-left:10px!important;padding-right:10px!important}}
+@media (max-width:599px){.c{width:170px!important}.wc{width:100%!important}.pt{height:237px!important}.pm{height:169px!important}.pad{padding-left:10px!important;padding-right:10px!important}}
 @media (prefers-color-scheme:dark){
 .page{background:#101216!important}.wrap{background:#191c22!important}
 .ink,.ink a{color:#e9ebef!important}.mut{color:#9097a3!important}.line{border-color:#2b2f37!important}
@@ -303,17 +303,24 @@ def card_html(f, link, lines, dim=False, heart_link=None, watched=False):
             + body)
 
 
-def watch_row_html(f, kind, detail, link):
+def watch_item_html(f, kind, detail, link):
     label, cls, color = KIND_LABEL[kind]
     meta = " · ".join(x for x in [f["year"], f"{f['runtime']} min" if f["runtime"] else "", rating_of(f)] if x)
-    return f"""<tr>
-<td style="width:64px;padding:0 14px 14px 0;vertical-align:top"><a href="{e(link)}" style="text-decoration:none">{poster_html(f, 64, kind == 'announced')}</a></td>
-<td style="padding:0 0 14px;vertical-align:top">
+    return f"""<div class="wc" style="display:inline-block;vertical-align:top;width:276px;max-width:100%;font-size:14px;line-height:1.3;text-align:left">
+<table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse"><tr>
+<td style="width:64px;padding:0 12px 14px 0;vertical-align:top"><a href="{e(link)}" style="text-decoration:none">{poster_html(f, 64, kind == 'announced')}</a></td>
+<td style="padding:0 8px 14px 0;vertical-align:top">
   <div class="{cls}" style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:{color}">♥ {label}</div>
   <a class="ink" href="{e(link)}" style="font-size:16px;font-weight:700;line-height:1.25;color:#16181d;text-decoration:none">{e(title_of(f))}</a>
   <div class="mut" style="font-size:12px;color:#5d6470;margin:1px 0 4px">{e(meta)}</div>
   <div class="ink" style="font-size:13px;color:#16181d">{e(detail)}</div>
-</td></tr>"""
+</td></tr></table></div>"""
+
+
+def watch_grid_html(entries, link_of):
+    """The watchlist section: two across on wide screens (inline-blocks wrap by themselves, as in grid_html), one column on phones."""
+    cells = "".join(watch_item_html(f, k, d, link_of(f)) for f, k, d in entries)
+    return f'<div style="text-align:left;font-size:0;line-height:0">{cells}</div>'
 
 
 def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo", rkey="oslo"):
@@ -346,9 +353,7 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
 
     blocks = []
     if watching:
-        rows = "".join(watch_row_html(f, k, d, link_of(f)) for f, k, d in watching)
-        blocks.append(section_head("On your watchlist", len(watching)) +
-                      f'<table role="presentation" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse">{rows}</table>')
+        blocks.append(section_head("On your watchlist", len(watching)) + watch_grid_html(watching, link_of))
     if sale:
         cards = []
         for f, shows, w in sale:
