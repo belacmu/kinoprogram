@@ -955,8 +955,18 @@ $("qClear").addEventListener("click", () => { clearSearch(); $("q").focus(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 // Pill menus (Location, the date picker): a button that opens a small list of choices.
+// A menu opens under its button; one that would run off the screen is lined up with the button's other edge instead (and, if
+// it's wider than the room either way, nudged back in).
+function keepOnScreen(menu) {
+  menu.style.left = menu.style.right = "";
+  const vw = document.documentElement.clientWidth, edge = 8;
+  if (menu.getBoundingClientRect().right <= vw - edge) return;
+  menu.style.left = "auto"; menu.style.right = "0";
+  const left = menu.getBoundingClientRect().left;
+  if (left < edge) menu.style.right = `${left - edge}px`;
+}
 function closeMenus() {
-  document.querySelectorAll(".menu").forEach((m) => { m.hidden = true; });
+  document.querySelectorAll(".menu").forEach((m) => { m.hidden = true; m.style.left = m.style.right = ""; });
   document.querySelectorAll("[aria-haspopup]").forEach((b) => b.setAttribute("aria-expanded", "false"));
 }
 function toggleMenu(btn, menu) {
@@ -965,6 +975,7 @@ function toggleMenu(btn, menu) {
   if (!open) return;
   menu.hidden = false;
   btn.setAttribute("aria-expanded", "true");
+  keepOnScreen(menu);
   (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button, a"))?.focus();
 }
 $("regionBtn").addEventListener("click", () => toggleMenu($("regionBtn"), $("regionMenu")));
