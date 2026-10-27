@@ -707,8 +707,9 @@ dialog { overscroll-behavior: contain; }
 .activechips[hidden] { display: none; }
 .achip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 12px; border-radius: 999px; border: 1px solid var(--accent); background: var(--accent-tint);
   color: var(--ink); font: 500 13px var(--body); cursor: pointer; }
-.achip span { opacity: .65; font-size: 15px; line-height: 1; }
-.achip:hover span { opacity: 1; }
+.achip span { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; margin-left: -1px; font-size: 14px; line-height: 1; opacity: .6; transition: background-color .12s, color .12s, opacity .12s; }
+.achip:hover span, .achip:focus-visible span { opacity: 1; background: var(--ink); color: var(--bg); }
+.achip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .activechips .linkbtn { padding: 4px 2px; }
 .hiddenkinds { margin: 4px 0 28px; text-align: center; color: var(--muted); font-size: 13px; }
 .hiddenkinds .linkbtn { padding: 0; font-size: inherit; }
