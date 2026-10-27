@@ -694,3 +694,23 @@ dialog { overscroll-behavior: contain; }
 .blurb.open p { display: block; -webkit-line-clamp: unset; }
 .blurb .linkbtn { padding: 4px 0; }
 @media (max-width: 600px) { .blurb { --lines: 4; } }
+
+/* Filters: radios for one choice, check-marked pills for several; hints; chips for the filters in force. */
+.radio { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 14px; cursor: pointer; }
+.radio input { flex: none; width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
+.fghint { margin: -2px 0 8px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+.fgrow { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.fgrow:not(:empty) { margin-top: 8px; }
+.fgrow .linkbtn { padding: 2px 0; }
+.opt-chip:has(input:checked)::before { content: "✓"; font-weight: 700; font-size: 12px; }
+.activechips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; padding: 12px 0 0; }
+.activechips[hidden] { display: none; }
+.achip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px 4px 12px; border-radius: 999px; border: 1px solid var(--accent); background: var(--accent-tint);
+  color: var(--ink); font: 500 13px var(--body); cursor: pointer; }
+.achip span { opacity: .65; font-size: 15px; line-height: 1; }
+.achip:hover span { opacity: 1; }
+.activechips .linkbtn { padding: 4px 2px; }
+.hiddenkinds { margin: 4px 0 28px; text-align: center; color: var(--muted); font-size: 13px; }
+.hiddenkinds .linkbtn { padding: 0; font-size: inherit; }
+.foot-links { margin-top: 8px; }
+.foot-links .linkbtn { padding: 4px 0; }
