@@ -991,13 +991,14 @@ function activeChips() {
 function renderActiveChips() {
   const chips = activeChips(), el = $("activeChips"), btn = $("filtersBtn");
   el.hidden = !chips.length;
-  // With filters on, the Filters button heads the row of chips, so button and chips read as one; with none it sits in the
-  // search bar (no row of its own).
-  const had = document.activeElement === btn;
-  if (chips.length && btn.parentElement !== el) el.prepend(btn);
-  else if (!chips.length && btn.parentElement === el) $("searchBox").before(btn);
+  // With filters on, the Filters button heads the chips (and scrolls with them), so button and chips read as one; with none it
+  // sits in the search bar (no row of its own). "Clear all" stays put at the end of the line.
+  const list = $("chipList"), had = document.activeElement === btn;
+  if (chips.length && btn.parentElement !== list) list.prepend(btn);
+  else if (!chips.length && btn.parentElement === list) $("searchBox").before(btn);
   if (had) btn.focus();
-  $("chipList").innerHTML = chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join("");
+  list.querySelectorAll(".achip").forEach((n) => n.remove());
+  list.insertAdjacentHTML("beforeend", chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join(""));
   $("chipsClear").hidden = chips.length < 2;
 }
 function removeChip(k) {

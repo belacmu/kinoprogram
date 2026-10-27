@@ -715,11 +715,11 @@ dialog { overscroll-behavior: contain; }
 .foot-links { margin-top: 8px; }
 .foot-links .linkbtn { padding: 4px 0; }
 
-/* The filters in force: one line under the toolbar, headed by the Filters button (which moves here from the search bar while any are
-   on) and ending with "Clear all". Only the chips between them scroll (sideways, fading at the edge); on desktop they wrap. */
+/* The filters in force: one line under the toolbar. The Filters button (which moves here from the search bar while any are on) and the
+   chips scroll together (sideways, fading at the edge; they wrap on desktop); "Clear all" stays pinned at the end of the line. */
 .controls .activechips { grid-column: 1 / -1; display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 8px; padding: 0; }
 .activechips[hidden] { display: none; }
-.activechips #filtersBtn { flex: none; height: 32px; padding: 0 12px; font-size: 13px; }
+.chiplist #filtersBtn { height: 32px; padding: 0 12px; font-size: 13px; }
 .chiplist { flex: 0 1 auto; min-width: 0; display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none;
   mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); padding-right: 14px; margin-right: -6px; }
 .chiplist::-webkit-scrollbar { display: none; }
