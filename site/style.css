@@ -687,3 +687,10 @@ dialog { overscroll-behavior: contain; }
 #zoom .x { background: rgba(255, 255, 255, .16); color: #fff; }
 @keyframes zoomin { from { opacity: 0; transform: scale(.94); } }
 @media (prefers-reduced-motion: reduce) { #zoom img { animation: none; } }
+
+/* Film sheet: a long description is cut to a few lines, with a Show more button. */
+.blurb { --lines: 5; margin: 0 0 12px; }
+.blurb p { margin: 0 0 4px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines); overflow: hidden; }
+.blurb.open p { display: block; -webkit-line-clamp: unset; }
+.blurb .linkbtn { padding: 4px 0; }
+@media (max-width: 600px) { .blurb { --lines: 4; } }

@@ -69,6 +69,7 @@ const state = {
   user: null,           // { id, email }
   pendingEmail: (() => { try { return sessionStorage.getItem("kino:pendingEmail") || ""; } catch { return ""; } })(),
   profile: null,        // { subscribed, ... }
+  blurbOpen: "",        // film sheet: the film whose description is expanded
   friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
   friendsAt: 0,         // when the friends were last loaded
   friendsError: false,  // the last load failed
@@ -641,6 +642,15 @@ function openZoom(id, from) {
 $("zoom").addEventListener("click", () => $("zoom").close());  // a tap anywhere closes it (Escape and the × do too)
 $("zoom").addEventListener("close", () => { $("zoom").innerHTML = ""; });
 
+// A long description is cut to a few lines with "Show more"; the button only appears when something is actually cut.
+function fitBlurb() {
+  const b = $("film").querySelector(".blurb");
+  if (!b) return;
+  const p = b.querySelector("p"), btn = b.querySelector("button");
+  btn.hidden = !b.classList.contains("open") && p.scrollHeight <= p.clientHeight + 1;
+}
+window.addEventListener("resize", () => { if ($("film").open) fitBlurb(); });
+
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
 
 // The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
@@ -732,7 +742,7 @@ function openFilm(id) {
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
       ${ext.top}
-      ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
+      ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}
     </div>
     <div class="fmore">
       <div class="actions">
@@ -748,6 +758,7 @@ function openFilm(id) {
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
+  fitBlurb();
   const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
   if (!strip) return;
   // Just opened: the picked day in view (centred), only if it's off the end, so "All days" stays visible when it can.
@@ -816,6 +827,7 @@ function route() {
 
 $("film").addEventListener("close", () => {
   state.showAll = false;
+  state.blurbOpen = "";
   state.sheetCinemas.clear();
   state.sheetTags.clear();
   state.sheetDay = "";
@@ -850,9 +862,15 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
+  if (t.dataset.blurb) {
+    const b = t.closest(".blurb"), open = b.classList.toggle("open");
+    state.blurbOpen = open ? t.dataset.blurb : "";
+    t.textContent = open ? "Show less" : "Show more"; t.setAttribute("aria-expanded", open);
+    return;
+  }
   if (t.dataset.sec) { // collapse / expand; keep the header in view if it was pinned
     const i = +t.dataset.sec, s = state.sections[i], key = s.key;
     // The header pins just below the top bar, so "pinned" means above that line, not above the screen.
