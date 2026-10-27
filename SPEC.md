@@ -154,7 +154,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   any / English subtitles). The two are separate and can be combined and Cinemas (several; busiest first, with "Show more" once there are many; picked ones always show).
   The filters in force show as one line of removable chips under the toolbar, with "Clear all". While any are on,
   the Filters button moves from the search bar to the start of that line (one row with its chips); with none it is
-  back in the bar. The line scrolls sideways on phones and tablets and wraps on desktop, where the panel is always
+  back in the bar. Several cinemas make one chip ("5 cinemas"). The Filters button and "Clear all" stay at the two ends of the line; only the chips
+  between them scroll sideways (phones and tablets), and they wrap on desktop, where the panel is always
   open and there is no button. Picking a cinema also sets
   Tickets to "On sale" (the cinema counts are showings on sale), and clearing the cinemas resets it.
 - Norwegian-dub and English-subtitle filters are Oslo-only (hidden in Westman, ignored in its email).

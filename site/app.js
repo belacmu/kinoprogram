@@ -983,7 +983,9 @@ function activeChips() {
   if (DUBBING_REGIONS.includes(state.region) && state.prefs.hideDubbed) chips.push(["dub", "Original language only"]);
   if (state.region === "oslo" && state.prefs.englishSubs) chips.push(["en", "English subtitles only"]);
   if (state.region === "costadelsol" && state.prefs.audioEnNo) chips.push(["audio", "English or Norwegian audio"]);
-  for (const c of myCinemas()) chips.push(["cinema:" + c, c]);
+  const mine = myCinemas();  // several cinemas are one chip, to keep the line short (the panel lists them)
+  if (mine.length === 1) chips.push(["cinema:" + mine[0], mine[0]]);
+  else if (mine.length > 1) chips.push(["cinemas", `${mine.length} cinemas`]);
   return chips;
 }
 function renderActiveChips() {
@@ -995,9 +997,8 @@ function renderActiveChips() {
   if (chips.length && btn.parentElement !== el) el.prepend(btn);
   else if (!chips.length && btn.parentElement === el) $("searchBox").before(btn);
   if (had) btn.focus();
-  el.querySelectorAll(".achip, [data-chip=all]").forEach((n) => n.remove());
-  el.insertAdjacentHTML("beforeend", chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join("")
-    + (chips.length > 1 ? `<button type="button" class="linkbtn" data-chip="all">Clear all</button>` : ""));
+  $("chipList").innerHTML = chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join("");
+  $("chipsClear").hidden = chips.length < 2;
 }
 function removeChip(k) {
   if (k === "all") { resetFilters(); return; }
@@ -1005,6 +1006,7 @@ function removeChip(k) {
   else if (k === "dub") state.prefs.hideDubbed = false;
   else if (k === "en") state.prefs.englishSubs = false;
   else if (k === "audio") state.prefs.audioEnNo = false;
+  else if (k === "cinemas") setCinemas(state.prefs.cinemas.filter((x) => !state.data.cinemas.includes(x)));  // this region's cinemas
   else if (k.startsWith("cinema:")) setCinemas(state.prefs.cinemas.filter((x) => x !== k.slice(7)));
   savePrefs(); render();
 }
