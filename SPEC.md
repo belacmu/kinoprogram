@@ -149,9 +149,9 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   (account menu when signed in, the page footer for everyone, or the line under the list that says how many
   are turned off). Preferences are kept on the device and in the account, and also apply to the email.
   Searching always finds every type.
-- **Filters** panel: Sort films by (one choice), Tickets (one choice), Language (one choice, where the region has
-  dubbing: any / original language only / English subtitles only in Oslo, English or Norwegian audio in Costa del
-  Sol) and Cinemas (several; busiest first, with "Show more" once there are many; picked ones always show).
+- **Filters** panel: Sort films by (one choice), Tickets (one choice), Spoken language (one choice, where the region has
+  dubbing: any / original language only, plus English or Norwegian audio in Costa del Sol) and Subtitles (Oslo:
+  any / English subtitles). The two are separate and can be combined and Cinemas (several; busiest first, with "Show more" once there are many; picked ones always show).
   The filters in force show as removable chips in the toolbar, right under the search / Date / Filters row, with
   "Clear all". Picking a cinema also sets
   Tickets to "On sale" (the cinema counts are showings on sale), and clearing the cinemas resets it.

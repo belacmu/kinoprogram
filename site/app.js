@@ -316,12 +316,12 @@ function renderFilters() {
   const order = [...state.data.cinemas].sort((a, b) => (cinemaCounts[b] || 0) - (cinemaCounts[a] || 0) || a.localeCompare(b));
   const collapsed = order.length > CINEMAS_COLLAPSE_AT && !state.cinemasOpen;
   const listed = collapsed ? order.filter((c, i) => i < CINEMAS_SHOWN || mine.includes(c)) : order, more = order.length - listed.length;
-  // Language: one choice, each with what it does. (Oslo: no dubbed showings, or only English subtitles. Costa del Sol: no
-  // Spanish-dubbed showings, or only English / Norwegian audio.)
-  const langNow = state.region === "oslo" && state.prefs.englishSubs ? "subs" : state.region === "costadelsol" && state.prefs.audioEnNo ? "audio" : state.prefs.hideDubbed ? "original" : "any";
-  const langOptions = [["any", "Any language", ""],
-    ["original", "Original language only", state.region === "costadelsol" ? "Not dubbed into Spanish" : "Not dubbed into Norwegian"],
-    state.region === "oslo" ? ["subs", "English subtitles only", "Only showings with English subtitles"] : ["audio", "English or Norwegian audio", "Only showings spoken in English or Norwegian"]];
+  // Spoken language and subtitles are separate choices (they can be combined). Spoken: any, original language only (not dubbed)
+  // and, in Costa del Sol, English or Norwegian audio. Subtitles (Oslo): any, or only showings with English subtitles.
+  const spokenNow = state.region === "costadelsol" && state.prefs.audioEnNo ? "audio" : state.prefs.hideDubbed ? "original" : "any";
+  const spokenOptions = [["any", "Any", ""], ["original", "Original language only", state.region === "costadelsol" ? "Not dubbed into Spanish" : "Not dubbed into Norwegian"],
+    ...(state.region === "costadelsol" ? [["audio", "English or Norwegian audio", "Spoken in English or Norwegian"]] : [])];
+  const subsOptions = [["any", "Any", ""], ["subs", "English subtitles", "Only showings with English subtitles"]];
   const radioD = (attrs, checked, label, desc) => `<label class="radio"><input type="radio" ${attrs}${checked ? " checked" : ""}><span>${label}${desc ? `<small>${desc}</small>` : ""}</span></label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
@@ -332,8 +332,11 @@ function renderFilters() {
     <fieldset class="fg"><legend>Tickets</legend>
       ${TIX.map(([v, l]) => radio(`name="tix" data-f="tix" value="${v}"`, state.tix === v, l)).join("")}
     </fieldset>
-    <fieldset class="fg"${DUBBING_REGIONS.includes(state.region) ? "" : " hidden"}><legend>Language</legend>
-      ${langOptions.map(([v, l, d]) => radioD(`name="lang" data-f="lang" value="${v}"`, langNow === v, l, d)).join("")}
+    <fieldset class="fg"${DUBBING_REGIONS.includes(state.region) ? "" : " hidden"}><legend>Spoken language</legend>
+      ${spokenOptions.map(([v, l, d]) => radioD(`name="spoken" data-f="spoken" value="${v}"`, spokenNow === v, l, d)).join("")}
+    </fieldset>
+    <fieldset class="fg"${state.region === "oslo" ? "" : " hidden"}><legend>Subtitles</legend>
+      ${subsOptions.map(([v, l, d]) => radioD(`name="subs" data-f="subs" value="${v}"`, (state.prefs.englishSubs ? "subs" : "any") === v, l, d)).join("")}
     </fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
       <div class="fghint">Pick one or more. The numbers are showings on sale.</div>
@@ -1020,9 +1023,9 @@ $("filtersBody").addEventListener("change", (e) => {
   else if (f === "cinema") {
     const list = state.prefs.cinemas;
     setCinemas(el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value));
-  } else if (f === "lang") {
-    state.prefs.hideDubbed = el.value === "original"; state.prefs.englishSubs = el.value === "subs"; state.prefs.audioEnNo = el.value === "audio";
-  }
+  } else if (f === "spoken") {
+    state.prefs.hideDubbed = el.value === "original"; state.prefs.audioEnNo = el.value === "audio";
+  } else if (f === "subs") state.prefs.englishSubs = el.value === "subs";
   if (f !== "tix") savePrefs();
   render();
 });
