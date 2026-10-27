@@ -397,6 +397,7 @@ function ratingHtml(f) {
   return `<span class="lbr pillr" title="${label}" aria-label="${label}">${r.toFixed(1)}<i aria-hidden="true">★</i></span>`;
 }
 // Watchlist heart (inline SVG so it's crisp and the same everywhere).
+const moreIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="19" cy="12" r="1.9" fill="currentColor"/></svg>`;
 const shareIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const linkIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 // The system share sheet on phones and tablets (touch); on a computer a plain "Copy link", as most sites do.
@@ -657,13 +658,18 @@ function stubHtml(s) {
 
 // Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
 // confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
+// The Letterboxd link is always at the top, with the rating when there is one; the cinema listing's own links (Filmweb, ...)
+// go in the "more" menu.
 function extLinks(f) {
-  const x = f.ext || {}, out = [];
+  const x = f.ext || {};
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
-  if (lb) out.push(`<a class="ext lb" href="${esc(lb)}" target="_blank" rel="noopener">Letterboxd${x.lbRating ? ` <b>${x.lbRating.toFixed(1)} ★</b>` : ""}</a>`);
-  else out.push(`<a class="ext lb" href="https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/" target="_blank" rel="noopener">Search Letterboxd</a>`);
-  return `<div class="exts">${out.join("")}</div>`;
+  const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
+  const label = (lb && x.lbRating ? `<b>★ ${x.lbRating.toFixed(1)}</b> ` : "") + `<span>${lb ? "Letterboxd ↗" : "Search Letterboxd ↗"}</span>`;  // the underlined part is the link's look
+  return {
+    top: `<a class="rate" href="${esc(url)}" target="_blank" rel="noopener"${lb && x.lbRating ? ' title="Letterboxd rating"' : ""}>${label}</a>`,
+    menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
+  };
 }
 
 function openFilm(id) {
@@ -698,25 +704,28 @@ function openFilm(id) {
   const info = (KIND_BADGE[f.kind] ? `<span class="badge line">${KIND_BADGE[f.kind]}</span>` : "")
     + (isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "")
     + f.series.map((s) => `<span class="badge line">${esc(s)}</span>`).join("");
+  const ext = extLinks(f), picks = sheetPicks(all, shown, withTags, today);
   const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="fhead">${posterHtml(f)}<div>
+    <div class="fhead">${posterHtml(f)}<div class="ftext">
+      ${info ? `<div class="badges">${info}</div>` : ""}
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
-      ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
+      ${ext.top}
       ${f.blurb ? `<p>${esc(f.blurb)}</p>` : ""}
     </div>
     <div class="fmore">
-      ${info ? `<div class="badges">${info}</div>` : ""}
-      ${extLinks(f)}
-      <div class="actions"><button class="btn${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
-      <button class="btn ghost" data-share="${esc(f.id)}">${canShare ? shareIcon : linkIcon} ${canShare ? "Share" : "Copy link"}</button>
-      <button class="btn ghost" data-hide="${esc(f.id)}">${isHidden(f) ? eyeOn : eyeOff} ${isHidden(f) ? "Show this film again" : "Hide this film"}</button>
-      ${f.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("")}</div>
+      <div class="actions">
+        <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
+        <button class="btn ghost share" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}<span class="lbl">${canShare ? "Share" : "Copy link"}</span></button>
+        <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
+          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
+      </div>
+      ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
     </div>
-      ${sheetPicks(all, shown, withTags, today)}
     </div>
+    ${picks.menus || picks.strip ? `<div class="showings"><div class="showhead"><h3>Showings</h3>${picks.menus}</div>${picks.strip}</div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
@@ -769,7 +778,7 @@ function sheetPicks(all, shown, withTags, today) {
     const d = asDate(day), name = day === today ? "Today" : day === addDays(today, 1) ? "Tmrw" : WEEKDAYS[d.getUTCDay()];
     return dayBtn(day, name, `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`);
   }).join("")}</div><button class="dnav" data-daynav="1" aria-label="Later days">›</button></div>` : "";
-  return (menus ? `<div class="pmenus">${menus}</div>` : "") + (strip ? `<div class="picks">${strip}</div>` : "");
+  return { menus: menus ? `<div class="pmenus">${menus}</div>` : "", strip: strip ? `<div class="picks">${strip}</div>` : "" };
 }
 
 function route() {
@@ -946,8 +955,18 @@ $("qClear").addEventListener("click", () => { clearSearch(); $("q").focus(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("filters-open")) setFiltersOpen(false); });
 $("q").addEventListener("input", (e) => { state.q = e.target.value; renderGrid(); });
 // Pill menus (Location, the date picker): a button that opens a small list of choices.
+// A menu opens under its button; one that would run off the screen is lined up with the button's other edge instead (and, if
+// it's wider than the room either way, nudged back in).
+function keepOnScreen(menu) {
+  menu.style.left = menu.style.right = "";
+  const vw = document.documentElement.clientWidth, edge = 8;
+  if (menu.getBoundingClientRect().right <= vw - edge) return;
+  menu.style.left = "auto"; menu.style.right = "0";
+  const left = menu.getBoundingClientRect().left;
+  if (left < edge) menu.style.right = `${left - edge}px`;
+}
 function closeMenus() {
-  document.querySelectorAll(".menu").forEach((m) => { m.hidden = true; });
+  document.querySelectorAll(".menu").forEach((m) => { m.hidden = true; m.style.left = m.style.right = ""; });
   document.querySelectorAll("[aria-haspopup]").forEach((b) => b.setAttribute("aria-expanded", "false"));
 }
 function toggleMenu(btn, menu) {
@@ -956,7 +975,8 @@ function toggleMenu(btn, menu) {
   if (!open) return;
   menu.hidden = false;
   btn.setAttribute("aria-expanded", "true");
-  (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button"))?.focus();
+  keepOnScreen(menu);
+  (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button, a"))?.focus();
 }
 $("regionBtn").addEventListener("click", () => toggleMenu($("regionBtn"), $("regionMenu")));
 document.addEventListener("click", (e) => {
@@ -977,7 +997,7 @@ document.addEventListener("keydown", (e) => {
   }
   if (menu && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
     e.preventDefault();
-    const items = [...menu.querySelectorAll("button")], i = items.indexOf(document.activeElement);
+    const items = [...menu.querySelectorAll("button, a")], i = items.indexOf(document.activeElement);
     items[(i + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length].focus();
   }
 });
