@@ -720,8 +720,8 @@
 "imdb": "tt37676022",
 "en": null,
 "lbSlug": "arriba-tutto",
-"lbRating": 3.19,
-"rated": "2026-10-20",
+"lbRating": 3.26,
+"rated": "2026-10-28",
 "posterPath": "/cO5d1CHpb1ravVNqHQmJr7NLcTN.jpg"
 },
 "cl-bola-negra": {
@@ -744,6 +744,12 @@
 "lang": "es",
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
+"cl-carmen-26-27": {
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2
+},
 "cl-cars": {
 "imdb": "tt0317219",
 "imdbAll": [
@@ -764,6 +770,27 @@
 "lbRating": 3.96,
 "rated": "2026-10-27",
 "posterPath": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg"
+},
+"cl-centauros-desierto": {
+"imdb": "tt0049730",
+"imdbAll": [
+"tt0049730"
+],
+"lb": "the-searchers",
+"rt": "m/searchers",
+"mc": "movie/the-searchers",
+"en": "The Searchers",
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"tmdb": 3114,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-searchers",
+"lbRating": 3.94,
+"rated": "2026-10-28",
+"posterPath": "/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg"
 },
 "cl-clayface": {
 "imdb": "tt34890576",
@@ -816,10 +843,10 @@
 "v": 4
 },
 "cl-cuentos-tokio": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "cl-gato-sombrero": {
 "imdb": "tt2321555",
@@ -841,6 +868,18 @@
 "lbRating": null,
 "rated": "2026-10-23",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
+},
+"cl-gato-sombrero-1": {
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2
+},
+"cl-gungo-juegos-cavernicolas-1": {
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2
 },
 "cl-hope": {
 "imdb": "tt27369017",
@@ -910,10 +949,25 @@
 "posterPath": "/bJh97VEUn9TWygQSrOOyJrwQXek.jpg"
 },
 "cl-lady-bird": {
+"imdb": "tt4925292",
+"imdbAll": [
+"tt4925292"
+],
+"lb": "lady-bird",
+"rt": "m/lady_bird",
+"mc": "movie/lady-bird",
+"en": "Lady Bird",
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"tmdb": 391713,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "lady-bird",
+"lbRating": 3.81,
+"rated": "2026-10-28",
+"posterPath": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg"
 },
 "cl-leones-invierno": {
 "v": 4,
@@ -988,6 +1042,12 @@
 "lbRating": 3.59,
 "rated": "2026-10-23",
 "posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
+},
+"cl-pesadilla-antes-navidad": {
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2
 },
 "cl-pesadilla-elm-street": {
 "tmdbChecked": "2026-10-22",
@@ -1139,6 +1199,27 @@
 "lbRating": 3.24,
 "rated": "2026-10-22",
 "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
+},
+"cl-wicker": {
+"imdb": "tt29611136",
+"imdbAll": [
+"tt29611136"
+],
+"lb": "wicker",
+"rt": "m/wicker",
+"mc": "movie/wicker",
+"en": "Wicker",
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"tmdb": 1195803,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "wicker",
+"lbRating": 3.7,
+"rated": "2026-10-28",
+"posterPath": "/6FcBZOKvyrLCKGCyBG0ySCR4okt.jpg"
 },
 "cl-wildwood-bosque-salvaje": {
 "v": 4,
@@ -2119,8 +2200,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -2285,8 +2366,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -2758,8 +2839,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -3253,11 +3334,11 @@
 "en": "The Furious",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-20",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "lbSlug": "the-furious",
 "lbRating": 3.81,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "cm-the-long-kiss-goodnight": {
 "tmdbChecked": "2026-10-01",
@@ -4262,7 +4343,7 @@
 "en": null,
 "lbSlug": "cinema-paradiso",
 "lbRating": 4.52,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "fw-AWE20240506": {
 "imdb": "tt32086077",
@@ -4395,8 +4476,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "toy-story-5",
-"lbRating": 3.62,
-"rated": "2026-10-20"
+"lbRating": 3.61,
+"rated": "2026-10-28"
 },
 "fw-CIT20150068": {
 "tmdbChecked": "2026-10-27",
@@ -4840,7 +4921,7 @@
 "tmdbChecked": "2026-10-25",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-20"
+"checked": "2026-10-28"
 },
 "fw-EDI20250777": {
 "tmdbChecked": "2026-10-01",
@@ -5277,7 +5358,7 @@
 "rated": "2026-10-25",
 "posterPath": "/aN1SBXBrlcxK7T3224fm2TJTJMV.jpg",
 "v": 4,
-"checked": "2026-10-20"
+"checked": "2026-10-28"
 },
 "fw-EDI20251744": {
 "imdb": "tt17070412",
@@ -5296,7 +5377,7 @@
 "lang": "cs",
 "lbSlug": "franz-2025",
 "lbRating": 3.1,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-10-25",
@@ -5596,11 +5677,11 @@
 "en": "King",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-20",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "lbSlug": "king-2026",
 "lbRating": null,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "fw-EDI20260255": {
 "imdb": "tt35672862",
@@ -5771,8 +5852,8 @@
 "tmdb": 1145899,
 "lang": "fr",
 "lbSlug": "marsupilami-2025",
-"lbRating": 2.67,
-"rated": "2026-10-20"
+"lbRating": 2.66,
+"rated": "2026-10-28"
 },
 "fw-EDI20260469": {
 "v": 4,
@@ -6563,9 +6644,9 @@
 "tmdb": 1481789,
 "lang": "sv",
 "enFrom": "tmdb",
-"lbSlug": null,
+"lbSlug": "bloody-men",
 "lbRating": null,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "fw-EDI20260915": {
 "imdb": "tt1756855",
@@ -6947,8 +7028,8 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2,
 "lbSlug": "godzilla-minus-zero",
-"lbRating": 4.01,
-"rated": "2026-10-20",
+"lbRating": 3.98,
+"rated": "2026-10-28",
 "tmdb": 1381071,
 "lang": "ja"
 },
@@ -7754,7 +7835,7 @@
 "tmdbChecked": "2026-10-25",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-20"
+"checked": "2026-10-28"
 },
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
@@ -8089,8 +8170,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -8175,11 +8256,11 @@
 "en": "The Furious",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-20",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "lbSlug": "the-furious",
 "lbRating": 3.81,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "fw-EDI20261574": {
 "tmdbChecked": "2026-10-01",
@@ -8329,8 +8410,8 @@
 "tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "ashes-2026-3",
-"lbRating": 3.28,
-"rated": "2026-10-20",
+"lbRating": 3.24,
+"rated": "2026-10-28",
 "tmdb": 1623608,
 "lang": "es"
 },
@@ -8344,8 +8425,8 @@
 "mc": null,
 "en": "Lady",
 "v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "conflict": [
 "tt38111477",
@@ -8441,8 +8522,8 @@
 "mc": null,
 "en": "Paradise",
 "v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "conflict": [
 "tt27027989",
@@ -8488,10 +8569,10 @@
 "checked": "2026-10-04"
 },
 "fw-EDI20261601": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "fw-EDI20261602": {
 "imdb": "tt29943166",
@@ -8510,7 +8591,7 @@
 "lang": "es",
 "lbSlug": "pepita-the-gunslinger",
 "lbRating": 3.23,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "fw-EDI20261609": {
 "tmdbChecked": "2026-10-25",
@@ -8704,6 +8785,12 @@
 "v": 4,
 "checked": "2026-10-22"
 },
+"fw-EDI20261687": {
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2
+},
 "fw-EDI20261690": {
 "tmdbChecked": "2026-10-25",
 "tv": 2,
@@ -8745,10 +8832,10 @@
 "posterPath": "/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg"
 },
 "fw-EDI20261722": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "fw-EDI20261729": {
 "v": 4,
@@ -9528,11 +9615,11 @@
 "en": "Caravaggio",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-20",
+"tmdbChecked": "2026-10-28",
 "tv": 2,
 "lbSlug": "caravaggio-2025",
 "lbRating": 3.33,
-"rated": "2026-10-20"
+"rated": "2026-10-28"
 },
 "fw-UAV20213413": {
 "tmdbChecked": "2026-10-01",
@@ -9781,8 +9868,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "clayface",
-"lbRating": null,
-"rated": "2026-10-20"
+"lbRating": 3.74,
+"rated": "2026-10-28"
 },
 "fw-WAB20240290": {
 "lbSlug": "practical-magic-2",
@@ -10633,22 +10720,37 @@
 "posterPath": "/wijlZ3HaYMvlDTPqJoTCWKFkCPU.jpg"
 },
 "mk-akira": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-blade-runner": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-centauros-del-desierto": {
+"imdb": "tt0049730",
+"imdbAll": [
+"tt0049730"
+],
+"lb": "the-searchers",
+"rt": "m/searchers",
+"mc": "movie/the-searchers",
+"en": "The Searchers",
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"tmdb": 3114,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-searchers",
+"lbRating": 3.94,
+"rated": "2026-10-28",
+"posterPath": "/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg"
 },
 "mk-clayface": {
 "imdb": "tt34890576",
@@ -10672,52 +10774,78 @@
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "mk-cuentos-de-tokio": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-delitos-y-faltas": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-dune-parte-3": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-el-apartamento-cine": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-el-bazar-de-las-sorpresas": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-el-buscavidas": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
+"checked": "2026-10-28"
+},
+"mk-el-gato-con-sombrero3": {
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
 "tv": 2
 },
 "mk-fargo": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-gremlins": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
+},
+"mk-hope-6a85a985bb6eb": {
+"imdb": "tt27369017",
+"imdbAll": [
+"tt27369017"
+],
+"lb": "hope-2026",
+"rt": "m/hope_2026",
+"mc": "movie/hope-2026",
+"en": "Hope",
+"v": 4,
+"checked": "2026-10-27",
+"tmdbChecked": "2026-10-27",
+"tv": 2,
+"tmdb": 1058424,
+"lang": "ko",
+"lbSlug": "hope-2026",
+"lbRating": 3.17,
+"rated": "2026-10-27",
+"posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "mk-la-invitacion": {
 "imdb": "tt14173636",
@@ -10741,22 +10869,37 @@
 "posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
 },
 "mk-ladron-de-bicicletas": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-lady-bird": {
+"imdb": "tt4925292",
+"imdbAll": [
+"tt4925292"
+],
+"lb": "lady-bird",
+"rt": "m/lady_bird",
+"mc": "movie/lady-bird",
+"en": "Lady Bird",
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"tmdb": 391713,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "lady-bird",
+"lbRating": 3.81,
+"rated": "2026-10-28",
+"posterPath": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg"
 },
 "mk-origen": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
 },
 "mk-pesadilla-en-elm-street": {
 "tmdbChecked": "2026-10-22",
@@ -10780,10 +10923,31 @@
 "posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
 },
 "mk-vengadores-doomsday4": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-20",
-"tmdbChecked": "2026-10-20",
-"tv": 2
+"checked": "2026-10-28"
+},
+"mk-wicker": {
+"imdb": "tt29611136",
+"imdbAll": [
+"tt29611136"
+],
+"lb": "wicker",
+"rt": "m/wicker",
+"mc": "movie/wicker",
+"en": "Wicker",
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"tmdb": 1195803,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "wicker",
+"lbRating": 3.7,
+"rated": "2026-10-28",
+"posterPath": "/6FcBZOKvyrLCKGCyBG0ySCR4okt.jpg"
 },
 "rv-the-big-lebowski-1998": {
 "tmdbChecked": "2026-10-01",
