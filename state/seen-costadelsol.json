@@ -4,23 +4,23 @@
  "films": {
   "cl-arriba-tutto": {
    "since": "2026-10-20T10:00",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-bola-negra": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-carmen-26-27": {
    "since": "2026-10-28T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-cars": {
    "since": "2026-10-03T00:33",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-centauros-desierto": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-chico-garza": {
    "since": "2026-10-11T11:26",
@@ -28,15 +28,15 @@
   },
   "cl-clayface": {
    "since": "2026-10-10T11:11",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-concert-rammstein-live-in-mexico-city": {
    "since": "2026-10-22T10:04",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-corazon-bestia": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-coyote-vs-acme": {
    "since": "2026-10-02T11:10",
@@ -44,7 +44,7 @@
   },
   "cl-cuentos-tokio": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-digger": {
    "since": "2026-10-02T11:10",
@@ -60,19 +60,19 @@
   },
   "cl-gato-sombrero": {
    "since": "2026-10-23T23:44",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-gato-sombrero-1": {
    "since": "2026-10-28T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-gungo-juegos-cavernicolas-1": {
    "since": "2026-10-28T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-hope": {
    "since": "2026-10-27T23:44",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-hope-1": {
    "since": "2026-10-23T23:44",
@@ -80,31 +80,31 @@
   },
   "cl-hotel-transilvania": {
    "since": "2026-10-23T23:44",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-invitacion": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-isla-olvidada": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-karateka": {
    "since": "2026-10-23T23:44",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-lady-bird": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-leones-invierno": {
    "since": "2026-10-14T23:59",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-maleta": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-manon-26-27": {
    "since": "2026-10-14T09:36",
@@ -112,7 +112,7 @@
   },
   "cl-mascotas-rescate": {
    "since": "2026-10-06T11:33",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-muerte-talones": {
    "since": "2026-10-14T09:36",
@@ -124,19 +124,19 @@
   },
   "cl-otra-madre": {
    "since": "2026-10-06T11:33",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-oveja-shaun-mision-calabaza": {
    "since": "2026-10-23T23:44",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-pesadilla-antes-navidad": {
    "since": "2026-10-28T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-pesadilla-elm-street": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-precio-red": {
    "since": "2026-10-06T11:33",
@@ -144,39 +144,39 @@
   },
   "cl-resident-evil": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-sentido-sensibilidad": {
    "since": "2026-10-21T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-stray-kids-world-tour-run-it-live-viewing": {
    "since": "2026-10-25T13:50",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-street-fighter": {
    "since": "2026-10-03T00:33",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-superthings-pelicula": {
    "since": "2026-10-22T10:04",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-tadeo-jones-lampara-maravillosa": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-verity-sombra-engano": {
    "since": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-whalefall": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-wicker": {
    "since": "2026-10-28T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-wildwood-1": {
    "since": "2026-10-21T10:05",
@@ -184,23 +184,23 @@
   },
   "cl-wildwood-bosque-salvaje": {
    "since": "2026-10-22T10:04",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-akira": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-blade-runner": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-centauros-del-desierto": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-clayface": {
    "since": "2026-10-10T11:11",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-con-la-muerte-en-los-talones": {
    "since": "2026-10-14T09:36",
@@ -208,27 +208,27 @@
   },
   "mk-cuentos-de-tokio": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-delitos-y-faltas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-dune-parte-3": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-apartamento-cine": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-bazar-de-las-sorpresas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-buscavidas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-chico-y-la-garza": {
    "since": "2026-10-11T11:26",
@@ -236,19 +236,19 @@
   },
   "mk-el-gato-con-sombrero3": {
    "since": "2026-10-28T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-fargo": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-gremlins": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-hope-6a85a985bb6eb": {
    "since": "2026-10-27T23:44",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-la-bola-negra": {
    "since": "2026-10-02T11:10",
@@ -256,7 +256,7 @@
   },
   "mk-la-invitacion": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-la-otra-madre": {
    "since": "2026-10-06T11:33",
@@ -264,11 +264,15 @@
   },
   "mk-ladron-de-bicicletas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-lady-bird": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
+  },
+  "mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
+   "since": "2026-10-28T23:54",
+   "last": "2026-10-28T23:54"
   },
   "mk-naza": {
    "since": "2026-10-08T11:40",
@@ -276,19 +280,19 @@
   },
   "mk-origen": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-pesadilla-en-elm-street": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-sentido-y-sensibilidad": {
    "since": "2026-10-21T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-vengadores-doomsday4": {
    "since": "2026-10-14T09:36",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-whalefall": {
    "since": "2026-10-14T09:36",
@@ -296,13 +300,13 @@
   },
   "mk-wicker": {
    "since": "2026-10-28T10:05",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   }
  },
  "dated": {
   "cl-arriba-tutto": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-bitelchus": {
    "first": "2026-10-02T11:10",
@@ -310,15 +314,15 @@
   },
   "cl-bola-negra": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-carmen-26-27": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-cars": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-castillo-ambulante": {
    "first": "2026-10-02T11:10",
@@ -326,7 +330,7 @@
   },
   "cl-centauros-desierto": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-chico-garza": {
    "first": "2026-10-02T11:10",
@@ -334,15 +338,15 @@
   },
   "cl-clayface": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-concert-rammstein-live-in-mexico-city": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-corazon-bestia": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-coyote-vs-acme": {
    "first": "2026-10-02T11:10",
@@ -350,7 +354,7 @@
   },
   "cl-cuentos-tokio": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-digger": {
    "first": "2026-10-02T11:10",
@@ -370,19 +374,19 @@
   },
   "cl-gato-sombrero": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-gato-sombrero-1": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-gungo-juegos-cavernicolas-1": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-hope": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-hope-1": {
    "first": "2026-10-02T11:10",
@@ -390,11 +394,11 @@
   },
   "cl-hotel-transilvania": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-invitacion": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-invitacion-the-invite": {
    "first": "2026-10-02T11:10",
@@ -402,7 +406,7 @@
   },
   "cl-isla-olvidada": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-isla-perros": {
    "first": "2026-10-02T11:10",
@@ -410,7 +414,7 @@
   },
   "cl-karateka": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-l-elisir-d-amore-26-27": {
    "first": "2026-10-02T11:10",
@@ -418,15 +422,15 @@
   },
   "cl-lady-bird": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-leones-invierno": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-maleta": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-manon-26-27": {
    "first": "2026-10-02T11:10",
@@ -434,7 +438,7 @@
   },
   "cl-mascotas-rescate": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-muerte-talones": {
    "first": "2026-10-02T11:10",
@@ -450,11 +454,11 @@
   },
   "cl-otra-madre": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-oveja-shaun-mision-calabaza": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-patrulla-canina-dino-pelicula": {
    "first": "2026-10-02T11:10",
@@ -462,11 +466,11 @@
   },
   "cl-pesadilla-antes-navidad": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-pesadilla-elm-street": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-ponyo-acantilado": {
    "first": "2026-10-02T11:10",
@@ -482,11 +486,11 @@
   },
   "cl-resident-evil": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-sentido-sensibilidad": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-septimo-sello": {
    "first": "2026-10-02T11:10",
@@ -498,19 +502,19 @@
   },
   "cl-stray-kids-world-tour-run-it-live-viewing": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-street-fighter": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-superthings-pelicula": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-tadeo-jones-lampara-maravillosa": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-vengadores-endgame": {
    "first": "2026-10-02T11:10",
@@ -518,7 +522,7 @@
   },
   "cl-verity-sombra-engano": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-viento-levanta": {
    "first": "2026-10-02T11:10",
@@ -530,11 +534,11 @@
   },
   "cl-whalefall": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-wicker": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "cl-wildwood-1": {
    "first": "2026-10-02T11:10",
@@ -542,11 +546,11 @@
   },
   "cl-wildwood-bosque-salvaje": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-akira": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-bitelchus": {
    "first": "2026-10-02T11:10",
@@ -554,15 +558,15 @@
   },
   "mk-blade-runner": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-centauros-del-desierto": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-clayface": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-con-la-muerte-en-los-talones": {
    "first": "2026-10-02T11:10",
@@ -570,27 +574,27 @@
   },
   "mk-cuentos-de-tokio": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-delitos-y-faltas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-dune-parte-3": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-apartamento-cine": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-bazar-de-las-sorpresas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-buscavidas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-chico-y-la-garza": {
    "first": "2026-10-02T11:10",
@@ -598,7 +602,7 @@
   },
   "mk-el-gato-con-sombrero3": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-el-precio-de-la-red": {
    "first": "2026-10-02T11:10",
@@ -614,15 +618,15 @@
   },
   "mk-fargo": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-gremlins": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-hope-6a85a985bb6eb": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-la-bola-negra": {
    "first": "2026-10-02T11:10",
@@ -630,7 +634,7 @@
   },
   "mk-la-invitacion": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-la-otra-madre": {
    "first": "2026-10-02T11:10",
@@ -638,11 +642,15 @@
   },
   "mk-ladron-de-bicicletas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-lady-bird": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
+  },
+  "mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-10-28T23:54"
   },
   "mk-naza": {
    "first": "2026-10-02T11:10",
@@ -650,11 +658,11 @@
   },
   "mk-origen": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-pesadilla-en-elm-street": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-resident-evil": {
    "first": "2026-10-02T11:10",
@@ -662,11 +670,11 @@
   },
   "mk-sentido-y-sensibilidad": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-vengadores-doomsday4": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   },
   "mk-verity-la-sombra-de-un-engano": {
    "first": "2026-10-02T11:10",
@@ -678,46 +686,45 @@
   },
   "mk-wicker": {
    "first": "2026-10-02T11:10",
-   "last": "2026-10-28T10:05"
+   "last": "2026-10-28T23:54"
   }
  },
- "lastRun": "2026-10-28T10:05",
+ "lastRun": "2026-10-28T23:54",
  "lastWeekly": "2026-10-23T10:04",
  "shows": {
   "cl-carmen-26-27": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-10T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-cars": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T15:50|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T15:50|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-centauros-desierto": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-10T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-concert-rammstein-live-in-mexico-city": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-04T20:00|Kinépolis La Cañada (Marbella)": "",
     "2026-11-07T16:00|Kinépolis La Cañada (Marbella)": ""
    }
   },
   "cl-cuentos-tokio": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-03T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-gato-sombrero": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-31T18:45|Kinépolis La Cañada (Marbella)": "",
     "2026-11-01T18:45|Kinépolis La Cañada (Marbella)": "",
@@ -740,7 +747,7 @@
    }
   },
   "cl-gato-sombrero-1": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-31T15:55|mk2 Miramar (Fuengirola)": "",
     "2026-10-31T18:10|mk2 Miramar (Fuengirola)": "",
@@ -749,7 +756,7 @@
    }
   },
   "cl-gungo-juegos-cavernicolas-1": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-30T15:50|mk2 Miramar (Fuengirola)": "",
     "2026-10-30T17:55|mk2 Miramar (Fuengirola)": "",
@@ -771,7 +778,7 @@
    }
   },
   "cl-hotel-transilvania": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-30T17:00|Kinépolis La Cañada (Marbella)": "",
     "2026-10-31T16:45|Kinépolis La Cañada (Marbella)": "",
@@ -780,11 +787,8 @@
    }
   },
   "cl-invitacion": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T15:50|mk2 Miramar (Fuengirola)": "",
-    "2026-10-28T15:55|mk2 Miramar (Fuengirola)": "",
-    "2026-10-28T20:20|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T15:50|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T15:55|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T20:20|mk2 Miramar (Fuengirola)": "",
@@ -801,27 +805,22 @@
    }
   },
   "cl-isla-olvidada": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T16:00|Alfil (Fuengirola)": "",
-    "2026-10-28T17:00|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T16:00|Alfil (Fuengirola)": "",
     "2026-10-31T12:40|Kinépolis La Cañada (Marbella)": "",
     "2026-11-02T12:40|Kinépolis La Cañada (Marbella)": ""
    }
   },
   "cl-lady-bird": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-05T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-maleta": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T17:00|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T19:20|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T22:15|Alfil (Fuengirola)": "",
     "2026-10-29T17:00|Kinépolis La Cañada (Marbella)": "",
     "2026-10-29T19:20|Kinépolis La Cañada (Marbella)": "",
     "2026-10-29T22:15|Alfil (Fuengirola)": "",
@@ -837,9 +836,8 @@
    }
   },
   "cl-mascotas-rescate": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T16:00|Alfil (Fuengirola)": "",
     "2026-10-29T16:00|Alfil (Fuengirola)": "",
     "2026-10-30T16:00|Alfil (Fuengirola)": "",
     "2026-10-31T16:00|Alfil (Fuengirola)": "",
@@ -851,7 +849,7 @@
    }
   },
   "cl-pesadilla-antes-navidad": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-31T12:30|mk2 Miramar (Fuengirola)": "",
     "2026-11-01T12:30|mk2 Miramar (Fuengirola)": "",
@@ -859,16 +857,14 @@
    }
   },
   "cl-pesadilla-elm-street": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-29T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-resident-evil": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T22:15|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T22:20|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T22:15|Kinépolis La Cañada (Marbella)": "",
     "2026-10-30T23:00|Kinépolis La Cañada (Marbella)": "",
     "2026-10-31T22:50|Kinépolis La Cañada (Marbella)": "",
@@ -884,22 +880,48 @@
     "2026-11-05T22:25|mk2 Miramar (Fuengirola)": "2026-10-28T10:05"
    }
   },
+  "cl-sentido-sensibilidad": {
+   "last": "2026-10-28T23:54",
+   "shows": {
+    "2026-10-29T16:00|mk2 Miramar (Fuengirola)": "",
+    "2026-10-29T18:45|mk2 Miramar (Fuengirola)": "",
+    "2026-10-29T21:30|mk2 Miramar (Fuengirola)": "",
+    "2026-10-30T16:30|mk2 Miramar (Fuengirola)": "",
+    "2026-10-30T19:45|mk2 Miramar (Fuengirola)": "",
+    "2026-10-30T22:25|mk2 Miramar (Fuengirola)": "",
+    "2026-10-31T11:50|mk2 Miramar (Fuengirola)": "",
+    "2026-10-31T16:30|mk2 Miramar (Fuengirola)": "",
+    "2026-10-31T19:45|mk2 Miramar (Fuengirola)": "",
+    "2026-10-31T22:25|mk2 Miramar (Fuengirola)": "",
+    "2026-11-01T11:50|mk2 Miramar (Fuengirola)": "",
+    "2026-11-01T16:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-01T19:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-01T22:25|mk2 Miramar (Fuengirola)": "",
+    "2026-11-02T11:50|mk2 Miramar (Fuengirola)": "",
+    "2026-11-02T16:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-02T19:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-02T22:25|mk2 Miramar (Fuengirola)": "",
+    "2026-11-03T16:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-03T19:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-03T22:25|mk2 Miramar (Fuengirola)": "",
+    "2026-11-04T16:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-04T19:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-04T22:25|mk2 Miramar (Fuengirola)": "",
+    "2026-11-05T16:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-05T19:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-05T22:25|mk2 Miramar (Fuengirola)": ""
+   }
+  },
   "cl-stray-kids-world-tour-run-it-live-viewing": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-07T13:00|mk2 Miramar (Fuengirola)": "",
     "2026-11-07T17:15|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-street-fighter": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T17:15|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T19:55|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T20:10|Alfil (Fuengirola)": "",
-    "2026-10-28T21:05|mk2 Miramar (Fuengirola)": "",
-    "2026-10-28T22:00|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T22:30|Alfil (Fuengirola)": "",
     "2026-10-29T17:15|Kinépolis La Cañada (Marbella)": "",
     "2026-10-29T19:55|Kinépolis La Cañada (Marbella)": "",
     "2026-10-29T20:10|Alfil (Fuengirola)": "",
@@ -923,7 +945,7 @@
    }
   },
   "cl-tadeo-jones-lampara-maravillosa": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-31T15:45|Kinépolis La Cañada (Marbella)": "",
     "2026-11-01T15:45|Kinépolis La Cañada (Marbella)": "",
@@ -931,23 +953,15 @@
    }
   },
   "cl-verity-sombra-engano": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T22:15|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T22:20|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T22:15|Kinépolis La Cañada (Marbella)": "",
     "2026-10-29T22:20|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-whalefall": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T18:10|mk2 Miramar (Fuengirola)": "",
-    "2026-10-28T19:15|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T19:30|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T21:50|Kinépolis La Cañada (Marbella)": "",
-    "2026-10-28T22:30|Alfil (Fuengirola)": "",
-    "2026-10-28T22:30|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T18:10|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T19:15|Kinépolis La Cañada (Marbella)": "",
     "2026-10-29T19:30|Kinépolis La Cañada (Marbella)": "",
@@ -971,7 +985,7 @@
    }
   },
   "cl-wicker": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-10-30T15:50|mk2 Miramar (Fuengirola)": "",
     "2026-10-30T18:00|mk2 Miramar (Fuengirola)": "",
@@ -1004,11 +1018,8 @@
    }
   },
   "cl-wildwood-bosque-salvaje": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
-    "2026-10-28T17:00|Alfil (Fuengirola)": "",
-    "2026-10-28T19:30|Alfil (Fuengirola)": "",
-    "2026-10-28T19:45|mk2 Miramar (Fuengirola)": "",
     "2026-10-29T17:00|Alfil (Fuengirola)": "",
     "2026-10-29T19:30|Alfil (Fuengirola)": "",
     "2026-10-29T19:45|mk2 Miramar (Fuengirola)": "",
@@ -1036,25 +1047,25 @@
    }
   },
   "mk-akira": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-12T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-blade-runner": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-12-03T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-delitos-y-faltas": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-26T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-dune-parte-3": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-12-15T19:00|mk2 Miramar (Fuengirola)": "",
     "2026-12-18T20:00|mk2 Miramar (Fuengirola)": "",
@@ -1066,49 +1077,70 @@
    }
   },
   "mk-el-apartamento-cine": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-12-01T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-el-bazar-de-las-sorpresas": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-12-15T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-el-buscavidas": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-24T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-fargo": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-12-10T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-gremlins": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-12-17T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-ladron-de-bicicletas": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-17T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
+  "mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
+   "last": "2026-10-28T23:54",
+   "shows": {
+    "2026-11-20T18:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-20T21:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-21T12:15|mk2 Miramar (Fuengirola)": "",
+    "2026-11-21T18:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-21T21:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-22T12:15|mk2 Miramar (Fuengirola)": "",
+    "2026-11-22T18:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-22T21:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-23T18:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-23T21:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-24T18:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-24T21:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-25T18:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-25T21:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-26T18:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-26T21:45|mk2 Miramar (Fuengirola)": ""
+   }
+  },
   "mk-origen": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-11-19T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-vengadores-doomsday4": {
-   "last": "2026-10-28T10:05",
+   "last": "2026-10-28T23:54",
    "shows": {
     "2026-12-17T15:50|mk2 Miramar (Fuengirola)": "",
     "2026-12-17T19:00|mk2 Miramar (Fuengirola)": "",

@@ -1634,25 +1634,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"cm-den-gronne-solstralen": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 54898,
-"imdb": "tt0091830",
-"en": "The Green Ray",
-"lbSlug": "the-green-ray",
-"lbRating": 4.17,
-"rated": "2026-10-25",
-"posterPath": "/1E3pliSC7lXWw6zJhMvG6ba0UNX.jpg",
-"imdbAll": [
-"tt0091830"
-],
-"lb": "the-green-ray",
-"rt": "m/summer_2011",
-"mc": "movie/le-rayon-vert-1986",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-det-gode-ekteskap": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3033,25 +3014,6 @@
 "posterPath": "/e67rFXSnk0ZgOOI3TpfM4EKa5PH.jpg",
 "v": 4,
 "checked": "2026-10-27"
-},
-"cm-rodblatt-paradis": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 452493,
-"imdb": "tt0190730",
-"en": null,
-"lbSlug": "rodblatt-paradis",
-"lbRating": null,
-"rated": "2026-10-25",
-"posterPath": "/Z3qOcY5TEFkAvFrqha6ByWhkt6.jpg",
-"imdbAll": [
-"tt0190730"
-],
-"lb": "rodblatt-paradis",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-sad-girlz": {
 "tmdbChecked": "2026-10-01",
@@ -6759,24 +6721,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20260943": {
-"imdb": "tt41592057",
-"imdbAll": [
-"tt41592057"
-],
-"lb": "everytime",
-"rt": "m/everytime",
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1655419,
-"lbSlug": "everytime",
-"lbRating": 3.81,
-"rated": "2026-10-25"
-},
 "fw-EDI20260945": {
 "imdb": "tt37670940",
 "imdbAll": [
@@ -6796,26 +6740,6 @@
 "lbSlug": "memory-of-princess-mumbi",
 "lbRating": 3.25,
 "rated": "2026-10-21"
-},
-"fw-EDI20260950": {
-"imdb": "tt14371256",
-"imdbAll": [
-"tt14371256"
-],
-"lb": "klara-and-the-sun",
-"rt": "m/klara_and_the_sun",
-"mc": "movie/klara-and-the-sun",
-"en": "Klara and the Sun",
-"v": 4,
-"checked": "2026-10-09",
-"tmdbChecked": "2026-10-09",
-"tv": 2,
-"tmdb": 858035,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "klara-and-the-sun",
-"lbRating": 3.14,
-"rated": "2026-10-25"
 },
 "fw-EDI20260961": {
 "tmdbChecked": "2026-10-01",
@@ -7006,19 +6930,6 @@
 "lbSlug": "knife-the-attempted-murder-of-salman-rushdie",
 "lbRating": 3.47,
 "rated": "2026-10-21"
-},
-"fw-EDI20260995": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1625655,
-"lang": "uk",
-"imdb": "tt39442922",
-"en": null,
-"lbSlug": "mariinka",
-"lbRating": 3.59,
-"rated": "2026-10-27",
-"v": 4
 },
 "fw-EDI20261010": {
 "v": 4,
@@ -8001,32 +7912,6 @@
 "lbRating": null,
 "rated": "2026-10-27"
 },
-"fw-EDI20261551": {
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1785968,
-"lang": "ko",
-"imdb": null,
-"en": null,
-"lbSlug": "enhypen-world-tour-blood-saga",
-"lbRating": null,
-"rated": "2026-10-27",
-"v": 4
-},
-"fw-EDI20261552": {
-"tmdbChecked": "2026-10-19",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-19",
-"tmdb": 1797226,
-"lang": "ko",
-"imdb": "tt46659669",
-"en": null,
-"lbSlug": "hybe-cheering-party",
-"lbRating": null,
-"rated": "2026-10-27"
-},
 "fw-EDI20261554": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -8633,12 +8518,6 @@
 "lbSlug": "pepita-the-gunslinger",
 "lbRating": 3.23,
 "rated": "2026-10-28"
-},
-"fw-EDI20261609": {
-"tmdbChecked": "2026-10-25",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-27"
 },
 "fw-EDI20261614": {
 "tmdbChecked": "2026-10-25",
@@ -9304,23 +9183,6 @@
 "mc": "movie/a-tale-of-two-sisters",
 "v": 4,
 "checked": "2026-10-04"
-},
-"fw-OKI20171219": {
-"imdb": "tt0081505",
-"imdbAll": [
-"tt0081505"
-],
-"lb": "the-shining",
-"rt": "m/shining",
-"mc": "movie/the-shining",
-"en": "The Shining",
-"v": 4,
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-27",
-"tv": 2,
-"lbSlug": "the-shining",
-"lbRating": 4.21,
-"rated": "2026-10-27"
 },
 "fw-POM20230023": {
 "imdb": "tt23289160",
@@ -10984,6 +10846,12 @@
 "lbRating": 3.81,
 "rated": "2026-10-28",
 "posterPath": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg"
+},
+"mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
+"v": 4,
+"checked": "2026-10-28",
+"tmdbChecked": "2026-10-28",
+"tv": 2
 },
 "mk-origen": {
 "tmdbChecked": "2026-10-28",
