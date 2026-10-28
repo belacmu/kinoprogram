@@ -205,7 +205,7 @@ function whenSection(row, today, chosen = today) {
   if (row.shows.length && day === chosen) return { key: DAY_KEY, label: dayTitle(chosen, today) };
   const dow = asDate(today).getUTCDay();                    // 0 = Sunday
   const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
-  if (day <= weekEnd) return { key: "0001", label: "From this week" };
+  if (day <= weekEnd) return { key: "0001", label: "From later this week" };
   if (day <= addDays(weekEnd, 7)) return { key: "0002", label: "From next week" };
   const [y, m] = day.split("-").map(Number);
   const [ty, tm] = today.split("-").map(Number);
@@ -368,27 +368,24 @@ function noSaleTag(shows) {
   return `<span class="nosaletag">${esc(st.size === 1 && shows[0].status || "Not on sale yet")}</span>`;
 }
 
+// "Fri 30 Oct – 6 Nov · 6 shows": when the first and last showings are, and how many (the times themselves are on the film's page).
+// One showing keeps its time; several on one day show just the day.
+function showsLine(shows) {
+  const today = localNow().slice(0, 10), first = shows[0], firstDay = first.t.slice(0, 10), lastDay = shows.at(-1).t.slice(0, 10);
+  const endLabel = (day) => day === today ? "Today" : day === addDays(today, 1) ? "Tomorrow" : `${asDate(day).getUTCDate()} ${MONTHS[asDate(day).getUTCMonth()]}`;
+  const when = shows.length === 1 ? `${dayLabel(first.t, { short: true })} ${hhmm(first.t)}`
+    : lastDay === firstDay ? dayLabel(first.t, { short: true }) : `${dayLabel(first.t, { short: true })} – ${endLabel(lastDay)}`;
+  // keep the dates and "11 shows" whole on narrow cards
+  return `<span class="nw${firstDay === today ? " today" : ""}">${when}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`;
+}
 function cardMeta(row) {
-  const { f, shows, onSale, start, dayShows } = row;
-  const today = localNow().slice(0, 10);
-  if (dayShows) { // a picked day: that day's cinemas and times, and how many showings from then on
-    // each time stays whole; the line may wrap between them on narrow cards
-    const times = dayShows.slice(0, 3).map((s) => `<span class="nw">${hhmm(s.t)}</span>`).join(" · ") + (dayShows.length > 3 ? ` <span class="nw">+${dayShows.length - 3}</span>` : "");
-    if (!onSale) return `${times}<br>${noSaleTag(dayShows)}`;
-    const ending = endingNote(f);
-    return `<b>${esc(whereList(dayShows))}</b><br>${times} · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`
-      + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
-  }
+  const { f, shows, onSale, dayShows } = row;
   if (onSale) {
-    const where = whereList(shows);
-    const first = shows[0];
-    const cls = first.t.slice(0, 10) === today ? ' class="today"' : "";
-    // keep "Tomorrow 10:15" and "11 shows" whole on narrow cards
     const ending = endingNote(f);
-    return `<b>${esc(where)}</b><br><span class="nw${cls ? " today" : ""}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`
-      + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
+    // a picked day (or today): that day's cinemas, with the range of showings from then on
+    return `<b>${esc(whereList(dayShows || shows))}</b><br>${showsLine(shows)}` + (ending ? `<br><span class="leave">${esc(ending)}</span>` : "");
   }
-  if (shows.length) return `${dayLabel(shows[0].t, { short: true })} ${hhmm(shows[0].t)}<br>${noSaleTag(shows)}`;
+  if (shows.length) return `${showsLine(shows)}<br>${noSaleTag(dayShows || shows)}`;
   if (f.scope === "Canada" && f.premiere) return `Opens in Canada ${dayLabel(f.premiere)}<br><span class="nosaletag">Not scheduled here yet</span>`;
   if (f.premiere) {
     const d = asDate(f.premiere);
