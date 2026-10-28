@@ -88,8 +88,12 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
     ("Thu 15 Oct ▾"), highlighted like active filters. It opens a month picker with a Today button
     beside the month arrows, as in most calendars (days with nothing playing under the current
     filters are greyed out).
+  - A card's second line gives the range of showings and how many, not their times (those are on the film
+    page): "Fri 30 Oct – 6 Nov · 6 shows" (first day, last day, count); all on one day: "Today · 3 shows"; a
+    single showing keeps its time ("Tomorrow 19:00 · 1 show"). It covers the showings that pass your filters,
+    from the shown day on.
   - Picking a day shows the page as it will be then: that day's films first, with that day's
-    cinemas and times on the cards, then everything after it in the usual sections; films only
+    cinemas on the cards, then everything after it in the usual sections; films only
     playing before it drop out, and a film opened from there starts at (and highlights) that day.
     The section stays even when empty, saying nothing's on. The day isn't remembered: reloading
     goes back to Today; switching region keeps it. Searching ignores it.
