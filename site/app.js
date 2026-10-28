@@ -205,7 +205,7 @@ function whenSection(row, today, chosen = today) {
   if (row.shows.length && day === chosen) return { key: DAY_KEY, label: dayTitle(chosen, today) };
   const dow = asDate(today).getUTCDay();                    // 0 = Sunday
   const weekEnd = addDays(today, (7 - dow) % 7);            // this coming Sunday
-  if (day <= weekEnd) return { key: "0001", label: "From this week" };
+  if (day <= weekEnd) return { key: "0001", label: "From later this week" };
   if (day <= addDays(weekEnd, 7)) return { key: "0002", label: "From next week" };
   const [y, m] = day.split("-").map(Number);
   const [ty, tm] = today.split("-").map(Number);

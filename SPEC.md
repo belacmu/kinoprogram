@@ -77,7 +77,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Poster grid; clicking a poster opens the film with all its showings grouped by day, each with a
   ticket link. Deep link: `#film/<id>`. A Share button (the system share sheet on touch devices, "Copy link" on a computer) gives `f/<region>/<id>/` instead: a small generated page (scripts/write-film-pages.py, run by both deploy workflows) with that film's title, text and poster for link previews, which then opens the film; chat apps never see the `#` part.
 - Region switcher (Oslo / Westman / Winnipeg / Costa del Sol), remembered per browser; `?r=westman` links to a region.
-- **One grid with section headers, by when films play**: Playing from today (or tomorrow, or the picked day) · From this week · From next week ·
+- **One grid with section headers, by when films play**: Playing from today (or tomorrow, or the picked day) · From later this week · From next week ·
   Later in <month> · <month>… A film "starts" at its first showing, or its confirmed premiere if
   earlier. Films without a date are left out (they appear only when you search for them).
   - The first section is a chosen day, Today by default (so nothing asks you to pick); once nothing
