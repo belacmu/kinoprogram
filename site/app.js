@@ -368,15 +368,18 @@ function noSaleTag(shows) {
   return `<span class="nosaletag">${esc(st.size === 1 && shows[0].status || "Not on sale yet")}</span>`;
 }
 
-// "Fri 30 Oct – 6 Nov · 6 shows": when the first and last showings are, and how many (the times themselves are on the film's page).
-// One showing keeps its time; several on one day show just the day.
+// What a card says about its showings (the times themselves are on the film's page):
+//   several days:        "Fri 30 Oct – 6 Nov" and, on its own line, "6 shows"
+//   several on one day:  "Today · 3 shows"
+//   one showing:         "Tomorrow 19:00" (the time says it; no "1 show")
 function showsLine(shows) {
   const today = localNow().slice(0, 10), first = shows[0], firstDay = first.t.slice(0, 10), lastDay = shows.at(-1).t.slice(0, 10);
   const endLabel = (day) => day === today ? "Today" : day === addDays(today, 1) ? "Tomorrow" : `${asDate(day).getUTCDate()} ${MONTHS[asDate(day).getUTCMonth()]}`;
-  const when = shows.length === 1 ? `${dayLabel(first.t, { short: true })} ${hhmm(first.t)}`
-    : lastDay === firstDay ? dayLabel(first.t, { short: true }) : `${dayLabel(first.t, { short: true })} – ${endLabel(lastDay)}`;
-  // keep the dates and "11 shows" whole on narrow cards
-  return `<span class="nw${firstDay === today ? " today" : ""}">${when}</span> · <span class="nw">${shows.length} show${shows.length > 1 ? "s" : ""}</span>`;
+  const cls = firstDay === today ? " today" : "";
+  const count = `<span class="nw">${shows.length} shows</span>`;  // keep "11 shows" and the dates whole on narrow cards
+  if (shows.length === 1) return `<span class="nw${cls}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span>`;
+  if (lastDay === firstDay) return `<span class="nw${cls}">${dayLabel(first.t, { short: true })}</span> · ${count}`;
+  return `<span class="nw${cls}">${dayLabel(first.t, { short: true })} – ${endLabel(lastDay)}</span><br>${count}`;
 }
 function cardMeta(row) {
   const { f, shows, onSale, dayShows } = row;
