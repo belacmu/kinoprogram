@@ -733,3 +733,7 @@ dialog { overscroll-behavior: contain; }
 .radio small { display: block; color: var(--muted); font-size: 12px; line-height: 1.3; }
 .radio { align-items: flex-start; }
 .radio input { margin-top: 1px; }
+
+/* The top-right buttons wait (visibly empty, but taking their space) until app.js has settled them, with a fallback in case it doesn't run. */
+.top:not(.ready) .topright { visibility: hidden; animation: reveal 0s 1.5s forwards; }
+@keyframes reveal { to { visibility: visible; } }
