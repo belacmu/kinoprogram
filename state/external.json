@@ -2135,8 +2135,8 @@
 "imdb": "tt29550106",
 "en": null,
 "lbSlug": "guria",
-"lbRating": null,
-"rated": "2026-10-22"
+"lbRating": 3.5,
+"rated": "2026-10-30"
 },
 "cm-ha-chan-shake-your-booty": {
 "tmdbChecked": "2026-10-01",
@@ -2254,8 +2254,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-29",
-"tmdbChecked": "2026-10-29",
+"checked": "2026-10-30",
+"tmdbChecked": "2026-10-30",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -2482,7 +2482,7 @@
 "enFrom": "tmdb",
 "lbSlug": "wings-of-desire",
 "lbRating": 4.3,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/iZQs2vUeCzvS1KfZJ6uYNCGJBBV.jpg"
 },
 "cm-liten-ida": {
@@ -2717,7 +2717,7 @@
 "enFrom": "tmdb",
 "lbSlug": "napoleon-dynamite",
 "lbRating": 3.73,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/6Iv6Uwa2SBLN0dSGM00rdrwN4MJ.jpg"
 },
 "cm-never-after-dark": {
@@ -3630,7 +3630,7 @@
 "enFrom": "tmdb",
 "lbSlug": "spring-summer-fall-winter-and-spring",
 "lbRating": 4.17,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/6SQQ5REuAz7k0FMQ9mSCT40T2LN.jpg"
 },
 "cm-veiviseren": {
@@ -4087,10 +4087,10 @@
 "rated": "2026-10-24"
 },
 "dm-1051553638": {
-"tmdbChecked": "2026-10-22",
+"tmdbChecked": "2026-10-30",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-22"
+"checked": "2026-10-30"
 },
 "dm-1094853762": {
 "v": 4,
@@ -4106,21 +4106,6 @@
 "lbRating": 3.81,
 "rated": "2026-10-27",
 "posterPath": "/aAZ7Ih2tU65y55CfE0nIFSaow4n.jpg"
-},
-"dm-1365453274": {
-"v": 4,
-"checked": "2026-10-08",
-"tmdbChecked": "2026-10-08",
-"tv": 2,
-"tmdb": 1399474,
-"lang": "en",
-"imdb": "tt33767678",
-"en": "American Agitators",
-"enFrom": "tmdb",
-"lbSlug": "american-agitators",
-"lbRating": null,
-"rated": "2026-10-24",
-"posterPath": ""
 },
 "dm-1442512996": {
 "imdb": "tt1527793",
@@ -4139,7 +4124,7 @@
 "lang": "ko",
 "lbSlug": "no-other-choice-2025",
 "lbRating": 4.08,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/vc2S0dvgpsM0XfSiXZDMVkRCSSU.jpg"
 },
 "dm-1609958980": {
@@ -5184,10 +5169,10 @@
 "checked": "2026-10-04"
 },
 "fw-EDI20251252": {
-"tmdbChecked": "2026-10-22",
+"tmdbChecked": "2026-10-30",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-22"
+"checked": "2026-10-30"
 },
 "fw-EDI20251283": {
 "imdb": "tt36544524",
@@ -5244,7 +5229,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-godfather",
 "lbRating": 4.51,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "fw-EDI20251333": {
 "lbSlug": "street-fighter-2026",
@@ -5475,20 +5460,6 @@
 "lbSlug": "sense-and-sensibility-2026",
 "lbRating": 4.0,
 "rated": "2026-10-25"
-},
-"fw-EDI20251796": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1686178,
-"lang": "en",
-"imdb": "tt43338428",
-"en": "Savage Mountain",
-"enFrom": "tmdb",
-"lbSlug": "savage-mountain",
-"lbRating": 3.51,
-"rated": "2026-10-27",
-"v": 4
 },
 "fw-EDI20251817": {
 "tmdbChecked": "2026-10-01",
@@ -7533,7 +7504,7 @@
 "enFrom": "tmdb",
 "lbSlug": null,
 "lbRating": null,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/2m9ts8LfjG8d4xcUtx66aApngJL.jpg"
 },
 "fw-EDI20261399": {
@@ -7860,7 +7831,7 @@
 "enFrom": "tmdb",
 "lbSlug": "what-lies-between-us-2026",
 "lbRating": 3.54,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/sk4FKDH3gPiEWQc9zvNbYIFV1VJ.jpg"
 },
 "fw-EDI20261527": {
@@ -7894,19 +7865,6 @@
 "mc": "movie/the-debut-2026",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20261549": {
-"tmdbChecked": "2026-10-19",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-19",
-"tmdb": 1797200,
-"lang": "ko",
-"imdb": "tt46658626",
-"en": null,
-"lbSlug": "seventeen-world-tour-new_",
-"lbRating": null,
-"rated": "2026-10-27"
 },
 "fw-EDI20261554": {
 "tmdbChecked": "2026-10-01",
@@ -8093,8 +8051,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-29",
-"tmdbChecked": "2026-10-29",
+"checked": "2026-10-30",
+"tmdbChecked": "2026-10-30",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -8463,7 +8421,7 @@
 "enFrom": "tmdb",
 "lbSlug": "ramayana-rise-of-a-legend",
 "lbRating": null,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "fw-EDI20261595": {
 "tmdbChecked": "2026-10-01",
@@ -8576,7 +8534,7 @@
 "lang": "ko",
 "lbSlug": "the-isle",
 "lbRating": 3.57,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "fw-EDI20261637": {
 "v": 4,
@@ -8594,8 +8552,8 @@
 "imdb": "tt29550106",
 "en": null,
 "lbSlug": "guria",
-"lbRating": null,
-"rated": "2026-10-22"
+"lbRating": 3.5,
+"rated": "2026-10-30"
 },
 "fw-EDI20261651": {
 "imdb": "tt0075148",
@@ -8669,16 +8627,16 @@
 "posterPath": "/xe9V5utoUjyb92g5eBWbro1MSKd.jpg"
 },
 "fw-EDI20261676": {
-"tmdbChecked": "2026-10-22",
+"tmdbChecked": "2026-10-30",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-22"
+"checked": "2026-10-30"
 },
 "fw-EDI20261686": {
-"tmdbChecked": "2026-10-22",
+"tmdbChecked": "2026-10-30",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-22"
+"checked": "2026-10-30"
 },
 "fw-EDI20261687": {
 "v": 4,
@@ -8756,13 +8714,21 @@
 "enFrom": "tmdb",
 "lbSlug": "slayground-2027",
 "lbRating": null,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "fw-EDI20261733": {
+"tmdbChecked": "2026-10-30",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2
+"checked": "2026-10-30",
+"tmdb": 1756422,
+"lang": "vi",
+"imdb": null,
+"en": "Karaokill",
+"enFrom": "tmdb",
+"lbSlug": "karaokill",
+"lbRating": null,
+"rated": "2026-10-30"
 },
 "fw-EDI20261734": {
 "v": 4,
@@ -8775,7 +8741,7 @@
 "en": null,
 "lbSlug": "scene-2026",
 "lbRating": null,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "fw-EDI20261746": {
 "imdb": "tt18270542",
@@ -8947,10 +8913,10 @@
 "checked": "2026-10-24"
 },
 "fw-KUL20260648": {
+"tmdbChecked": "2026-10-30",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2
+"checked": "2026-10-30"
 },
 "fw-KUL20260653": {
 "tmdbChecked": "2026-10-27",
@@ -9478,7 +9444,7 @@
 "enFrom": "tmdb",
 "lbSlug": "rosemarys-baby",
 "lbRating": 4.21,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "fw-UAV20190863": {
 "tmdbChecked": "2026-10-01",
@@ -9499,10 +9465,10 @@
 "checked": "2026-10-04"
 },
 "fw-UAV20191573": {
+"tmdbChecked": "2026-10-30",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2
+"checked": "2026-10-30"
 },
 "fw-UAV20191871": {
 "imdb": "tt0084787",
@@ -10963,7 +10929,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-darjeeling-limited",
 "lbRating": 3.86,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/oSW5OVXTulaIXcoNwJAp5YEKpbP.jpg"
 },
 "sr-brunsj-filmklassiker-10-breakfast-at-tiffany-s-1961": {
@@ -10984,7 +10950,7 @@
 "enFrom": "tmdb",
 "lbSlug": "breakfast-at-tiffanys",
 "lbRating": 3.81,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-brunsj-filmklassiker-10-holiday-inn-1942": {
 "imdb": "tt0034862",
@@ -11004,7 +10970,7 @@
 "enFrom": "tmdb",
 "lbSlug": "holiday-inn",
 "lbRating": 3.23,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-brunsj-filmklassiker-10-it-s-a-wonderful-life-1946": {
 "imdb": "tt0038650",
@@ -11103,7 +11069,7 @@
 "enFrom": "tmdb",
 "lbSlug": "white-christmas",
 "lbRating": 3.68,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-frights-delights-rosemary-s-baby-1968": {
 "imdb": "tt0063522",
@@ -11123,7 +11089,7 @@
 "enFrom": "tmdb",
 "lbSlug": "rosemarys-baby",
 "lbRating": 4.21,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-frights-delights-shaun-of-the-dead-2004": {
 "imdb": "tt0365748",
@@ -11143,7 +11109,7 @@
 "enFrom": "tmdb",
 "lbSlug": "shaun-of-the-dead",
 "lbRating": 3.93,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-frights-delights-the-rocky-horror-picture-show-1975": {
 "imdb": "tt0073629",
@@ -11163,7 +11129,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-rocky-horror-picture-show",
 "lbRating": 4.07,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-izakaya-ghibli-nights-howl-s-moving-castle-2004": {
 "imdb": "tt0347149",
@@ -11182,7 +11148,7 @@
 "lang": "ja",
 "lbSlug": "howls-moving-castle",
 "lbRating": 4.36,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-izakaya-ghibli-nights-my-neighbor-totoro-1988": {
 "imdb": "tt0096283",
@@ -11201,7 +11167,7 @@
 "lang": "ja",
 "lbSlug": "my-neighbor-totoro",
 "lbRating": 4.19,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-izakaya-ghibli-nights-princess-mononoke-1997": {
 "imdb": "tt0119698",
@@ -11220,7 +11186,7 @@
 "lang": "ja",
 "lbSlug": "princess-mononoke",
 "lbRating": 4.4,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-izakaya-ghibli-nights-spirited-away-2001": {
 "imdb": "tt0245429",
@@ -11252,11 +11218,11 @@
 "en": "About Time",
 "v": 4,
 "checked": "2026-10-06",
-"tmdbChecked": "2026-10-22",
+"tmdbChecked": "2026-10-30",
 "tv": 2,
 "lbSlug": "about-time",
 "lbRating": 4.09,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-tea-treats-tales-billy-elliot-the-musical-2014": {
 "imdb": "tt4085696",
@@ -11275,7 +11241,7 @@
 "lang": "en",
 "lbSlug": "billy-elliot-the-musical-live",
 "lbRating": 4.1,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-tea-treats-tales-bridget-jones-s-diary-2001": {
 "imdb": "tt0243155",
@@ -11294,8 +11260,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "bridget-joness-diary",
-"lbRating": 3.48,
-"rated": "2026-10-22"
+"lbRating": 3.49,
+"rated": "2026-10-30"
 },
 "sr-tea-treats-tales-four-weddings-and-a-funeral-1994": {
 "imdb": "tt0109831",
@@ -11315,7 +11281,7 @@
 "enFrom": "tmdb",
 "lbSlug": "four-weddings-and-a-funeral",
 "lbRating": 3.33,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-winedinecrime-chinatown-1974": {
 "imdb": "tt0071315",
@@ -11335,7 +11301,7 @@
 "enFrom": "tmdb",
 "lbSlug": "chinatown",
 "lbRating": 4.3,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 },
 "sr-winedinecrime-serpico-1973": {
 "imdb": "tt0070666",
@@ -11355,6 +11321,6 @@
 "enFrom": "tmdb",
 "lbSlug": "serpico",
 "lbRating": 3.92,
-"rated": "2026-10-22"
+"rated": "2026-10-30"
 }
 }
