@@ -286,11 +286,15 @@ function activeFilters() {
     + (state.region === "costadelsol" && state.prefs.audioEnNo ? 1 : 0);
 }
 
-function renderControls() {
-  renderDayControl();
+function renderRegionButton() {
   const reg = REGIONS.find((r) => r.key === state.region);
   $("regionBtn").innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" fill="currentColor"/></svg>${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
   $("regionBtn").setAttribute("aria-label", `Location: ${reg.name}`);
+}
+function renderControls() {
+  renderDayControl();
+  const reg = REGIONS.find((r) => r.key === state.region);
+  renderRegionButton();
   $("regionMenu").innerHTML = REGIONS.map((r) =>
     `<button role="menuitemradio" aria-checked="${r.key === state.region}" data-pick="region" data-value="${r.key}">${r.name}</button>`).join("");
   fitHeader();  // the location's name changes the header's width
@@ -1413,10 +1417,6 @@ function renderAcctMenu() {
     <div class="menusep"></div>
     <button role="menuitem" data-open="signout" class="signout"><span class="mi">${MENU_ICONS.signout}</span>Sign out</button>`;
 }
-function refreshAvatar() {
-  if (!state.user) return;
-  $("accountBtn").textContent = shortName(state.profile?.display_name || state.user.email)[0]?.toUpperCase() || "?";
-}
 
 function renderProfile(msg) {
   const p = state.profile;
@@ -1458,21 +1458,40 @@ function renderEmailSettings(msg) {
     <div class="summary">${esc(summary)}</div>${msg}`;
 }
 
+const personIcon = `<svg class="ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+// The header's account button: a filled "Sign in" (a person icon when the header is tight), or a round avatar with an initial.
+function paintAccount(signedIn, initial, email = "") {
+  const ab = $("accountBtn");
+  if (signedIn) ab.textContent = initial; else ab.innerHTML = `${personIcon}<span class="lbl">Sign in</span>`;
+  ab.classList.toggle("primary", !signedIn);
+  ab.classList.toggle("avatar", signedIn);
+  ab.setAttribute("aria-label", signedIn ? `Account${email ? ` (${email})` : ""}` : "Sign in");
+  ab.setAttribute("aria-haspopup", signedIn ? "menu" : "dialog");
+}
+// What was last shown (signed in as whom, with which initial) is remembered, so the next visit paints that straight away instead of
+// "Sign in" and then the avatar, and doesn't change again once the saved session and the profile have been checked.
+const initialOf = (s) => shortName(s)[0]?.toUpperCase() || "?";
+function avatarInitial() {
+  if (state.profile) return initialOf(state.profile.display_name || state.user.email);
+  const c = local.get("acct", null);  // profile not loaded yet: keep what was shown last time for this account
+  return c && c.id === state.user.id && c.i ? c.i : initialOf(state.user.email);
+}
 function setUser(session) {
   state.user = session?.user ? { id: session.user.id, email: session.user.email } : null;
-  // Signed out: a filled "Sign in" button (a person icon when the header is tight). Signed in: a round avatar with the
-  // email's first letter.
-  const ab = $("accountBtn");
-  if (state.user) refreshAvatar();
-  else ab.innerHTML = `<svg class="ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lbl">Sign in</span>`;
-  ab.classList.toggle("primary", !state.user);
-  ab.classList.toggle("avatar", !!state.user);
-  ab.setAttribute("aria-label", state.user ? `Account (${state.user.email})` : "Sign in");
-  ab.setAttribute("aria-haspopup", state.user ? "menu" : "dialog");
+  if (state.user) {
+    paintAccount(true, avatarInitial(), state.user.email);
+    if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });
+  } else { paintAccount(false); local.set("acct", null); }
   if (!state.user) closeMenus();
   if (!state.user) { state.profile = null; state.friends = []; state.acctView = ""; }
   renderAccount();
   fitHeader();
+}
+function refreshAvatar() {
+  if (!state.user) return;
+  const i = avatarInitial();
+  $("accountBtn").textContent = i;
+  if (state.profile) local.set("acct", { id: state.user.id, i });
 }
 
 // The header keeps the title and its buttons on one row, compacting only as far as it must (how wide it is depends on
@@ -1493,6 +1512,8 @@ document.fonts.ready.then(fitHeader);  // the title's font changes its width onc
 
 if (sb) {
   $("acctDD").hidden = false;
+  const seen = local.get("acct", null);
+  if (seen && seen.i) paintAccount(true, seen.i);  // as last time, until the saved session has been checked (setUser)
   // Signed in: the avatar drops a menu (Profile, Friends, Email notifications, Sign out); each opens its own panel.
   $("accountBtn").addEventListener("click", () => {
     if (!state.user) { renderAccount(); $("account").showModal(); return; }
@@ -1710,6 +1731,12 @@ async function loadRegion(key) {
 }
 
 (async function boot() {
+  // The top-right buttons are held back (still taking their space) until what they say and how they fit is settled: the location
+  // name needs no data, the account button is painted from last time, and the fit waits for the fonts, so they don't change as the
+  // page loads.
+  renderRegionButton();
+  const headerFonts = Promise.all([document.fonts.load('600 14px "IBM Plex Sans"'), document.fonts.load('800 40px "Big Shoulders Display"')]).catch(() => {});
+  Promise.race([headerFonts, new Promise((r) => setTimeout(r, 600))]).then(() => { fitHeader(); document.querySelector(".top").classList.add("ready"); });
   takeFriendLink();
   await loadRegion(state.region);
   handleUnsubscribe();
