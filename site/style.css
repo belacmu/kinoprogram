@@ -754,15 +754,18 @@ dialog { overscroll-behavior: contain; }
 .fsum { display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; }
 .fpeople { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; min-width: 0; }
 .fpeople .fp { margin: 0; }
-.fchip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 4px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 500; }
+.fchip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px 3px 4px; border: 1px solid var(--line); border-radius: 999px; background: none; color: inherit; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+.fchip:not(:has(.fdot)) { padding-left: 12px; }
 .fchip .fdot { width: 22px; height: 22px; font-size: 9px; border: 0; }
-.fchip button { display: grid; place-items: center; width: 18px; height: 18px; margin-right: 2px; border: 0; border-radius: 50%; background: none; color: var(--muted); font-size: 14px; line-height: 1; cursor: pointer; }
-.fchip button:hover, .fchip button:focus-visible { background: var(--ink); color: var(--bg); }
+.fchip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.fmanage .subh { margin-bottom: 4px; }
+.fmanage { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.frow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: 14px; }
 .fbody { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
 .fcols { display: grid; gap: 18px; grid-template-columns: 1fr; }
 @media (min-width: 640px) { .fcols { grid-template-columns: 1fr 1fr; } }
 .fcol { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.fcol .subh { margin: 0; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.fcol .subh, .fmanage .subh { margin: 0; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .fcol input { font: inherit; font-size: 16px; padding: 10px 14px; border-radius: 999px; border: 1px solid transparent; background: var(--chip); color: var(--ink); width: 100%; }
 .fcol .row { display: flex; gap: 8px; flex-wrap: wrap; }
 .codebox.sm { margin: 0; padding: 10px 8px; font-size: 22px; }
