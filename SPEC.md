@@ -186,7 +186,7 @@ privacy setting.
 - **Friends tab** (also the account menu's Friends item): lists every film on a friend's watchlist
   (watchlist films first, then most friends first). An expandable "Add a friend" bar on top (open by
   default only while you have no friends) holds your code beside **Copy invite link** (copies the full
-  link), a box to enter a friend's code with **Paste** and **Add friend** to its right (disabled until
+  link), a box to enter a friend's code with **Add friend** inside its right end (disabled until
   a code is typed), and a collapsed "Your friends" list with **Remove** (confirmed). **Filters** has a
   Friends group on this tab (pick one or more friends, counts per friend; none = all friends).
   Signed out: a Sign in prompt. Display name stays in the account menu.

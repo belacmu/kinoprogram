@@ -780,8 +780,12 @@ dialog { overscroll-behavior: contain; }
 .fbody { margin-top: 14px; }
 .fbody[hidden] { display: none; }
 
-.fline { display: flex; align-items: center; gap: 8px; }
-.fline .codebox, .fline input { flex: 1; min-width: 0; width: auto; }
+.fline { display: flex; align-items: center; gap: 6px; padding: 5px; border-radius: 999px; background: var(--chip); }
+.fline:focus-within { box-shadow: 0 0 0 2px var(--accent); }
+.fline .fcode, .fline input { flex: 1; min-width: 0; width: auto; padding: 6px 6px 6px 14px; border: 0; background: none; outline: 0; box-shadow: none; }
+.fline .fcode { font: 700 20px/1 var(--mono); letter-spacing: .12em; }
 .fline .btn { flex: none; white-space: nowrap; }
-.fpanel .btn:disabled { opacity: .45; cursor: default; }
+.fpanel .btn:disabled { opacity: .4; cursor: default; }
 .fbody .fcols { max-width: 520px; }
+.fcols { gap: 16px; }
+.fpanel .btn.dark { background: var(--ink); color: var(--bg); border-color: var(--ink); }
