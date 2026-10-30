@@ -774,3 +774,9 @@ dialog { overscroll-behavior: contain; }
 .fpanel .btn.small { padding: 8px 14px; border-radius: 999px; }
 /* on its own row, wider than a phone: don't stretch the switch across the page */
 @media (min-width: 480px) and (max-width: 859px) { .controls > .listswitch { justify-self: start; width: 420px; max-width: 100%; } }
+.fbar { display: flex; align-items: center; gap: 10px; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.fbar > span:first-child { font-weight: 700; }
+.fbar .fsub { flex: 1; min-width: 0; color: var(--muted); font-size: 13px; }
+.fbar .chev { color: var(--muted); }
+.fbody { margin-top: 14px; }
+.fbody[hidden] { display: none; }

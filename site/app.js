@@ -300,10 +300,8 @@ const extractCode = (t) => {
   t = String(t || "").trim();
   return t.match(/[?&]friend=([A-Za-z0-9-]+)/)?.[1] || (t.length <= 12 ? t : t.match(/code\s+([A-Za-z0-9-]{6,8})/i)?.[1] || t);
 };
-const inviteText = () => {
-  const c = state.profile.friend_code, url = location.href.split(/[?#]/)[0] + "?friend=" + c;
-  return `Add me on Cinecrab: ${url} or enter my code ${fmtCode(c)} under Friends`;
-};
+const inviteLink = () => location.href.split(/[?#]/)[0] + "?friend=" + state.profile.friend_code;
+const inviteText = () => `Add me on Cinecrab: ${inviteLink()} or enter my code ${fmtCode(state.profile.friend_code)} under Friends`;
 const friendsOpenNow = () => state.friendsOpen ?? state.friends.length === 0;
 // The Friends tab's panel: share your code and add a friend's; with friends, a line of them (open the panel to add more). Rebuilt
 // only when something it shows changed, so a half-typed code isn't lost.
@@ -313,7 +311,7 @@ function renderFriendsPanel(force = false) {
   el.hidden = !state.onlyFriends;
   if (!state.onlyFriends) return;
   const p = state.profile, open = friendsOpenNow();
-  const sig = JSON.stringify([!!state.user, !!p, p?.friend_code, state.friends.map((f) => [f.id, f.name]), state.profileFailed, typeof sb !== "undefined" && !!sb]);
+  const sig = JSON.stringify([!!state.user, !!p, p?.friend_code, state.friends.map((f) => [f.id, f.name]), open, state.profileFailed, typeof sb !== "undefined" && !!sb]);
   if (!force && sig === friendsPanelSig) return;
   if (!force && el.contains(document.activeElement) && document.activeElement.value) return;
   friendsPanelSig = sig;
@@ -326,10 +324,10 @@ function renderFriendsPanel(force = false) {
   if (!p || !p.friend_code) { el.innerHTML = `<p class="fp">${state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading…"}</p>`; return; }
   state.friendSel = state.friendSel.filter((id) => state.friends.some((x) => x.id === id));
   const manage = state.friends.length ? `<details class="fmanage"><summary>Your friends (${state.friends.length})</summary>${state.friends.map((fr) => `<div class="frow"><span>${esc(fr.name)}</span><button type="button" class="linkbtn" data-fr="remove" data-id="${esc(fr.id)}">Remove</button></div>`).join("")}</details>` : "";
-  el.innerHTML = `<h2 class="fh2">Add friends</h2><p class="fp">Swap codes: send them yours, or enter theirs. You'll each see the other's watchlist.</p>
-    <div class="fbody"><div class="fcols">
+  el.innerHTML = `<button type="button" class="fbar" data-fr="toggle" aria-expanded="${open}"><span>Add a friend</span><span class="fsub">${state.friends.length ? `${state.friends.length} friend${state.friends.length === 1 ? "" : "s"}` : "Swap codes to see each other's watchlists"}</span><span class="chev" aria-hidden="true">${open ? "▴" : "▾"}</span></button>
+    <div class="fbody"${open ? "" : " hidden"}><div class="fcols">
       <div class="fcol"><div class="subh">Share your code</div><div class="codebox sm" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div>
-        <div class="row"><button type="button" class="btn ghost small" data-fr="copy">Copy code</button><button type="button" class="btn ghost small" data-fr="share">${canShare ? "Share invite" : "Copy invite"}</button></div></div>
+        <div class="row"><button type="button" class="btn ghost small" data-fr="share">Copy invite link</button></div></div>
       <form class="fcol" id="friendsAddForm"><label class="subh" for="friendsCode">Add a friend</label>
         <input type="text" id="friendsCode" placeholder="Enter their code" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200">
         <div class="row">${navigator.clipboard?.readText ? `<button type="button" class="btn ghost small" data-fr="paste">Paste</button>` : ""}<button type="submit" class="btn accent small">Add friend</button></div></form>
@@ -1689,12 +1687,10 @@ if (sb) {
     const b = e.target.closest("[data-fr]");
     if (!b) return;
     const what = b.dataset.fr;
-    if (what === "signin") promptSignIn();
-    else if (what === "copy") toast(await clip(fmtCode(state.profile.friend_code)) ? "Code copied" : "Couldn't copy the code");
-    else if (what === "share") {
-      if (canShare) { try { await navigator.share({ text: inviteText() }); } catch {} }
-      else toast(await clip(inviteText()) ? "Invite copied. Paste it into a message." : "Couldn't copy the invite");
-    } else if (what === "paste") {
+    if (what === "toggle") { state.friendsOpen = !friendsOpenNow(); renderFriendsPanel(true); }
+    else if (what === "signin") promptSignIn();
+    else if (what === "share") toast(await clip(inviteLink()) ? "Invite link copied" : "Couldn't copy the link");
+    else if (what === "paste") {
       try { $("friendsCode").value = extractCode(await navigator.clipboard.readText()); $("friendsCode").focus(); }
       catch { toast("Couldn't read the clipboard. Paste into the box instead."); }
     } else if (what === "remove") { const m = await unfriend(b.dataset.id); if (m) toast(m); }
