@@ -765,7 +765,6 @@ dialog { overscroll-behavior: contain; }
 .frow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: 14px; }
 .fbody { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
 .fcols { display: grid; gap: 18px; grid-template-columns: 1fr; }
-@media (min-width: 640px) { .fcols { grid-template-columns: 1fr 1fr; } }
 .fcol { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .fcol .subh, .fmanage .subh { margin: 0; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .fcol input { font: inherit; font-size: 16px; padding: 10px 14px; border-radius: 999px; border: 1px solid transparent; background: var(--chip); color: var(--ink); width: 100%; }
@@ -780,3 +779,9 @@ dialog { overscroll-behavior: contain; }
 .fbar .chev { color: var(--muted); }
 .fbody { margin-top: 14px; }
 .fbody[hidden] { display: none; }
+
+.fline { display: flex; align-items: center; gap: 8px; }
+.fline .codebox, .fline input { flex: 1; min-width: 0; width: auto; }
+.fline .btn { flex: none; white-space: nowrap; }
+.fpanel .btn:disabled { opacity: .45; cursor: default; }
+.fbody .fcols { max-width: 520px; }

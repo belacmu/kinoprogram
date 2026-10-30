@@ -326,11 +326,11 @@ function renderFriendsPanel(force = false) {
   const manage = state.friends.length ? `<details class="fmanage"><summary>Your friends (${state.friends.length})</summary>${state.friends.map((fr) => `<div class="frow"><span>${esc(fr.name)}</span><button type="button" class="linkbtn" data-fr="remove" data-id="${esc(fr.id)}">Remove</button></div>`).join("")}</details>` : "";
   el.innerHTML = `<button type="button" class="fbar" data-fr="toggle" aria-expanded="${open}"><span>Add a friend</span><span class="fsub">${state.friends.length ? `${state.friends.length} friend${state.friends.length === 1 ? "" : "s"}` : "Swap codes to see each other's watchlists"}</span><span class="chev" aria-hidden="true">${open ? "▴" : "▾"}</span></button>
     <div class="fbody"${open ? "" : " hidden"}><div class="fcols">
-      <div class="fcol"><div class="subh">Share your code</div><div class="codebox sm" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div>
-        <div class="row"><button type="button" class="btn ghost small" data-fr="share">Copy invite link</button></div></div>
+      <div class="fcol"><div class="subh">Share your code</div>
+        <div class="fline"><div class="codebox sm" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div><button type="button" class="btn ghost small" data-fr="share">Copy invite link</button></div></div>
       <form class="fcol" id="friendsAddForm"><label class="subh" for="friendsCode">Add a friend</label>
-        <input type="text" id="friendsCode" placeholder="Enter their code" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200">
-        <div class="row">${navigator.clipboard?.readText ? `<button type="button" class="btn ghost small" data-fr="paste">Paste</button>` : ""}<button type="submit" class="btn accent small">Add friend</button></div></form>
+        <div class="fline"><input type="text" id="friendsCode" placeholder="Enter their code" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200">
+          ${navigator.clipboard?.readText ? `<button type="button" class="btn ghost small" data-fr="paste">Paste</button>` : ""}<button type="submit" class="btn accent small" disabled>Add friend</button></div></form>
     </div>${manage}</div>`;
 }
 function renderListSwitch(count = null) {
@@ -1691,10 +1691,12 @@ if (sb) {
     else if (what === "signin") promptSignIn();
     else if (what === "share") toast(await clip(inviteLink()) ? "Invite link copied" : "Couldn't copy the link");
     else if (what === "paste") {
-      try { $("friendsCode").value = extractCode(await navigator.clipboard.readText()); $("friendsCode").focus(); }
+      try { $("friendsCode").value = extractCode(await navigator.clipboard.readText()); $("friendsCode").focus(); syncAdd(); }
       catch { toast("Couldn't read the clipboard. Paste into the box instead."); }
     } else if (what === "remove") { const m = await unfriend(b.dataset.id); if (m) toast(m); }
   });
+  const syncAdd = () => { const i = $("friendsCode"), b = i?.form?.querySelector('[type=submit]'); if (b) b.disabled = !i.value.trim(); };
+  $("friendsPanel").addEventListener("input", syncAdd);
   $("friendsPanel").addEventListener("submit", async (e) => {
     if (e.target.id !== "friendsAddForm") return;
     e.preventDefault();
@@ -1704,7 +1706,7 @@ if (sb) {
     const r = await redeemFriendCode(input.value);
     btn.disabled = false;
     toast(r.msg);
-    if (!r.err) { input.value = ""; renderFriendsPanel(true); }
+    if (!r.err) { input.value = ""; renderFriendsPanel(true); } else syncAdd();
   });
   $("account").addEventListener("click", async (e) => {  // the invite page's "Copy code" (signed out)
     const b = e.target.closest('[data-friend="copyinvite"]');

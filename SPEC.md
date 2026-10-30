@@ -184,7 +184,7 @@ privacy setting.
 - **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
   0/O, 1/I/L). Entry is forgiving: lowercase, spaces or a missing dash all work.
 - **Friends tab** (also the account menu's Friends item): lists every film on a friend's watchlist
-  (watchlist films first, then most friends first). An expandable "Add a friend" bar on top (open by default only while you have no friends) holds your code with
+  (watchlist films first, then most friends first). An expandable "Add a friend" bar on top (open by default only while you have no friends) holds your code beside **Copy invite link**; below it a code box with the buttons to its right (Add friend stays disabled until a code is typed)
   **Copy invite link** (copies the full link), a box to enter a friend's code with **Paste** and **Add
   friend**, and a collapsed "Your friends" list with **Remove** (confirmed). **Filters** has a
   Friends group on this tab (pick one or more friends, counts per friend; none = all friends).
