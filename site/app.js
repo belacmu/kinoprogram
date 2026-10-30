@@ -56,7 +56,7 @@ const state = {
   tix: local.get("tix", "all"),
   within: local.get("within2", "rating"),
   onlyWatch: false,
-  friendSel: null,      // Friends tab: one friend's id to see only their watchlist (null = all friends)
+  friendSel: [],        // Friends tab, in the filters: ids of the friends picked (none = all friends)
   onlyFriends: false,   // the Friends tab: films on your friends' watchlists
   friendsOpen: null,    // Friends tab: add/share panel open (null = open only while there are no friends yet)
   day: "",              // the day the first section shows; "" = today. Not remembered across reloads
@@ -289,7 +289,8 @@ function activeFilters() {
     + (myCinemas().length ? 1 : 0)
     + (DUBBING_REGIONS.includes(state.region) && state.prefs.hideDubbed ? 1 : 0)
     + (state.region === "oslo" && state.prefs.englishSubs ? 1 : 0)
-    + (state.region === "costadelsol" && state.prefs.audioEnNo ? 1 : 0);
+    + (state.region === "costadelsol" && state.prefs.audioEnNo ? 1 : 0)
+    + (state.onlyFriends && state.friendSel.length ? 1 : 0);
 }
 
 // The tabs: All films, Watchlist, Friends. The selected one says how many films are listed (the number the list below shows).
@@ -312,7 +313,7 @@ function renderFriendsPanel(force = false) {
   el.hidden = !state.onlyFriends;
   if (!state.onlyFriends) return;
   const p = state.profile, open = friendsOpenNow();
-  const sig = JSON.stringify([!!state.user, !!p, p?.friend_code, state.friends.map((f) => [f.id, f.name]), open, state.friendSel, state.profileFailed, typeof sb !== "undefined" && !!sb]);
+  const sig = JSON.stringify([!!state.user, !!p, p?.friend_code, state.friends.map((f) => [f.id, f.name]), state.profileFailed, typeof sb !== "undefined" && !!sb]);
   if (!force && sig === friendsPanelSig) return;
   if (!force && el.contains(document.activeElement) && document.activeElement.value) return;
   friendsPanelSig = sig;
@@ -323,13 +324,10 @@ function renderFriendsPanel(force = false) {
     return;
   }
   if (!p || !p.friend_code) { el.innerHTML = `<p class="fp">${state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading…"}</p>`; return; }
-  if (state.friendSel && !state.friends.some((x) => x.id === state.friendSel)) state.friendSel = null;
-  const pick = (id, label, dot) => `<button type="button" class="fchip" data-fr="pick" data-id="${esc(id)}" aria-pressed="${(state.friendSel || "") === id}">${dot}${esc(label)}</button>`;
-  const people = state.friends.length ? pick("", "All friends", "") + state.friends.map((fr) => pick(fr.id, shortName(fr.name), `<span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>`)).join("") : "";
-  const manage = state.friends.length ? `<div class="fmanage"><div class="subh">Your friends</div>${state.friends.map((fr) => `<div class="frow"><span>${esc(fr.name)}</span><button type="button" class="linkbtn" data-fr="remove" data-id="${esc(fr.id)}">Remove</button></div>`).join("")}</div>` : "";
-  el.innerHTML = `<div class="fsum"><span class="fpeople">${people || `<span class="fp">No friends yet.</span>`}</span>
-      ${state.friends.length ? `<button type="button" class="linkbtn" data-fr="toggle" aria-expanded="${open}">${open ? "Close" : "Add or manage"}</button>` : ""}</div>
-    <div class="fbody"${open ? "" : " hidden"}><div class="fcols">
+  state.friendSel = state.friendSel.filter((id) => state.friends.some((x) => x.id === id));
+  const manage = state.friends.length ? `<details class="fmanage"><summary>Your friends (${state.friends.length})</summary>${state.friends.map((fr) => `<div class="frow"><span>${esc(fr.name)}</span><button type="button" class="linkbtn" data-fr="remove" data-id="${esc(fr.id)}">Remove</button></div>`).join("")}</details>` : "";
+  el.innerHTML = `<h2 class="fh2">Add friends</h2><p class="fp">Swap codes: send them yours, or enter theirs. You'll each see the other's watchlist.</p>
+    <div class="fbody"><div class="fcols">
       <div class="fcol"><div class="subh">Share your code</div><div class="codebox sm" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div>
         <div class="row"><button type="button" class="btn ghost small" data-fr="copy">Copy code</button><button type="button" class="btn ghost small" data-fr="share">${canShare ? "Share invite" : "Copy invite"}</button></div></div>
       <form class="fcol" id="friendsAddForm"><label class="subh" for="friendsCode">Add a friend</label>
@@ -388,6 +386,11 @@ function renderFilters() {
   const radioD = (attrs, checked, label, desc) => `<label class="radio"><input type="radio" ${attrs}${checked ? " checked" : ""}><span>${label}${desc ? `<small>${desc}</small>` : ""}</span></label>`;
   const focused = document.activeElement?.closest?.("#filtersBody") ? document.activeElement.dataset.f + "|" + (document.activeElement.value || "") : "";
   $("filtersBody").innerHTML = `
+    <fieldset class="fg"${state.onlyFriends && state.friends.length ? "" : " hidden"}><legend>Friends <span class="hint">${state.friendSel.length ? `${state.friendSel.length} chosen` : "All"}</span></legend>
+      <div class="fghint">Pick one or more. The numbers are films here on their watchlist.</div>
+      <div class="chips">${state.friends.map((fr) => ck(`data-f="friend" value="${esc(fr.id)}"`, state.friendSel.includes(fr.id), esc(shortName(fr.name)), state.data.films.filter((f) => f.ids.some((i) => fr.list.has(i))).length)).join("")}</div>
+      ${state.friendSel.length ? `<div class="fgrow"><button class="linkbtn" data-f="friends-clear">Clear selection</button></div>` : ""}
+    </fieldset>
     <fieldset class="fg"><legend>Sort films by</legend>
       <div class="fghint">Within each group of films.</div>
       ${WITHIN.map(([v, l]) => radio(`name="within" data-f="within" value="${v}"`, state.within === v, l)).join("")}
@@ -486,8 +489,8 @@ const heart = (filled) => `<svg width="16" height="16" viewBox="0 0 24 24" aria-
 // Friends' watchlists come from the account (friends_watchlists); a film shows the initials of those who want to see it.
 const shortName = (n) => /^[^@\s]+@[^@\s]+$/.test(n) ? n.split("@")[0] : String(n || "");  // a name that's still an email shows its first part
 const fmtCode = (c) => String(c || "").replace(/^(.{3})(.+)$/, "$1-$2");
-// On the Friends tab with one friend picked, only that friend counts.
-const friendsShown = (f) => friendsOn(f).filter((fr) => !state.friendSel || fr.id === state.friendSel);
+// On the Friends tab with friends picked in the filters, only they count.
+const friendsShown = (f) => friendsOn(f).filter((fr) => !state.friendSel.length || state.friendSel.includes(fr.id));
 const friendsOn = (f) => state.friends.filter((fr) => f.ids.some((i) => fr.list.has(i)));
 function initialsOf(name) {
   const w = shortName(name).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
@@ -977,6 +980,7 @@ document.addEventListener("click", (e) => {
   if (t.dataset.f === "cinemas-more") { state.cinemasOpen = !state.cinemasOpen; renderFilters(); return; }
   if (t.dataset.chip) { removeChip(t.dataset.chip); return; }
   if (t.hasAttribute("data-open-prefs")) { openPrefs(); return; }
+  if (t.dataset.f === "friends-clear") { state.friendSel = []; render(); return; }
   if (t.dataset.f === "cinemas-clear") {
     setCinemas(state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c)));
     savePrefs(); render(); return;
@@ -1041,7 +1045,7 @@ function setCinemas(next) {
 }
 
 function resetFilters() {
-  state.tix = "all";
+  state.tix = "all"; state.friendSel = [];
   state.prefs.hideDubbed = false; state.prefs.englishSubs = false; state.prefs.audioEnNo = false;
   state.prefs.cinemas = state.prefs.cinemas.filter((c) => !state.data.cinemas.includes(c));
   local.set("tix", "all"); savePrefs(); render();
@@ -1100,13 +1104,14 @@ $("filtersBody").addEventListener("change", (e) => {
   const el = e.target, f = el.dataset.f;
   if (f === "within") { state.within = el.value; local.set("within2", state.within); render(); return; }
   if (f === "tix") { state.tix = el.value; local.set("tix", state.tix); }
+  else if (f === "friend") state.friendSel = el.checked ? [...new Set([...state.friendSel, el.value])] : state.friendSel.filter((x) => x !== el.value);
   else if (f === "cinema") {
     const list = state.prefs.cinemas;
     setCinemas(el.checked ? [...new Set([...list, el.value])] : list.filter((x) => x !== el.value));
   } else if (f === "spoken") {
     state.prefs.hideDubbed = el.value === "original"; state.prefs.audioEnNo = el.value === "audio";
   } else if (f === "subs") state.prefs.englishSubs = el.value === "subs";
-  if (f !== "tix") savePrefs();
+  if (f !== "tix" && f !== "friend") savePrefs();
   render();
 });
 const setFiltersOpen = (open) => {
@@ -1684,9 +1689,7 @@ if (sb) {
     const b = e.target.closest("[data-fr]");
     if (!b) return;
     const what = b.dataset.fr;
-    if (what === "pick") { state.friendSel = b.dataset.id || null; render(); }
-    else if (what === "toggle") { state.friendsOpen = !friendsOpenNow(); renderFriendsPanel(true); }
-    else if (what === "signin") promptSignIn();
+    if (what === "signin") promptSignIn();
     else if (what === "copy") toast(await clip(fmtCode(state.profile.friend_code)) ? "Code copied" : "Couldn't copy the code");
     else if (what === "share") {
       if (canShare) { try { await navigator.share({ text: inviteText() }); } catch {} }
@@ -1705,7 +1708,7 @@ if (sb) {
     const r = await redeemFriendCode(input.value);
     btn.disabled = false;
     toast(r.msg);
-    if (!r.err) { input.value = ""; state.friendsOpen = false; renderFriendsPanel(true); }
+    if (!r.err) { input.value = ""; renderFriendsPanel(true); }
   });
   $("account").addEventListener("click", async (e) => {  // the invite page's "Copy code" (signed out)
     const b = e.target.closest('[data-friend="copyinvite"]');

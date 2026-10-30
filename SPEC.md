@@ -184,10 +184,11 @@ privacy setting.
 - **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
   0/O, 1/I/L). Entry is forgiving: lowercase, spaces or a missing dash all work.
 - **Friends tab** (also the account menu's Friends item): lists every film on a friend's watchlist
-  (watchlist films first, then most friends first). A panel on top has a row to pick **All friends** or one
-  friend (their watchlist only); "Add or manage" opens your code with **Copy code** and **Share invite**, and a box to enter a
-  friend's code with **Paste** and **Add friend**, and a list of your friends with **Remove** (confirmed); it's open by default only while you have no
-  friends. Signed out: a Sign in prompt. Display name stays in the account menu.
+  (watchlist films first, then most friends first). A panel on top is always open: your code with
+  **Copy code** and **Share invite**, a box to enter a friend's code with **Paste** and **Add
+  friend**, and a collapsed "Your friends" list with **Remove** (confirmed). **Filters** has a
+  Friends group on this tab (pick one or more friends, counts per friend; none = all friends).
+  Signed out: a Sign in prompt. Display name stays in the account menu.
 - **Sharing** sends a link with the code in it, plus the code written out ("Add me on Cinecrab:
   <link>, or code K7Q-M4P"), so it can be typed in without opening the link.
 - **Opening the link**: signed in → the friend is added at once ("You and Anna are now friends").

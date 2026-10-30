@@ -760,6 +760,8 @@ dialog { overscroll-behavior: contain; }
 .fchip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 .fmanage .subh { margin-bottom: 4px; }
 .fmanage { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.fmanage summary { cursor: pointer; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.fpanel .fh2 { margin: 0 0 12px; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .frow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: 14px; }
 .fbody { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
 .fcols { display: grid; gap: 18px; grid-template-columns: 1fr; }
