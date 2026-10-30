@@ -1510,25 +1510,6 @@
 "lbRating": 3.79,
 "rated": "2026-10-29"
 },
-"cm-cafe-paradis": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 52602,
-"imdb": "tt0042294",
-"en": null,
-"lbSlug": "cafe-paradis",
-"lbRating": null,
-"rated": "2026-10-25",
-"posterPath": "/1WMUNafH6OENZVvZX5r80Ow0nRs.jpg",
-"imdbAll": [
-"tt0042294"
-],
-"lb": "cafe-paradis",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-celine-og-julie": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1948,25 +1929,6 @@
 "mc": "movie/yellow-letters",
 "v": 4,
 "checked": "2026-10-05"
-},
-"cm-fryktens-sommer": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 3597,
-"imdb": "tt0119345",
-"en": "I Know What You Did Last Summer",
-"lbSlug": "i-know-what-you-did-last-summer",
-"lbRating": 3.02,
-"rated": "2026-10-25",
-"posterPath": "/dQyaJx0SptDqvQcAewAr8FAtLB2.jpg",
-"imdbAll": [
-"tt0119345"
-],
-"lb": "i-know-what-you-did-last-summer",
-"rt": "m/i_know_what_you_did_last_summer",
-"mc": "movie/i-know-what-you-did-last-summer",
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-fullmanenetter": {
 "tmdbChecked": "2026-10-01",
@@ -3039,25 +3001,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-skrik": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 4232,
-"imdb": "tt0117571",
-"en": "Scream",
-"lbSlug": "scream",
-"lbRating": 4.02,
-"rated": "2026-10-25",
-"posterPath": "/lr9ZIrmuwVmZhpZuTCW8D9g0ZJe.jpg",
-"imdbAll": [
-"tt0117571"
-],
-"lb": "scream",
-"rt": "m/1074316-scream",
-"mc": "movie/scream",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-small-roads": {
 "tmdbChecked": "2026-10-25",
 "tv": 2,
@@ -3537,12 +3480,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-uten-tittel-xviii": {
-"tmdbChecked": "2026-10-25",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-27"
 },
 "cm-utopiske-signaler": {
 "tmdbChecked": "2026-10-26",
@@ -7356,19 +7293,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20261390": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1757535,
-"imdb": null,
-"en": "Tulpiniai: A Fatal Mistake",
-"enFrom": "tmdb",
-"lbSlug": "tulpiniai-a-fatal-mistake",
-"lbRating": null,
-"rated": "2026-10-25",
-"v": 4,
-"checked": "2026-10-27"
-},
 "fw-EDI20261394": {
 "v": 4,
 "checked": "2026-10-14",
@@ -8815,12 +8739,6 @@
 "v": 4,
 "checked": "2026-10-30"
 },
-"fw-KUL20260653": {
-"tmdbChecked": "2026-10-27",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-27"
-},
 "fw-LIV20200059": {
 "tmdbChecked": "2026-10-25",
 "tv": 2,
@@ -9100,27 +9018,6 @@
 "mc": "movie/the-passion-of-the-christ",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-SFN20130144": {
-"imdb": "tt1457767",
-"imdbAll": [
-"tt1457767"
-],
-"lb": "the-conjuring",
-"rt": "m/the_conjuring",
-"mc": "movie/the-conjuring",
-"en": "The Conjuring",
-"v": 4,
-"checked": "2026-10-08",
-"tmdbChecked": "2026-10-08",
-"tv": 2,
-"tmdb": 138843,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-conjuring",
-"lbRating": 3.64,
-"rated": "2026-10-24",
-"posterPath": "/wVYREutTvI2tmxr6ujrHT704wGF.jpg"
 },
 "fw-SFN20180923": {
 "tmdbChecked": "2026-10-27",
@@ -9422,25 +9319,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-04"
-},
-"fw-UAV20213914": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 4232,
-"imdb": "tt0117571",
-"en": "Scream",
-"lbSlug": "scream",
-"lbRating": 4.02,
-"rated": "2026-10-25",
-"posterPath": "/lr9ZIrmuwVmZhpZuTCW8D9g0ZJe.jpg",
-"imdbAll": [
-"tt0117571"
-],
-"lb": "scream",
-"rt": "m/1074316-scream",
-"mc": "movie/scream",
-"v": 4,
-"checked": "2026-10-03"
 },
 "fw-UAV20237568": {
 "tmdbChecked": "2026-10-25",
@@ -10731,27 +10609,6 @@
 "lbRating": 4.22,
 "rated": "2026-10-29",
 "posterPath": "/niNdhTpPHSgw22tK0PLjQMV640v.jpg"
-},
-"rv-the-darjeeling-limited-2007": {
-"imdb": "tt0838221",
-"imdbAll": [
-"tt0838221"
-],
-"lb": "the-darjeeling-limited",
-"rt": "m/darjeeling_limited",
-"mc": "movie/the-darjeeling-limited",
-"en": "The Darjeeling Limited",
-"v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"tmdb": 4538,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-darjeeling-limited",
-"lbRating": 3.86,
-"rated": "2026-10-30",
-"posterPath": "/oSW5OVXTulaIXcoNwJAp5YEKpbP.jpg"
 },
 "sr-brunsj-filmklassiker-10-breakfast-at-tiffany-s-1961": {
 "imdb": "tt0054698",
