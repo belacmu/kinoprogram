@@ -784,7 +784,7 @@ dialog { overscroll-behavior: contain; }
 .fline:focus-within { box-shadow: 0 0 0 2px var(--accent); }
 .fline .fcode, .fline input { flex: 1; min-width: 0; width: auto; padding: 6px 6px 6px 14px; border: 0; background: none; outline: 0; box-shadow: none; }
 .fline .fcode { font: 700 20px/1 var(--mono); letter-spacing: .12em; }
-.fline .btn { flex: none; white-space: nowrap; }
+.fline .btn { flex: none; white-space: nowrap; width: 138px; text-align: center; }
 .fpanel .btn:disabled { opacity: .4; cursor: default; }
 .fbody .fcols { max-width: 520px; }
 .fcols { gap: 16px; }
