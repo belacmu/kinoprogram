@@ -56,6 +56,8 @@ const state = {
   tix: local.get("tix", "all"),
   within: local.get("within2", "rating"),
   onlyWatch: false,
+  onlyFriends: false,   // the Friends tab: films on your friends' watchlists
+  friendsOpen: null,    // Friends tab: add/share panel open (null = open only while there are no friends yet)
   day: "",              // the day the first section shows; "" = today. Not remembered across reloads
   calMonth: "",         // the month the date picker shows ("2026-10")
   q: "",
@@ -95,6 +97,7 @@ function showMatches(s, now) {
 const isWatched = (f) => f.ids.some((id) => state.watchlist.has(id));
 // The watchlist is one list across regions (ids are per cinema listing); only the films in the region being viewed count.
 const watchedHere = () => state.data.films.filter(isWatched).length;
+const friendsHere = () => state.data.films.filter((f) => friendsOn(f).length).length;  // films here that a friend has on their watchlist
 
 // Hiding a film: prefs.hidden maps film id -> the film's onSaleSince when it was hidden. It stays hidden while that same
 // run continues; if the film goes off sale and comes back later (a new onSaleSince, the same rule as "newly on sale"),
@@ -229,6 +232,7 @@ function sinceSection(since, today, before) {
 function filmShows(f, now, from, q = "", all = false) {
   if (!textMatch(f, q) || (!q && !kindShown(f))) return null;  // searching finds every type
   if (!all && state.onlyWatch && !isWatched(f)) return null;
+  if (!all && state.onlyFriends && !friendsOn(f).length) return null;
   const shows = f.shows.filter((s) => s.t >= from && showMatches(s, now));
   if (f.shows.length && !shows.length) return null; // has showings, none match the filters
   const bookable = shows.filter((s) => s.ticket);
@@ -260,6 +264,7 @@ function buildRows() {
     if (a.sec.key !== b.sec.key) return a.sec.key.localeCompare(b.sec.key);
     if (a.hidden !== b.hidden) return a.hidden ? 1 : -1;  // hidden films are dimmed and always last in their section
     if (a.watched !== b.watched) return a.watched ? -1 : 1;  // watchlist films come first
+    if (state.onlyFriends) { const d = friendsOn(b.f).length - friendsOn(a.f).length; if (d) return d; }  // Friends tab: the ones most friends want first
     return byWithin(a, b);
   });
   return rows;
@@ -286,6 +291,58 @@ function activeFilters() {
     + (state.region === "costadelsol" && state.prefs.audioEnNo ? 1 : 0);
 }
 
+// The tabs: All films, Watchlist, Friends. The selected one says how many films are listed (the number the list below shows).
+const clip = async (text) => { try { await navigator.clipboard.writeText(text); return true; } catch { return false; } };
+// A code pasted on its own, inside an invite link ("?friend=K7QM4P") or inside the invite message ("... code K7Q-M4P ...").
+const extractCode = (t) => {
+  t = String(t || "").trim();
+  return t.match(/[?&]friend=([A-Za-z0-9-]+)/)?.[1] || (t.length <= 12 ? t : t.match(/code\s+([A-Za-z0-9-]{6,8})/i)?.[1] || t);
+};
+const inviteText = () => {
+  const c = state.profile.friend_code, url = location.href.split(/[?#]/)[0] + "?friend=" + c;
+  return `Add me on Cinecrab: ${url} or enter my code ${fmtCode(c)} under Friends`;
+};
+const friendsOpenNow = () => state.friendsOpen ?? state.friends.length === 0;
+// The Friends tab's panel: share your code and add a friend's; with friends, a line of them (open the panel to add more). Rebuilt
+// only when something it shows changed, so a half-typed code isn't lost.
+let friendsPanelSig = "";
+function renderFriendsPanel(force = false) {
+  const el = $("friendsPanel");
+  el.hidden = !state.onlyFriends;
+  if (!state.onlyFriends) return;
+  const p = state.profile, open = friendsOpenNow();
+  const sig = JSON.stringify([!!state.user, !!p, p?.friend_code, state.friends.map((f) => [f.id, f.name]), open, state.profileFailed, typeof sb !== "undefined" && !!sb]);
+  if (!force && sig === friendsPanelSig) return;
+  if (!force && el.contains(document.activeElement) && document.activeElement.value) return;
+  friendsPanelSig = sig;
+  if (typeof sb === "undefined" || !sb) { el.innerHTML = `<h2 class="fh">Friends</h2><p class="fp">Friends need an account, which isn't available right now.</p>`; return; }
+  if (!state.user) {
+    el.innerHTML = `<h2 class="fh">See what your friends want to watch</h2><p class="fp">Sign in, add your friends with a code, and the films on their watchlists show up here, and on the posters.</p>
+      <button type="button" class="btn accent" data-fr="signin">Sign in</button>`;
+    return;
+  }
+  if (!p || !p.friend_code) { el.innerHTML = `<p class="fp">${state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading…"}</p>`; return; }
+  const people = state.friends.length ? state.friends.map((fr) => `<span class="fchip"><span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>${esc(shortName(fr.name))}<button type="button" data-fr="remove" data-id="${esc(fr.id)}" aria-label="Remove ${esc(fr.name)}" title="Remove ${esc(fr.name)}">×</button></span>`).join("") : "";
+  el.innerHTML = `<div class="fsum"><span class="fpeople">${people || `<span class="fp">No friends yet.</span>`}</span>
+      ${state.friends.length ? `<button type="button" class="linkbtn" data-fr="toggle" aria-expanded="${open}">${open ? "Close" : "Add a friend"}</button>` : ""}</div>
+    <div class="fbody"${open ? "" : " hidden"}><div class="fcols">
+      <div class="fcol"><div class="subh">Share your code</div><div class="codebox sm" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div>
+        <div class="row"><button type="button" class="btn ghost small" data-fr="copy">Copy code</button><button type="button" class="btn ghost small" data-fr="share">${canShare ? "Share invite" : "Copy invite"}</button></div></div>
+      <form class="fcol" id="friendsAddForm"><label class="subh" for="friendsCode">Add a friend</label>
+        <input type="text" id="friendsCode" placeholder="Enter their code" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200">
+        <div class="row">${navigator.clipboard?.readText ? `<button type="button" class="btn ghost small" data-fr="paste">Paste</button>` : ""}<button type="submit" class="btn accent small">Add friend</button></div></form>
+    </div></div>`;
+}
+function renderListSwitch(count = null) {
+  const cur = state.onlyFriends ? "friends" : state.onlyWatch ? "watch" : "all";
+  for (const b of $("listSwitch").querySelectorAll("[data-list]")) {
+    const on = b.dataset.list === cur;
+    b.setAttribute("aria-pressed", on);
+    b.querySelector(".cnt").textContent = on && count !== null && !(cur === "friends" && !state.user) ? ` · ${count}` : "";
+  }
+}
+function setList(name) { state.onlyWatch = name === "watch"; state.onlyFriends = name === "friends"; render(); window.scrollTo({ top: 0 }); }
+function showFriendsTab() { if ($("account").open) $("account").close(); setList("friends"); }
 function renderRegionButton() {
   const reg = REGIONS.find((r) => r.key === state.region);
   $("regionBtn").innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" fill="currentColor"/></svg>${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
@@ -298,9 +355,7 @@ function renderControls() {
   $("regionMenu").innerHTML = REGIONS.map((r) =>
     `<button role="menuitemradio" aria-checked="${r.key === state.region}" data-pick="region" data-value="${r.key}">${r.name}</button>`).join("");
   fitHeader();  // the location's name changes the header's width
-  document.querySelectorAll("#listSwitch [data-list]").forEach((b) => b.setAttribute("aria-pressed", (b.dataset.list === "watch") === state.onlyWatch));
-  const wl = watchedHere();
-  $("wlCount").textContent = wl ? ` · ${wl}` : "";
+  renderListSwitch();
   const n = activeFilters();
   $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
   $("filtersBtn").setAttribute("aria-pressed", n > 0);
@@ -468,18 +523,23 @@ function renderGrid() {
   let empty = "No films match these filters.";
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
+  else if (state.onlyFriends && !state.user) empty = "";
+  else if (state.onlyFriends && !state.friends.length) empty = "Once your friends add films to their watchlists, they'll show up here.";
+  else if (state.onlyFriends && !friendsHere()) empty = `Nothing on your friends' watchlists is in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !watchedHere()) empty = `Nothing on your watchlist is in ${esc(state.data.location)}'s listings. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.`;
   // The chosen-day section is always there (unless searching), even empty, so it says plainly that nothing's on that day.
   const today = localNow().slice(0, 10), chosen = chosenDay(today);
-  const withDay = dayMode() && !(state.onlyWatch && !watchedHere());
+  const withDay = dayMode() && !(state.onlyWatch && !watchedHere()) && !(state.onlyFriends && !friendsHere());
   if (withDay && sections[0]?.key !== DAY_KEY) sections.unshift({ key: DAY_KEY, label: dayTitle(chosen, today), rows: [] });
-  const dayEmpty = `${state.onlyWatch ? "Nothing on your watchlist is" : "Nothing is"} playing ${chosen === today ? "for the rest of today" : `on ${dayLabel(chosen)}`}${activeFilters() ? " with these filters" : ""}.`;
+  const dayEmpty = `${state.onlyWatch ? "Nothing on your watchlist is" : state.onlyFriends ? "Nothing on your friends' watchlists is" : "Nothing is"} playing ${chosen === today ? "for the rest of today" : `on ${dayLabel(chosen)}`}${activeFilters() ? " with these filters" : ""}.`;
   // When nothing (or nothing on the day) turns up, offer a way back out of the search and filters.
   const q = state.q.trim(), nf = activeFilters();
   const clearBtn = (withSearch) => (withSearch && q) || nf
     ? ` <button class="linkbtn" data-clearall="${withSearch ? "q" : "f"}">${withSearch && q && nf ? "Clear search and filters" : withSearch && q ? "Clear search" : "Clear filters"}</button>` : "";
   state.sections = sections;
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
+  renderListSwitch(rows.length);
+  renderFriendsPanel();
   renderActiveChips();
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
     const shut = isCollapsed(s), isDay = withDay && s.key === DAY_KEY;
@@ -489,7 +549,7 @@ function renderGrid() {
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
       ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}${clearBtn(false)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
-  }).join("") : `<p class="empty">${empty}${clearBtn(true)}</p>`;
+  }).join("") : empty ? `<p class="empty">${empty}${clearBtn(true)}</p>` : "";
   const hk = hiddenKindsLine();
   $("hiddenKinds").hidden = !hk;
   $("hiddenKinds").innerHTML = hk;
@@ -1019,7 +1079,7 @@ function removeChip(k) {
 // Shorts, live & stage and talks are turned off by default (Preferences); a line under the list says how many that hides.
 function hiddenKindsLine() {
   const hide = state.prefs.hideKinds || [];
-  if (!hide.length || state.q.trim() || state.onlyWatch) return "";
+  if (!hide.length || state.q.trim() || state.onlyWatch || state.onlyFriends) return "";
   state.prefs.hideKinds = [];  // what the list would hold with everything on
   let rows; try { rows = buildRows(); } finally { state.prefs.hideKinds = hide; }
   const n = {}; for (const r of rows) { const k = r.f.kind || "film"; if (hide.includes(k)) n[k] = (n[k] || 0) + 1; }
@@ -1112,7 +1172,7 @@ document.addEventListener("keydown", (e) => {
 $("listSwitch").addEventListener("click", (e) => {
   const b = e.target.closest("[data-list]");
   if (!b) return;
-  state.onlyWatch = b.dataset.list === "watch"; render(); window.scrollTo({ top: 0 });
+  setList(b.dataset.list);
 });
 
 // Section headers stick just below the controls bar; keep that offset in a CSS variable.
@@ -1318,23 +1378,6 @@ $("account").addEventListener("change", (e) => {
 });
 $("prefsLink").addEventListener("click", openPrefs);
 
-function renderFriends(msg) {
-  const p = state.profile;
-  $("accountBody").innerHTML = `<h2 id="accountTitle">Friends</h2>
-    <p class="lead">Friends see which films are on each other's watchlists. Share your code, or enter a friend's.</p>
-    <div class="codebox" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div>
-    <div class="row codebtns"><button class="btn ghost" data-friend="copy">Copy code</button>
-      <button class="btn ghost" data-friend="share">${canShare ? "Share invite" : "Copy invite"}</button></div>
-    <form class="signin" id="addFriendForm"><input type="text" id="friendCode" required placeholder="Enter a friend's code" autocapitalize="characters"
-        autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200" aria-label="Friend's code">
-      <div class="row">${navigator.clipboard?.readText ? `<button type="button" class="btn ghost" data-friend="paste">Paste</button>` : ""}
-      <button class="btn accent" type="submit">Add friend</button></div></form>
-    <h3 class="subh">Your friends</h3>
-    ${state.friendsError && !state.friends.length ? `<p class="nofriends">Couldn't load your friends. Try again in a moment.</p>` : state.friends.length ? `<ul class="friendlist">${state.friends.map((fr) => `<li><span class="fdot" style="--h:${friendHue(fr.id)}">${esc(initialsOf(fr.name))}</span>
-      <span class="fname">${esc(fr.name)}</span><button class="linkbtn" data-unfriend="${esc(fr.id)}">Remove</button></li>`).join("")}</ul>`
-      : `<p class="nofriends">No friends yet.</p>`}
-    <p class="hint">Friends see you as <b>${esc(p.display_name || state.user.email)}</b>. <button class="linkbtn" data-acct="profile">Change your name</button></p>${msg}`;
-}
 
 function renderAccount(message = "", isErr = false) {
   const body = $("accountBody");
@@ -1382,7 +1425,6 @@ function renderAccount(message = "", isErr = false) {
     return;
   }
   const p = state.profile;
-  if (state.acctView === "friends" && p.friend_code) { renderFriends(msg); return; }
   if (state.acctView === "email") { renderEmailSettings(msg); return; }
   renderProfile(msg);
 }
@@ -1524,6 +1566,7 @@ if (sb) {
     const b = e.target.closest("[data-open]");
     if (!b) return;
     closeMenus();
+    if (b.dataset.open === "friends") { showFriendsTab(); return; }
     if (b.dataset.open === "signout") { await sb.auth.signOut(); toast("Signed out"); return; }
     state.acctView = b.dataset.open;
     renderAccount();
@@ -1597,13 +1640,7 @@ if (sb) {
     settlePendingFriend();
   });
 
-  // Friends: add by code, remove, rename, share.
-  const clip = async (text) => { try { await navigator.clipboard.writeText(text); return true; } catch { return false; } };
-  // A code pasted on its own, inside an invite link ("?friend=K7QM4P") or inside the invite message ("... code K7Q-M4P ...").
-  const extractCode = (t) => {
-    t = String(t || "").trim();
-    return t.match(/[?&]friend=([A-Za-z0-9-]+)/)?.[1] || (t.length <= 12 ? t : t.match(/code\s+([A-Za-z0-9-]{6,8})/i)?.[1] || t);
-  };
+  // Friends: add by code, share, remove (the Friends tab), and the name (Profile).
   async function redeemFriendCode(raw) {
     const { data, error } = await sb.rpc("redeem_friend_code", { code: extractCode(raw) });
     if (error) return { msg: "Couldn't add the friend. Try again in a moment.", err: true, retry: true };
@@ -1627,42 +1664,50 @@ if (sb) {
     }
     if ($("account").open) $("account").close();
     toast(r.msg);
+    if (!r.err) showFriendsTab();
   }
-  const inviteText = () => {
-    const c = state.profile.friend_code, url = location.href.split(/[?#]/)[0] + "?friend=" + c;
-    return `Add me on Cinecrab: ${url} or enter my code ${fmtCode(c)} under Account → Friends`;
-  };
-  $("account").addEventListener("click", async (e) => {
-    const b = e.target.closest("[data-acct],[data-friend],[data-unfriend]");
+  async function unfriend(id) {
+    const fr = state.friends.find((x) => x.id === id), me = state.user.id;
+    if (!fr || !confirm(`Remove ${fr.name} as a friend? You'll stop seeing each other's watchlists.`)) return "";
+    const { data, error } = await sb.from("friendships").delete().or(`and(a.eq.${me},b.eq.${id}),and(a.eq.${id},b.eq.${me})`).select();
+    if (error || !data?.length) return "Couldn't remove them. Try again in a moment.";
+    await loadFriends();
+    return `Removed ${fr.name}.`;
+  }
+  $("friendsPanel").addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-fr]");
     if (!b) return;
-    if (b.dataset.acct !== undefined) { state.acctView = b.dataset.acct; renderAccount(); $("account").scrollTop = 0; return; }
-    if (b.dataset.unfriend) {
-      const fr = state.friends.find((x) => x.id === b.dataset.unfriend), me = state.user.id, id = b.dataset.unfriend;
-      if (!fr || !confirm(`Remove ${fr.name} as a friend? You'll stop seeing each other's watchlists.`)) return;
-      const { data, error } = await sb.from("friendships").delete().or(`and(a.eq.${me},b.eq.${id}),and(a.eq.${id},b.eq.${me})`).select();
-      if (error || !data?.length) { renderAccount("Couldn't remove them. Try again in a moment.", true); return; }
-      await loadFriends();
-      renderAccount(`Removed ${fr.name}.`);
-      return;
-    }
-    const what = b.dataset.friend;
-    if (what === "copy") renderAccount(await clip(fmtCode(state.profile.friend_code)) ? "Code copied." : "Couldn't copy. Select the code and copy it.", false);
-    else if (what === "copyinvite") { const ok = await clip(fmtCode(state.pendingFriend.replace(/[^A-Za-z0-9]/g, "").toUpperCase())); renderAccount(ok ? "Code copied." : "Couldn't copy. Select the code and copy it.", !ok); }
+    const what = b.dataset.fr;
+    if (what === "toggle") { state.friendsOpen = !friendsOpenNow(); renderFriendsPanel(true); }
+    else if (what === "signin") promptSignIn();
+    else if (what === "copy") toast(await clip(fmtCode(state.profile.friend_code)) ? "Code copied" : "Couldn't copy the code");
     else if (what === "share") {
       if (canShare) { try { await navigator.share({ text: inviteText() }); } catch {} }
-      else renderAccount(await clip(inviteText()) ? "Invite copied. Paste it into a message." : "Couldn't copy the invite.", false);
+      else toast(await clip(inviteText()) ? "Invite copied. Paste it into a message." : "Couldn't copy the invite");
     } else if (what === "paste") {
-      try { $("friendCode").value = extractCode(await navigator.clipboard.readText()); $("friendCode").focus(); }
-      catch { renderAccount("Couldn't read the clipboard. Paste into the box instead.", true); }
-    }
+      try { $("friendsCode").value = extractCode(await navigator.clipboard.readText()); $("friendsCode").focus(); }
+      catch { toast("Couldn't read the clipboard. Paste into the box instead."); }
+    } else if (what === "remove") { const m = await unfriend(b.dataset.id); if (m) toast(m); }
+  });
+  $("friendsPanel").addEventListener("submit", async (e) => {
+    if (e.target.id !== "friendsAddForm") return;
+    e.preventDefault();
+    const input = $("friendsCode"), btn = e.target.querySelector("button[type=submit]");
+    if (!input.value.trim()) { input.focus(); return; }
+    btn.disabled = true;
+    const r = await redeemFriendCode(input.value);
+    btn.disabled = false;
+    toast(r.msg);
+    if (!r.err) { input.value = ""; state.friendsOpen = false; renderFriendsPanel(true); }
+  });
+  $("account").addEventListener("click", async (e) => {  // the invite page's "Copy code" (signed out)
+    const b = e.target.closest('[data-friend="copyinvite"]');
+    if (!b) return;
+    const ok = await clip(fmtCode(state.pendingFriend.replace(/[^A-Za-z0-9]/g, "").toUpperCase()));
+    renderAccount(ok ? "Code copied." : "Couldn't copy. Select the code and copy it.", !ok);
   });
   $("account").addEventListener("submit", async (e) => {
-    if (e.target.id === "addFriendForm") {
-      e.preventDefault();
-      const btn = e.target.querySelector("button[type=submit]"); btn.disabled = true;
-      const r = await redeemFriendCode($("friendCode").value);
-      renderAccount(r.msg, !!r.err);
-    } else if (e.target.id === "nameForm") {
+    if (e.target.id === "nameForm") {
       e.preventDefault();
       const v = $("dispName").value.trim().slice(0, 40);
       state.profile = { ...state.profile, display_name: v || null };

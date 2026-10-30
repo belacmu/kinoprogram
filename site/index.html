@@ -67,8 +67,9 @@
     <main class="main">
       <div class="controls" id="controls">
         <div class="listswitch" id="listSwitch" role="group" aria-label="Which films">
-          <button data-list="all" aria-pressed="true">All films</button>
-          <button data-list="watch" aria-pressed="false">♥ Watchlist<span id="wlCount"></span></button>
+          <button data-list="all" aria-pressed="true">All films<span class="cnt"></span></button>
+          <button data-list="watch" aria-pressed="false"><span class="ico" aria-hidden="true">♥</span>Watchlist<span class="cnt"></span></button>
+          <button data-list="friends" aria-pressed="false"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.3a3.5 3.5 0 0 1 0 6.4M18 14.4c2 .7 3.5 2.4 3.5 5.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Friends<span class="cnt"></span></button>
         </div>
         <div class="bar">
           <button class="pill" id="filtersBtn" aria-controls="filters" aria-expanded="false">Filters</button>
@@ -84,6 +85,7 @@
         </div>
         <div class="activechips" id="activeChips" aria-label="Filters in use" hidden><div class="chiplist" id="chipList"></div><button type="button" class="linkbtn" id="chipsClear" data-chip="all">Clear all</button></div>
       </div>
+      <div class="fpanel" id="friendsPanel" hidden></div>
       <div id="grid"></div>
       <p class="hiddenkinds" id="hiddenKinds" hidden></p>
     </main>
