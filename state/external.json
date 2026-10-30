@@ -794,6 +794,12 @@
 "rated": "2026-10-22",
 "posterPath": "/4KaPZSKnInnArErTTgy9Oy14leR.jpg"
 },
+"cl-akira": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"v": 4,
+"checked": "2026-10-28"
+},
 "cl-arriba-tutto": {
 "v": 4,
 "checked": "2026-10-20",
@@ -833,27 +839,6 @@
 "checked": "2026-10-28",
 "tmdbChecked": "2026-10-28",
 "tv": 2
-},
-"cl-cars": {
-"imdb": "tt0317219",
-"imdbAll": [
-"tt0317219"
-],
-"lb": "cars",
-"rt": "m/cars",
-"mc": "movie/cars",
-"en": "Cars",
-"v": 4,
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 920,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "cars",
-"lbRating": 3.96,
-"rated": "2026-10-27",
-"posterPath": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg"
 },
 "cl-centauros-desierto": {
 "imdb": "tt0049730",
@@ -908,7 +893,7 @@
 "en": null,
 "lbSlug": "rammstein-live-in-mexico-city",
 "lbRating": null,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/qYdaSPHfZP3gwgGCxizegdN2kDc.jpg"
 },
 "cl-corazon-bestia": {
@@ -952,12 +937,6 @@
 "lbRating": null,
 "rated": "2026-10-23",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
-},
-"cl-gato-sombrero-1": {
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2
 },
 "cl-gungo-juegos-cavernicolas": {
 "v": 4,
@@ -1017,8 +996,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "the-invite-2026",
-"lbRating": 3.95,
-"rated": "2026-10-22",
+"lbRating": 3.94,
+"rated": "2026-10-30",
 "posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
 },
 "cl-isla-olvidada": {
@@ -1087,8 +1066,8 @@
 "imdb": "tt37202171",
 "en": null,
 "lbSlug": "la-maleta",
-"lbRating": null,
-"rated": "2026-10-22",
+"lbRating": 2.96,
+"rated": "2026-10-30",
 "posterPath": "/Ap0WExOWEL4DMcRKsAoDehi05J6.jpg"
 },
 "cl-mascotas-rescate": {
@@ -1103,7 +1082,7 @@
 "enFrom": "tmdb",
 "lbSlug": "pets-on-a-train",
 "lbRating": 2.74,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/b10qy1KwrfmH0MGS2rBUJ0BxgYB.jpg"
 },
 "cl-otra-madre": {
@@ -1117,8 +1096,8 @@
 "en": "Other Mommy",
 "enFrom": "tmdb",
 "lbSlug": "other-mommy",
-"lbRating": 2.19,
-"rated": "2026-10-22",
+"lbRating": 2.18,
+"rated": "2026-10-30",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "cl-oveja-shaun-mision-calabaza": {
@@ -1141,12 +1120,6 @@
 "checked": "2026-10-28",
 "tmdbChecked": "2026-10-28",
 "tv": 2
-},
-"cl-pesadilla-elm-street": {
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-22"
 },
 "cl-resident-evil": {
 "imdb": "tt35538033",
@@ -1228,7 +1201,7 @@
 "lang": "es",
 "lbSlug": "superthings-la-pelicula",
 "lbRating": null,
-"rated": "2026-10-22",
+"rated": "2026-10-30",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
 "cl-tadeo-jones-lampara-maravillosa": {
@@ -1251,27 +1224,6 @@
 "rated": "2026-10-27",
 "posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
 },
-"cl-verity-sombra-engano": {
-"imdb": "tt32261958",
-"imdbAll": [
-"tt32261958"
-],
-"lb": "verity-2026",
-"rt": "m/verity",
-"mc": "movie/verity",
-"en": "Verity",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1283515,
-"enFrom": "tmdb",
-"lbSlug": "verity-2026",
-"lbRating": 2.65,
-"rated": "2026-10-26",
-"lang": "en",
-"posterPath": "/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg"
-},
 "cl-whalefall": {
 "imdb": "tt28535715",
 "imdbAll": [
@@ -1289,8 +1241,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "whalefall",
-"lbRating": 3.24,
-"rated": "2026-10-22",
+"lbRating": 3.21,
+"rated": "2026-10-30",
 "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
 },
 "cl-wicker": {
@@ -1325,8 +1277,8 @@
 "en": "Wildwood",
 "enFrom": "tmdb",
 "lbSlug": "wildwood-2026",
-"lbRating": 4.28,
-"rated": "2026-10-22",
+"lbRating": 4.43,
+"rated": "2026-10-30",
 "posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg"
 },
 "cm-11-x14": {
@@ -5384,19 +5336,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20251703": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1751226,
-"imdb": null,
-"en": null,
-"lbSlug": "small-talk-2026-2",
-"lbRating": null,
-"rated": "2026-10-25",
-"posterPath": "/aN1SBXBrlcxK7T3224fm2TJTJMV.jpg",
-"v": 4,
-"checked": "2026-10-28"
-},
 "fw-EDI20251744": {
 "imdb": "tt17070412",
 "imdbAll": [
@@ -6159,24 +6098,6 @@
 "enFrom": "tmdb",
 "posterPath": "/bnd2qMQwRFaVAqyAxUs65iIiLb5.jpg"
 },
-"fw-EDI20260641": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1437511,
-"imdb": "tt35866986",
-"en": "How to Rob a Bank",
-"lbSlug": "how-to-rob-a-bank-2026",
-"lbRating": null,
-"rated": "2026-10-25",
-"imdbAll": [
-"tt35866986"
-],
-"lb": "how-to-rob-a-bank-2026",
-"rt": "m/how_to_rob_a_bank_2026",
-"mc": "movie/how-to-rob-a-bank-2026",
-"v": 4,
-"checked": "2026-10-04"
-},
 "fw-EDI20260642": {
 "lbSlug": "resident-evil-2026",
 "lbRating": 3.75,
@@ -6764,24 +6685,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260973": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1126097,
-"imdb": "tt27739255",
-"en": "Charlie Harper",
-"lbSlug": "charlie-harper",
-"lbRating": 3.34,
-"rated": "2026-10-25",
-"imdbAll": [
-"tt27739255"
-],
-"lb": "charlie-harper",
-"rt": "m/charlie_harper",
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
-},
 "fw-EDI20260974": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -6965,24 +6868,6 @@
 "rated": "2026-10-28",
 "tmdb": 1381071,
 "lang": "ja"
-},
-"fw-EDI20261033": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1426957,
-"imdb": "tt39382808",
-"en": "The Loneliest Man in Town",
-"lbSlug": "the-loneliest-man-in-town-2026",
-"lbRating": 3.68,
-"rated": "2026-10-25",
-"imdbAll": [
-"tt39382808"
-],
-"lb": "the-loneliest-man-in-town-2026",
-"rt": "m/the_loneliest_man_in_town",
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
 },
 "fw-EDI20261052": {
 "tmdbChecked": "2026-10-01",
@@ -10730,10 +10615,25 @@
 "checked": "2026-10-28"
 },
 "mk-el-gato-con-sombrero3": {
+"imdb": "tt2321555",
+"imdbAll": [
+"tt2321555"
+],
+"lb": "the-cat-in-the-hat-2026",
+"rt": "m/the_cat_in_the_hat",
+"mc": null,
+"en": "The Cat in the Hat",
 "v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
+"tv": 2,
+"tmdb": 1117898,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-cat-in-the-hat-2026",
+"lbRating": null,
+"rated": "2026-10-23",
+"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "mk-fargo": {
 "tmdbChecked": "2026-10-28",
@@ -10766,27 +10666,6 @@
 "lbRating": 3.17,
 "rated": "2026-10-27",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
-},
-"mk-la-invitacion": {
-"imdb": "tt14173636",
-"imdbAll": [
-"tt14173636"
-],
-"lb": "the-invite-2026",
-"rt": "m/the_invite",
-"mc": "movie/the-invite",
-"en": "The Invite",
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2,
-"tmdb": 950028,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-invite-2026",
-"lbRating": 3.95,
-"rated": "2026-10-22",
-"posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
 },
 "mk-ladron-de-bicicletas": {
 "tmdbChecked": "2026-10-28",
@@ -10826,12 +10705,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-28"
-},
-"mk-pesadilla-en-elm-street": {
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-22"
 },
 "mk-sentido-y-sensibilidad": {
 "v": 4,
