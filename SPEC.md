@@ -97,7 +97,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
     playing before it drop out, and a film opened from there starts at (and highlights) that day.
     The section stays even when empty, saying nothing's on. The day isn't remembered: reloading
     goes back to Today; switching region keeps it. Searching ignores it.
-- **Feed** (the default page; replaces "What's new"): what happened lately, as posts, newest first (no day
+- **Feed** (reached from the Feed tab, `#feed`; replaces "What's new"): what happened lately, as posts, newest first (no day
   headings; each post says how long ago). A post is one kind of event with
   its films: "9 new films on sale", "10 new films announced", "More showings added for Dune",
   "Santi added 4 films to their watchlist" (one post per kind, per friend, per day). Posts with more
@@ -111,7 +111,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - **Under a poster in the feed**: just the title and one short line about what the post is about (the
   heading already says what happened): on sale → the cinemas on one line (cut off with … if long), then the usual date range; announced → the first date, premiere or
   "Expected …"; more showings → "+2 showings · Saga"; a friend's pick → nothing more.
-- **Navigation**: two destinations, **Feed** and **Films** (`#feed`, `#films`; no hash = Feed; `#new`
+- **Navigation**: two destinations, **Feed** and **Films** (`#feed`, `#films`; no hash = Films for now; `#new`
   = Feed; `#film/…` links open on Films). A floating, translucent capsule at the bottom on phones and tablets (under 900px), links
   beside the title in the header on desktop; both mark the current page with a solid red pill and white text. Tapping the current one scrolls to the top. Filters,
   search and the list switch belong to Films only.

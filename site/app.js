@@ -57,7 +57,7 @@ const state = {
   within: local.get("within2", "rating"),
   onlyWatch: false,
   friendSel: [],        // Friends tab, in the filters: ids of the friends picked (none = all friends)
-  page: "feed",         // the feed (default) or the films list
+  page: "films",        // the films list (default) or the feed
   friendEvents: [],     // what friends added to their watchlists: {id, name, film, at}
   feedOpen: new Set(),  // posts expanded to show all their films
   onlyFriends: false,   // the Friends tab: films on your friends' watchlists
@@ -1032,8 +1032,8 @@ function route() {
     return;
   }
   if ($("film").open) $("film").close();
-  if (location.hash === "#films") setPage("films");
-  else if (location.hash === "" || location.hash === "#feed" || location.hash === "#new") setPage("feed");  // #new: the old "What's new" link
+  if (location.hash === "#feed" || location.hash === "#new") setPage("feed");  // #new: the old "What's new" link
+  else setPage("films");
 }
 
 $("film").addEventListener("close", () => {
@@ -1917,7 +1917,7 @@ async function loadRegion(key) {
     ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a>, <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, <a href="https://www.eventbrite.com/o/revier-117564493841" target="_blank" rel="noopener">Revier Film Club</a> (Eventbrite), <a href="https://deichman.hoopla.no" target="_blank" rel="noopener">Deichman Bjørvika</a> (Hoopla) and <a href="https://www.sommerrohouse.com/kultur/filmopplevelser/" target="_blank" rel="noopener">Sommerro</a>, refreshed several times a day. Tickets are bought on the cinemas' own sites; Revier's and Deichman's screenings are free but need a reserved seat, and Sommerro's are prepaid dinner + film packages. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
     : `Data from <a href="https://www.landmarkcinemas.com" target="_blank" rel="noopener">Landmark Cinemas</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://evanstheatre.ca" target="_blank" rel="noopener">Evans Theatre</a>. Small theatres sell tickets at the door. Times are Manitoba time. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`;
   document.title = `Cinecrab · ${reg.name}`;
-  if (!state.routed) state.page = /^#(films|film\/|watch\/)/.test(location.hash) ? "films" : "feed";  // which page we open on, before anything is drawn
+  if (!state.routed) state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // which page we open on (Films unless asked for the feed), before anything is drawn
   render();
   route();
 }
