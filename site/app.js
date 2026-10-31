@@ -326,16 +326,20 @@ function renderFriendsPanel(force = false) {
   if (!force && sig === friendsPanelSig) return;
   if (!force && el.contains(document.activeElement) && document.activeElement.value) return;
   friendsPanelSig = sig;
-  if (typeof sb === "undefined" || !sb) { el.innerHTML = `<h2 class="fh">Friends</h2><p class="fp">Friends need an account, which isn't available right now.</p>`; return; }
-  if (!state.user) {
-    el.innerHTML = `<h2 class="fh">See what your friends want to watch</h2><p class="fp">Sign in, add your friends with a code, and the films on their watchlists show up here, and on the posters.</p>
-      <button type="button" class="btn accent" data-fr="signin">Sign in</button>`;
-    return;
-  }
-  if (!p || !p.friend_code) { el.innerHTML = `<p class="fp">${state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading…"}</p>`; return; }
   state.friendSel = state.friendSel.filter((id) => state.friends.some((x) => x.id === id));
-  el.innerHTML = state.friends.length ? "" : `<h2 class="fh">Add your first friend</h2><p class="fp">Swap codes to see each other's watchlists, here and on the posters.</p>${friendsBody(p)}`;
-  el.hidden = !!state.friends.length;
+  const html = friendsNeedHtml();
+  el.innerHTML = html;
+  el.hidden = !html;
+}
+// What the Friends view shows when there's nothing to list yet: no accounts, the sign-in prompt, loading, or the first-friend card.
+// "" once there are friends. Used by the Friends tab on Films and by the Friends filter in the Feed.
+function friendsNeedHtml() {
+  const p = state.profile;
+  if (typeof sb === "undefined" || !sb) return `<h2 class="fh">Friends</h2><p class="fp">Friends need an account, which isn't available right now.</p>`;
+  if (!state.user) return `<h2 class="fh">See what your friends want to watch</h2><p class="fp">Sign in, add your friends with a code, and the films on their watchlists show up here, and on the posters.</p>
+      <button type="button" class="btn accent" data-fr="signin">Sign in</button>`;
+  if (!p || !p.friend_code) return `<p class="fp">${state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading…"}</p>`;
+  return state.friends.length ? "" : `<h2 class="fh">Add your first friend</h2><p class="fp">Swap codes to see each other's watchlists, here and on the posters.</p>${friendsBody(p)}`;
 }
 // Your code, the box for a friend's, and your friends with Remove: on the Friends tab while there are no friends, else in the dialog.
 function friendsBody(p) {
@@ -798,6 +802,12 @@ function renderFeed() {
   const filter = `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
   const nudge = sb && state.authReady && !state.user
     ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
+  const needFriends = state.feedKinds[0] === "friend" ? friendsNeedHtml() : "";  // Friends filter, nobody to show: the Friends view's own prompt
+  if (needFriends && el.contains(document.activeElement) && document.activeElement.value) return;  // a code is being typed
+  if (needFriends) {
+    el.innerHTML = `${filter}<div class="fpanel">${needFriends}</div>${state.user && state.profile?.friend_code ? `<p class="nempty">Once your friends add films to their watchlists, they'll show up here.</p>` : ""}`;
+    return;
+  }
   el.innerHTML = `${filter}${parts.length ? parts.join("")
       : state.feedKinds.length ? `<p class="nempty">No updates of this kind yet. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`
       : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
@@ -1832,7 +1842,7 @@ if (sb) {
   $("wlInvite").addEventListener("click", (e) => { if (e.target.closest("[data-wl=signin]")) promptSignIn(); });
   // The same controls live in the Friends tab's panel (no friends yet) and in the dialog (opened by "Add friend").
   const syncAdd = (host) => { const i = host.querySelector("[name=code]"), b = host.querySelector("[data-fr-form] [type=submit]"); if (b && i) b.disabled = !i.value.trim(); };
-  for (const host of [$("friendsPanel"), $("friendsAddBody")]) {
+  for (const host of [$("friendsPanel"), $("friendsAddBody"), $("feedPage")]) {
     host.addEventListener("click", async (e) => {
       const b = e.target.closest("[data-fr]");
       if (!b) return;
