@@ -793,8 +793,8 @@ function renderFeed() {
     if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
     parts.push(postHtml(p));
   }
-  const KINDS = [["sale", "On sale"], ["announced", "Announced"], ["showings", "Showings"], ...(sb ? [["friend", "Friends"]] : [])];
-  const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds.includes(k) : !state.feedKinds.length}">${label}</button>`;
+  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"], ["showings", "New showings"]];
+  const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds[0] === k : !state.feedKinds.length}">${label}</button>`;
   const filter = `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
   const nudge = sb && state.authReady && !state.user
     ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
@@ -806,8 +806,8 @@ function renderFeed() {
 $("feedPage").addEventListener("click", (e) => {
   const fk = e.target.closest("[data-fk]");
   if (fk) {
-    const k = fk.dataset.fk, on = state.feedKinds;
-    state.feedKinds = !k ? [] : on.includes(k) ? on.filter((x) => x !== k) : [...on, k];
+    const k = fk.dataset.fk;
+    state.feedKinds = k ? [k] : [];  // one kind at a time, or All
     local.set("feedKinds", state.feedKinds);
     renderFeed();
     return;
