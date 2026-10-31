@@ -106,7 +106,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   last 30 days, after tracking began, and pass the same filters as the list (types, cinemas, language;
   not Tickets or the Watchlist switch); hidden films are left out. A divider, "New since your last
   visit", separates posts newer than the last time the feed was left (kept on the device); the Feed
-  tab shows how many posts are new while you're on Films. Signed out, a card invites signing in to see
+  tab carries a number badge (red, up to 9+, announced to screen readers) counting the posts not seen yet while you're
+  on Films; someone who has never opened the feed gets the last three days counted. Signed out, a card invites signing in to see
   friends' picks. Events come from one log (below), so every kind of event appears in the same system.
 - **Feed filter**: a row of chips at the top, pinned under the header while you scroll (All · Friends · On sale · Announced); pick one kind of update
   to see only those, or All. Remembered on the device. "On sale" covers both films whose tickets went on

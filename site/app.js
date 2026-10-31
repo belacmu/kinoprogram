@@ -860,10 +860,13 @@ function renderNav() {
   $("feedPage").hidden = state.page !== "feed";
   document.body.classList.toggle("page-feed", state.page === "feed");
   for (const a of $("mainNav").querySelectorAll("[data-page]")) a.toggleAttribute("aria-current", a.dataset.page === state.page);
-  const seen = feedSeen(), fresh = state.page === "feed" || !seen || !state.data ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
+  // Posts not seen yet. Someone who has never opened the feed counts the last three days, so the badge invites them in.
+  const seen = feedSeen() || (state.data ? addDays(localNow().slice(0, 10), -3) + "T00:00" : "");
+  const fresh = state.page === "feed" || !seen || !state.data ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
   const dot = $("feedDot");
   dot.hidden = !fresh;
   dot.textContent = fresh > 9 ? "9+" : fresh;
+  $("feedLink").setAttribute("aria-label", fresh ? `Feed, ${fresh > 9 ? "more than 9" : fresh} new` : "Feed");
 }
 // The films list stays drawn (just hidden) while the feed is showing, so going back to it is only a switch of what's visible.
 // Anything that changes what it shows (a heart, a filter, new data) marks it out of date, and it is redrawn in a quiet moment
