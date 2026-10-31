@@ -914,3 +914,11 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 /* the Feed's filter row stays on screen under the header while you scroll */
 .feedfilter { position: sticky; top: calc(var(--hdr-h, 0px) + env(safe-area-inset-top, 0px)); z-index: 5; background: var(--bg); margin-inline: -16px; padding: 12px 16px; }
 @media (max-width: 639px) { .mainnav { --navring: var(--surface); } }
+
+/* the top-right button is a menu for everyone: an avatar when signed in, a person icon when not */
+#accountBtn.guest { width: var(--pill-h); padding: 0; justify-content: center; }
+#accountBtn.guest .ico { display: block; }
+.regions { display: grid; gap: 8px; margin-top: 4px; }
+.region { text-align: left; padding: 13px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font: 600 15px var(--body); cursor: pointer; }
+.region[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); border-color: var(--chip-on); }
+#account h2 + p { padding-right: 44px; }
