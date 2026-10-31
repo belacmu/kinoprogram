@@ -527,13 +527,13 @@ function renderGrid() {
     sections.at(-1).rows.push(r);
   }
   const isCollapsed = (s) => state.collapsed.has(s.key);
-  let empty = "No films match these filters.";
+  let empty = "No films match these filters.", offerClear = true;  // "Clear filters" only when the filters are why nothing shows
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
-  else if (state.onlyWatch && !state.watchlist.size) empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.";
+  else if (state.onlyWatch && !state.watchlist.size) { empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale."; offerClear = false; }
   else if (state.onlyFriends && !state.user) empty = "";
-  else if (state.onlyFriends && !state.friends.length) empty = "Once your friends add films to their watchlists, they'll show up here.";
-  else if (state.onlyFriends && !friendsHere()) empty = `Nothing on your friends' watchlists is in ${esc(state.data.location)}'s listings yet.`;
-  else if (state.onlyWatch && !watchedHere()) empty = `Nothing on your watchlist is in ${esc(state.data.location)}'s listings. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.`;
+  else if (state.onlyFriends && !state.friends.length) { empty = "Once your friends add films to their watchlists, they'll show up here."; offerClear = false; }
+  else if (state.onlyFriends && !friendsHere()) { empty = `Nothing on your friends' watchlists is in ${esc(state.data.location)}'s listings yet.`; offerClear = !!state.friendSel.length; }
+  else if (state.onlyWatch && !watchedHere()) { empty = `Nothing on your watchlist is in ${esc(state.data.location)}'s listings. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale.`; offerClear = false; }
   // The chosen-day section is always there (unless searching), even empty, so it says plainly that nothing's on that day.
   const today = localNow().slice(0, 10), chosen = chosenDay(today);
   const withDay = dayMode() && !(state.onlyWatch && !watchedHere()) && !(state.onlyFriends && !friendsHere());
@@ -556,7 +556,7 @@ function renderGrid() {
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
       ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}${clearBtn(false)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
-  }).join("") : empty ? `<p class="empty">${empty}${clearBtn(true)}</p>` : "";
+  }).join("") : empty ? `<p class="empty">${empty}${offerClear || q ? clearBtn(true) : ""}</p>` : "";
   const hk = hiddenKindsLine();
   $("hiddenKinds").hidden = !hk;
   $("hiddenKinds").innerHTML = hk;
