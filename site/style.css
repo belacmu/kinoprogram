@@ -801,7 +801,7 @@ dialog { overscroll-behavior: contain; }
 .mainnav a:hover { color: var(--ink); }
 .mainnav a[aria-current] { color: var(--accent-ink); background: var(--accent); }
 .mainnav .ni { position: relative; display: grid; place-items: center; }
-.navdot { position: absolute; top: -6px; right: -9px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; box-sizing: border-box; background: var(--accent); color: var(--accent-ink); font: 700 10px/16px var(--body); text-align: center; font-style: normal; }
+.navdot { position: absolute; top: -10px; right: -9px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 10px; box-sizing: border-box; background: var(--accent); color: var(--accent-ink); font: 700 11px/18px var(--body); text-align: center; font-style: normal; box-shadow: 0 0 0 2px var(--navring, var(--band, var(--bg))); }
 .navdot[hidden] { display: none; }
 @media (max-width: 639px) {
   /* a floating capsule, not a full-width bar: translucent, centred, clear of the screen edge */
@@ -913,3 +913,4 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 
 /* the Feed's filter row stays on screen under the header while you scroll */
 .feedfilter { position: sticky; top: calc(var(--hdr-h, 0px) + env(safe-area-inset-top, 0px)); z-index: 5; background: var(--bg); margin-inline: -16px; padding: 12px 16px; }
+@media (max-width: 639px) { .mainnav { --navring: var(--surface); } }
