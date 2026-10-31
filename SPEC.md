@@ -108,7 +108,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   visit", separates posts newer than the last time the feed was left (kept on the device); the Feed
   tab shows how many posts are new while you're on Films. Signed out, a card invites signing in to see
   friends' picks. Events come from one log (below), so every kind of event appears in the same system.
-- **Feed filter**: a row of chips at the top (All · Friends · On sale · Announced); pick one kind of update
+- **Feed filter**: a row of chips at the top, pinned under the header while you scroll (All · Friends · On sale · Announced); pick one kind of update
   to see only those, or All. Remembered on the device. "On sale" covers both films whose tickets went on
   sale and films already on sale that got more showings.
 - **Friends filter with nothing to show** (signed out, no friends yet): the Feed shows the same card as the Friends
@@ -127,6 +127,55 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Header: the same height and spacing at every width (a fixed-size title); the title (and on desktop the Feed / Films links), then the location and the account button,
   always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
+- **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
+  filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
+- **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
+  the filter row plus two placeholder posts on the Feed) under its normal top, replaced in place when the data comes.
+  Nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
+  wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
+  cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
+  the screen.
+- **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first. Search
+  (placeholder "Search") and **Date** (always showing its name, to the right of search; the search field is what
+  gives way) prefer the top line beside the switch, from 640px. The **Filters** button is always first on the left,
+  never alone on a line unless chips are with it: with chips (shown beside it, "Clear all" at the end, scrolling
+  sideways when many) it takes the last line, directly above the films; with no chips it joins the top line
+  ([Filters] [switch] [search] [Date]) when that all fits, else it shares a line with search and Date under the
+  switch. On phones the switch has its own line, search and Date share the Filters line, and take a line of their
+  own above it only if the chips leave under 200px there. Typing in search on a phone gives it the whole row.
+- **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
+  filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
+- **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
+  the filter row plus two placeholder posts on the Feed) under its normal top, replaced in place when the data comes.
+  Nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
+  wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
+  cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
+  the screen.
+- **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch has the first line.
+  Search (placeholder "Search") and **Date** (always showing its name, to the right of search; the search field is
+  what gives way) want the next line, with the **Filters** button (always first, on the left) and the filters in force
+  (chips, "Clear all" at the end; they scroll sideways when many): [Filters] [chips] [search] [Date]. When the chips
+  leave under 200px for search and Date there, those two move up beside the switch (on phones, onto a line of their
+  own under it), and Filters and the chips stay together on the last line, directly above the films. The Filters
+  button is never alone on a line unless chips are with it. Typing in search on a phone gives it the whole row.
+- **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
+  filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
+- **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
+  the filter row plus two placeholder posts on the Feed) under its normal top, replaced in place when the data comes.
+  Nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
+  wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
+  cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
+  the screen.
+- **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first, with
+  the search field (placeholder "Search") beside it from 640px (on phones it takes the line below). The **Date** button
+  always shows its name (never an icon) and sits at the right of the search field at every width: the search
+  field is what gives way.
+  directly above the films, is the **Filters** button, always first and against the left, with the filters in force
+  (chips, "Clear all" at the end; they scroll sideways when many) beside it. Typing in search on a phone gives the
+  search field the whole row.
+- **Filters sidebar on desktop (1000px and up)**: the Filters button is a toggle (dark while the
+  sidebar is open). Closing it hides the sidebar and centres the content in the Feed's column (860px);
+  the choice is remembered. Below 1000px the button opens the bottom sheet instead.
 - Top bar (the filters): **All films | ♥ Watchlist | Friends** (three tabs; the film count shows
   only on the selected tab; icons show only when the switch is wide enough, else text only), then a
   search field (always a field, phones too; Escape clears it), the day control, and on narrow

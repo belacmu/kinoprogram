@@ -120,15 +120,7 @@ h1 span { color: var(--accent); }
 
 /* while you're typing in a narrow search field (phones, small tablets), it takes the whole bar */
 @container (max-width: 459px) { .bar:has(#q:focus) > :not(.searchbox) { display: none; } }
-/* tablets and small laptops wide enough for it: the switch and the bar share one row, as on desktop (narrower: two rows, as on phones) */
-@media (min-width: 860px) and (max-width: 999px) {
-  .controls { grid-template-columns: 370px minmax(0, 1fr); align-items: center; }
-}
-
-@media (min-width: 1000px) {
-  .controls { grid-template-columns: 370px minmax(0, 1fr); align-items: center; }
-  #view { flex: 0 1 240px; }
-}
+@media (min-width: 1000px) { #view { flex: 0 1 240px; } }
 
 /* controls */
 .controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
@@ -330,8 +322,6 @@ a.stub:hover { border-color: var(--accent); }
 }
 @media (min-width: 1000px) {
   .scrim { display: none; }
-  /* one row: [All films | My watchlist] [Date ▾] [search .........] */
-  .controls { grid-template-columns: 370px minmax(0, 1fr); }
   .bar { flex-wrap: nowrap; }
   .bar .searchbox { flex: 1 1 auto; }
   /* the Filters heading is centred on the bar's All films / Watchlist switch, at the top of the page and pinned alike */
@@ -454,14 +444,8 @@ body { overflow-x: clip; }
   #dayDD { position: static; }
   .menu.cal { width: min(300px, 100%); }
 }
-/* The day's name shows beside the icon (it matters more than the search field, which shrinks first); only on very
-   narrow bars, where the search field would be squeezed to under its icon, is the date button just the icon. */
+/* The date button always shows the day's name: the search field gives way, never the button. */
 .bar { container-type: inline-size; }
-@container (max-width: 299px) {
-  #dayBtn { width: var(--pill-h); padding: 0; justify-content: center; }
-  #dayBtn .lbl, #dayBtn .chev { display: none; }
-  #dayBtn svg { color: var(--ink); }
-}
 @media (min-width: 1000px) { .menu.cal { left: auto; right: 0; } }  /* the date sits at the bar's right end: open leftwards */
 @media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
 
@@ -719,11 +703,10 @@ dialog { overscroll-behavior: contain; }
 .foot-links { margin-top: 8px; }
 .foot-links .linkbtn { padding: 4px 0; }
 
-/* The filters in force: one line under the toolbar. The Filters button (which moves here from the search bar while any are on) and the
-   chips scroll together (sideways, fading at the edge; they wrap on desktop); "Clear all" stays pinned at the end of the line. */
-.controls .activechips { grid-column: 1 / -1; display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 8px; padding: 0; }
+/* The filters in force: one line under the toolbar, to the right of the Filters button. The chips scroll sideways (fading at the
+   edge; they wrap on desktop); "Clear all" stays pinned at the end of the line. */
+.controls .activechips { display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 8px; padding: 0; }
 .activechips[hidden] { display: none; }
-.chiplist #filtersBtn { height: 32px; padding: 0 12px; font-size: 13px; }
 .chiplist { flex: 0 1 auto; min-width: 0; display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none;
   mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); padding-right: 14px; margin-right: -6px; }
 .chiplist::-webkit-scrollbar { display: none; }
@@ -866,5 +849,67 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 
 .feedfilter { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 12px; }
 .feedfilter::-webkit-scrollbar { display: none; }
-.feedfilter .chip { flex: none; padding: 7px 14px; font-size: 14px; cursor: pointer; color: inherit; }
+.feedfilter .chip { flex: none; padding: 7px 14px; font: 600 14px var(--body); cursor: pointer; color: inherit; }
 .feedfilter .chip[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); }
+
+/* desktop: the Filters button toggles the sidebar; closed, the content is centred as on the Feed page */
+@media (min-width: 1000px) {
+  #filtersBtn { display: inline-block; }
+  body:not(.filters-off) #filtersBtn { background: var(--chip-on); border-color: var(--chip-on); color: var(--chip-on-ink); }
+  body.filters-off .filters { display: none; }
+  body.filters-off .layout { grid-template-columns: minmax(0, 1fr); }
+  body.filters-off .main { width: 100%; max-width: 860px; margin-inline: auto; }
+}
+
+/* The controls, one set of rules at every width.
+   See layoutControls (app.js): from 640px search and Date prefer the top line beside the switch; the Filters button is always
+   first on the left and never alone on a line unless chips are with it. */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; }
+.controls > .switchrow { flex: 1 1 100%; min-width: 0; }
+.controls > .filterrow { flex: 0 1 auto; display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
+.controls > .bar { flex: 1 1 200px; min-width: 0; flex-wrap: nowrap; }
+.filterrow > #filtersBtn { flex: none; }
+.filterrow > .activechips { flex: 1 1 auto; min-width: 0; }
+.controls.tools-top > .bar { order: 1; }
+.controls.tools-top > .filterrow { order: 2; flex: 1 1 100%; }
+.controls.all-top > .filterrow { order: 0; }
+.controls.all-top > .switchrow { order: 1; }
+.controls.all-top > .bar { order: 2; }
+@media (min-width: 640px) {
+  .controls > .switchrow > .listswitch { max-width: 370px; }  /* alone on its line it stays 370px wide, not the whole width */
+  .controls.tools-top > .switchrow, .controls.all-top > .switchrow { flex: 0 0 370px; }
+}
+/* typing in the search field on a phone: it takes the whole row */
+@media (max-width: 559px) {
+  .controls:has(#q:focus) > .switchrow, .controls:has(#q:focus) > .filterrow { display: none; }
+}
+
+
+/* the header stays on screen from 640px (below that the navigation is the bottom capsule); the controls pin under it */
+:root { --hdr-h: 0px; }
+@media (min-width: 640px) {
+  :root { --hdr-h: 70px; }
+  .top { position: sticky; top: 0; z-index: 7; }
+}
+.controls { top: calc(var(--hdr-h, 0px) + env(safe-area-inset-top, 0px)); }
+@media (min-width: 1000px) { .filters { top: var(--hdr-h, 0px); max-height: calc(100dvh - var(--hdr-h, 0px)); } }
+/* room for the film count is kept on the selected tab before it arrives, and the tabs stay still while the page loads */
+.listswitch button[aria-pressed="true"] .cnt:empty::before { content: " · 000"; visibility: hidden; }
+.top:not(.ready) .mainnav { visibility: hidden; }
+
+/* placeholders while the programme loads */
+.sk .poster, .sk h3, .sk .m, .skbar, .sk .pico { background: var(--chip); border-radius: 6px; animation: sk-pulse 1.3s ease-in-out infinite; }
+.sk .poster { border-radius: 8px; }
+.sk .poster::after, .sk .poster::before { display: none; }
+.sk h3 { height: 14px; width: 72%; margin: 10px 0 8px; font-size: 0; }
+.sk .m { height: 11px; width: 52%; }
+.sk .m:empty { display: block; }
+.skbar { display: block; height: 14px; width: 150px; }
+.skbar.short { width: 70px; height: 10px; margin-top: 6px; }
+.sech .skbar { margin: 18px 18px; }
+.sk .pico { background: var(--chip); box-shadow: none; }
+@keyframes sk-pulse { 50% { opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .sk .poster, .sk h3, .sk .m, .skbar, .sk .pico { animation: none; } }
+
+/* the Feed's filter row stays on screen under the header while you scroll */
+.feedfilter { position: sticky; top: calc(var(--hdr-h, 0px) + env(safe-area-inset-top, 0px)); z-index: 5; background: var(--bg); margin-inline: -16px; padding: 8px 16px 10px; }

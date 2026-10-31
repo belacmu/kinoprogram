@@ -6,6 +6,13 @@ const local = {
   set(k, v) { try { localStorage.setItem("kino:" + k, JSON.stringify(v)); } catch {} },
 };
 
+// The current tab is marked from the first paint (before the programme arrives), so it doesn't pop in.
+(() => {
+  const feed = /^#(feed|new)$/.test(location.hash);
+  document.querySelector(`#mainNav [data-page="${feed ? "feed" : "films"}"]`)?.setAttribute("aria-current", "");
+  document.body.classList.toggle("page-feed", feed);
+})();
+
 // ---------------------------------------------------------------- regions + time (data is in the region's local time)
 const REGIONS = [
   { key: "oslo", name: "Oslo", file: "films.json", tz: "Europe/Oslo" },
@@ -86,7 +93,7 @@ const state = {
 
 // ---------------------------------------------------------------- filters (keep in step with scraper/digest.py: show_ok)
 // "My cinemas" is one list across regions; only the ones in the region being viewed apply.
-const myCinemas = () => state.prefs.cinemas.filter((c) => state.data.cinemas.includes(c));
+const myCinemas = () => state.prefs.cinemas.filter((c) => state.data?.cinemas.includes(c));
 const UNDERSTOOD_AUDIO = ["en", "no", "nb"];  // audio languages that need no Spanish (Costa del Sol)
 const DUBBING_REGIONS = ["oslo", "costadelsol"];  // where the data says which showings are dubbed
 function showMatches(s, now) {
@@ -397,14 +404,14 @@ function renderControls() {
 const CINEMAS_COLLAPSE_AT = 8, CINEMAS_SHOWN = 6;  // more cinemas than this: only the busiest few are listed until "Show more"
 function renderFilters() {
   const now = localNow(), cinemaCounts = {};
-  for (const f of state.data.films) for (const s of f.shows) if (s.ticket && s.t >= now) cinemaCounts[s.cinema] = (cinemaCounts[s.cinema] || 0) + 1;
+  for (const f of state.data?.films || []) for (const s of f.shows) if (s.ticket && s.t >= now) cinemaCounts[s.cinema] = (cinemaCounts[s.cinema] || 0) + 1;
   const mine = myCinemas();
   // One choice: a list of radio buttons. Any number: pills with a check mark. (Both are real inputs inside labels.)
   const radio = (attrs, checked, label) => `<label class="radio"><input type="radio" ${attrs}${checked ? " checked" : ""}><span>${label}</span></label>`;
   const ck = (attrs, checked, label, n) =>
     `<label class="opt-chip"><input type="checkbox" ${attrs}${checked ? " checked" : ""}><span>${label}</span>${n != null ? `<span class="n">${n}</span>` : ""}</label>`;
   // Cinemas, busiest first. With many, only the busiest few (and any that are picked) show until "Show more".
-  const order = [...state.data.cinemas].sort((a, b) => (cinemaCounts[b] || 0) - (cinemaCounts[a] || 0) || a.localeCompare(b));
+  const order = [...(state.data?.cinemas || [])].sort((a, b) => (cinemaCounts[b] || 0) - (cinemaCounts[a] || 0) || a.localeCompare(b));
   const collapsed = order.length > CINEMAS_COLLAPSE_AT && !state.cinemasOpen;
   const listed = collapsed ? order.filter((c, i) => i < CINEMAS_SHOWN || mine.includes(c)) : order, more = order.length - listed.length;
   // Spoken language and subtitles are separate choices (they can be combined). Spoken: any, original language only (not dubbed)
@@ -418,7 +425,7 @@ function renderFilters() {
   $("filtersBody").innerHTML = `
     <fieldset class="fg"${state.onlyFriends && state.friends.length ? "" : " hidden"}><legend>Friends <span class="hint">${state.friendSel.length ? `${state.friendSel.length} chosen` : "All"}</span></legend>
       <div class="fghint">Pick one or more. The numbers are films here on their watchlist.</div>
-      <div class="chips">${state.friends.map((fr) => ck(`data-f="friend" value="${esc(fr.id)}"`, state.friendSel.includes(fr.id), esc(shortName(fr.name)), state.data.films.filter((f) => f.ids.some((i) => fr.list.has(i))).length)).join("")}</div>
+      <div class="chips">${state.friends.map((fr) => ck(`data-f="friend" value="${esc(fr.id)}"`, state.friendSel.includes(fr.id), esc(shortName(fr.name)), (state.data?.films || []).filter((f) => f.ids.some((i) => fr.list.has(i))).length)).join("")}</div>
       ${state.friendSel.length ? `<div class="fgrow"><button class="linkbtn" data-f="friends-clear">Clear selection</button></div>` : ""}
     </fieldset>
     <fieldset class="fg"><legend>Sort films by</legend>
@@ -435,7 +442,7 @@ function renderFilters() {
       ${subsOptions.map(([v, l, d]) => radioD(`name="subs" data-f="subs" value="${v}"`, (state.prefs.englishSubs ? "subs" : "any") === v, l, d)).join("")}
     </fieldset>
     <fieldset class="fg"><legend>Cinemas <span class="hint">${mine.length ? `${mine.length} chosen` : "All"}</span></legend>
-      <div class="fghint">Pick one or more. The numbers are showings on sale.</div>
+      <div class="fghint">${state.data ? "Pick one or more. The numbers are showings on sale." : "Loading the cinemas…"}</div>
       <div class="chips">${listed.map((c) => ck(`data-f="cinema" value="${esc(c)}"`, mine.includes(c), esc(c), cinemaCounts[c] || 0)).join("")}</div>
       <div class="fgrow">${more ? `<button class="linkbtn" data-f="cinemas-more">Show ${more} more</button>` : state.cinemasOpen && order.length > CINEMAS_COLLAPSE_AT ? `<button class="linkbtn" data-f="cinemas-more">Show fewer</button>` : ""}
       ${mine.length ? `<button class="linkbtn" data-f="cinemas-clear">Clear selection</button>` : ""}</div>
@@ -494,9 +501,10 @@ function cardMeta(row) {
   return `<span class="nosaletag">Date not set</span>`;
 }
 
+let posterEager = 0;  // the first posters of a render load at once; the rest as they near the screen
 function posterHtml(f) {
   return `<div class="poster">${f.poster
-    ? `<img loading="lazy" src="${esc(f.poster)}" alt="" onerror="${f.poster2 ? `this.onerror=function(){this.remove()};this.src='${esc(f.poster2)}'` : "this.remove()"}">`
+    ? `<img ${posterEager-- > 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} src="${esc(f.poster)}" alt="" onerror="${f.poster2 ? `this.onerror=function(){this.remove()};this.src='${esc(f.poster2)}'` : "this.remove()"}">`
     : ""}<div class="ph"${f.poster ? ' aria-hidden="true" style="z-index:-1"' : ""}>${esc(titleOf(f))}</div></div>`;
 }
 
@@ -551,6 +559,7 @@ function cardHtml(row) {
 }
 
 function renderGrid() {
+  posterEager = 12;
   $("qClear").hidden = !state.q;
   const rows = buildRows();
   const sections = [];
@@ -691,6 +700,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 function render() {
+  if (!state.data) return;  // the programme hasn't arrived yet (an account finishing loading can ask for a redraw first)
   renderNav();
   if (state.page === "feed") { renderFeed(); return; }
   renderControls(); renderGrid();
@@ -788,7 +798,27 @@ function postHtml(p) {
     ${n > postShown() ? `<button type="button" class="linkbtn postmore" data-post="${esc(p.key)}" aria-expanded="${open}">${open ? "Show fewer" : `Show ${n - postShown()} more`}</button>` : ""}
   </article>`;
 }
+// The row of kinds at the top of the feed (needs no data, so it's there before the programme arrives).
+function feedFilterHtml() {
+  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"]];
+  const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds[0] === k : !state.feedKinds.length}">${label}</button>`;
+  return `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
+}
+// Until the programme arrives: the page's own top (the feed's filter row) and grey placeholders where the posts / films will be.
+function renderSkeleton() {
+  state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // the page we open on, known from the address
+  const cards = (n) => `<ul class="grid">${'<li class="card sk"><div class="poster"></div><h3></h3><div class="m"></div></li>'.repeat(n)}</ul>`;
+  if (/^#(feed|new)$/.test(location.hash)) {
+    const post = `<article class="post sk" aria-hidden="true"><header class="phead"><span class="pico"></span><div class="ptext"><strong class="skbar"></strong><time class="skbar short"></time></div></header>${cards(6)}</article>`;
+    $("feedPage").hidden = false;
+    $("feedPage").innerHTML = feedFilterHtml() + post + post;
+  } else {
+    $("grid").innerHTML = `<section class="sec sk" aria-hidden="true"><h2 class="sech"><span class="skbar"></span></h2>${cards(12)}</section>`;
+  }
+}
 function renderFeed() {
+  if (!state.data) return;  // the skeleton stays until the programme arrives
+  posterEager = 12;
   const el = $("feedPage"), seen = feedSeen(), posts = feedPosts();
   feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
   const parts = [];
@@ -797,9 +827,7 @@ function renderFeed() {
     if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
     parts.push(postHtml(p));
   }
-  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"]];
-  const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds[0] === k : !state.feedKinds.length}">${label}</button>`;
-  const filter = `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
+  const filter = feedFilterHtml();
   const nudge = sb && state.authReady && !state.user
     ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
   const needFriends = state.feedKinds[0] === "friend" ? friendsNeedHtml() : "";  // Friends filter, nobody to show: the Friends view's own prompt
@@ -831,7 +859,7 @@ function renderNav() {
   $("feedPage").hidden = state.page !== "feed";
   document.body.classList.toggle("page-feed", state.page === "feed");
   for (const a of $("mainNav").querySelectorAll("[data-page]")) a.toggleAttribute("aria-current", a.dataset.page === state.page);
-  const seen = feedSeen(), fresh = state.page === "feed" || !seen ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
+  const seen = feedSeen(), fresh = state.page === "feed" || !seen || !state.data ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
   const dot = $("feedDot");
   dot.hidden = !fresh;
   dot.textContent = fresh > 9 ? "9+" : fresh;
@@ -1211,16 +1239,31 @@ function activeChips() {
 function renderActiveChips() {
   const chips = activeChips(), el = $("activeChips"), btn = $("filtersBtn");
   el.hidden = !chips.length;
-  // With filters on, the Filters button heads the chips (and scrolls with them), so button and chips read as one; with none it
-  // sits in the search bar (no row of its own). "Clear all" stays put at the end of the line.
-  const list = $("chipList"), had = document.activeElement === btn;
-  if (chips.length && btn.parentElement !== list) list.prepend(btn);
-  else if (!chips.length && btn.parentElement === list) $("searchBox").before(btn);
-  if (had) btn.focus();
+  // The chips sit on their own row, to the right of the Filters button, which never moves. "Clear all" stays at the end of the line.
+  const list = $("chipList");
   list.querySelectorAll(".achip").forEach((n) => n.remove());
   list.insertAdjacentHTML("beforeend", chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join(""));
   $("chipsClear").hidden = chips.length < 2;
+  layoutControls();
 }
+// Where search and Date go. From 640px they prefer the top line, beside the switch. With chips: [switch] [search] [Date] / [Filters] [chips].
+// Without chips (the Filters button must not be alone on a line): [Filters] [switch] [search] [Date] if it all fits, else [switch] /
+// [Filters] [search] [Date]. On phones they prefer the Filters line, and take a line of their own above it only if the chips leave under
+// 200px there. The classes: "tools-top" (search and Date up, Filters and chips last), "all-top" (everything on one line).
+const wideControls = matchMedia("(min-width: 640px)");
+function layoutControls() {
+  const c = $("controls"), width = c.clientWidth, chips = !$("activeChips").hidden;
+  if (!width) return;
+  const btn = $("filtersBtn").offsetWidth, SWITCH = 370, BAR = 200, GAP = 8;
+  const filters = btn + (chips ? GAP + $("chipList").scrollWidth + ($("chipsClear").hidden ? 0 : GAP + $("chipsClear").offsetWidth) : 0);
+  let mode = "";
+  if (wideControls.matches && width >= SWITCH + GAP + BAR) mode = chips ? "tools-top" : btn + GAP + SWITCH + GAP + BAR <= width ? "all-top" : "";
+  else if (chips && filters + GAP + BAR > width) mode = "tools-top";
+  c.classList.toggle("tools-top", mode === "tools-top");
+  c.classList.toggle("all-top", mode === "all-top");
+}
+new ResizeObserver(layoutControls).observe($("controls"));
+document.fonts.ready.then(layoutControls);
 function removeChip(k) {
   if (k === "all") { resetFilters(); return; }
   if (k === "tix") { state.tix = "all"; local.set("tix", "all"); }
@@ -1266,7 +1309,17 @@ const setFiltersOpen = (open) => {
   $("filtersBtn").setAttribute("aria-expanded", open);
   if (open) $("filtersDone").focus();
 };
-$("filtersBtn").addEventListener("click", () => setFiltersOpen(!document.body.classList.contains("filters-open")));
+// On desktop the Filters button toggles the sidebar (remembered); below that it opens the sheet.
+const wideScreen = matchMedia("(min-width: 1000px)");
+const syncFiltersBtn = () => $("filtersBtn").setAttribute("aria-expanded", wideScreen.matches ? !document.body.classList.contains("filters-off") : document.body.classList.contains("filters-open"));
+document.body.classList.toggle("filters-off", local.get("sidebarOff", false));
+wideScreen.addEventListener("change", syncFiltersBtn);
+syncFiltersBtn();
+$("filtersBtn").addEventListener("click", () => {
+  if (!wideScreen.matches) { setFiltersOpen(!document.body.classList.contains("filters-open")); return; }
+  local.set("sidebarOff", document.body.classList.toggle("filters-off"));
+  syncFiltersBtn();
+});
 $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("filtersBtn").focus(); });
 $("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
@@ -1334,10 +1387,14 @@ $("listSwitch").addEventListener("click", (e) => {
 
 // Section headers stick just below the controls bar; keep that offset in a CSS variable.
 const syncStickTop = () => {
-  const c = $("controls"), sticky = getComputedStyle(c).position === "sticky";
-  document.documentElement.style.setProperty("--stick-top", sticky ? c.offsetHeight + "px" : "0px");
+  const c = $("controls"), top = document.querySelector(".top");
+  const hdr = getComputedStyle(top).position === "sticky" ? top.offsetHeight : 0;  // the header stays on screen from 640px
+  const bar = getComputedStyle(c).position === "sticky" ? c.offsetHeight : 0;
+  document.documentElement.style.setProperty("--hdr-h", hdr + "px");
+  document.documentElement.style.setProperty("--stick-top", hdr + bar + "px");
 };
 new ResizeObserver(syncStickTop).observe($("controls"));
+new ResizeObserver(syncStickTop).observe(document.querySelector(".top"));
 window.addEventListener("resize", syncStickTop);
 window.addEventListener("hashchange", route);
 
@@ -1930,6 +1987,7 @@ async function loadRegion(key) {
     if (adoptSaleDates()) savePrefs();
   } catch (e) {
     $("sub").textContent = `Couldn't load the ${reg.name} programme. Reload to try again.`;
+    $("grid").innerHTML = ""; $("feedPage").innerHTML = "";  // no placeholders for something that isn't coming
     return;
   }
   const g = state.data.generated;
@@ -1952,6 +2010,9 @@ async function loadRegion(key) {
   // name needs no data, the account button is painted from last time, and the fit waits for the fonts, so they don't change as the
   // page loads.
   renderRegionButton();
+  renderSkeleton();
+  renderDayControl();  // the Date button has its name from the first paint, so the search field beside it doesn't resize
+  renderFilters();  // the sidebar's options don't need the programme; the cinemas fill in when it arrives
   const headerFonts = Promise.all([document.fonts.load('600 14px "IBM Plex Sans"'), document.fonts.load('800 40px "Big Shoulders Display"')]).catch(() => {});
   Promise.race([headerFonts, new Promise((r) => setTimeout(r, 600))]).then(() => { fitHeader(); document.querySelector(".top").classList.add("ready"); });
   takeFriendLink();
