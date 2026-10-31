@@ -128,7 +128,9 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
 - **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first, with
-  search and Date beside it when there's room (from about 640px; on phones they take the line below). The last line,
+  the search field (placeholder "Search") beside it from 640px (on phones it takes the line below). The **Date** button
+  always shows its name (never an icon): it sits beside the search field from 700px, below that at the right end of
+  the last row, with the Filters button and chips. The last line,
   directly above the films, is the **Filters** button, always first and against the left, with the filters in force
   (chips, "Clear all" at the end; they scroll sideways when many) beside it. Typing in search on a phone gives the
   search field the whole row.

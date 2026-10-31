@@ -444,14 +444,8 @@ body { overflow-x: clip; }
   #dayDD { position: static; }
   .menu.cal { width: min(300px, 100%); }
 }
-/* The day's name shows beside the icon (it matters more than the search field, which shrinks first); only on very
-   narrow bars, where the search field would be squeezed to under its icon, is the date button just the icon. */
+/* The date button always shows the day's name; where there isn't room for it beside the search field it sits at the right end of the filters row (see placeDate). */
 .bar { container-type: inline-size; }
-@container (max-width: 299px) {
-  #dayBtn { width: var(--pill-h); padding: 0; justify-content: center; }
-  #dayBtn .lbl, #dayBtn .chev { display: none; }
-  #dayBtn svg { color: var(--ink); }
-}
 @media (min-width: 1000px) { .menu.cal { left: auto; right: 0; } }  /* the date sits at the bar's right end: open leftwards */
 @media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
 
@@ -884,3 +878,7 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 @media (max-width: 559px) {
   .controls:has(#q:focus) > .switchrow, .controls:has(#q:focus) > .filterrow { display: none; }
 }
+
+.filterrow { position: relative; }
+.filterrow > #dayDD { margin-left: auto; position: static; }
+.filterrow .menu.cal { left: auto; right: 0; }

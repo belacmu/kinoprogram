@@ -1263,6 +1263,11 @@ const setFiltersOpen = (open) => {
   if (open) $("filtersDone").focus();
 };
 // On desktop the Filters button toggles the sidebar (remembered); below that it opens the sheet.
+// The date button sits beside the search field when the row has room for its name (700px and up), else at the end of the filters row.
+const dateInBar = matchMedia("(min-width: 700px)");
+const placeDate = () => (dateInBar.matches ? document.querySelector(".bar") : document.querySelector(".filterrow")).append($("dayDD"));
+dateInBar.addEventListener("change", placeDate);
+placeDate();
 const wideScreen = matchMedia("(min-width: 1000px)");
 const syncFiltersBtn = () => $("filtersBtn").setAttribute("aria-expanded", wideScreen.matches ? !document.body.classList.contains("filters-off") : document.body.classList.contains("filters-open"));
 document.body.classList.toggle("filters-off", local.get("sidebarOff", false));
