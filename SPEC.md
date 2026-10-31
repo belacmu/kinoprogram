@@ -129,6 +129,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
 - **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
   filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
+- **Switching Feed ⇄ Films** is a switch of what's visible: the films list stays drawn while the Feed shows (it's redrawn in a
+  quiet moment after anything changes it, or at once if you switch first).
 - **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
   the filter row plus two placeholder posts on the Feed) under its normal top, replaced in place when the data comes.
   Nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons

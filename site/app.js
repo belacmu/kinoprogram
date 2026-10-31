@@ -702,8 +702,9 @@ document.addEventListener("keydown", (e) => {
 function render() {
   if (!state.data) return;  // the programme hasn't arrived yet (an account finishing loading can ask for a redraw first)
   renderNav();
-  if (state.page === "feed") { renderFeed(); return; }
+  if (state.page === "feed") { filmsDirty = true; renderFeed(); prepareFilms(); return; }
   renderControls(); renderGrid();
+  filmsDirty = false;
 }
 
 // ---------------------------------------------------------------- the feed
@@ -864,12 +865,21 @@ function renderNav() {
   dot.hidden = !fresh;
   dot.textContent = fresh > 9 ? "9+" : fresh;
 }
+// The films list stays drawn (just hidden) while the feed is showing, so going back to it is only a switch of what's visible.
+// Anything that changes what it shows (a heart, a filter, new data) marks it out of date, and it is redrawn in a quiet moment
+// (or at once if you get there first).
+let filmsDirty = true, filmsPrepTimer = 0;
+function prepareFilms() {
+  if (filmsPrepTimer || !state.data) return;
+  const run = () => { filmsPrepTimer = 0; if (state.page === "feed" && filmsDirty && state.data) { renderControls(); renderGrid(); filmsDirty = false; } };
+  filmsPrepTimer = window.requestIdleCallback ? requestIdleCallback(run, { timeout: 2500 }) : setTimeout(run, 400);
+}
 function setPage(name) {
   if (state.page === name) return;
   if (state.page === "feed") markFeedSeen();
   state.page = name;
   if (!$("film").open) history.replaceState(null, "", location.pathname + location.search + (name === "feed" ? "#feed" : "#films"));
-  render();
+  if (name === "films" && !filmsDirty) renderNav(); else render();
   window.scrollTo({ top: 0 });
 }
 $("mainNav").addEventListener("click", (e) => {
