@@ -737,7 +737,7 @@ function feedEvents() {
     if (!m) continue;
     if (e.type === "sale" && !m.onSale) continue;
     if (e.type === "announced" && f.status !== "announced") continue;
-    if (e.type === "showings" && !m.shows.length) continue;
+    if (e.type === "showings" && (!m.shows.length || !isWatched(f))) continue;  // more showings are only news for films on your watchlist
     out.push({ type: e.type, at: e.at, key: e.type, row: row(f, m, e.at, feedMeta(e, f, m)) });
   }
   for (const e of state.friendEvents) {
