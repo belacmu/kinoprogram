@@ -782,8 +782,8 @@ dialog { overscroll-behavior: contain; }
 
 .fline { display: flex; align-items: center; gap: 6px; padding: 5px; border-radius: 999px; background: var(--chip); }
 .fline:focus-within { box-shadow: 0 0 0 2px var(--accent); }
-.fline .fcode, .fline input { flex: 1; min-width: 0; width: auto; padding: 6px 6px 6px 14px; border: 0; background: none; outline: 0; box-shadow: none; }
-.fline .fcode { font: 700 20px/1 var(--mono); letter-spacing: .12em; }
+.fline .fcode, .fline input { flex: 1; min-width: 0; width: auto; padding: 9px 6px; text-align: center; line-height: 1.2; border: 0; background: none; outline: 0; box-shadow: none; }
+.fline .fcode { display: flex; align-items: center; justify-content: center; font: 700 20px/1.2 var(--mono); text-indent: .12em; letter-spacing: .12em; }
 .fline .btn { flex: none; white-space: nowrap; width: 138px; text-align: center; }
 .fpanel .btn:disabled { opacity: .4; cursor: default; }
 .fbody .fcols { max-width: 520px; }
