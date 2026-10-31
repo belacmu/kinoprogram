@@ -111,6 +111,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - **Feed filter**: a row of chips at the top (All · Friends · On sale · Announced); pick one kind of update
   to see only those, or All. Remembered on the device. "On sale" covers both films whose tickets went on
   sale and films already on sale that got more showings.
+- **Friends filter with nothing to show** (signed out, no friends yet): the Feed shows the same card as the Friends
+  tab on Films (sign-in prompt, or "Add your first friend" with your code and the box for theirs).
 - **Poster size in the feed** matches Films: the same column rule and side padding (posts follow the same edge rules as the Films sections: full width, square corners, under 561px), so posters are the same size, or a hair smaller on wide desktops.
 - **Under a poster in the feed**: just the title and one short line about what the post is about (the
   heading already says what happened): on sale → the cinemas on one line (cut off with … if long), then the usual date range; announced → the first date, premiere or
