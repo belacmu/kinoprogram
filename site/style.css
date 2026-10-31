@@ -877,3 +877,7 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
   body.filters-off .layout { grid-template-columns: minmax(0, 1fr); }
   body.filters-off .main { width: 100%; max-width: 860px; margin-inline: auto; }
 }
+@media (min-width: 1000px) {
+  .controls { grid-template-columns: auto 370px minmax(0, 1fr); }  /* [Filters] [All films | Watchlist | Friends] [search … Date] */
+  .controls > #filtersBtn { justify-self: start; }
+}
