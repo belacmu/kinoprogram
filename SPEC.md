@@ -127,7 +127,11 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Header: the same height and spacing at every width (a fixed-size title); the title (and on desktop the Feed / Films links), then the location and the account button,
   always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
-- **Filters sidebar on desktop (1000px and up)**: the Filters button, always the first thing in the controls row (left of the switch, with or without active filters), is a toggle (dark while the
+- **Controls layout (one set of rules)**: the **Filters** button is always the first thing on the left and never
+  moves. Under 860px: row 1 the All films / Watchlist / Friends switch (full width), row 2 [Filters] [search] [Date]. From
+  860px: one row [Filters] [switch] [search] [Date]. The filters in force (chips, with Clear all) are on the row below,
+  to the right of the button. While typing in search on a phone it takes the whole row.
+- **Filters sidebar on desktop (1000px and up)**: the Filters button is a toggle (dark while the
   sidebar is open). Closing it hides the sidebar and centres the content in the Feed's column (860px);
   the choice is remembered. Below 1000px the button opens the bottom sheet instead.
 - Top bar (the filters): **All films | ♥ Watchlist | Friends** (three tabs; the film count shows

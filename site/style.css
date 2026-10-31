@@ -120,15 +120,7 @@ h1 span { color: var(--accent); }
 
 /* while you're typing in a narrow search field (phones, small tablets), it takes the whole bar */
 @container (max-width: 459px) { .bar:has(#q:focus) > :not(.searchbox) { display: none; } }
-/* tablets and small laptops wide enough for it: the switch and the bar share one row, as on desktop (narrower: two rows, as on phones) */
-@media (min-width: 860px) and (max-width: 999px) {
-  .controls { grid-template-columns: 370px minmax(0, 1fr); align-items: center; }
-}
-
-@media (min-width: 1000px) {
-  .controls { grid-template-columns: 370px minmax(0, 1fr); align-items: center; }
-  #view { flex: 0 1 240px; }
-}
+@media (min-width: 1000px) { #view { flex: 0 1 240px; } }
 
 /* controls */
 .controls { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
@@ -330,8 +322,6 @@ a.stub:hover { border-color: var(--accent); }
 }
 @media (min-width: 1000px) {
   .scrim { display: none; }
-  /* one row: [All films | My watchlist] [Date ▾] [search .........] */
-  .controls { grid-template-columns: 370px minmax(0, 1fr); }
   .bar { flex-wrap: nowrap; }
   .bar .searchbox { flex: 1 1 auto; }
   /* the Filters heading is centred on the bar's All films / Watchlist switch, at the top of the page and pinned alike */
@@ -719,11 +709,10 @@ dialog { overscroll-behavior: contain; }
 .foot-links { margin-top: 8px; }
 .foot-links .linkbtn { padding: 4px 0; }
 
-/* The filters in force: one line under the toolbar. The Filters button (which moves here from the search bar while any are on) and the
-   chips scroll together (sideways, fading at the edge; they wrap on desktop); "Clear all" stays pinned at the end of the line. */
-.controls .activechips { grid-column: 1 / -1; display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 8px; padding: 0; }
+/* The filters in force: one line under the toolbar, to the right of the Filters button. The chips scroll sideways (fading at the
+   edge; they wrap on desktop); "Clear all" stays pinned at the end of the line. */
+.controls .activechips { display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 8px; padding: 0; }
 .activechips[hidden] { display: none; }
-.chiplist #filtersBtn { height: 32px; padding: 0 12px; font-size: 13px; }
 .chiplist { flex: 0 1 auto; min-width: 0; display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none;
   mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); padding-right: 14px; margin-right: -6px; }
 .chiplist::-webkit-scrollbar { display: none; }
@@ -877,7 +866,28 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
   body.filters-off .layout { grid-template-columns: minmax(0, 1fr); }
   body.filters-off .main { width: 100%; max-width: 860px; margin-inline: auto; }
 }
-@media (min-width: 1000px) {
-  .controls { grid-template-columns: auto 370px minmax(0, 1fr); }  /* [Filters] [All films | Watchlist | Friends] [search … Date] */
-  .controls > #filtersBtn { justify-self: start; }
+
+/* The controls, one set of rules. The Filters button is always the first thing on the left and never moves; the filters in force
+   (chips) sit on the row below, to its right.
+   under 860px:  [All films | Watchlist | Friends]
+                 [Filters] [search ............ ] [Date]
+                           [chips ......... Clear all]
+   860px and up: [Filters] [All films | Watchlist | Friends] [search ............ ] [Date]
+                           [chips ......................... Clear all]                    */
+.controls { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 8px; }
+.controls > .switchrow { grid-column: 1 / -1; grid-row: 1; }
+.controls > #filtersBtn { grid-column: 1; grid-row: 2; justify-self: start; }
+.controls > .bar { grid-column: 2; grid-row: 2; }
+.controls > .activechips { grid-column: 2; grid-row: 3; }
+@media (min-width: 860px) {
+  .controls { grid-template-columns: auto 370px minmax(0, 1fr); }
+  .controls > .switchrow { grid-column: 2; grid-row: 1; }
+  .controls > #filtersBtn { grid-column: 1; grid-row: 1; }
+  .controls > .bar { grid-column: 3; grid-row: 1; }
+  .controls > .activechips { grid-column: 2 / -1; grid-row: 2; }
+}
+/* typing in the search field on a phone: it takes the whole row */
+@media (max-width: 559px) {
+  .controls:has(#q:focus) > #filtersBtn { display: none; }
+  .controls:has(#q:focus) > .bar { grid-column: 1 / -1; }
 }

@@ -1211,13 +1211,8 @@ function activeChips() {
 function renderActiveChips() {
   const chips = activeChips(), el = $("activeChips"), btn = $("filtersBtn");
   el.hidden = !chips.length;
-  // With filters on, the Filters button heads the chips (and scrolls with them), so button and chips read as one; with none it
-  // sits in the search bar (no row of its own). "Clear all" stays put at the end of the line.
-  const list = $("chipList"), had = document.activeElement === btn;
-  if (wideScreen.matches) { if (btn.parentElement !== $("controls")) $("controls").prepend(btn); }  // desktop: always the first thing in the row
-  else if (chips.length && btn.parentElement !== list) list.prepend(btn);
-  else if (!chips.length && btn.parentElement !== document.querySelector(".bar")) $("searchBox").before(btn);
-  if (had) btn.focus();
+  // The chips sit on their own row, to the right of the Filters button, which never moves. "Clear all" stays at the end of the line.
+  const list = $("chipList");
   list.querySelectorAll(".achip").forEach((n) => n.remove());
   list.insertAdjacentHTML("beforeend", chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join(""));
   $("chipsClear").hidden = chips.length < 2;
@@ -1271,7 +1266,7 @@ const setFiltersOpen = (open) => {
 const wideScreen = matchMedia("(min-width: 1000px)");
 const syncFiltersBtn = () => $("filtersBtn").setAttribute("aria-expanded", wideScreen.matches ? !document.body.classList.contains("filters-off") : document.body.classList.contains("filters-open"));
 document.body.classList.toggle("filters-off", local.get("sidebarOff", false));
-wideScreen.addEventListener("change", () => { syncFiltersBtn(); if (state.data) renderActiveChips(); });
+wideScreen.addEventListener("change", syncFiltersBtn);
 syncFiltersBtn();
 $("filtersBtn").addEventListener("click", () => {
   if (!wideScreen.matches) { setFiltersOpen(!document.body.classList.contains("filters-open")); return; }
