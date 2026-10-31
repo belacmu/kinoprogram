@@ -922,3 +922,4 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .region { text-align: left; padding: 13px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font: 600 15px var(--body); cursor: pointer; }
 .region[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); border-color: var(--chip-on); }
 #account h2 + p { padding-right: 44px; }
+.poster:has(.pillr) .fstack { bottom: 34px; }  /* the friends' initials sit above the rating, not under it */
