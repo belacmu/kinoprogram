@@ -120,7 +120,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   "Expected …"; more showings → "+2 showings · Saga"; a friend's pick → nothing more.
 - **Navigation**: two destinations, **Feed** and **Films** (`#feed`, `#films`; no hash = Films for now; `#new`
   = Feed; `#film/…` links open on Films). A floating, translucent capsule at the bottom on phones (under 640px), links
-  beside the title in the header from 640px up (tablets and desktop); both mark the current page with a solid red pill and white text. Tapping the current one scrolls to the top. Filters,
+  beside the title in the header from 640px up (tablets and desktop); both mark the current page with a solid red pill and white text. Tapping the current one again returns that page to its default view, at the top: Films goes to All films with today
+  and no search (your saved filters stay); the Feed goes to All with every post collapsed. Filters,
   search and the list switch belong to Films only.
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles). The jump bar links to each section (opening it if collapsed) and has Collapse all /
