@@ -868,20 +868,19 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* The controls, one set of rules at every width:
-     [All films | Watchlist | Friends]                       (its own row; 370px wide from 860px)
-     [Filters] [chips … Clear all]  [search ........] [Date]  (the Filters button is always first, on the left, with the
-                                                               chips beside it; search and Date share the row if there's
-                                                               room, else they drop to the line below) */
-.controls { gap: 10px; }
-.switchrow { width: 100%; }
-@media (min-width: 860px) { .switchrow { width: 370px; } }
-.toolrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; min-width: 0; }
-.filterrow { display: flex; align-items: center; gap: 8px; flex: 0 1 auto; min-width: 0; max-width: 100%; }
+     [All films | Watchlist | Friends] [search ........] [Date]   (search and Date drop to their own line when they don't fit)
+     [Filters] [chips … Clear all]                                (last, directly above the films; the button is always first, on the left) */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; }
+.controls > .switchrow { flex: 1 1 100%; min-width: 0; }
+.controls > .bar { flex: 1 1 100%; min-width: 0; flex-wrap: nowrap; }
+.controls > .filterrow { flex: 1 1 100%; display: flex; align-items: center; gap: 8px; min-width: 0; }
 .filterrow > #filtersBtn { flex: none; }
-.filterrow > .activechips { flex: 0 1 auto; min-width: 0; }
-.toolrow > .bar { flex: 1 1 200px; min-width: 0; flex-wrap: nowrap; }
+.filterrow > .activechips { flex: 1 1 auto; min-width: 0; }
+@media (min-width: 640px) {
+  .controls > .switchrow { flex: 0 0 370px; }
+  .controls > .bar { flex: 1 1 220px; }
+}
 /* typing in the search field on a phone: it takes the whole row */
 @media (max-width: 559px) {
-  .controls:has(#q:focus) .filterrow { display: none; }
-  .controls:has(#q:focus) .toolrow > .bar { flex-basis: 100%; }
+  .controls:has(#q:focus) > .switchrow, .controls:has(#q:focus) > .filterrow { display: none; }
 }

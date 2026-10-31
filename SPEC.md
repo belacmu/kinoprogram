@@ -127,11 +127,11 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Header: the same height and spacing at every width (a fixed-size title); the title (and on desktop the Feed / Films links), then the location and the account button,
   always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
-- **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch has its own row
-  (full width under 860px, 370px from 860px). Below it one line: the **Filters** button, always first and against the
-  left, with the filters in force (chips, "Clear all" pinned at the end; they scroll sideways when many) beside it;
-  then search and Date on the same line if there's room, otherwise on the line below. Typing in search on a phone
-  gives the search field the whole row.
+- **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first, with
+  search and Date beside it when there's room (from about 640px; on phones they take the line below). The last line,
+  directly above the films, is the **Filters** button, always first and against the left, with the filters in force
+  (chips, "Clear all" at the end; they scroll sideways when many) beside it. Typing in search on a phone gives the
+  search field the whole row.
 - **Filters sidebar on desktop (1000px and up)**: the Filters button is a toggle (dark while the
   sidebar is open). Closing it hides the sidebar and centres the content in the Feed's column (860px);
   the choice is remembered. Below 1000px the button opens the bottom sheet instead.
