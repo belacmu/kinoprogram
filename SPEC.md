@@ -129,7 +129,9 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
 - **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
   filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
-- **Loading**: nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
+- **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
+  the filter row plus two placeholder posts on the Feed) under its normal top, replaced in place when the data comes.
+  Nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
   wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
   cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
   the screen.

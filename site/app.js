@@ -798,7 +798,26 @@ function postHtml(p) {
     ${n > postShown() ? `<button type="button" class="linkbtn postmore" data-post="${esc(p.key)}" aria-expanded="${open}">${open ? "Show fewer" : `Show ${n - postShown()} more`}</button>` : ""}
   </article>`;
 }
+// The row of kinds at the top of the feed (needs no data, so it's there before the programme arrives).
+function feedFilterHtml() {
+  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"]];
+  const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds[0] === k : !state.feedKinds.length}">${label}</button>`;
+  return `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
+}
+// Until the programme arrives: the page's own top (the feed's filter row) and grey placeholders where the posts / films will be.
+function renderSkeleton() {
+  state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // the page we open on, known from the address
+  const cards = (n) => `<ul class="grid">${'<li class="card sk"><div class="poster"></div><h3></h3><div class="m"></div></li>'.repeat(n)}</ul>`;
+  if (/^#(feed|new)$/.test(location.hash)) {
+    const post = `<article class="post sk" aria-hidden="true"><header class="phead"><span class="pico"></span><div class="ptext"><strong class="skbar"></strong><time class="skbar short"></time></div></header>${cards(6)}</article>`;
+    $("feedPage").hidden = false;
+    $("feedPage").innerHTML = feedFilterHtml() + post + post;
+  } else {
+    $("grid").innerHTML = `<section class="sec sk" aria-hidden="true"><h2 class="sech"><span class="skbar"></span></h2>${cards(12)}</section>`;
+  }
+}
 function renderFeed() {
+  if (!state.data) return;  // the skeleton stays until the programme arrives
   posterEager = 12;
   const el = $("feedPage"), seen = feedSeen(), posts = feedPosts();
   feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
@@ -808,9 +827,7 @@ function renderFeed() {
     if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
     parts.push(postHtml(p));
   }
-  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"]];
-  const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds[0] === k : !state.feedKinds.length}">${label}</button>`;
-  const filter = `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
+  const filter = feedFilterHtml();
   const nudge = sb && state.authReady && !state.user
     ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
   const needFriends = state.feedKinds[0] === "friend" ? friendsNeedHtml() : "";  // Friends filter, nobody to show: the Friends view's own prompt
@@ -842,7 +859,7 @@ function renderNav() {
   $("feedPage").hidden = state.page !== "feed";
   document.body.classList.toggle("page-feed", state.page === "feed");
   for (const a of $("mainNav").querySelectorAll("[data-page]")) a.toggleAttribute("aria-current", a.dataset.page === state.page);
-  const seen = feedSeen(), fresh = state.page === "feed" || !seen ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
+  const seen = feedSeen(), fresh = state.page === "feed" || !seen || !state.data ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
   const dot = $("feedDot");
   dot.hidden = !fresh;
   dot.textContent = fresh > 9 ? "9+" : fresh;
@@ -1956,6 +1973,7 @@ async function loadRegion(key) {
     if (adoptSaleDates()) savePrefs();
   } catch (e) {
     $("sub").textContent = `Couldn't load the ${reg.name} programme. Reload to try again.`;
+    $("grid").innerHTML = ""; $("feedPage").innerHTML = "";  // no placeholders for something that isn't coming
     return;
   }
   const g = state.data.generated;
@@ -1978,6 +1996,7 @@ async function loadRegion(key) {
   // name needs no data, the account button is painted from last time, and the fit waits for the fonts, so they don't change as the
   // page loads.
   renderRegionButton();
+  renderSkeleton();
   renderDayControl();  // the Date button has its name from the first paint, so the search field beside it doesn't resize
   renderFilters();  // the sidebar's options don't need the programme; the cinemas fill in when it arrives
   const headerFonts = Promise.all([document.fonts.load('600 14px "IBM Plex Sans"'), document.fonts.load('800 40px "Big Shoulders Display"')]).catch(() => {});

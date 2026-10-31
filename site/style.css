@@ -894,3 +894,17 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 /* room for the film count is kept on the selected tab before it arrives, and the tabs stay still while the page loads */
 .listswitch button[aria-pressed="true"] .cnt:empty::before { content: " · 000"; visibility: hidden; }
 .top:not(.ready) .mainnav { visibility: hidden; }
+
+/* placeholders while the programme loads */
+.sk .poster, .sk h3, .sk .m, .skbar, .sk .pico { background: var(--chip); border-radius: 6px; animation: sk-pulse 1.3s ease-in-out infinite; }
+.sk .poster { border-radius: 8px; }
+.sk .poster::after, .sk .poster::before { display: none; }
+.sk h3 { height: 14px; width: 72%; margin: 10px 0 8px; font-size: 0; }
+.sk .m { height: 11px; width: 52%; }
+.sk .m:empty { display: block; }
+.skbar { display: block; height: 14px; width: 150px; }
+.skbar.short { width: 70px; height: 10px; margin-top: 6px; }
+.sech .skbar { margin: 18px 18px; }
+.sk .pico { background: var(--chip); box-shadow: none; }
+@keyframes sk-pulse { 50% { opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .sk .poster, .sk h3, .sk .m, .skbar, .sk .pico { animation: none; } }
