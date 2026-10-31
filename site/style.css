@@ -790,3 +790,8 @@ dialog { overscroll-behavior: contain; }
 @media (min-width: 700px) { .fbody .fcols { max-width: none; grid-template-columns: 1fr 1fr; gap: 24px; } }
 .fcols { gap: 16px; }
 .fpanel .btn.dark { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.wlinvite { display: flex; align-items: center; justify-content: space-between; gap: 12px 16px; flex-wrap: wrap; }
+.wlinvite[hidden] { display: none; }
+.wlinvite .wlmsg { display: flex; flex-direction: column; gap: 2px; min-width: 220px; flex: 1; font-size: 14px; }
+.wlinvite .wlmsg span { color: var(--muted); }
