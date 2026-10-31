@@ -921,7 +921,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-cat-in-the-hat-2026",
 "lbRating": null,
-"rated": "2026-10-23",
+"rated": "2026-10-31",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "cl-gungo-juegos-cavernicolas": {
@@ -960,10 +960,10 @@
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "cl-hotel-transilvania": {
+"tmdbChecked": "2026-10-31",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-23",
-"tmdbChecked": "2026-10-23",
-"tv": 2
+"checked": "2026-10-31"
 },
 "cl-invitacion": {
 "imdb": "tt14173636",
@@ -1002,8 +1002,8 @@
 "imdb": "tt36462691",
 "en": null,
 "lbSlug": "karateka-2026",
-"lbRating": null,
-"rated": "2026-10-23",
+"lbRating": 3.5,
+"rated": "2026-10-31",
 "posterPath": "/bJh97VEUn9TWygQSrOOyJrwQXek.jpg"
 },
 "cl-lady-bird": {
@@ -1039,7 +1039,7 @@
 "enFrom": "tmdb",
 "lbSlug": "winter-lions",
 "lbRating": null,
-"rated": "2026-10-23",
+"rated": "2026-10-31",
 "posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
 },
 "cl-maleta": {
@@ -1097,8 +1097,8 @@
 "en": "Shaun the Sheep: The Beast of Mossy Bottom",
 "enFrom": "tmdb",
 "lbSlug": "shaun-the-sheep-the-beast-of-mossy-bottom",
-"lbRating": 3.59,
-"rated": "2026-10-23",
+"lbRating": 3.58,
+"rated": "2026-10-31",
 "posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
 },
 "cl-pesadilla-antes-navidad": {
@@ -1127,6 +1127,12 @@
 "rated": "2026-10-26",
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
+},
+"cl-scrooge-fantasmas-navidad": {
+"v": 4,
+"checked": "2026-10-31",
+"tmdbChecked": "2026-10-31",
+"tv": 2
 },
 "cl-sentido-sensibilidad": {
 "v": 4,
@@ -1293,10 +1299,10 @@
 "checked": "2026-10-03"
 },
 "cm-2026-troll-i-eske-november": {
-"tmdbChecked": "2026-10-23",
+"tmdbChecked": "2026-10-31",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-23"
+"checked": "2026-10-31"
 },
 "cm-9-temples-to-heaven": {
 "imdb": "tt37740247",
@@ -1314,8 +1320,8 @@
 "tmdb": 1046304,
 "lang": "th",
 "lbSlug": "9-temples-to-heaven",
-"lbRating": 3.57,
-"rated": "2026-10-23"
+"lbRating": 3.55,
+"rated": "2026-10-31"
 },
 "cm-a-better-tomorrow": {
 "tmdbChecked": "2026-10-01",
@@ -2154,8 +2160,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-30",
-"tmdbChecked": "2026-10-30",
+"checked": "2026-10-31",
+"tmdbChecked": "2026-10-31",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -4658,7 +4664,7 @@
 "enFrom": "tmdb",
 "lbSlug": "bring-her-back",
 "lbRating": 3.68,
-"rated": "2026-10-23"
+"rated": "2026-10-31"
 },
 "fw-EDI20250432": {
 "tmdbChecked": "2026-10-01",
@@ -5360,7 +5366,7 @@
 "enFrom": "tmdb",
 "lbSlug": "obsession-2025",
 "lbRating": 4.06,
-"rated": "2026-10-23"
+"rated": "2026-10-31"
 },
 "fw-EDI20251836": {
 "tmdbChecked": "2026-10-01",
@@ -5517,7 +5523,7 @@
 "enFrom": "tmdb",
 "lbSlug": "backrooms-2026",
 "lbRating": 3.3,
-"rated": "2026-10-23"
+"rated": "2026-10-31"
 },
 "fw-EDI20260236": {
 "tmdbChecked": "2026-10-01",
@@ -6004,8 +6010,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "evil-dead-burn",
-"lbRating": 3.02,
-"rated": "2026-10-23"
+"lbRating": 3.01,
+"rated": "2026-10-31"
 },
 "fw-EDI20260632": {
 "lbSlug": "siri-hustvedt-dance-around-the-self",
@@ -7695,8 +7701,8 @@
 "tmdb": 1046304,
 "lang": "th",
 "lbSlug": "9-temples-to-heaven",
-"lbRating": 3.57,
-"rated": "2026-10-23"
+"lbRating": 3.55,
+"rated": "2026-10-31"
 },
 "fw-EDI20261557": {
 "tmdbChecked": "2026-10-01",
@@ -7852,8 +7858,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-30",
-"tmdbChecked": "2026-10-30",
+"checked": "2026-10-31",
+"tmdbChecked": "2026-10-31",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -9155,7 +9161,7 @@
 "enFrom": "tmdb",
 "lbSlug": "insidious-out-of-the-further",
 "lbRating": 2.71,
-"rated": "2026-10-23"
+"rated": "2026-10-31"
 },
 "fw-SMN20050114": {
 "imdb": "tt0434409",
@@ -9175,7 +9181,7 @@
 "enFrom": "tmdb",
 "lbSlug": "v-for-vendetta",
 "lbRating": 3.91,
-"rated": "2026-10-23",
+"rated": "2026-10-31",
 "posterPath": "/1avD1JeaRiJX5M4ahPdZPypGoGN.jpg"
 },
 "fw-SMN20051022": {
@@ -9196,7 +9202,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-departed",
 "lbRating": 4.35,
-"rated": "2026-10-23",
+"rated": "2026-10-31",
 "posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg"
 },
 "fw-SMN20060422": {
@@ -9217,7 +9223,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-prestige",
 "lbRating": 4.31,
-"rated": "2026-10-23",
+"rated": "2026-10-31",
 "posterPath": "/Ag2B2KHKQPukjH7WutmgnnSNurZ.jpg"
 },
 "fw-TIF20171411": {
@@ -9282,7 +9288,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-thing",
 "lbRating": 4.35,
-"rated": "2026-10-23",
+"rated": "2026-10-31",
 "posterPath": "/tzGY49kseSE9QAKk47uuDGwnSCu.jpg"
 },
 "fw-UAV20213349": {
@@ -10458,7 +10464,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-cat-in-the-hat-2026",
 "lbRating": null,
-"rated": "2026-10-23",
+"rated": "2026-10-31",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "mk-fargo": {
@@ -10863,7 +10869,7 @@
 "lang": "ja",
 "lbSlug": "spirited-away",
 "lbRating": 4.43,
-"rated": "2026-10-23"
+"rated": "2026-10-31"
 },
 "sr-tea-treats-tales-about-time-2013": {
 "imdb": "tt2194499",
