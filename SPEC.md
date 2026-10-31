@@ -125,9 +125,15 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles). The jump bar links to each section (opening it if collapsed) and has Collapse all /
   Expand all.
-- Header: the same height and spacing at every width (a fixed-size title); the title (and on desktop the Feed / Films links), then the location and the account button,
-  always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
-  to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
+- Header: the same height and spacing at every width (a fixed-size title); the title (and on desktop the Feed / Films
+  links), then one menu button on the right. There is no separate location button.
+- **The menu button** (top right) is a menu for everyone: an avatar with the initial when signed in (Profile, Location,
+  Friends, Email notifications, Preferences, Sign out), a person icon when not (Location, Sign in or register).
+  **Location** opens a panel with the four regions (Oslo, Westman, Winnipeg, Costa del Sol); one tap sets it. It is
+  kept on the device (and in the address as `?r=` for anything but Oslo); signed in, it is also saved in the account
+  (`prefs.region`), so a new device opens on it (a `?r=` link still wins; a new account starts with the location in use).
+  First visit on a device whose time zone is Winnipeg or Madrid/Canary: a one-time banner, "Showing Oslo. In Winnipeg?
+  [Show Winnipeg] [Keep Oslo]". Everyone else just gets Oslo.
 - **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
   filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
 - **Switching Feed ⇄ Films** is a switch of what's visible: the films list stays drawn while the Feed shows (it's redrawn in a

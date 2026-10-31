@@ -57,6 +57,7 @@ const kindShown = (f) => !(state.prefs.hideKinds || []).includes(f.kind || "film
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const urlRegion = new URLSearchParams(location.search).get("r");
+const regionUnset = !urlRegion && local.get("region", null) === null;  // nobody has picked (or been shown) a location on this device yet
 const state = {
   data: null,
   region: REGIONS.some((r) => r.key === urlRegion) ? urlRegion : local.get("region", "oslo"),
@@ -382,18 +383,8 @@ function setList(name) {
   render(); window.scrollTo({ top: 0 });
 }
 function showFriendsTab() { if ($("account").open) $("account").close(); setList("friends"); }
-function renderRegionButton() {
-  const reg = REGIONS.find((r) => r.key === state.region);
-  $("regionBtn").innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" fill="currentColor"/></svg>${reg.name} <span class="chev" aria-hidden="true">▾</span>`;
-  $("regionBtn").setAttribute("aria-label", `Location: ${reg.name}`);
-}
 function renderControls() {
   renderDayControl();
-  const reg = REGIONS.find((r) => r.key === state.region);
-  renderRegionButton();
-  $("regionMenu").innerHTML = REGIONS.map((r) =>
-    `<button role="menuitemradio" aria-checked="${r.key === state.region}" data-pick="region" data-value="${r.key}">${r.name}</button>`).join("");
-  fitHeader();  // the location's name changes the header's width
   renderListSwitch();
   const n = activeFilters();
   $("filtersBtn").textContent = n ? `Filters · ${n}` : "Filters";
@@ -1369,14 +1360,7 @@ function toggleMenu(btn, menu) {
   keepOnScreen(menu);
   (menu.querySelector('[aria-checked="true"]') || menu.querySelector("button, a"))?.focus();
 }
-$("regionBtn").addEventListener("click", () => toggleMenu($("regionBtn"), $("regionMenu")));
 document.addEventListener("click", (e) => {
-  const pick = e.target.closest("[data-pick]");
-  if (pick) {
-    closeMenus();
-    if (pick.dataset.pick === "region" && pick.dataset.value !== state.region) loadRegion(pick.dataset.value);
-    return;
-  }
   if (!e.target.closest(".dd")) closeMenus();
 });
 document.addEventListener("keydown", (e) => {
@@ -1542,14 +1526,17 @@ async function loadProfile() {
   // changes on top. (Merging the two would bring back films removed on another device.)
   // The same goes for hidden films.
   const first = !Object.keys(remote).length;
+  if (first && !state.prefs.region) state.prefs.region = state.region;  // a new account starts with the location in use here
   if (first) { wlChange([...state.watchlist], true); for (const [k, v] of Object.entries(localHidden)) hidChange(k, v); }
   state.watchlist = wlApply(data.watchlist || []);
   state.prefs.hidden = hidApply(remote.hidden || {});
   if (state.data) adoptSaleDates();
+  const accountRegion = !urlRegion && state.prefs.region && REGIONS.some((r) => r.key === state.prefs.region) ? state.prefs.region : "";
   local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]);
   if (first || wlPending.add.size || wlPending.del.size || hidPending.del.size || Object.keys(hidPending.set).length) await saveAccount({}, first);
   render();
   refreshAvatar();
+  if (accountRegion && accountRegion !== state.region) loadRegion(accountRegion);  // the account remembers the location, so a new device opens on it
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
   if (data.friend_code) loadFriends();
 }
@@ -1616,6 +1603,7 @@ function renderAccount(message = "", isErr = false) {
   const body = $("accountBody");
   $("account").classList.toggle("wide", (!!state.user && !!state.profile) || state.acctView === "prefs");
   const msg = message ? `<div class="msg${isErr ? " err" : ""}">${esc(message)}</div>` : "";
+  if (state.acctView === "location") { $("account").classList.remove("wide"); renderLocation(); return; }
   if (state.acctView === "prefs") { renderPrefs(msg); return; }
   if (!state.user && state.pendingEmail) { // step 2: type the code from the email
     body.innerHTML = `<h2 id="accountTitle">Enter your code</h2>
@@ -1669,6 +1657,8 @@ const MENU_ICONS = {
   prefs: menuIcon("M4 7h9M17 7h3M4 17h3M11 17h9M15 4v6M9 14v6"),
   friends: menuIcon("M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.3a3.5 3.5 0 0 1 0 6.4M18 14.4c2 .7 3.5 2.4 3.5 5.6"),
   email: menuIcon("M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM3.5 7.5l8.5 6 8.5-6"),
+  signin: menuIcon("M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M14 8l4 4-4 4M18 12H8"),
+  location: menuIcon("M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"),
   signout: menuIcon("M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10"),
 };
 const emailStatus = () => {
@@ -1681,17 +1671,50 @@ const prefsStatus = () => {
   const on = PREF_KINDS.filter(([k]) => !(state.prefs.hideKinds || []).includes(k)).map(([, l]) => l);
   return on.length ? `Also ${on.length > 2 ? on.length + " more" : on.join(", ")}` : "Films only";
 };
+const regionName = () => REGIONS.find((r) => r.key === state.region)?.name || "";
+// The menu behind the top-right button, for everyone: the location (set once), and either sign in or the account's own items.
 function renderAcctMenu() {
-  const p = state.profile, name = p?.display_name || "";
   const item = (k, label, status) => `<button role="menuitem" data-open="${k}"><span class="mi">${MENU_ICONS[k]}</span>${label}${status ? `<small>${esc(status)}</small>` : ""}</button>`;
+  if (!state.user) {
+    $("acctMenu").innerHTML = `${item("location", "Location", regionName())}${typeof sb !== "undefined" && sb ? `<div class="menusep"></div>${item("signin", "Sign in or register")}` : ""}`;
+    return;
+  }
+  const p = state.profile, name = p?.display_name || "";
   $("acctMenu").innerHTML = `<div class="menuhead">${name ? `<b>${esc(name)}</b>` : ""}<span>${esc(state.user.email)}</span></div><div class="menusep"></div>
     ${item("profile", "Profile")}
+    ${item("location", "Location", regionName())}
     ${p?.friend_code ? item("friends", "Friends", state.friends.length ? `${state.friends.length} friend${state.friends.length > 1 ? "s" : ""}` : "Add friends") : ""}
     ${item("email", "Email notifications", emailStatus())}
     ${item("prefs", "Preferences", prefsStatus())}
     <div class="menusep"></div>
     <button role="menuitem" data-open="signout" class="signout"><span class="mi">${MENU_ICONS.signout}</span>Sign out</button>`;
 }
+// The location panel: one tap, and it's remembered (on this device, and in the account when signed in).
+function renderLocation() {
+  $("accountBody").innerHTML = `<h2 id="accountTitle">Location</h2><p>Which cinemas' programme to show. You only need to set this once.</p>
+    <div class="regions">${REGIONS.map((r) => `<button type="button" class="region" data-region="${r.key}" aria-pressed="${r.key === state.region}">${esc(r.name)}</button>`).join("")}</div>`;
+}
+function pickRegion(key) {
+  if ($("account").open) $("account").close();
+  if (key === state.region) return;
+  state.prefs.region = key;
+  savePrefs();
+  loadRegion(key);
+}
+$("accountBody").addEventListener("click", (e) => { const b = e.target.closest("[data-region]"); if (b) pickRegion(b.dataset.region); });
+$("accountBtn").addEventListener("click", () => { renderAcctMenu(); toggleMenu($("accountBtn"), $("acctMenu")); });
+$("acctMenu").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-open]");
+  if (!b) return;
+  closeMenus();
+  if (b.dataset.open === "friends") { showFriendsTab(); return; }
+  if (b.dataset.open === "signout") { await sb.auth.signOut(); toast("Signed out"); return; }
+  state.acctView = b.dataset.open === "signin" ? "" : b.dataset.open;
+  renderAccount();
+  $("accountBtn").focus();  // where focus returns when the panel closes
+  $("account").showModal();
+  $("account").scrollTop = 0;
+});
 
 function renderProfile(msg) {
   const p = state.profile;
@@ -1737,11 +1760,10 @@ const personIcon = `<svg class="ico" width="17" height="17" viewBox="0 0 24 24" 
 // The header's account button: a filled "Sign in" (a person icon when the header is tight), or a round avatar with an initial.
 function paintAccount(signedIn, initial, email = "") {
   const ab = $("accountBtn");
-  if (signedIn) ab.textContent = initial; else ab.innerHTML = `${personIcon}<span class="lbl">Sign in</span>`;
-  ab.classList.toggle("primary", !signedIn);
+  if (signedIn) ab.textContent = initial; else ab.innerHTML = personIcon;
+  ab.classList.toggle("guest", !signedIn);
   ab.classList.toggle("avatar", signedIn);
-  ab.setAttribute("aria-label", signedIn ? `Account${email ? ` (${email})` : ""}` : "Sign in");
-  ab.setAttribute("aria-haspopup", signedIn ? "menu" : "dialog");
+  ab.setAttribute("aria-label", signedIn ? `Account${email ? ` (${email})` : ""}` : "Menu");
 }
 // What was last shown (signed in as whom, with which initial) is remembered, so the next visit paints that straight away instead of
 // "Sign in" and then the avatar, and doesn't change again once the saved session and the profile have been checked.
@@ -1773,7 +1795,7 @@ function refreshAvatar() {
 // the location's name and on being signed in): the location loses its pin, then
 // "Sign in" becomes an icon, then the location loses its arrow, then the title gets a little smaller. If even that
 // doesn't fit, the buttons wrap under the title rather than run off the screen.
-const FIT_STEPS = ["fit-pin", "fit-account", "fit-chev", "fit-title"];
+const FIT_STEPS = ["fit-title"];
 function fitHeader() {
   const top = document.querySelector(".top"), h1 = top.querySelector("h1"), right = top.querySelector(".topright");
   const gap = parseFloat(getComputedStyle(top).columnGap) || 0;
@@ -1786,28 +1808,10 @@ let topWidth = 0;
 new ResizeObserver(([e]) => { if (e.contentRect.width !== topWidth) { topWidth = e.contentRect.width; fitHeader(); } }).observe(document.querySelector(".top"));
 document.fonts.ready.then(fitHeader);  // the title's font changes its width once it loads
 
+paintAccount(false);  // a person icon until we know better (the saved sign-in is painted next)
 if (sb) {
-  $("acctDD").hidden = false;
   const seen = local.get("acct", null);
   if (seen && seen.i) paintAccount(true, seen.i);  // as last time, until the saved session has been checked (setUser)
-  // Signed in: the avatar drops a menu (Profile, Friends, Email notifications, Sign out); each opens its own panel.
-  $("accountBtn").addEventListener("click", () => {
-    if (!state.user) { renderAccount(); $("account").showModal(); return; }
-    renderAcctMenu();
-    toggleMenu($("accountBtn"), $("acctMenu"));
-  });
-  $("acctMenu").addEventListener("click", async (e) => {
-    const b = e.target.closest("[data-open]");
-    if (!b) return;
-    closeMenus();
-    if (b.dataset.open === "friends") { showFriendsTab(); return; }
-    if (b.dataset.open === "signout") { await sb.auth.signOut(); toast("Signed out"); return; }
-    state.acctView = b.dataset.open;
-    renderAccount();
-    $("accountBtn").focus();  // where focus returns when the panel closes
-    $("account").showModal();
-    $("account").scrollTop = 0;
-  });
   let pendingName = "";  // the optional name typed at sign-up; only used when the email turns out to be new
   const sendCode = async (email) => {
     const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, ...(pendingName ? { data: { display_name: pendingName } } : {}) } });
@@ -2018,11 +2022,28 @@ async function loadRegion(key) {
   route();
 }
 
+// First visit on a device whose time zone is one of ours: offer that location (once). Everyone else just gets Oslo.
+function maybeRegionHint() {
+  if (!regionUnset || state.regionHinted) return;
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+  const guess = tz === "America/Winnipeg" ? "winnipeg" : tz === "Europe/Madrid" || tz === "Atlantic/Canary" ? "costadelsol" : "";
+  const target = REGIONS.find((r) => r.key === guess);
+  if (!target || target.key === state.region) return;
+  state.regionHinted = true;
+  const banner = $("banner"), here = regionName();
+  banner.innerHTML = `Showing ${esc(here)}. In ${esc(target.name)}? <button type="button" class="linkbtn" data-hint="switch">Show ${esc(target.name)}</button> <button type="button" class="linkbtn" data-hint="keep">Keep ${esc(here)}</button>`;
+  banner.hidden = false;
+  banner.onclick = (e) => {
+    const b = e.target.closest("[data-hint]");
+    if (!b) return;
+    banner.hidden = true;
+    if (b.dataset.hint === "switch") pickRegion(target.key); else { local.set("region", state.region); state.prefs.region = state.region; savePrefs(); }
+  };
+}
 (async function boot() {
   // The top-right buttons are held back (still taking their space) until what they say and how they fit is settled: the location
   // name needs no data, the account button is painted from last time, and the fit waits for the fonts, so they don't change as the
   // page loads.
-  renderRegionButton();
   renderSkeleton();
   renderDayControl();  // the Date button has its name from the first paint, so the search field beside it doesn't resize
   renderFilters();  // the sidebar's options don't need the programme; the cinemas fill in when it arrives
@@ -2030,5 +2051,6 @@ async function loadRegion(key) {
   Promise.race([headerFonts, new Promise((r) => setTimeout(r, 600))]).then(() => { fitHeader(); document.querySelector(".top").classList.add("ready"); });
   takeFriendLink();
   await loadRegion(state.region);
+  maybeRegionHint();
   handleUnsubscribe();
 })();
