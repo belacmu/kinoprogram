@@ -310,7 +310,9 @@ function renderWatchInvite() {
   const el = $("wlInvite");
   el.hidden = !(state.onlyWatch && sb && state.authReady && !state.user);
   if (el.hidden || el.firstChild) return;
-  el.innerHTML = `<div class="wlmsg"><strong>Saved on this device only</strong><span>Register or sign in to keep your watchlist safe and open it from any device.</span></div><button type="button" class="btn accent small" data-wl="signin">Sign in or register</button>`;
+  el.innerHTML = `<svg class="wlico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4.75 4.75 0 0 1-.5 9.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    <div class="wlmsg"><strong>Keep your watchlist safe</strong><span>It's saved on this device only. Register or sign in to open it from any device.</span></div>
+    <button type="button" class="btn accent small" data-wl="signin">Sign in or register</button>`;
 }
 let friendsPanelSig = "";
 function renderFriendsPanel(force = false) {

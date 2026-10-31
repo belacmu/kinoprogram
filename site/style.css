@@ -791,7 +791,11 @@ dialog { overscroll-behavior: contain; }
 .fcols { gap: 16px; }
 .fpanel .btn.dark { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-.wlinvite { display: flex; align-items: center; justify-content: space-between; gap: 12px 16px; flex-wrap: wrap; }
+.wlinvite { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 4px 12px; padding: 14px 16px; }
 .wlinvite[hidden] { display: none; }
-.wlinvite .wlmsg { display: flex; flex-direction: column; gap: 2px; min-width: 220px; flex: 1; font-size: 14px; }
+.wlinvite .wlico { color: var(--accent); margin-top: 1px; }
+.wlinvite .wlmsg { display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.35; }
+.wlinvite .wlmsg strong { font-size: 15px; }
 .wlinvite .wlmsg span { color: var(--muted); }
+.wlinvite .btn { grid-column: 1 / -1; margin-top: 8px; justify-self: stretch; text-align: center; }
+@media (min-width: 640px) { .wlinvite { grid-template-columns: auto 1fr auto; align-items: center; } .wlinvite .btn { grid-column: auto; margin: 0; justify-self: auto; } }
