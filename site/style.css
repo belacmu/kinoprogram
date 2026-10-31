@@ -868,3 +868,12 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .feedfilter::-webkit-scrollbar { display: none; }
 .feedfilter .chip { flex: none; padding: 7px 14px; font-size: 14px; cursor: pointer; color: inherit; }
 .feedfilter .chip[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); }
+
+/* desktop: the Filters button toggles the sidebar; closed, the content is centred as on the Feed page */
+@media (min-width: 1000px) {
+  #filtersBtn { display: inline-block; }
+  body:not(.filters-off) #filtersBtn { background: var(--chip-on); border-color: var(--chip-on); color: var(--chip-on-ink); }
+  body.filters-off .filters { display: none; }
+  body.filters-off .layout { grid-template-columns: minmax(0, 1fr); }
+  body.filters-off .main { width: 100%; max-width: 860px; margin-inline: auto; }
+}

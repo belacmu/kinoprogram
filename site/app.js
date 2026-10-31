@@ -1266,7 +1266,17 @@ const setFiltersOpen = (open) => {
   $("filtersBtn").setAttribute("aria-expanded", open);
   if (open) $("filtersDone").focus();
 };
-$("filtersBtn").addEventListener("click", () => setFiltersOpen(!document.body.classList.contains("filters-open")));
+// On desktop the Filters button toggles the sidebar (remembered); below that it opens the sheet.
+const wideScreen = matchMedia("(min-width: 1000px)");
+const syncFiltersBtn = () => $("filtersBtn").setAttribute("aria-expanded", wideScreen.matches ? !document.body.classList.contains("filters-off") : document.body.classList.contains("filters-open"));
+document.body.classList.toggle("filters-off", local.get("sidebarOff", false));
+wideScreen.addEventListener("change", syncFiltersBtn);
+syncFiltersBtn();
+$("filtersBtn").addEventListener("click", () => {
+  if (!wideScreen.matches) { setFiltersOpen(!document.body.classList.contains("filters-open")); return; }
+  local.set("sidebarOff", document.body.classList.toggle("filters-off"));
+  syncFiltersBtn();
+});
 $("filtersDone").addEventListener("click", () => { setFiltersOpen(false); $("filtersBtn").focus(); });
 $("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
