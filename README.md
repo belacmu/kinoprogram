@@ -16,7 +16,7 @@ newly announced. See [SPEC.md](SPEC.md).
 | `scraper/revier.py` | Fetches Revier Film Club (Eventbrite organizer page) |
 | `scraper/deichman.py` | Fetches the library's film screenings (Hoopla API) |
 | `scraper/sommerro.py` | Fetches Sommerro's dinner + film evenings (HTML) |
-| `scraper/build.py` | Merges by film, tracks what's new, writes `site/data/films.json` and `state/seen.json` |
+| `scraper/build.py` | Merges by film, tracks what's new and logs feed events, writes `site/data/films.json` and `state/seen.json` |
 | `scraper/digest.py` | Sends each subscriber their personalised email via Gmail |
 | `site/` | The static site (no build step) |
 | `supabase/schema.sql` | Accounts table + security rules |

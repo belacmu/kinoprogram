@@ -218,6 +218,36 @@ def track_shows(films, now, state):
     state["shows"] = dict(sorted(out.items()))
 
 
+EVENT_DAYS = 60
+
+
+def log_events(films, now, state):
+    """The feed's catalog events (state["events"]): films that went on sale or were announced, and films that got more
+    showings. Everything the site's feed (and, later, the daily email) shows comes from this one list."""
+    base = state["baseline"]
+    found = {}
+
+    def add(e):
+        found[e["id"]] = e
+    for f in films:
+        if f["onSaleSince"] and f["onSaleSince"] > base and f["status"] == "on_sale":
+            add({"id": f"sale|{f['id']}|{f['onSaleSince']}", "type": "sale", "film": f["id"], "at": f["onSaleSince"]})
+        if f["announcedSince"] and f["announcedSince"] > base and f["status"] == "announced":
+            add({"id": f"announced|{f['id']}|{f['announcedSince']}", "type": "announced", "film": f["id"], "at": f["announcedSince"]})
+        rec = next((state["shows"][i] for i in f["ids"] if i in state.get("shows", {})), None)
+        by_stamp = {}
+        for k, stamp in (rec or {}).get("shows", {}).items():
+            if stamp and stamp > base:
+                by_stamp.setdefault(stamp, []).append(k.split("|", 1)[1])
+        for stamp, cinemas in by_stamp.items():
+            add({"id": f"showings|{f['id']}|{stamp}", "type": "showings", "film": f["id"], "at": stamp,
+                 "n": len(cinemas), "cinemas": sorted(set(cinemas))})
+    cutoff = (now - timedelta(days=EVENT_DAYS)).strftime(FMT)
+    merged = {e["id"]: e for e in state.get("events", [])}
+    merged.update(found)
+    state["events"] = sorted((e for e in merged.values() if e["at"] >= cutoff), key=lambda e: (e["at"], e["id"]), reverse=True)
+
+
 def track(films, now, state_path):
     """Set each film's onSaleSince and update state. Returns the state dict."""
     first_run = not state_path.exists()
@@ -365,6 +395,7 @@ def main(regions=None):
             costadelsol.mark_dubbed(films)
         mark_last_chance(films)
         track_shows(films, now, state)
+        log_events(films, now, state)
         new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
         ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
         print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "
@@ -381,7 +412,7 @@ def main(regions=None):
         data.write_text(json.dumps({
             "generated": now.strftime(FMT), "baseline": state["baseline"], "region": r,
             "location": cfg["name"], "tz": cfg["tz"], "sources": cfg["sources"],
-            "cinemas": cinemas, "films": films,
+            "cinemas": cinemas, "films": films, "events": state["events"],
         }, ensure_ascii=False, separators=(",", ":")))
         state_path.parent.mkdir(parents=True, exist_ok=True)
         state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
