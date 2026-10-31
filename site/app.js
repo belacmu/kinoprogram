@@ -540,7 +540,7 @@ function cardHtml(row) {
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}" data-id="${esc(f.id)}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}${friendsStack(f)}`)}
-      <h3>${esc(titleOf(f))}</h3><div class="m">${cardMeta(row)}</div></a>
+      <h3>${esc(titleOf(f))}</h3><div class="m">${row.meta ?? cardMeta(row)}</div></a>
     <button class="star${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}" aria-label="${on ? "Remove from" : "Add to"} watchlist" title="${on ? "On your watchlist" : "Add to watchlist"}">${heart(on)}</button>
   </li>`;
 }
@@ -711,9 +711,17 @@ const utcToLocal = (s) => {
 const catalogEvents = () => state.data.events || state.data.films.flatMap((f) => [
   f.onSaleSince && f.status === "on_sale" ? { type: "sale", film: f.id, at: f.onSaleSince } : null,
   f.announcedSince && f.status === "announced" ? { type: "announced", film: f.id, at: f.announcedSince } : null].filter(Boolean));
+// Under a poster in the feed: only what the post is about (the post's heading already says what happened).
+function feedMeta(e, f, m) {
+  if (e.type === "sale") return esc(whereList(m.shows));
+  if (e.type === "showings") return `+${e.n || 1} showing${(e.n || 1) === 1 ? "" : "s"}${e.cinemas?.length ? " · " + esc(whereList(e.cinemas.map((c) => ({ cinema: c })))) : ""}`;
+  if (m.shows.length) return `From ${esc(dayLabel(m.shows[0].t.slice(0, 10)))}`;
+  if (f.premiere) return f.premiereConfirmed ? `Premiere ${esc(dayLabel(f.premiere))}` : `Expected ${MONTHS[asDate(f.premiere).getUTCMonth()]} ${asDate(f.premiere).getUTCFullYear()}`;
+  return "Date not set";
+}
 function feedEvents() {
   const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - FEED_DAYS), out = [];
-  const row = (f, m, at) => ({ f, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: false, watched: isWatched(f) });
+  const row = (f, m, at, meta) => ({ f, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: false, watched: isWatched(f), meta });
   for (const e of catalogEvents()) {
     const f = findFilm(e.film);
     if (!f || e.at <= state.data.baseline || e.at.slice(0, 10) < oldest || isHidden(f)) continue;
@@ -722,13 +730,13 @@ function feedEvents() {
     if (e.type === "sale" && !m.onSale) continue;
     if (e.type === "announced" && f.status !== "announced") continue;
     if (e.type === "showings" && !m.shows.length) continue;
-    out.push({ type: e.type, at: e.at, key: e.type, row: row(f, m, e.at) });
+    out.push({ type: e.type, at: e.at, key: e.type, row: row(f, m, e.at, feedMeta(e, f, m)) });
   }
   for (const e of state.friendEvents) {
     const f = findFilm(e.film);
     if (!f || e.at.slice(0, 10) < oldest || isHidden(f)) continue;
     const m = filmShows(f, now, now, "", true);
-    if (m) out.push({ type: "friend", at: e.at, key: "friend|" + e.id, actor: { id: e.id, name: e.name }, row: row(f, m, e.at) });
+    if (m) out.push({ type: "friend", at: e.at, key: "friend|" + e.id, actor: { id: e.id, name: e.name }, row: row(f, m, e.at, "") });
   }
   return out;
 }
@@ -785,8 +793,7 @@ function renderFeed() {
   }
   const nudge = sb && state.authReady && !state.user
     ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
-  el.innerHTML = `<h2 class="feedtitle">Feed</h2>
-    ${parts.length ? parts.join("")
+  el.innerHTML = `    ${parts.length ? parts.join("")
       : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
 }
