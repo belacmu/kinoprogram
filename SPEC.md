@@ -112,8 +112,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   heading already says what happened): on sale → the cinemas on one line (cut off with … if long), then the usual date range; announced → the first date, premiere or
   "Expected …"; more showings → "+2 showings · Saga"; a friend's pick → nothing more.
 - **Navigation**: two destinations, **Feed** and **Films** (`#feed`, `#films`; no hash = Films for now; `#new`
-  = Feed; `#film/…` links open on Films). A floating, translucent capsule at the bottom on phones and tablets (under 900px), links
-  beside the title in the header on desktop; both mark the current page with a solid red pill and white text. Tapping the current one scrolls to the top. Filters,
+  = Feed; `#film/…` links open on Films). A floating, translucent capsule at the bottom on phones (under 640px), links
+  beside the title in the header from 640px up (tablets and desktop); both mark the current page with a solid red pill and white text. Tapping the current one scrolls to the top. Filters,
   search and the list switch belong to Films only.
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles). The jump bar links to each section (opening it if collapsed) and has Collapse all /

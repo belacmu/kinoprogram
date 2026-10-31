@@ -1683,7 +1683,8 @@ const FIT_STEPS = ["fit-pin", "fit-account", "fit-chev", "fit-title"];
 function fitHeader() {
   const top = document.querySelector(".top"), h1 = top.querySelector("h1"), right = top.querySelector(".topright");
   const gap = parseFloat(getComputedStyle(top).columnGap) || 0;
-  const fits = () => h1.offsetWidth + gap + right.offsetWidth <= top.clientWidth;
+  const nav = top.querySelector(".mainnav"), navW = nav && getComputedStyle(nav).position !== "fixed" ? nav.offsetWidth + gap : 0;  // the nav sits in the row on tablets and desktop
+  const fits = () => h1.offsetWidth + gap + navW + right.offsetWidth <= top.clientWidth;
   top.classList.remove(...FIT_STEPS);
   for (const step of FIT_STEPS) { if (fits()) return; top.classList.add(step); }
 }
