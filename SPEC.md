@@ -127,6 +127,12 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Header: the same height and spacing at every width (a fixed-size title); the title (and on desktop the Feed / Films links), then the location and the account button,
   always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
+- **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
+  filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
+- **Loading**: nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
+  wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
+  cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
+  the screen.
 - **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first, with
   the search field (placeholder "Search") beside it from 640px (on phones it takes the line below). The **Date** button
   always shows its name (never an icon): it sits beside the search field from 700px, below that at the right end of

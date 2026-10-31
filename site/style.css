@@ -882,3 +882,15 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .filterrow { position: relative; }
 .filterrow > #dayDD { margin-left: auto; position: static; }
 .filterrow .menu.cal { left: auto; right: 0; }
+
+/* the header stays on screen from 640px (below that the navigation is the bottom capsule); the controls pin under it */
+:root { --hdr-h: 0px; }
+@media (min-width: 640px) {
+  :root { --hdr-h: 70px; }
+  .top { position: sticky; top: 0; z-index: 7; }
+}
+.controls { top: calc(var(--hdr-h, 0px) + env(safe-area-inset-top, 0px)); }
+@media (min-width: 1000px) { .filters { top: var(--hdr-h, 0px); max-height: calc(100dvh - var(--hdr-h, 0px)); } }
+/* room for the film count is kept on the selected tab before it arrives, and the tabs stay still while the page loads */
+.listswitch button[aria-pressed="true"] .cnt:empty::before { content: " · 000"; visibility: hidden; }
+.top:not(.ready) .mainnav { visibility: hidden; }
