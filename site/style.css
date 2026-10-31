@@ -184,7 +184,7 @@ select { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid
 dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); border-radius: 8px;
   width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto; }
 dialog::backdrop { background: var(--scrim); }
-#account, #friendsAdd { width: min(440px, calc(100vw - 32px)); padding: 22px; }
+#account, #friendsAdd, #screening { width: min(440px, calc(100vw - 32px)); padding: 22px; }
 .dlg-close { position: sticky; top: 0; height: 0; display: flex; justify-content: flex-end; z-index: 5; }  /* above pinned headings and card overlays */
 .x { width: 36px; height: 36px; margin: 8px; border-radius: 50%; border: 0; background: var(--chip); font-size: 22px; line-height: 1; cursor: pointer; }
 .fhead { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 22px; }
@@ -380,7 +380,7 @@ a.stub:hover { border-color: var(--accent); }
 #account .signin .btn { width: 100%; padding: 12px 16px; border-radius: 999px; font-size: 15px; }
 #account h2 { padding-right: 44px; }
 @media (max-width: 560px) {
-  #account, #friendsAdd { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; height: auto; max-height: 92dvh;
+  #account, #friendsAdd, #screening { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; height: auto; max-height: 92dvh;
     border-radius: 18px 18px 0 0; padding: 22px 18px calc(24px + env(safe-area-inset-bottom, 0px)); }
 }
 
@@ -924,3 +924,30 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 #account h2 + p { padding-right: 44px; }
 .poster:has(.pillr) .fstack { bottom: 30px; }  /* the friends' initials sit above the rating, not under it */
 .pico svg { display: block; }
+
+/* screenings */
+.stubw { display: inline-flex; align-items: stretch; gap: 4px; }
+.hostbtn { display: grid; place-items: center; width: 30px; border: 1px dashed var(--edge); border-radius: 3px; background: none; color: var(--muted); cursor: pointer; padding: 0; }
+.hostbtn:hover { color: var(--accent); border-color: var(--accent); }
+#screening h2 { font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; padding-right: 44px; }
+#screening p, #screening .hint { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
+#screening .subh { display: block; margin: 18px 0 8px; font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+#screening .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+#screening .row .btn { text-decoration: none; text-align: center; }
+.scrhead { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 8px; }
+.scrhead img { flex: none; width: 84px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 8px; background: var(--chip); }
+.scrwhen { font: 600 16px var(--body); } .scrwhere { color: var(--ink); } .scrby { color: var(--muted); font-size: 13px; margin-top: 4px; }
+.scrnote { padding: 10px 12px; border-radius: 10px; background: var(--chip); color: var(--ink) !important; }
+.scrsum { display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px; } .scrsum span { color: var(--muted); font-size: 14px; }
+.scrform { display: grid; gap: 6px; }
+.scrform label { font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+.scrform input, .scrform textarea { font: inherit; font-size: 16px; padding: 10px 14px; border-radius: 12px; border: 1px solid transparent; background: var(--chip); color: var(--ink); width: 100%; box-sizing: border-box; }
+.scrform .btn { margin-top: 8px; }
+.joinrow { grid-template-columns: 90px 1fr auto; align-items: end; gap: 8px; }
+.joinrow .btn { margin: 0; }
+.scrlink { padding: 12px 14px; border-radius: 12px; background: var(--chip); font: 500 13px var(--mono); word-break: break-all; }
+.scrpeople, .scrlist { list-style: none; margin: 0 0 8px; padding: 0; }
+.scrpeople li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); }
+.scrpeople li.me { font-weight: 600; } .scrpeople small { color: var(--muted); font-weight: 400; }
+.scrlist li a { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--line); color: inherit; text-decoration: none; }
+.scrlist li a span { color: var(--muted); font-size: 13px; }

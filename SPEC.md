@@ -308,6 +308,22 @@ Data (Supabase):
 - The daily email reads this same log (plus friends' adds), so a new kind of event is added in one place; the email's
   rules below only decide who gets which.
 
+## Screenings (admin only for now)
+
+- An **admin** (`profiles.is_admin`, set by hand in the SQL editor) hosts a screening of one showing: in a film's
+  showings list a small **+** sits beside each showing; it opens a form (ticket link, defaulting to the showing's own;
+  an optional note) and creates a page with a private link.
+- **The page** (`#screening/<token>`; share `/s/?t=<token>`, a static page with a generic chat preview that forwards
+  to it): poster, film, day and time, cinema, host, the note, **Buy tickets** (the ticket link; no payments here),
+  **Copy link**, and **Who's coming** with each person's row and seats. Anyone with the link can look, signed in or
+  not (names are display names, never emails). **Signed-in** people tap **I'm in** and may add a row (a letter or
+  number, up to 4 characters) and seat numbers ("7, 8" or "7-9"); they can update or leave. The host can cancel (the
+  page then says so and nobody can join).
+- **Admin menu**: a **Screenings** item in the account menu lists the ones you host, to find the links again.
+- Everything runs through database functions (`create_screening`, `get_screening`, `join_screening`,
+  `leave_screening`, `cancel_screening`, `my_screenings`, `am_admin`); the tables can't be read or written directly.
+- Not yet: showing screenings to the host's friends in the Feed, hosting by non-admins, seat maps, reminders.
+
 ## Daily email
 
 - Sent at about 09:00 local time per region, to subscribers who chose that region (default Oslo),

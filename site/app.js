@@ -799,7 +799,7 @@ function feedFilterHtml() {
 }
 // Until the programme arrives: the page's own top (the feed's filter row) and grey placeholders where the posts / films will be.
 function renderSkeleton() {
-  state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // the page we open on, known from the address
+  state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // the page we open on, known from the address (a screening link opens over Films)
   const cards = (n) => `<ul class="grid">${'<li class="card sk"><div class="poster"></div><h3></h3><div class="m"></div></li>'.repeat(n)}</ul>`;
   if (/^#(feed|new)$/.test(location.hash)) {
     const post = `<article class="post sk" aria-hidden="true"><header class="phead"><span class="pico"></span><div class="ptext"><strong class="skbar"></strong><time class="skbar short"></time></div></header>${cards(6)}</article>`;
@@ -945,16 +945,18 @@ function sheetTagList(all) {
 
 const MEAL_TAG = "Meal + film";  // dinner/brunch packages (Sommerro, sometimes Vega): priced far above a cinema ticket
 
-function stubHtml(s) {
+function stubHtml(s, f) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const tags = showTags(s);
   const inner = `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
     + (tags.length ? `<span class="tg">${esc(tags.map((t) => (t === MEAL_TAG ? "🍽 " : "") + t).join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
     + (!s.ticket ? `<span class="c">${esc(s.status || "Not on sale yet")}</span>` : "");
-  return s.ticket
+  const stub = s.ticket
     ? `<a class="stub" href="${esc(s.ticket)}" target="_blank" rel="noopener" title="Buy tickets">${inner}</a>`
     : `<span class="stub nosale">${inner}</span>`;
+  // Admins get a small button beside each showing to host a screening of it.
+  return state.isAdmin && f ? `<span class="stubw">${stub}<button type="button" class="hostbtn" data-host="${esc(f.id)}|${esc(s.t)}|${esc(s.cinema)}" title="Host a screening of this showing" aria-label="Host a screening of this showing">${HOST_ICON}</button></span>` : stub;
 }
 
 // Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
@@ -993,7 +995,7 @@ function openFilm(id) {
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
     <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
-    <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
+    <div class="stubs">${shows.map((s) => stubHtml(s, f)).join("")}</div></div>`).join("");
   let empty = "";
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
   else if (!all.length && f.elsewhere?.length) empty = `<p class="hiddenNote">Premiere ${dayLabel(f.premiere)}. Showings so far only in ${esc(f.elsewhere.join(", "))}; none in ${esc(state.data.location)} yet.</p>`;
@@ -1089,9 +1091,16 @@ function route() {
     if (f && !isWatched(f) && requestWatch(f)) { savePrefs(); render(); }
     history.replaceState(null, "", location.pathname + location.search + "#film/" + encodeURIComponent(id));
   }
+  const scr = location.hash.match(/^#screening\/([A-Za-z0-9]+)$/);
   const m = location.hash.match(/^#film\/(.+)$/);
   const first = !state.routed;
   state.routed = true;
+  if (scr) {
+    state.routed = true;
+    if ($("film").open) $("film").close();
+    openScreening(scr[1]);
+    return;
+  }
   if (m) {
     if (first && state.page !== "films") { state.page = "films"; render(); }  // a link straight to a film: the films list is behind it
     openFilm(decodeURIComponent(m[1]));
@@ -1550,6 +1559,7 @@ async function loadProfile() {
   if (accountRegion && accountRegion !== state.region) loadRegion(accountRegion);  // the account remembers the location, so a new device opens on it
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
   if (data.friend_code) loadFriends();
+  loadAdmin();
 }
 
 let friendsSeq = 0;
@@ -1614,6 +1624,7 @@ function renderAccount(message = "", isErr = false) {
   const body = $("accountBody");
   $("account").classList.toggle("wide", (!!state.user && !!state.profile) || state.acctView === "prefs");
   const msg = message ? `<div class="msg${isErr ? " err" : ""}">${esc(message)}</div>` : "";
+  if (state.acctView === "screenings") { $("account").classList.remove("wide"); renderScreenings(); return; }
   if (state.acctView === "location") { $("account").classList.remove("wide"); renderLocation(); return; }
   if (state.acctView === "prefs") { renderPrefs(msg); return; }
   if (!state.user && state.pendingEmail) { // step 2: type the code from the email
@@ -1668,6 +1679,7 @@ const MENU_ICONS = {
   prefs: menuIcon("M4 7h9M17 7h3M4 17h3M11 17h9M15 4v6M9 14v6"),
   friends: menuIcon("M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.3a3.5 3.5 0 0 1 0 6.4M18 14.4c2 .7 3.5 2.4 3.5 5.6"),
   email: menuIcon("M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM3.5 7.5l8.5 6 8.5-6"),
+  screenings: menuIcon("M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4zM14 6v12"),
   signin: menuIcon("M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M14 8l4 4-4 4M18 12H8"),
   location: menuIcon("M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"),
   signout: menuIcon("M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10"),
@@ -1695,6 +1707,7 @@ function renderAcctMenu() {
     ${item("profile", "Profile")}
     ${item("location", "Location", regionName())}
     ${p?.friend_code ? item("friends", "Friends", state.friends.length ? `${state.friends.length} friend${state.friends.length > 1 ? "s" : ""}` : "Add friends") : ""}
+    ${state.isAdmin ? item("screenings", "Screenings") : ""}
     ${item("email", "Email notifications", emailStatus())}
     ${item("prefs", "Preferences", prefsStatus())}
     <div class="menusep"></div>
@@ -1726,6 +1739,131 @@ $("acctMenu").addEventListener("click", async (e) => {
   $("account").showModal();
   $("account").scrollTop = 0;
 });
+
+// ---------------------------------------------------------------- screenings
+// An admin hosts a screening of one showing (a page with the film, cinema, time, a ticket link and who is coming). Anyone with the
+// link can look; signed-in people join and add the row and seats they've bought. Everything goes through database functions.
+const HOST_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+const screeningLink = (token) => location.href.split(/[?#]/)[0] + "s/?t=" + token;
+async function loadAdmin() {
+  if (!sb || !state.user) { state.isAdmin = false; return; }
+  const uid = state.user.id, { data, error } = await sb.rpc("am_admin");
+  if (state.user?.id !== uid) return;
+  const was = state.isAdmin;
+  state.isAdmin = !error && data === true;
+  if (was !== state.isAdmin && $("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));  // show (or hide) the host buttons
+}
+// "7, 8, 10-12" -> [7, 8, 10, 11, 12]; and back: [7, 8, 9] -> "7–9"
+function parseSeats(text) {
+  const out = new Set();
+  for (const part of String(text || "").split(/[,\s]+/).filter(Boolean)) {
+    const m = part.match(/^(\d{1,2})(?:[-–](\d{1,2}))?$/);
+    if (!m) continue;
+    const a = +m[1], b = m[2] ? +m[2] : a;
+    for (let i = Math.min(a, b); i <= Math.max(a, b) && out.size < 12; i++) if (i >= 1 && i <= 99) out.add(i);
+  }
+  return [...out].sort((x, y) => x - y);
+}
+function seatsText(seats) {
+  const out = [];
+  for (let i = 0; i < seats.length; i++) {
+    let j = i;
+    while (seats[j + 1] === seats[j] + 1) j++;
+    out.push(j - i >= 2 ? `${seats[i]}–${seats[j]}` : seats.slice(i, j + 1).join(", "));
+    i = j;
+  }
+  return out.join(", ");
+}
+const scrWhen = (t) => `${dayLabel(t)} · ${hhmm(t)}`;
+function openScreeningDialog() { if (!$("screening").open) $("screening").showModal(); $("screening").scrollTop = 0; }
+function openHost(key) {
+  const [id, t, cinema] = key.split("|"), f = findFilm(id), show = f?.shows.find((x) => x.t === t && x.cinema === cinema);
+  if (!f || !show) return;
+  state.hosting = { f, show };
+  $("screeningBody").innerHTML = `<h2 id="scrTitle">Host a screening</h2>
+    <div class="scrsum"><b>${esc(titleOf(f))}</b><span>${esc(scrWhen(show.t))} · ${esc(show.cinema)}</span></div>
+    <form id="hostForm" class="scrform">
+      <label for="scrTicket">Ticket link</label><input type="text" inputmode="url" id="scrTicket" value="${esc(show.ticket || "")}" placeholder="https://…" autocomplete="off">
+      <label for="scrNote">Note (optional)</label><textarea id="scrNote" maxlength="500" rows="3" placeholder="Meet in the lobby at 18:45"></textarea>
+      <button type="submit" class="btn accent">Create screening</button><div class="msg err" id="hostMsg" hidden></div>
+    </form>`;
+  openScreeningDialog();
+}
+async function createScreening() {
+  const { f, show } = state.hosting, btn = $("hostForm").querySelector("button");
+  btn.disabled = true;
+  const poster = [f.poster, f.poster2].find((p) => p && p.startsWith("http")) || "";
+  const { data, error } = await sb.rpc("create_screening", { p_region: state.region, p_film_id: f.id, p_film_title: titleOf(f), p_film_year: String(f.year || ""),
+    p_poster: poster, p_cinema: show.cinema, p_starts_at: show.t, p_ticket_url: $("scrTicket").value, p_note: $("scrNote").value });
+  if (error) { btn.disabled = false; $("hostMsg").hidden = false; $("hostMsg").textContent = "Couldn't create it. Try again in a moment."; return; }
+  const link = screeningLink(data);
+  $("screeningBody").innerHTML = `<h2 id="scrTitle">Screening created</h2>
+    <p>Send this link to anyone. They can see the film, the time and who's coming without an account; signing in lets them join and add their seats.</p>
+    <div class="scrlink">${esc(link)}</div>
+    <div class="row"><button class="btn accent" data-scr="copy" data-link="${esc(link)}">Copy link</button><a class="btn ghost" href="#screening/${esc(data)}">Open the page</a></div>`;
+}
+async function openScreening(token) {
+  if (!sb) return;
+  state.screeningToken = token;
+  $("screeningBody").innerHTML = `<h2 id="scrTitle">Screening</h2><p>Loading…</p>`;
+  openScreeningDialog();
+  const { data, error } = await sb.rpc("get_screening", { p_token: token });
+  if (state.screeningToken !== token) return;
+  if (error || !data) { $("screeningBody").innerHTML = `<h2 id="scrTitle">Screening not found</h2><p>This link may be wrong, or the screening was removed.</p>`; return; }
+  state.screening = data;
+  renderScreening();
+}
+function renderScreening(msg = "") {
+  const sc = state.screening, me = sc.people.find((p) => p.me), signedIn = !!state.user;
+  const people = sc.people.map((p) => `<li${p.me ? ' class="me"' : ""}><span>${esc(p.name)}${p.me ? " (you)" : ""}</span><small>${p.row || p.seats.length ? esc([p.row ? `Row ${p.row}` : "", p.seats.length ? `seat${p.seats.length > 1 ? "s" : ""} ${seatsText(p.seats)}` : ""].filter(Boolean).join(" · ")) : "no seats yet"}</small></li>`).join("");
+  const join = sc.cancelled ? "" : signedIn
+    ? `<form id="joinForm" class="scrform joinrow"><div><label for="scrRow">Row</label><input id="scrRow" maxlength="4" value="${esc(me?.row || "")}" placeholder="F" autocomplete="off"></div>
+        <div><label for="scrSeats">Seat(s)</label><input id="scrSeats" value="${esc(me ? seatsText(me.seats) : "")}" placeholder="7, 8" autocomplete="off"></div>
+        <button type="submit" class="btn accent">${me ? "Update" : "I'm in"}</button></form>
+      <p class="hint">Add the row and seats you've bought (optional; you can add them later).${me ? ` <button type="button" class="linkbtn" data-scr="leave">Not going</button>` : ""}</p>`
+    : `<p class="hint">Sign in to say you're going and add your seats.</p><button type="button" class="btn accent" data-scr="signin">Sign in or register</button>`;
+  $("screeningBody").innerHTML = `${sc.cancelled ? `<div class="msg err">This screening was cancelled.</div>` : ""}
+    <div class="scrhead">${sc.poster ? `<img src="${esc(sc.poster)}" alt="" onerror="this.remove()">` : ""}<div><h2 id="scrTitle">${esc(sc.film_title)}</h2>
+      <div class="scrwhen">${esc(scrWhen(sc.starts_at))}</div><div class="scrwhere">${esc(sc.cinema)}</div>
+      <div class="scrby">Hosted by ${esc(sc.host_name)}</div></div></div>
+    ${sc.note ? `<p class="scrnote">${esc(sc.note)}</p>` : ""}
+    <div class="row">${sc.ticket_url ? `<a class="btn accent" href="${esc(sc.ticket_url)}" target="_blank" rel="noopener">Buy tickets ↗</a>` : ""}<button class="btn ghost" data-scr="copy" data-link="${esc(screeningLink(sc.token))}">Copy link</button></div>
+    <div class="subh">Who's coming (${sc.people.length})</div>
+    ${people ? `<ul class="scrpeople">${people}</ul>` : `<p class="hint">Nobody yet.</p>`}
+    ${join}${msg ? `<div class="msg err">${esc(msg)}</div>` : ""}
+    ${sc.mine_host && !sc.cancelled ? `<p class="hint"><button type="button" class="linkbtn" data-scr="cancel">Cancel this screening</button></p>` : ""}`;
+}
+$("screening").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-scr]");
+  if (!b) return;
+  const what = b.dataset.scr, token = state.screening?.token;
+  if (what === "copy") toast(await clip(b.dataset.link) ? "Link copied" : "Couldn't copy the link");
+  else if (what === "signin") { promptSignIn(); }
+  else if (what === "leave") { await sb.rpc("leave_screening", { p_token: token }); openScreening(token); }
+  else if (what === "cancel" && confirm("Cancel this screening? People will see that it was cancelled.")) { await sb.rpc("cancel_screening", { p_token: token }); openScreening(token); }
+});
+$("screening").addEventListener("submit", async (e) => {
+  if (e.target.id === "hostForm") { e.preventDefault(); createScreening(); return; }
+  if (e.target.id !== "joinForm") return;
+  e.preventDefault();
+  const { error } = await sb.rpc("join_screening", { p_token: state.screening.token, p_row: $("scrRow").value.toUpperCase(), p_seats: parseSeats($("scrSeats").value) });
+  if (error) { renderScreening("Couldn't save that. Try again in a moment."); return; }
+  await openScreening(state.screening.token);
+  toast("You're in");
+});
+$("screening").addEventListener("click", (e) => { if (e.target === $("screening")) $("screening").close(); });
+$("screening").addEventListener("close", () => { state.screeningToken = ""; if (location.hash.startsWith("#screening/")) history.pushState("", document.title, location.pathname + location.search + (state.page === "feed" ? "#feed" : "#films")); });
+document.addEventListener("click", (e) => { const h = e.target.closest("[data-host]"); if (h) openHost(h.dataset.host); });
+// An admin's list of their screenings (account menu), to find the links again.
+async function renderScreenings() {
+  const body = $("accountBody");
+  body.innerHTML = `<h2 id="accountTitle">Screenings</h2><p>Loading…</p>`;
+  const { data, error } = await sb.rpc("my_screenings");
+  if (error) { body.innerHTML = `<h2 id="accountTitle">Screenings</h2><p>Couldn't load them. Try again in a moment.</p>`; return; }
+  body.innerHTML = `<h2 id="accountTitle">Screenings</h2><p>Ones you host. To host one, open a film and tap + beside a showing.</p>
+    ${data.length ? `<ul class="scrlist">${data.map((r) => `<li><a href="#screening/${esc(r.token)}" data-closeacct><b>${esc(r.film_title)}</b><span>${esc(scrWhen(r.starts_at))} · ${esc(r.cinema)} · ${r.going} going${r.cancelled ? " · cancelled" : ""}</span></a></li>`).join("")}</ul>` : `<p class="hint">None yet.</p>`}`;
+}
+$("accountBody").addEventListener("click", (e) => { if (e.target.closest("[data-closeacct]")) $("account").close(); });
 
 function renderProfile(msg) {
   const p = state.profile;
@@ -1791,9 +1929,10 @@ function setUser(session) {
     if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });
   } else { paintAccount(false); local.set("acct", null); }
   if (!state.user) closeMenus();
-  if (!state.user) { state.profile = null; state.friends = []; state.friendEvents = []; state.acctView = ""; }
+  if (!state.user) { state.isAdmin = false; state.profile = null; state.friends = []; state.friendEvents = []; state.acctView = ""; }
   renderAccount();
   fitHeader();
+  if ($("screening").open && state.screeningToken) openScreening(state.screeningToken);  // signed in or out while looking at a screening
 }
 function refreshAvatar() {
   if (!state.user) return;
