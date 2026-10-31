@@ -305,6 +305,15 @@ const inviteText = () => `Add me on Cinecrab: ${inviteLink()} or enter my code $
 const friendsOpenNow = () => state.friendsOpen ?? state.friends.length === 0;
 // The Friends tab's panel: share your code and add a friend's; with friends, a line of them (open the panel to add more). Rebuilt
 // only when something it shows changed, so a half-typed code isn't lost.
+// Watchlist tab, signed out: the list lives on this device only; an account keeps it safe and syncs it.
+function renderWatchInvite() {
+  const el = $("wlInvite");
+  el.hidden = !(state.onlyWatch && sb && state.authReady && !state.user);
+  if (el.hidden || el.firstChild) return;
+  el.innerHTML = `<svg class="wlico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4.75 4.75 0 0 1-.5 9.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    <div class="wlmsg"><strong>Keep your watchlist safe</strong><span>It's saved on this device only. Register or sign in to open it from any device.</span></div>
+    <button type="button" class="btn accent small" data-wl="signin">Sign in or register</button>`;
+}
 let friendsPanelSig = "";
 function renderFriendsPanel(force = false) {
   const el = $("friendsPanel");
@@ -547,6 +556,7 @@ function renderGrid() {
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   renderListSwitch(rows.length);
   renderFriendsPanel();
+  renderWatchInvite();
   renderActiveChips();
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
     const shut = isCollapsed(s), isDay = withDay && s.key === DAY_KEY;
@@ -1193,14 +1203,9 @@ new ResizeObserver(syncStickTop).observe($("controls"));
 window.addEventListener("resize", syncStickTop);
 window.addEventListener("hashchange", route);
 
-// ---------------------------------------------------------------- saving to the watchlist needs an account
-// With accounts available, a signed-out tap on a heart asks the visitor to sign in first, then adds the film.
-function requestWatch(f) {
-  if (!sb || state.user) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); return true; }
-  state.pendingWatch = f.id;
-  if (state.authReady) promptSignIn();   // otherwise decided once the saved session has been checked
-  return false;
-}
+// ---------------------------------------------------------------- the watchlist works without an account
+// A signed-out visitor's list stays on this device; signing in later adds it to the account (see wlChange / loadProfile).
+function requestWatch(f) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); return true; }
 function promptSignIn() {
   renderAccount();
   if (!$("account").open) $("account").showModal();
@@ -1646,6 +1651,7 @@ if (sb) {
     setUser(session);
     if (state.user && state.user.id !== had) setTimeout(loadProfile, 0);
     settlePendingWatch();
+    renderWatchInvite();
     settlePendingFriend();
   });
 
@@ -1683,6 +1689,7 @@ if (sb) {
     await loadFriends();
     return `Removed ${fr.name}.`;
   }
+  $("wlInvite").addEventListener("click", (e) => { if (e.target.closest("[data-wl=signin]")) promptSignIn(); });
   $("friendsPanel").addEventListener("click", async (e) => {
     const b = e.target.closest("[data-fr]");
     if (!b) return;

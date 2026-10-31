@@ -171,7 +171,10 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - No login needed to browse; filters are remembered in the browser.
 - **Sign in** with a one-time code (enter email → type the 6-digit code from the email; no
   password; works across devices). Signed-in users get:
-  settings synced across devices, a watchlist, and the daily email.
+  settings and watchlist synced across devices, the daily email, and friends.
+- **Watchlist without an account**: anyone can tap hearts; the list is kept on the device. The
+  Watchlist tab shows a box while signed out ("Keep your watchlist safe" + **Sign in or register**).
+  On first sign-in the device's list is added to the account (existing accounts get it merged in).
 
 ## Friends
 
