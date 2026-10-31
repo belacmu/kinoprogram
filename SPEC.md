@@ -99,7 +99,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
     goes back to Today; switching region keeps it. Searching ignores it.
 - **Feed** (reached from the Feed tab, `#feed`; replaces "What's new"): what happened lately, as posts, newest first (no day
   headings; each post says how long ago). A post is one kind of event with
-  its films: "9 new films on sale", "10 new films announced", "More showings added for Dune",
+  its films: "9 new films on sale", "10 new films announced", "More showings added for Dune" (only for films on your watchlist),
   "Santi added 4 films to their watchlist" (one post per kind, per friend, per day). Posts with more
   than 5 (desktop) / 6 (phone) films show that many and **Show N more** expands them. Cards are the
   usual ones (hearts, hiding, opening a film on top; closing it returns to the feed). Events are the

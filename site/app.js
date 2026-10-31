@@ -705,10 +705,10 @@ function render() {
 // (state.data.events, written by the scraper) and from friends (state.friendEvents); the same filters as the list apply.
 const FEED_DAYS = 30;
 const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
-const FEED_ICONS = {
-  sale: `<path d="M3 9a2 2 0 0 0 0 4v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-3a2 2 0 0 1 0-4V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z M14 5v12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-dasharray="0"/>`,
-  announced: `<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>`,
-  showings: `<rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 10h16M12 13v4M10 15h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+const FEED_ICONS = {  // 24x24, each glyph centred on (12, 12)
+  sale: `<path d="M5 6h14a2 2 0 0 1 2 2v2.2a1.8 1.8 0 0 0 0 3.6V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.2a1.8 1.8 0 0 0 0-3.6V8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14.5 8.5v1.2M14.5 11.4v1.2M14.5 14.3v1.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
+  announced: `<path d="M12 3l2.3 6.7L21 12l-6.7 2.3L12 21l-2.3-6.7L3 12l6.7-2.3z" fill="currentColor"/>`,
+  showings: `<rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 9.5h16" stroke="currentColor" stroke-width="2"/><path d="M12 12.2v4.6M9.7 14.5h4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
 };
 // A UTC stamp ("2026-10-31T08:28", as the database keeps them) as this location's local time.
 const utcToLocal = (s) => {
@@ -737,7 +737,7 @@ function feedEvents() {
     if (!m) continue;
     if (e.type === "sale" && !m.onSale) continue;
     if (e.type === "announced" && f.status !== "announced") continue;
-    if (e.type === "showings" && !m.shows.length) continue;
+    if (e.type === "showings" && (!m.shows.length || !isWatched(f))) continue;  // more showings are only news for films on your watchlist
     out.push({ type: e.type, at: e.at, key: e.type, row: row(f, m, e.at, feedMeta(e, f, m)) });
   }
   for (const e of state.friendEvents) {
@@ -784,7 +784,7 @@ function postHtml(p) {
   const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
   const icon = p.type === "friend"
     ? `<span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span>`
-    : `<span class="pico ${p.type}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS[p.type]}</svg></span>`;
+    : `<span class="pico k-${p.type}"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS[p.type]}</svg></span>`;
   return `<article class="post">
     <header class="phead">${icon}<div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header>
     <ul class="grid">${shown.map(cardHtml).join("")}</ul>
