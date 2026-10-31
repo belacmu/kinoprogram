@@ -822,8 +822,8 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .phead { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .phead .fdot { width: 34px; height: 34px; font-size: 12px; }
 .pico { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--chip); color: var(--ink); }
-.pico.sale { background: var(--soon); color: var(--bg); }
-.pico.announced { background: var(--accent-tint); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.pico.k-sale { background: var(--soon); color: var(--bg); }
+.pico.k-announced { background: var(--accent-tint); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .ptext { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
 .ptext strong { font-weight: 600; }
 .ptext time { color: var(--muted); font-size: 12px; }
@@ -923,3 +923,4 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .region[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); border-color: var(--chip-on); }
 #account h2 + p { padding-right: 44px; }
 .poster:has(.pillr) .fstack { bottom: 30px; }  /* the friends' initials sit above the rating, not under it */
+.pico svg { display: block; }
