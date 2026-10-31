@@ -266,8 +266,10 @@ privacy setting.
   sheet on phones) with the same two controls plus "Your friends" with **Remove** (confirmed).
   **Filters** has a Friends group on this tab (pick one or more friends, counts per friend; none = all
   friends). Signed out: a Sign in prompt. Display name stays in the account menu.
-- **Sharing** sends a link with the code in it, plus the code written out ("Add me on Cinecrab:
-  <link>, or code K7Q-M4P"), so it can be typed in without opening the link.
+- **Sharing** sends a link to `/invite/?friend=CODE`, plus the code written out ("Add me on Cinecrab:
+  <link>, or code K7Q-M4P"), so it can be typed in without opening the link. `/invite/` is a small static page with
+  its own preview for chat apps ("Add me as a friend on Cinecrab" with the site's image; it can't name the sender,
+  there being no server), which sends people straight on to `/?friend=CODE`. Older `/?friend=CODE` links still work.
 - **Opening the link**: signed in → the friend is added at once ("You and Anna are now friends").
   Signed out → the page offers both **Sign in** (then adds the friend) and the code with **Copy**
   and "Or open Cinecrab from your Home Screen and enter this code under Friends". This covers
