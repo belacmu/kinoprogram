@@ -810,3 +810,8 @@ dialog { overscroll-behavior: contain; }
 .fpanel .fh + .fp { margin-bottom: 14px; }
 @media (min-width: 700px) { .fpanel > .fcols { grid-template-columns: 1fr 1fr; gap: 24px; } }
 .fpanel > .fcols { max-width: none; }
+
+/* Long lists: cards off screen skip layout and paint until they scroll near (450 films made switching tabs stutter). The size is
+   a guess until a card has been shown once; the browser then remembers its real height. */
+.sec > .grid > .card { content-visibility: auto; contain-intrinsic-size: auto 270px; }
+@media (min-width: 561px) { .sec > .grid > .card { contain-intrinsic-size: auto 330px; } }
