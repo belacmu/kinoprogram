@@ -867,27 +867,21 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
   body.filters-off .main { width: 100%; max-width: 860px; margin-inline: auto; }
 }
 
-/* The controls, one set of rules. The Filters button is always the first thing on the left and never moves; the filters in force
-   (chips) sit on the row below, to its right.
-   under 860px:  [All films | Watchlist | Friends]
-                 [Filters] [search ............ ] [Date]
-                           [chips ......... Clear all]
-   860px and up: [Filters] [All films | Watchlist | Friends] [search ............ ] [Date]
-                           [chips ......................... Clear all]                    */
-.controls { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 8px; }
-.controls > .switchrow { grid-column: 1 / -1; grid-row: 1; }
-.controls > #filtersBtn { grid-column: 1; grid-row: 2; justify-self: start; }
-.controls > .bar { grid-column: 2; grid-row: 2; }
-.controls > .activechips { grid-column: 2; grid-row: 3; }
-@media (min-width: 860px) {
-  .controls { grid-template-columns: auto 370px minmax(0, 1fr); }
-  .controls > .switchrow { grid-column: 2; grid-row: 1; }
-  .controls > #filtersBtn { grid-column: 1; grid-row: 1; }
-  .controls > .bar { grid-column: 3; grid-row: 1; }
-  .controls > .activechips { grid-column: 2 / -1; grid-row: 2; }
-}
+/* The controls, one set of rules at every width:
+     [All films | Watchlist | Friends]                       (its own row; 370px wide from 860px)
+     [Filters] [chips … Clear all]  [search ........] [Date]  (the Filters button is always first, on the left, with the
+                                                               chips beside it; search and Date share the row if there's
+                                                               room, else they drop to the line below) */
+.controls { gap: 10px; }
+.switchrow { width: 100%; }
+@media (min-width: 860px) { .switchrow { width: 370px; } }
+.toolrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; min-width: 0; }
+.filterrow { display: flex; align-items: center; gap: 8px; flex: 0 1 auto; min-width: 0; max-width: 100%; }
+.filterrow > #filtersBtn { flex: none; }
+.filterrow > .activechips { flex: 0 1 auto; min-width: 0; }
+.toolrow > .bar { flex: 1 1 200px; min-width: 0; flex-wrap: nowrap; }
 /* typing in the search field on a phone: it takes the whole row */
 @media (max-width: 559px) {
-  .controls:has(#q:focus) > #filtersBtn { display: none; }
-  .controls:has(#q:focus) > .bar { grid-column: 1 / -1; }
+  .controls:has(#q:focus) .filterrow { display: none; }
+  .controls:has(#q:focus) .toolrow > .bar { flex-basis: 100%; }
 }
