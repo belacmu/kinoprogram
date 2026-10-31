@@ -190,7 +190,7 @@ privacy setting.
   (watchlist films first, then most friends first), straight under the controls. With no friends yet,
   an "Add your first friend" card sits where the films would be: your code beside **Copy invite link**
   and a box to enter a friend's code with **Add friend** inside its right end (disabled until a code is
-  typed). With friends, an **Add a friend** round button next to the switch opens a dialog (a bottom
+  typed). An **Add a friend** round button next to the switch (always there on this tab) opens a dialog (a bottom
   sheet on phones) with the same two controls plus "Your friends" with **Remove** (confirmed).
   **Filters** has a Friends group on this tab (pick one or more friends, counts per friend; none = all
   friends). Signed out: a Sign in prompt. Display name stays in the account menu.

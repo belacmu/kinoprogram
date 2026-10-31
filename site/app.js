@@ -346,7 +346,7 @@ function friendsBody(p) {
 }
 function renderFriendsDialog() {
   const p = state.profile;
-  $("addFriendBtn").hidden = !(state.onlyFriends && state.user && state.friends.length && p?.friend_code);
+  $("addFriendBtn").hidden = !(state.onlyFriends && sb);  // always there on the Friends tab, so it's the one familiar way in
   if (!$("friendsAdd").open) return;
   if (!p?.friend_code) { $("friendsAdd").close(); return; }
   const body = $("friendsAddBody");
@@ -1727,7 +1727,11 @@ if (sb) {
       if (!r.err) { input.value = ""; if ($("friendsAdd").open) $("friendsAdd").close(); renderFriendsPanel(true); renderFriendsDialog(); } else syncAdd(host);
     });
   }
-  $("addFriendBtn").addEventListener("click", () => { $("friendsAdd").showModal(); renderFriendsDialog(); });
+  $("addFriendBtn").addEventListener("click", () => {
+    if (!state.user) { promptSignIn(); return; }
+    if (!state.profile?.friend_code) { toast(state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading your account…"); return; }
+    $("friendsAdd").showModal(); renderFriendsDialog();
+  });
   $("friendsAdd").addEventListener("click", (e) => { if (e.target === $("friendsAdd")) $("friendsAdd").close(); });
   $("account").addEventListener("click", async (e) => {  // the invite page's "Copy code" (signed out)
     const b = e.target.closest('[data-friend="copyinvite"]');

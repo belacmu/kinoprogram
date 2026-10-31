@@ -770,7 +770,7 @@ dialog { overscroll-behavior: contain; }
 .fcol input { font: inherit; font-size: 16px; padding: 10px 14px; border-radius: 999px; border: 1px solid transparent; background: var(--chip); color: var(--ink); width: 100%; }
 .fcol .row { display: flex; gap: 8px; flex-wrap: wrap; }
 .codebox.sm { margin: 0; padding: 10px 8px; font-size: 22px; }
-.fpanel .btn.small { padding: 8px 14px; border-radius: 999px; }
+.fpanel .btn.small, #friendsAdd .btn.small { padding: 8px 14px; border-radius: 999px; }
 /* on its own row, wider than a phone: don't stretch the switch across the page */
 .fbar { display: flex; align-items: center; gap: 10px; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .fbar > span:first-child { font-weight: 700; }
@@ -784,11 +784,11 @@ dialog { overscroll-behavior: contain; }
 .fline .fcode, .fline input { flex: 1; min-width: 0; width: auto; padding: 9px 6px; text-align: center; line-height: 1.2; border: 0; background: none; outline: 0; box-shadow: none; }
 .fline .fcode { display: flex; align-items: center; justify-content: center; font: 700 20px/1.2 var(--mono); text-indent: .12em; letter-spacing: .12em; }
 .fline .btn { flex: none; white-space: nowrap; width: 138px; text-align: center; }
-.fpanel .btn:disabled { opacity: .4; cursor: default; }
+.fpanel .btn:disabled, #friendsAdd .btn:disabled { opacity: .4; cursor: default; }
 .fbody .fcols { max-width: 520px; }
 @media (min-width: 700px) { .fbody .fcols { max-width: none; grid-template-columns: 1fr 1fr; gap: 24px; } }
 .fcols { gap: 16px; }
-.fpanel .btn.dark { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.fpanel .btn.dark, #friendsAdd .btn.dark { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
 .wlinvite { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 4px 12px; padding: 14px 16px; }
 .wlinvite[hidden] { display: none; }
