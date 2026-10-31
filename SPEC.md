@@ -137,8 +137,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   the screen.
 - **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first, with
   the search field (placeholder "Search") beside it from 640px (on phones it takes the line below). The **Date** button
-  always shows its name (never an icon): it sits beside the search field from 700px, below that at the right end of
-  the last row, with the Filters button and chips. The last line,
+  always shows its name (never an icon): it sits at the right of the search field on phones and from 700px; only
+  between 640 and 699px (where the switch and search share a row) it goes to the right end of the last row. The last line,
   directly above the films, is the **Filters** button, always first and against the left, with the filters in force
   (chips, "Clear all" at the end; they scroll sideways when many) beside it. Typing in search on a phone gives the
   search field the whole row.

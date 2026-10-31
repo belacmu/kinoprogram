@@ -1291,8 +1291,9 @@ const setFiltersOpen = (open) => {
   if (open) $("filtersDone").focus();
 };
 // On desktop the Filters button toggles the sidebar (remembered); below that it opens the sheet.
-// The date button sits beside the search field when the row has room for its name (700px and up), else at the end of the filters row.
-const dateInBar = matchMedia("(min-width: 700px)");
+// The date button sits beside the search field whenever that row has room for its name: on phones (the search field has the
+// row to itself) and from 700px; only in between (switch and search share the row) it goes to the end of the filters row.
+const dateInBar = matchMedia("(max-width: 639px), (min-width: 700px)");
 const placeDate = () => (dateInBar.matches ? document.querySelector(".bar") : document.querySelector(".filterrow")).append($("dayDD"));
 dateInBar.addEventListener("change", placeDate);
 placeDate();
