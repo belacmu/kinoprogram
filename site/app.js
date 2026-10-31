@@ -1625,7 +1625,7 @@ function renderAccount(message = "", isErr = false) {
         <p class="lead">You've been invited to Cinecrab. Sign in or sign up and you'll be friends as soon as you're in.</p>
         <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
         <button class="btn accent" type="submit">Send code</button></form>
-        <p class="alt">Using Cinecrab from your Home Screen? Links open in Safari, which keeps its own sign-in. Instead, copy this code, open Cinecrab from your Home Screen and enter it under Account → Friends.</p>
+        <p class="alt">Using Cinecrab from your Home Screen? Links open in Safari, which keeps its own sign-in. Instead, copy this code, open Cinecrab from your Home Screen and enter it under the Friends tab (Films → Friends).</p>
         <div class="codebox">${esc(fmtCode(c))}</div>
         <div class="row codebtns"><button class="btn ghost" data-friend="copyinvite">Copy code</button></div>${msg}`;
       return;
