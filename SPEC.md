@@ -113,9 +113,11 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Header: the title, then What's new, the location and the account button, always on one row: when
   it's tight they compact only as far as needed (What's new to an icon, the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
-- Top bar (the filters): **All films / ♥ Watchlist**, then a search field (always a field, phones
-  too; Escape clears it), the day control, and on narrow screens a Filters button. From 640px wide
-  the switch and the bar share one row; on phones they're two rows. The day control keeps its label
+- Top bar (the filters): **All films | ♥ Watchlist | Friends** (three tabs; the film count shows
+  only on the selected tab; icons show only when the switch is wide enough, else text only), then a
+  search field (always a field, phones too; Escape clears it), the day control, and on narrow
+  screens a Filters button. From 900px wide the 370px switch and the bar share one row; below that
+  the switch has its own row. The day control keeps its label
   and the search field gives way; while you type in a narrow search field it takes the whole bar.
 - Defaults: order within sections is best rated first; only Films are shown (Shorts, Live & stage and
   Talks & events are opt-in; searching still finds every type); picking a specific cinema switches
@@ -181,8 +183,13 @@ privacy setting.
   one. Changeable on the Friends screen. Only friends see it.
 - **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
   0/O, 1/I/L). Entry is forgiving: lowercase, spaces or a missing dash all work.
-- **Friends screen** (account menu): your code with a **Share** button, a box to enter a friend's
-  code with a **Paste** button, your display name, and your friends with **Remove** (confirmed).
+- **Friends tab** (also the account menu's Friends item): lists every film on a friend's watchlist
+  (watchlist films first, then most friends first). An expandable "Add a friend" bar on top (open by
+  default only while you have no friends) holds your code beside **Copy invite link** (copies the full
+  link), a box to enter a friend's code with **Add friend** inside its right end (disabled until
+  a code is typed), and a collapsed "Your friends" list with **Remove** (confirmed). **Filters** has a
+  Friends group on this tab (pick one or more friends, counts per friend; none = all friends).
+  Signed out: a Sign in prompt. Display name stays in the account menu.
 - **Sharing** sends a link with the code in it, plus the code written out ("Add me on Cinecrab:
   <link>, or code K7Q-M4P"), so it can be typed in without opening the link.
 - **Opening the link**: signed in → the friend is added at once ("You and Anna are now friends").
@@ -242,5 +249,5 @@ Data (Supabase):
 - More Oslo-area venues (Deichman, Cinema Neuf, Weird and Wonderful Cinema, FilmrullKlubb).
 - Derrick Theatre (Virden): Facebook only; best route is getting it listed on CinemaClock.
 - Push notifications.
-- Friends: a **Friends** tab beside All films / Watchlist listing friends' watchlist films; rate
+- Friends: rate
   limiting wrong code attempts; "Get a new code".
