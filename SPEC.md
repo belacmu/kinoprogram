@@ -118,7 +118,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles). The jump bar links to each section (opening it if collapsed) and has Collapse all /
   Expand all.
-- Header: the title (and on desktop the Feed / Films links), then the location and the account button,
+- Header: the same height and spacing at every width (a fixed-size title); the title (and on desktop the Feed / Films links), then the location and the account button,
   always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
 - Top bar (the filters): **All films | ♥ Watchlist | Friends** (three tabs; the film count shows

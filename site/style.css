@@ -36,7 +36,7 @@ img { max-width: 100%; }
 
 /* header */
 .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 24px 14px; }
-h1 { font: 800 clamp(36px, 7vw, 56px)/0.9 var(--display); margin: 0 0 6px; text-transform: uppercase; letter-spacing: .01em; }
+h1 { font: 800 36px/0.9 var(--display); margin: 0 0 6px; text-transform: uppercase; letter-spacing: .01em; }
 h1 span { color: var(--accent); }
 .sub { color: var(--muted); font-size: 13px; }
 .topright { display: flex; gap: 8px; align-items: center; flex: none; }
@@ -403,7 +403,8 @@ body { overflow-x: clip; }
    films, and as snug at the top of the page as it is when pinned. Below desktop it covers the page edge to edge. */
 .controls { background: var(--bg); }
 #grid { padding-top: 0; }
-@media (max-width: 639px) { .controls { row-gap: 10px; } }  /* two rows on phones */
+/* the same spacing at every width: the title, its padding and the gap between control rows don't change with the screen */
+.controls { row-gap: 10px; }
 @media (max-width: 999px) {
   .controls { background: none; }
   .controls::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: var(--bg); z-index: -1; }
@@ -860,3 +861,4 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .feed { padding-top: 10px; }
 .post .m .cin { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .post .m .dt { font-weight: 400; }
+@media (min-width: 900px) { .mainnav a { padding-block: 6px; } }
