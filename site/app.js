@@ -775,20 +775,18 @@ function postHtml(p) {
   </article>`;
 }
 function renderFeed() {
-  const el = $("feedPage"), today = localNow().slice(0, 10), seen = feedSeen(), posts = feedPosts();
+  const el = $("feedPage"), seen = feedSeen(), posts = feedPosts();
   feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
-  const days = [];
+  const parts = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
-    const sec = sinceSection(p.at, today, "Earlier");
-    if (!days.length || days.at(-1).key !== sec.key) days.push({ ...sec, parts: [] });
-    if (!marked && p.at <= seen) { days.at(-1).parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
-    days.at(-1).parts.push(postHtml(p));
+    if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
+    parts.push(postHtml(p));
   }
   const nudge = sb && state.authReady && !state.user
     ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
   el.innerHTML = `<h2 class="feedtitle">Feed</h2>
-    ${days.length ? days.map((d) => `<section class="nday"><h3>${esc(d.label)}</h3>${d.parts.join("")}</section>`).join("")
+    ${parts.length ? parts.join("")
       : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
 }

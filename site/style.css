@@ -820,11 +820,13 @@ dialog { overscroll-behavior: contain; }
 .navdot { position: absolute; top: -6px; right: -9px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; box-sizing: border-box; background: var(--accent); color: var(--accent-ink); font: 700 10px/16px var(--body); text-align: center; font-style: normal; }
 .navdot[hidden] { display: none; }
 @media (max-width: 899px) {
-  .mainnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; justify-content: space-around; gap: 0; background: var(--bg); border-top: 1px solid var(--line);
-    padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)); }
-  .mainnav a { flex: 1; flex-direction: column; gap: 2px; padding: 6px 0; border-radius: 10px; font-size: 11px; background: none !important; }
-  .mainnav a[aria-current] { color: var(--accent); }
-  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  /* a floating capsule, not a full-width bar: translucent, centred, clear of the screen edge */
+  .mainnav { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 30; gap: 2px; padding: 4px;
+    border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 80%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6); box-shadow: 0 6px 24px rgba(0, 0, 0, .16); }
+  .mainnav a { gap: 7px; padding: 8px 20px; font-size: 14px; }
+  .mainnav a[aria-current] { color: var(--accent); background: var(--accent-tint); }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
 }
 body.page-feed .controls, body.page-feed #wlInvite, body.page-feed #friendsPanel, body.page-feed #grid, body.page-feed #hiddenKinds, body.page-feed .filters, body.page-feed .scrim { display: none; }
 body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
@@ -852,3 +854,4 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 @media (max-width: 899px) { #toast { inset: auto 0 calc(80px + env(safe-area-inset-bottom, 0px)) 0; } }
 @media (max-width: 559px) { .post .grid { grid-template-columns: repeat(3, 1fr); gap: 14px 8px; } .feed .feedtitle { margin-top: 14px; } }
 .feed .feedtitle { margin-top: 18px; }
+@media (max-width: 899px) { #toast { inset: auto 0 calc(72px + env(safe-area-inset-bottom, 0px)) 0; } }

@@ -97,8 +97,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
     playing before it drop out, and a film opened from there starts at (and highlights) that day.
     The section stays even when empty, saying nothing's on. The day isn't remembered: reloading
     goes back to Today; switching region keeps it. Searching ignores it.
-- **Feed** (the default page; replaces "What's new"): what happened lately, as posts, newest first, grouped
-  by day (Today · Yesterday · Earlier this week · Last week · Earlier). A post is one kind of event with
+- **Feed** (the default page; replaces "What's new"): what happened lately, as posts, newest first (no day
+  headings; each post says how long ago). A post is one kind of event with
   its films: "9 new films on sale", "10 new films announced", "More showings added for Dune",
   "Santi added 4 films to their watchlist" (one post per kind, per friend, per day). Posts with more
   than 5 (desktop) / 6 (phone) films show that many and **Show N more** expands them. Cards are the
@@ -109,7 +109,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   tab shows how many posts are new while you're on Films. Signed out, a card invites signing in to see
   friends' picks. Events come from one log (below), so every kind of event appears in the same system.
 - **Navigation**: two destinations, **Feed** and **Films** (`#feed`, `#films`; no hash = Feed; `#new`
-  = Feed; `#film/…` links open on Films). A bottom bar on phones and tablets (under 900px), links
+  = Feed; `#film/…` links open on Films). A floating, translucent capsule at the bottom on phones and tablets (under 900px), links
   beside the title in the header on desktop. Tapping the current one scrolls to the top. Filters,
   search and the list switch belong to Films only.
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
