@@ -108,7 +108,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   visit", separates posts newer than the last time the feed was left (kept on the device); the Feed
   tab shows how many posts are new while you're on Films. Signed out, a card invites signing in to see
   friends' picks. Events come from one log (below), so every kind of event appears in the same system.
-- **Feed filter**: a row of chips at the top (All · Friends · On sale · Announced); pick one kind of update
+- **Feed filter**: a row of chips at the top, pinned under the header while you scroll (All · Friends · On sale · Announced); pick one kind of update
   to see only those, or All. Remembered on the device. "On sale" covers both films whose tickets went on
   sale and films already on sale that got more showings.
 - **Friends filter with nothing to show** (signed out, no friends yet): the Feed shows the same card as the Friends
@@ -137,8 +137,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   the screen.
 - **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first, with
   the search field (placeholder "Search") beside it from 640px (on phones it takes the line below). The **Date** button
-  always shows its name (never an icon): it sits at the right of the search field on phones and from 700px; only
-  between 640 and 699px (where the switch and search share a row) it goes to the right end of the last row. The last line,
+  always shows its name (never an icon) and sits at the right of the search field at every width: the search
+  field is what gives way.
   directly above the films, is the **Filters** button, always first and against the left, with the filters in force
   (chips, "Clear all" at the end; they scroll sideways when many) beside it. Typing in search on a phone gives the
   search field the whole row.

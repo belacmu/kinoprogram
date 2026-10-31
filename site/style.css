@@ -444,7 +444,7 @@ body { overflow-x: clip; }
   #dayDD { position: static; }
   .menu.cal { width: min(300px, 100%); }
 }
-/* The date button always shows the day's name; where there isn't room for it beside the search field it sits at the right end of the filters row (see placeDate). */
+/* The date button always shows the day's name: the search field gives way, never the button. */
 .bar { container-type: inline-size; }
 @media (min-width: 1000px) { .menu.cal { left: auto; right: 0; } }  /* the date sits at the bar's right end: open leftwards */
 @media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
@@ -879,9 +879,6 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
   .controls:has(#q:focus) > .switchrow, .controls:has(#q:focus) > .filterrow { display: none; }
 }
 
-.filterrow { position: relative; }
-.filterrow > #dayDD { margin-left: auto; position: static; }
-.filterrow .menu.cal { left: auto; right: 0; }
 
 /* the header stays on screen from 640px (below that the navigation is the bottom capsule); the controls pin under it */
 :root { --hdr-h: 0px; }
@@ -908,3 +905,6 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .sk .pico { background: var(--chip); box-shadow: none; }
 @keyframes sk-pulse { 50% { opacity: .5; } }
 @media (prefers-reduced-motion: reduce) { .sk .poster, .sk h3, .sk .m, .skbar, .sk .pico { animation: none; } }
+
+/* the Feed's filter row stays on screen under the header while you scroll */
+.feedfilter { position: sticky; top: calc(var(--hdr-h, 0px) + env(safe-area-inset-top, 0px)); z-index: 5; background: var(--bg); margin-inline: -16px; padding: 8px 16px 10px; }
