@@ -858,3 +858,5 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .post .card .m:empty { display: none; }
 .post .card h3 { margin-bottom: 1px; }
 .feed { padding-top: 10px; }
+.post .m .cin { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.post .m .dt { font-weight: 400; }

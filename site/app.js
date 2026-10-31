@@ -713,7 +713,7 @@ const catalogEvents = () => state.data.events || state.data.films.flatMap((f) =>
   f.announcedSince && f.status === "announced" ? { type: "announced", film: f.id, at: f.announcedSince } : null].filter(Boolean));
 // Under a poster in the feed: only what the post is about (the post's heading already says what happened).
 function feedMeta(e, f, m) {
-  if (e.type === "sale") return esc(whereList(m.shows));
+  if (e.type === "sale") return `<b class="cin">${esc(whereList(m.shows))}</b><span class="cin dt">${showsLine(m.shows).split("<br>")[0]}</span>`;  // cinemas on one line, then the usual date range
   if (e.type === "showings") return `+${e.n || 1} showing${(e.n || 1) === 1 ? "" : "s"}${e.cinemas?.length ? " · " + esc(whereList(e.cinemas.map((c) => ({ cinema: c })))) : ""}`;
   if (m.shows.length) return `From ${esc(dayLabel(m.shows[0].t.slice(0, 10)))}`;
   if (f.premiere) return f.premiereConfirmed ? `Premiere ${esc(dayLabel(f.premiere))}` : `Expected ${MONTHS[asDate(f.premiere).getUTCMonth()]} ${asDate(f.premiere).getUTCFullYear()}`;

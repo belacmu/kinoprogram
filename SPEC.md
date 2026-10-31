@@ -109,7 +109,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   tab shows how many posts are new while you're on Films. Signed out, a card invites signing in to see
   friends' picks. Events come from one log (below), so every kind of event appears in the same system.
 - **Under a poster in the feed**: just the title and one short line about what the post is about (the
-  heading already says what happened): on sale → the cinemas; announced → the first date, premiere or
+  heading already says what happened): on sale → the cinemas on one line (cut off with … if long), then the usual date range; announced → the first date, premiere or
   "Expected …"; more showings → "+2 showings · Saga"; a friend's pick → nothing more.
 - **Navigation**: two destinations, **Feed** and **Films** (`#feed`, `#films`; no hash = Feed; `#new`
   = Feed; `#film/…` links open on Films). A floating, translucent capsule at the bottom on phones and tablets (under 900px), links
