@@ -835,7 +835,7 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .feedtitle { font: 800 34px/0.95 var(--display); text-transform: uppercase; margin: 8px 0 4px; }
 .feed .nday { padding: 0 0 8px; }
 .feed .nday > h3 { background: var(--bg); }
-.post { margin: 8px 0 14px; padding: 14px 18px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.post { margin: 0 0 12px; padding: 14px 18px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
 .phead { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .phead .fdot { width: 34px; height: 34px; font-size: 12px; }
 .pico { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--chip); color: var(--ink); }
@@ -862,4 +862,9 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .post .m .dt { font-weight: 400; }
 @media (min-width: 640px) { .mainnav a { padding-block: 6px; } }
 /* posters in the feed are the size of the ones on Films: same columns, same side padding (full width on phones, like the sections) */
-@media (max-width: 560px) { .post { margin-inline: -16px; padding-inline: 11px; border-radius: 0; border-inline: 0; } }
+@media (max-width: 560px) { .post { margin-inline: -16px; padding-inline: 12px; border-radius: 0; border-inline: 0; } }
+
+.feedfilter { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 12px; }
+.feedfilter::-webkit-scrollbar { display: none; }
+.feedfilter .chip { flex: none; padding: 7px 14px; font-size: 14px; cursor: pointer; color: inherit; }
+.feedfilter .chip[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-ink); }

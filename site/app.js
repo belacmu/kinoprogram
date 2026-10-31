@@ -60,6 +60,7 @@ const state = {
   page: "films",        // the films list (default) or the feed
   friendEvents: [],     // what friends added to their watchlists: {id, name, film, at}
   feedOpen: new Set(),  // posts expanded to show all their films
+  feedKinds: local.get("feedKinds", []),  // kinds of updates picked in the feed's filter (none = all)
   onlyFriends: false,   // the Friends tab: films on your friends' watchlists
   day: "",              // the day the first section shows; "" = today. Not remembered across reloads
   calMonth: "",         // the month the date picker shows ("2026-10")
@@ -741,9 +742,10 @@ function feedEvents() {
   return out;
 }
 // Events of one kind (and, for friends, one friend) on one day become one post, newest first.
-function feedPosts() {
+function feedPosts(filtered = true) {
   const by = new Map();
   for (const e of feedEvents()) {
+    if (filtered && state.feedKinds.length && !state.feedKinds.includes(e.type)) continue;
     const k = `${e.key}|${e.at.slice(0, 10)}`;
     if (!by.has(k)) by.set(k, { key: k, type: e.type, actor: e.actor, at: e.at, rows: [] });
     const p = by.get(k);
@@ -791,13 +793,25 @@ function renderFeed() {
     if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
     parts.push(postHtml(p));
   }
+  const KINDS = [["sale", "On sale"], ["announced", "Announced"], ["showings", "Showings"], ...(sb ? [["friend", "Friends"]] : [])];
+  const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds.includes(k) : !state.feedKinds.length}">${label}</button>`;
+  const filter = `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
   const nudge = sb && state.authReady && !state.user
     ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
-  el.innerHTML = `    ${parts.length ? parts.join("")
+  el.innerHTML = `${filter}${parts.length ? parts.join("")
+      : state.feedKinds.length ? `<p class="nempty">No updates of this kind yet. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`
       : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
 }
 $("feedPage").addEventListener("click", (e) => {
+  const fk = e.target.closest("[data-fk]");
+  if (fk) {
+    const k = fk.dataset.fk, on = state.feedKinds;
+    state.feedKinds = !k ? [] : on.includes(k) ? on.filter((x) => x !== k) : [...on, k];
+    local.set("feedKinds", state.feedKinds);
+    renderFeed();
+    return;
+  }
   const more = e.target.closest("[data-post]");
   if (more) { const k = more.dataset.post; state.feedOpen.has(k) ? state.feedOpen.delete(k) : state.feedOpen.add(k); renderFeed(); return; }
   if (e.target.closest("[data-feed=signin]")) promptSignIn();
@@ -807,7 +821,7 @@ function renderNav() {
   $("feedPage").hidden = state.page !== "feed";
   document.body.classList.toggle("page-feed", state.page === "feed");
   for (const a of $("mainNav").querySelectorAll("[data-page]")) a.toggleAttribute("aria-current", a.dataset.page === state.page);
-  const seen = feedSeen(), fresh = state.page === "feed" || !seen ? 0 : feedPosts().filter((p) => p.at > seen).length;
+  const seen = feedSeen(), fresh = state.page === "feed" || !seen ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
   const dot = $("feedDot");
   dot.hidden = !fresh;
   dot.textContent = fresh > 9 ? "9+" : fresh;

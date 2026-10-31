@@ -108,8 +108,9 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   visit", separates posts newer than the last time the feed was left (kept on the device); the Feed
   tab shows how many posts are new while you're on Films. Signed out, a card invites signing in to see
   friends' picks. Events come from one log (below), so every kind of event appears in the same system.
-- **Poster size in the feed** matches Films: the same column rule and side padding (posts run full width on
-  phones like the sections), so posters are the same size, or a hair smaller on wide desktops.
+- **Feed filter**: a row of chips at the top (All · On sale · Announced · Showings · Friends); pick one or
+  more kinds of updates to see only those (none = All). Remembered on the device.
+- **Poster size in the feed** matches Films: the same column rule and side padding (posts follow the same edge rules as the Films sections: full width, square corners, under 561px), so posters are the same size, or a hair smaller on wide desktops.
 - **Under a poster in the feed**: just the title and one short line about what the post is about (the
   heading already says what happened): on sale → the cinemas on one line (cut off with … if long), then the usual date range; announced → the first date, premiere or
   "Expected …"; more showings → "+2 showings · Saga"; a friend's pick → nothing more.
