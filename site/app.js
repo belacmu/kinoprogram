@@ -1244,7 +1244,16 @@ function renderActiveChips() {
   list.querySelectorAll(".achip").forEach((n) => n.remove());
   list.insertAdjacentHTML("beforeend", chips.map(([k, l]) => `<button type="button" class="achip" data-chip="${esc(k)}" aria-label="Remove filter: ${esc(l)}">${esc(l)} <span aria-hidden="true">×</span></button>`).join(""));
   $("chipsClear").hidden = chips.length < 2;
+  layoutControls();
 }
+// Search and Date want the Filters row. If the chips leave less than 200px for them there, they go up beside the switch instead.
+function layoutControls() {
+  const c = $("controls"), chips = !$("activeChips").hidden;
+  const filters = $("filtersBtn").offsetWidth + (chips ? 8 + $("chipList").scrollWidth + ($("chipsClear").hidden ? 0 : 8 + $("chipsClear").offsetWidth) : 0);
+  c.classList.toggle("tools-top", chips && c.clientWidth > 0 && filters + 8 + 200 > c.clientWidth);
+}
+new ResizeObserver(layoutControls).observe($("controls"));
+document.fonts.ready.then(layoutControls);
 function removeChip(k) {
   if (k === "all") { resetFilters(); return; }
   if (k === "tix") { state.tix = "all"; local.set("tix", "all"); }

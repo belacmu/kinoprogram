@@ -861,18 +861,24 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
   body.filters-off .main { width: 100%; max-width: 860px; margin-inline: auto; }
 }
 
-/* The controls, one set of rules at every width:
-     [All films | Watchlist | Friends] [search ........] [Date]   (search and Date drop to their own line when they don't fit)
-     [Filters] [chips … Clear all]                                (last, directly above the films; the button is always first, on the left) */
+/* The controls, one set of rules at every width.
+   Usually:      [All films | Watchlist | Friends]
+                 [Filters] [chips …] [search ........] [Date]      (search and Date want the Filters row, with or without chips)
+   When the chips leave no room for them there (layoutControls adds .tools-top), they move up beside the switch (phones: onto a line of their own):
+                 [All films | Watchlist | Friends] [search ........] [Date]
+                 [Filters] [chips …]
+   The Filters button is always first, on the left, and never alone on a line unless chips are with it. */
 .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; }
 .controls > .switchrow { flex: 1 1 100%; min-width: 0; }
-.controls > .bar { flex: 1 1 100%; min-width: 0; flex-wrap: nowrap; }
-.controls > .filterrow { flex: 1 1 100%; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.controls > .filterrow { flex: 0 1 auto; display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
+.controls > .bar { flex: 1 1 200px; min-width: 0; flex-wrap: nowrap; }
 .filterrow > #filtersBtn { flex: none; }
 .filterrow > .activechips { flex: 1 1 auto; min-width: 0; }
+.controls.tools-top > .bar { order: 1; }
+.controls.tools-top > .filterrow { order: 2; flex: 1 1 100%; }
 @media (min-width: 640px) {
-  .controls > .switchrow { flex: 0 0 370px; }
-  .controls > .bar { flex: 1 1 220px; }
+  .controls > .switchrow > .listswitch { max-width: 370px; }  /* alone on its line it stays 370px wide, not the whole width */
+  .controls.tools-top > .switchrow { flex: 0 0 370px; }
 }
 /* typing in the search field on a phone: it takes the whole row */
 @media (max-width: 559px) {

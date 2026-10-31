@@ -135,6 +135,21 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
   cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
   the screen.
+- **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch has the first line.
+  Search (placeholder "Search") and **Date** (always showing its name, to the right of search; the search field is
+  what gives way) want the next line, with the **Filters** button (always first, on the left) and the filters in force
+  (chips, "Clear all" at the end; they scroll sideways when many): [Filters] [chips] [search] [Date]. When the chips
+  leave under 200px for search and Date there, those two move up beside the switch (on phones, onto a line of their
+  own under it), and Filters and the chips stay together on the last line, directly above the films. The Filters
+  button is never alone on a line unless chips are with it. Typing in search on a phone gives it the whole row.
+- **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
+  filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
+- **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
+  the filter row plus two placeholder posts on the Feed) under its normal top, replaced in place when the data comes.
+  Nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
+  wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
+  cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
+  the screen.
 - **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first, with
   the search field (placeholder "Search") beside it from 640px (on phones it takes the line below). The **Date** button
   always shows its name (never an icon) and sits at the right of the search field at every width: the search
