@@ -57,6 +57,9 @@ const state = {
   within: local.get("within2", "rating"),
   onlyWatch: false,
   friendSel: [],        // Friends tab, in the filters: ids of the friends picked (none = all friends)
+  page: "feed",         // the feed (default) or the films list
+  friendEvents: [],     // what friends added to their watchlists: {id, name, film, at}
+  feedOpen: new Set(),  // posts expanded to show all their films
   onlyFriends: false,   // the Friends tab: films on your friends' watchlists
   day: "",              // the day the first section shows; "" = today. Not remembered across reloads
   calMonth: "",         // the month the date picker shows ("2026-10")
@@ -138,11 +141,11 @@ function flipRun(fadeFrom = null) {
 const SETTLE_MS = 450;
 let renderTimer = null;
 const pop = (el) => { el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); };  // a quick "it registered" bounce
-// The card that was pressed: in "What's new" while it's open, else in the grid.
-const cardEl = (id) => (document.querySelector("#news[open]") || $("grid")).querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+// The card that was pressed: in the feed or in the grid.
+const cardEl = (id) => (state.page === "feed" ? $("feedPage") : $("grid")).querySelector(`.card[data-id="${CSS.escape(id)}"]`);
 function settleThenRender(id) {
   clearTimeout(renderTimer);
-  renderTimer = setTimeout(() => { renderTimer = null; flipBegin(id); render(); flipRun(); refreshNews(); }, SETTLE_MS);
+  renderTimer = setTimeout(() => { renderTimer = null; flipBegin(id); render(); flipRun(); }, SETTLE_MS);
 }
 function flushRender() { if (renderTimer) { clearTimeout(renderTimer); renderTimer = null; render(); } }
 function toggleHidden(f) {
@@ -361,7 +364,11 @@ function renderListSwitch(count = null) {
     b.querySelector(".cnt").textContent = on && count !== null && !(cur === "friends" && !state.user) ? ` · ${count}` : "";
   }
 }
-function setList(name) { state.onlyWatch = name === "watch"; state.onlyFriends = name === "friends"; render(); window.scrollTo({ top: 0 }); }
+function setList(name) {
+  state.onlyWatch = name === "watch"; state.onlyFriends = name === "friends";
+  if (state.page !== "films") { setPage("films"); return; }
+  render(); window.scrollTo({ top: 0 });
+}
 function showFriendsTab() { if ($("account").open) $("account").close(); setList("friends"); }
 function renderRegionButton() {
   const reg = REGIONS.find((r) => r.key === state.region);
@@ -678,60 +685,139 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-function render() { renderControls(); renderGrid(); }
+function render() {
+  renderNav();
+  if (state.page === "feed") { renderFeed(); return; }
+  renderControls(); renderGrid();
+}
 
-// ---------------------------------------------------------------- what's new
-// Films that went on sale or were announced here lately (after tracking began), by day, newest day first. Within a day,
-// "Tickets on sale" then "Newly announced", each a grid of the usual cards. One card per film, for what last happened
-// to it. Types, cinemas and language filters apply; Tickets and the Watchlist switch don't. Hidden films are dimmed and
-// last, as in the grid.
-const NEWS_DAYS = 30;
-const NEWS_KINDS = [["sale", "Tickets on sale"], ["ann", "Newly announced"]];
-function newsItems() {
-  const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - NEWS_DAYS), items = [];
-  for (const f of state.data.films) {
-    const kind = f.status === "on_sale" ? "sale" : f.status === "announced" ? "ann" : "";
-    const at = kind === "sale" ? f.onSaleSince : f.announcedSince;
-    if (!kind || !at || at <= state.data.baseline || at.slice(0, 10) < oldest) continue;
+// ---------------------------------------------------------------- the feed
+// The default page: what happened, as posts. A post is one kind of thing with its films: "3 new films on sale", "16 new films
+// announced", "More showings for Dune", "Santi added 4 films to their watchlist". Events come from the programme data
+// (state.data.events, written by the scraper) and from friends (state.friendEvents); the same filters as the list apply.
+const FEED_DAYS = 30;
+const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
+const FEED_ICONS = {
+  sale: `<path d="M3 9a2 2 0 0 0 0 4v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-3a2 2 0 0 1 0-4V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z M14 5v12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-dasharray="0"/>`,
+  announced: `<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>`,
+  showings: `<rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 10h16M12 13v4M10 15h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`,
+};
+// A UTC stamp ("2026-10-31T08:28", as the database keeps them) as this location's local time.
+const utcToLocal = (s) => {
+  try { return new Intl.DateTimeFormat("sv-SE", { timeZone: state.data.tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(s + ":00Z")).replace(" ", "T"); }
+  catch { return s; }
+};
+function feedEvents() {
+  const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - FEED_DAYS), out = [];
+  const row = (f, m, at) => ({ f, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: false, watched: isWatched(f) });
+  for (const e of state.data.events || []) {
+    const f = findFilm(e.film);
+    if (!f || e.at <= state.data.baseline || e.at.slice(0, 10) < oldest || isHidden(f)) continue;
     const m = filmShows(f, now, now, "", true);
-    if (!m || (kind === "sale" && !m.onSale)) continue;
-    items.push({ f, kind, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: isHidden(f), watched: isWatched(f) });
+    if (!m) continue;
+    if (e.type === "sale" && !m.onSale) continue;
+    if (e.type === "announced" && f.status !== "announced") continue;
+    if (e.type === "showings" && !m.shows.length) continue;
+    out.push({ type: e.type, at: e.at, key: e.type, row: row(f, m, e.at) });
   }
-  // newest day first; within a group, hidden last and watchlist first (as in the grid), then the most recent; films that
-  // share a timestamp follow the "Order within sections" choice
-  return items.sort((a, b) => b.at.slice(0, 10).localeCompare(a.at.slice(0, 10)) || a.hidden - b.hidden || b.watched - a.watched || b.at.localeCompare(a.at) || byWithin(a, b));
-}
-function openNews() {
-  const dlg = $("news"), today = localNow().slice(0, 10), days = [];
-  for (const it of newsItems()) {
-    const sec = sinceSection(it.at, today, "");
-    if (!days.length || days.at(-1).key !== sec.key) days.push({ ...sec, items: [] });
-    days.at(-1).items.push(it);
+  for (const e of state.friendEvents) {
+    const f = findFilm(e.film);
+    if (!f || e.at.slice(0, 10) < oldest || isHidden(f)) continue;
+    const m = filmShows(f, now, now, "", true);
+    if (m) out.push({ type: "friend", at: e.at, key: "friend|" + e.id, actor: { id: e.id, name: e.name }, row: row(f, m, e.at) });
   }
-  const filtered = activeFilters() - (state.tix !== "all" ? 1 : 0);  // the Tickets filter doesn't apply here
-  const kindHtml = (items, [kind, label]) => {
-    const these = items.filter((it) => it.kind === kind);
-    return these.length ? `<div class="nkind ${kind}"><h4><span class="ntag">${label}</span><span class="n">${these.length}</span></h4>
-      <ul class="grid">${these.map(cardHtml).join("")}</ul></div>` : "";
-  };
-  dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="nhead"><h2 id="newsTitle">What's new</h2>
-      <p>Films that got a date or went on sale in ${esc(state.data.location)} in the last ${NEWS_DAYS} days${filtered ? ", matching your filters" : ""}.</p></div>
-    ${days.length ? days.map((d) => `<section class="nday"><h3>${esc(d.label)}</h3>${NEWS_KINDS.map((k) => kindHtml(d.items, k)).join("")}</section>`).join("")
-      : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale.</p>`}
-    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
-  if (!dlg.open) dlg.showModal();
+  return out;
 }
-// Redraw "What's new" if it's open (after a heart, a hide or the film page closing), staying where it was.
-function refreshNews() {
-  if (!$("news").open) return;
-  const y = $("news").scrollTop;
-  openNews();
-  $("news").scrollTop = y;
+// Events of one kind (and, for friends, one friend) on one day become one post, newest first.
+function feedPosts() {
+  const by = new Map();
+  for (const e of feedEvents()) {
+    const k = `${e.key}|${e.at.slice(0, 10)}`;
+    if (!by.has(k)) by.set(k, { key: k, type: e.type, actor: e.actor, at: e.at, rows: [] });
+    const p = by.get(k);
+    if (e.at > p.at) p.at = e.at;
+    if (!p.rows.some((r) => r.f.id === e.row.f.id)) p.rows.push(e.row);
+  }
+  const posts = [...by.values()].sort((a, b) => b.at.localeCompare(a.at));
+  for (const p of posts) p.rows.sort((a, b) => b.watched - a.watched || b.at.localeCompare(a.at) || byWithin(a, b));
+  return posts;
 }
-$("newsBtn").addEventListener("click", openNews);
-$("news").addEventListener("close", () => { if (location.hash === "#new") history.replaceState(null, "", location.pathname + location.search); });
-$("news").addEventListener("click", (e) => { if (e.target === $("news")) $("news").close(); });
+function postText(p) {
+  const n = p.rows.length, one = titleOf(p.rows[0].f), films = n === 1 ? "one film" : `${n} films`;
+  if (p.type === "friend") return `${esc(shortName(p.actor.name))} added ${n === 1 ? `<b>${esc(one)}</b>` : films} to their watchlist`;
+  if (p.type === "sale") return n === 1 ? "One new film on sale" : `${n} new films on sale`;
+  if (p.type === "announced") return n === 1 ? "One new film announced" : `${n} new films announced`;
+  return n === 1 ? `More showings added for <b>${esc(one)}</b>` : `More showings added for ${films}`;
+}
+function ago(at) {
+  const mins = Math.round((Date.parse(localNow() + "Z") - Date.parse(at + "Z")) / 60000);
+  if (mins < 2) return "just now";
+  if (mins < 60) return `${mins} min ago`;
+  if (mins < 60 * 24) return `${Math.floor(mins / 60)} h ago`;
+  return dayLabel(at.slice(0, 10));
+}
+const feedSeen = () => local.get("feedSeen", "");
+let feedLatest = "";
+function markFeedSeen() { if (feedLatest) local.set("feedSeen", feedLatest); }
+function postHtml(p) {
+  const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
+  const icon = p.type === "friend"
+    ? `<span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span>`
+    : `<span class="pico ${p.type}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS[p.type]}</svg></span>`;
+  return `<article class="post">
+    <header class="phead">${icon}<div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header>
+    <ul class="grid">${shown.map(cardHtml).join("")}</ul>
+    ${n > postShown() ? `<button type="button" class="linkbtn postmore" data-post="${esc(p.key)}" aria-expanded="${open}">${open ? "Show fewer" : `Show ${n - postShown()} more`}</button>` : ""}
+  </article>`;
+}
+function renderFeed() {
+  const el = $("feedPage"), today = localNow().slice(0, 10), seen = feedSeen(), posts = feedPosts();
+  feedLatest = [...(state.data.events || []).map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
+  const days = [];
+  let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
+  for (const p of posts) {
+    const sec = sinceSection(p.at, today, "Earlier");
+    if (!days.length || days.at(-1).key !== sec.key) days.push({ ...sec, parts: [] });
+    if (!marked && p.at <= seen) { days.at(-1).parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
+    days.at(-1).parts.push(postHtml(p));
+  }
+  const nudge = sb && state.authReady && !state.user
+    ? `<div class="fpanel feednudge"><div class="wlmsg"><strong>See what your friends add</strong><span>Sign in and add friends to get their watchlist picks here.</span></div><button type="button" class="btn accent small" data-feed="signin">Sign in or register</button></div>` : "";
+  el.innerHTML = `<h2 class="feedtitle">Feed</h2>
+    ${days.length ? days.map((d) => `<section class="nday"><h3>${esc(d.label)}</h3>${d.parts.join("")}</section>`).join("")
+      : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
+    ${nudge}`;
+}
+$("feedPage").addEventListener("click", (e) => {
+  const more = e.target.closest("[data-post]");
+  if (more) { const k = more.dataset.post; state.feedOpen.has(k) ? state.feedOpen.delete(k) : state.feedOpen.add(k); renderFeed(); return; }
+  if (e.target.closest("[data-feed=signin]")) promptSignIn();
+});
+// Navigation: Feed and Films. A bar along the bottom on phones and tablets, links in the header on desktop.
+function renderNav() {
+  $("feedPage").hidden = state.page !== "feed";
+  document.body.classList.toggle("page-feed", state.page === "feed");
+  for (const a of $("mainNav").querySelectorAll("[data-page]")) a.toggleAttribute("aria-current", a.dataset.page === state.page);
+  const seen = feedSeen(), fresh = state.page === "feed" || !seen ? 0 : feedPosts().filter((p) => p.at > seen).length;
+  const dot = $("feedDot");
+  dot.hidden = !fresh;
+  dot.textContent = fresh > 9 ? "9+" : fresh;
+}
+function setPage(name) {
+  if (state.page === name) return;
+  if (state.page === "feed") markFeedSeen();
+  state.page = name;
+  if (!$("film").open) history.replaceState(null, "", location.pathname + location.search + (name === "feed" ? "#feed" : "#films"));
+  render();
+  window.scrollTo({ top: 0 });
+}
+$("mainNav").addEventListener("click", (e) => {
+  const a = e.target.closest("[data-page]");
+  if (a && a.dataset.page === state.page) { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }  // the current tab again: back to the top
+});
+const leaveFeed = () => { if (state.page === "feed" && document.visibilityState === "hidden") markFeedSeen(); };
+document.addEventListener("visibilitychange", leaveFeed);
+window.addEventListener("pagehide", () => { if (state.page === "feed") markFeedSeen(); });
 
 // ---------------------------------------------------------------- film sheet
 // ---------------------------------------------------------------- the poster, enlarged
@@ -929,9 +1015,16 @@ function route() {
     history.replaceState(null, "", location.pathname + location.search + "#film/" + encodeURIComponent(id));
   }
   const m = location.hash.match(/^#film\/(.+)$/);
-  if (m) { openFilm(decodeURIComponent(m[1])); return; }
+  const first = !state.routed;
+  state.routed = true;
+  if (m) {
+    if (first && state.page !== "films") { state.page = "films"; render(); }  // a link straight to a film: the films list is behind it
+    openFilm(decodeURIComponent(m[1]));
+    return;
+  }
   if ($("film").open) $("film").close();
-  if (location.hash === "#new") openNews();  // a link straight to "What's new"
+  if (location.hash === "#films") setPage("films");
+  else if (location.hash === "" || location.hash === "#feed" || location.hash === "#new") setPage("feed");  // #new: the old "What's new" link
 }
 
 $("film").addEventListener("close", () => {
@@ -940,8 +1033,8 @@ $("film").addEventListener("close", () => {
   state.sheetCinemas.clear();
   state.sheetTags.clear();
   state.sheetDay = "";
-  if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search);
-  refreshNews();  // back in "What's new" (if the film was opened from there): show any heart or hide changes
+  if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search + (state.page === "films" ? "#films" : "#feed"));
+  render();  // back in the feed or list: show any heart or hide changes
 });
 $("film").addEventListener("click", (e) => { if (e.target === $("film")) $("film").close(); });
 $("account").addEventListener("click", (e) => { if (e.target === $("account")) $("account").close(); });
@@ -1359,12 +1452,23 @@ async function loadProfile() {
 }
 
 let friendsSeq = 0;
+// What friends added lately, for the feed (friends_feed). Without the database update it is simply empty.
+async function loadFriendFeed() {
+  const uid = state.user?.id;
+  if (!sb || !uid) return;
+  const { data, error } = await sb.rpc("friends_feed");
+  if (state.user?.id !== uid) return;
+  state.friendEvents = error ? [] : (data || []).map((r) => ({ id: r.friend_id, name: r.name, film: r.film, at: utcToLocal(r.added_at) }));
+  if (state.page === "feed") renderFeed();
+  renderNav();
+}
 async function loadFriends() {
   if (!sb || !state.user) return;
   const uid = state.user.id, seq = ++friendsSeq;
   const { data, error } = await sb.rpc("friends_watchlists");
   if (state.user?.id !== uid || seq !== friendsSeq) return;  // signed out or in as someone else meanwhile, or a newer load is under way
   if (error) { console.error("Loading friends failed:", error.message); state.friendsError = true; if ($("account").open && !typing()) renderAccount(); return; }
+  loadFriendFeed();
   const fresh = (data || []).map((r) => ({ id: r.friend_id, name: r.name, list: new Set(r.watchlist || []) }));
   const sig = (fs) => JSON.stringify(fs.map((f) => [f.id, f.name, [...f.list].sort()]));
   const same = sig(fresh) === sig(state.friends) && !state.friendsError;
@@ -1551,7 +1655,7 @@ function setUser(session) {
     if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });
   } else { paintAccount(false); local.set("acct", null); }
   if (!state.user) closeMenus();
-  if (!state.user) { state.profile = null; state.friends = []; state.acctView = ""; }
+  if (!state.user) { state.profile = null; state.friends = []; state.friendEvents = []; state.acctView = ""; }
   renderAccount();
   fitHeader();
 }
@@ -1563,10 +1667,10 @@ function refreshAvatar() {
 }
 
 // The header keeps the title and its buttons on one row, compacting only as far as it must (how wide it is depends on
-// the location's name and on being signed in): What's new becomes an icon, then the location loses its pin, then
+// the location's name and on being signed in): the location loses its pin, then
 // "Sign in" becomes an icon, then the location loses its arrow, then the title gets a little smaller. If even that
 // doesn't fit, the buttons wrap under the title rather than run off the screen.
-const FIT_STEPS = ["fit-news", "fit-pin", "fit-account", "fit-chev", "fit-title"];
+const FIT_STEPS = ["fit-pin", "fit-account", "fit-chev", "fit-title"];
 function fitHeader() {
   const top = document.querySelector(".top"), h1 = top.querySelector("h1"), right = top.querySelector(".topright");
   const gap = parseFloat(getComputedStyle(top).columnGap) || 0;
@@ -1804,6 +1908,7 @@ async function loadRegion(key) {
     ? `Data from <a href="https://www.filmweb.no" target="_blank" rel="noopener">Filmweb</a>, <a href="https://www.cinemateket.no" target="_blank" rel="noopener">Cinemateket</a>, <a href="https://www.eventbrite.com/o/revier-117564493841" target="_blank" rel="noopener">Revier Film Club</a> (Eventbrite), <a href="https://deichman.hoopla.no" target="_blank" rel="noopener">Deichman Bjørvika</a> (Hoopla) and <a href="https://www.sommerrohouse.com/kultur/filmopplevelser/" target="_blank" rel="noopener">Sommerro</a>, refreshed several times a day. Tickets are bought on the cinemas' own sites; Revier's and Deichman's screenings are free but need a reserved seat, and Sommerro's are prepaid dinner + film packages. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`
     : `Data from <a href="https://www.landmarkcinemas.com" target="_blank" rel="noopener">Landmark Cinemas</a>, <a href="https://www.cinemaclock.com" target="_blank" rel="noopener">CinemaClock</a> and the <a href="https://evanstheatre.ca" target="_blank" rel="noopener">Evans Theatre</a>. Small theatres sell tickets at the door. Times are Manitoba time. Some posters come from TMDB; this product uses the TMDB API but is not endorsed or certified by TMDB.`;
   document.title = `Cinecrab · ${reg.name}`;
+  if (!state.routed) state.page = /^#(films|film\/|watch\/)/.test(location.hash) ? "films" : "feed";  // which page we open on, before anything is drawn
   render();
   route();
 }

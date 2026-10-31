@@ -192,3 +192,21 @@ $$;
 
 revoke all on function public.friends_watchlists() from public;
 grant execute on function public.friends_watchlists() to authenticated;
+
+-- What your friends recently added to their watchlists, for the Feed: one row per film still on their list that has an add
+-- time (UTC, "YYYY-MM-DDTHH:MI", stamped by on_watchlist_changed). Only a name, an id, a film id and a time.
+create or replace function public.friends_feed()
+returns table (friend_id uuid, name text, film text, added_at text)
+language sql stable security definer set search_path = '' as $$
+  select p.id, coalesce(nullif(p.display_name, ''), p.email), w.key, w.value #>> '{}'
+  from public.friendships f
+  join public.profiles p on p.id = case when f.a = (select auth.uid()) then f.b else f.a end
+  cross join lateral jsonb_each(p.watchlist_added) w
+  where (select auth.uid()) in (f.a, f.b)
+    and w.key = any(p.watchlist)
+  order by w.value #>> '{}' desc
+  limit 400;
+$$;
+
+revoke all on function public.friends_feed() from public;
+grant execute on function public.friends_feed() to authenticated;

@@ -97,21 +97,26 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
     playing before it drop out, and a film opened from there starts at (and highlights) that day.
     The section stays even when empty, saying nothing's on. The day isn't remembered: reloading
     goes back to Today; switching region keeps it. Searching ignores it.
-- **What's new**: a button in the header (beside the location and account buttons, since it isn't a
-  filter) opens a panel (a bottom sheet on phones) of films that
-  went on sale or got a date here in the last 30 days, after tracking began, by day (Today ·
-  Yesterday · Earlier this week · Last week · Earlier, newest first; the day pins while scrolling).
-  Each day has two clearly labelled grids of the usual cards: **Tickets on sale** first, then
-  **Newly announced**. One card per film, for what last happened to it; no "New" flags (it's all
-  new) and announced films aren't dimmed. Hearts and hiding work as in the grid (hidden films are
-  dimmed and last, watchlist films first). Types, cinemas and language filters apply; Tickets and
-  the Watchlist switch don't. A card opens the film on top; closing it goes back to the panel.
-  Deep link: `#new`.
+- **Feed** (the default page; replaces "What's new"): what happened lately, as posts, newest first, grouped
+  by day (Today · Yesterday · Earlier this week · Last week · Earlier). A post is one kind of event with
+  its films: "9 new films on sale", "10 new films announced", "More showings added for Dune",
+  "Santi added 4 films to their watchlist" (one post per kind, per friend, per day). Posts with more
+  than 5 (desktop) / 6 (phone) films show that many and **Show N more** expands them. Cards are the
+  usual ones (hearts, hiding, opening a film on top; closing it returns to the feed). Events are the
+  last 30 days, after tracking began, and pass the same filters as the list (types, cinemas, language;
+  not Tickets or the Watchlist switch); hidden films are left out. A divider, "New since your last
+  visit", separates posts newer than the last time the feed was left (kept on the device); the Feed
+  tab shows how many posts are new while you're on Films. Signed out, a card invites signing in to see
+  friends' picks. Events come from one log (below), so every kind of event appears in the same system.
+- **Navigation**: two destinations, **Feed** and **Films** (`#feed`, `#films`; no hash = Feed; `#new`
+  = Feed; `#film/…` links open on Films). A bottom bar on phones and tablets (under 900px), links
+  beside the title in the header on desktop. Tapping the current one scrolls to the top. Filters,
+  search and the list switch belong to Films only.
 - Section headers stick below the top bar; clicking one collapses it to a single line (count + first
   titles). The jump bar links to each section (opening it if collapsed) and has Collapse all /
   Expand all.
-- Header: the title, then What's new, the location and the account button, always on one row: when
-  it's tight they compact only as far as needed (What's new to an icon, the location's pin, "Sign in"
+- Header: the title (and on desktop the Feed / Films links), then the location and the account button,
+  always on one row: when it's tight they compact only as far as needed (the location's pin, "Sign in"
   to an icon, the location's arrow, a smaller title), else the buttons wrap under the title.
 - Top bar (the filters): **All films | ♥ Watchlist | Friends** (three tabs; the film count shows
   only on the selected tab; icons show only when the switch is wide enough, else text only), then a
@@ -218,6 +223,18 @@ Data (Supabase):
 - `friends_watchlists()` (security definer) returns each friend's id, display name and watchlist,
   never their email-only fields such as prefs or the unsubscribe token (the email is only returned
   as the name fallback).
+
+## The event log (the feed's source)
+
+- **Catalog events**: `scraper/build.py` writes them each run into `state/*.json` (`events`) and
+  `site/data/*.json`, newest first, kept 60 days: `sale` (went on sale), `announced` (got a date) and
+  `showings` (a film with few showings got more, with `n` and `cinemas`). Each has a stable id
+  (`type|film|time`), so a run only adds what's new and the log fills itself in from the existing
+  stamps (`onSaleSince`, `announcedSince`, `shows`).
+- **Friend events**: films friends added to their watchlists, from `profiles.watchlist_added` through
+  the `friends_feed()` function (a name, an id, a film id and a UTC time; friends only). Needs the
+  database update in `supabase/schema.sql`; without it the feed just shows no friend posts.
+- The daily email still uses its own rules; moving it onto this log is a later step.
 
 ## Daily email
 

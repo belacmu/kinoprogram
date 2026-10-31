@@ -465,14 +465,12 @@ body { overflow-x: clip; }
 @media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
 
 /* What's new: a header button (it isn't a filter) opening a feed of what went on sale or got a date lately. */
-#newsBtn { font-weight: 600; }
-#newsBtn svg { flex: none; color: var(--accent); }
 /* The header compacts step by step only as far as it must to stay on one row (fitHeader in app.js sets these). */
 .top { flex-wrap: wrap; }                                /* last resort: the buttons go under the title */
 .topright { margin-left: auto; }
 #accountBtn .ico { display: none; }
-.top.fit-news #newsBtn, .top.fit-account #accountBtn.primary { width: var(--pill-h); padding: 0; justify-content: center; }
-.top.fit-news #newsBtn .lbl, .top.fit-account #accountBtn .lbl { display: none; }
+.top.fit-account #accountBtn.primary { width: var(--pill-h); padding: 0; justify-content: center; }
+.top.fit-account #accountBtn .lbl { display: none; }
 .top.fit-account #accountBtn .ico { display: block; }
 .top.fit-pin #regionBtn svg { display: none; }
 .top.fit-chev #regionBtn .chev { display: none; }
@@ -492,9 +490,6 @@ body { overflow-x: clip; }
 .nkind.sale .ntag { background: var(--soon); color: var(--bg); }
 .nkind .n { font: 600 12px var(--mono); color: var(--muted); }
 .nkind .grid { padding-bottom: 6px; }
-#news .flag { display: none; }
-#news .card.nosale .poster img { opacity: 1; filter: none; }
-#news .card.nosale h3 { color: var(--ink); }
 .nempty { padding: 18px 22px 24px; color: var(--muted); }
 @media (max-width: 560px) { .nhead, .nday { padding-inline: 16px; } .nempty { padding-inline: 16px; } }
 
@@ -503,9 +498,9 @@ html:has(dialog[open]), body:has(dialog[open]) { overflow: hidden; }
 dialog { overscroll-behavior: contain; }
 .sheetbar { display: none; }
 @media (max-width: 560px) {
-  #film, #news { position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: 88dvh; margin: 0;
+  #film { position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: 88dvh; margin: 0;
     border-radius: 18px 18px 0 0; }
-  #film .dlg-close, #news .dlg-close { top: 0; }
+  #film .dlg-close { top: 0; }
   .sheetbar { display: block; position: sticky; bottom: 0; z-index: 3; padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
     background: var(--surface); border-top: 1px solid var(--line); }
   .sheetbar .btn { width: 100%; padding: 12px; border-radius: 999px; font-size: 15px; }
@@ -815,3 +810,45 @@ dialog { overscroll-behavior: contain; }
    a guess until a card has been shown once; the browser then remembers its real height. */
 .sec > .grid > .card { content-visibility: auto; contain-intrinsic-size: auto 270px; }
 @media (min-width: 561px) { .sec > .grid > .card { contain-intrinsic-size: auto 330px; } }
+
+/* the feed and the main navigation */
+.mainnav { display: flex; gap: 4px; }
+.mainnav a { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; color: var(--muted); font-weight: 600; text-decoration: none; }
+.mainnav a:hover { color: var(--ink); }
+.mainnav a[aria-current] { color: var(--ink); background: var(--chip); }
+.mainnav .ni { position: relative; display: grid; place-items: center; }
+.navdot { position: absolute; top: -6px; right: -9px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; box-sizing: border-box; background: var(--accent); color: var(--accent-ink); font: 700 10px/16px var(--body); text-align: center; font-style: normal; }
+.navdot[hidden] { display: none; }
+@media (max-width: 899px) {
+  .mainnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; justify-content: space-around; gap: 0; background: var(--bg); border-top: 1px solid var(--line);
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .mainnav a { flex: 1; flex-direction: column; gap: 2px; padding: 6px 0; border-radius: 10px; font-size: 11px; background: none !important; }
+  .mainnav a[aria-current] { color: var(--accent); }
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+}
+body.page-feed .controls, body.page-feed #wlInvite, body.page-feed #friendsPanel, body.page-feed #grid, body.page-feed #hiddenKinds, body.page-feed .filters, body.page-feed .scrim { display: none; }
+body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
+.feed { max-width: 860px; margin-inline: auto; width: 100%; }
+.feedtitle { font: 800 34px/0.95 var(--display); text-transform: uppercase; margin: 8px 0 4px; }
+.feed .nday { padding: 0 0 8px; }
+.feed .nday > h3 { background: var(--bg); }
+.post { margin: 8px 0 14px; padding: 14px 16px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.phead { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.phead .fdot { width: 34px; height: 34px; font-size: 12px; }
+.pico { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--chip); color: var(--ink); }
+.pico.sale { background: var(--soon); color: var(--bg); }
+.pico.announced { background: var(--accent-tint); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.ptext { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.ptext strong { font-weight: 600; }
+.ptext time { color: var(--muted); font-size: 12px; }
+.post .grid { padding: 0; }
+.post .flag { display: none; }
+.post .card.nosale .poster img { opacity: 1; filter: none; }
+.post .card.nosale h3 { color: var(--ink); }
+.postmore { display: block; margin: 12px auto 0; }
+.newmark { display: flex; align-items: center; gap: 12px; margin: 16px 0 6px; color: var(--accent); font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; }
+.newmark::before, .newmark::after { content: ""; flex: 1; height: 1px; background: var(--accent); opacity: .5; }
+.feednudge { margin-top: 12px; }
+@media (max-width: 899px) { #toast { inset: auto 0 calc(80px + env(safe-area-inset-bottom, 0px)) 0; } }
+@media (max-width: 559px) { .post .grid { grid-template-columns: repeat(3, 1fr); gap: 14px 8px; } .feed .feedtitle { margin-top: 14px; } }
+.feed .feedtitle { margin-top: 18px; }
