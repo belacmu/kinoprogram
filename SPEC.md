@@ -135,6 +135,22 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
   cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
   the screen.
+- **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch comes first. Search
+  (placeholder "Search") and **Date** (always showing its name, to the right of search; the search field is what
+  gives way) prefer the top line beside the switch, from 640px. The **Filters** button is always first on the left,
+  never alone on a line unless chips are with it: with chips (shown beside it, "Clear all" at the end, scrolling
+  sideways when many) it takes the last line, directly above the films; with no chips it joins the top line
+  ([Filters] [switch] [search] [Date]) when that all fits, else it shares a line with search and Date under the
+  switch. On phones the switch has its own line, search and Date share the Filters line, and take a line of their
+  own above it only if the chips leave under 200px there. Typing in search on a phone gives it the whole row.
+- **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
+  filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
+- **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
+  the filter row plus two placeholder posts on the Feed) under its normal top, replaced in place when the data comes.
+  Nothing jumps while the page loads: the current tab is marked from the first paint, the header buttons
+  wait for the fonts, the selected list tab keeps room for its count, and the filters sidebar is drawn at once (the
+  cinema list fills in when the programme arrives). The first 12 posters load immediately, the rest as they near
+  the screen.
 - **Controls layout (one set of rules, every width)**: the All films / Watchlist / Friends switch has the first line.
   Search (placeholder "Search") and **Date** (always showing its name, to the right of search; the search field is
   what gives way) want the next line, with the **Filters** button (always first, on the left) and the filters in force

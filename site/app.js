@@ -1246,11 +1246,21 @@ function renderActiveChips() {
   $("chipsClear").hidden = chips.length < 2;
   layoutControls();
 }
-// Search and Date want the Filters row. If the chips leave less than 200px for them there, they go up beside the switch instead.
+// Where search and Date go. From 640px they prefer the top line, beside the switch. With chips: [switch] [search] [Date] / [Filters] [chips].
+// Without chips (the Filters button must not be alone on a line): [Filters] [switch] [search] [Date] if it all fits, else [switch] /
+// [Filters] [search] [Date]. On phones they prefer the Filters line, and take a line of their own above it only if the chips leave under
+// 200px there. The classes: "tools-top" (search and Date up, Filters and chips last), "all-top" (everything on one line).
+const wideControls = matchMedia("(min-width: 640px)");
 function layoutControls() {
-  const c = $("controls"), chips = !$("activeChips").hidden;
-  const filters = $("filtersBtn").offsetWidth + (chips ? 8 + $("chipList").scrollWidth + ($("chipsClear").hidden ? 0 : 8 + $("chipsClear").offsetWidth) : 0);
-  c.classList.toggle("tools-top", chips && c.clientWidth > 0 && filters + 8 + 200 > c.clientWidth);
+  const c = $("controls"), width = c.clientWidth, chips = !$("activeChips").hidden;
+  if (!width) return;
+  const btn = $("filtersBtn").offsetWidth, SWITCH = 370, BAR = 200, GAP = 8;
+  const filters = btn + (chips ? GAP + $("chipList").scrollWidth + ($("chipsClear").hidden ? 0 : GAP + $("chipsClear").offsetWidth) : 0);
+  let mode = "";
+  if (wideControls.matches && width >= SWITCH + GAP + BAR) mode = chips ? "tools-top" : btn + GAP + SWITCH + GAP + BAR <= width ? "all-top" : "";
+  else if (chips && filters + GAP + BAR > width) mode = "tools-top";
+  c.classList.toggle("tools-top", mode === "tools-top");
+  c.classList.toggle("all-top", mode === "all-top");
 }
 new ResizeObserver(layoutControls).observe($("controls"));
 document.fonts.ready.then(layoutControls);

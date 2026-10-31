@@ -862,12 +862,8 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* The controls, one set of rules at every width.
-   Usually:      [All films | Watchlist | Friends]
-                 [Filters] [chips …] [search ........] [Date]      (search and Date want the Filters row, with or without chips)
-   When the chips leave no room for them there (layoutControls adds .tools-top), they move up beside the switch (phones: onto a line of their own):
-                 [All films | Watchlist | Friends] [search ........] [Date]
-                 [Filters] [chips …]
-   The Filters button is always first, on the left, and never alone on a line unless chips are with it. */
+   See layoutControls (app.js): from 640px search and Date prefer the top line beside the switch; the Filters button is always
+   first on the left and never alone on a line unless chips are with it. */
 .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; }
 .controls > .switchrow { flex: 1 1 100%; min-width: 0; }
 .controls > .filterrow { flex: 0 1 auto; display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
@@ -876,9 +872,12 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .filterrow > .activechips { flex: 1 1 auto; min-width: 0; }
 .controls.tools-top > .bar { order: 1; }
 .controls.tools-top > .filterrow { order: 2; flex: 1 1 100%; }
+.controls.all-top > .filterrow { order: 0; }
+.controls.all-top > .switchrow { order: 1; }
+.controls.all-top > .bar { order: 2; }
 @media (min-width: 640px) {
   .controls > .switchrow > .listswitch { max-width: 370px; }  /* alone on its line it stays 370px wide, not the whole width */
-  .controls.tools-top > .switchrow { flex: 0 0 370px; }
+  .controls.tools-top > .switchrow, .controls.all-top > .switchrow { flex: 0 0 370px; }
 }
 /* typing in the search field on a phone: it takes the whole row */
 @media (max-width: 559px) {
