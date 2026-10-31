@@ -60,7 +60,7 @@ const state = {
   page: "films",        // the films list (default) or the feed
   friendEvents: [],     // what friends added to their watchlists: {id, name, film, at}
   feedOpen: new Set(),  // posts expanded to show all their films
-  feedKinds: local.get("feedKinds", []),  // kinds of updates picked in the feed's filter (none = all)
+  feedKinds: local.get("feedKinds", []).map((k) => (k === "showings" ? "sale" : k)),  // kinds of updates picked in the feed's filter (none = all)
   onlyFriends: false,   // the Friends tab: films on your friends' watchlists
   day: "",              // the day the first section shows; "" = today. Not remembered across reloads
   calMonth: "",         // the month the date picker shows ("2026-10")
@@ -745,7 +745,7 @@ function feedEvents() {
 function feedPosts(filtered = true) {
   const by = new Map();
   for (const e of feedEvents()) {
-    if (filtered && state.feedKinds.length && !state.feedKinds.includes(e.type)) continue;
+    if (filtered && state.feedKinds.length && !state.feedKinds.includes(e.type === "showings" ? "sale" : e.type)) continue;  // more showings count as "On sale"
     const k = `${e.key}|${e.at.slice(0, 10)}`;
     if (!by.has(k)) by.set(k, { key: k, type: e.type, actor: e.actor, at: e.at, rows: [] });
     const p = by.get(k);
@@ -793,7 +793,7 @@ function renderFeed() {
     if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
     parts.push(postHtml(p));
   }
-  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"], ["showings", "New showings"]];
+  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"]];
   const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds[0] === k : !state.feedKinds.length}">${label}</button>`;
   const filter = `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
   const nudge = sb && state.authReady && !state.user
