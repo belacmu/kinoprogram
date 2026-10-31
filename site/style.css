@@ -192,7 +192,7 @@ select { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid
 dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); border-radius: 8px;
   width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto; }
 dialog::backdrop { background: var(--scrim); }
-#account { width: min(440px, calc(100vw - 32px)); padding: 22px; }
+#account, #friendsAdd { width: min(440px, calc(100vw - 32px)); padding: 22px; }
 .dlg-close { position: sticky; top: 0; height: 0; display: flex; justify-content: flex-end; z-index: 5; }  /* above pinned headings and card overlays */
 .x { width: 36px; height: 36px; margin: 8px; border-radius: 50%; border: 0; background: var(--chip); font-size: 22px; line-height: 1; cursor: pointer; }
 .fhead { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; padding: 22px; }
@@ -390,7 +390,7 @@ a.stub:hover { border-color: var(--accent); }
 #account .signin .btn { width: 100%; padding: 12px 16px; border-radius: 999px; font-size: 15px; }
 #account h2 { padding-right: 44px; }
 @media (max-width: 560px) {
-  #account { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; height: auto; max-height: 92dvh;
+  #account, #friendsAdd { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; height: auto; max-height: 92dvh;
     border-radius: 18px 18px 0 0; padding: 22px 18px calc(24px + env(safe-area-inset-bottom, 0px)); }
 }
 
@@ -772,7 +772,6 @@ dialog { overscroll-behavior: contain; }
 .codebox.sm { margin: 0; padding: 10px 8px; font-size: 22px; }
 .fpanel .btn.small { padding: 8px 14px; border-radius: 999px; }
 /* on its own row, wider than a phone: don't stretch the switch across the page */
-@media (min-width: 480px) and (max-width: 859px) { .controls > .listswitch { justify-self: start; width: 420px; max-width: 100%; } }
 .fbar { display: flex; align-items: center; gap: 10px; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .fbar > span:first-child { font-weight: 700; }
 .fbar .fsub { flex: 1; min-width: 0; color: var(--muted); font-size: 13px; }
@@ -799,3 +798,15 @@ dialog { overscroll-behavior: contain; }
 .wlinvite .wlmsg span { color: var(--muted); }
 .wlinvite .btn { grid-column: 1 / -1; margin-top: 8px; justify-self: stretch; text-align: center; }
 @media (min-width: 640px) { .wlinvite { grid-template-columns: auto 1fr auto; align-items: center; } .wlinvite .btn { grid-column: auto; margin: 0; justify-self: auto; } }
+
+.switchrow { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.switchrow .listswitch { flex: 1; min-width: 0; }
+.addfriend { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--chip); color: var(--ink); cursor: pointer; }
+.addfriend[hidden] { display: none; }
+#friendsAdd h2 { font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; padding-right: 44px; }
+#friendsAdd p { margin: 0 0 14px; font-size: 14px; color: var(--muted); }
+#friendsAdd .fcols { max-width: none; grid-template-columns: 1fr; }
+#friendsAdd .fmanage .subh, #friendsAdd .fcol .subh { display: block; }
+.fpanel .fh + .fp { margin-bottom: 14px; }
+@media (min-width: 700px) { .fpanel > .fcols { grid-template-columns: 1fr 1fr; gap: 24px; } }
+.fpanel > .fcols { max-width: none; }
