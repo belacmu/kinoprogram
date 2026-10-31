@@ -725,7 +725,7 @@ function feedEvents() {
   const row = (f, m, at, meta) => ({ f, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: false, watched: isWatched(f), meta });
   for (const e of catalogEvents()) {
     const f = findFilm(e.film);
-    if (!f || e.at <= state.data.baseline || e.at.slice(0, 10) < oldest || isHidden(f)) continue;
+    if (!f || !FEED_ICONS[e.type] || e.at <= state.data.baseline || e.at.slice(0, 10) < oldest || isHidden(f)) continue;  // kinds the feed doesn't show yet are skipped
     const m = filmShows(f, now, now, "", true);
     if (!m) continue;
     if (e.type === "sale" && !m.onSale) continue;
