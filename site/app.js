@@ -311,7 +311,8 @@ const extractCode = (t) => {
   t = String(t || "").trim();
   return t.match(/[?&]friend=([A-Za-z0-9-]+)/)?.[1] || (t.length <= 12 ? t : t.match(/code\s+([A-Za-z0-9-]{6,8})/i)?.[1] || t);
 };
-const inviteLink = () => location.href.split(/[?#]/)[0] + "?friend=" + state.profile.friend_code;
+// The link goes through /invite/ (a small page with its own preview text for chat apps, which sends people on to the app).
+const inviteLink = () => location.href.split(/[?#]/)[0] + "invite/?friend=" + state.profile.friend_code;
 const inviteText = () => `Add me on Cinecrab: ${inviteLink()} or enter my code ${fmtCode(state.profile.friend_code)} under Friends`;
 // The Friends tab's panel: share your code and add a friend's; with friends, a line of them (open the panel to add more). Rebuilt
 // only when something it shows changed, so a half-typed code isn't lost.
