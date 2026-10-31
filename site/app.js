@@ -1978,6 +1978,7 @@ async function loadRegion(key) {
   // name needs no data, the account button is painted from last time, and the fit waits for the fonts, so they don't change as the
   // page loads.
   renderRegionButton();
+  renderDayControl();  // the Date button has its name from the first paint, so the search field beside it doesn't resize
   renderFilters();  // the sidebar's options don't need the programme; the cinemas fill in when it arrives
   const headerFonts = Promise.all([document.fonts.load('600 14px "IBM Plex Sans"'), document.fonts.load('800 40px "Big Shoulders Display"')]).catch(() => {});
   Promise.race([headerFonts, new Promise((r) => setTimeout(r, 600))]).then(() => { fitHeader(); document.querySelector(".top").classList.add("ready"); });
