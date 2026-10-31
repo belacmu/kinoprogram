@@ -879,7 +879,16 @@ function setPage(name) {
 }
 $("mainNav").addEventListener("click", (e) => {
   const a = e.target.closest("[data-page]");
-  if (a && a.dataset.page === state.page) { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }  // the current tab again: back to the top
+  if (a && a.dataset.page === state.page) {  // the current tab again: back to its default view, at the top
+    e.preventDefault();
+    if (state.page === "feed") { state.feedKinds = []; local.set("feedKinds", []); state.feedOpen.clear(); renderFeed(); }
+    else {
+      clearSearchQuiet();
+      state.day = ""; state.onlyWatch = false; state.onlyFriends = false; state.friendSel = [];  // All films, today, no search (your saved filters stay)
+      render();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 });
 const leaveFeed = () => { if (state.page === "feed" && document.visibilityState === "hidden") markFeedSeen(); };
 document.addEventListener("visibilitychange", leaveFeed);
@@ -1330,6 +1339,7 @@ $("scrim").addEventListener("click", () => setFiltersOpen(false));
 $("filtersShow").addEventListener("click", () => { setFiltersOpen(false); window.scrollTo({ top: 0 }); });
 
 // Search: always a field in the bar. Escape or the × button clears it.
+function clearSearchQuiet() { $("q").value = ""; state.q = ""; }
 function clearSearch() { $("q").value = ""; state.q = ""; renderGrid(); }
 $("q").addEventListener("keydown", (e) => { if (e.key === "Escape" && $("q").value) clearSearch(); });
 $("qClear").addEventListener("click", () => { clearSearch(); $("q").focus(); });
