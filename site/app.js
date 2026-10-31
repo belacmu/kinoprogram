@@ -58,7 +58,6 @@ const state = {
   onlyWatch: false,
   friendSel: [],        // Friends tab, in the filters: ids of the friends picked (none = all friends)
   onlyFriends: false,   // the Friends tab: films on your friends' watchlists
-  friendsOpen: null,    // Friends tab: add/share panel open (null = open only while there are no friends yet)
   day: "",              // the day the first section shows; "" = today. Not remembered across reloads
   calMonth: "",         // the month the date picker shows ("2026-10")
   q: "",
@@ -302,7 +301,6 @@ const extractCode = (t) => {
 };
 const inviteLink = () => location.href.split(/[?#]/)[0] + "?friend=" + state.profile.friend_code;
 const inviteText = () => `Add me on Cinecrab: ${inviteLink()} or enter my code ${fmtCode(state.profile.friend_code)} under Friends`;
-const friendsOpenNow = () => state.friendsOpen ?? state.friends.length === 0;
 // The Friends tab's panel: share your code and add a friend's; with friends, a line of them (open the panel to add more). Rebuilt
 // only when something it shows changed, so a half-typed code isn't lost.
 // Watchlist tab, signed out: the list lives on this device only; an account keeps it safe and syncs it.
@@ -317,10 +315,10 @@ function renderWatchInvite() {
 let friendsPanelSig = "";
 function renderFriendsPanel(force = false) {
   const el = $("friendsPanel");
-  el.hidden = !state.onlyFriends;
+  el.hidden = !state.onlyFriends || !!(state.user && state.friends.length);  // with friends, adding one is the button's dialog
   if (!state.onlyFriends) return;
-  const p = state.profile, open = friendsOpenNow();
-  const sig = JSON.stringify([!!state.user, !!p, p?.friend_code, state.friends.map((f) => [f.id, f.name]), open, state.profileFailed, typeof sb !== "undefined" && !!sb]);
+  const p = state.profile;
+  const sig = JSON.stringify([!!state.user, !!p, p?.friend_code, state.friends.map((f) => [f.id, f.name]), state.profileFailed, typeof sb !== "undefined" && !!sb]);
   if (!force && sig === friendsPanelSig) return;
   if (!force && el.contains(document.activeElement) && document.activeElement.value) return;
   friendsPanelSig = sig;
@@ -332,15 +330,28 @@ function renderFriendsPanel(force = false) {
   }
   if (!p || !p.friend_code) { el.innerHTML = `<p class="fp">${state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading…"}</p>`; return; }
   state.friendSel = state.friendSel.filter((id) => state.friends.some((x) => x.id === id));
-  const manage = state.friends.length ? `<details class="fmanage"><summary>Your friends (${state.friends.length})</summary>${state.friends.map((fr) => `<div class="frow"><span>${esc(fr.name)}</span><button type="button" class="linkbtn" data-fr="remove" data-id="${esc(fr.id)}">Remove</button></div>`).join("")}</details>` : "";
-  el.innerHTML = `<button type="button" class="fbar" data-fr="toggle" aria-expanded="${open}"><span>Add a friend</span><span class="fsub">${state.friends.length ? `${state.friends.length} friend${state.friends.length === 1 ? "" : "s"}` : "Swap codes to see each other's watchlists"}</span><span class="chev" aria-hidden="true">${open ? "▴" : "▾"}</span></button>
-    <div class="fbody"${open ? "" : " hidden"}><div class="fcols">
+  el.innerHTML = state.friends.length ? "" : `<h2 class="fh">Add your first friend</h2><p class="fp">Swap codes to see each other's watchlists, here and on the posters.</p>${friendsBody(p)}`;
+  el.hidden = !!state.friends.length;
+}
+// Your code, the box for a friend's, and your friends with Remove: on the Friends tab while there are no friends, else in the dialog.
+function friendsBody(p) {
+  const manage = state.friends.length ? `<div class="fmanage"><div class="subh">Your friends (${state.friends.length})</div>${state.friends.map((fr) => `<div class="frow"><span>${esc(fr.name)}</span><button type="button" class="linkbtn" data-fr="remove" data-id="${esc(fr.id)}">Remove</button></div>`).join("")}</div>` : "";
+  return `<div class="fcols">
       <div class="fcol"><div class="subh">Your code</div>
         <div class="fline"><div class="fcode" aria-label="Your friend code">${esc(fmtCode(p.friend_code))}</div><button type="button" class="btn dark small" data-fr="share">Copy invite link</button></div></div>
-      <form class="fcol" id="friendsAddForm"><label class="subh" for="friendsCode">Enter a friend's code</label>
-        <div class="fline"><input type="text" id="friendsCode" placeholder="Enter their code" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200">
+      <form class="fcol" data-fr-form><label class="subh">Enter a friend's code</label>
+        <div class="fline"><input type="text" name="code" placeholder="Enter their code" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="200">
           <button type="submit" class="btn accent small" disabled>Add friend</button></div></form>
-    </div>${manage}</div>`;
+    </div>${manage}`;
+}
+function renderFriendsDialog() {
+  const p = state.profile;
+  $("addFriendBtn").hidden = !(state.onlyFriends && sb);  // always there on the Friends tab, so it's the one familiar way in
+  if (!$("friendsAdd").open) return;
+  if (!p?.friend_code) { $("friendsAdd").close(); return; }
+  const body = $("friendsAddBody");
+  if (body.contains(document.activeElement) && document.activeElement.value) return;  // don't lose a half-typed code
+  body.innerHTML = `<h2>Add a friend</h2><p>Swap codes to see each other's watchlists.</p>${friendsBody(p)}`;
 }
 function renderListSwitch(count = null) {
   const cur = state.onlyFriends ? "friends" : state.onlyWatch ? "watch" : "all";
@@ -556,6 +567,7 @@ function renderGrid() {
   $("filtersShow").textContent = `Show ${rows.length} film${rows.length === 1 ? "" : "s"}`;
   renderListSwitch(rows.length);
   renderFriendsPanel();
+  renderFriendsDialog();
   renderWatchInvite();
   renderActiveChips();
   $("grid").innerHTML = sections.length ? sections.map((s, i) => {
@@ -1690,28 +1702,37 @@ if (sb) {
     return `Removed ${fr.name}.`;
   }
   $("wlInvite").addEventListener("click", (e) => { if (e.target.closest("[data-wl=signin]")) promptSignIn(); });
-  $("friendsPanel").addEventListener("click", async (e) => {
-    const b = e.target.closest("[data-fr]");
-    if (!b) return;
-    const what = b.dataset.fr;
-    if (what === "toggle") { state.friendsOpen = !friendsOpenNow(); renderFriendsPanel(true); }
-    else if (what === "signin") promptSignIn();
-    else if (what === "share") toast(await clip(inviteLink()) ? "Invite link copied" : "Couldn't copy the link");
-    else if (what === "remove") { const m = await unfriend(b.dataset.id); if (m) toast(m); }
+  // The same controls live in the Friends tab's panel (no friends yet) and in the dialog (opened by "Add friend").
+  const syncAdd = (host) => { const i = host.querySelector("[name=code]"), b = host.querySelector("[data-fr-form] [type=submit]"); if (b && i) b.disabled = !i.value.trim(); };
+  for (const host of [$("friendsPanel"), $("friendsAddBody")]) {
+    host.addEventListener("click", async (e) => {
+      const b = e.target.closest("[data-fr]");
+      if (!b) return;
+      const what = b.dataset.fr;
+      if (what === "signin") promptSignIn();
+      else if (what === "share") toast(await clip(inviteLink()) ? "Invite link copied" : "Couldn't copy the link");
+      else if (what === "remove") { const m = await unfriend(b.dataset.id); if (m) toast(m); }
+    });
+    host.addEventListener("input", () => syncAdd(host));
+    host.addEventListener("submit", async (e) => {
+      const form = e.target.closest("[data-fr-form]");
+      if (!form) return;
+      e.preventDefault();
+      const input = form.querySelector("[name=code]"), btn = form.querySelector("[type=submit]");
+      if (!input.value.trim()) { input.focus(); return; }
+      btn.disabled = true;
+      const r = await redeemFriendCode(input.value);
+      btn.disabled = false;
+      toast(r.msg);
+      if (!r.err) { input.value = ""; if ($("friendsAdd").open) $("friendsAdd").close(); renderFriendsPanel(true); renderFriendsDialog(); } else syncAdd(host);
+    });
+  }
+  $("addFriendBtn").addEventListener("click", () => {
+    if (!state.user) { promptSignIn(); return; }
+    if (!state.profile?.friend_code) { toast(state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading your account…"); return; }
+    $("friendsAdd").showModal(); renderFriendsDialog();
   });
-  const syncAdd = () => { const i = $("friendsCode"), b = i?.form?.querySelector('[type=submit]'); if (b) b.disabled = !i.value.trim(); };
-  $("friendsPanel").addEventListener("input", syncAdd);
-  $("friendsPanel").addEventListener("submit", async (e) => {
-    if (e.target.id !== "friendsAddForm") return;
-    e.preventDefault();
-    const input = $("friendsCode"), btn = e.target.querySelector("button[type=submit]");
-    if (!input.value.trim()) { input.focus(); return; }
-    btn.disabled = true;
-    const r = await redeemFriendCode(input.value);
-    btn.disabled = false;
-    toast(r.msg);
-    if (!r.err) { input.value = ""; renderFriendsPanel(true); } else syncAdd();
-  });
+  $("friendsAdd").addEventListener("click", (e) => { if (e.target === $("friendsAdd")) $("friendsAdd").close(); });
   $("account").addEventListener("click", async (e) => {  // the invite page's "Copy code" (signed out)
     const b = e.target.closest('[data-friend="copyinvite"]');
     if (!b) return;

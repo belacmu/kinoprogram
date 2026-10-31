@@ -117,7 +117,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   only on the selected tab; icons show only when the switch is wide enough, else text only), then a
   search field (always a field, phones too; Escape clears it), the day control, and on narrow
   screens a Filters button. From 900px wide the 370px switch and the bar share one row; below that
-  the switch has its own row. The day control keeps its label
+  the switch has its own full-width row (phones and tablets alike). The day control keeps its label
   and the search field gives way; while you type in a narrow search field it takes the whole bar.
 - Defaults: order within sections is best rated first; only Films are shown (Shorts, Live & stage and
   Talks & events are opt-in; searching still finds every type); picking a specific cinema switches
@@ -187,12 +187,13 @@ privacy setting.
 - **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
   0/O, 1/I/L). Entry is forgiving: lowercase, spaces or a missing dash all work.
 - **Friends tab** (also the account menu's Friends item): lists every film on a friend's watchlist
-  (watchlist films first, then most friends first). An expandable "Add a friend" bar on top (open by
-  default only while you have no friends) holds your code beside **Copy invite link** (copies the full
-  link), a box to enter a friend's code with **Add friend** inside its right end (disabled until
-  a code is typed), and a collapsed "Your friends" list with **Remove** (confirmed). **Filters** has a
-  Friends group on this tab (pick one or more friends, counts per friend; none = all friends).
-  Signed out: a Sign in prompt. Display name stays in the account menu.
+  (watchlist films first, then most friends first), straight under the controls. With no friends yet,
+  an "Add your first friend" card sits where the films would be: your code beside **Copy invite link**
+  and a box to enter a friend's code with **Add friend** inside its right end (disabled until a code is
+  typed). An **Add a friend** round button next to the switch (always there on this tab) opens a dialog (a bottom
+  sheet on phones) with the same two controls plus "Your friends" with **Remove** (confirmed).
+  **Filters** has a Friends group on this tab (pick one or more friends, counts per friend; none = all
+  friends). Signed out: a Sign in prompt. Display name stays in the account menu.
 - **Sharing** sends a link with the code in it, plus the code written out ("Add me on Cinecrab:
   <link>, or code K7Q-M4P"), so it can be typed in without opening the link.
 - **Opening the link**: signed in → the friend is added at once ("You and Anna are now friends").
