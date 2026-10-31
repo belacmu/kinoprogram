@@ -241,7 +241,9 @@ Data (Supabase):
 - **Friend events**: films friends added to their watchlists, from `profiles.watchlist_added` through
   the `friends_feed()` function (a name, an id, a film id and a UTC time; friends only). Needs the
   database update in `supabase/schema.sql`; without it the feed just shows no friend posts.
-- The daily email still uses its own rules; moving it onto this log is a later step.
+- **`leaving`** events (a watchlist film hits the emails' stricter "last chance" rule) are in the log too; the feed doesn't show them yet.
+- The daily email reads this same log (plus friends' adds), so a new kind of event is added in one place; the email's
+  rules below only decide who gets which.
 
 ## Daily email
 

@@ -238,10 +238,13 @@ def log_events(films, now, state):
         by_stamp = {}
         for k, stamp in (rec or {}).get("shows", {}).items():
             if stamp and stamp > base:
-                by_stamp.setdefault(stamp, []).append(k.split("|", 1)[1])
-        for stamp, cinemas in by_stamp.items():
+                by_stamp.setdefault(stamp, []).append(k)
+        for stamp, keys in by_stamp.items():
             add({"id": f"showings|{f['id']}|{stamp}", "type": "showings", "film": f["id"], "at": stamp,
-                 "n": len(cinemas), "cinemas": sorted(set(cinemas))})
+                 "n": len(keys), "cinemas": sorted({k.split("|", 1)[1] for k in keys}), "keys": sorted(keys)})
+        leaving = f.get("leavingEmail")  # the emails' stricter "last chance" rule (mark_last_chance)
+        if leaving and leaving > base and leaving <= now.strftime(FMT):
+            add({"id": f"leaving|{f['id']}|{leaving}", "type": "leaving", "film": f["id"], "at": leaving})
     cutoff = (now - timedelta(days=EVENT_DAYS)).strftime(FMT)
     merged = {e["id"]: e for e in state.get("events", [])}
     merged.update(found)

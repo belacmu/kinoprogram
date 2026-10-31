@@ -4,6 +4,8 @@ Norwegian date, since the last digest. Watchlist films get their own section at 
 a status line (on sale / new showing / leaving soon). A rare watchlist film (under FEW_SHOWS showings)
 getting another showing is news on its own; other watchlist notices alone never trigger an email.
 At the bottom: films friends added to their watchlists since the last digest.
+Everything is read from the event log (state["events"], written by build.py: sale, announced, showings, leaving)
+and friends' adds, the same events the site's feed shows; the rules below only decide who gets which.
 
 Usage:
   python3 scraper/digest.py --scheduled [--only "oslo westman"]  # real run: per region, only after 09:00 local time, once per day
@@ -55,6 +57,29 @@ def title_of(f, prefs=None):
     if en:
         return f"{en} ({f['title']})"
     return f["title"]
+
+
+def catalog_events(state, data):
+    """The programme's events (build.log_events). A state file written before the event log existed has none: rebuild
+    them from the stamps it does have, the same way, so nothing is missed on the first day."""
+    if "events" in state:
+        return state["events"]
+    base, out = state["baseline"], []
+    for f in data["films"]:
+        if f.get("onSaleSince") and f["onSaleSince"] > base and f["status"] == "on_sale":
+            out.append({"type": "sale", "film": f["id"], "at": f["onSaleSince"]})
+        if f.get("announcedSince") and f["announcedSince"] > base and f["status"] == "announced":
+            out.append({"type": "announced", "film": f["id"], "at": f["announcedSince"]})
+        if f.get("leavingEmail") and f["leavingEmail"] > base:
+            out.append({"type": "leaving", "film": f["id"], "at": f["leavingEmail"]})
+        rec = next((state.get("shows", {})[i] for i in f["ids"] if i in state.get("shows", {})), None)
+        by_stamp = {}
+        for k, stamp in (rec or {}).get("shows", {}).items():
+            if stamp and stamp > base:
+                by_stamp.setdefault(stamp, []).append(k)
+        for stamp, keys in by_stamp.items():
+            out.append({"type": "showings", "film": f["id"], "at": stamp, "keys": sorted(keys)})
+    return out
 
 
 def show_ok(s, prefs, now_s):
@@ -131,14 +156,18 @@ def pick(new_films, profile, now_s):
     return out
 
 
-def pick_leaving(films, profile, now_s, skip_ids, since=""):
-    """Watchlist films leaving by the email's stricter rule (build.mark_last_chance: leavingEmail), each mentioned once:
-    in the first email after it applies. [(film, shows_left, last_show)]."""
+def pick_leaving(films, profile, now_s, skip_ids, since="", events=()):
+    """Watchlist films with a "leaving" event (the email's stricter rule, build.mark_last_chance) after `since`, each
+    mentioned once: in the first email after it applies. [(film, shows_left, last_show)]."""
     prefs = profile.get("prefs") or {}
     watch = set(profile.get("watchlist") or [])
+    when_leaving = {}
+    for e in events:
+        if e["type"] == "leaving":
+            when_leaving[e["film"]] = max(when_leaving.get(e["film"], ""), e["at"])
     out = []
     for f in films:
-        leaving = f.get("leavingEmail")
+        leaving = when_leaving.get(f["id"])
         if f["id"] in skip_ids or not watch & set(f["ids"]) or not leaving or leaving > now_s or leaving <= since:
             continue
         shows = sorted((s for s in f["shows"] if s["ticket"] and s["t"] >= now_s), key=lambda s: s["t"])
@@ -150,20 +179,21 @@ def pick_leaving(films, profile, now_s, skip_ids, since=""):
     return out
 
 
-def pick_new_showings(films, profile, now_s, since, tracked, skip_ids):
-    """Watchlist films with only a few showings that got more since `since` (build.track_shows):
+def pick_new_showings(films, profile, now_s, since, events, skip_ids):
+    """Watchlist films with only a few showings that got more since `since` (the "showings" events):
     [(film, new_shows, all_shows)]."""
     prefs = profile.get("prefs") or {}
     watch = set(profile.get("watchlist") or [])
+    new_keys = {}  # film id -> the "<time>|<cinema>" keys of showings added since
+    for e in events:
+        if e["type"] == "showings" and e["at"] > since:
+            new_keys.setdefault(e["film"], set()).update(e.get("keys") or [])
     out = []
     for f in films:
-        if f["id"] in skip_ids or not watch & set(f["ids"]):
-            continue
-        rec = next((tracked[i] for i in f["ids"] if i in tracked), None)
-        if not rec:
+        if f["id"] in skip_ids or not watch & set(f["ids"]) or f["id"] not in new_keys:
             continue
         shows = [s for s in f["shows"] if s["t"] >= now_s]
-        added = [s for s in shows if rec["shows"].get(f"{s['t']}|{s['cinema']}", "") > since]
+        added = [s for s in shows if f"{s['t']}|{s['cinema']}" in new_keys[f["id"]]]
         if not added or len(shows) - len(added) >= FEW_SHOWS:
             continue
         mine = [s for s in added if show_ok({**s, "ticket": s["ticket"] or "-"}, prefs, now_s)]
@@ -586,9 +616,11 @@ def main():
                     print(f"{mode}: already sent today.")
                     continue
             since = state.get(key) or max((now - timedelta(days=7)).strftime(FMT), state["baseline"])  # first weekly: not the films we only started tracking on the baseline day
-            new = [f for f in data["films"] if f.get("onSaleSince") and f["onSaleSince"] > since]
-            ann = [f for f in data["films"] if f["status"] == "announced"
-                   and f.get("announcedSince") and f["announcedSince"] > since]
+            events = catalog_events({k: v for k, v in state.items() if not (preview and k == "events")}, data)
+            sale_ids = {e["film"] for e in events if e["type"] == "sale" and e["at"] > since}
+            ann_ids = {e["film"] for e in events if e["type"] == "announced" and e["at"] > since}
+            new = [f for f in data["films"] if f["id"] in sale_ids and f["status"] == "on_sale"]
+            ann = [f for f in data["films"] if f["id"] in ann_ids and f["status"] == "announced"]
             if (test_to or preview) and not (new or ann):  # make the test email show something
                 new = sorted((f for f in data["films"] if f["status"] == "on_sale"), key=lambda f: f["shows"][0]["t"])[:3]
                 ann = [f for f in data["films"] if f["status"] == "announced" and f["premiere"]][:3]
@@ -600,7 +632,7 @@ def main():
 
             if preview:
                 everyone = {"prefs": {}, "watchlist": [f["id"] for f in data["films"]]}
-                ending = pick_leaving(data["films"], everyone, now_s, {new[0]["id"], ann[0]["id"]})
+                ending = pick_leaving(data["films"], everyone, now_s, {new[0]["id"], ann[0]["id"]}, "", events)
                 demo = [new[0]["id"], ann[0]["id"]] + [f["id"] for f, *_ in ending[:2]]
                 recipients = [{"id": "preview", "email": "you@example.com", "prefs": {"regions": [rkey]}, "watchlist": demo,
                                "unsubscribe_token": "preview"}]
@@ -608,8 +640,8 @@ def main():
                 rare = next((f for f in data["films"] if 1 < len(f["shows"]) < FEW_SHOWS and f not in new + ann and f["poster"]), None)
                 if rare:
                     demo.append(rare["id"])
-                    state.setdefault("shows", {})[rare["id"]] = {"shows": {f"{s['t']}|{s['cinema']}": "" if s is not rare["shows"][-1] else now_s
-                                                                    for s in rare["shows"]}}
+                    events = [*events, {"type": "showings", "film": rare["id"], "at": now_s,
+                                        "keys": [f"{rare['shows'][-1]['t']}|{rare['shows'][-1]['cinema']}"]}]
                 stamp = datetime.now(ZoneInfo("UTC")).strftime(FMT)
                 picks = [f["id"] for f in data["films"] if f["poster"] and f["id"] not in demo][10:13]
                 friends = {"preview": [("Anna", {i: stamp for i in picks[:2]}), ("Jon", {i: stamp for i in picks[1:]})]}
@@ -645,10 +677,10 @@ def main():
                 p = {**p, "prefs": prefs}
                 items, announced = pick(new, p, now_s), pick_announced(ann, p, now_s)
                 listed = {f["id"] for f, *_ in items} | {f["id"] for f, _ in announced}
-                showings = pick_new_showings(data["films"], p, now_s, since, state.get("shows") or {}, listed)
+                showings = pick_new_showings(data["films"], p, now_s, since, events, listed)
                 if not (items or announced or showings):
                     continue  # other watchlist notices (leaving soon) and friends' picks alone never send an email
-                leaving = pick_leaving(data["films"], p, now_s, listed | {f["id"] for f, *_ in showings}, "" if preview else since)
+                leaving = pick_leaving(data["films"], p, now_s, listed | {f["id"] for f, *_ in showings}, "" if preview else since, events)
                 picks = pick_friend_picks(data["films"], p, since, friends, cfg["tz"])
                 unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
                 messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey,
