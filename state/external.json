@@ -2702,25 +2702,6 @@
 "tv": 2,
 "tmdb": 1241574
 },
-"cm-nouvelle-vague-2": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1254808,
-"imdb": "tt31688586",
-"en": "Nouvelle Vague",
-"lbSlug": "nouvelle-vague-2025",
-"lbRating": 3.73,
-"rated": "2026-10-25",
-"posterPath": "/AfE7DZ0DPgme6I58dlYp1Bo9xeN.jpg",
-"imdbAll": [
-"tt31688586"
-],
-"lb": "nouvelle-vague-2025",
-"rt": "m/nouvelle_vague_2025",
-"mc": "movie/nouvelle-vague",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-of-mud-and-blood": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3206,24 +3187,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-the-devils": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 31767,
-"imdb": "tt0066993",
-"en": "The Devils",
-"lbSlug": "the-devils",
-"lbRating": 4.27,
-"rated": "2026-10-25",
-"imdbAll": [
-"tt0066993"
-],
-"lb": "the-devils",
-"rt": "m/the_devils",
-"mc": "movie/the-devils",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-the-difficult-bride": {
 "imdb": "tt42827406",
 "imdbAll": [
@@ -3297,24 +3260,6 @@
 "lbSlug": "the-meltdown",
 "lbRating": 3.52,
 "rated": "2026-10-29"
-},
-"cm-the-odyssey-70mm": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1368337,
-"imdb": "tt33764258",
-"en": "The Odyssey",
-"lbSlug": "the-odyssey-2026",
-"lbRating": 4.34,
-"rated": "2026-10-25",
-"imdbAll": [
-"tt33764258"
-],
-"lb": "the-odyssey-2026",
-"rt": "m/the_odyssey_2026",
-"mc": "movie/the-odyssey-2026",
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-the-orphanage": {
 "tmdbChecked": "2026-10-01",
@@ -4608,26 +4553,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20250338": {
-"imdb": "tt32246771",
-"imdbAll": [
-"tt32246771"
-],
-"lb": "bring-her-back",
-"rt": "m/bring_her_back",
-"mc": "movie/bring-her-back",
-"en": "Bring Her Back",
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 1151031,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "bring-her-back",
-"lbRating": 3.68,
-"rated": "2026-10-31"
 },
 "fw-EDI20250448": {
 "imdb": "tt35621542",
@@ -6296,26 +6221,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260873": {
-"imdb": "tt35298123",
-"imdbAll": [
-"tt35298123"
-],
-"lb": "teenage-sex-and-death-at-camp-miasma",
-"rt": "m/teenage_sex_and_death_at_camp_miasma",
-"mc": "movie/teenage-sex-and-death-at-camp-miasma",
-"en": "Teenage Sex and Death at Camp Miasma",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1240889,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "teenage-sex-and-death-at-camp-miasma",
-"lbRating": 3.64,
-"rated": "2026-10-29"
-},
 "fw-EDI20260878": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -6932,25 +6837,6 @@
 "lbRating": 3.52,
 "rated": "2026-10-29"
 },
-"fw-EDI20261151": {
-"lbSlug": "red-rue-express",
-"lbRating": 3.14,
-"rated": "2026-10-25",
-"imdb": "tt37595822",
-"imdbAll": [
-"tt37595822"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Red Rue Express",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1479369,
-"posterPath": "/66rjK57IQH8CrNG8tj7sUoo5Xjj.jpg"
-},
 "fw-EDI20261152": {
 "imdb": "tt29279937",
 "imdbAll": [
@@ -7324,21 +7210,6 @@
 "tv": 2,
 "tmdb": 5801
 },
-"fw-EDI20261466": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1770234,
-"lang": "en",
-"imdb": "tt45591708",
-"en": "BTS World Tour 'Arirang' In São Paulo: Live Viewing",
-"enFrom": "tmdb",
-"lbSlug": "bts-world-tour-arirang-in-sao-paulo",
-"lbRating": null,
-"rated": "2026-10-27",
-"posterPath": "/kK5wiFE800cMVIjsj2TTyLCQqZo.jpg",
-"v": 4
-},
 "fw-EDI20261468": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -7455,20 +7326,6 @@
 "lbSlug": "lords-of-war",
 "lbRating": null,
 "rated": "2026-10-25"
-},
-"fw-EDI20261486": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1515139,
-"lang": "en",
-"imdb": "tt46055956",
-"en": "Back to the Beginning: Ozzy's Final Bow",
-"enFrom": "tmdb",
-"lbSlug": "back-to-the-beginning-ozzys-final-bow",
-"lbRating": 3.89,
-"rated": "2026-10-27",
-"v": 4
 },
 "fw-EDI20261492": {
 "tmdbChecked": "2026-10-25",
@@ -8178,12 +8035,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20261601": {
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-28"
-},
 "fw-EDI20261602": {
 "imdb": "tt29943166",
 "imdbAll": [
@@ -8322,20 +8173,6 @@
 "rated": "2026-10-24",
 "posterPath": "/1lwqHiX6MgfmLSffXQwpnKpX8I4.jpg"
 },
-"fw-EDI20261663": {
-"v": 4,
-"checked": "2026-10-29",
-"tmdbChecked": "2026-10-13",
-"tv": 2,
-"tmdb": 1708712,
-"lang": "si",
-"imdb": null,
-"en": null,
-"lbSlug": "adaraneeya-tharuwak",
-"lbRating": null,
-"rated": "2026-10-29",
-"posterPath": "/b84eoB1ztvS260wUKbfbX8Y0gPT.jpg"
-},
 "fw-EDI20261673": {
 "imdb": "tt33085567",
 "imdbAll": [
@@ -8368,12 +8205,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-30"
-},
-"fw-EDI20261687": {
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2
 },
 "fw-EDI20261690": {
 "tmdbChecked": "2026-10-25",
@@ -9155,27 +8986,6 @@
 "v": 4,
 "checked": "2026-10-30"
 },
-"fw-UAV20191871": {
-"imdb": "tt0084787",
-"imdbAll": [
-"tt0084787"
-],
-"lb": "the-thing",
-"rt": "m/1021244-thing",
-"mc": "movie/the-thing-1982",
-"en": "The Thing",
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 1091,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-thing",
-"lbRating": 4.35,
-"rated": "2026-10-31",
-"posterPath": "/tzGY49kseSE9QAKk47uuDGwnSCu.jpg"
-},
 "fw-UAV20213349": {
 "imdb": "tt38351366",
 "imdbAll": [
@@ -9216,24 +9026,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-29"
-},
-"fw-UIP20020728": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 565,
-"imdb": "tt0298130",
-"en": "The Ring",
-"lbSlug": "the-ring-2002",
-"lbRating": 3.33,
-"rated": "2026-10-25",
-"imdbAll": [
-"tt0298130"
-],
-"lb": "the-ring-2002",
-"rt": "m/ring",
-"mc": "movie/the-ring",
-"v": 4,
-"checked": "2026-10-03"
 },
 "fw-UIP20060085": {
 "imdb": "tt0457939",
