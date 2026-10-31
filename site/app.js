@@ -707,10 +707,14 @@ const utcToLocal = (s) => {
   try { return new Intl.DateTimeFormat("sv-SE", { timeZone: state.data.tz, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(s + ":00Z")).replace(" ", "T"); }
   catch { return s; }
 };
+// The programme's events. Data written before the scraper kept an event log has none: rebuild the two main kinds from the films' stamps.
+const catalogEvents = () => state.data.events || state.data.films.flatMap((f) => [
+  f.onSaleSince && f.status === "on_sale" ? { type: "sale", film: f.id, at: f.onSaleSince } : null,
+  f.announcedSince && f.status === "announced" ? { type: "announced", film: f.id, at: f.announcedSince } : null].filter(Boolean));
 function feedEvents() {
   const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - FEED_DAYS), out = [];
   const row = (f, m, at) => ({ f, at, shows: m.shows, onSale: m.onSale, start: startDay(f, m.all), hidden: false, watched: isWatched(f) });
-  for (const e of state.data.events || []) {
+  for (const e of catalogEvents()) {
     const f = findFilm(e.film);
     if (!f || e.at <= state.data.baseline || e.at.slice(0, 10) < oldest || isHidden(f)) continue;
     const m = filmShows(f, now, now, "", true);
@@ -772,7 +776,7 @@ function postHtml(p) {
 }
 function renderFeed() {
   const el = $("feedPage"), today = localNow().slice(0, 10), seen = feedSeen(), posts = feedPosts();
-  feedLatest = [...(state.data.events || []).map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
+  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
   const days = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
