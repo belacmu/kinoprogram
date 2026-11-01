@@ -6,7 +6,7 @@
 do $$
 begin
   if exists (select 1 from information_schema.tables
-             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships')) then
+             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'screenings', 'screening_people')) then
     raise exception 'This database already has other tables, so it is not a new Cinecrab project. Nothing was changed.';
   end if;
 end $$;
@@ -210,3 +210,145 @@ $$;
 
 revoke all on function public.friends_feed() from public;
 grant execute on function public.friends_feed() to authenticated;
+
+-- ---------------------------------------------------------------------------------------------------------------------
+-- Screenings: someone invites people to a showing. Who is TOLD about it (their Feed) is its visibility; the link works at every level.
+--   private  = only people with the link          friends = also the host's friends          everyone = every user (admins only, for now)
+-- For now only admins can create them:  update public.profiles set is_admin = true where email = 'you@example.com';  (SQL editor only)
+-- Nothing is readable or writable directly: everything goes through the functions below (security definer).
+alter table public.profiles add column if not exists is_admin boolean not null default false;
+
+create table if not exists public.screenings (
+  id          uuid primary key default gen_random_uuid(),
+  token       text not null unique default substr(replace(gen_random_uuid()::text, '-', ''), 1, 16),
+  host        uuid not null references public.profiles (id) on delete cascade,
+  visibility  text not null default 'private' check (visibility in ('private', 'friends', 'everyone')),
+  region      text not null,
+  film_id     text not null,
+  film_title  text not null,
+  film_year   text,
+  poster      text,
+  cinema      text not null,
+  starts_at   text not null,                       -- the cinema's local time, "YYYY-MM-DDTHH:MM"
+  ticket_url  text,
+  note        text check (char_length(note) <= 500),
+  cancelled   boolean not null default false,
+  created_at  timestamptz not null default now()
+);
+alter table public.screenings add column if not exists visibility text not null default 'private';
+
+-- Who is going, with the row and seats they say they bought (all optional; seats are self-reported, nothing checks them).
+create table if not exists public.screening_people (
+  screening   uuid not null references public.screenings (id) on delete cascade,
+  person      uuid not null references public.profiles (id) on delete cascade,
+  row_label   text check (char_length(row_label) <= 4),
+  seats       int[] not null default '{}',
+  created_at  timestamptz not null default now(),
+  primary key (screening, person)
+);
+
+alter table public.screenings enable row level security;
+alter table public.screening_people enable row level security;
+revoke all on public.screenings, public.screening_people from anon, authenticated;
+
+create or replace function public.am_admin()
+returns boolean language sql stable security definer set search_path = '' as $$
+  select coalesce((select is_admin from public.profiles where id = (select auth.uid())), false);
+$$;
+revoke all on function public.am_admin() from public;
+grant execute on function public.am_admin() to authenticated;
+
+create or replace function public.create_screening(p_visibility text, p_region text, p_film_id text, p_film_title text, p_film_year text,
+                                                   p_poster text, p_cinema text, p_starts_at text, p_ticket_url text, p_note text)
+returns text language plpgsql security definer set search_path = '' as $$
+declare t text;
+begin
+  if not public.am_admin() then raise exception 'Only admins can host screenings for now'; end if;
+  if p_visibility not in ('private', 'friends', 'everyone') then raise exception 'Unknown visibility'; end if;
+  insert into public.screenings (host, visibility, region, film_id, film_title, film_year, poster, cinema, starts_at, ticket_url, note)
+  values ((select auth.uid()), p_visibility, left(p_region, 20), left(p_film_id, 80), left(p_film_title, 200), left(p_film_year, 10), left(p_poster, 500),
+          left(p_cinema, 120), left(p_starts_at, 16), nullif(left(btrim(p_ticket_url), 500), ''), nullif(left(btrim(p_note), 500), ''))
+  returning token into t;
+  return t;
+end;
+$$;
+revoke all on function public.create_screening(text, text, text, text, text, text, text, text, text, text) from public;
+grant execute on function public.create_screening(text, text, text, text, text, text, text, text, text, text) to authenticated;
+
+-- One screening by its link: readable by anyone with the token (signed in or not). Names are display names, never emails.
+create or replace function public.get_screening(p_token text)
+returns jsonb language sql stable security definer set search_path = '' as $$
+  select jsonb_build_object(
+    'token', s.token, 'visibility', s.visibility, 'region', s.region, 'film_id', s.film_id, 'film_title', s.film_title, 'film_year', s.film_year,
+    'poster', s.poster, 'cinema', s.cinema, 'starts_at', s.starts_at, 'ticket_url', s.ticket_url, 'note', s.note,
+    'cancelled', s.cancelled, 'mine_host', s.host = (select auth.uid()),
+    'host_name', coalesce(nullif(h.display_name, ''), split_part(h.email, '@', 1)),
+    'people', coalesce((
+      select jsonb_agg(jsonb_build_object(
+        'name', coalesce(nullif(p.display_name, ''), split_part(p.email, '@', 1)), 'row', sp.row_label, 'seats', sp.seats,
+        'me', sp.person = (select auth.uid())) order by sp.created_at)
+      from public.screening_people sp join public.profiles p on p.id = sp.person where sp.screening = s.id), '[]'::jsonb))
+  from public.screenings s join public.profiles h on h.id = s.host
+  where s.token = p_token;
+$$;
+revoke all on function public.get_screening(text) from public;
+grant execute on function public.get_screening(text) to anon, authenticated;
+
+-- The screenings this user can see, for the pinned part of the Feed: hosted by them, joined by them, their friends' (friends or
+-- everyone), and everyone-visible ones. Upcoming only (the page drops the ones already over, by the cinema's own clock).
+create or replace function public.visible_screenings()
+returns jsonb language sql stable security definer set search_path = '' as $$
+  select coalesce(jsonb_agg(x.j order by x.j ->> 'starts_at'), '[]'::jsonb) from (
+    select jsonb_build_object(
+      'token', s.token, 'visibility', s.visibility, 'region', s.region, 'film_id', s.film_id, 'film_title', s.film_title, 'poster', s.poster,
+      'cinema', s.cinema, 'starts_at', s.starts_at, 'created', to_char(s.created_at at time zone 'utc', 'YYYY-MM-DD"T"HH24:MI'),
+      'host_name', coalesce(nullif(h.display_name, ''), split_part(h.email, '@', 1)), 'mine_host', s.host = (select auth.uid()),
+      'going', (select count(*) from public.screening_people sp where sp.screening = s.id),
+      'me_going', exists (select 1 from public.screening_people sp where sp.screening = s.id and sp.person = (select auth.uid())),
+      'names', coalesce((select jsonb_agg(coalesce(nullif(p.display_name, ''), split_part(p.email, '@', 1)) order by sp.created_at)
+                         from (select * from public.screening_people q where q.screening = s.id order by q.created_at limit 6) sp
+                         join public.profiles p on p.id = sp.person), '[]'::jsonb)) as j
+    from public.screenings s join public.profiles h on h.id = s.host
+    where (select auth.uid()) is not null and not s.cancelled
+      and s.starts_at >= to_char((now() at time zone 'utc') - interval '14 hours', 'YYYY-MM-DD"T"HH24:MI')
+      and (s.host = (select auth.uid())
+           or exists (select 1 from public.screening_people sp where sp.screening = s.id and sp.person = (select auth.uid()))
+           or s.visibility = 'everyone'
+           or (s.visibility = 'friends' and exists (select 1 from public.friendships f
+                 where (f.a = (select auth.uid()) and f.b = s.host) or (f.b = (select auth.uid()) and f.a = s.host))))
+    order by s.starts_at limit 30) x;
+$$;
+revoke all on function public.visible_screenings() from public;
+grant execute on function public.visible_screenings() to authenticated;
+
+create or replace function public.join_screening(p_token text, p_row text, p_seats int[])
+returns void language plpgsql security definer set search_path = '' as $$
+declare sid uuid; clean int[];
+begin
+  if (select auth.uid()) is null then raise exception 'Sign in to join'; end if;
+  select id into sid from public.screenings where token = p_token and not cancelled;
+  if sid is null then raise exception 'Screening not found'; end if;
+  select coalesce(array_agg(distinct x order by x), '{}') into clean from unnest(coalesce(p_seats, '{}')) x where x between 1 and 99;
+  insert into public.screening_people (screening, person, row_label, seats)
+  values (sid, (select auth.uid()), nullif(upper(left(btrim(p_row), 4)), ''), clean[1:12])
+  on conflict (screening, person) do update set row_label = excluded.row_label, seats = excluded.seats;
+end;
+$$;
+revoke all on function public.join_screening(text, text, int[]) from public;
+grant execute on function public.join_screening(text, text, int[]) to authenticated;
+
+create or replace function public.leave_screening(p_token text)
+returns void language sql security definer set search_path = '' as $$
+  delete from public.screening_people where person = (select auth.uid())
+    and screening = (select id from public.screenings where token = p_token);
+$$;
+revoke all on function public.leave_screening(text) from public;
+grant execute on function public.leave_screening(text) to authenticated;
+
+-- Cancel your own screening (its page says so; nobody can join, and it leaves everyone's Feed).
+create or replace function public.cancel_screening(p_token text)
+returns void language sql security definer set search_path = '' as $$
+  update public.screenings set cancelled = true where token = p_token and host = (select auth.uid());
+$$;
+revoke all on function public.cancel_screening(text) from public;
+grant execute on function public.cancel_screening(text) to authenticated;

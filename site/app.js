@@ -68,6 +68,10 @@ const state = {
   page: "films",        // the films list (default) or the feed
   friendEvents: [],     // what friends added to their watchlists: {id, name, film, at}
   feedOpen: new Set(),  // posts expanded to show all their films
+  isAdmin: false,       // may host screenings (am_admin)
+  screenings: [],       // the screenings this user can see (visible_screenings)
+  scrOpen: false,       // the pinned screenings section shows all of them
+  pickShowing: "",       // film id while picking a showing to invite friends to
   feedKinds: local.get("feedKinds", []).map((k) => (k === "showings" ? "sale" : k)),  // kinds of updates picked in the feed's filter (none = all)
   onlyFriends: false,   // the Friends tab: films on your friends' watchlists
   day: "",              // the day the first section shows; "" = today. Not remembered across reloads
@@ -752,7 +756,7 @@ function feedEvents() {
 function feedPosts(filtered = true) {
   const by = new Map();
   for (const e of feedEvents()) {
-    if (filtered && state.feedKinds.length && !state.feedKinds.includes(e.type === "showings" ? "sale" : e.type)) continue;  // more showings count as "On sale"
+    if (filtered && state.feedKinds.length && !state.feedKinds.includes(e.type === "showings" ? "sale" : e.type)) continue;  // (the "screening" chip matches none: only the pinned section shows)  // more showings count as "On sale"
     const k = `${e.key}|${e.at.slice(0, 10)}`;
     if (!by.has(k)) by.set(k, { key: k, type: e.type, actor: e.actor, at: e.at, rows: [] });
     const p = by.get(k);
@@ -793,7 +797,7 @@ function postHtml(p) {
 }
 // The row of kinds at the top of the feed (needs no data, so it's there before the programme arrives).
 function feedFilterHtml() {
-  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"]];
+  const KINDS = [...(sb ? [["friend", "Friends"]] : []), ["sale", "On sale"], ["announced", "Announced"], ...(sb ? [["screening", "Screenings"]] : [])];
   const chip = (k, label) => `<button type="button" class="chip" data-fk="${k}" aria-pressed="${k ? state.feedKinds[0] === k : !state.feedKinds.length}">${label}</button>`;
   return `<div class="feedfilter" role="group" aria-label="Kinds of updates">${chip("", "All")}${KINDS.map(([k, l]) => chip(k, l)).join("")}</div>`;
 }
@@ -813,7 +817,7 @@ function renderFeed() {
   if (!state.data) return;  // the skeleton stays until the programme arrives
   posterEager = 12;
   const el = $("feedPage"), seen = feedSeen(), posts = feedPosts();
-  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
+  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at), ...state.screenings.map((x) => utcToLocal(x.created))].sort().at(-1) || "";
   const parts = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
@@ -826,10 +830,11 @@ function renderFeed() {
   const needFriends = state.feedKinds[0] === "friend" ? friendsNeedHtml() : "";  // Friends filter, nobody to show: the Friends view's own prompt
   if (needFriends && el.contains(document.activeElement) && document.activeElement.value) return;  // a code is being typed
   if (needFriends) {
-    el.innerHTML = `${filter}<div class="fpanel">${needFriends}</div>${state.user && state.profile?.friend_code ? `<p class="nempty">Once your friends add films to their watchlists, they'll show up here.</p>` : ""}`;
+    el.innerHTML = `${filter}${screeningsHtml()}<div class="fpanel">${needFriends}</div>${state.user && state.profile?.friend_code ? `<p class="nempty">Once your friends add films to their watchlists, they'll show up here.</p>` : ""}`;
     return;
   }
-  el.innerHTML = `${filter}${parts.length ? parts.join("")
+  const pinned = screeningsHtml();
+  el.innerHTML = `${filter}${pinned}${state.feedKinds[0] === "screening" ? (pinned ? "" : `<p class="nempty">No screenings coming up. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`) : parts.length ? parts.join("")
       : state.feedKinds.length ? `<p class="nempty">No updates of this kind yet. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`
       : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
@@ -843,6 +848,7 @@ $("feedPage").addEventListener("click", (e) => {
     renderFeed();
     return;
   }
+  if (e.target.closest("[data-scrmore]")) { state.scrOpen = !state.scrOpen; renderFeed(); return; }
   const more = e.target.closest("[data-post]");
   if (more) { const k = more.dataset.post; state.feedOpen.has(k) ? state.feedOpen.delete(k) : state.feedOpen.add(k); renderFeed(); return; }
   if (e.target.closest("[data-feed=signin]")) promptSignIn();
@@ -854,7 +860,8 @@ function renderNav() {
   for (const a of $("mainNav").querySelectorAll("[data-page]")) a.toggleAttribute("aria-current", a.dataset.page === state.page);
   // Posts not seen yet. Someone who has never opened the feed counts the last three days, so the badge invites them in.
   const seen = feedSeen() || (state.data ? addDays(localNow().slice(0, 10), -3) + "T00:00" : "");
-  const fresh = state.page === "feed" || !seen || !state.data ? 0 : feedPosts(false).filter((p) => p.at > seen).length;
+  const fresh = state.page === "feed" || !seen || !state.data ? 0
+    : feedPosts(false).filter((p) => p.at > seen).length + upcomingScreenings().filter((x) => !x.mine_host && utcToLocal(x.created) > seen).length;
   const dot = $("feedDot");
   dot.hidden = !fresh;
   dot.textContent = fresh > 9 ? "9+" : fresh;
@@ -874,6 +881,7 @@ function setPage(name) {
   if (state.page === "feed") markFeedSeen();
   state.page = name;
   if (!$("film").open) history.replaceState(null, "", location.pathname + location.search + (name === "feed" ? "#feed" : "#films"));
+  if (name === "feed" && Date.now() - screeningsAt > 30000) loadScreenings();
   if (name === "films" && !filmsDirty) renderNav(); else render();
   window.scrollTo({ top: 0 });
 }
@@ -945,13 +953,15 @@ function sheetTagList(all) {
 
 const MEAL_TAG = "Meal + film";  // dinner/brunch packages (Sommerro, sometimes Vega): priced far above a cinema ticket
 
-function stubHtml(s) {
+function stubHtml(s, f) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const tags = showTags(s);
   const inner = `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
     + (tags.length ? `<span class="tg">${esc(tags.map((t) => (t === MEAL_TAG ? "🍽 " : "") + t).join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
     + (!s.ticket ? `<span class="c">${esc(s.status || "Not on sale yet")}</span>` : "");
+  // Picking a showing to invite friends to: every showing becomes a button for the pick.
+  if (f && state.pickShowing === f.id) return `<button type="button" class="stub pick" data-pickshow="${esc(f.id)}|${esc(s.t)}|${esc(s.cinema)}">${inner}</button>`;
   return s.ticket
     ? `<a class="stub" href="${esc(s.ticket)}" target="_blank" rel="noopener" title="Buy tickets">${inner}</a>`
     : `<span class="stub nosale">${inner}</span>`;
@@ -993,7 +1003,7 @@ function openFilm(id) {
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
     <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
-    <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
+    <div class="stubs">${shows.map((s) => stubHtml(s, f)).join("")}</div></div>`).join("");
   let empty = "";
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
   else if (!all.length && f.elsewhere?.length) empty = `<p class="hiddenNote">Premiere ${dayLabel(f.premiere)}. Showings so far only in ${esc(f.elsewhere.join(", "))}; none in ${esc(state.data.location)} yet.</p>`;
@@ -1019,12 +1029,13 @@ function openFilm(id) {
         <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
         <button class="btn ghost share" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}<span class="lbl">${canShare ? "Share" : "Copy link"}</span></button>
         <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
-          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
+          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}${state.isAdmin ? `<button role="menuitem" data-invite="${esc(f.id)}"><span class="mi">${MENU_ICONS.friends}</span>Invite friends</button>` : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
       </div>
       ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
     </div>
     </div>
     ${picks.menus || picks.strip ? `<div class="showings"><div class="showhead"><h3>Showings</h3>${picks.menus}</div>${picks.strip}</div>` : ""}
+    ${state.pickShowing === f.id ? `<div class="pickbar"><span>Pick the showing to invite friends to</span><button type="button" class="linkbtn" data-pickcancel>Cancel</button></div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
@@ -1089,9 +1100,16 @@ function route() {
     if (f && !isWatched(f) && requestWatch(f)) { savePrefs(); render(); }
     history.replaceState(null, "", location.pathname + location.search + "#film/" + encodeURIComponent(id));
   }
+  const scr = location.hash.match(/^#screening\/([A-Za-z0-9]+)$/);
   const m = location.hash.match(/^#film\/(.+)$/);
   const first = !state.routed;
   state.routed = true;
+  if (scr) {
+    state.routed = true;
+    if ($("film").open) $("film").close();
+    openScreening(scr[1]);
+    return;
+  }
   if (m) {
     if (first && state.page !== "films") { state.page = "films"; render(); }  // a link straight to a film: the films list is behind it
     openFilm(decodeURIComponent(m[1]));
@@ -1550,6 +1568,8 @@ async function loadProfile() {
   if (accountRegion && accountRegion !== state.region) loadRegion(accountRegion);  // the account remembers the location, so a new device opens on it
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
   if (data.friend_code) loadFriends();
+  loadAdmin();
+  loadScreenings();
 }
 
 let friendsSeq = 0;
@@ -1727,6 +1747,165 @@ $("acctMenu").addEventListener("click", async (e) => {
   $("account").scrollTop = 0;
 });
 
+// ---------------------------------------------------------------- screenings
+// An admin hosts a screening of one showing (a page with the film, cinema, time, a ticket link and who is coming). Anyone with the
+// link can look; signed-in people join and add the row and seats they've bought. Everything goes through database functions.
+const HOST_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+const screeningLink = (token) => location.href.split(/[?#]/)[0] + "s/?t=" + token;
+async function loadAdmin() {
+  if (!sb || !state.user) { state.isAdmin = false; return; }
+  const uid = state.user.id, { data, error } = await sb.rpc("am_admin");
+  if (state.user?.id !== uid) return;
+  const was = state.isAdmin;
+  state.isAdmin = !error && data === true;
+  if (was !== state.isAdmin && $("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));  // show (or hide) the host buttons
+}
+// "7, 8, 10-12" -> [7, 8, 10, 11, 12]; and back: [7, 8, 9] -> "7–9"
+function parseSeats(text) {
+  const out = new Set();
+  for (const part of String(text || "").split(/[,\s]+/).filter(Boolean)) {
+    const m = part.match(/^(\d{1,2})(?:[-–](\d{1,2}))?$/);
+    if (!m) continue;
+    const a = +m[1], b = m[2] ? +m[2] : a;
+    for (let i = Math.min(a, b); i <= Math.max(a, b) && out.size < 12; i++) if (i >= 1 && i <= 99) out.add(i);
+  }
+  return [...out].sort((x, y) => x - y);
+}
+function seatsText(seats) {
+  const out = [];
+  for (let i = 0; i < seats.length; i++) {
+    let j = i;
+    while (seats[j + 1] === seats[j] + 1) j++;
+    out.push(j - i >= 2 ? `${seats[i]}–${seats[j]}` : seats.slice(i, j + 1).join(", "));
+    i = j;
+  }
+  return out.join(", ");
+}
+const scrConsent = (sc) => sc.visibility === "everyone" ? "Everyone on Cinecrab can see you're going. " : sc.visibility === "friends" ? `${esc(sc.host_name)}'s friends can see you're going. ` : "";
+const scrWhen = (t) => `${dayLabel(t)} · ${hhmm(t)}`;
+function openScreeningDialog() { if (!$("screening").open) $("screening").showModal(); $("screening").scrollTop = 0; }
+// Invite friends: the film's showings turn into a list to pick from, then the form.
+function startInvite(filmId) { state.pickShowing = filmId; openFilm(filmId); $("film").querySelector(".pickbar")?.scrollIntoView({ block: "center" }); }
+function endInvite() { const id = state.pickShowing; state.pickShowing = ""; if (id && $("film").open) openFilm(id); }
+document.addEventListener("click", (e) => {
+  const inv = e.target.closest("[data-invite]"), pick = e.target.closest("[data-pickshow]");
+  if (inv) { closeMenus(); startInvite(inv.dataset.invite); }
+  else if (pick) { const key = pick.dataset.pickshow; endInvite(); openHost(key); }
+  else if (e.target.closest("[data-pickcancel]")) endInvite();
+});
+function openHost(key) {
+  const [id, t, cinema] = key.split("|"), f = findFilm(id), show = f?.shows.find((x) => x.t === t && x.cinema === cinema);
+  if (!f || !show) return;
+  state.hosting = { f, show };
+  $("screeningBody").innerHTML = `<h2 id="scrTitle">Invite friends</h2>
+    <div class="scrsum"><b>${esc(titleOf(f))}</b><span>${esc(scrWhen(show.t))} · ${esc(show.cinema)}</span></div>
+    <form id="hostForm" class="scrform">
+      <div class="vislabel">Who sees it</div>
+      <div class="vis">${[["private", "Private", "Only people with the link"], ["friends", "Friends", "Shown to all your friends"], ...(state.isAdmin ? [["everyone", "Everyone", "Shown to every user on Cinecrab"]] : [])]
+        .map(([v, name, hint]) => `<label><input type="radio" name="vis" value="${v}"${(local.get("scrVis", "private") === v || (v === "private" && !state.isAdmin && local.get("scrVis", "private") === "everyone")) ? " checked" : ""}><span><b>${name}</b><small>${hint}</small></span></label>`).join("")}</div>
+      <label for="scrTicket">Ticket link</label><input type="text" inputmode="url" id="scrTicket" value="${esc(show.ticket || "")}" placeholder="https://…" autocomplete="off">
+      <label for="scrNote">Note (optional)</label><textarea id="scrNote" maxlength="500" rows="3" placeholder="Meet in the lobby at 18:45"></textarea>
+      <button type="submit" class="btn accent">Create invite</button><div class="msg err" id="hostMsg" hidden></div>
+    </form>`;
+  openScreeningDialog();
+}
+async function createScreening() {
+  const { f, show } = state.hosting, btn = $("hostForm").querySelector("button");
+  btn.disabled = true;
+  const poster = [f.poster, f.poster2].find((p) => p && p.startsWith("http")) || "";
+  const vis = document.querySelector("#hostForm input[name=vis]:checked")?.value || "private";
+  local.set("scrVis", vis);
+  const { data, error } = await sb.rpc("create_screening", { p_visibility: vis, p_region: state.region, p_film_id: f.id, p_film_title: titleOf(f), p_film_year: String(f.year || ""),
+    p_poster: poster, p_cinema: show.cinema, p_starts_at: show.t, p_ticket_url: $("scrTicket").value, p_note: $("scrNote").value });
+  if (error) { btn.disabled = false; $("hostMsg").hidden = false; $("hostMsg").textContent = "Couldn't create it. Try again in a moment."; return; }
+  loadScreenings();
+  const link = screeningLink(data);
+  $("screeningBody").innerHTML = `<h2 id="scrTitle">Invite created</h2>
+    <p>Send this link to anyone. They can see the film, the time and who's coming without an account; signing in lets them join and add their seats.</p>
+    <div class="scrlink">${esc(link)}</div>
+    <div class="row"><button class="btn accent" data-scr="copy" data-link="${esc(link)}">Copy link</button><a class="btn ghost" href="#screening/${esc(data)}">Open the page</a></div>`;
+}
+async function openScreening(token) {
+  if (!sb) return;
+  state.screeningToken = token;
+  $("screeningBody").innerHTML = `<h2 id="scrTitle">Screening</h2><p>Loading…</p>`;
+  openScreeningDialog();
+  const { data, error } = await sb.rpc("get_screening", { p_token: token });
+  if (state.screeningToken !== token) return;
+  if (error || !data) { $("screeningBody").innerHTML = `<h2 id="scrTitle">Screening not found</h2><p>This link may be wrong, or the screening was removed.</p>`; return; }
+  state.screening = data;
+  renderScreening();
+}
+function renderScreening(msg = "") {
+  const sc = state.screening, me = sc.people.find((p) => p.me), signedIn = !!state.user;
+  const people = sc.people.map((p) => `<li${p.me ? ' class="me"' : ""}><span>${esc(p.name)}${p.me ? " (you)" : ""}</span><small>${p.row || p.seats.length ? esc([p.row ? `Row ${p.row}` : "", p.seats.length ? `seat${p.seats.length > 1 ? "s" : ""} ${seatsText(p.seats)}` : ""].filter(Boolean).join(" · ")) : "no seats yet"}</small></li>`).join("");
+  const join = sc.cancelled ? "" : signedIn
+    ? `<form id="joinForm" class="scrform joinrow"><div><label for="scrRow">Row</label><input id="scrRow" maxlength="4" value="${esc(me?.row || "")}" placeholder="F" autocomplete="off"></div>
+        <div><label for="scrSeats">Seat(s)</label><input id="scrSeats" value="${esc(me ? seatsText(me.seats) : "")}" placeholder="7, 8" autocomplete="off"></div>
+        <button type="submit" class="btn accent">${me ? "Update" : "I'm in"}</button></form>
+      <p class="hint">${scrConsent(sc)}Add the row and seats you've bought (optional; you can add them later).${me ? ` <button type="button" class="linkbtn" data-scr="leave">Not going</button>` : ""}</p>`
+    : `<p class="hint">Sign in to say you're going and add your seats.</p><button type="button" class="btn accent" data-scr="signin">Sign in or register</button>`;
+  $("screeningBody").innerHTML = `${sc.cancelled ? `<div class="msg err">This screening was cancelled.</div>` : ""}
+    <div class="scrhead">${sc.poster ? `<img src="${esc(sc.poster)}" alt="" onerror="this.remove()">` : ""}<div><h2 id="scrTitle">${esc(sc.film_title)}</h2>
+      <div class="scrwhen">${esc(scrWhen(sc.starts_at))}</div><div class="scrwhere">${esc(sc.cinema)}</div>
+      <div class="scrby">Hosted by ${esc(sc.host_name)}</div></div></div>
+    ${sc.note ? `<p class="scrnote">${esc(sc.note)}</p>` : ""}
+    <div class="row">${sc.ticket_url ? `<a class="btn accent" href="${esc(sc.ticket_url)}" target="_blank" rel="noopener">Buy tickets ↗</a>` : ""}<button class="btn ghost" data-scr="copy" data-link="${esc(screeningLink(sc.token))}">Copy link</button></div>
+    <div class="subh">Who's coming (${sc.people.length})</div>
+    ${people ? `<ul class="scrpeople">${people}</ul>` : `<p class="hint">Nobody yet.</p>`}
+    ${join}${msg ? `<div class="msg err">${esc(msg)}</div>` : ""}
+    ${sc.mine_host && !sc.cancelled ? `<p class="hint"><button type="button" class="linkbtn" data-scr="cancel">Cancel this screening</button></p>` : ""}`;
+}
+$("screening").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-scr]");
+  if (!b) return;
+  const what = b.dataset.scr, token = state.screening?.token;
+  if (what === "copy") toast(await clip(b.dataset.link) ? "Link copied" : "Couldn't copy the link");
+  else if (what === "signin") { promptSignIn(); }
+  else if (what === "leave") { await sb.rpc("leave_screening", { p_token: token }); loadScreenings(); openScreening(token); }
+  else if (what === "cancel" && confirm("Cancel this screening? People will see that it was cancelled.")) { await sb.rpc("cancel_screening", { p_token: token }); loadScreenings(); openScreening(token); }
+});
+$("screening").addEventListener("submit", async (e) => {
+  if (e.target.id === "hostForm") { e.preventDefault(); createScreening(); return; }
+  if (e.target.id !== "joinForm") return;
+  e.preventDefault();
+  const { error } = await sb.rpc("join_screening", { p_token: state.screening.token, p_row: $("scrRow").value.toUpperCase(), p_seats: parseSeats($("scrSeats").value) });
+  if (error) { renderScreening("Couldn't save that. Try again in a moment."); return; }
+  loadScreenings();
+  await openScreening(state.screening.token);
+  toast("You're in");
+});
+$("screening").addEventListener("click", (e) => { if (e.target === $("screening")) $("screening").close(); });
+$("screening").addEventListener("close", () => { state.screeningToken = ""; if (location.hash.startsWith("#screening/")) history.pushState("", document.title, location.pathname + location.search + (state.page === "feed" ? "#feed" : "#films")); });
+// ---- the Feed's pinned screenings: every screening this user can see (hosted, joined, friends', public ones), soonest first
+let screeningsAt = 0;
+async function loadScreenings() {
+  if (!sb || !state.user) { state.screenings = []; return; }
+  const uid = state.user.id, { data, error } = await sb.rpc("visible_screenings");
+  if (state.user?.id !== uid) return;
+  screeningsAt = Date.now();
+  state.screenings = error || !Array.isArray(data) ? [] : data;
+  if (state.page === "feed") renderFeed();
+  renderNav();
+}
+const upcomingScreenings = () => state.screenings.filter((s) => s.region === state.region && s.starts_at >= localNow()).sort((a, b) => a.starts_at.localeCompare(b.starts_at));
+function screeningCard(s) {
+  const dots = s.names.slice(0, 4).map((n) => `<span class="fdot" style="--h:${friendHue(n)}">${esc(initialsOf(n))}</span>`).join("");
+  return `<article class="scard"><a class="scposter" href="#screening/${esc(s.token)}">${s.poster ? `<img src="${esc(s.poster)}" alt="" onerror="this.remove()">` : ""}</a>
+    <div class="sctext"><a href="#screening/${esc(s.token)}"><strong>${esc(s.film_title)}</strong></a>
+      <span class="scwhen">${esc(scrWhen(s.starts_at))} · ${esc(s.cinema)}</span>
+      <span class="scby">${s.mine_host ? "You're hosting" : `Hosted by ${esc(s.host_name)}`}${s.visibility === "private" ? " · Private" : ""}</span>
+      <span class="scgoing"><span class="fstack">${dots}</span>${s.going ? `${s.going} going` : "Nobody yet"}</span></div>
+    <a class="btn ${s.me_going ? "ghost" : "accent"} small" href="#screening/${esc(s.token)}">${s.me_going ? "Open" : "I'm in"}</a></article>`;
+}
+function screeningsHtml() {
+  const rows = upcomingScreenings();
+  if (!rows.length) return "";
+  const shown = state.scrOpen ? rows : rows.slice(0, 3);
+  return `<section class="scrsec" aria-label="Screenings"><h3>Screenings</h3>${shown.map(screeningCard).join("")}
+    ${rows.length > 3 ? `<button type="button" class="linkbtn postmore" data-scrmore aria-expanded="${!!state.scrOpen}">${state.scrOpen ? "Show fewer" : `Show ${rows.length - 3} more`}</button>` : ""}</section>`;
+}
+
 function renderProfile(msg) {
   const p = state.profile;
   $("accountBody").innerHTML = `<h2 id="accountTitle">Profile</h2>
@@ -1791,9 +1970,10 @@ function setUser(session) {
     if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });
   } else { paintAccount(false); local.set("acct", null); }
   if (!state.user) closeMenus();
-  if (!state.user) { state.profile = null; state.friends = []; state.friendEvents = []; state.acctView = ""; }
+  if (!state.user) { state.isAdmin = false; state.screenings = []; state.profile = null; state.friends = []; state.friendEvents = []; state.acctView = ""; }
   renderAccount();
   fitHeader();
+  if ($("screening").open && state.screeningToken) openScreening(state.screeningToken);  // signed in or out while looking at a screening
 }
 function refreshAvatar() {
   if (!state.user) return;

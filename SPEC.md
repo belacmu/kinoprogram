@@ -308,6 +308,28 @@ Data (Supabase):
 - The daily email reads this same log (plus friends' adds), so a new kind of event is added in one place; the email's
   rules below only decide who gets which.
 
+## Screenings (admin only for now)
+
+- **Inviting friends to a showing.** From a film's ⋯ menu an admin taps **Invite friends**; the film's showings become a
+  list to pick from ("Pick the showing to invite friends to"), then a form: **who sees it**, a ticket link (the
+  showing's own by default), an optional note. Result: a private link to copy. (Non-admins don't see this yet.)
+- **Who sees it** (the link works at every level; this decides who is *told*): **Private** (only people with the link,
+  the default), **Friends** (shown to all the host's friends), **Everyone** (every user; admins only).
+- **Pinned in the Feed**: every screening the signed-in user can see (hosted, joined, friends', public) sits above the
+  posts, soonest first, up to 3 with **Show more**; past ones drop off after their time; only the current location's. A card: poster,
+  film, day and time, cinema, "You're hosting" / "Hosted by …", avatars and "N going", and **I'm in** (or **Open** once
+  going). A **Screenings** chip shows only this section. A new one counts toward the Feed tab's number.
+- **The page** (`#screening/<token>`; share `/s/?t=<token>`, a static page with a generic chat preview that forwards to
+  it): poster, film, day and time, cinema, host, note, **Buy tickets** (the ticket link; no payments), **Copy link**,
+  **Who's coming** with names, rows and seats. Anyone with the link can look, signed in or not (display names, never
+  emails). **Signed-in** people tap **I'm in**, optionally with a row (letter or number, up to 4 characters) and seats
+  ("7, 8" or "7-9", several allowed; nothing checks them); they can update or leave. Joining shows who can see them
+  ("Everyone on Cinecrab can see you're going" / "<host>'s friends can see you're going"). The host can cancel.
+- Database: `screenings` and `screening_people`, reached only through functions (`create_screening`, `get_screening`,
+  `visible_screenings`, `join_screening`, `leave_screening`, `cancel_screening`, `am_admin`); admins are set by hand
+  (`profiles.is_admin`).
+- Not yet: hosting by non-admins, reminders and calendar files, seat maps, following hosts (not planned).
+
 ## Daily email
 
 - Sent at about 09:00 local time per region, to subscribers who chose that region (default Oslo),
