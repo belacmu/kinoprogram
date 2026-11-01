@@ -1310,12 +1310,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-2026-troll-i-eske-november": {
-"tmdbChecked": "2026-10-31",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-31"
-},
 "cm-9-temples-to-heaven": {
 "imdb": "tt37740247",
 "imdbAll": [
@@ -1619,26 +1613,6 @@
 ],
 "lb": "a-good-marriage",
 "rt": "m/a_good_marriage",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-det-sande-ansigt": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 326102,
-"imdb": "tt0043990",
-"en": "The Face of Truth",
-"enFrom": "tmdb",
-"lbSlug": "the-face-of-truth",
-"lbRating": null,
-"rated": "2026-10-25",
-"posterPath": "/vgBSECTIzJttIJo1VIQF4nozc5y.jpg",
-"imdbAll": [
-"tt0043990"
-],
-"lb": "the-face-of-truth",
-"rt": null,
 "mc": null,
 "v": 4,
 "checked": "2026-10-03"
@@ -4775,12 +4749,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20251252": {
-"tmdbChecked": "2026-10-30",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-30"
-},
 "fw-EDI20251283": {
 "imdb": "tt36544524",
 "imdbAll": [
@@ -5068,20 +5036,6 @@
 "lbRating": 4.0,
 "rated": "2026-10-25"
 },
-"fw-EDI20251796": {
-"v": 4,
-"checked": "2026-10-30",
-"tmdbChecked": "2026-10-30",
-"tv": 2,
-"tmdb": 1686178,
-"lang": "en",
-"imdb": "tt43338428",
-"en": "Savage Mountain",
-"enFrom": "tmdb",
-"lbSlug": "savage-mountain",
-"lbRating": 3.51,
-"rated": "2026-10-30"
-},
 "fw-EDI20251817": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5286,26 +5240,6 @@
 "lbSlug": "king-2026",
 "lbRating": null,
 "rated": "2026-10-28"
-},
-"fw-EDI20260255": {
-"imdb": "tt35672862",
-"imdbAll": [
-"tt35672862"
-],
-"lb": "hokum",
-"rt": "m/hokum",
-"mc": "movie/hokum",
-"en": "Hokum",
-"v": 4,
-"checked": "2026-10-19",
-"tmdbChecked": "2026-10-19",
-"tv": 2,
-"tmdb": 1430077,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "hokum",
-"lbRating": 3.26,
-"rated": "2026-10-27"
 },
 "fw-EDI20260285": {
 "lbSlug": "stitch-head",
@@ -7930,12 +7864,6 @@
 "lbRating": 3.57,
 "rated": "2026-10-30"
 },
-"fw-EDI20261637": {
-"v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
-"tv": 2
-},
 "fw-EDI20261638": {
 "v": 4,
 "checked": "2026-10-06",
@@ -8012,12 +7940,6 @@
 "posterPath": "/xe9V5utoUjyb92g5eBWbro1MSKd.jpg"
 },
 "fw-EDI20261676": {
-"tmdbChecked": "2026-10-30",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-30"
-},
-"fw-EDI20261686": {
 "tmdbChecked": "2026-10-30",
 "tv": 2,
 "v": 4,
@@ -9928,27 +9850,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-28"
-},
-"mk-el-gato-con-sombrero3": {
-"imdb": "tt2321555",
-"imdbAll": [
-"tt2321555"
-],
-"lb": "the-cat-in-the-hat-2026",
-"rt": "m/the_cat_in_the_hat",
-"mc": null,
-"en": "The Cat in the Hat",
-"v": 4,
-"checked": "2026-10-23",
-"tmdbChecked": "2026-10-23",
-"tv": 2,
-"tmdb": 1117898,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-cat-in-the-hat-2026",
-"lbRating": null,
-"rated": "2026-10-31",
-"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "mk-fargo": {
 "tmdbChecked": "2026-10-28",
