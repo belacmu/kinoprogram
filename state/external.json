@@ -2199,8 +2199,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-31",
-"tmdbChecked": "2026-10-31",
+"checked": "2026-11-01",
+"tmdbChecked": "2026-11-01",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -2225,25 +2225,6 @@
 "lbSlug": "its-a-wonderful-life",
 "lbRating": 4.45,
 "rated": "2026-10-25"
-},
-"cm-john-wick": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 245891,
-"imdb": "tt2911666",
-"en": "John Wick",
-"lbSlug": "john-wick",
-"lbRating": 3.86,
-"rated": "2026-10-25",
-"posterPath": "/wXqWR7dHncNRbxoEGybEy7QTe9h.jpg",
-"imdbAll": [
-"tt2911666"
-],
-"lb": "john-wick",
-"rt": "m/john_wick",
-"mc": "movie/john-wick",
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-karlsson-pa-taket-1974": {
 "tmdbChecked": "2026-10-01",
@@ -4061,26 +4042,6 @@
 "rated": "2026-10-29",
 "posterPath": "/dEDLY3KeghKFzks5nTDWdigVikr.jpg"
 },
-"fw-ART20180008": {
-"imdb": "tt0097814",
-"imdbAll": [
-"tt0097814"
-],
-"lb": "kikis-delivery-service",
-"rt": "m/kikis_delivery_service",
-"mc": "movie/kikis-delivery-service",
-"en": "Kiki's Delivery Service",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 16859,
-"enFrom": "tmdb",
-"lbSlug": "kikis-delivery-service",
-"lbRating": 4.15,
-"rated": "2026-10-25",
-"posterPath": "/Aufa4YdZIv4AXpR9rznwVA5SEfd.jpg"
-},
 "fw-ART20200497": {
 "imdb": "tt1216496",
 "imdbAll": [
@@ -4262,8 +4223,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "moana",
-"lbRating": 2.67,
-"rated": "2026-10-24"
+"lbRating": 2.65,
+"rated": "2026-11-01"
 },
 "fw-BVI20240798": {
 "imdb": "tt29355505",
@@ -5412,26 +5373,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260241": {
-"imdb": "tt32140230",
-"imdbAll": [
-"tt32140230"
-],
-"lb": "bamse-and-the-secret-of-the-sea",
-"rt": null,
-"mc": null,
-"en": "Bamse and the Secret of the Sea",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1275785,
-"enFrom": "tmdb",
-"lbSlug": "bamse-and-the-secret-of-the-sea",
-"lbRating": null,
-"rated": "2026-10-25",
-"posterPath": "/kPPdjitatE1HKQHWO8XhKA64FjG.jpg"
-},
 "fw-EDI20260251": {
 "imdb": "tt28228084",
 "imdbAll": [
@@ -6005,10 +5946,10 @@
 "checked": "2026-10-29"
 },
 "fw-EDI20260755": {
-"tmdbChecked": "2026-10-24",
+"tmdbChecked": "2026-11-01",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-24"
+"checked": "2026-11-01"
 },
 "fw-EDI20260767": {
 "tmdbChecked": "2026-10-01",
@@ -7327,12 +7268,6 @@
 "lbRating": null,
 "rated": "2026-10-25"
 },
-"fw-EDI20261492": {
-"tmdbChecked": "2026-10-25",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-27"
-},
 "fw-EDI20261493": {
 "tmdbChecked": "2026-10-25",
 "tv": 2,
@@ -7639,8 +7574,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-10-31",
-"tmdbChecked": "2026-10-31",
+"checked": "2026-11-01",
+"tmdbChecked": "2026-11-01",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -8155,23 +8090,28 @@
 "enFrom": "tmdb",
 "lbSlug": "rocky",
 "lbRating": 4.12,
-"rated": "2026-10-24",
+"rated": "2026-11-01",
 "posterPath": "/xSI0dbKLDETwhiVUy6hGE8KXUln.jpg"
 },
 "fw-EDI20261653": {
+"imdb": "tt46619473",
+"imdbAll": [
+"tt46619473"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Instructor",
 "v": 4,
-"checked": "2026-10-24",
-"tmdbChecked": "2026-10-08",
+"checked": "2026-11-01",
+"tmdbChecked": "2026-11-01",
 "tv": 2,
 "tmdb": 1734404,
 "lang": "lt",
-"imdb": null,
-"en": "Instructor",
 "enFrom": "tmdb",
 "lbSlug": "instructor",
 "lbRating": null,
-"rated": "2026-10-24",
-"posterPath": "/1lwqHiX6MgfmLSffXQwpnKpX8I4.jpg"
+"rated": "2026-11-01"
 },
 "fw-EDI20261673": {
 "imdb": "tt33085567",
@@ -8440,11 +8380,11 @@
 "en": "Captain Volkonogov Escaped",
 "v": 4,
 "checked": "2026-10-24",
-"tmdbChecked": "2026-10-24",
+"tmdbChecked": "2026-11-01",
 "tv": 2,
 "lbSlug": "captain-volkonogov-escaped",
 "lbRating": 3.77,
-"rated": "2026-10-24"
+"rated": "2026-11-01"
 },
 "fw-GRI20171335": {
 "tmdbChecked": "2026-10-01",
@@ -8489,10 +8429,10 @@
 "checked": "2026-10-27"
 },
 "fw-KUL20260530": {
-"tmdbChecked": "2026-10-24",
+"tmdbChecked": "2026-11-01",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-24"
+"checked": "2026-11-01"
 },
 "fw-KUL20260648": {
 "tmdbChecked": "2026-10-30",
@@ -10383,7 +10323,7 @@
 "enFrom": "tmdb",
 "lbSlug": "notting-hill",
 "lbRating": 3.69,
-"rated": "2026-10-24"
+"rated": "2026-11-01"
 },
 "sr-brunsj-filmklassiker-10-white-christmas-1954": {
 "imdb": "tt0047673",
