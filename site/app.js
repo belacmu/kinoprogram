@@ -474,7 +474,11 @@ function showsLine(shows) {
   const count = `<span class="nw">${shows.length} shows</span>`;  // keep "11 shows" and the dates whole on narrow cards
   if (shows.length === 1) return `<span class="nw${cls}">${dayLabel(first.t, { short: true })} ${hhmm(first.t)}</span>`;
   if (lastDay === firstDay) return `<span class="nw${cls}">${dayLabel(first.t, { short: true })}</span> · ${count}`;
-  return `<span class="nw${cls}">${dayLabel(first.t, { short: true })} – ${endLabel(lastDay)}</span><br>${count}`;
+  // Within one month the month is said once: "Wed 11 – 15 Nov", not "Wed 11 Nov – 15 Nov".
+  const startLabel = dayLabel(first.t, { short: true }), endText = endLabel(lastDay);
+  const oneMonth = firstDay.slice(0, 7) === lastDay.slice(0, 7) && /^\d/.test(endText) && /\d/.test(startLabel);
+  const startText = oneMonth ? `${WEEKDAYS[asDate(firstDay).getUTCDay()]} ${asDate(firstDay).getUTCDate()}` : startLabel;
+  return `<span class="nw${cls}">${startText} – ${endText}</span><br>${count}`;
 }
 function cardMeta(row) {
   const { f, shows, onSale, dayShows } = row;
