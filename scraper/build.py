@@ -222,6 +222,11 @@ EVENT_DAYS = 60
 FEW_SHOWS = 5  # "more showings" is news only for a film that had fewer than this many upcoming showings when it got more
 
 
+def event_ok(e):
+    """The rule for what stays in the log: a \"more showings\" event only counts for a film that had few showings before."""
+    return e["type"] != "showings" or e.get("before", FEW_SHOWS) < FEW_SHOWS
+
+
 def log_events(films, now, state):
     """The feed's catalog events (state["events"]): films that went on sale or were announced, and films that got more
     showings. Everything the site's feed (and, later, the daily email) shows comes from this one list."""
@@ -256,7 +261,7 @@ def log_events(films, now, state):
             add({"id": f"leaving|{f['id']}|{leaving}", "type": "leaving", "film": f["id"], "at": leaving})
     cutoff = (now - timedelta(days=EVENT_DAYS)).strftime(FMT)
     # Showings events logged before this rule (no "before") or for films that already had plenty are dropped.
-    merged = {e["id"]: e for e in state.get("events", []) if e["type"] != "showings" or e.get("before", FEW_SHOWS) < FEW_SHOWS}
+    merged = {e["id"]: e for e in state.get("events", []) if event_ok(e)}
     merged.update(found)
     state["events"] = sorted((e for e in merged.values() if e["at"] >= cutoff), key=lambda e: (e["at"], e["id"]), reverse=True)
 
