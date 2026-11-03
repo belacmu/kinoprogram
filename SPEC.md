@@ -298,7 +298,7 @@ Data (Supabase):
 
 - **Catalog events**: `scraper/build.py` writes them each run into `state/*.json` (`events`) and
   `site/data/*.json`, newest first, kept 60 days: `sale` (went on sale), `announced` (got a date) and
-  `showings` (a film with few showings got more, with `n` and `cinemas`). Each has a stable id
+  `showings` (a film that had fewer than 5 upcoming showings got more; with `n`, `cinemas` and `before`, how many it had). Each has a stable id
   (`type|film|time`), so a run only adds what's new and the log fills itself in from the existing
   stamps (`onSaleSince`, `announcedSince`, `shows`).
 - **Friend events**: films friends added to their watchlists, from `profiles.watchlist_added` through
