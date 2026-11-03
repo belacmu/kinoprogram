@@ -219,6 +219,12 @@ def track_shows(films, now, state):
 
 
 EVENT_DAYS = 60
+FEW_SHOWS = 5  # "more showings" is news only for a film that had fewer than this many upcoming showings when it got more
+
+
+def event_ok(e):
+    """The rule for what stays in the log: a \"more showings\" event only counts for a film that had few showings before."""
+    return e["type"] != "showings" or e.get("before", FEW_SHOWS) < FEW_SHOWS
 
 
 def log_events(films, now, state):
@@ -226,6 +232,7 @@ def log_events(films, now, state):
     showings. Everything the site's feed (and, later, the daily email) shows comes from this one list."""
     base = state["baseline"]
     found = {}
+    had_before = {e["id"]: e["before"] for e in state.get("events", []) if e["type"] == "showings" and "before" in e}
 
     def add(e):
         found[e["id"]] = e
@@ -240,13 +247,21 @@ def log_events(films, now, state):
             if stamp and stamp > base:
                 by_stamp.setdefault(stamp, []).append(k)
         for stamp, keys in by_stamp.items():
-            add({"id": f"showings|{f['id']}|{stamp}", "type": "showings", "film": f["id"], "at": stamp,
+            eid = f"showings|{f['id']}|{stamp}"
+            # How many showings it already had coming up when these were added: kept once logged (later runs can't see the ones that
+            # have since been and gone), worked out from what is known now the first time.
+            known = (rec or {}).get("shows", {})
+            before = had_before.get(eid, sum(1 for k, v in known.items() if k.split("|")[0] >= stamp and (not v or v < stamp)))
+            if before >= FEW_SHOWS:
+                continue
+            add({"id": eid, "type": "showings", "film": f["id"], "at": stamp, "before": before,
                  "n": len(keys), "cinemas": sorted({k.split("|", 1)[1] for k in keys}), "keys": sorted(keys)})
         leaving = f.get("leavingEmail")  # the emails' stricter "last chance" rule (mark_last_chance)
         if leaving and leaving > base and leaving <= now.strftime(FMT):
             add({"id": f"leaving|{f['id']}|{leaving}", "type": "leaving", "film": f["id"], "at": leaving})
     cutoff = (now - timedelta(days=EVENT_DAYS)).strftime(FMT)
-    merged = {e["id"]: e for e in state.get("events", [])}
+    # Showings events logged before this rule (no "before") or for films that already had plenty are dropped.
+    merged = {e["id"]: e for e in state.get("events", []) if event_ok(e)}
     merged.update(found)
     state["events"] = sorted((e for e in merged.values() if e["at"] >= cutoff), key=lambda e: (e["at"], e["id"]), reverse=True)
 

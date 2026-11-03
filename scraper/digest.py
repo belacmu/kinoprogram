@@ -32,12 +32,11 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
-from build import REGIONS  # noqa: E402
+from build import REGIONS, FEW_SHOWS, event_ok, log_events  # noqa: E402
 from costadelsol import LANG_NAMES  # noqa: E402
 SEND_HOUR = 9
 WEEKLY_DAY = 4  # weekly emails go out on Fridays (Monday is 0)
 DEFAULT_HIDE_KINDS = ["short", "stage", "talk"]  # same default as the site: films only
-FEW_SHOWS = 5  # a watchlist film with fewer showings than this that gets another one is worth an email
 FRIEND_PICKS_MAX = 12
 FMT = "%Y-%m-%dT%H:%M"
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -59,27 +58,14 @@ def title_of(f, prefs=None):
     return f["title"]
 
 
-def catalog_events(state, data):
-    """The programme's events (build.log_events). A state file written before the event log existed has none: rebuild
-    them from the stamps it does have, the same way, so nothing is missed on the first day."""
+def catalog_events(state, data, now):
+    """The programme's events, exactly as the site's feed has them (build.log_events, the one place the rules live). Normally
+    they are in the state file already; if not (or for a preview) they are worked out from the stamps the same way."""
     if "events" in state:
-        return state["events"]
-    base, out = state["baseline"], []
-    for f in data["films"]:
-        if f.get("onSaleSince") and f["onSaleSince"] > base and f["status"] == "on_sale":
-            out.append({"type": "sale", "film": f["id"], "at": f["onSaleSince"]})
-        if f.get("announcedSince") and f["announcedSince"] > base and f["status"] == "announced":
-            out.append({"type": "announced", "film": f["id"], "at": f["announcedSince"]})
-        if f.get("leavingEmail") and f["leavingEmail"] > base:
-            out.append({"type": "leaving", "film": f["id"], "at": f["leavingEmail"]})
-        rec = next((state.get("shows", {})[i] for i in f["ids"] if i in state.get("shows", {})), None)
-        by_stamp = {}
-        for k, stamp in (rec or {}).get("shows", {}).items():
-            if stamp and stamp > base:
-                by_stamp.setdefault(stamp, []).append(k)
-        for stamp, keys in by_stamp.items():
-            out.append({"type": "showings", "film": f["id"], "at": stamp, "keys": sorted(keys)})
-    return out
+        return [e for e in state["events"] if event_ok(e)]
+    scratch = {"baseline": state["baseline"], "shows": state.get("shows", {})}
+    log_events(data["films"], now, scratch)
+    return scratch["events"]
 
 
 def show_ok(s, prefs, now_s):
@@ -180,7 +166,7 @@ def pick_leaving(films, profile, now_s, skip_ids, since="", events=()):
 
 
 def pick_new_showings(films, profile, now_s, since, events, skip_ids):
-    """Watchlist films with only a few showings that got more since `since` (the "showings" events):
+    """Watchlist films with a "showings" event since `since` (the log only has them for films that had few showings):
     [(film, new_shows, all_shows)]."""
     prefs = profile.get("prefs") or {}
     watch = set(profile.get("watchlist") or [])
@@ -194,7 +180,7 @@ def pick_new_showings(films, profile, now_s, since, events, skip_ids):
             continue
         shows = [s for s in f["shows"] if s["t"] >= now_s]
         added = [s for s in shows if f"{s['t']}|{s['cinema']}" in new_keys[f["id"]]]
-        if not added or len(shows) - len(added) >= FEW_SHOWS:
+        if not added:
             continue
         mine = [s for s in added if show_ok({**s, "ticket": s["ticket"] or "-"}, prefs, now_s)]
         added = mine or (added if prefs.get("watchlistAlways", True) else [])
@@ -616,7 +602,7 @@ def main():
                     print(f"{mode}: already sent today.")
                     continue
             since = state.get(key) or max((now - timedelta(days=7)).strftime(FMT), state["baseline"])  # first weekly: not the films we only started tracking on the baseline day
-            events = catalog_events({k: v for k, v in state.items() if not (preview and k == "events")}, data)
+            events = catalog_events({k: v for k, v in state.items() if not (preview and k == "events")}, data, now)
             sale_ids = {e["film"] for e in events if e["type"] == "sale" and e["at"] > since}
             ann_ids = {e["film"] for e in events if e["type"] == "announced" and e["at"] > since}
             new = [f for f in data["films"] if f["id"] in sale_ids and f["status"] == "on_sale"]

@@ -298,15 +298,17 @@ Data (Supabase):
 
 - **Catalog events**: `scraper/build.py` writes them each run into `state/*.json` (`events`) and
   `site/data/*.json`, newest first, kept 60 days: `sale` (went on sale), `announced` (got a date) and
-  `showings` (a film with few showings got more, with `n` and `cinemas`). Each has a stable id
+  `showings` (a film that had fewer than 5 upcoming showings got more; with `n`, `cinemas` and `before`, how many it had). Each has a stable id
   (`type|film|time`), so a run only adds what's new and the log fills itself in from the existing
   stamps (`onSaleSince`, `announcedSince`, `shows`).
 - **Friend events**: films friends added to their watchlists, from `profiles.watchlist_added` through
   the `friends_feed()` function (a name, an id, a film id and a UTC time; friends only). Needs the
   database update in `supabase/schema.sql`; without it the feed just shows no friend posts.
 - **`leaving`** events (a watchlist film hits the emails' stricter "last chance" rule) are in the log too; the feed doesn't show them yet.
-- The daily email reads this same log (plus friends' adds), so a new kind of event is added in one place; the email's
-  rules below only decide who gets which.
+- The daily email reads this same log (plus friends' adds) and has no event rules of its own: what counts as news
+  (including "more showings" only for films that had fewer than 5 upcoming showings) is decided once, in
+  `build.log_events`, and the email only decides who gets which (their cinemas, language, watchlist, hidden films).
+  With no log in the state it works the events out with that same function.
 
 ## Daily email
 
