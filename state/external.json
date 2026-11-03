@@ -757,8 +757,8 @@
 "tv": 2,
 "tmdb": 1422041,
 "lbSlug": "la-bola-negra",
-"lbRating": 4.43,
-"rated": "2026-10-26",
+"lbRating": 4.44,
+"rated": "2026-11-03",
 "lang": "es",
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
@@ -806,8 +806,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "clayface",
-"lbRating": 3.75,
-"rated": "2026-10-26",
+"lbRating": 3.73,
+"rated": "2026-11-03",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "cl-concert-rammstein-live-in-mexico-city": {
@@ -900,12 +900,6 @@
 "lbRating": 3.17,
 "rated": "2026-10-27",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
-},
-"cl-hotel-transilvania": {
-"tmdbChecked": "2026-10-31",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-31"
 },
 "cl-invitacion": {
 "imdb": "tt14173636",
@@ -1053,8 +1047,8 @@
 "tmdb": 1423191,
 "enFrom": "tmdb",
 "lbSlug": "resident-evil-2026",
-"lbRating": 3.75,
-"rated": "2026-10-26",
+"lbRating": 3.74,
+"rated": "2026-11-03",
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
 },
@@ -1208,6 +1202,12 @@
 "v": 4,
 "checked": "2026-10-03"
 },
+"cm-2026-troll-i-eske-desember": {
+"v": 4,
+"checked": "2026-11-03",
+"tmdbChecked": "2026-11-03",
+"tv": 2
+},
 "cm-9-temples-to-heaven": {
 "imdb": "tt37740247",
 "imdbAll": [
@@ -1280,7 +1280,7 @@
 "enFrom": "tmdb",
 "lbSlug": "nothing-but-troubles",
 "lbRating": null,
-"rated": "2026-10-26",
+"rated": "2026-11-03",
 "posterPath": "/qR0JFg3Xzenxxida03G7fr5MaZy.jpg",
 "imdbAll": [
 "tt0179068"
@@ -1954,7 +1954,7 @@
 "en": "Harold and Maude",
 "lbSlug": "harold-and-maude",
 "lbRating": 4.11,
-"rated": "2026-10-26",
+"rated": "2026-11-03",
 "posterPath": "/t7qEuGwDjcYu8ajaKZ68DeDnOxw.jpg",
 "imdbAll": [
 "tt0067185"
@@ -2044,8 +2044,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-02",
-"tmdbChecked": "2026-11-02",
+"checked": "2026-11-03",
+"tmdbChecked": "2026-11-03",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -2176,7 +2176,7 @@
 "checked": "2026-10-04"
 },
 "cm-la-defense-trilogien": {
-"tmdbChecked": "2026-10-26",
+"tmdbChecked": "2026-11-03",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-27"
@@ -2440,7 +2440,7 @@
 "checked": "2026-10-03"
 },
 "cm-my-national-gallery": {
-"tmdbChecked": "2026-10-26",
+"tmdbChecked": "2026-11-03",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-27"
@@ -2559,7 +2559,7 @@
 "en": "Orlando",
 "lbSlug": "orlando",
 "lbRating": 3.9,
-"rated": "2026-10-25",
+"rated": "2026-11-03",
 "posterPath": "/seRawEs8eQ8rWfkBm6QC39EQEAU.jpg",
 "imdbAll": [
 "tt0107756"
@@ -3215,7 +3215,7 @@
 "checked": "2026-10-03"
 },
 "cm-utopiske-signaler": {
-"tmdbChecked": "2026-10-26",
+"tmdbChecked": "2026-11-03",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-27"
@@ -3681,7 +3681,7 @@
 "dm-1609958980": {
 "lbSlug": "siri-hustvedt-dance-around-the-self",
 "lbRating": 3.66,
-"rated": "2026-10-25",
+"rated": "2026-11-03",
 "imdb": "tt39368552",
 "imdbAll": [
 "tt39368552"
@@ -4346,7 +4346,7 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-10-26"
+"rated": "2026-11-03"
 },
 "fw-EDI20250664": {
 "imdb": "tt36491653",
@@ -5261,7 +5261,7 @@
 "en": "The Rescue",
 "lbSlug": "the-rescue-2027",
 "lbRating": null,
-"rated": "2026-10-26",
+"rated": "2026-11-03",
 "imdbAll": [
 "tt35606013"
 ],
@@ -7295,8 +7295,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-02",
-"tmdbChecked": "2026-11-02",
+"checked": "2026-11-03",
+"tmdbChecked": "2026-11-03",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7724,7 +7724,7 @@
 "en": "Anything but Ghosts",
 "lbSlug": "anything-but-ghosts",
 "lbRating": null,
-"rated": "2026-10-26",
+"rated": "2026-11-03",
 "posterPath": "/afV0ZsYPWcCEZ1gIx0ndi4rd2jd.jpg",
 "imdbAll": [
 "tt38120758"
@@ -7827,6 +7827,12 @@
 "lbSlug": "instructor",
 "lbRating": null,
 "rated": "2026-11-01"
+},
+"fw-EDI20261654": {
+"v": 4,
+"checked": "2026-11-03",
+"tmdbChecked": "2026-11-03",
+"tv": 2
 },
 "fw-EDI20261673": {
 "imdb": "tt33085567",
@@ -8001,6 +8007,26 @@
 "v": 4,
 "checked": "2026-11-02"
 },
+"fw-EDI20261693": {
+"imdb": "tt38805050",
+"imdbAll": [
+"tt38805050"
+],
+"lb": "visitation-2026-1",
+"rt": null,
+"mc": null,
+"en": "Visitation",
+"v": 4,
+"checked": "2026-11-03",
+"tmdbChecked": "2026-11-03",
+"tv": 2,
+"tmdb": 1477572,
+"lang": "de",
+"lbSlug": "visitation-2026-1",
+"lbRating": 3.21,
+"rated": "2026-11-03",
+"posterPath": "/hD43xIHVUD3JLmcvTOZJkPcfG1w.jpg"
+},
 "fw-EDI20261698": {
 "v": 4,
 "checked": "2026-10-19",
@@ -8091,8 +8117,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "ray-gunn",
-"lbRating": 3.74,
-"rated": "2026-10-26",
+"lbRating": 3.72,
+"rated": "2026-11-03",
 "posterPath": "/rpP29aOKpHy1FhX8OZQdUICEs2j.jpg"
 },
 "fw-EDI20261747": {
@@ -8218,6 +8244,12 @@
 "tmdbChecked": "2026-11-02",
 "tv": 2
 },
+"fw-EDI20261779": {
+"v": 4,
+"checked": "2026-11-03",
+"tmdbChecked": "2026-11-03",
+"tv": 2
+},
 "fw-FID20210220": {
 "imdb": "tt13322726",
 "imdbAll": [
@@ -8266,7 +8298,7 @@
 "checked": "2026-10-27"
 },
 "fw-KUL20260508": {
-"tmdbChecked": "2026-10-26",
+"tmdbChecked": "2026-11-03",
 "tv": 2,
 "v": 4,
 "checked": "2026-10-27"
@@ -8324,19 +8356,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-29"
-},
-"fw-MMF20220064": {
-"v": 4,
-"checked": "2026-10-09",
-"tmdbChecked": "2026-10-09",
-"tv": 2,
-"tmdb": 1063963,
-"lang": "no",
-"imdb": "tt15164340",
-"en": null,
-"lbSlug": "hans-nielsen-hauge-2025",
-"lbRating": null,
-"rated": "2026-11-02"
 },
 "fw-NFD20230388": {
 "lbSlug": "journey-to-the-christmas-star-1976",
@@ -9835,8 +9854,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "clayface",
-"lbRating": 3.75,
-"rated": "2026-10-26",
+"lbRating": 3.73,
+"rated": "2026-11-03",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "mk-cuentos-de-tokio": {
@@ -10101,7 +10120,7 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-10-26"
+"rated": "2026-11-03"
 },
 "sr-brunsj-filmklassiker-10-mamma-mia-2008": {
 "imdb": "tt0795421",
@@ -10121,7 +10140,7 @@
 "enFrom": "tmdb",
 "lbSlug": "mamma-mia",
 "lbRating": 3.87,
-"rated": "2026-10-25"
+"rated": "2026-11-03"
 },
 "sr-brunsj-filmklassiker-10-notting-hill-1999": {
 "imdb": "tt0125439",
