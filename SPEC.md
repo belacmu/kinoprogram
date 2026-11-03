@@ -152,7 +152,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   sideways when many) it takes the last line, directly above the films; with no chips it joins the top line
   ([Filters] [switch] [search] [Date]) when that all fits, else it shares a line with search and Date under the
   switch. On phones the switch has its own line, search and Date share the Filters line, and take a line of their
-  own above it only if the chips leave under 200px there. While the search field is in use nothing disappears: its line (search and Date) takes the full width, directly under the switch, and Filters and the chips move to the line below.
+  own above it only if the chips leave under 200px there. The layout does not change while the search field is in use: nothing disappears, moves or grows.
 - **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
   filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
 - **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;
@@ -167,7 +167,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   (chips, "Clear all" at the end; they scroll sideways when many): [Filters] [chips] [search] [Date]. When the chips
   leave under 200px for search and Date there, those two move up beside the switch (on phones, onto a line of their
   own under it), and Filters and the chips stay together on the last line, directly above the films. The Filters
-  button is never alone on a line unless chips are with it. While the search field is in use nothing disappears: its line (search and Date) takes the full width, directly under the switch, and Filters and the chips move to the line below.
+  button is never alone on a line unless chips are with it. The layout does not change while the search field is in use: nothing disappears, moves or grows.
 - **The header stays on screen** from 640px up (the Feed / Films links are part of it); the controls and the
   filters sidebar pin directly under it. On phones the bottom capsule is always visible instead.
 - **Loading**: until the programme arrives the page shows grey placeholders (a placeholder section of posters on Films;

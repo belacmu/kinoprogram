@@ -877,10 +877,7 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
   .controls > .switchrow > .listswitch { max-width: 370px; }  /* alone on its line it stays 370px wide, not the whole width */
   .controls.tools-top > .switchrow, .controls.all-top > .switchrow { flex: 0 0 370px; }
 }
-/* the search field in use: nothing disappears; its bar (search and Date) takes a full-width line of its own so the field has the room */
-.controls:has(#q:focus) > .switchrow { order: 0; }
-.controls:has(#q:focus) > .bar { order: 1; flex-basis: 100%; }
-.controls:has(#q:focus) > .filterrow { order: 2; flex-basis: auto; }
+/* the search field keeps its place and size while it is in use: nothing disappears, moves or grows */
 
 
 /* the header stays on screen from 640px (below that the navigation is the bottom capsule); the controls pin under it */
