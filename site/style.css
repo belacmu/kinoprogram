@@ -118,8 +118,6 @@ h1 span { color: var(--accent); }
   .filters-foot { position: sticky; bottom: 0; background: var(--surface); padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 0px)); }
 }
 
-/* while you're typing in a narrow search field (phones, small tablets), it takes the whole bar */
-@container (max-width: 459px) { .bar:has(#q:focus) > :not(.searchbox) { display: none; } }
 @media (min-width: 1000px) { #view { flex: 0 1 240px; } }
 
 /* controls */
@@ -879,10 +877,10 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
   .controls > .switchrow > .listswitch { max-width: 370px; }  /* alone on its line it stays 370px wide, not the whole width */
   .controls.tools-top > .switchrow, .controls.all-top > .switchrow { flex: 0 0 370px; }
 }
-/* typing in the search field on a phone: it takes the whole row */
-@media (max-width: 559px) {
-  .controls:has(#q:focus) > .switchrow, .controls:has(#q:focus) > .filterrow { display: none; }
-}
+/* the search field in use: nothing disappears; its bar (search and Date) takes a full-width line of its own so the field has the room */
+.controls:has(#q:focus) > .switchrow { order: 0; }
+.controls:has(#q:focus) > .bar { order: 1; flex-basis: 100%; }
+.controls:has(#q:focus) > .filterrow { order: 2; flex-basis: auto; }
 
 
 /* the header stays on screen from 640px (below that the navigation is the bottom capsule); the controls pin under it */
