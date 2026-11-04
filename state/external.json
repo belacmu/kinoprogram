@@ -843,15 +843,9 @@
 "enFrom": "tmdb",
 "lbSlug": "heart-of-the-beast-2026",
 "lbRating": 3.29,
-"rated": "2026-10-27",
+"rated": "2026-11-04",
 "posterPath": "/mYqiF90igComG2L2qm8SwFbaMwn.jpg",
 "v": 4
-},
-"cl-cuentos-tokio": {
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-28"
 },
 "cl-gato-sombrero": {
 "imdb": "tt2321555",
@@ -905,8 +899,8 @@
 "tmdb": 1058424,
 "lang": "ko",
 "lbSlug": "hope-2026",
-"lbRating": 3.17,
-"rated": "2026-10-27",
+"lbRating": 3.16,
+"rated": "2026-11-04",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "cl-invitacion": {
@@ -943,6 +937,12 @@
 "lbRating": 3.5,
 "rated": "2026-10-31",
 "posterPath": "/bJh97VEUn9TWygQSrOOyJrwQXek.jpg"
+},
+"cl-ladron-bicicletas": {
+"tmdbChecked": "2026-10-28",
+"tv": 2,
+"v": 4,
+"checked": "2026-10-28"
 },
 "cl-lady-bird": {
 "imdb": "tt4925292",
@@ -1009,6 +1009,20 @@
 "rated": "2026-10-30",
 "posterPath": "/b10qy1KwrfmH0MGS2rBUJ0BxgYB.jpg"
 },
+"cl-miserables": {
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2,
+"tmdb": 1241803,
+"lang": "fr",
+"imdb": "tt35518109",
+"en": null,
+"lbSlug": "les-miserables-2026",
+"lbRating": 3.44,
+"rated": "2026-11-04",
+"posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
+},
 "cl-otra-madre": {
 "v": 4,
 "checked": "2026-10-06",
@@ -1039,6 +1053,21 @@
 "rated": "2026-10-31",
 "posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
 },
+"cl-ramayana-nacimiento-leyenda-1": {
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2,
+"tmdb": 656908,
+"lang": "hi",
+"imdb": "tt27988879",
+"en": "Ramayana: Rise of a Legend",
+"enFrom": "tmdb",
+"lbSlug": "ramayana-rise-of-a-legend",
+"lbRating": null,
+"rated": "2026-11-04",
+"posterPath": "/dPrtk4iNf6T5w8fWfg4uxDDbJSW.jpg"
+},
 "cl-resident-evil": {
 "imdb": "tt35538033",
 "imdbAll": [
@@ -1059,6 +1088,42 @@
 "rated": "2026-11-03",
 "lang": "en",
 "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
+},
+"cl-ruega-nosotras": {
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2,
+"tmdb": 1522071,
+"lang": "es",
+"imdb": "tt37729109",
+"en": "Pray for Us",
+"enFrom": "tmdb",
+"lbSlug": "pray-for-us-2026",
+"lbRating": 3.4,
+"rated": "2026-11-04",
+"posterPath": "/vgAae3dWzJoFuGQbRaKvSCmogDq.jpg"
+},
+"cl-sacamantecas": {
+"imdb": "tt33296229",
+"imdbAll": [
+"tt33296229"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "The Harvester",
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2,
+"tmdb": 1371661,
+"lang": "eu",
+"enFrom": "tmdb",
+"lbSlug": "the-harvester-2026",
+"lbRating": null,
+"rated": "2026-11-04",
+"posterPath": "/ebvx1lw2XXDOMLJzBsz6pA4meud.jpg"
 },
 "cl-scrooge-fantasmas-navidad": {
 "v": 4,
@@ -1104,8 +1169,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "street-fighter-2026",
-"lbRating": 2.79,
-"rated": "2026-10-27",
+"lbRating": 2.78,
+"rated": "2026-11-04",
 "posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
 },
 "cl-superthings-pelicula": {
@@ -2263,6 +2328,27 @@
 "lbRating": 4.3,
 "rated": "2026-10-30",
 "posterPath": "/iZQs2vUeCzvS1KfZJ6uYNCGJBBV.jpg"
+},
+"cm-lille-frk-norge": {
+"imdb": "tt0378255",
+"imdbAll": [
+"tt0378255"
+],
+"lb": "the-beast-of-beauty",
+"rt": "m/the_beast_of_beauty_2003",
+"mc": null,
+"en": "The Beast of Beauty",
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2,
+"tmdb": 382012,
+"lang": "no",
+"enFrom": "tmdb",
+"lbSlug": "the-beast-of-beauty",
+"lbRating": 3.28,
+"rated": "2026-11-04",
+"posterPath": "/jWzv8hZYjFO7syMLeAhwvP0jjI7.jpg"
 },
 "cm-lost-highway": {
 "tmdbChecked": "2026-10-01",
@@ -6334,23 +6420,6 @@
 "lbRating": null,
 "rated": "2026-10-29"
 },
-"fw-EDI20261025": {
-"imdb": "tt39400168",
-"imdbAll": [
-"tt39400168"
-],
-"lb": "blue-lock-2026",
-"rt": null,
-"mc": null,
-"en": "Blue Lock",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-11-02",
-"tv": 2,
-"lbSlug": "blue-lock-2026",
-"lbRating": 3.45,
-"rated": "2026-11-02"
-},
 "fw-EDI20261027": {
 "imdb": "tt34384661",
 "imdbAll": [
@@ -9863,6 +9932,18 @@
 "v": 4,
 "checked": "2026-10-28"
 },
+"mk-bts-world-tour-arirang-in-jakarta": {
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2
+},
+"mk-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2
+},
 "mk-centauros-del-desierto": {
 "imdb": "tt0049730",
 "imdbAll": [
@@ -9905,12 +9986,6 @@
 "rated": "2026-11-03",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
-"mk-cuentos-de-tokio": {
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-28"
-},
 "mk-delitos-y-faltas": {
 "tmdbChecked": "2026-10-28",
 "tv": 2,
@@ -9941,6 +10016,27 @@
 "v": 4,
 "checked": "2026-10-28"
 },
+"mk-el-gato-con-sombrero3": {
+"imdb": "tt2321555",
+"imdbAll": [
+"tt2321555"
+],
+"lb": "the-cat-in-the-hat-2026",
+"rt": "m/the_cat_in_the_hat",
+"mc": null,
+"en": "The Cat in the Hat",
+"v": 4,
+"checked": "2026-10-23",
+"tmdbChecked": "2026-10-23",
+"tv": 2,
+"tmdb": 1117898,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-cat-in-the-hat-2026",
+"lbRating": null,
+"rated": "2026-10-31",
+"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
+},
 "mk-fargo": {
 "tmdbChecked": "2026-10-28",
 "tv": 2,
@@ -9969,8 +10065,8 @@
 "tmdb": 1058424,
 "lang": "ko",
 "lbSlug": "hope-2026",
-"lbRating": 3.17,
-"rated": "2026-10-27",
+"lbRating": 3.16,
+"rated": "2026-11-04",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "mk-ladron-de-bicicletas": {
@@ -10005,6 +10101,20 @@
 "checked": "2026-10-28",
 "tmdbChecked": "2026-10-28",
 "tv": 2
+},
+"mk-los-miserables-6ad8da10c40ae": {
+"v": 4,
+"checked": "2026-11-04",
+"tmdbChecked": "2026-11-04",
+"tv": 2,
+"tmdb": 1241803,
+"lang": "fr",
+"imdb": "tt35518109",
+"en": null,
+"lbSlug": "les-miserables-2026",
+"lbRating": 3.44,
+"rated": "2026-11-04",
+"posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
 },
 "mk-origen": {
 "tmdbChecked": "2026-10-28",
