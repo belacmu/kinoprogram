@@ -2084,25 +2084,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-high-and-low": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 12493,
-"imdb": "tt0057565",
-"en": "High and Low",
-"lbSlug": "high-and-low",
-"lbRating": 4.61,
-"rated": "2026-11-02",
-"posterPath": "/tgNjemQPG96uIezpiUiXFcer5ga.jpg",
-"imdbAll": [
-"tt0057565"
-],
-"lb": "high-and-low",
-"rt": "m/high_and_low",
-"mc": "movie/high-and-low",
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-hope": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -2131,8 +2112,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -2265,11 +2246,14 @@
 "en": "Lady",
 "v": 4,
 "checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "lbSlug": "lady-2026",
 "lbRating": 3.45,
-"rated": "2026-10-28"
+"rated": "2026-11-05",
+"tmdb": 1596257,
+"lang": "en",
+"enFrom": "tmdb"
 },
 "cm-lady-nazca": {
 "tmdbChecked": "2026-10-01",
@@ -2723,25 +2707,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-pilotens-kone": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 27145,
-"imdb": "tt0080728",
-"en": "The Aviator's Wife",
-"lbSlug": "the-aviators-wife",
-"lbRating": 4.0,
-"rated": "2026-11-02",
-"posterPath": "/xgXj1Fcgq1nHjhj9i7BiqvZarn5.jpg",
-"imdbAll": [
-"tt0080728"
-],
-"lb": "the-aviators-wife",
-"rt": "m/the_aviators_wife",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-pushwagner": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3071,11 +3036,11 @@
 "en": "The Furious",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "lbSlug": "the-furious",
 "lbRating": 3.81,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "cm-the-match": {
 "imdb": "tt41593328",
@@ -3749,8 +3714,8 @@
 "tmdb": 587357,
 "lang": "nl",
 "lbSlug": "miss-moxy",
-"lbRating": 3.31,
-"rated": "2026-10-28",
+"lbRating": 3.32,
+"rated": "2026-11-05",
 "posterPath": "/lKxmXNfjzNchKi3F8rJpUpZBtR7.jpg"
 },
 "dm-221733318": {
@@ -3948,7 +3913,7 @@
 "en": null,
 "lbSlug": "cinema-paradiso",
 "lbRating": 4.52,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "fw-AWE20240506": {
 "imdb": "tt32086077",
@@ -4082,7 +4047,7 @@
 "enFrom": "tmdb",
 "lbSlug": "toy-story-5",
 "lbRating": 3.61,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "fw-CIN20121214": {
 "imdb": "tt0073858",
@@ -4546,7 +4511,7 @@
 "tmdbChecked": "2026-11-02",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "fw-EDI20250777": {
 "tmdbChecked": "2026-10-01",
@@ -5016,7 +4981,7 @@
 "lang": "cs",
 "lbSlug": "franz-2025",
 "lbRating": 3.1,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-11-02",
@@ -5276,11 +5241,11 @@
 "en": "King",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "lbSlug": "king-2026",
 "lbRating": null,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "fw-EDI20260285": {
 "lbSlug": "stitch-head",
@@ -6160,7 +6125,7 @@
 "enFrom": "tmdb",
 "lbSlug": "bloody-men",
 "lbRating": null,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "fw-EDI20260915": {
 "imdb": "tt1756855",
@@ -6456,8 +6421,8 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2,
 "lbSlug": "godzilla-minus-zero",
-"lbRating": 3.98,
-"rated": "2026-10-28",
+"lbRating": 4.18,
+"rated": "2026-11-05",
 "tmdb": 1381071,
 "lang": "ja"
 },
@@ -7141,7 +7106,7 @@
 "tmdbChecked": "2026-11-02",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
@@ -7206,10 +7171,10 @@
 "checked": "2026-10-29"
 },
 "fw-EDI20261524": {
+"tmdbChecked": "2026-11-05",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2
+"checked": "2026-11-05"
 },
 "fw-EDI20261525": {
 "v": 4,
@@ -7443,8 +7408,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7529,11 +7494,11 @@
 "en": "The Furious",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "lbSlug": "the-furious",
 "lbRating": 3.81,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "fw-EDI20261574": {
 "tmdbChecked": "2026-10-01",
@@ -7684,7 +7649,7 @@
 "tv": 2,
 "lbSlug": "ashes-2026-3",
 "lbRating": 3.24,
-"rated": "2026-10-28",
+"rated": "2026-11-05",
 "tmdb": 1623608,
 "lang": "es"
 },
@@ -7699,11 +7664,14 @@
 "en": "Lady",
 "v": 4,
 "checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "lbSlug": "lady-2026",
 "lbRating": 3.45,
-"rated": "2026-10-28"
+"rated": "2026-11-05",
+"tmdb": 1596257,
+"lang": "en",
+"enFrom": "tmdb"
 },
 "fw-EDI20261587": {
 "tmdbChecked": "2026-10-01",
@@ -7856,7 +7824,7 @@
 "lang": "es",
 "lbSlug": "pepita-the-gunslinger",
 "lbRating": 3.23,
-"rated": "2026-10-28"
+"rated": "2026-11-05"
 },
 "fw-EDI20261614": {
 "tmdbChecked": "2026-11-02",
@@ -8209,12 +8177,6 @@
 "rated": "2026-11-04",
 "posterPath": "/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg"
 },
-"fw-EDI20261729": {
-"tmdbChecked": "2026-10-29",
-"tv": 2,
-"v": 4,
-"checked": "2026-10-29"
-},
 "fw-EDI20261732": {
 "imdb": "tt37360759",
 "imdbAll": [
@@ -8327,7 +8289,7 @@
 "enFrom": "tmdb",
 "lbSlug": "zodiac",
 "lbRating": 4.03,
-"rated": "2026-10-28",
+"rated": "2026-11-05",
 "posterPath": "/6YmeO4pB7XTh8P8F960O1uA14JO.jpg"
 },
 "fw-EDI20261752": {
@@ -8347,8 +8309,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "you-can-see-everything",
-"lbRating": 4.61,
-"rated": "2026-10-28"
+"lbRating": 4.58,
+"rated": "2026-11-05"
 },
 "fw-EDI20261755": {
 "imdb": "tt36629665",
@@ -8397,6 +8359,25 @@
 "checked": "2026-11-03",
 "tmdbChecked": "2026-11-03",
 "tv": 2
+},
+"fw-EDI20261800": {
+"imdb": "tt0464106",
+"imdbAll": [
+"tt0464106"
+],
+"lb": "manmadhan",
+"rt": "m/manmadhan",
+"mc": null,
+"en": "Manmadhan",
+"v": 4,
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2,
+"tmdb": 69627,
+"lang": "ta",
+"lbSlug": "manmadhan",
+"lbRating": 3.31,
+"rated": "2026-11-05"
 },
 "fw-FID20210220": {
 "imdb": "tt13322726",
@@ -9182,8 +9163,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "clayface",
-"lbRating": 3.74,
-"rated": "2026-10-28"
+"lbRating": 3.72,
+"rated": "2026-11-05"
 },
 "fw-WAB20240290": {
 "lbSlug": "practical-magic-2",
