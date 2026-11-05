@@ -745,10 +745,10 @@
 "posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg"
 },
 "cl-akira": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "cl-arriba-tutto": {
 "v": 4,
@@ -760,8 +760,8 @@
 "imdb": "tt37676022",
 "en": null,
 "lbSlug": "arriba-tutto",
-"lbRating": 3.26,
-"rated": "2026-10-28",
+"lbRating": 3.28,
+"rated": "2026-11-05",
 "posterPath": "/cO5d1CHpb1ravVNqHQmJr7NLcTN.jpg"
 },
 "cl-bola-negra": {
@@ -785,10 +785,10 @@
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
 "cl-carmen-26-27": {
+"tmdbChecked": "2026-11-05",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2
+"checked": "2026-11-05"
 },
 "cl-centauros-desierto": {
 "imdb": "tt0049730",
@@ -808,7 +808,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-searchers",
 "lbRating": 3.94,
-"rated": "2026-10-28",
+"rated": "2026-11-05",
 "posterPath": "/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg"
 },
 "cl-clayface": {
@@ -882,6 +882,21 @@
 "rated": "2026-10-31",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
+"cl-george-michael-the-faith-tour-proyeccion-dolby-atmos-4k-vose": {
+"v": 4,
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2,
+"tmdb": 1649403,
+"lang": "en",
+"imdb": "tt40564737",
+"en": "George Michael: The Faith Tour",
+"enFrom": "tmdb",
+"lbSlug": "george-michael-the-faith-tour",
+"lbRating": null,
+"rated": "2026-11-05",
+"posterPath": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg"
+},
 "cl-gungo-juegos-cavernicolas": {
 "v": 4,
 "checked": "2026-10-29",
@@ -953,10 +968,10 @@
 "posterPath": "/bJh97VEUn9TWygQSrOOyJrwQXek.jpg"
 },
 "cl-ladron-bicicletas": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "cl-lady-bird": {
 "imdb": "tt4925292",
@@ -976,7 +991,7 @@
 "enFrom": "tmdb",
 "lbSlug": "lady-bird",
 "lbRating": 3.81,
-"rated": "2026-10-28",
+"rated": "2026-11-05",
 "posterPath": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg"
 },
 "cl-leones-invierno": {
@@ -1067,20 +1082,11 @@
 "rated": "2026-10-31",
 "posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
 },
-"cl-ramayana-nacimiento-leyenda-1": {
+"cl-ramayana-nacimiento-leyenda": {
 "v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
-"tv": 2,
-"tmdb": 656908,
-"lang": "hi",
-"imdb": "tt27988879",
-"en": "Ramayana: Rise of a Legend",
-"enFrom": "tmdb",
-"lbSlug": "ramayana-rise-of-a-legend",
-"lbRating": null,
-"rated": "2026-11-04",
-"posterPath": "/dPrtk4iNf6T5w8fWfg4uxDDbJSW.jpg"
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2
 },
 "cl-resident-evil": {
 "imdb": "tt35538033",
@@ -1207,6 +1213,26 @@
 "rated": "2026-10-30",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
+"cl-tadeo-jones-lampara-maravillosa": {
+"imdb": "tt36164852",
+"imdbAll": [
+"tt36164852"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Tad and the Magic Lamp",
+"v": 4,
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2,
+"tmdb": 1187326,
+"lang": "es",
+"lbSlug": "tad-and-the-magic-lamp",
+"lbRating": 2.85,
+"rated": "2026-11-05",
+"posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
+},
 "cl-whalefall": {
 "imdb": "tt28535715",
 "imdbAll": [
@@ -1245,8 +1271,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "wicker",
-"lbRating": 3.7,
-"rated": "2026-10-28",
+"lbRating": 3.67,
+"rated": "2026-11-05",
 "posterPath": "/6FcBZOKvyrLCKGCyBG0ySCR4okt.jpg"
 },
 "cl-wildwood-bosque-salvaje": {
@@ -3225,6 +3251,26 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-11-04"
+},
+"cm-vagabond": {
+"imdb": "tt0089960",
+"imdbAll": [
+"tt0089960"
+],
+"lb": "vagabond",
+"rt": "m/vagabond",
+"mc": null,
+"en": "Vagabond",
+"v": 4,
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2,
+"tmdb": 44018,
+"lang": "fr",
+"lbSlug": "vagabond",
+"lbRating": 4.11,
+"rated": "2026-11-05",
+"posterPath": "/2KFfwiPct1hwqi9dkKqoom0BenC.jpg"
 },
 "cm-var-sommer-host-vinter-og-var": {
 "imdb": "tt0374546",
@@ -5671,6 +5717,26 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
+},
+"fw-EDI20260641": {
+"imdb": "tt35866986",
+"imdbAll": [
+"tt35866986"
+],
+"lb": "how-to-rob-a-bank-2026",
+"rt": "m/how_to_rob_a_bank_2026",
+"mc": "movie/how-to-rob-a-bank-2026",
+"en": "How to Rob a Bank",
+"v": 4,
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2,
+"tmdb": 1437511,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "how-to-rob-a-bank-2026",
+"lbRating": null,
+"rated": "2026-11-05"
 },
 "fw-EDI20260642": {
 "lbSlug": "resident-evil-2026",
@@ -8360,6 +8426,18 @@
 "tmdbChecked": "2026-11-03",
 "tv": 2
 },
+"fw-EDI20261797": {
+"v": 4,
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2
+},
+"fw-EDI20261798": {
+"v": 4,
+"checked": "2026-11-05",
+"tmdbChecked": "2026-11-05",
+"tv": 2
+},
 "fw-EDI20261800": {
 "imdb": "tt0464106",
 "imdbAll": [
@@ -9997,16 +10075,16 @@
 "rated": "2026-10-31"
 },
 "mk-akira": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-blade-runner": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-bts-world-tour-arirang-in-jakarta": {
 "v": 4,
@@ -10038,7 +10116,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-searchers",
 "lbRating": 3.94,
-"rated": "2026-10-28",
+"rated": "2026-11-05",
 "posterPath": "/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg"
 },
 "mk-clayface": {
@@ -10063,34 +10141,34 @@
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
 "mk-delitos-y-faltas": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-dune-parte-3": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-el-apartamento-cine": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-el-bazar-de-las-sorpresas": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-el-buscavidas": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-el-gato-con-sombrero3": {
 "imdb": "tt2321555",
@@ -10114,16 +10192,16 @@
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "mk-fargo": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-gremlins": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-hope-6a85a985bb6eb": {
 "imdb": "tt27369017",
@@ -10146,10 +10224,10 @@
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "mk-ladron-de-bicicletas": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-lady-bird": {
 "imdb": "tt4925292",
@@ -10169,14 +10247,14 @@
 "enFrom": "tmdb",
 "lbSlug": "lady-bird",
 "lbRating": 3.81,
-"rated": "2026-10-28",
+"rated": "2026-11-05",
 "posterPath": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg"
 },
 "mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
+"tmdbChecked": "2026-11-05",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2
+"checked": "2026-11-05"
 },
 "mk-los-miserables-6ad8da10c40ae": {
 "v": 4,
@@ -10193,10 +10271,10 @@
 "posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
 },
 "mk-origen": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-sentido-y-sensibilidad": {
 "v": 4,
@@ -10214,10 +10292,10 @@
 "posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
 },
 "mk-vengadores-doomsday4": {
-"tmdbChecked": "2026-10-28",
+"tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
-"checked": "2026-10-28"
+"checked": "2026-11-05"
 },
 "mk-wicker": {
 "imdb": "tt29611136",
@@ -10236,8 +10314,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "wicker",
-"lbRating": 3.7,
-"rated": "2026-10-28",
+"lbRating": 3.67,
+"rated": "2026-11-05",
 "posterPath": "/6FcBZOKvyrLCKGCyBG0ySCR4okt.jpg"
 },
 "rv-little-miss-sunshine-2006": {
