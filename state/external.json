@@ -859,10 +859,10 @@
 "rated": "2026-10-31",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
-"cl-george-michael-the-faith-tour-proyeccion-dolby-atmos-4k-vose": {
+"cl-george-michael-the-faith-tour": {
 "v": 4,
-"checked": "2026-11-05",
-"tmdbChecked": "2026-11-05",
+"checked": "2026-11-06",
+"tmdbChecked": "2026-11-06",
 "tv": 2,
 "tmdb": 1649403,
 "lang": "en",
@@ -871,22 +871,28 @@
 "enFrom": "tmdb",
 "lbSlug": "george-michael-the-faith-tour",
 "lbRating": null,
-"rated": "2026-11-05",
+"rated": "2026-11-06",
 "posterPath": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg"
 },
 "cl-gungo-juegos-cavernicolas": {
+"imdb": "tt39399214",
+"imdbAll": [
+"tt39399214"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Rock Bottom",
 "v": 4,
-"checked": "2026-10-29",
-"tmdbChecked": "2026-10-29",
+"checked": "2026-11-06",
+"tmdbChecked": "2026-11-06",
 "tv": 2,
 "tmdb": 1548369,
 "lang": "es",
-"imdb": null,
-"en": "Rock Bottom",
 "enFrom": "tmdb",
 "lbSlug": "rock-bottom-2026",
 "lbRating": null,
-"rated": "2026-10-29",
+"rated": "2026-11-06",
 "posterPath": "/p7J2gMXJL0lUAOxeVkUeVS9HHBI.jpg"
 },
 "cl-hope": {
@@ -909,27 +915,6 @@
 "rated": "2026-11-04",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
-"cl-invitacion": {
-"imdb": "tt14173636",
-"imdbAll": [
-"tt14173636"
-],
-"lb": "the-invite-2026",
-"rt": "m/the_invite",
-"mc": "movie/the-invite",
-"en": "The Invite",
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2,
-"tmdb": 950028,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-invite-2026",
-"lbRating": 3.94,
-"rated": "2026-10-30",
-"posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg"
-},
 "cl-karateka": {
 "v": 4,
 "checked": "2026-10-23",
@@ -950,27 +935,6 @@
 "v": 4,
 "checked": "2026-11-05"
 },
-"cl-lady-bird": {
-"imdb": "tt4925292",
-"imdbAll": [
-"tt4925292"
-],
-"lb": "lady-bird",
-"rt": "m/lady_bird",
-"mc": "movie/lady-bird",
-"en": "Lady Bird",
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"tmdb": 391713,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "lady-bird",
-"lbRating": 3.81,
-"rated": "2026-11-05",
-"posterPath": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg"
-},
 "cl-leones-invierno": {
 "v": 4,
 "checked": "2026-10-15",
@@ -986,35 +950,6 @@
 "rated": "2026-10-31",
 "posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
 },
-"cl-maleta": {
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2,
-"tmdb": 1494231,
-"lang": "es",
-"imdb": "tt37202171",
-"en": null,
-"lbSlug": "la-maleta",
-"lbRating": 2.96,
-"rated": "2026-10-30",
-"posterPath": "/Ap0WExOWEL4DMcRKsAoDehi05J6.jpg"
-},
-"cl-mascotas-rescate": {
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1107216,
-"lang": "fr",
-"imdb": "tt36424914",
-"en": "Pets on a Train",
-"enFrom": "tmdb",
-"lbSlug": "pets-on-a-train",
-"lbRating": 2.74,
-"rated": "2026-10-30",
-"posterPath": "/b10qy1KwrfmH0MGS2rBUJ0BxgYB.jpg"
-},
 "cl-miserables": {
 "v": 4,
 "checked": "2026-11-04",
@@ -1028,6 +963,12 @@
 "lbRating": 3.44,
 "rated": "2026-11-04",
 "posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
+},
+"cl-origen": {
+"tmdbChecked": "2026-11-05",
+"tv": 2,
+"v": 4,
+"checked": "2026-11-05"
 },
 "cl-otra-madre": {
 "v": 4,
@@ -1059,32 +1000,17 @@
 "rated": "2026-10-31",
 "posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
 },
+"cl-pavarotti-90th-the-grand-tribute-26-27": {
+"v": 4,
+"checked": "2026-11-06",
+"tmdbChecked": "2026-11-06",
+"tv": 2
+},
 "cl-ramayana-nacimiento-leyenda": {
 "v": 4,
 "checked": "2026-11-05",
 "tmdbChecked": "2026-11-05",
 "tv": 2
-},
-"cl-resident-evil": {
-"imdb": "tt35538033",
-"imdbAll": [
-"tt35538033"
-],
-"lb": "untitled-resident-evil-reboot",
-"rt": "m/resident_evil_2026",
-"mc": "movie/resident-evil-2026",
-"en": "Resident Evil",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1423191,
-"enFrom": "tmdb",
-"lbSlug": "resident-evil-2026",
-"lbRating": 3.74,
-"rated": "2026-11-03",
-"lang": "en",
-"posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
 },
 "cl-ruega-nosotras": {
 "v": 4,
@@ -1140,7 +1066,7 @@
 "enFrom": "tmdb",
 "lbSlug": "sense-and-sensibility-2026",
 "lbRating": 3.98,
-"rated": "2026-10-29",
+"rated": "2026-11-06",
 "posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
 },
 "cl-stray-kids-world-tour-run-it-live-viewing": {
@@ -1209,48 +1135,6 @@
 "lbRating": 2.85,
 "rated": "2026-11-05",
 "posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
-},
-"cl-whalefall": {
-"imdb": "tt28535715",
-"imdbAll": [
-"tt28535715"
-],
-"lb": "whalefall",
-"rt": "m/whalefall",
-"mc": "movie/whalefall",
-"en": "Whalefall",
-"v": 4,
-"checked": "2026-10-14",
-"tmdbChecked": "2026-10-14",
-"tv": 2,
-"tmdb": 1255833,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "whalefall",
-"lbRating": 3.21,
-"rated": "2026-10-30",
-"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
-},
-"cl-wicker": {
-"imdb": "tt29611136",
-"imdbAll": [
-"tt29611136"
-],
-"lb": "wicker",
-"rt": "m/wicker",
-"mc": "movie/wicker",
-"en": "Wicker",
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"tmdb": 1195803,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "wicker",
-"lbRating": 3.67,
-"rated": "2026-11-05",
-"posterPath": "/6FcBZOKvyrLCKGCyBG0ySCR4okt.jpg"
 },
 "cl-wildwood-bosque-salvaje": {
 "v": 4,
@@ -2617,25 +2501,23 @@
 "posterPath": "/uQWkEjprUXFk4LeJFAVROPk45lH.jpg"
 },
 "cm-paradise": {
-"imdb": "tt27027989",
+"imdb": "tt38573542",
 "imdbAll": [
-"tt27027989"
+"tt38573542"
 ],
-"lb": "paradise-2026",
+"lb": null,
 "rt": null,
 "mc": null,
-"en": "Paradise",
+"en": "Attack on Paradise",
 "v": 4,
-"checked": "2026-10-29",
+"checked": "2026-11-06",
 "tmdbChecked": "2026-11-06",
 "tv": 2,
-"lbSlug": "paradise-2026",
-"lbRating": 3.46,
-"rated": "2026-10-29",
-"conflict": [
-"tt27027989",
-"tt38573542"
-]
+"tmdb": 1678231,
+"lang": "nl",
+"lbSlug": "paradise-2026-2",
+"lbRating": 3.11,
+"rated": "2026-11-06"
 },
 "cm-paraplyene-i-cherbourg": {
 "tmdbChecked": "2026-10-01",
@@ -7663,25 +7545,23 @@
 "checked": "2026-10-04"
 },
 "fw-EDI20261592": {
-"imdb": "tt27027989",
+"imdb": "tt38573542",
 "imdbAll": [
-"tt27027989"
+"tt38573542"
 ],
-"lb": "paradise-2026",
+"lb": null,
 "rt": null,
 "mc": null,
-"en": "Paradise",
+"en": "Attack on Paradise",
 "v": 4,
-"checked": "2026-10-29",
+"checked": "2026-11-06",
 "tmdbChecked": "2026-11-06",
 "tv": 2,
-"lbSlug": "paradise-2026",
-"lbRating": 3.46,
-"rated": "2026-10-29",
-"conflict": [
-"tt27027989",
-"tt38573542"
-]
+"tmdb": 1678231,
+"lang": "nl",
+"lbSlug": "paradise-2026-2",
+"lbRating": 3.11,
+"rated": "2026-11-06"
 },
 "fw-EDI20261593": {
 "v": 4,
@@ -8274,6 +8154,27 @@
 "tmdbChecked": "2026-11-03",
 "tv": 2
 },
+"fw-EDI20261780": {
+"imdb": "tt1798709",
+"imdbAll": [
+"tt1798709"
+],
+"lb": "her",
+"rt": "m/her",
+"mc": "movie/her",
+"en": "Her",
+"v": 4,
+"checked": "2026-11-06",
+"tmdbChecked": "2026-11-06",
+"tv": 2,
+"tmdb": 152601,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "her",
+"lbRating": 3.95,
+"rated": "2026-11-06",
+"posterPath": "/eCOtqtfvn7mxGl6nfmq4b1exJRc.jpg"
+},
 "fw-EDI20261797": {
 "v": 4,
 "checked": "2026-11-05",
@@ -8357,6 +8258,12 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-10-30"
+},
+"fw-KUL20260879": {
+"v": 4,
+"checked": "2026-11-06",
+"tmdbChecked": "2026-11-06",
+"tv": 2
 },
 "fw-LIV20200059": {
 "tmdbChecked": "2026-11-02",
@@ -8736,27 +8643,6 @@
 "lbSlug": "insidious-out-of-the-further",
 "lbRating": 2.71,
 "rated": "2026-10-31"
-},
-"fw-SMN20050114": {
-"imdb": "tt0434409",
-"imdbAll": [
-"tt0434409"
-],
-"lb": "v-for-vendetta",
-"rt": "m/v_for_vendetta",
-"mc": "movie/v-for-vendetta",
-"en": "V for Vendetta",
-"v": 4,
-"checked": "2026-11-06",
-"tmdbChecked": "2026-11-06",
-"tv": 2,
-"tmdb": 752,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "v-for-vendetta",
-"lbRating": 3.91,
-"rated": "2026-11-06",
-"posterPath": "/1avD1JeaRiJX5M4ahPdZPypGoGN.jpg"
 },
 "fw-SMN20051022": {
 "imdb": "tt0407887",
@@ -10027,27 +9913,6 @@
 "rated": "2026-11-05",
 "posterPath": "/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg"
 },
-"mk-clayface": {
-"imdb": "tt34890576",
-"imdbAll": [
-"tt34890576"
-],
-"lb": "clayface",
-"rt": "m/clayface",
-"mc": null,
-"en": "Clayface",
-"v": 4,
-"checked": "2026-10-10",
-"tmdbChecked": "2026-10-10",
-"tv": 2,
-"tmdb": 1400940,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "clayface",
-"lbRating": 3.73,
-"rated": "2026-11-03",
-"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
-},
 "mk-delitos-y-faltas": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
@@ -10105,58 +9970,32 @@
 "v": 4,
 "checked": "2026-11-05"
 },
+"mk-george-michael-the-faith-tour": {
+"v": 4,
+"checked": "2026-11-06",
+"tmdbChecked": "2026-11-06",
+"tv": 2,
+"tmdb": 1649403,
+"lang": "en",
+"imdb": "tt40564737",
+"en": "George Michael: The Faith Tour",
+"enFrom": "tmdb",
+"lbSlug": "george-michael-the-faith-tour",
+"lbRating": null,
+"rated": "2026-11-06",
+"posterPath": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg"
+},
 "mk-gremlins": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
 "checked": "2026-11-05"
 },
-"mk-hope-6a85a985bb6eb": {
-"imdb": "tt27369017",
-"imdbAll": [
-"tt27369017"
-],
-"lb": "hope-2026",
-"rt": "m/hope_2026",
-"mc": "movie/hope-2026",
-"en": "Hope",
-"v": 4,
-"checked": "2026-10-27",
-"tmdbChecked": "2026-10-27",
-"tv": 2,
-"tmdb": 1058424,
-"lang": "ko",
-"lbSlug": "hope-2026",
-"lbRating": 3.16,
-"rated": "2026-11-04",
-"posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
-},
 "mk-ladron-de-bicicletas": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
 "checked": "2026-11-05"
-},
-"mk-lady-bird": {
-"imdb": "tt4925292",
-"imdbAll": [
-"tt4925292"
-],
-"lb": "lady-bird",
-"rt": "m/lady_bird",
-"mc": "movie/lady-bird",
-"en": "Lady Bird",
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"tmdb": 391713,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "lady-bird",
-"lbRating": 3.81,
-"rated": "2026-11-05",
-"posterPath": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg"
 },
 "mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
 "tmdbChecked": "2026-11-05",
@@ -10184,47 +10023,11 @@
 "v": 4,
 "checked": "2026-11-05"
 },
-"mk-sentido-y-sensibilidad": {
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1503762,
-"lang": "en",
-"imdb": "tt13609648",
-"en": "Sense and Sensibility",
-"enFrom": "tmdb",
-"lbSlug": "sense-and-sensibility-2026",
-"lbRating": 3.98,
-"rated": "2026-10-29",
-"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
-},
 "mk-vengadores-doomsday4": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
 "checked": "2026-11-05"
-},
-"mk-wicker": {
-"imdb": "tt29611136",
-"imdbAll": [
-"tt29611136"
-],
-"lb": "wicker",
-"rt": "m/wicker",
-"mc": "movie/wicker",
-"en": "Wicker",
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"tmdb": 1195803,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "wicker",
-"lbRating": 3.67,
-"rated": "2026-11-05",
-"posterPath": "/6FcBZOKvyrLCKGCyBG0ySCR4okt.jpg"
 },
 "rv-fight-club-1999": {
 "imdb": "tt0137523",
