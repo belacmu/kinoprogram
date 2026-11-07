@@ -967,14 +967,16 @@ function stubHtml(s, f) {
 // confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
 // The Letterboxd link is always at the top, with the rating when there is one; the cinema listing's own links (Filmweb, ...)
 // go in the "more" menu.
+// Letterboxd's three-dot mark (drawn here, not their file: this host can't fetch it): orange, green, blue circles that overlap.
+const LB_MARK = `<svg class="lbmark" width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><circle cx="7" cy="7" r="6.5" fill="#ff8000"/><circle cx="19" cy="7" r="6.5" fill="#40bcf4"/><circle cx="13" cy="7" r="6.5" fill="#00e054"/><path d="M13 .9a6.5 6.5 0 0 1 0 12.2A6.5 6.5 0 0 1 13 .9z" fill="none"/></svg>`;
 function extLinks(f) {
   const x = f.ext || {};
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
   const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
-  const label = (lb && x.lbRating ? `<b>★ ${x.lbRating.toFixed(1)}</b> ` : "") + `<span>${lb ? "Letterboxd ↗" : "Search Letterboxd ↗"}</span>`;  // the underlined part is the link's look
+  const label = lb && x.lbRating ? `<b>★ ${x.lbRating.toFixed(1)}</b>` : `<span>${lb ? "Letterboxd" : "Search"} ↗</span>`;
   return {
-    top: `<a class="rate" href="${esc(url)}" target="_blank" rel="noopener"${lb && x.lbRating ? ' title="Letterboxd rating"' : ""}>${label}</a>`,
+    top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${lb && x.lbRating ? "Letterboxd rating" : lb ? "Letterboxd" : "Search Letterboxd"}" aria-label="${lb && x.lbRating ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : "Letterboxd"}">${LB_MARK}${label}</a>`,
     menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
   };
 }
@@ -988,10 +990,9 @@ function filmHead(f) {
       <h2 id="filmTitle">${esc(titleOf(f))}</h2>
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
-      ${ext.top}
     <div class="fmore">
-      <div class="actions">
-        <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On watchlist" : "Watchlist"}</button>
+      <div class="actions">${ext.top}
+        <button class="btn wl${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}">${heart(on)} ${on ? "On watchlist" : "Watchlist"}</button>
         <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
           <div class="menu right" id="sheetMoreMenu" role="menu" hidden><button role="menuitem" data-share="${esc(f.id)}"><span class="mi">${canShare ? shareIcon : linkIcon}</span>${canShare ? "Share this film" : "Copy link to this film"}</button>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
       </div>
@@ -1040,7 +1041,7 @@ function openFilm(id) {
     ${picks.menus || picks.strip ? `<div class="showings">${picks.menus ? `<div class="showhead">${picks.menus}</div>` : ""}${picks.strip}</div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
-  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it  // always start at the top, with the title and poster
   fitBlurb();
   const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
   if (!strip) return;
@@ -1103,7 +1104,7 @@ function showingPage(f, s, dlg) {
       <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div></div>${buy}
       ${goers || chips ? `<div class="schips">${goers}${chips}</div>` : ""}</div>
     ${going}</div>`;
-  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
 }
 

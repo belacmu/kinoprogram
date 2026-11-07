@@ -1047,3 +1047,25 @@ a.stub.going { border-left-color: var(--soon); }
 
 .fhead > .pzoom, .fhead > .poster { grid-row: 1; }
 .fhead > .blurb { grid-column: 1 / -1; grid-row: 2; margin-top: 12px; }
+
+/* Letterboxd, Watchlist and the menu share one line of matching pills */
+.fhead .actions { flex-wrap: wrap; row-gap: 6px; gap: 6px; }
+.fhead .actions > * { flex: none; }
+.rate.lbpill { display: inline-flex; align-items: center; gap: 7px; height: 32px; box-sizing: border-box; margin: 0; padding: 0 12px 0 10px; border-radius: 999px; background: #14181c; color: #9ab; text-decoration: none; font-size: 13px; }
+.rate.lbpill b { font: 600 13px var(--mono); color: #00e054; }
+.rate.lbpill span { text-decoration: none; color: #d8e0e8; font-weight: 600; }
+.rate.lbpill:hover { filter: brightness(1.25); }
+.fhead .meta:has(+ .fmore) { margin-bottom: 10px; }
+/* Watchlist: outlined when off, filled accent when on, like the Watchlist chip on the main page */
+.fhead .actions .btn.wl { display: inline-flex; align-items: center; gap: 6px; height: 32px; min-height: 32px; padding: 0 12px; font-size: 13px; font-weight: 600; border-radius: 999px; background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.fhead .actions .btn.wl.on { background: var(--accent); color: var(--accent-ink); }
+.fhead .actions .btn.wl svg { width: 14px; height: 14px; }
+.fhead .actions .btn.icon { width: 32px; min-height: 32px; height: 32px; }
+.blurb { --lines: 3; }
+@media (max-width: 600px) { .blurb { --lines: 2; } }
+.fhead > .blurb { margin-bottom: 0; }
+.blurb p { margin-bottom: 0; }
+.blurb .linkbtn { padding: 2px 0 0; }
+.fhead { padding-bottom: 12px; margin-bottom: 12px; }
+
+#film:focus { outline: none; }
