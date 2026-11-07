@@ -1026,3 +1026,6 @@ a.stub.going { border-left-color: var(--soon); }
 .showhead { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 .showpage .back { margin-bottom: 0; }
 .showpage .backrow { padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
+/* only the one divider, under the header's action row */
+.showhead { border-bottom: 0; padding-bottom: 0; }
+.showpage .backrow { border-bottom: 0; padding-bottom: 0; margin-bottom: 12px; }
