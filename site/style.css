@@ -996,3 +996,8 @@ a.stub.going { border-left-color: var(--soon); }
 .sinfo2 { flex: 1 1 170px; min-width: 0; }
 .sstub .buy { flex: 0 0 auto; width: auto; margin: 0; padding: 0 20px; }
 .schips .chip { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 28px; padding: 0 11px; line-height: 1; }
+
+.sstub { align-items: flex-start; }
+.schips { flex: 1 0 100%; display: flex; gap: 6px; }
+.schips .chip { flex: 1 1 auto; }
+@media (max-width: 600px) { .showpage { padding-inline: 16px; } }  /* lines up with the film header above it */

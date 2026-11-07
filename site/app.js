@@ -979,6 +979,30 @@ function extLinks(f) {
   };
 }
 
+// The film's header (poster, title, details, actions): the film sheet and a showing's page both start with this, so they match.
+function filmHead(f) {
+  const meta = [KIND_BADGE[f.kind], f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : "", f.countries.slice(0, 3).join(", "), f.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ");
+  const on = isWatched(f), info = isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "", ext = extLinks(f);
+  return `<div class="fhead">${f.poster ? `<button type="button" class="pzoom" data-zoom="${esc(f.id)}" aria-label="Enlarge the poster of ${esc(titleOf(f))}">${posterHtml(f)}</button>` : posterHtml(f)}<div class="ftext">
+      ${info ? `<div class="badges">${info}</div>` : ""}
+      <h2 id="filmTitle">${esc(titleOf(f))}</h2>
+      ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
+      <div class="meta">${esc(meta)}</div>
+      ${ext.top}
+      ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}
+    </div>
+    <div class="fmore">
+      <div class="actions">
+        <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
+        <button class="btn ghost share" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}<span class="lbl">${canShare ? "Share" : "Copy link"}</span></button>
+        <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
+          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
+      </div>
+      ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
+    </div>
+    </div>`;
+}
+
 function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
@@ -1014,24 +1038,7 @@ function openFilm(id) {
   const ext = extLinks(f), picks = sheetPicks(all, shown, withTags, today);
   const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="fhead">${f.poster ? `<button type="button" class="pzoom" data-zoom="${esc(f.id)}" aria-label="Enlarge the poster of ${esc(titleOf(f))}">${posterHtml(f)}</button>` : posterHtml(f)}<div class="ftext">
-      ${info ? `<div class="badges">${info}</div>` : ""}
-      <h2 id="filmTitle">${esc(titleOf(f))}</h2>
-      ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
-      <div class="meta">${esc(meta)}</div>
-      ${ext.top}
-      ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}
-    </div>
-    <div class="fmore">
-      <div class="actions">
-        <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
-        <button class="btn ghost share" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}<span class="lbl">${canShare ? "Share" : "Copy link"}</span></button>
-        <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
-          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
-      </div>
-      ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
-    </div>
-    </div>
+    ${filmHead(f)}
     ${picks.menus || picks.strip ? `<div class="showings"><div class="showhead"><h3>Showings</h3>${picks.menus}</div>${picks.strip}</div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
@@ -1070,7 +1077,6 @@ function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const chips = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).map((c) => `<span class="chip">${esc(c)}</span>`).join("");
-  const meta = [KIND_BADGE[f.kind], f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : ""].filter(Boolean).join(" · ");
   const name = myName();
   const buy = s.ticket
     ? `<a class="buy" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>`
@@ -1089,13 +1095,14 @@ function showingPage(f, s, dlg) {
     ${on ? `<div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div>` : ""}</div>`;
   // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="fhead">${posterHtml(f)}<div class="ftext"><h2 id="filmTitle">${esc(titleOf(f))}</h2>${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}<div class="meta">${esc(meta)}</div></div></div>
+    ${filmHead(f)}
     <div class="showpage"><a class="back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a>
     <div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
-      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div>
-      ${chips ? `<div class="schips">${chips}</div>` : ""}</div>${buy}</div>
+      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div></div>${buy}
+      ${chips ? `<div class="schips">${chips}</div>` : ""}</div>
     ${going}</div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }
+  fitBlurb();
 }
 
 function planClick(t) {
