@@ -1082,3 +1082,5 @@ a.stub.going { border-left-color: var(--soon); }
 /* the logo's circle runs edge to edge: full height of the pill, flush with its left end */
 .rate.lbpill { padding-left: 0; gap: 4px; }
 .rate.lbpill .lbmark { width: 32px; height: 32px; margin: -1px 0 -1px -1px; border-radius: 50%; }
+/* flush inside the pill's border, so the border stays visible all the way round */
+.rate.lbpill .lbmark { width: 30px; height: 30px; margin: 0; }
