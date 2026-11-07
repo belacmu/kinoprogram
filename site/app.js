@@ -923,6 +923,14 @@ function fitBlurb() {
 }
 window.addEventListener("resize", () => { if ($("film").open) fitBlurb(); });
 
+// "#film/ID" is a film's sheet; "#film/ID/SHOWING" is one showing's page inside it (SHOWING = "time|cinema", encoded).
+function hashParts() {
+  const m = location.hash.match(/^#film\/([^/]+)(?:\/(.+))?$/);
+  return m ? { id: decodeURIComponent(m[1]), show: m[2] ? decodeURIComponent(m[2]) : "" } : { id: "", show: "" };
+}
+const showKey = (s) => `${s.t}|${s.cinema}`;
+const showHref = (f, s) => `#film/${encodeURIComponent(f.id)}/${encodeURIComponent(showKey(s))}`;
+
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
 
 // The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
@@ -945,16 +953,14 @@ function sheetTagList(all) {
 
 const MEAL_TAG = "Meal + film";  // dinner/brunch packages (Sommerro, sometimes Vega): priced far above a cinema ticket
 
-function stubHtml(s) {
+function stubHtml(s, f) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const tags = showTags(s);
   const inner = `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
     + (tags.length ? `<span class="tg">${esc(tags.map((t) => (t === MEAL_TAG ? "🍽 " : "") + t).join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
     + (!s.ticket ? `<span class="c">${esc(s.status || "Not on sale yet")}</span>` : "");
-  return s.ticket
-    ? `<a class="stub" href="${esc(s.ticket)}" target="_blank" rel="noopener" title="Buy tickets">${inner}</a>`
-    : `<span class="stub nosale">${inner}</span>`;
+  return `<a class="stub${s.ticket ? "" : " nosale"}${planOf(f, s)?.going ? " going" : ""}" href="${showHref(f, s)}">${inner}</a>`;
 }
 
 // Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
@@ -977,6 +983,8 @@ function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
+  const sh = hashParts().show && f.shows.find((s) => showKey(s) === hashParts().show);
+  if (sh) { showingPage(f, sh, dlg); return; }
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
   // Opened while a day is picked on the main page: list that day (if the film plays then), otherwise all days.
@@ -993,7 +1001,7 @@ function openFilm(id) {
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
     <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
-    <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
+    <div class="stubs">${shows.map((s) => stubHtml(s, f)).join("")}</div></div>`).join("");
   let empty = "";
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
   else if (!all.length && f.elsewhere?.length) empty = `<p class="hiddenNote">Premiere ${dayLabel(f.premiere)}. Showings so far only in ${esc(f.elsewhere.join(", "))}; none in ${esc(state.data.location)} yet.</p>`;
@@ -1037,6 +1045,91 @@ function openFilm(id) {
   fitDayStrip(strip);
   strip.addEventListener("scroll", () => fitDayStrip(strip), { passive: true });
 }
+
+// ---------------------------------------------------------------- a showing's own page
+// Plans: what you've said about a showing. Kept on this device (like the watchlist); {going, vis, name, row, seats}.
+// vis: "friends" (friends see it in their Feed, and the link works), "link" (only people you send the link to), "me".
+const plans = local.get("plans", {});
+const planId = (f, s) => `${f.id}|${showKey(s)}`;
+const planOf = (f, s) => plans[planId(f, s)];
+function setPlan(f, s, patch) {
+  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch };
+  if (next) plans[id] = next; else delete plans[id];
+  local.set("plans", plans);
+}
+const myName = () => state.profile?.display_name || local.get("guestName", "");
+const showUrl = (f, s) => location.href.split(/[?#]/)[0] + showHref(f, s);
+const VIS = [["me", "Only me"], ["link", "Anyone with link"], ["friends", "Friends + link"]];
+const VIS_TEXT = {
+  me: `<b>Only you.</b> No link, nothing in anyone's Feed.`,
+  link: `<b>Anyone with your link.</b> Not in your friends' Feed.`,
+  friends: `<b>Your friends, and anyone with your link.</b> It shows in their Feed.`,
+};
+
+function showingPage(f, s, dlg) {
+  const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
+  const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
+  const chips = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).map((c) => `<span class="chip">${esc(c)}</span>`).join("");
+  const meta = [f.year, f.runtime ? `${f.runtime} min` : ""].filter(Boolean).join(" · ");
+  const name = myName();
+  const buy = s.ticket
+    ? `<a class="buy" href="${esc(s.ticket)}" target="_blank" rel="noopener">Buy tickets ↗</a>`
+    : `<span class="buy off">${esc(s.status || "Not on sale yet")}</span>`;
+  let going;
+  if (!plan?.going) {
+    going = `<div class="plan"><div class="lab">Going?</div>
+      ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`}
+      <div class="prow"><button class="pbtn dark" data-going="friends">Going, tell friends</button><button class="pbtn" data-going="me">Going, just me</button></div>
+      <p class="pnote"><b>Tell friends:</b> they see it in their Feed, and your link works.<br><b>Just me:</b> only you see it.</p></div>`;
+  } else {
+    const shared = plan.vis !== "me";
+    going = `<div class="plan"><div class="lab">Going?</div>
+      <div class="prow"><span class="pbtn on">✓ Going</span><button class="pbtn quiet" data-notgoing="1">Not going</button></div>
+      ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40"></label>`}
+      <div class="lab">Who can see this?</div>
+      <div class="seg" role="group">${VIS.map(([k, l]) => `<button data-vis="${k}" aria-pressed="${plan.vis === k}">${l}</button>`).join("")}</div>
+      <p class="pnote">${VIS_TEXT[plan.vis] || ""}</p>
+      ${shared ? `<div class="linkbox"><div class="lrow"><code>${esc(showUrl(f, s).replace(/^https?:\/\//, ""))}</code><button class="pbtn sm" data-copyshow="1">Copy</button>${canShare ? '<button class="pbtn sm" data-sharershow="1">Share…</button>' : ""}</div>
+        <div class="pair"><label class="fld"><span>Row</span><input class="inp" data-plan="row" value="${esc(plan.row || "")}" placeholder="F" maxlength="4"></label>
+        <label class="fld"><span>Seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan.seats || "")}" placeholder="7, 8, 9" maxlength="30" inputmode="numeric"></label></div></div>`
+        : `<button class="pbtn" data-vis="friends">Tell friends instead ›</button>`}
+      <div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div></div>`;
+  }
+  dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
+    <div class="showpage"><a class="back" href="#film/${encodeURIComponent(f.id)}">‹ ${esc(titleOf(f))}</a>
+    <div class="scard">${posterHtml(f)}<div class="sinfo"><div class="sft">${esc(titleOf(f))}</div><div class="sfy">${esc(meta)}</div>
+      <div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
+      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div>
+      ${chips ? `<div class="schips">${chips}</div>` : ""}</div><div class="sbrand">cinecrab</div></div>
+    ${buy}${going}</div>`;
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }
+}
+
+function planClick(t) {
+  const { id, show } = hashParts(), f = findFilm(id), s = f?.shows.find((x) => showKey(x) === show);
+  if (!s) return;
+  if (t.dataset.going) {
+    const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
+    if (!state.user && nm) local.set("guestName", nm);
+    setPlan(f, s, { going: true, vis: t.dataset.going });
+  } else if (t.dataset.notgoing) setPlan(f, s, null);
+  else if (t.dataset.vis) setPlan(f, s, { vis: t.dataset.vis });
+  else {
+    const url = showUrl(f, s);
+    if (t.dataset.sharershow) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
+    navigator.clipboard.writeText(url).then(() => toast("Link copied"), () => toast("Couldn't copy the link"));
+    return;
+  }
+  showingPage(f, s, $("film"));
+}
+$("film").addEventListener("input", (e) => {  // name, row and seats save as you type
+  const k = e.target.dataset?.plan;
+  if (!k) return;
+  const { id, show } = hashParts(), f = findFilm(id), s = f?.shows.find((x) => showKey(x) === show);
+  if (!s) return;
+  if (k === "name") { if (!state.user) local.set("guestName", e.target.value.trim()); }
+  else if (planOf(f, s)) setPlan(f, s, { [k]: e.target.value.trim() });
+});
 
 // The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
 // once the strip is scrolled to that end; on phones it is swiped.
@@ -1089,7 +1182,7 @@ function route() {
     if (f && !isWatched(f) && requestWatch(f)) { savePrefs(); render(); }
     history.replaceState(null, "", location.pathname + location.search + "#film/" + encodeURIComponent(id));
   }
-  const m = location.hash.match(/^#film\/(.+)$/);
+  const m = location.hash.match(/^#film\/([^/]+)/);
   const first = !state.routed;
   state.routed = true;
   if (m) {
@@ -1139,9 +1232,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-vis],[data-copyshow],[data-sharershow],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
+  if (t.dataset.going || t.dataset.notgoing || t.dataset.vis || t.dataset.copyshow || t.dataset.sharershow) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
@@ -1212,14 +1306,14 @@ document.addEventListener("click", (e) => {
     }
     // A menu stays open while picking in it, with the same item focused.
     const menu = t.closest(".menu")?.id, focus = menu && [...t.attributes].find((a) => a.name.startsWith("data-sheet"));
-    openFilm(location.hash.slice(6));
+    openFilm(hashParts().id);
     if (menu && $(menu)) {
       $(menu).hidden = false;
       $("film").querySelector(`[data-sheetmenu="${menu}"]`).setAttribute("aria-expanded", "true");
       $(menu).querySelector(`[${focus.name}="${CSS.escape(focus.value)}"]`)?.focus();
     }
     return;
-  } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(location.hash.slice(6)); return; }
+  } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(hashParts().id); return; }
   render();
   flipRun();
 });
@@ -1512,7 +1606,7 @@ async function saveAccountNow(extra, withPrefs) {
     state.watchlist = shownList; state.prefs.hidden = shownHidden;
     local.set("watchlist", [...shownList]); local.set("prefs", state.prefs);
     render();
-    if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));
+    if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);
   }
   return true;
 }
@@ -1579,7 +1673,7 @@ async function loadFriends() {
   state.friends = fresh;
   render();
   if ($("account").open && !typing()) renderAccount();  // not while something is being typed in it
-  if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));  // a film sheet that's already open
+  if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);  // a film sheet that's already open
 }
 const typing = () => { const a = document.activeElement; return $("account").contains(a) && a.matches("input") && !!(a.value || a.defaultValue); };  // a box in the account dialog with text in it
 document.addEventListener("visibilitychange", () => {  // coming back to the app: friends may have added you or changed their lists
