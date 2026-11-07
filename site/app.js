@@ -1070,16 +1070,16 @@ function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const chips = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).map((c) => `<span class="chip">${esc(c)}</span>`).join("");
-  const meta = [f.year, f.runtime ? `${f.runtime} min` : ""].filter(Boolean).join(" · ");
+  const meta = [KIND_BADGE[f.kind], f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : ""].filter(Boolean).join(" · ");
   const name = myName();
   const buy = s.ticket
-    ? `<a class="buy" href="${esc(s.ticket)}" target="_blank" rel="noopener">Buy tickets ↗</a>`
+    ? `<a class="buy" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>`
     : `<span class="buy off">${esc(s.status || "Not on sale yet")}</span>`;
   // The same layout whether or not you're going: the choices below are just dimmed until you tap Going.
   const on = !!plan?.going, vis = plan?.vis || "friends", shared = on && vis !== "me", dis = on ? "" : " disabled", disBox = shared ? "" : " disabled";
   const going = `<div class="plan">
     ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`}
-    <div class="acts"><button class="gobtn${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ I'm going" : "I'm going"}</button>${buy}</div>
+    <div class="acts"><button class="gobtn${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ I'm going" : "I'm going"}</button></div>
     <div class="lab">Who can see this?</div>
     <div class="seg" role="group">${VIS.map(([k, l]) => `<button data-vis="${k}" aria-pressed="${vis === k}"${dis}>${l}</button>`).join("")}</div>
     <p class="pnote">${VIS_TEXT[vis]}</p>
@@ -1087,12 +1087,13 @@ function showingPage(f, s, dlg) {
       <div class="pair"><label class="fld"><span>Row</span><input class="inp" data-plan="row" value="${esc(plan?.row || "")}" placeholder="F" maxlength="4"${disBox}></label>
       <label class="fld"><span>Seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan?.seats || "")}" placeholder="7, 8, 9" maxlength="30" inputmode="numeric"${disBox}></label></div></div>
     ${on ? `<div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div>` : ""}</div>`;
+  // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="showpage"><a class="back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings of ${esc(titleOf(f))}</a>
-    <div class="scard">${posterHtml(f)}<div class="sinfo"><div class="sft">${esc(titleOf(f))}</div><div class="sfy">${esc(meta)}</div>
-      <div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
+    <div class="fhead">${posterHtml(f)}<div class="ftext"><h2 id="filmTitle">${esc(titleOf(f))}</h2>${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}<div class="meta">${esc(meta)}</div></div></div>
+    <div class="showpage"><a class="back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a>
+    <div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
       <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div>
-      ${chips ? `<div class="schips">${chips}</div>` : ""}</div></div>
+      ${chips ? `<div class="schips">${chips}</div>` : ""}</div>${buy}</div>
     ${going}</div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }
 }
