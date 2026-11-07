@@ -1079,7 +1079,7 @@ function showingPage(f, s, dlg) {
   const on = !!plan?.going, vis = plan?.vis || "friends", shared = on && vis !== "me", dis = on ? "" : " disabled", disBox = shared ? "" : " disabled";
   const going = `<div class="plan">
     ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`}
-    <button class="gobtn${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ I'm going" : "I'm going"}</button>
+    <div class="acts"><button class="gobtn${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ I'm going" : "I'm going"}</button>${buy}</div>
     <div class="lab">Who can see this?</div>
     <div class="seg" role="group">${VIS.map(([k, l]) => `<button data-vis="${k}" aria-pressed="${vis === k}"${dis}>${l}</button>`).join("")}</div>
     <p class="pnote">${VIS_TEXT[vis]}</p>
@@ -1092,8 +1092,8 @@ function showingPage(f, s, dlg) {
     <div class="scard">${posterHtml(f)}<div class="sinfo"><div class="sft">${esc(titleOf(f))}</div><div class="sfy">${esc(meta)}</div>
       <div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
       <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div>
-      ${chips ? `<div class="schips">${chips}</div>` : ""}</div><div class="sbrand">cinecrab</div></div>
-    ${buy}${going}</div>`;
+      ${chips ? `<div class="schips">${chips}</div>` : ""}</div></div>
+    ${going}</div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }
 }
 

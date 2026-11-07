@@ -947,7 +947,7 @@ a.stub.going { border-left-color: var(--soon); }
 .buy { display: flex; justify-content: center; align-items: center; box-sizing: border-box; width: 100%; min-height: 48px; margin-top: 12px; border-radius: 999px;
   background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 16px; text-decoration: none; }
 .buy.off { background: var(--chip); color: var(--muted); }
-.plan { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.plan { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
 .plan .lab { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .plan .pnote { margin: 0; font-size: 14px; }
 .prow { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -980,3 +980,7 @@ a.stub.going { border-left-color: var(--soon); }
 .linkbox.off .inp, .linkbox.off code { cursor: not-allowed; }
 .seg button:disabled { cursor: not-allowed; }
 .pbtn:disabled { cursor: not-allowed; }
+
+.acts { display: flex; gap: 10px; width: 100%; }
+.acts > .gobtn, .acts > .buy { flex: 1; width: auto; margin: 0; min-width: 0; }
+.sft { padding-right: 0; }
