@@ -967,14 +967,16 @@ function stubHtml(s, f) {
 // confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
 // The Letterboxd link is always at the top, with the rating when there is one; the cinema listing's own links (Filmweb, ...)
 // go in the "more" menu.
-// Letterboxd's three-dot mark (drawn here, not their file: this host can't fetch it): orange, green, blue circles that overlap.
-const LB_MARK = `<svg class="lbmark" width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><circle cx="7" cy="7" r="6.5" fill="#ff8000"/><circle cx="19" cy="7" r="6.5" fill="#40bcf4"/><circle cx="13" cy="7" r="6.5" fill="#00e054"/><path d="M13 .9a6.5 6.5 0 0 1 0 12.2A6.5 6.5 0 0 1 13 .9z" fill="none"/></svg>`;
+// Letterboxd's own logo (their "decal dots, negative" SVG, light for the dark pill), expected at site/icons/letterboxd.svg;
+// until that file is there the pill simply goes without it.
+const LB_MARK = `<img class="lbmark" src="icons/letterboxd.svg" alt="" width="26" height="14" onerror="this.remove()">`;
+const STAR = `<svg class="lbstar" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z" fill="currentColor"/></svg>`;
 function extLinks(f) {
   const x = f.ext || {};
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
   const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
-  const label = lb && x.lbRating ? `<b>★ ${x.lbRating.toFixed(1)}</b>` : `<span>${lb ? "Letterboxd" : "Search"} ↗</span>`;
+  const label = lb && x.lbRating ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>${lb ? "Letterboxd" : "Search"} ↗</span>`;
   return {
     top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${lb && x.lbRating ? "Letterboxd rating" : lb ? "Letterboxd" : "Search Letterboxd"}" aria-label="${lb && x.lbRating ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : "Letterboxd"}">${LB_MARK}${label}</a>`,
     menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),

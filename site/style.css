@@ -1069,3 +1069,6 @@ a.stub.going { border-left-color: var(--soon); }
 .fhead { padding-bottom: 12px; margin-bottom: 12px; }
 
 #film:focus { outline: none; }
+
+.rate.lbpill b { display: inline-flex; align-items: center; gap: 3px; }
+.rate.lbpill .lbstar { color: #00e054; }
