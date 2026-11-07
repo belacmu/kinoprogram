@@ -1012,3 +1012,17 @@ a.stub.going { border-left-color: var(--soon); }
 .showings { padding-top: 0; }
 .showhead { justify-content: flex-start; }
 .sinfo2 .goers { margin-top: 8px; }
+
+/* showing page: date + time line together are about as tall as the Tickets button; people going sit in the chip row, first */
+.sdate { font-size: 24px; line-height: 1.05; }
+.sstub .stime { font-size: 17px; line-height: 1.25; margin-top: 2px; }
+.sstub { align-items: center; }
+.schips .gp { display: inline-flex; align-items: center; gap: 6px; height: 28px; box-sizing: border-box; background: color-mix(in srgb, var(--soon) 14%, var(--chip)); border-radius: 999px; padding: 0 11px 0 3px; font-weight: 600; font-size: 13px; }
+.schips .gp small { font: 500 12px var(--mono); color: var(--muted); }
+.schips .fdot { width: 22px; height: 22px; border-radius: 50%; background: var(--soon); color: #fff; display: grid; place-items: center; font-size: 11px; }
+/* a divider under the film header's action row, and under the row of showing menus / back pill */
+.fhead { margin-bottom: 12px; padding-bottom: 16px; background: linear-gradient(var(--line), var(--line)) no-repeat 22px 100% / calc(100% - 44px) 1px; }
+@media (max-width: 600px) { .fhead { background-position: 16px 100%; background-size: calc(100% - 32px) 1px; } }
+.showhead { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.showpage .back { margin-bottom: 0; }
+.showpage .backrow { padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }

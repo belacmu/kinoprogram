@@ -1073,7 +1073,7 @@ const VIS_TEXT = {
   friends: `<b>Your friends, and anyone with your link.</b> It shows in their Feed.`,
 };
 
-const goersHtml = (plan, name) => `<div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div>`;
+const goersHtml = (plan, name) => `<span class="gp me"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")}${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span>`;
 
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
@@ -1099,10 +1099,10 @@ function showingPage(f, s, dlg) {
   // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
-    <div class="showpage"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a>
+    <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
     <div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
-      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div>${goers}</div>${buy}
-      ${chips ? `<div class="schips">${chips}</div>` : ""}</div>
+      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div></div>${buy}
+      ${goers || chips ? `<div class="schips">${goers}${chips}</div>` : ""}</div>
     ${going}</div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }
   fitBlurb();
@@ -1132,7 +1132,7 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
   if (!s) return;
   if (k === "name") { if (!state.user) local.set("guestName", e.target.value.trim()); }
   else if (planOf(f, s)) setPlan(f, s, { [k]: e.target.value.trim() });
-  const g = $("film").querySelector(".goers");
+  const g = $("film").querySelector(".gp.me");
   if (g && planOf(f, s)) g.outerHTML = goersHtml(planOf(f, s), myName());  // the chip in the stub follows what you type
 });
 
