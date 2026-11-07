@@ -1089,3 +1089,8 @@ a.stub.going { border-left-color: var(--soon); }
 .rate.lbpill { gap: 0; }
 .rate.lbpill .lbmark { margin-right: -1px; }
 .rate.lbpill .lbmark { margin-right: 0; }
+/* measured: the star's right side was ~14.3px from the pill's edge against ~13.2px inside Watchlist, so a pixel less padding; and a little room left of the dots */
+.rate.lbpill { padding-right: 11px; }
+.rate.lbpill .lbmark { margin-left: 2px; }
+.rate.lbpill .lbmark { margin-left: 1px; margin-right: .5px; }
+.rate.lbpill { padding-right: 12px; }
