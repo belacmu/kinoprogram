@@ -989,18 +989,16 @@ function filmHead(f) {
       ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
       <div class="meta">${esc(meta)}</div>
       ${ext.top}
-      ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}
-    </div>
     <div class="fmore">
       <div class="actions">
-        <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
-        <button class="btn ghost share" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}<span class="lbl">${canShare ? "Share" : "Copy link"}</span></button>
+        <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On watchlist" : "Watchlist"}</button>
         <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
-          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
+          <div class="menu right" id="sheetMoreMenu" role="menu" hidden><button role="menuitem" data-share="${esc(f.id)}"><span class="mi">${canShare ? shareIcon : linkIcon}</span>${canShare ? "Share this film" : "Copy link to this film"}</button>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
       </div>
       ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
     </div>
-    </div>`;
+    </div>
+    ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}</div>`;
 }
 
 function openFilm(id) {
@@ -1066,14 +1064,14 @@ function setPlan(f, s, patch) {
 }
 const myName = () => state.profile?.display_name || local.get("guestName", "");
 const showUrl = (f, s) => location.href.split(/[?#]/)[0] + showHref(f, s);
-const VIS = [["me", "Only me"], ["link", "Anyone with link"], ["friends", "Friends + link"]];
+const VIS = [["me", "Only me"], ["link", "Link only"], ["friends", "Friends + link"]];
 const VIS_TEXT = {
-  me: `<b>Only you.</b> No link, nothing in anyone's Feed.`,
-  link: `<b>Anyone with your link.</b> Not in your friends' Feed.`,
-  friends: `<b>Your friends, and anyone with your link.</b> It shows in their Feed.`,
+  me: `Only you can see that you're going.`,
+  link: `Anyone you send the link to can see that you're going. It isn't in your friends' Feed.`,
+  friends: `Your friends see in their Feed that you're going, and anyone with your link can see it too.`,
 };
 
-const goersHtml = (plan, name) => `<span class="gp me"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")}${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span>`;
+const goersHtml = (plan, name) => `<span class="gp me"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")}</span>`;
 
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
@@ -1083,18 +1081,19 @@ function showingPage(f, s, dlg) {
   const buy = s.ticket
     ? `<a class="buy" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>`
     : `<span class="buy off">${esc(s.status || "Not on sale yet")}</span>`;
-  // The same layout whether or not you're going: the choices below are just dimmed until you tap Going.
-  const on = !!plan?.going, vis = plan?.vis || "friends", shared = on && vis !== "me", dis = on ? "" : " disabled", disBox = shared ? "" : " disabled";
-  const going = `<div class="plan">
-    ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`}
-    <div class="acts"><button class="gobtn${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ I'm going" : "I'm going"}</button></div>
-    <div class="lab">Who can see this?</div>
-    <div class="seg" role="group">${VIS.map(([k, l]) => `<button data-vis="${k}" aria-pressed="${vis === k}"${dis}>${l}</button>`).join("")}</div>
-    <p class="pnote">${VIS_TEXT[vis]}</p>
-    <div class="linkbox${shared ? "" : " off"}"><div class="lrow"><code>${esc(showUrl(f, s).replace(/^https?:\/\//, ""))}</code><button class="pbtn sm" data-copyshow="1"${disBox}>Copy</button>${canShare ? `<button class="pbtn sm" data-sharershow="1"${disBox}>Share…</button>` : ""}</div>
-      <div class="pair"><label class="fld"><span>Row</span><input class="inp" data-plan="row" value="${esc(plan?.row || "")}" placeholder="F" maxlength="4"${disBox}></label>
-      <label class="fld"><span>Seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan?.seats || "")}" placeholder="7, 8, 9" maxlength="30" inputmode="numeric"${disBox}></label></div></div>
-</div>`;
+  // Not going: just the button (and a name for guests). Going: who can see it (always the three choices, with what each means),
+  // then Seats and Invite as small buttons; Seats opens one field.
+  const on = !!plan?.going, vis = plan?.vis || "friends", shared = on && vis !== "me";
+  const EYE = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-3px"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  const seatsOpen = state.seatsOpen === planId(f, s);
+  const nameFld = state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`;
+  const going = !on ? `<div class="plan">${nameFld}<button class="gobtn" data-going="1" aria-pressed="false">I'm going</button><p class="pnote">Tap to add it to your showings. You choose who can see it next.</p></div>`
+    : `<div class="plan">${nameFld}<button class="gobtn on" data-going="1" aria-pressed="true">✓ I'm going</button>
+    <div class="vis"><div class="lab">${EYE} Who can see that you're going?</div>
+      <div class="seg" role="group">${VIS.map(([k, l]) => `<button data-vis="${k}" aria-pressed="${vis === k}">${l}</button>`).join("")}</div>
+      <p class="pnote">${VIS_TEXT[vis]}</p></div>
+    <div class="acts2"><button class="pbtn sm" data-seatstoggle="1"${shared ? "" : " disabled"} aria-expanded="${seatsOpen}">${plan.seats ? `${esc(plan.seats)} ✎` : "+ Seats"}</button>${shared ? `<button class="pbtn sm" data-sharershow="1">Invite ↗</button>` : `<button class="pbtn sm" disabled>Invite ↗</button>`}</div>
+    ${seatsOpen && shared ? `<label class="fld"><span>Your seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan.seats || "")}" placeholder="e.g. F 7–9" maxlength="30" autofocus><small class="pnote">Shown with your name to anyone who can see that you're going.</small></label>` : ""}</div>`;
   const goers = on ? goersHtml(plan, name) : "";
   // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
@@ -1117,9 +1116,10 @@ function planClick(t) {
     if (planOf(f, s)?.going) setPlan(f, s, null); else setPlan(f, s, { going: true, vis: "friends" });
   }
   else if (t.dataset.vis) setPlan(f, s, { vis: t.dataset.vis });
+  else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
   else {
     const url = showUrl(f, s);
-    if (t.dataset.sharershow) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
+    if (t.dataset.sharershow && canShare) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
     navigator.clipboard.writeText(url).then(() => toast("Link copied"), () => toast("Couldn't copy the link"));
     return;
   }
@@ -1237,10 +1237,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-vis],[data-copyshow],[data-sharershow],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-vis],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.notgoing || t.dataset.vis || t.dataset.copyshow || t.dataset.sharershow) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.notgoing || t.dataset.vis || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";

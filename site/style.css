@@ -1029,3 +1029,21 @@ a.stub.going { border-left-color: var(--soon); }
 /* only the one divider, under the header's action row */
 .showhead { border-bottom: 0; padding-bottom: 0; }
 .showpage .backrow { border-bottom: 0; padding-bottom: 0; margin-bottom: 12px; }
+
+/* the header's actions sit under the details beside the poster (no row of their own); compact */
+.ftext .fmore { grid-column: auto; margin-top: 10px; }
+.fhead .actions { flex-wrap: nowrap; }
+.fhead .actions .btn.primary { flex: none; max-width: none; min-height: 34px; padding: 0 14px; font-size: 14px; border-radius: 999px; }
+.fhead .actions .btn.icon { width: 34px; min-height: 34px; border-radius: 50%; }
+.fhead .actions .btn { min-height: 34px; }
+.fhead .friendline { margin: 8px 0 0; }
+/* the Going card */
+.plan .vis { width: 100%; display: flex; flex-direction: column; gap: 8px; background: var(--chip); border-radius: 10px; padding: 12px; box-sizing: border-box; }
+.plan .vis .lab { font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.plan .vis .seg { background: var(--surface); }
+.plan .vis .seg button[aria-pressed="true"] { background: var(--chip); box-shadow: none; }
+.acts2 { display: flex; gap: 8px; flex-wrap: wrap; }
+.plan .fld small { margin-top: 2px; }
+
+.fhead > .pzoom, .fhead > .poster { grid-row: 1; }
+.fhead > .blurb { grid-column: 1 / -1; grid-row: 2; margin-top: 12px; }
