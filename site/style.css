@@ -1008,3 +1008,7 @@ a.stub.going { border-left-color: var(--soon); }
 .schips .chip { flex: 0 0 auto; }
 .showings { border-top: 0; }
 .days .day:first-child { border-top: 0; }
+
+.showings { padding-top: 0; }
+.showhead { justify-content: flex-start; }
+.sinfo2 .goers { margin-top: 8px; }

@@ -1039,7 +1039,7 @@ function openFilm(id) {
   const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
-    ${picks.menus || picks.strip ? `<div class="showings"><div class="showhead"><h3>Showings</h3>${picks.menus}</div>${picks.strip}</div>` : ""}
+    ${picks.menus || picks.strip ? `<div class="showings">${picks.menus ? `<div class="showhead">${picks.menus}</div>` : ""}${picks.strip}</div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
@@ -1073,6 +1073,8 @@ const VIS_TEXT = {
   friends: `<b>Your friends, and anyone with your link.</b> It shows in their Feed.`,
 };
 
+const goersHtml = (plan, name) => `<div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div>`;
+
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
@@ -1092,13 +1094,14 @@ function showingPage(f, s, dlg) {
     <div class="linkbox${shared ? "" : " off"}"><div class="lrow"><code>${esc(showUrl(f, s).replace(/^https?:\/\//, ""))}</code><button class="pbtn sm" data-copyshow="1"${disBox}>Copy</button>${canShare ? `<button class="pbtn sm" data-sharershow="1"${disBox}>Share…</button>` : ""}</div>
       <div class="pair"><label class="fld"><span>Row</span><input class="inp" data-plan="row" value="${esc(plan?.row || "")}" placeholder="F" maxlength="4"${disBox}></label>
       <label class="fld"><span>Seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan?.seats || "")}" placeholder="7, 8, 9" maxlength="30" inputmode="numeric"${disBox}></label></div></div>
-    ${on ? `<div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div>` : ""}</div>`;
+</div>`;
+  const goers = on ? goersHtml(plan, name) : "";
   // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a>
     <div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
-      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div></div>${buy}
+      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div>${goers}</div>${buy}
       ${chips ? `<div class="schips">${chips}</div>` : ""}</div>
     ${going}</div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }
@@ -1129,6 +1132,8 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
   if (!s) return;
   if (k === "name") { if (!state.user) local.set("guestName", e.target.value.trim()); }
   else if (planOf(f, s)) setPlan(f, s, { [k]: e.target.value.trim() });
+  const g = $("film").querySelector(".goers");
+  if (g && planOf(f, s)) g.outerHTML = goersHtml(planOf(f, s), myName());  // the chip in the stub follows what you type
 });
 
 // The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
