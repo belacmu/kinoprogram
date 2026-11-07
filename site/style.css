@@ -1001,3 +1001,10 @@ a.stub.going { border-left-color: var(--soon); }
 .schips { flex: 1 0 100%; display: flex; gap: 6px; }
 .schips .chip { flex: 1 1 auto; }
 @media (max-width: 600px) { .showpage { padding-inline: 16px; } }  /* lines up with the film header above it */
+
+/* back to the film's showings: the same small pill as the film sheet's menus */
+.showpage .back { min-height: 0; height: 32px; padding: 0 12px 0 10px; margin-bottom: 10px; background: var(--chip); font-weight: 400; font-size: 13px; max-width: none; text-decoration: none; color: var(--ink); gap: 4px; }
+.showpage .back span { font-size: 16px; margin-top: -1px; }
+.schips .chip { flex: 0 0 auto; }
+.showings { border-top: 0; }
+.days .day:first-child { border-top: 0; }

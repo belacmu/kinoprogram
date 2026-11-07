@@ -1096,7 +1096,7 @@ function showingPage(f, s, dlg) {
   // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
-    <div class="showpage"><a class="back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a>
+    <div class="showpage"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a>
     <div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
       <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div></div>${buy}
       ${chips ? `<div class="schips">${chips}</div>` : ""}</div>
