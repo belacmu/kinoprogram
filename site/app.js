@@ -1075,28 +1075,20 @@ function showingPage(f, s, dlg) {
   const buy = s.ticket
     ? `<a class="buy" href="${esc(s.ticket)}" target="_blank" rel="noopener">Buy tickets ↗</a>`
     : `<span class="buy off">${esc(s.status || "Not on sale yet")}</span>`;
-  let going;
-  if (!plan?.going) {
-    going = `<div class="plan"><div class="lab">Going?</div>
-      ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`}
-      <div class="prow"><button class="pbtn dark" data-going="friends">Going, tell friends</button><button class="pbtn" data-going="me">Going, just me</button></div>
-      <p class="pnote"><b>Tell friends:</b> they see it in their Feed, and your link works.<br><b>Just me:</b> only you see it.</p></div>`;
-  } else {
-    const shared = plan.vis !== "me";
-    going = `<div class="plan"><div class="lab">Going?</div>
-      <div class="prow"><span class="pbtn on">✓ Going</span><button class="pbtn quiet" data-notgoing="1">Not going</button></div>
-      ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40"></label>`}
-      <div class="lab">Who can see this?</div>
-      <div class="seg" role="group">${VIS.map(([k, l]) => `<button data-vis="${k}" aria-pressed="${plan.vis === k}">${l}</button>`).join("")}</div>
-      <p class="pnote">${VIS_TEXT[plan.vis] || ""}</p>
-      ${shared ? `<div class="linkbox"><div class="lrow"><code>${esc(showUrl(f, s).replace(/^https?:\/\//, ""))}</code><button class="pbtn sm" data-copyshow="1">Copy</button>${canShare ? '<button class="pbtn sm" data-sharershow="1">Share…</button>' : ""}</div>
-        <div class="pair"><label class="fld"><span>Row</span><input class="inp" data-plan="row" value="${esc(plan.row || "")}" placeholder="F" maxlength="4"></label>
-        <label class="fld"><span>Seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan.seats || "")}" placeholder="7, 8, 9" maxlength="30" inputmode="numeric"></label></div></div>`
-        : `<button class="pbtn" data-vis="friends">Tell friends instead ›</button>`}
-      <div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div></div>`;
-  }
+  // The same layout whether or not you're going: the choices below are just dimmed until you tap Going.
+  const on = !!plan?.going, vis = plan?.vis || "friends", shared = on && vis !== "me", dis = on ? "" : " disabled", disBox = shared ? "" : " disabled";
+  const going = `<div class="plan">
+    ${state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`}
+    <button class="gobtn${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ I'm going" : "I'm going"}</button>
+    <div class="lab">Who can see this?</div>
+    <div class="seg" role="group">${VIS.map(([k, l]) => `<button data-vis="${k}" aria-pressed="${vis === k}"${dis}>${l}</button>`).join("")}</div>
+    <p class="pnote">${VIS_TEXT[vis]}</p>
+    <div class="linkbox${shared ? "" : " off"}"><div class="lrow"><code>${esc(showUrl(f, s).replace(/^https?:\/\//, ""))}</code><button class="pbtn sm" data-copyshow="1"${disBox}>Copy</button>${canShare ? `<button class="pbtn sm" data-sharershow="1"${disBox}>Share…</button>` : ""}</div>
+      <div class="pair"><label class="fld"><span>Row</span><input class="inp" data-plan="row" value="${esc(plan?.row || "")}" placeholder="F" maxlength="4"${disBox}></label>
+      <label class="fld"><span>Seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan?.seats || "")}" placeholder="7, 8, 9" maxlength="30" inputmode="numeric"${disBox}></label></div></div>
+    ${on ? `<div class="goers"><span class="gp"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")} (you)${plan.seats ? ` <small>${esc(plan.row ? plan.row + " " : "")}${esc(plan.seats)}</small>` : ""}</span></div>` : ""}</div>`;
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="showpage"><a class="back" href="#film/${encodeURIComponent(f.id)}">‹ ${esc(titleOf(f))}</a>
+    <div class="showpage"><a class="back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings of ${esc(titleOf(f))}</a>
     <div class="scard">${posterHtml(f)}<div class="sinfo"><div class="sft">${esc(titleOf(f))}</div><div class="sfy">${esc(meta)}</div>
       <div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
       <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div>
@@ -1111,8 +1103,8 @@ function planClick(t) {
   if (t.dataset.going) {
     const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
     if (!state.user && nm) local.set("guestName", nm);
-    setPlan(f, s, { going: true, vis: t.dataset.going });
-  } else if (t.dataset.notgoing) setPlan(f, s, null);
+    if (planOf(f, s)?.going) setPlan(f, s, null); else setPlan(f, s, { going: true, vis: "friends" });
+  }
   else if (t.dataset.vis) setPlan(f, s, { vis: t.dataset.vis });
   else {
     const url = showUrl(f, s);

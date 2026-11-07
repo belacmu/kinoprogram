@@ -928,8 +928,10 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 /* ---------------------------------------------------------------- a showing's own page (inside the film sheet) */
 a.stub.going { border-left-color: var(--soon); }
 .showpage { padding: 18px 22px 24px; }
-.showpage .back { display: inline-block; color: var(--muted); font-weight: 600; text-decoration: none; padding: 6px 0 12px; max-width: calc(100% - 50px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.showpage .back:hover { color: var(--ink); }
+.showpage .back { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; box-sizing: border-box; padding: 0 16px 0 12px; margin-bottom: 12px; max-width: calc(100% - 52px); border-radius: 999px;
+  background: var(--chip); color: var(--ink); font-weight: 700; font-size: 15px; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.showpage .back span { font-size: 22px; line-height: 1; margin-top: -2px; }
+.showpage .back:hover { background: color-mix(in srgb, var(--ink) 14%, var(--chip)); }
 .scard { position: relative; display: flex; align-items: flex-start; gap: 16px; border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
 .scard .poster { flex: none; width: 72px; align-self: flex-start; }
 .sinfo { flex: 1; min-width: 0; }
@@ -968,3 +970,13 @@ a.stub.going { border-left-color: var(--soon); }
 .goers .gp { display: inline-flex; align-items: center; gap: 6px; background: var(--chip); border-radius: 999px; padding: 3px 12px 3px 4px; font-weight: 600; font-size: 14px; }
 .goers .gp small { font: 500 12px var(--mono); color: var(--muted); }
 .goers .fdot { width: 22px; height: 22px; border-radius: 50%; background: var(--soon); color: #fff; display: grid; place-items: center; font-size: 11px; }
+
+.scard { min-height: 196px; box-sizing: border-box; }
+.sft { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2em; }
+.schips { min-height: 28px; }
+.gobtn { width: 100%; min-height: 48px; border-radius: 999px; border: 2px solid var(--ink); background: transparent; color: var(--ink); font: 700 16px var(--body); cursor: pointer; }
+.gobtn.on { background: var(--soon); border-color: var(--soon); color: #fff; }
+.seg button:disabled, .linkbox.off { opacity: .45; }
+.linkbox.off .inp, .linkbox.off code { cursor: not-allowed; }
+.seg button:disabled { cursor: not-allowed; }
+.pbtn:disabled { cursor: not-allowed; }
