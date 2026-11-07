@@ -1088,3 +1088,4 @@ a.stub.going { border-left-color: var(--soon); }
 .rate.lbpill { gap: 1px; }
 .rate.lbpill { gap: 0; }
 .rate.lbpill .lbmark { margin-right: -1px; }
+.rate.lbpill .lbmark { margin-right: 0; }
