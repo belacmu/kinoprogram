@@ -1022,12 +1022,6 @@
 "rated": "2026-11-06",
 "posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
 },
-"cl-stray-kids-world-tour-run-it-live-viewing": {
-"tmdbChecked": "2026-11-02",
-"tv": 2,
-"v": 4,
-"checked": "2026-11-02"
-},
 "cl-street-fighter": {
 "imdb": "tt27419420",
 "imdbAll": [
@@ -1292,18 +1286,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"cm-atlantic-rhapsody": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1698960,
-"imdb": "tt32272953",
-"en": null,
-"lbSlug": "atlantic-rhapsody-2026",
-"lbRating": null,
-"rated": "2026-11-02",
-"v": 4,
-"checked": "2026-10-04"
-},
 "cm-bawke-hedda": {
 "tmdbChecked": "2026-11-02",
 "tv": 2,
@@ -1366,6 +1348,24 @@
 "lbSlug": "colony-2026",
 "lbRating": 3.36,
 "rated": "2026-11-06"
+},
+"cm-cronos": {
+"tmdbChecked": "2026-10-01",
+"tv": 2,
+"tmdb": 11655,
+"imdb": "tt0104029",
+"en": "Cronos",
+"lbSlug": "cronos",
+"lbRating": 3.41,
+"rated": "2026-11-02",
+"imdbAll": [
+"tt0104029"
+],
+"lb": "cronos",
+"rt": "m/cronos",
+"mc": "movie/cronos",
+"v": 4,
+"checked": "2026-10-04"
 },
 "cm-det-gode-ekteskap": {
 "tmdbChecked": "2026-10-01",
@@ -2104,25 +2104,6 @@
 "v": 4,
 "checked": "2026-11-04"
 },
-"cm-marie-madeleine": {
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1660660,
-"lang": "ht",
-"imdb": "tt42007280",
-"en": null,
-"lbSlug": "marie-madeleine",
-"lbRating": 3.59,
-"rated": "2026-11-06"
-},
-"cm-milonga-buenos-aires-style": {
-"tmdbChecked": "2026-11-06",
-"tv": 2,
-"v": 4,
-"checked": "2026-11-06"
-},
 "cm-min-venninnes-venn": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -2671,25 +2652,6 @@
 "lang": "bn",
 "lbSlug": "the-difficult-bride",
 "lbRating": 3.06,
-"rated": "2026-11-06"
-},
-"cm-the-match": {
-"imdb": "tt41593328",
-"imdbAll": [
-"tt41593328"
-],
-"lb": "the-match-2026",
-"rt": "m/the_match_2026",
-"mc": null,
-"en": "The Match",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1666712,
-"lang": "es",
-"lbSlug": "the-match-2026",
-"lbRating": 3.86,
 "rated": "2026-11-06"
 },
 "cm-the-meltdown": {
@@ -3409,25 +3371,6 @@
 "lbRating": 4.17,
 "rated": "2026-11-06"
 },
-"fw-ART20220545": {
-"imdb": "tt12477480",
-"imdbAll": [
-"tt12477480"
-],
-"lb": "decision-to-leave",
-"rt": "m/decision_to_leave",
-"mc": "movie/decision-to-leave",
-"en": "Decision to Leave",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 705996,
-"lang": "ko",
-"lbSlug": "decision-to-leave",
-"lbRating": 4.0,
-"rated": "2026-11-06"
-},
 "fw-AWE20180071": {
 "v": 4,
 "checked": "2026-10-20",
@@ -3545,25 +3488,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-11-06"
-},
-"fw-EDI20240688": {
-"lbSlug": "spider-man-brand-new-day",
-"lbRating": 4.02,
-"rated": "2026-11-02",
-"imdb": "tt22084616",
-"imdbAll": [
-"tt22084616"
-],
-"lb": "spider-man-brand-new-day",
-"rt": "m/spider_man_brand_new_day",
-"mc": "movie/spider-man-brand-new-day",
-"en": "Spider-Man: Brand New Day",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 969681,
-"enFrom": "tmdb"
 },
 "fw-EDI20240689": {
 "tmdbChecked": "2026-10-25",
@@ -4394,26 +4318,6 @@
 "lbRating": 3.52,
 "rated": "2026-11-02"
 },
-"fw-EDI20251820": {
-"imdb": "tt37287335",
-"imdbAll": [
-"tt37287335"
-],
-"lb": "obsession-2025-2",
-"rt": "m/obsession_2025",
-"mc": "movie/obsession-2025",
-"en": "Obsession",
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 1339713,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "obsession-2025",
-"lbRating": 4.06,
-"rated": "2026-10-31"
-},
 "fw-EDI20251836": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4474,24 +4378,6 @@
 "tmdbChecked": "2026-10-02",
 "tv": 2,
 "tmdb": 1241574
-},
-"fw-EDI20260087": {
-"imdb": "tt35410859",
-"imdbAll": [
-"tt35410859"
-],
-"lb": "fjord-2026",
-"rt": "m/fjord",
-"mc": "movie/fjord",
-"en": "Fjord",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1401459,
-"lbSlug": "fjord-2026",
-"lbRating": 3.77,
-"rated": "2026-11-02"
 },
 "fw-EDI20260129": {
 "tmdbChecked": "2026-10-01",
@@ -5177,25 +5063,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260811": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1084409,
-"imdb": "tt14129116",
-"en": "A Talent for Murder",
-"lbSlug": "a-talent-for-murder-2026",
-"lbRating": 3.22,
-"rated": "2026-11-02",
-"posterPath": "/mstDPKNKgSGFvVFVdfzeMNkcyw2.jpg",
-"imdbAll": [
-"tt14129116"
-],
-"lb": "switzerland-1",
-"rt": "m/a_talent_for_murder_2026",
-"mc": "movie/a-talent-for-murder",
-"v": 4,
-"checked": "2026-10-04"
-},
 "fw-EDI20260828": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5332,26 +5199,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20260873": {
-"imdb": "tt35298123",
-"imdbAll": [
-"tt35298123"
-],
-"lb": "teenage-sex-and-death-at-camp-miasma",
-"rt": "m/teenage_sex_and_death_at_camp_miasma",
-"mc": "movie/teenage-sex-and-death-at-camp-miasma",
-"en": "Teenage Sex and Death at Camp Miasma",
-"v": 4,
-"checked": "2026-11-03",
-"tmdbChecked": "2026-11-03",
-"tv": 2,
-"tmdb": 1240889,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "teenage-sex-and-death-at-camp-miasma",
-"lbRating": 3.63,
-"rated": "2026-11-03"
 },
 "fw-EDI20260878": {
 "tmdbChecked": "2026-10-01",
@@ -8454,25 +8301,6 @@
 "lbSlug": "clayface",
 "lbRating": 3.72,
 "rated": "2026-11-05"
-},
-"fw-WAB20240290": {
-"lbSlug": "practical-magic-2",
-"lbRating": 2.82,
-"rated": "2026-11-02",
-"imdb": "tt32588798",
-"imdbAll": [
-"tt32588798"
-],
-"lb": "practical-magic-2",
-"rt": "m/practical_magic_2",
-"mc": "movie/practical-magic-2",
-"en": "Practical Magic 2",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1302904,
-"enFrom": "tmdb"
 },
 "fw-YME20240132": {
 "tmdbChecked": "2026-11-02",
