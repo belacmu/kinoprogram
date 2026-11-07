@@ -751,7 +751,7 @@
 "en": null,
 "lbSlug": "rammstein-live-in-mexico-city",
 "lbRating": null,
-"rated": "2026-10-30",
+"rated": "2026-11-07",
 "posterPath": "/qYdaSPHfZP3gwgGCxizegdN2kDc.jpg"
 },
 "cl-corazon-bestia": {
@@ -846,6 +846,12 @@
 "rated": "2026-11-04",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
+"cl-juegos-hambre-amanecer-cosecha": {
+"tmdbChecked": "2026-11-05",
+"tv": 2,
+"v": 4,
+"checked": "2026-11-05"
+},
 "cl-karateka": {
 "v": 4,
 "checked": "2026-10-23",
@@ -913,7 +919,7 @@
 "enFrom": "tmdb",
 "lbSlug": "other-mommy",
 "lbRating": 2.18,
-"rated": "2026-10-30",
+"rated": "2026-11-07",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "cl-oveja-shaun-mision-calabaza": {
@@ -1044,7 +1050,7 @@
 "lang": "es",
 "lbSlug": "superthings-la-pelicula",
 "lbRating": null,
-"rated": "2026-10-30",
+"rated": "2026-11-07",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
 "cl-tadeo-jones-lampara-maravillosa": {
@@ -1078,8 +1084,8 @@
 "en": "Wildwood",
 "enFrom": "tmdb",
 "lbSlug": "wildwood-2026",
-"lbRating": 4.43,
-"rated": "2026-10-30",
+"lbRating": 4.4,
+"rated": "2026-11-07",
 "posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg"
 },
 "cm-11-x14": {
