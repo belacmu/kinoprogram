@@ -1098,3 +1098,20 @@ a.stub.going { border-left-color: var(--soon); }
 .rate.lbpill .lbmark { margin-left: 8.5px; }
 .rate.lbpill { padding-right: 11.25px; }
 .rate.lbpill .lbmark { margin-left: 8.25px; }
+
+/* Letterboxd pill in dark mode: the logo's own dark circle colour, white text */
+.rate.lbpill .lb-dark { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .rate.lbpill { background: #202830; border-color: #2f3a46; }
+  :root:not([data-theme="light"]) .rate.lbpill b, :root:not([data-theme="light"]) .rate.lbpill span { color: #fff; }
+  :root:not([data-theme="light"]) .rate.lbpill .lbstar { color: #00e054; }
+  :root:not([data-theme="light"]) .rate.lbpill:hover { background: #2a343f; }
+  :root:not([data-theme="light"]) .rate.lbpill .lb-light { display: none; }
+  :root:not([data-theme="light"]) .rate.lbpill .lb-dark { display: block; }
+}
+:root[data-theme="dark"] .rate.lbpill { background: #202830; border-color: #2f3a46; }
+:root[data-theme="dark"] .rate.lbpill b, :root[data-theme="dark"] .rate.lbpill span { color: #fff; }
+:root[data-theme="dark"] .rate.lbpill .lbstar { color: #00e054; }
+:root[data-theme="dark"] .rate.lbpill:hover { background: #2a343f; }
+:root[data-theme="dark"] .rate.lbpill .lb-light { display: none; }
+:root[data-theme="dark"] .rate.lbpill .lb-dark { display: block; }

@@ -967,9 +967,9 @@ function stubHtml(s, f) {
 // confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
 // The Letterboxd link is always at the top, with the rating when there is one; the cinema listing's own links (Filmweb, ...)
 // go in the "more" menu.
-// Letterboxd's own logo (their "decal dots, negative" SVG, light for the dark pill), expected at site/icons/letterboxd.svg;
-// until that file is there the pill simply goes without it.
-const LB_MARK = `<img class="lbmark" src="icons/letterboxd.svg" alt="" width="32" height="32" onerror="this.remove()">`;
+// Letterboxd's own logos: the white-circle decal for light mode (site/icons/letterboxd.svg) and the dark-circle one for dark mode
+// (site/icons/letterboxd-dark.svg); the pill takes its colour from whichever is showing.
+const LB_MARK = `<img class="lbmark lb-light" src="icons/letterboxd.svg" alt="" width="32" height="32" onerror="this.remove()"><img class="lbmark lb-dark" src="icons/letterboxd-dark.svg" alt="" width="32" height="32" onerror="this.remove()">`;
 const STAR = `<svg class="lbstar" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z" fill="currentColor"/></svg>`;
 function extLinks(f) {
   const x = f.ext || {};
