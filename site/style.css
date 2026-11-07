@@ -1073,3 +1073,12 @@ a.stub.going { border-left-color: var(--soon); }
 .rate.lbpill b { display: inline-flex; align-items: center; gap: 3px; }
 .rate.lbpill .lbstar { color: #00e054; }
 .rate.lbpill .lbmark { display: block; margin: 0 -2px 0 -4px; }
+/* the pill is the logo's own white, so the logo's circle blends into it */
+.rate.lbpill { background: #fff; border: 1px solid var(--line); color: #14181c; }
+.rate.lbpill b { color: #14181c; }
+.rate.lbpill span { color: #14181c; }
+.rate.lbpill .lbstar { color: #00b848; }
+.rate.lbpill:hover { filter: none; background: #f4f6f8; }
+/* the logo's circle runs edge to edge: full height of the pill, flush with its left end */
+.rate.lbpill { padding-left: 0; gap: 4px; }
+.rate.lbpill .lbmark { width: 32px; height: 32px; margin: -1px 0 -1px -1px; border-radius: 50%; }
