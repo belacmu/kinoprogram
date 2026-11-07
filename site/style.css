@@ -1084,3 +1084,7 @@ a.stub.going { border-left-color: var(--soon); }
 .rate.lbpill .lbmark { width: 32px; height: 32px; margin: -1px 0 -1px -1px; border-radius: 50%; }
 /* flush inside the pill's border, so the border stays visible all the way round */
 .rate.lbpill .lbmark { width: 30px; height: 30px; margin: 0; }
+/* the dots sit centred between the pill's left edge and the number (the circle has more white on its right side than its left) */
+.rate.lbpill { gap: 1px; }
+.rate.lbpill { gap: 0; }
+.rate.lbpill .lbmark { margin-right: -1px; }
