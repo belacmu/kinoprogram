@@ -969,7 +969,7 @@ function stubHtml(s, f) {
 // go in the "more" menu.
 // Letterboxd's own logo (their "decal dots, negative" SVG, light for the dark pill), expected at site/icons/letterboxd.svg;
 // until that file is there the pill simply goes without it.
-const LB_MARK = `<img class="lbmark" src="icons/letterboxd.svg" alt="" width="26" height="14" onerror="this.remove()">`;
+const LB_MARK = `<img class="lbmark" src="icons/letterboxd.svg" alt="" width="22" height="22" onerror="this.remove()">`;
 const STAR = `<svg class="lbstar" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z" fill="currentColor"/></svg>`;
 function extLinks(f) {
   const x = f.ext || {};

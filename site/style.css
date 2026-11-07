@@ -1072,3 +1072,4 @@ a.stub.going { border-left-color: var(--soon); }
 
 .rate.lbpill b { display: inline-flex; align-items: center; gap: 3px; }
 .rate.lbpill .lbstar { color: #00e054; }
+.rate.lbpill .lbmark { display: block; margin: 0 -2px 0 -4px; }
