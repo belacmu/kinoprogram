@@ -1112,26 +1112,6 @@
 "rated": "2026-11-07",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
-"cl-tadeo-jones-lampara-maravillosa": {
-"imdb": "tt36164852",
-"imdbAll": [
-"tt36164852"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Tad and the Magic Lamp",
-"v": 4,
-"checked": "2026-11-05",
-"tmdbChecked": "2026-11-05",
-"tv": 2,
-"tmdb": 1187326,
-"lang": "es",
-"lbSlug": "tad-and-the-magic-lamp",
-"lbRating": 2.85,
-"rated": "2026-11-05",
-"posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
-},
 "cl-wildwood-bosque-salvaje": {
 "v": 4,
 "checked": "2026-10-22",
@@ -1260,24 +1240,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-all-the-lovers-in-the-night": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1560309,
-"imdb": "tt41592995",
-"en": "All the Lovers in the Night",
-"lbSlug": "all-the-lovers-in-the-night",
-"lbRating": 3.33,
-"rated": "2026-11-02",
-"imdbAll": [
-"tt41592995"
-],
-"lb": "all-the-lovers-in-the-night",
-"rt": "m/all_the_lovers_in_the_night",
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
 },
 "cm-angst": {
 "tmdbChecked": "2026-10-01",
@@ -2012,6 +1974,27 @@
 "v": 4,
 "checked": "2026-10-04"
 },
+"cm-ladyhawke": {
+"imdb": "tt0089457",
+"imdbAll": [
+"tt0089457"
+],
+"lb": "ladyhawke",
+"rt": "m/ladyhawke",
+"mc": "movie/ladyhawke",
+"en": "Ladyhawke",
+"v": 4,
+"checked": "2026-11-08",
+"tmdbChecked": "2026-11-08",
+"tv": 2,
+"tmdb": 526,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "ladyhawke",
+"lbRating": 3.36,
+"rated": "2026-11-08",
+"posterPath": "/9gbeNp1SibDT8GyURFebNjwMBrV.jpg"
+},
 "cm-lille-frk-norge": {
 "imdb": "tt0378255",
 "imdbAll": [
@@ -2663,24 +2646,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"cm-the-shadows-edge": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1419406,
-"imdb": "tt34610311",
-"en": "The Shadow's Edge",
-"lbSlug": "the-shadows-edge-2025",
-"lbRating": 3.53,
-"rated": "2026-11-02",
-"imdbAll": [
-"tt34610311"
-],
-"lb": "the-shadows-edge-2025",
-"rt": "m/the_shadows_edge",
-"mc": "movie/the-shadows-edge",
-"v": 4,
-"checked": "2026-10-04"
-},
 "cm-the-shining": {
 "imdb": "tt0081505",
 "imdbAll": [
@@ -3254,25 +3219,6 @@
 "lbSlug": "toni-erdmann",
 "lbRating": 3.95,
 "rated": "2026-11-04"
-},
-"fw-ART20200497": {
-"imdb": "tt1216496",
-"imdbAll": [
-"tt1216496"
-],
-"lb": "mother-2009",
-"rt": "m/madeo",
-"mc": "movie/mother",
-"en": "Mother",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 30018,
-"lang": "ko",
-"lbSlug": "mother-2009",
-"lbRating": 4.17,
-"rated": "2026-11-06"
 },
 "fw-BVI20190482": {
 "tmdbChecked": "2026-10-01",
@@ -6849,25 +6795,6 @@
 "lbSlug": "the-lost-boys",
 "lbRating": 3.68,
 "rated": "2026-11-06"
-},
-"fw-EDI20261627": {
-"imdb": "tt0255589",
-"imdbAll": [
-"tt0255589"
-],
-"lb": "the-isle",
-"rt": "m/seom-the-isle",
-"mc": "movie/the-isle",
-"en": "The Isle",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 8653,
-"lang": "ko",
-"lbSlug": "the-isle",
-"lbRating": 3.57,
-"rated": "2026-11-07"
 },
 "fw-EDI20261638": {
 "v": 4,
