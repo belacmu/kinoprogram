@@ -708,6 +708,12 @@
 "lang": "es",
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
+"cl-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
+"v": 4,
+"checked": "2026-11-08",
+"tmdbChecked": "2026-11-08",
+"tv": 2
+},
 "cl-carmen-26-27": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
@@ -756,20 +762,6 @@
 "rated": "2026-11-03",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
-"cl-concert-rammstein-live-in-mexico-city": {
-"v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"tmdb": 1753205,
-"lang": "de",
-"imdb": "tt46000907",
-"en": null,
-"lbSlug": "rammstein-live-in-mexico-city",
-"lbRating": null,
-"rated": "2026-11-07",
-"posterPath": "/qYdaSPHfZP3gwgGCxizegdN2kDc.jpg"
-},
 "cl-corazon-bestia": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -802,8 +794,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "the-cat-in-the-hat-2026",
-"lbRating": null,
-"rated": "2026-10-31",
+"lbRating": 3.13,
+"rated": "2026-11-08",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "cl-george-michael-the-faith-tour": {
@@ -878,8 +870,8 @@
 "imdb": "tt36462691",
 "en": null,
 "lbSlug": "karateka-2026",
-"lbRating": 3.5,
-"rated": "2026-10-31",
+"lbRating": 3.54,
+"rated": "2026-11-08",
 "posterPath": "/bJh97VEUn9TWygQSrOOyJrwQXek.jpg"
 },
 "cl-ladron-bicicletas": {
@@ -899,8 +891,8 @@
 "en": "Winter Lions",
 "enFrom": "tmdb",
 "lbSlug": "winter-lions",
-"lbRating": null,
-"rated": "2026-10-31",
+"lbRating": 3.27,
+"rated": "2026-11-08",
 "posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
 },
 "cl-miserables": {
@@ -950,7 +942,7 @@
 "enFrom": "tmdb",
 "lbSlug": "shaun-the-sheep-the-beast-of-mossy-bottom",
 "lbRating": 3.58,
-"rated": "2026-10-31",
+"rated": "2026-11-08",
 "posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
 },
 "cl-pavarotti-90th-the-grand-tribute-26-27": {
@@ -1002,10 +994,10 @@
 "posterPath": "/ebvx1lw2XXDOMLJzBsz6pA4meud.jpg"
 },
 "cl-scrooge-fantasmas-navidad": {
+"tmdbChecked": "2026-11-08",
+"tv": 2,
 "v": 4,
-"checked": "2026-10-31",
-"tmdbChecked": "2026-10-31",
-"tv": 2
+"checked": "2026-11-08"
 },
 "cl-sentido-sensibilidad": {
 "v": 4,
@@ -1146,7 +1138,7 @@
 "lang": "th",
 "lbSlug": "9-temples-to-heaven",
 "lbRating": 3.55,
-"rated": "2026-10-31"
+"rated": "2026-11-08"
 },
 "cm-a-better-tomorrow": {
 "tmdbChecked": "2026-10-01",
@@ -1898,8 +1890,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-07",
-"tmdbChecked": "2026-11-07",
+"checked": "2026-11-08",
+"tmdbChecked": "2026-11-08",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -3237,6 +3229,21 @@
 "rated": "2026-11-02",
 "v": 4,
 "checked": "2026-10-05"
+},
+"dm-870541369": {
+"v": 4,
+"checked": "2026-11-08",
+"tmdbChecked": "2026-11-08",
+"tv": 2,
+"tmdb": 1729730,
+"lang": "no",
+"imdb": "tt39945194",
+"en": "Back to Tottori",
+"enFrom": "tmdb",
+"lbSlug": "back-to-tottori",
+"lbRating": null,
+"rated": "2026-11-08",
+"posterPath": "/rlkAUIQP4kpCheA0YFtDpAD7uta.jpg"
 },
 "ev-hen": {
 "tmdbChecked": "2026-10-31",
@@ -6389,7 +6396,7 @@
 "lang": "th",
 "lbSlug": "9-temples-to-heaven",
 "lbRating": 3.55,
-"rated": "2026-10-31"
+"rated": "2026-11-08"
 },
 "fw-EDI20261557": {
 "tmdbChecked": "2026-10-01",
@@ -6545,8 +6552,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-07",
-"tmdbChecked": "2026-11-07",
+"checked": "2026-11-08",
+"tmdbChecked": "2026-11-08",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -7276,19 +7283,6 @@
 "rated": "2026-11-03",
 "posterPath": "/hD43xIHVUD3JLmcvTOZJkPcfG1w.jpg"
 },
-"fw-EDI20261698": {
-"v": 4,
-"checked": "2026-10-19",
-"tmdbChecked": "2026-10-19",
-"tv": 2,
-"tmdb": 1217954,
-"lang": "fr",
-"imdb": "tt10569744",
-"en": null,
-"lbSlug": "lucy-lost",
-"lbRating": 3.89,
-"rated": "2026-11-04"
-},
 "fw-EDI20261707": {
 "imdb": "tt37281055",
 "imdbAll": [
@@ -7964,26 +7958,6 @@
 "lbRating": 3.3,
 "rated": "2026-11-02"
 },
-"fw-SFN20241757": {
-"imdb": "tt32393988",
-"imdbAll": [
-"tt32393988"
-],
-"lb": "insidious-out-of-the-further",
-"rt": "m/insidious_out_of_the_further",
-"mc": "movie/insidious-out-of-the-further",
-"en": "Insidious: Out of the Further",
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 1291595,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "insidious-out-of-the-further",
-"lbRating": 2.71,
-"rated": "2026-10-31"
-},
 "fw-SMN20051022": {
 "imdb": "tt0407887",
 "imdbAll": [
@@ -8002,7 +7976,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-departed",
 "lbRating": 4.35,
-"rated": "2026-10-31",
+"rated": "2026-11-08",
 "posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg"
 },
 "fw-SMN20060422": {
@@ -8023,7 +7997,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-prestige",
 "lbRating": 4.31,
-"rated": "2026-10-31",
+"rated": "2026-11-08",
 "posterPath": "/Ag2B2KHKQPukjH7WutmgnnSNurZ.jpg"
 },
 "fw-UAV20190863": {
@@ -9309,8 +9283,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "the-cat-in-the-hat-2026",
-"lbRating": null,
-"rated": "2026-10-31",
+"lbRating": 3.13,
+"rated": "2026-11-08",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "mk-fargo": {
@@ -9614,7 +9588,7 @@
 "lang": "ja",
 "lbSlug": "spirited-away",
 "lbRating": 4.43,
-"rated": "2026-10-31"
+"rated": "2026-11-08"
 },
 "sr-tea-treats-tales-about-time-2013": {
 "imdb": "tt2194499",
