@@ -4808,10 +4808,10 @@
 "checked": "2026-11-06"
 },
 "fw-EDI20260755": {
-"tmdbChecked": "2026-11-01",
+"tmdbChecked": "2026-11-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-01"
+"checked": "2026-11-09"
 },
 "fw-EDI20260767": {
 "tmdbChecked": "2026-10-01",
@@ -6331,8 +6331,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-08",
-"tmdbChecked": "2026-11-08",
+"checked": "2026-11-09",
+"tmdbChecked": "2026-11-09",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -6827,7 +6827,7 @@
 "enFrom": "tmdb",
 "lbSlug": "rocky",
 "lbRating": 4.12,
-"rated": "2026-11-01",
+"rated": "2026-11-09",
 "posterPath": "/xSI0dbKLDETwhiVUy6hGE8KXUln.jpg"
 },
 "fw-EDI20261653": {
@@ -6847,8 +6847,8 @@
 "lang": "lt",
 "enFrom": "tmdb",
 "lbSlug": "instructor",
-"lbRating": null,
-"rated": "2026-11-01"
+"lbRating": 3.25,
+"rated": "2026-11-09"
 },
 "fw-EDI20261654": {
 "v": 4,
@@ -7299,6 +7299,19 @@
 "lbRating": 3.31,
 "rated": "2026-11-05"
 },
+"fw-EDI20261808": {
+"v": 4,
+"checked": "2026-11-09",
+"tmdbChecked": "2026-11-09",
+"tv": 2,
+"tmdb": 1533928,
+"lang": "ml",
+"imdb": "tt41075537",
+"en": null,
+"lbSlug": "bachelor-party-deux",
+"lbRating": null,
+"rated": "2026-11-09"
+},
 "fw-FID20210220": {
 "imdb": "tt13322726",
 "imdbAll": [
@@ -7310,11 +7323,11 @@
 "en": "Captain Volkonogov Escaped",
 "v": 4,
 "checked": "2026-10-24",
-"tmdbChecked": "2026-11-01",
+"tmdbChecked": "2026-11-09",
 "tv": 2,
 "lbSlug": "captain-volkonogov-escaped",
 "lbRating": 3.77,
-"rated": "2026-11-01"
+"rated": "2026-11-09"
 },
 "fw-KUL20182847": {
 "tmdbChecked": "2026-11-02",
@@ -7341,10 +7354,10 @@
 "checked": "2026-11-04"
 },
 "fw-KUL20260530": {
-"tmdbChecked": "2026-11-01",
+"tmdbChecked": "2026-11-09",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-01"
+"checked": "2026-11-09"
 },
 "fw-KUL20260648": {
 "tmdbChecked": "2026-11-07",
@@ -9216,7 +9229,7 @@
 "enFrom": "tmdb",
 "lbSlug": "notting-hill",
 "lbRating": 3.69,
-"rated": "2026-11-01"
+"rated": "2026-11-09"
 },
 "sr-brunsj-filmklassiker-10-white-christmas-1954": {
 "imdb": "tt0047673",
