@@ -339,6 +339,51 @@ Data (Supabase):
   their own row; the daily job reads subscribers with the secret key.
 - **Gmail** (dedicated account, app password) sends the emails over SMTP.
 
+## Showings and "I'm going"
+
+Clicking a showing no longer jumps to the ticket site. It opens that showing's own page inside the film sheet.
+This is the agreed design; **built so far:** the pages and the Going card, with plans kept on the device only (see
+"Not built yet"). Nothing below the "Data" line exists in the database yet.
+
+**The page.** The film's header is drawn by one shared function (poster, title, details, Letterboxd pill, Watchlist, "…" menu,
+blurb), so the film sheet and a showing's page are identical above the divider. Below it, the showings zone changes: a
+"‹ All showings" pill sits where the cinema and format menus were, then the showing as an enlarged stub (big date, time and
+cinema, **Tickets** button top right, who's going and the tags in one row), then the Going card. Sold out or not on sale: the
+Tickets button shows the status instead. Every showing has its own link: `#film/<film id>/<time>|<cinema>`.
+
+**Going.** Personal, per showing, retractable at any time. One tap on **I'm going**; guests (not signed in) give a name first.
+Seats are optional free text ("F 7-9"), entered only after going, shown with your name to whoever can see you're going, never
+on the card itself.
+
+**Who sees it** (the rule being adopted, replacing the earlier three-level selector):
+- **Tell friends** is a plain on/off. On (the default): friends see you're going in their Feed. Off: nobody does.
+- **Invite** is an action, not a state. It makes a private link for one person or group; opening it shows the inviter's
+  plan (name and seats) and lets them join. So "link only" is just Tell friends off plus an invite you sent. The plain showing
+  link stays public and shows nothing about anyone.
+- The first time someone taps going, a toast says friends can see it, with **Make private**.
+- There is no site-wide "everyone" level. Admin pinned showings are a separate feature, not part of personal plans.
+
+**Guests.** A guest is a Supabase anonymous user: a real user id with no email. Creating an account links an email to that same
+user, so nothing is copied or claimed. Needs anonymous sign-in switched on in Supabase, the `handle_new_user` trigger to cope
+with a null email, and bot protection. Retracting going is always possible. No plus-ones (enter several seats), no guest caps,
+no remembered default.
+
+**A plan keeps a copy of its showing** (film id, title, cinema, start time, ticket link) with a stable id made from film +
+cinema + start time, so a shared page still renders after the schedule changes or drops the showing.
+
+**Feed.** A pinned "Coming up" section shows friends' plans (this is the payoff of the feature). Friend markers on the list's
+showing buttons come later.
+
+**Not built yet**
+- Everything server-side: the plans table, invite tokens, anonymous guests, the Feed section (plans are device-only today, so
+  "tell friends" and Invite reach nobody).
+- Per-showing link previews ("Mia is going to X, Sat 19:00 at Saga"): a small edge function serving preview tags and then
+  redirecting. Until then a showing link previews as the site.
+- Notifications, and what happens to plans for past showings.
+
+**Build order:** (1) plans saved to the account; (2) friends see them in the Feed; (3) invite links and anonymous guests;
+(4) seats shared; (5) per-showing previews.
+
 ## Later / out of scope for v1
 
 - More Oslo-area venues (Deichman, Cinema Neuf, Weird and Wonderful Cinema, FilmrullKlubb).
