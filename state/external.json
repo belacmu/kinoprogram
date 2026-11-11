@@ -736,8 +736,8 @@
 "tv": 2,
 "tmdb": 1422041,
 "lbSlug": "la-bola-negra",
-"lbRating": 4.44,
-"rated": "2026-11-03",
+"lbRating": 4.46,
+"rated": "2026-11-11",
 "lang": "es",
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg"
 },
@@ -747,32 +747,11 @@
 "tmdbChecked": "2026-11-08",
 "tv": 2
 },
-"cl-carmen-26-27": {
+"cl-buscavidas": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
 "checked": "2026-11-05"
-},
-"cl-centauros-desierto": {
-"imdb": "tt0049730",
-"imdbAll": [
-"tt0049730"
-],
-"lb": "the-searchers",
-"rt": "m/searchers",
-"mc": "movie/the-searchers",
-"en": "The Searchers",
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
-"tv": 2,
-"tmdb": 3114,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-searchers",
-"lbRating": 3.94,
-"rated": "2026-11-05",
-"posterPath": "/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg"
 },
 "cl-clayface": {
 "imdb": "tt34890576",
@@ -791,9 +770,30 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "clayface",
-"lbRating": 3.73,
-"rated": "2026-11-03",
+"lbRating": 3.71,
+"rated": "2026-11-11",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
+},
+"cl-como-robar-banco": {
+"imdb": "tt35866986",
+"imdbAll": [
+"tt35866986"
+],
+"lb": "how-to-rob-a-bank-2026",
+"rt": "m/how_to_rob_a_bank_2026",
+"mc": "movie/how-to-rob-a-bank-2026",
+"en": "How to Rob a Bank",
+"v": 4,
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
+"tv": 2,
+"tmdb": 1437511,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "how-to-rob-a-bank-2026",
+"lbRating": null,
+"rated": "2026-11-11",
+"posterPath": "/8sMzu56Nok5WlEXCRdflEgshYQO.jpg"
 },
 "cl-corazon-bestia": {
 "checked": "2026-10-03",
@@ -928,6 +928,12 @@
 "rated": "2026-11-08",
 "posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
 },
+"cl-me-entiendes-te-explico-1": {
+"v": 4,
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
+"tv": 2
+},
 "cl-miserables": {
 "v": 4,
 "checked": "2026-11-04",
@@ -989,6 +995,21 @@
 "checked": "2026-11-05",
 "tmdbChecked": "2026-11-05",
 "tv": 2
+},
+"cl-ratones-ataque-operacion-navidad": {
+"v": 4,
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
+"tv": 2,
+"tmdb": 1427833,
+"lang": "no",
+"imdb": "tt35727399",
+"en": "A Mouse Hunt for Christmas",
+"enFrom": "tmdb",
+"lbSlug": "a-mouse-hunt-for-christmas",
+"lbRating": 2.83,
+"rated": "2026-11-11",
+"posterPath": "/2LgEDVRubQNsWzgJaUfIV4DcW7S.jpg"
 },
 "cl-ruega-nosotras": {
 "v": 4,
@@ -1087,6 +1108,68 @@
 "lbRating": null,
 "rated": "2026-11-07",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
+},
+"cl-tadeo-jones-lampara-maravillosa": {
+"imdb": "tt36164852",
+"imdbAll": [
+"tt36164852"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Tad and the Magic Lamp",
+"v": 4,
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
+"tv": 2,
+"tmdb": 1187326,
+"lang": "es",
+"lbSlug": "tad-and-the-magic-lamp",
+"lbRating": 2.84,
+"rated": "2026-11-11",
+"posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
+},
+"cl-victorian-psycho": {
+"imdb": "tt34374553",
+"imdbAll": [
+"tt34374553"
+],
+"lb": null,
+"rt": "m/victorian_psycho",
+"mc": null,
+"en": "Victorian Psycho",
+"v": 4,
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
+"tv": 2,
+"tmdb": 1379486,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "victorian-psycho",
+"lbRating": 3.21,
+"rated": "2026-11-11",
+"posterPath": "/9LHVZevgdsdbjJdkFr6bk9EwX7q.jpg"
+},
+"cl-wild-horse-nine-proyeccion-vose": {
+"imdb": "tt15799564",
+"imdbAll": [
+"tt15799564"
+],
+"lb": "wild-horse-nine",
+"rt": "m/wild_horse_nine",
+"mc": "movie/wild-horse-nine",
+"en": "Wild Horse Nine",
+"v": 4,
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
+"tv": 2,
+"tmdb": 891621,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "wild-horse-nine",
+"lbRating": 4.15,
+"rated": "2026-11-11",
+"posterPath": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg"
 },
 "cl-wildwood-bosque-salvaje": {
 "v": 4,
@@ -8974,26 +9057,26 @@
 "tmdbChecked": "2026-11-04",
 "tv": 2
 },
-"mk-centauros-del-desierto": {
-"imdb": "tt0049730",
+"mk-como-robar-un-banco": {
+"imdb": "tt35866986",
 "imdbAll": [
-"tt0049730"
+"tt35866986"
 ],
-"lb": "the-searchers",
-"rt": "m/searchers",
-"mc": "movie/the-searchers",
-"en": "The Searchers",
+"lb": "how-to-rob-a-bank-2026",
+"rt": "m/how_to_rob_a_bank_2026",
+"mc": "movie/how-to-rob-a-bank-2026",
+"en": "How to Rob a Bank",
 "v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-10-28",
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
 "tv": 2,
-"tmdb": 3114,
+"tmdb": 1437511,
 "lang": "en",
 "enFrom": "tmdb",
-"lbSlug": "the-searchers",
-"lbRating": 3.94,
-"rated": "2026-11-05",
-"posterPath": "/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg"
+"lbSlug": "how-to-rob-a-bank-2026",
+"lbRating": null,
+"rated": "2026-11-11",
+"posterPath": "/8sMzu56Nok5WlEXCRdflEgshYQO.jpg"
 },
 "mk-delitos-y-faltas": {
 "tmdbChecked": "2026-11-05",
@@ -9105,11 +9188,38 @@
 "v": 4,
 "checked": "2026-11-05"
 },
+"mk-scrooge-y-los-fantasmas-de-la-navidad": {
+"tmdbChecked": "2026-11-08",
+"tv": 2,
+"v": 4,
+"checked": "2026-11-08"
+},
 "mk-vengadores-doomsday4": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
 "v": 4,
 "checked": "2026-11-05"
+},
+"mk-wild-horse-nine": {
+"imdb": "tt15799564",
+"imdbAll": [
+"tt15799564"
+],
+"lb": "wild-horse-nine",
+"rt": "m/wild_horse_nine",
+"mc": "movie/wild-horse-nine",
+"en": "Wild Horse Nine",
+"v": 4,
+"checked": "2026-11-11",
+"tmdbChecked": "2026-11-11",
+"tv": 2,
+"tmdb": 891621,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "wild-horse-nine",
+"lbRating": 4.15,
+"rated": "2026-11-11",
+"posterPath": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg"
 },
 "rv-fight-club-1999": {
 "imdb": "tt0137523",
