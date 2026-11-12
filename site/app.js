@@ -1161,9 +1161,15 @@ function seatTag(v, tag = "span", attrs = "", edit = false) {
   const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
   return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}><span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
 }
+// One line for other people: "Row 4, Seats 7–9".
+function seatLine(v) {
+  const { row, seats } = seatParts(v);
+  const word = /[,–—\-\s]/.test(seats) ? "Seats" : "Seat";
+  return `<span class="seat1">${[row ? `Row ${esc(row)}` : "", seats ? `${word} ${esc(seats)}` : ""].filter(Boolean).join(", ")}</span>`;
+}
 function seatLabel(v) {
   const { row, seats } = seatParts(v);
-  return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(" · ");
+  return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(", ");
 }
 const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
 const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
@@ -1179,7 +1185,7 @@ function showingPage(f, s, dlg) {
   const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">I'm going</button>`;
   const row = (p) => {
     let seats;
-    if (!p.me) seats = p.seats ? seatTag(p.seats) : "";
+    if (!p.me) seats = p.seats ? seatLine(p.seats) : "";
     else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
     const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="4" maxlength="4" inputmode="numeric" autofocus></label><label><span>Seats</span><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
     if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}${goBtn}</div>${edit}`;

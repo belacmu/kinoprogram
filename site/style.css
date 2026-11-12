@@ -1292,3 +1292,17 @@ button.seat2 { cursor: pointer; }
 /* guest: the invitation and, beside it at the right, the visibility note; then the name box and button */
 .asktop { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 8px; }
 .asktop small { text-align: right; max-width: 48%; line-height: 1.3; }
+
+/* other people's seats on one line */
+.seat1 { flex: none; font: 600 13px var(--body); padding: 4px 9px; border-radius: 8px; background: var(--chip); color: var(--ink); white-space: nowrap; }
+/* spacing: the section heading stands apart from the join group; the invitation sits close to its name box; less empty space at the bottom */
+.plan9 .wh + .prow2.yours, .plan9 .wh + .asktop { margin-top: 10px; }
+.plan9 .wh + .prow2.yours { padding-top: 6px; }
+.asktop { padding-bottom: 4px; }
+.asktop + .prow2.yours { padding-top: 0; }
+.plan9 .who { padding-bottom: 0; }
+.plan9 .who.nohead { padding-bottom: 6px; }
+.prow2:last-child { padding-bottom: 8px; }
+.pfoot { padding: 6px 14px 10px; }
+.visnote { margin-bottom: 4px; }
+.plan9 .who { margin: 0; }  /* an older .who rule added 14px under the list */
