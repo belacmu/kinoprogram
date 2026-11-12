@@ -1236,3 +1236,8 @@ button.seat2 { cursor: pointer; }
 .seat2 .v { font-family: var(--mono); font-weight: 600; }
 .seat2 .pen { flex: none; color: var(--muted); }
 .seat2 span:first-child:not(:last-child) { color: inherit; }
+/* no extra width: the tag is as wide as its longest line plus a small gap */
+.seat2 { gap: 6px; padding: 3px 8px; }
+.seat2 .lines { min-width: 0; }
+.seat2 .sl { gap: 8px; }
+.seat2 .v { font-family: var(--body); font-weight: 600; font-variant-numeric: tabular-nums; }
