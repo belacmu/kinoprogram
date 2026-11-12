@@ -1197,3 +1197,8 @@ button.seat { cursor: pointer; }
 .prow2.me { flex-wrap: wrap; row-gap: 4px; }
 .prow2.me .pname { flex: 1 1 calc(100% - 50px); white-space: normal; }
 .prow2.me .seat { margin-left: 44px; }
+
+/* visibility is public for now: your own row is just name and seats on one line */
+.prow2.me { flex-wrap: nowrap; }
+.prow2.me .pname { flex: 1; white-space: nowrap; }
+.prow2.me .seat { margin-left: 0; }

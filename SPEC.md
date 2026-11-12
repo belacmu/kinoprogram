@@ -356,13 +356,11 @@ Tickets button shows the status instead. Every showing has its own link: `#film/
 Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row F · Seats 7–9" (kept in the `seats` column as `F|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never
 on the card itself.
 
-**Who sees it** (the rule being adopted, replacing the earlier three-level selector):
-- **Tell friends** is a plain on/off. On (the default): friends see you're going in their Feed. Off: nobody does.
-- **Invite** is an action, not a state. It makes a private link for one person or group; opening it shows the inviter's
-  plan (name and seats) and lets them join. So "link only" is just Tell friends off plus an invite you sent. The plain showing
-  link stays public and shows nothing about anyone.
-- The first time someone taps going, a toast says friends can see it, with **Make private**.
-- There is no site-wide "everyone" level. Admin pinned showings are a separate feature, not part of personal plans.
+**Who sees it** (for now, simply public): marking yourself as going makes it visible to everyone who can reach the showing: friends
+(in their Feed and on the showing page) and anyone in your party (invite links, and the people they invite in turn). There is no
+privacy control in the interface yet; the `tell_friends` column stays (always true) so it can be brought back as a switch later, along
+with "only people I invite". **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
+someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
 
 **Guests.** A guest is a Supabase anonymous user: a real user id with no email. Creating an account links an email to that same
 user, so nothing is copied or claimed. Needs anonymous sign-in switched on in Supabase, the `handle_new_user` trigger to cope

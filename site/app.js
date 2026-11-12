@@ -1080,7 +1080,7 @@ function openFilm(id) {
 // ---------------------------------------------------------------- a showing's own page
 // Plans: what you've said about a showing, kept on this device and, when signed in, in your account (table `plans`).
 // {going, tell, seats, ...a copy of the showing so it still shows if the schedule changes: film, title, cinema, time, region, ticket}.
-// tell: friends see you're going in their Feed. Off: only you (and anyone you invite).
+// tell: always true for now (going is public); kept so a privacy control can come back.
 const plans = local.get("plans", {});
 for (const p of Object.values(plans)) if (p.vis !== undefined) { p.tell = p.vis === "friends"; delete p.vis; delete p.row; }  // the older three-way choice
 const planDirty = new Set(local.get("planDirty", []));  // plans changed here and not yet saved to the account
@@ -1097,7 +1097,7 @@ function setPlan(f, s, patch) {
 let planTimer = 0;
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
 const planRow = (id, p) => { const [fid, at, cin] = id.split("|"); p.inv ||= crypto.randomUUID(); return ({ user_id: planUser().id, invite_token: p.inv, joined_via: p.via || null, party: p.party || null, showing_id: id, film_id: p.film || fid, film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), cinema: p.cinema || cin, starts: p.t || at, region: p.region || state.region, ticket: p.ticket || null,
-  tell_friends: p.tell !== false, seats: p.seats || null, updated_at: new Date().toISOString() }); };  // plans made before the copy was kept: taken from the id
+  tell_friends: true, seats: p.seats || null, updated_at: new Date().toISOString() }); };  // plans made before the copy was kept: taken from the id
 // Save what changed here: plans that exist are written, plans that were retracted are deleted.
 async function syncPlans() {
   if (!planUser() || !sb || !planDirty.size) return;
@@ -1155,16 +1155,16 @@ function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const sub = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).join(" · ");
-  const name = myName(), on = !!plan?.going, tell = plan?.tell !== false;
+  const name = myName(), on = !!plan?.going;
   const buy = s.ticket ? `<a class="tkbtn" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
   const seatsOpen = on && state.seatsOpen === planId(f, s);
   const row = (p) => {
     let seats;
     if (!p.me) seats = p.seats ? `<span class="seat">${esc(seatLabel(p.seats))}</span>` : "";
-    else seats = seatsOpen ? "" : `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(seatLabel(p.seats)) : "+ add row and seats"}</button>`;
+    else seats = seatsOpen ? "" : `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(seatLabel(p.seats)) : "+ add seats"}</button>`;
     const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="F" maxlength="4" autofocus></label><label class="grow"><span>Seats</span><input class="seatinp" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
-    return `<div class="prow2${p.me ? " me" : ""}"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}${p.me ? `<small class="vnote">${tell ? "Others can see this" : "Only people you invite can see this"} · <button class="linkbtn" data-tell="1">${tell ? "turn off" : "turn on"}</button></small>` : ""}</span>${seats}</div>${edit}`;
+    return `<div class="prow2${p.me ? " me" : ""}"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
   };
   const nameFld = state.user || on ? "" : `<div class="pjoin"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name, to join" maxlength="40" autocomplete="given-name" aria-label="Your name"></div>`;
   const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ Going" : "I'm going"}</button>`;
@@ -1204,10 +1204,8 @@ async function planClick(t) {
       }
       const inv = state.invite && state.invite.rows[0]?.film_id === f.id ? state.invite : null;  // joining through someone's invite
       setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
-      if (!local.get("toldOnce", false)) { local.set("toldOnce", true); toast("Your friends can see you're going.", () => { setPlan(f, s, { tell: false }); showingPage(f, s, $("film")); }, "Make private"); }  // said once
     }
   }
-  else if (t.dataset.tell) setPlan(f, s, { tell: planOf(f, s)?.tell === false });
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
   else if (t.dataset.seatsdone) state.seatsOpen = "";
   else {
@@ -1362,10 +1360,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-tell],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.notgoing || t.dataset.tell || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.notgoing || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
