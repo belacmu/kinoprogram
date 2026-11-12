@@ -274,17 +274,33 @@ $$;
 revoke all on function public.friends_plans(text) from public;
 grant execute on function public.friends_plans(text) to authenticated;
 
--- What an invite link shows: the inviter's plan first, then anyone who joined through it. Works without signing in;
+-- A party: everyone connected through invite links to the same showing. The first plan starts it (party = its own invite token);
+-- joining through anyone's link takes that plan's party. Everyone in a party sees everyone in it.
+alter table public.plans add column if not exists party uuid;
+update public.plans set party = invite_token where party is null;
+create or replace function public.plans_set_party()
+returns trigger language plpgsql set search_path = '' as $$
+begin
+  new.party := coalesce(new.party, new.invite_token);
+  return new;
+end;
+$$;
+drop trigger if exists plans_party on public.plans;
+create trigger plans_party before insert on public.plans for each row execute function public.plans_set_party();
+create index if not exists plans_party_idx on public.plans (party);
+
+-- What an invite link shows: the whole party of the plan whose link it is, that plan first. Works without signing in;
 -- names only (never an email), seats, and the showing.
+drop function if exists public.plan_by_invite(uuid);
 create or replace function public.plan_by_invite(token uuid)
 returns table (is_host boolean, name text, seats text, film_id text, film_title text, cinema text,
-               starts text, region text, ticket text)
+               starts text, region text, ticket text, party uuid)
 language sql stable security definer set search_path = '' as $$
   select (p.invite_token = token), coalesce(nullif(pr.display_name, ''), 'Someone'), p.seats,
-         p.film_id, p.film_title, p.cinema, p.starts, p.region, p.ticket
+         p.film_id, p.film_title, p.cinema, p.starts, p.region, p.ticket, p.party
   from public.plans p
   join public.profiles pr on pr.id = p.user_id
-  where p.invite_token = token or p.joined_via = token
+  where p.party = (select q.party from public.plans q where q.invite_token = token)
   order by (p.invite_token = token) desc, p.created_at
   limit 100;
 $$;

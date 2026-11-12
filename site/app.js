@@ -1096,7 +1096,7 @@ function setPlan(f, s, patch) {
 }
 let planTimer = 0;
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
-const planRow = (id, p) => { const [fid, at, cin] = id.split("|"); p.inv ||= crypto.randomUUID(); return ({ user_id: planUser().id, invite_token: p.inv, joined_via: p.via || null, showing_id: id, film_id: p.film || fid, film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), cinema: p.cinema || cin, starts: p.t || at, region: p.region || state.region, ticket: p.ticket || null,
+const planRow = (id, p) => { const [fid, at, cin] = id.split("|"); p.inv ||= crypto.randomUUID(); return ({ user_id: planUser().id, invite_token: p.inv, joined_via: p.via || null, party: p.party || null, showing_id: id, film_id: p.film || fid, film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), cinema: p.cinema || cin, starts: p.t || at, region: p.region || state.region, ticket: p.ticket || null,
   tell_friends: p.tell !== false, seats: p.seats || null, updated_at: new Date().toISOString() }); };  // plans made before the copy was kept: taken from the id
 // Save what changed here: plans that exist are written, plans that were retracted are deleted.
 async function syncPlans() {
@@ -1113,11 +1113,11 @@ async function syncPlans() {
 async function loadPlans() {
   if (!planUser() || !sb) return;
   await syncPlans();
-  const { data, error } = await sb.from("plans").select("showing_id,film_id,film_title,cinema,starts,region,ticket,tell_friends,seats,invite_token,joined_via").eq("user_id", planUser().id);
+  const { data, error } = await sb.from("plans").select("showing_id,film_id,film_title,cinema,starts,region,ticket,tell_friends,seats,invite_token,joined_via,party").eq("user_id", planUser().id);
   if (error) { console.error("Loading plans failed:", error.message); return; }
   const remote = new Map(data.map((r) => [r.showing_id, r]));
   const firstHere = local.get("plansFor", "") !== planUser().id;
-  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: r.ticket || "" };
+  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, party: r.party || undefined, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: r.ticket || "" };
   for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id)) { if (firstHere) planDirty.add(id); else delete plans[id]; }
   local.set("plans", plans); local.set("planDirty", [...planDirty]); local.set("plansFor", planUser().id);
   await syncPlans();
@@ -1132,47 +1132,42 @@ function showFor(f, key) {
   if (real || !f || !r || r.film_id !== f.id || `${r.starts}|${r.cinema}` !== key) return real || null;
   return { t: r.starts, cinema: r.cinema, ticket: r.ticket || "", tags: [], screen: "", status: "" };
 }
-const personChip = (name, seats, me) => `<span class="gp${me ? " me" : ""}"><span class="fdot">${esc((name || "?")[0].toUpperCase())}</span>${esc(name)}${seats ? ` <small>${esc(seats)}</small>` : ""}</span>`;
-// Everyone you can see is going to this showing: you, whoever's invite link you opened, and friends who told friends.
-function peopleHtml(f, s, plan, name) {
-  const mine = plan?.going, id = planId(f, s), seen = new Set(mine ? [(name || "You").toLowerCase()] : []);
-  const out = mine ? [personChip(name || "You", plan.seats, true)] : [];
-  const add = (n, seats) => { if (!n || seen.has(n.toLowerCase())) return; seen.add(n.toLowerCase()); out.push(personChip(n, seats, false)); };
+// Everyone you can see is going to this showing, as {name, seats, me}: you, then your party (everyone connected through invite links),
+// then friends who told friends.
+function peopleOf(f, s, plan, name) {
+  const id = planId(f, s), seen = new Set(plan?.going ? [(name || "You").toLowerCase()] : []);
+  const out = plan?.going ? [{ name: name || "You", seats: plan.seats || "", me: true }] : [];
+  const add = (n, seats) => { if (!n || seen.has(n.toLowerCase())) return; seen.add(n.toLowerCase()); out.push({ name: n, seats: seats || "", me: false }); };
   for (const r of state.invite?.rows || []) if (r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s)) add(r.name, r.seats);
   for (const r of state.friendPlans) if (r.showing_id === id) add(r.name, r.seats);
-  return out.join("");
+  return out;
 }
-const goersHtml = (plan, name) => `<span class="gp me"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")}</span>`;
+const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
+const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
 
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
-  const chips = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).map((c) => `<span class="chip">${esc(c)}</span>`).join("");
-  const name = myName();
-  const buy = s.ticket
-    ? `<a class="buy" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>`
-    : `<span class="buy off">${esc(s.status || "Not on sale yet")}</span>`;
-  // Not going: just the button (and a name for guests). Going: a Tell friends switch, then Seats and Invite as small buttons.
-  const on = !!plan?.going, tell = plan?.tell !== false;
-  const seatsOpen = state.seatsOpen === planId(f, s);
-  const nameFld = state.user ? "" : `<label class="fld"><span>Your name</span><input class="inp" data-plan="name" value="${esc(name)}" placeholder="e.g. Mia" maxlength="40" autocomplete="given-name"></label>`;
-  const going = !on ? `<div class="plan">${nameFld}<button class="gobtn" data-going="1" aria-pressed="false">I'm going</button><p class="pnote">Tap to add it to your showings. Your friends will see it unless you turn that off.</p></div>`
-    : `<div class="plan">${nameFld}<button class="gobtn on" data-going="1" aria-pressed="true">✓ I'm going</button>
-    <div class="tellrow"><div><b>Tell friends</b><p class="pnote">${tell ? "Your friends see in their Feed that you're going." : "Only you can see this. Invite someone to share it with them."}</p></div>
-      <button class="switch" role="switch" aria-checked="${tell}" aria-label="Tell friends" data-tell="1"><span></span></button></div>
-    <div class="acts2"><button class="pbtn sm" data-seatstoggle="1" aria-expanded="${seatsOpen}">${plan.seats ? `${esc(plan.seats)} ✎` : "+ Seats"}</button><button class="pbtn sm" data-sharershow="1">Invite ↗</button></div>
-    ${seatsOpen ? `<label class="fld"><span>Your seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan.seats || "")}" placeholder="e.g. F 7–9" maxlength="30" autofocus><small class="pnote">Shown with your name to anyone who can see that you're going.</small></label>` : ""}</div>`;
-  const goers = peopleHtml(f, s, plan, name);
-  const host = state.invite?.rows.find((r) => r.is_host && r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s));
-  const invited = host && !on ? `<div class="invited"><span class="fdot">${esc(host.name[0].toUpperCase())}</span><b>${esc(host.name)} is going. Join in?</b></div>` : "";
-  // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
+  const sub = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).join(" · ");
+  const name = myName(), on = !!plan?.going, tell = plan?.tell !== false;
+  const buy = s.ticket ? `<a class="tkbtn" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
+  const people = peopleOf(f, s, plan, name);
+  const seatsOpen = on && state.seatsOpen === planId(f, s);
+  const row = (p) => {
+    let seats;
+    if (!p.me) seats = p.seats ? `<span class="seat">${esc(p.seats)}</span>` : "";
+    else if (seatsOpen) seats = `<input class="seatinp" data-plan="seats" value="${esc(p.seats)}" placeholder="F 7–9" maxlength="30" aria-label="Your seats" autofocus>`;
+    else seats = `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(p.seats) : "+ add seats"}</button>`;
+    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
+  };
+  const nameFld = state.user ? "" : `<input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">`;
+  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button><span class="pnote2">${tell ? "Friends can see this" : "Only people you invite can see this"} · <button class="linkbtn" data-tell="1">${tell ? "turn off" : "turn on"}</button></span><button class="linkbtn leave" data-going="1">Not going</button></div>`
+    : `<div class="pjoin">${nameFld}<button class="gopill" data-going="1">I'm going</button></div>`;
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
-    ${invited}<div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
-      <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div></div>${buy}
-      ${goers || chips ? `<div class="schips">${goers}${chips}</div>` : ""}</div>
-    ${going}</div>`;
+    <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
+      <div class="who"><h4>Going${people.length ? ` · ${people.length}` : ""}</h4>${people.length ? people.map(row).join("") : `<p class="nobody">Nobody yet. Be the first.</p>`}</div>${join}</div></div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
 }
@@ -1201,8 +1196,8 @@ async function planClick(t) {
         if (!nm) { const inp = $("film").querySelector('[data-plan="name"]'); inp?.focus(); toast("Add your name first, so people know who's going."); return; }
         if (!(await guestSignIn(nm))) { toast("Couldn't add you. Try again in a moment."); return; }
       }
-      const via = state.invite && state.invite.rows[0]?.is_host ? state.invite.token : undefined;  // joining through someone's invite
-      setPlan(f, s, { going: true, tell: true, via });
+      const inv = state.invite && state.invite.rows[0]?.film_id === f.id ? state.invite : null;  // joining through someone's invite
+      setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
       if (!local.get("toldOnce", false)) { local.set("toldOnce", true); toast("Your friends can see you're going.", () => { setPlan(f, s, { tell: false }); showingPage(f, s, $("film")); }, "Make private"); }  // said once
     }
   }
@@ -1249,9 +1244,13 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
     if (state.guest && sb) { clearTimeout(nameTimer.t); nameTimer.t = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
   }
   else if (planOf(f, s)) setPlan(f, s, { [k]: e.target.value.trim() });
-  const g = $("film").querySelector(".gp.me");
-  if (g && planOf(f, s)) g.outerHTML = goersHtml(planOf(f, s), myName());  // the chip in the stub follows what you type
 });
+$("film").addEventListener("change", (e) => {  // leaving the seats box (or Enter): show them as the tag again
+  if (e.target.dataset?.plan !== "seats") return;
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
+  if (s) { state.seatsOpen = ""; showingPage(f, s, $("film")); }
+});
+$("film").addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.dataset?.plan === "seats") e.target.blur(); });
 
 // The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
 // once the strip is scrolled to that end; on phones it is swiped.

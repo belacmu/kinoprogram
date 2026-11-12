@@ -1140,3 +1140,34 @@ a.stub.going { border-left-color: var(--soon); }
 .coming .cwhat { font-weight: 600; display: flex; flex-direction: column; }
 .coming .cwhat small { font-weight: 400; color: var(--muted); }
 .coming .cwho { color: var(--soon); font-size: 13px; font-weight: 600; }
+
+/* the showing and its people are one card */
+.plan9 { margin-top: 2px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+.ph9 { display: flex; align-items: flex-start; gap: 12px; padding: 14px 14px 12px; }
+.ph9 .l { flex: 1; min-width: 0; }
+.ph9 .dt { font: 800 26px/1 var(--display); text-transform: uppercase; }
+.ph9 .tm { font: 600 17px var(--body); margin-top: 3px; }
+.ph9 .tm .m { font-family: var(--mono); font-weight: 500; }
+.ph9 .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.tkbtn { flex: none; display: inline-flex; align-items: center; justify-content: center; align-self: center; min-width: 124px; height: 52px; padding: 0 22px; box-sizing: border-box; border-radius: 999px;
+  background: var(--accent); color: var(--accent-ink); font: 700 17px var(--body); text-decoration: none; text-align: center; }
+.tkbtn.off { background: var(--chip); color: var(--muted); font-size: 14px; min-width: 0; }
+.plan9 .who { border-top: 1px solid var(--line); padding-bottom: 4px; }
+.plan9 .who h4 { margin: 0; padding: 12px 14px 4px; font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prow2 { display: flex; align-items: center; gap: 10px; padding: 7px 14px; }
+.av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 14px var(--body); flex: none; }
+.pname { flex: 1; min-width: 0; font: 600 16px var(--body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.seat { font: 500 17px var(--mono); padding: 3px 10px; border-radius: 8px; background: var(--chip); color: var(--ink); white-space: nowrap; border: 0; }
+button.seat { cursor: pointer; }
+.seat.add { background: transparent; border: 1px dashed var(--edge); color: var(--muted); font: 600 13px var(--body); padding: 5px 10px; }
+.seatinp { width: 140px; min-height: 36px; box-sizing: border-box; font: 500 17px var(--mono); padding: 0 10px; border-radius: 8px; border: 1px solid var(--accent); background: var(--surface); color: var(--ink); }
+.nobody { margin: 0; padding: 6px 14px 10px; color: var(--muted); font-size: 14px; }
+.pjoin, .pfoot { display: flex; align-items: center; gap: 10px; padding: 10px 14px 14px; }
+.pjoin .inp { flex: 1; min-height: 44px; max-width: none; }
+.gopill { flex: none; display: inline-flex; align-items: center; height: 44px; padding: 0 22px; border-radius: 999px; border: 0; background: var(--soon); color: #fff; font: 700 16px var(--body); cursor: pointer; }
+.pfoot { flex-wrap: wrap; }
+.pfoot .pnote2 { flex: 1; font-size: 12.5px; color: var(--muted); min-width: 140px; }
+.pfoot .pnote2 .linkbtn { font-size: 12.5px; padding: 0; text-decoration: underline; color: var(--ink); }
+.pfoot .leave { font-size: 12.5px; color: var(--muted); text-decoration: underline; padding: 0; }
+.pfoot .pnote2 { order: 3; flex: 1 0 100%; }
+.pfoot .leave { margin-left: auto; }
