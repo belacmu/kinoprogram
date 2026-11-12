@@ -1081,7 +1081,7 @@ a.stub.going { border-left-color: var(--soon); }
 
 /* seats: others on one line, yours in two small lines with a pencil, "+ add seats" before you have any */
 .seat1 { flex: none; padding: 4px 9px; border-radius: 8px; background: var(--chip); color: var(--ink); font: 600 13px var(--body); white-space: nowrap; }
-.seat2 { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; border: 0; border-radius: 8px; background: var(--chip); color: var(--ink); font: 600 12px/1.2 var(--body); text-align: left; white-space: nowrap; }
+.seat2 { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border: 0; border-radius: 8px; background: var(--chip); color: var(--ink); font: 600 13px/1.2 var(--body); text-align: left; white-space: nowrap; }
 button.seat2, button.seat { cursor: pointer; }
 .seat2 .lines { display: flex; flex-direction: column; }
 .seat2 .sl { display: flex; justify-content: space-between; gap: 8px; }
