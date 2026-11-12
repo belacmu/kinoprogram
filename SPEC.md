@@ -353,7 +353,7 @@ cinema, **Tickets** button top right, who's going and the tags in one row), then
 Tickets button shows the status instead. Every showing has its own link: `#film/<film id>/<time>|<cinema>`.
 
 **Going.** Personal, per showing, retractable at any time. One tap on **I'm going**; guests (not signed in) give a name first.
-Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row F · Seats 7–9" (kept in the `seats` column as `F|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never
+Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row: 4 / Seat: 7" in two small lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never
 on the card itself.
 
 **Who sees it** (for now, simply public): marking yourself as going makes it visible to everyone who can reach the showing: friends
