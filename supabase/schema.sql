@@ -6,7 +6,7 @@
 do $$
 begin
   if exists (select 1 from information_schema.tables
-             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships')) then
+             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans')) then
     raise exception 'This database already has other tables, so it is not a new Cinecrab project. Nothing was changed.';
   end if;
 end $$;
@@ -210,3 +210,37 @@ $$;
 
 revoke all on function public.friends_feed() from public;
 grant execute on function public.friends_feed() to authenticated;
+
+-- ---------------------------------------------------------------- showings: "I'm going"
+-- One row per person per showing they're going to. The showing is copied into the row (film, cinema, time, ticket link), so a plan
+-- still makes sense after the schedule changes. showing_id is made by the app: "<film id>|<start time>|<cinema>".
+create table if not exists public.plans (
+  user_id      uuid not null references public.profiles on delete cascade,
+  showing_id   text not null check (char_length(showing_id) <= 300),
+  film_id      text not null check (char_length(film_id) <= 100),
+  film_title   text not null check (char_length(film_title) <= 200),
+  cinema       text not null check (char_length(cinema) <= 100),
+  starts       text not null check (starts ~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$'),   -- local time at the cinema, "2026-11-07T19:00"
+  region       text not null check (char_length(region) <= 30),
+  ticket       text check (char_length(ticket) <= 500),
+  tell_friends boolean not null default true,     -- friends see it in their Feed
+  seats        text check (char_length(seats) <= 30),
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now(),
+  primary key (user_id, showing_id)
+);
+create index if not exists plans_starts_idx on public.plans (starts);
+
+alter table public.plans enable row level security;
+
+drop policy if exists "read own plans" on public.plans;
+create policy "read own plans" on public.plans for select to authenticated using ((select auth.uid()) = user_id);
+drop policy if exists "add own plans" on public.plans;
+create policy "add own plans" on public.plans for insert to authenticated with check ((select auth.uid()) = user_id);
+drop policy if exists "change own plans" on public.plans;
+create policy "change own plans" on public.plans for update to authenticated using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+drop policy if exists "remove own plans" on public.plans;
+create policy "remove own plans" on public.plans for delete to authenticated using ((select auth.uid()) = user_id);
+
+revoke all on public.plans from anon, authenticated;
+grant select, insert, update, delete on public.plans to authenticated;

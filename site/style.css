@@ -1115,3 +1115,12 @@ a.stub.going { border-left-color: var(--soon); }
 :root[data-theme="dark"] .rate.lbpill:hover { background: #2a343f; }
 :root[data-theme="dark"] .rate.lbpill .lb-light { display: none; }
 :root[data-theme="dark"] .rate.lbpill .lb-dark { display: block; }
+
+/* Tell friends: a row with a switch */
+.tellrow { width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--chip); border-radius: 10px; padding: 12px; }
+.tellrow b { font-size: 15px; }
+.tellrow .pnote { margin: 2px 0 0; font-size: 13.5px; }
+.switch { flex: none; width: 48px; height: 28px; border-radius: 999px; border: 0; padding: 3px; background: var(--edge); cursor: pointer; display: flex; align-items: center; transition: background .15s; }
+.switch span { width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .15s; }
+.switch[aria-checked="true"] { background: var(--soon); }
+.switch[aria-checked="true"] span { transform: translateX(20px); }

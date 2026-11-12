@@ -342,8 +342,9 @@ Data (Supabase):
 ## Showings and "I'm going"
 
 Clicking a showing no longer jumps to the ticket site. It opens that showing's own page inside the film sheet.
-This is the agreed design; **built so far:** the pages and the Going card, with plans kept on the device only (see
-"Not built yet"). Nothing below the "Data" line exists in the database yet.
+This is the agreed design; **built so far:** the pages, the Going card (Tell friends switch, Seats, Invite), and plans saved to your
+account (table `plans`, in `supabase/schema.sql`: run it once in Supabase). Signed out, plans stay on the device and are added to the
+account on sign-in. Friends can't see them yet, and Invite only copies the plain showing link.
 
 **The page.** The film's header is drawn by one shared function (poster, title, details, Letterboxd pill, Watchlist, "…" menu,
 blurb), so the film sheet and a showing's page are identical above the divider. Below it, the showings zone changes: a
@@ -375,13 +376,13 @@ cinema + start time, so a shared page still renders after the schedule changes o
 showing buttons come later.
 
 **Not built yet**
-- Everything server-side: the plans table, invite tokens, anonymous guests, the Feed section (plans are device-only today, so
-  "tell friends" and Invite reach nobody).
+- Friends seeing plans (a `friends_plans()` function and the Feed's "Coming up" section), invite tokens, anonymous guests. Until
+  then "Tell friends" and Invite reach nobody.
 - Per-showing link previews ("Mia is going to X, Sat 19:00 at Saga"): a small edge function serving preview tags and then
   redirecting. Until then a showing link previews as the site.
 - Notifications, and what happens to plans for past showings.
 
-**Build order:** (1) plans saved to the account; (2) friends see them in the Feed; (3) invite links and anonymous guests;
+**Build order:** (1) plans saved to the account (done, once the SQL is run); (2) friends see them in the Feed; (3) invite links and anonymous guests;
 (4) seats shared; (5) per-showing previews.
 
 ## Later / out of scope for v1
