@@ -1228,3 +1228,11 @@ button.seat { cursor: pointer; }
 button.seat2 { cursor: pointer; }
 .seat2 span:first-child:not(:last-child) { color: var(--muted); }
 .prow2.me .pname { flex: 1 1 auto; min-width: 0; }
+
+/* seats tag: words at the left, numbers at the right; the pencil is yours to edit with */
+.seat2 { flex-direction: row; align-items: center; gap: 8px; padding: 4px 9px; }
+.seat2 .lines { display: flex; flex-direction: column; min-width: 78px; }
+.seat2 .sl { display: flex; justify-content: space-between; gap: 14px; }
+.seat2 .v { font-family: var(--mono); font-weight: 600; }
+.seat2 .pen { flex: none; color: var(--muted); }
+.seat2 span:first-child:not(:last-child) { color: inherit; }

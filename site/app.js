@@ -1144,10 +1144,13 @@ function peopleOf(f, s, plan, name) {
 }
 // Seats are kept as "row|seats" ("F|7–9"); older free text without the bar is just shown as the seats.
 const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
-// Two small lines for a row: "Row 4" over "Seats 5–7".
-function seatTag(v, tag = "span", attrs = "") {
+// Two small lines in a grey tag: the word at the left, the number at the right ("Row:   5" / "Seat:   7"). Your own tag has a pencil.
+const PENCIL = `<svg class="pen" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
+function seatTag(v, tag = "span", attrs = "", edit = false) {
   const { row, seats } = seatParts(v);
-  return `<${tag} class="seat2"${attrs}>${row ? `<span>Row ${esc(row)}</span>` : ""}${seats ? `<span>Seats ${esc(seats)}</span>` : ""}</${tag}>`;
+  const word = /[,–—\-\s]/.test(seats) ? "Seats" : "Seat";  // a range or several seats: "Seats"
+  const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
+  return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}><span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
 }
 function seatLabel(v) {
   const { row, seats } = seatParts(v);
@@ -1168,7 +1171,7 @@ function showingPage(f, s, dlg) {
   const row = (p) => {
     let seats;
     if (!p.me) seats = p.seats ? seatTag(p.seats) : "";
-    else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"') : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
+    else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
     const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="F" maxlength="4" autofocus></label><label class="grow"><span>Seats</span><input class="seatinp" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
     if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}${goBtn}</div>${edit}`;
     return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
