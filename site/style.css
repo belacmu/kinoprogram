@@ -1011,7 +1011,7 @@ a.stub.going { border-left-color: var(--soon); }
 .stub .sgoers { position: absolute; top: 5px; right: 5px; display: flex; align-items: center; pointer-events: none; }
 .stub .sgoers .fdot { width: 18px; height: 18px; font-size: 8px; border: 1.5px solid var(--bg); }
 .stub .sgoers .fdot + .fdot, .stub .sgoers .sgo-you + .fdot { margin-left: -5px; }
-.stub .sgo-you { width: 18px; height: 18px; border-radius: 50%; background: var(--soon); color: #fff; display: grid; place-items: center; font-size: 10px; font-weight: 700; border: 1.5px solid var(--bg); box-sizing: border-box; }
+.stub .sgo-you { width: 18px; height: 18px; border-radius: 50%; background: var(--soon); color: var(--bg); display: grid; place-items: center; font-size: 10px; font-weight: 700; border: 1.5px solid var(--bg); box-sizing: border-box; }
 .stub.going { padding-right: 36px; }
 /* the goers sit on a line of their own at the bottom of the button (no overlap with the time) */
 .stub .sgoers { position: static; margin-top: 4px; align-self: flex-start; }
@@ -1076,7 +1076,7 @@ a.stub.going { border-left-color: var(--soon); }
 .prow2.yours .inp { flex: 1; min-width: 0; min-height: 40px; }
 .plist > .prow2.yours + .prow2 { margin-top: 8px; }                                                  /* the join group stands apart from the people below */
 
-.gopill { flex: none; display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--soon); background: var(--soon); color: #fff; font: 700 15px var(--body); cursor: pointer; }
+.gopill { flex: none; display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--soon); background: var(--soon); color: var(--bg); font: 700 15px var(--body); cursor: pointer; }
 .gopill.on { background: color-mix(in srgb, var(--soon) 14%, var(--surface)); color: var(--soon); }
 
 /* seats: others on one line, yours in two small lines with a pencil, "+ add seats" before you have any */
