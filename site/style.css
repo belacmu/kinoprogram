@@ -1095,3 +1095,6 @@ button.seat2, button.seat { cursor: pointer; }
 .seatedit .seatinp.wide { width: 88px; }
 .seatedit .pbtn.sm { height: 36px; min-height: 36px; margin-left: auto; box-sizing: border-box; }
 .pfoot { margin-top: 4px; }                                                                           /* 14px below the last row (gap 10 + 4) */
+
+/* the I'm going button: solid green call to action; once pressed, a lighter green confirmation with a check */
+.gopill.on { background: var(--surface); color: var(--soon); border-color: var(--soon); }

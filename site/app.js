@@ -1229,7 +1229,7 @@ function showingPage(f, s, dlg) {
   const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
   const seatsOpen = on && state.seatsOpen === planId(f, s);
-  const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">I'm going</button>`;
+  const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}"${on ? ' title="Tap to say you\'re not going"' : ""}>${on ? "✓ Going" : "I'm going"}</button>`;  // the words change with the state: a call to action, then a confirmation
   const row = (p) => {
     let seats;
     if (!p.me) seats = p.seats ? seatLine(p.seats) : "";
