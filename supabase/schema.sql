@@ -244,3 +244,49 @@ create policy "remove own plans" on public.plans for delete to authenticated usi
 
 revoke all on public.plans from anon, authenticated;
 grant select, insert, update, delete on public.plans to authenticated;
+
+-- ---------------------------------------------------------------- showings: friends, invites, guests
+-- Guests are anonymous users (no email), so a profile may have no email.
+alter table public.profiles alter column email drop not null;
+
+-- A private invite token per plan, and which invite a plan joined through.
+alter table public.plans add column if not exists invite_token uuid not null default gen_random_uuid();
+alter table public.plans add column if not exists joined_via uuid;
+create unique index if not exists plans_invite_token_key on public.plans (invite_token);
+create index if not exists plans_joined_via_idx on public.plans (joined_via) where joined_via is not null;
+
+-- Friends' upcoming plans (only those with "Tell friends" on), for the Feed and a showing's page.
+create or replace function public.friends_plans(since text)
+returns table (friend_id uuid, name text, showing_id text, film_id text, film_title text, cinema text,
+               starts text, region text, ticket text, seats text, created_at timestamptz)
+language sql stable security definer set search_path = '' as $$
+  select p.user_id, coalesce(nullif(pr.display_name, ''), pr.email, 'Someone'),
+         p.showing_id, p.film_id, p.film_title, p.cinema, p.starts, p.region, p.ticket, p.seats, p.created_at
+  from public.friendships f
+  join public.profiles pr on pr.id = case when f.a = (select auth.uid()) then f.b else f.a end
+  join public.plans p on p.user_id = pr.id
+  where (select auth.uid()) in (f.a, f.b)
+    and p.tell_friends
+    and p.starts >= since
+  order by p.starts, p.created_at
+  limit 400;
+$$;
+revoke all on function public.friends_plans(text) from public;
+grant execute on function public.friends_plans(text) to authenticated;
+
+-- What an invite link shows: the inviter's plan first, then anyone who joined through it. Works without signing in;
+-- names only (never an email), seats, and the showing.
+create or replace function public.plan_by_invite(token uuid)
+returns table (is_host boolean, name text, seats text, film_id text, film_title text, cinema text,
+               starts text, region text, ticket text)
+language sql stable security definer set search_path = '' as $$
+  select (p.invite_token = token), coalesce(nullif(pr.display_name, ''), 'Someone'), p.seats,
+         p.film_id, p.film_title, p.cinema, p.starts, p.region, p.ticket
+  from public.plans p
+  join public.profiles pr on pr.id = p.user_id
+  where p.invite_token = token or p.joined_via = token
+  order by (p.invite_token = token) desc, p.created_at
+  limit 100;
+$$;
+revoke all on function public.plan_by_invite(uuid) from public;
+grant execute on function public.plan_by_invite(uuid) to anon, authenticated;
