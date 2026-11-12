@@ -1202,3 +1202,23 @@ button.seat { cursor: pointer; }
 .prow2.me { flex-wrap: nowrap; }
 .prow2.me .pname { flex: 1; white-space: nowrap; }
 .prow2.me .seat { margin-left: 0; }
+
+/* your line: name (or the invitation) on the left, I'm going at the right end; it is the first row of the list */
+.gopill { height: 38px; padding: 0 16px; font-size: 15px; background: var(--soon); color: #fff; border: 1.5px solid var(--soon); }
+.gopill.on { background: color-mix(in srgb, var(--soon) 14%, var(--surface)); color: var(--soon); }
+.prow2.yours { padding-top: 6px; padding-bottom: 6px; }
+.prow2.yours .inp { flex: 1; min-height: 38px; min-width: 0; }
+.pname.muted { color: var(--muted); font-weight: 500; }
+.prow2 .gopill { margin-left: 4px; flex: none; }
+.prow2.me .pname { flex: 1 1 auto; min-width: 0; }
+.visnote { margin: 2px 14px 0; font-size: 12.5px; color: var(--muted); }
+.pfoot { padding-top: 8px; }
+.plan9 .wh { padding-bottom: 0; }
+/* the header's buttons stay on one line */
+.fhead .actions { flex-wrap: nowrap; min-width: 0; }
+.fhead .actions .btn.wl { min-width: 0; }
+@media (max-width: 400px) { .fhead .actions .btn.wl { padding: 0 9px; gap: 4px; } .rate.lbpill { padding-right: 9px; } }
+@media (max-width: 370px) { .fhead .actions .btn.wl .wll { display: none; } .fhead .actions .btn.wl { padding: 0 10px; } }
+
+.pname2 { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.pname2 .pname { flex: none; max-width: 100%; }

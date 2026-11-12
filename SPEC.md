@@ -357,7 +357,7 @@ Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row 
 on the card itself.
 
 **Who sees it** (for now, simply public): marking yourself as going makes it visible to everyone who can reach the showing: friends
-(in their Feed and on the showing page) and anyone in your party (invite links, and the people they invite in turn). There is no
+(in their Feed and on the showing page) and anyone in your party (invite links, and the people they invite in turn). The page says so ("Others will see that you're going" before, "Others can see that you're going" after). There is no
 privacy control in the interface yet; the `tell_friends` column stays (always true) so it can be brought back as a switch later, along
 with "only people I invite". **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
 someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.

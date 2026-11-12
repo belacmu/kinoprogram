@@ -1014,7 +1014,7 @@ function filmHead(f) {
       <div class="meta">${esc(meta)}</div>
     <div class="fmore">
       <div class="actions">${ext.top}
-        <button class="btn wl${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}">${heart(on)} ${on ? "On watchlist" : "Watchlist"}</button>
+        <button class="btn wl${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}">${heart(on)}<span class="wll">${on ? "On watchlist" : "Watchlist"}</span></button>
         <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
           <div class="menu right" id="sheetMoreMenu" role="menu" hidden><button role="menuitem" data-share="${esc(f.id)}"><span class="mi">${canShare ? shareIcon : linkIcon}</span>${canShare ? "Share this film" : "Copy link to this film"}</button>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
       </div>
@@ -1159,21 +1159,32 @@ function showingPage(f, s, dlg) {
   const buy = s.ticket ? `<a class="tkbtn" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
   const seatsOpen = on && state.seatsOpen === planId(f, s);
+  const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">I'm going</button>`;
   const row = (p) => {
     let seats;
     if (!p.me) seats = p.seats ? `<span class="seat">${esc(seatLabel(p.seats))}</span>` : "";
     else seats = seatsOpen ? "" : `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(seatLabel(p.seats)) : "+ add seats"}</button>`;
     const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="F" maxlength="4" autofocus></label><label class="grow"><span>Seats</span><input class="seatinp" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
-    return `<div class="prow2${p.me ? " me" : ""}"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
+    if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname2"><span class="pname">${esc(p.name)}</span>${seats}</span>${goBtn}</div>${edit}`;
+    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
   };
-  const nameFld = state.user || on ? "" : `<div class="pjoin"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name, to join" maxlength="40" autocomplete="given-name" aria-label="Your name"></div>`;
-  const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ Going" : "I'm going"}</button>`;
-  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
+  // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
+  // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
+  const others = people.filter((p) => !p.me);
+  let mine;
+  if (on) {
+    const me = people.find((p) => p.me);
+    mine = row(me);
+  } else {
+    const nameBox = state.user ? "" : `<input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">`;
+    mine = `<div class="prow2 yours">${nameBox || `<span class="pname muted">${others.length ? "Join them." : "Nobody yet. Be the first."}</span>`}${goBtn}</div>${nameBox && !others.length ? `<p class="nobody">Nobody yet. Be the first.</p>` : ""}`;
+  }
+  const join = `<p class="visnote">${on ? "Others can see that you're going." : "Others will see that you're going."}</p>${on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : ""}`;
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
     <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
-      <div class="who"><div class="wh"><h4>Going${people.length ? ` · ${people.length}` : ""}</h4>${goBtn}</div>${nameFld}${people.length ? people.map(row).join("") : `<p class="nobody">Nobody yet. Be the first.</p>`}</div>${join}</div></div>`;
+      <div class="who"><div class="wh"><h4>Going${people.length ? ` · ${people.length}` : ""}</h4></div>${mine}${others.map(row).join("")}</div>${join}</div></div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
 }
