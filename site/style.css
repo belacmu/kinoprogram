@@ -1241,3 +1241,12 @@ button.seat2 { cursor: pointer; }
 .seat2 .lines { min-width: 0; }
 .seat2 .sl { gap: 8px; }
 .seat2 .v { font-family: var(--body); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* the note sits right under your line (not at the bottom of the card), lined up with the names */
+.visnote { margin: -2px 14px 6px 58px; font-size: 12.5px; color: var(--muted); }
+.prow2.yours + .visnote { margin-left: 14px; }
+.plan9 .who > .nobody { padding: 4px 14px 0; }
+.plan9 .who > .nobody + .prow2.yours { padding-top: 4px; }
+.pfoot { padding-top: 4px; }
+.plan9 .visnote, .plan9 .nobody { font-family: var(--body); text-transform: none; letter-spacing: 0; }
+.plan9 .nobody { font-size: 14px; color: var(--muted); }

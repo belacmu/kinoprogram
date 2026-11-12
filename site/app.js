@@ -1179,15 +1179,13 @@ function showingPage(f, s, dlg) {
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
   const others = people.filter((p) => !p.me);
+  const note = `<p class="visnote">${on ? "Others can see that you're going." : "Others will see that you're going."}</p>`;
+  const prompt = others.length ? "Going too?" : "Nobody yet. Be the first.";
   let mine;
-  if (on) {
-    const me = people.find((p) => p.me);
-    mine = row(me);
-  } else {
-    const nameBox = state.user ? "" : `<input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">`;
-    mine = `<div class="prow2 yours">${nameBox || `<span class="pname muted">${others.length ? "Join them." : "Nobody yet. Be the first."}</span>`}${goBtn}</div>${nameBox && !others.length ? `<p class="nobody">Nobody yet. Be the first.</p>` : ""}`;
-  }
-  const join = `<p class="visnote">${on ? "Others can see that you're going." : "Others will see that you're going."}</p>${on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : ""}`;
+  if (on) mine = row(people.find((p) => p.me)) + note;
+  else if (state.user) mine = `<div class="prow2 yours"><span class="pname muted">${prompt}</span>${goBtn}</div>${note}`;
+  else mine = `<p class="nobody">${prompt}</p><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>${note}`;
+  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
