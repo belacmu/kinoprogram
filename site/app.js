@@ -1152,11 +1152,6 @@ function seatTag(v, tag = "span", attrs = "", edit = false) {
   const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
   return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}><span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
 }
-// Editing your seats happens inside the tag itself (same size, two small boxes), so the row doesn't change shape.
-function seatEdit(v) {
-  const { row, seats } = seatParts(v);
-  return `<span class="seat2 editing"><span class="lines"><label class="sl"><span class="k">Row:</span><input class="seatinp" data-plan="row" value="${esc(row)}" placeholder="4" maxlength="4" inputmode="numeric" autofocus></label><label class="sl"><span class="k">Seat:</span><input class="seatinp" data-plan="seats" value="${esc(seats)}" placeholder="7–9" maxlength="22"></label></span></span>`;
-}
 function seatLabel(v) {
   const { row, seats } = seatParts(v);
   return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(" · ");
@@ -1176,8 +1171,8 @@ function showingPage(f, s, dlg) {
   const row = (p) => {
     let seats;
     if (!p.me) seats = p.seats ? seatTag(p.seats) : "";
-    else seats = seatsOpen ? seatEdit(p.seats) : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
-    const edit = "";
+    else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
+    const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="4" maxlength="4" inputmode="numeric" autofocus></label><label><span>Seats</span><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
     if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}${goBtn}</div>${edit}`;
     return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
   };
@@ -1185,17 +1180,17 @@ function showingPage(f, s, dlg) {
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
   const others = people.filter((p) => !p.me);
   const note = `<p class="visnote">Others can see that you're going.</p>`;
-  const prompt = others.length ? "Want to join?" : "Nobody yet. Be the first.";
+  const prompt = others.length ? "Want to join?" : "Nobody is going yet. Be the first.";
   let mine;
   if (on) mine = row(people.find((p) => p.me)) + note;
   else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>Others can see that you're going.</small></span>${goBtn}</div>`;
-  else mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>Others can see that you're going.</small></span>${goBtn}</div><div class="nameline"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name"></div>`;
+  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>Others can see that you're going.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
   const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
     <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
-      <div class="who"><div class="wh"><h4>Going${people.length ? ` · ${people.length}` : ""}</h4></div>${mine}${others.map(row).join("")}</div>${join}</div></div>`;
+      <div class="who">${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}</div>${join}</div></div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
 }
@@ -1229,6 +1224,7 @@ async function planClick(t) {
     }
   }
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
+  else if (t.dataset.seatsdone) state.seatsOpen = "";
   else {
     const url = inviteUrl(f, s);
     if (t.dataset.sharershow && canShare) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
@@ -1274,23 +1270,12 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
     setPlan(f, s, { seats: row || seats ? `${row}|${seats}` : "" });
   }
 });
-function closeSeatEdit(tag) {
-  if (closeSeatEdit.busy) return;  // swapping the tag out blurs its box, which would call this again
-  closeSeatEdit.busy = true;
-  try {
-    const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show), plan = s && planOf(f, s);
-    state.seatsOpen = "";
-    if (!tag || !tag.isConnected || !plan) return;
-    tag.outerHTML = plan.seats && (seatParts(plan.seats).row || seatParts(plan.seats).seats) ? seatTag(plan.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
-  } finally { closeSeatEdit.busy = false; }
-}
-$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = done
-  if (e.key === "Enter" && ["row", "seats"].includes(e.target.dataset?.plan)) closeSeatEdit(e.target.closest(".seat2"));
+$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = Done
+  if (e.key !== "Enter" || !["row", "seats"].includes(e.target.dataset?.plan)) return;
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
+  if (s) { state.seatsOpen = ""; showingPage(f, s, $("film")); }
 });
-$("film").addEventListener("focusout", (e) => {  // clicking away from both boxes = done
-  const tag = e.target.closest?.(".seat2.editing");
-  if (tag && !tag.contains(e.relatedTarget)) closeSeatEdit(tag);
-});
+
 
 // The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
 // once the strip is scrolled to that end; on phones it is swiped.
@@ -1393,10 +1378,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.notgoing || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.notgoing || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
