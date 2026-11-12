@@ -1183,8 +1183,8 @@ function showingPage(f, s, dlg) {
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
   let mine;
   if (on) mine = row(people.find((p) => p.me)) + note;
-  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>Others can see that you're going.</small></span>${goBtn}</div>`;
-  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>Others can see that you're going.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
+  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></span>${goBtn}</div>`;
+  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
   const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
