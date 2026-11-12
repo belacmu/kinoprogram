@@ -1338,3 +1338,10 @@ button.seat2 { cursor: pointer; }
 .cu .ctm .m { font-family: var(--mono); font-weight: 500; }
 .cu .cwho { flex: none; max-width: 45%; font-size: 12.5px; font-weight: 600; color: var(--soon); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cu .csub { margin-top: 2px; font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Coming up rows open the showing: a chevron says so, the film line is plain text colour */
+.cu .curows a { grid-template-columns: 44px 1fr 16px; column-gap: 12px; cursor: pointer; }
+.cu .cgo { align-self: center; color: var(--muted); }
+.cu .curows a:hover .cgo, .cu .curows a:focus-visible .cgo { color: var(--ink); }
+.cu .curows a:active { background: color-mix(in srgb, var(--ink) 10%, var(--chip)); }
+.cu .csub { font: 500 14px var(--body); color: var(--ink); }
