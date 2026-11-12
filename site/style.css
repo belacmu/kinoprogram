@@ -1306,3 +1306,22 @@ button.seat2 { cursor: pointer; }
 .pfoot { padding: 6px 14px 10px; }
 .visnote { margin-bottom: 4px; }
 .plan9 .who { margin: 0; }  /* an older .who rule added 14px under the list */
+
+/* spacing pass (reviewer): scale 4 / 8 / 14 / 22 */
+/* heading: 16px under the divider (and 16px to the first line when there is no heading) */
+.plan9 .wh { padding-top: 16px; }
+.plan9 .who.nohead { padding-top: 16px; padding-bottom: 8px; }
+/* the join group stands apart from the people below it */
+.plan9 .who > .prow2.yours + .prow2 { margin-top: 10px; }
+/* the note belongs to your row: close above, room below */
+.visnote { margin: -6px 14px 6px 58px; }
+.prow2.yours + .visnote { margin-left: 14px; }
+/* 14px at the bottom, like the sides */
+.plan9 .who:last-child { padding-bottom: 6px; }
+.pfoot { padding: 6px 14px 14px; }
+/* the invitation and its name box are a little further apart than before */
+.asktop { padding-bottom: 8px; }
+/* seat editor: attached to your row, Done as tall as the boxes */
+.prow2.me + .seatedit { margin-top: -3px; }
+.seatedit { padding-bottom: 10px; }
+.seatedit .pbtn.sm { height: 36px; min-height: 36px; box-sizing: border-box; }
