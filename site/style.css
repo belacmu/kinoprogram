@@ -1078,3 +1078,11 @@ button.seat2, button.seat { cursor: pointer; }
 /* the film sheet keeps one height, so opening a showing doesn't make it jump */
 #film { height: min(820px, calc(100dvh - 48px)); }
 @media (max-width: 560px) { #film { height: 80dvh; max-height: 80dvh; } }
+
+/* editing seats: no labels above the boxes (the placeholders say Row and Seat(s)), so your row keeps its height */
+.seatedit { align-items: center; }
+.seatedit .seatinp { width: 56px; }
+.seatedit .seatinp.wide { width: 80px; }
+.prow2.me { min-height: 39px; }
+/* the note sits right-aligned under the Going button */
+.visnote { margin: -6px 0 0; text-align: right; }
