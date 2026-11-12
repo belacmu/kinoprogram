@@ -1130,16 +1130,6 @@ a.stub.going { border-left-color: var(--soon); }
 .invited .fdot { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-size: 12px; font-weight: 700; }
 .schips .gp:not(.me) { background: var(--chip); }
 .schips .gp:not(.me) .fdot { background: var(--accent); }
-/* Coming up, pinned at the top of the Feed */
-.coming { margin: 0 0 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
-.coming h3 { margin: 0; padding: 12px 14px 8px; font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.coming a { display: grid; grid-template-columns: 70px 1fr; gap: 2px 12px; padding: 10px 14px; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none; }
-.coming a:hover { background: var(--chip); }
-.coming .cwhen { grid-row: span 2; font: 500 13px var(--mono); color: var(--muted); display: flex; flex-direction: column; }
-.coming .cwhen b { font: 800 16px var(--display); text-transform: uppercase; color: var(--ink); }
-.coming .cwhat { font-weight: 600; display: flex; flex-direction: column; }
-.coming .cwhat small { font-weight: 400; color: var(--muted); }
-.coming .cwho { color: var(--soon); font-size: 13px; font-weight: 600; }
 
 /* the showing and its people are one card */
 .plan9 { margin-top: 2px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
@@ -1326,45 +1316,25 @@ button.seat2 { cursor: pointer; }
 .seatedit { padding-bottom: 10px; }
 .seatedit .pbtn.sm { height: 36px; min-height: 36px; box-sizing: border-box; }
 
-/* Coming up: a small poster at the left of each showing */
-.coming a { grid-template-columns: 44px 64px 1fr; align-items: center; column-gap: 12px; }
-.coming .cposter { grid-row: span 2; grid-column: 1; }
-.coming .cposter .poster { width: 44px; border-radius: 4px; }
-.coming .cposter .ph { font-size: 7px; padding: 3px; line-height: 1; }
-.coming .cwhen { grid-column: 2; }
-.coming .cwhat { grid-column: 3; }
-.coming .cwho { grid-column: 3; }
 
-/* Coming up v2: day headings, then poster | title / time · cinema / who */
-.coming .cday { padding: 12px 14px 4px; font: 800 15px var(--display); letter-spacing: .02em; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--line); }
-.coming h3 + .cday { border-top: 0; padding-top: 0; }
-.coming a.crow { display: grid; grid-template-columns: 48px 1fr; column-gap: 12px; align-items: center; padding: 6px 14px; border-top: 0; }
-.coming a.crow:last-child { padding-bottom: 12px; }
-.coming a.crow .cposter { grid-column: 1; grid-row: auto; }
-.coming a.crow .cposter .poster { width: 48px; }
-.coming a.crow .ctext { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.coming .ctitle { font-weight: 700; font-size: 16px; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.coming .cmeta { font-size: 14px; color: var(--muted); }
-.coming .cmeta b { color: var(--ink); font: 600 14px var(--mono); }
-.coming a.crow .cwho { grid-column: auto; color: var(--soon); font-size: 13.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* Coming up v3: no day headings; date, time and cinema on one line with who is going at its right */
-.coming .cline { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
-.coming .cmeta { flex: 0 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.coming .cmeta b { font: 700 14px var(--body); color: var(--ink); }
-.coming .cline .cwho { flex: 0 1 auto; min-width: 0; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.coming a.crow:first-of-type { padding-top: 4px; }
-.coming a.crow { border-top: 1px solid var(--line); padding: 10px 14px; }
-.coming h3 + a.crow { border-top: 0; }
 
-/* Coming up v4: when it happens is the headline (date and time), the film and cinema are the second line */
-.coming .cline { align-items: center; }
-.coming .cdate { font: 800 24px/1.05 var(--display); text-transform: uppercase; white-space: nowrap; display: inline-flex; align-items: baseline; gap: 10px; }
-.coming .ctime { font: 600 20px var(--mono); letter-spacing: -.01em; }
-.coming .csub { font-size: 14px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.coming .csub b { color: var(--ink); font-weight: 600; }
-.coming .cline .cwho { font-size: 14px; }
 
-.coming .csub { display: flex; min-width: 0; }
-.coming .csub b { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.coming .csub .cc { flex: none; white-space: nowrap; }
+
+/* Coming up: a feed post like the others; rows are poster | date + time / film · cinema, names at the right */
+.cu .curows { list-style: none; margin: 0; padding: 0; }
+.cu .curows li + li { border-top: 1px solid var(--line); }
+.cu .curows a { display: grid; grid-template-columns: 40px 1fr; column-gap: 12px; align-items: center; padding: 8px 0; color: var(--ink); text-decoration: none; }
+.cu .curows li:first-child a { padding-top: 0; }
+.cu .curows li:last-child a { padding-bottom: 0; }
+.cu .curows a:hover .cdate { color: var(--accent); }
+.cu .cposter .poster { width: 40px; border-radius: 4px; }
+.cu .cposter .ph { font-size: 6px; padding: 3px; line-height: 1; }
+.cu .ctext { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.cu .cline { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
+.cu .cdate { font: 600 15px/1.3 var(--body); white-space: nowrap; }
+.cu .ctime { font: 500 14px var(--mono); margin-left: 8px; }
+.cu .cwho { font-size: 12px; font-weight: 600; color: var(--soon); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cu .csub { display: flex; min-width: 0; font-size: 12px; line-height: 1.35; color: var(--muted); }
+.cu .csub b { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-weight: 500; }
+.cu .csub .cc { flex: none; white-space: nowrap; }
