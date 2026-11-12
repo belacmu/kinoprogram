@@ -1356,3 +1356,15 @@ button.seat2 { cursor: pointer; }
 .coming a.crow:first-of-type { padding-top: 4px; }
 .coming a.crow { border-top: 1px solid var(--line); padding: 10px 14px; }
 .coming h3 + a.crow { border-top: 0; }
+
+/* Coming up v4: when it happens is the headline (date and time), the film and cinema are the second line */
+.coming .cline { align-items: center; }
+.coming .cdate { font: 800 24px/1.05 var(--display); text-transform: uppercase; white-space: nowrap; display: inline-flex; align-items: baseline; gap: 10px; }
+.coming .ctime { font: 600 20px var(--mono); letter-spacing: -.01em; }
+.coming .csub { font-size: 14px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.coming .csub b { color: var(--ink); font-weight: 600; }
+.coming .cline .cwho { font-size: 14px; }
+
+.coming .csub { display: flex; min-width: 0; }
+.coming .csub b { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.coming .csub .cc { flex: none; white-space: nowrap; }

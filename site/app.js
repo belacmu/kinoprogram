@@ -825,12 +825,12 @@ function comingUpHtml() {
   for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).names.push(r.name);
   const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
   if (!rows.length) return "";
-  // poster | title / date, time · cinema, with who is going at the right of that line
+  // poster | date and time (the point of this list), with who is going at the right / film · cinema underneath
   return `<section class="coming"><h3>Coming up</h3>${rows.map((r) => {
     const f = findFilm(r.film), d = asDate(r.at);
     const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
     const names = r.names, who = names.length > 2 ? `${names.slice(0, 2).join(", ")} +${names.length - 2}` : names.join(", ");  // names only; seats are on the showing's page
-    return `<a class="crow" href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="ctitle">${esc(r.title)}</span><span class="cline"><span class="cmeta"><b>${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</b>, ${hhmm(r.at)} · ${esc(r.cinema)}</span><span class="cwho">${esc(who)}</span></span></span></a>`;
+    return `<a class="crow" href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cline"><span class="cdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}<span class="ctime">${hhmm(r.at)}</span></span><span class="cwho">${esc(who)}</span></span><span class="csub"><b>${esc(r.title)}</b><span class="cc">&nbsp;· ${esc(r.cinema)}</span></span></span></a>`;
   }).join("")}</section>`;
 }
 function renderFeed() {
