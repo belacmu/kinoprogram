@@ -825,13 +825,14 @@ function comingUpHtml() {
   for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).names.push(r.name);
   const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
   if (!rows.length) return "";
-  // Dressed like the other feed posts: round icon and heading, then one row per showing: poster | date + time / film · cinema, names at the right.
-  return `<article class="post cu"><header class="phead"><span class="pico k-showings"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.showings}</svg></span><div class="ptext"><strong>Coming up</strong><time>Where you and your friends are going</time></div></header><ul class="curows">${rows.map((r) => {
+  // Laid out like the showing page's card: date in the display font on top, "time · cinema" under it (who is going at the right of that line),
+  // the film underneath. The poster is at the left, top-aligned with the date.
+  return `<section class="cu"><h4>Coming up</h4><ul class="curows">${rows.map((r) => {
     const f = findFilm(r.film), d = asDate(r.at);
     const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
     const names = r.names, who = names.length > 2 ? `${names.slice(0, 2).join(", ")} +${names.length - 2}` : names.join(", ");  // names only; seats are on the showing's page
-    return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cline"><span class="cdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}<span class="ctime">${hhmm(r.at)}</span></span><span class="cwho">${esc(who)}</span></span><span class="csub"><b>${esc(r.title)}</b><span class="cc">&nbsp;· ${esc(r.cinema)}</span></span></span></a></li>`;
-  }).join("")}</ul></article>`;
+    return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span><span class="cwho">${esc(who)}</span></span><span class="csub">${esc(r.title)}</span></span></a></li>`;
+  }).join("")}</ul></section>`;
 }
 function renderFeed() {
   if (!state.data) return;  // the skeleton stays until the programme arrives
