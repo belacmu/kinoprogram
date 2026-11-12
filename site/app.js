@@ -817,12 +817,12 @@ function renderSkeleton() {
 // Coming up: showings you and your friends (who turned Tell friends on) are going to, soonest first.
 function comingUpHtml() {
   const now = localNow(), by = new Map();
-  const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [], names: [], you: false }).get(id);
+  const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [], names: [], friends: [], you: false }).get(id);
   for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
     const [fid, at, cin] = id.split("|");
     entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You"); by.get(id).you = true;
   }
-  for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).names.push(r.name);
+  for (const r of state.friendPlans) if (r.starts >= now) { const e = entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema); e.names.push(r.name); e.friends.push({ id: r.friend_id, name: r.name }); }
   const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
   if (!rows.length) return "";
   // Laid out like the showing page's card: date in the display font on top, "time · cinema" under it (who is going at the right of that line),
@@ -830,8 +830,12 @@ function comingUpHtml() {
   return `<section class="cu"><h4>Coming up</h4><ul class="curows">${rows.map((r) => {
     const f = findFilm(r.film), d = asDate(r.at);
     const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
-    const names = r.names.filter((n) => n !== "You"), who = names.length > 2 ? `${names.slice(0, 2).join(", ")} +${names.length - 2}` : names.join(", ");  // names only; seats are on the showing's page
-    return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="ctop"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span>${r.you ? '<span class="cbadge going">✓ You\'re going</span>' : '<span class="cbadge join">Join</span>'}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span><span class="cwho">${esc(who)}</span></span><span class="csub">${esc(r.title)}</span></span><svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
+    // Status, not a button: if you're going, only that (who else is going matters less then); otherwise who is going, so you can see it's open to you.
+    const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
+    const dots = r.friends.slice(0, 3).map((x) => `<span class="fdot" style="--h:${friendHue(x.id)}">${esc(initialsOf(x.name))}</span>`).join("");
+    const status = r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
+      : `<span class="cstat fr"><span class="cdots">${dots}</span><span class="cfn">${esc(fwho)} going</span></span>`;
+    return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span>${status}</span><span class="csub">${esc(r.title)}</span></span><svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
   }).join("")}</ul></section>`;
 }
 function renderFeed() {

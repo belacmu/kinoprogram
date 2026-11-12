@@ -1353,12 +1353,16 @@ button.seat2 { cursor: pointer; }
 .stub .sgoers .fdot + .fdot, .stub .sgoers .sgo-you + .fdot { margin-left: -5px; }
 .stub .sgo-you { width: 18px; height: 18px; border-radius: 50%; background: var(--soon); color: #fff; display: grid; place-items: center; font-size: 10px; font-weight: 700; border: 1.5px solid var(--bg); box-sizing: border-box; }
 .stub.going { padding-right: 36px; }
-/* Coming up: going or open to join, at a glance */
-.cu .ctop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.cu .cbadge { flex: none; font: 700 12px/1 var(--body); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
-.cu .cbadge.going { background: var(--soon); color: #fff; }
-.cu .cbadge.join { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); padding: 3.5px 9px; }
-.cu .curows li:has(.cbadge.going) a { box-shadow: inset 3px 0 0 var(--soon); }
 /* the goers sit on a line of their own at the bottom of the button (no overlap with the time) */
 .stub .sgoers { position: static; margin-top: 4px; align-self: flex-start; }
 .stub.going { padding-right: 11px; }
+
+/* Coming up: a status, not a button. You're going (green, with a check), or who else is going (their initials). */
+.cu .cstat { flex: none; max-width: 58%; display: inline-flex; align-items: center; gap: 6px; font: 600 12.5px var(--body); white-space: nowrap; min-width: 0; }
+.cu .cstat.you { color: var(--soon); }
+.cu .cstat.fr { color: var(--ink); }
+.cu .cstat .cdots { display: inline-flex; flex: none; }
+.cu .cstat .fdot { width: 20px; height: 20px; font-size: 8.5px; border: 1.5px solid var(--surface); }
+.cu .cstat .fdot + .fdot { margin-left: -6px; }
+.cu .cstat .cfn { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cu .curows li:has(.cstat.you) a { box-shadow: inset 3px 0 0 var(--soon); }
