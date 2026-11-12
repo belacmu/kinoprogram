@@ -1144,6 +1144,11 @@ function peopleOf(f, s, plan, name) {
 }
 // Seats are kept as "row|seats" ("F|7–9"); older free text without the bar is just shown as the seats.
 const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
+// Two small lines for a row: "Row 4" over "Seats 5–7".
+function seatTag(v, tag = "span", attrs = "") {
+  const { row, seats } = seatParts(v);
+  return `<${tag} class="seat2"${attrs}>${row ? `<span>Row ${esc(row)}</span>` : ""}${seats ? `<span>Seats ${esc(seats)}</span>` : ""}</${tag}>`;
+}
 function seatLabel(v) {
   const { row, seats } = seatParts(v);
   return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(" · ");
@@ -1162,10 +1167,10 @@ function showingPage(f, s, dlg) {
   const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">I'm going</button>`;
   const row = (p) => {
     let seats;
-    if (!p.me) seats = p.seats ? `<span class="seat">${esc(seatLabel(p.seats))}</span>` : "";
-    else seats = seatsOpen ? "" : `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(seatLabel(p.seats)) : "+ add seats"}</button>`;
+    if (!p.me) seats = p.seats ? seatTag(p.seats) : "";
+    else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"') : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
     const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="F" maxlength="4" autofocus></label><label class="grow"><span>Seats</span><input class="seatinp" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
-    if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname2"><span class="pname">${esc(p.name)}</span>${seats}</span>${goBtn}</div>${edit}`;
+    if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}${goBtn}</div>${edit}`;
     return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
   };
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):

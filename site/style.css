@@ -1222,3 +1222,9 @@ button.seat { cursor: pointer; }
 
 .pname2 { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
 .pname2 .pname { flex: none; max-width: 100%; }
+
+/* seats: two small lines, "Row 4" over "Seats 5–7", so they fit on the person's row */
+.seat2 { display: inline-flex; flex-direction: column; flex: none; text-align: left; font: 600 12px/1.2 var(--body); padding: 4px 9px; border-radius: 8px; background: var(--chip); color: var(--ink); border: 0; white-space: nowrap; }
+button.seat2 { cursor: pointer; }
+.seat2 span:first-child:not(:last-child) { color: var(--muted); }
+.prow2.me .pname { flex: 1 1 auto; min-width: 0; }
