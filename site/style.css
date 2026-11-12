@@ -1347,3 +1347,12 @@ button.seat2 { cursor: pointer; }
 .coming .cmeta { font-size: 14px; color: var(--muted); }
 .coming .cmeta b { color: var(--ink); font: 600 14px var(--mono); }
 .coming a.crow .cwho { grid-column: auto; color: var(--soon); font-size: 13.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Coming up v3: no day headings; date, time and cinema on one line with who is going at its right */
+.coming .cline { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
+.coming .cmeta { flex: 0 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.coming .cmeta b { font: 700 14px var(--body); color: var(--ink); }
+.coming .cline .cwho { flex: 0 1 auto; min-width: 0; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.coming a.crow:first-of-type { padding-top: 4px; }
+.coming a.crow { border-top: 1px solid var(--line); padding: 10px 14px; }
+.coming h3 + a.crow { border-top: 0; }

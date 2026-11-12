@@ -825,16 +825,12 @@ function comingUpHtml() {
   for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).names.push(r.name);
   const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
   if (!rows.length) return "";
-  // Grouped by day, so each row doesn't repeat the date: day heading, then poster | title / time · cinema / who is going.
-  const dayName = (day) => { const now = localNow().slice(0, 10), d = asDate(day), nice = `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`; return day === now ? `Today · ${nice}` : day === addDays(now, 1) ? `Tomorrow · ${nice}` : nice; };
-  let lastDay = "";
+  // poster | title / date, time · cinema, with who is going at the right of that line
   return `<section class="coming"><h3>Coming up</h3>${rows.map((r) => {
-    const f = findFilm(r.film), day = r.at.slice(0, 10);
+    const f = findFilm(r.film), d = asDate(r.at);
     const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
-    const head = day !== lastDay ? `<div class="cday">${esc(dayName(day))}</div>` : "";
-    lastDay = day;
-    const names = r.names, who = names.length > 3 ? `${names.slice(0, 3).join(", ")} +${names.length - 3}` : names.join(", ");  // names only; seats are on the showing's page
-    return `${head}<a class="crow" href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="ctitle">${esc(r.title)}</span><span class="cmeta"><b>${hhmm(r.at)}</b> · ${esc(r.cinema)}</span><span class="cwho">${esc(who)}</span></span></a>`;
+    const names = r.names, who = names.length > 2 ? `${names.slice(0, 2).join(", ")} +${names.length - 2}` : names.join(", ");  // names only; seats are on the showing's page
+    return `<a class="crow" href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="ctitle">${esc(r.title)}</span><span class="cline"><span class="cmeta"><b>${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</b>, ${hhmm(r.at)} · ${esc(r.cinema)}</span><span class="cwho">${esc(who)}</span></span></span></a>`;
   }).join("")}</section>`;
 }
 function renderFeed() {
