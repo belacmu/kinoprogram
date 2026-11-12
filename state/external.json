@@ -1273,7 +1273,8 @@
 "lang": "th",
 "lbSlug": "9-temples-to-heaven",
 "lbRating": 3.55,
-"rated": "2026-11-08"
+"rated": "2026-11-08",
+"posterPath": "/6Qb11di83PyJpuJpNlxvJvi1kBd.jpg"
 },
 "cm-a-better-tomorrow": {
 "tmdbChecked": "2026-10-01",
@@ -1306,18 +1307,6 @@
 "posterPath": "/pWhGSn4IaPOfNAgh9ZhGVhkuvO1.jpg",
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-a-girl-unknown": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1364629,
-"imdb": "tt32459280",
-"en": null,
-"lbSlug": "a-girl-unknown",
-"lbRating": 3.8,
-"rated": "2026-11-10",
-"v": 4,
-"checked": "2026-10-04"
 },
 "cm-aldri-annet-enn-brak": {
 "tmdbChecked": "2026-10-02",
@@ -1834,7 +1823,8 @@
 "en": null,
 "lbSlug": "hearing-2026",
 "lbRating": 3.34,
-"rated": "2026-11-06"
+"rated": "2026-11-06",
+"posterPath": "/ubRPVxziDoeSzbA6Xnzl5zMEYUo.jpg"
 },
 "cm-herr-bachmann-og-klassen-hans": {
 "tmdbChecked": "2026-10-01",
@@ -2555,26 +2545,8 @@
 "lang": "bn",
 "lbSlug": "the-difficult-bride",
 "lbRating": 3.06,
-"rated": "2026-11-06"
-},
-"cm-the-samurai-and-the-prisoner": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1620313,
-"imdb": "tt39602215",
-"en": "The Samurai and the Prisoner",
-"lbSlug": "the-samurai-and-the-prisoner",
-"lbRating": 3.55,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt39602215"
-],
-"lb": "the-samurai-and-the-prisoner",
-"rt": "m/the_samurai_and_the_prisoner",
-"mc": "movie/the-samurai-and-the-prisoner",
-"v": 4,
-"checked": "2026-10-04",
-"posterPath": "/1GWVlPM1v6k84LsmDkfDzLlGf0O.jpg"
+"rated": "2026-11-06",
+"posterPath": "/y4HdnyUE13LgtMovP3nTaI4gJuR.jpg"
 },
 "cm-the-shining": {
 "imdb": "tt0081505",
@@ -2654,7 +2626,7 @@
 "lang": "fr",
 "lbSlug": "vagabond",
 "lbRating": 4.11,
-"rated": "2026-11-05",
+"rated": "2026-11-13",
 "posterPath": "/2KFfwiPct1hwqi9dkKqoom0BenC.jpg"
 },
 "cm-veiviseren": {
@@ -3570,7 +3542,7 @@
 "tmdbChecked": "2026-11-10",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "fw-EDI20250777": {
 "tmdbChecked": "2026-10-01",
@@ -3831,25 +3803,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20251333": {
-"lbSlug": "street-fighter-2026",
-"lbRating": 2.77,
-"rated": "2026-11-10",
-"imdb": "tt27419420",
-"imdbAll": [
-"tt27419420"
-],
-"lb": "street-fighter-1",
-"rt": "m/street_fighter_2026",
-"mc": null,
-"en": "Street Fighter",
-"v": 4,
-"checked": "2026-10-01",
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1153576,
-"enFrom": "tmdb"
-},
 "fw-EDI20251380": {
 "imdb": "tt0038650",
 "imdbAll": [
@@ -3995,7 +3948,7 @@
 "lang": "cs",
 "lbSlug": "franz-2025",
 "lbRating": 3.1,
-"rated": "2026-11-05"
+"rated": "2026-11-13"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-11-10",
@@ -4171,11 +4124,14 @@
 "en": "King",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "lbSlug": "king-2026",
 "lbRating": null,
-"rated": "2026-11-05"
+"rated": "2026-11-13",
+"tmdb": 1145110,
+"lang": "hi",
+"posterPath": "/Aq5J3pzesN7WJLIzEkWD2b4FqV9.jpg"
 },
 "fw-EDI20260296": {
 "tmdbChecked": "2026-10-01",
@@ -4620,8 +4576,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "how-to-rob-a-bank-2026",
-"lbRating": null,
-"rated": "2026-11-05"
+"lbRating": 3.14,
+"rated": "2026-11-13"
 },
 "fw-EDI20260642": {
 "lbSlug": "resident-evil-2026",
@@ -5045,8 +5001,8 @@
 "lang": "sv",
 "enFrom": "tmdb",
 "lbSlug": "bloody-men",
-"lbRating": null,
-"rated": "2026-11-05"
+"lbRating": 3.53,
+"rated": "2026-11-13"
 },
 "fw-EDI20260919": {
 "tmdbChecked": "2026-11-10",
@@ -5071,19 +5027,6 @@
 "mc": "movie/tony",
 "v": 4,
 "checked": "2026-10-03"
-},
-"fw-EDI20260922": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1649403,
-"imdb": "tt40564737",
-"en": "George Michael: The Faith Tour",
-"enFrom": "tmdb",
-"lbSlug": "george-michael-the-faith-tour",
-"lbRating": 4.16,
-"rated": "2026-11-10",
-"v": 4,
-"checked": "2026-10-04"
 },
 "fw-EDI20260945": {
 "imdb": "tt37670940",
@@ -5299,8 +5242,8 @@
 "tmdbChecked": "2026-10-20",
 "tv": 2,
 "lbSlug": "godzilla-minus-zero",
-"lbRating": 4.18,
-"rated": "2026-11-05",
+"lbRating": 4.05,
+"rated": "2026-11-13",
 "tmdb": 1381071,
 "lang": "ja"
 },
@@ -5600,19 +5543,6 @@
 "lang": "fr",
 "lbSlug": "benimana",
 "lbRating": 3.79,
-"rated": "2026-11-06"
-},
-"fw-EDI20261213": {
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1662776,
-"lang": "vi",
-"imdb": "tt38857159",
-"en": null,
-"lbSlug": "hearing-2026",
-"lbRating": 3.34,
 "rated": "2026-11-06"
 },
 "fw-EDI20261219": {
@@ -5937,7 +5867,7 @@
 "tmdbChecked": "2026-11-10",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
@@ -6002,10 +5932,10 @@
 "checked": "2026-11-06"
 },
 "fw-EDI20261524": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "fw-EDI20261525": {
 "v": 4,
@@ -6066,25 +5996,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20261555": {
-"imdb": "tt37740247",
-"imdbAll": [
-"tt37740247"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "9 Temples to Heaven",
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 1046304,
-"lang": "th",
-"lbSlug": "9-temples-to-heaven",
-"lbRating": 3.55,
-"rated": "2026-11-08"
-},
 "fw-EDI20261557": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -6118,18 +6029,6 @@
 "lb": "angels-egg",
 "rt": "m/angels_egg_1985",
 "mc": "movie/angels-egg-1985",
-"v": 4,
-"checked": "2026-10-04"
-},
-"fw-EDI20261561": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1698960,
-"imdb": "tt32272953",
-"en": null,
-"lbSlug": "atlantic-rhapsody-2026",
-"lbRating": null,
-"rated": "2026-11-10",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -6221,8 +6120,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-12",
-"tmdbChecked": "2026-11-12",
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -6271,11 +6170,11 @@
 "en": "The Furious",
 "v": 4,
 "checked": "2026-10-04",
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "lbSlug": "the-furious",
 "lbRating": 3.81,
-"rated": "2026-11-05"
+"rated": "2026-11-13"
 },
 "fw-EDI20261574": {
 "tmdbChecked": "2026-10-01",
@@ -6365,8 +6264,8 @@
 "tmdbChecked": "2026-10-12",
 "tv": 2,
 "lbSlug": "ashes-2026-3",
-"lbRating": 3.24,
-"rated": "2026-11-05",
+"lbRating": 3.23,
+"rated": "2026-11-13",
 "tmdb": 1623608,
 "lang": "es"
 },
@@ -6385,7 +6284,7 @@
 "tv": 2,
 "lbSlug": "lady-2026",
 "lbRating": 3.45,
-"rated": "2026-11-05",
+"rated": "2026-11-13",
 "tmdb": 1596257,
 "lang": "en",
 "enFrom": "tmdb"
@@ -6407,25 +6306,6 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-04"
-},
-"fw-EDI20261590": {
-"imdb": "tt42827406",
-"imdbAll": [
-"tt42827406"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "The Difficult Bride",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1593299,
-"lang": "bn",
-"lbSlug": "the-difficult-bride",
-"lbRating": 3.06,
-"rated": "2026-11-06"
 },
 "fw-EDI20261592": {
 "imdb": "tt38573542",
@@ -6890,7 +6770,7 @@
 "enFrom": "tmdb",
 "lbSlug": "zodiac",
 "lbRating": 4.03,
-"rated": "2026-11-05",
+"rated": "2026-11-13",
 "posterPath": "/6YmeO4pB7XTh8P8F960O1uA14JO.jpg"
 },
 "fw-EDI20261752": {
@@ -6911,7 +6791,7 @@
 "enFrom": "tmdb",
 "lbSlug": "you-can-see-everything",
 "lbRating": 4.58,
-"rated": "2026-11-05"
+"rated": "2026-11-13"
 },
 "fw-EDI20261755": {
 "imdb": "tt36629665",
@@ -7000,16 +6880,34 @@
 "posterPath": "/eCOtqtfvn7mxGl6nfmq4b1exJRc.jpg"
 },
 "fw-EDI20261797": {
+"tmdbChecked": "2026-11-13",
+"tv": 2,
 "v": 4,
-"checked": "2026-11-05",
-"tmdbChecked": "2026-11-05",
-"tv": 2
+"checked": "2026-11-13",
+"tmdb": 1820083,
+"lang": "en",
+"imdb": "tt50486016",
+"en": "BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING",
+"enFrom": "tmdb",
+"lbSlug": "bts-world-tour-arirang-in-kaohsiung-live",
+"lbRating": null,
+"rated": "2026-11-13",
+"posterPath": "/kbwAR849GqMmZs01Uwm5MXL6CWd.jpg"
 },
 "fw-EDI20261798": {
+"tmdbChecked": "2026-11-13",
+"tv": 2,
 "v": 4,
-"checked": "2026-11-05",
-"tmdbChecked": "2026-11-05",
-"tv": 2
+"checked": "2026-11-13",
+"tmdb": 1820088,
+"lang": "en",
+"imdb": "tt50488328",
+"en": "BTS WORLD TOUR 'ARIRANG' IN JAKARTA: LIVE VIEWING",
+"enFrom": "tmdb",
+"lbSlug": "bts-world-tour-arirang-in-jakarta-live-viewing",
+"lbRating": null,
+"rated": "2026-11-13",
+"posterPath": "/gEMCs6RPDJFSAFkc9JXxhaL0AGV.jpg"
 },
 "fw-EDI20261800": {
 "imdb": "tt0464106",
@@ -7028,7 +6926,7 @@
 "lang": "ta",
 "lbSlug": "manmadhan",
 "lbRating": 3.31,
-"rated": "2026-11-05"
+"rated": "2026-11-13"
 },
 "fw-EDI20261808": {
 "v": 4,
@@ -7132,6 +7030,26 @@
 "v": 4,
 "checked": "2026-11-12",
 "tmdbChecked": "2026-11-12",
+"tv": 2
+},
+"fw-EDI20261831": {
+"v": 4,
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
+"tv": 2,
+"tmdb": 1773511,
+"lang": "tr",
+"imdb": null,
+"en": null,
+"lbSlug": "pervaneler",
+"lbRating": null,
+"rated": "2026-11-13",
+"posterPath": ""
+},
+"fw-EDI20261832": {
+"v": 4,
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
 "tv": 2
 },
 "fw-FID20210220": {
@@ -7842,8 +7760,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "clayface",
-"lbRating": 3.72,
-"rated": "2026-11-05"
+"lbRating": 3.71,
+"rated": "2026-11-13"
 },
 "fw-YME20240132": {
 "tmdbChecked": "2026-11-10",
@@ -8996,7 +8914,7 @@
 "enFrom": "tmdb",
 "lbSlug": "fight-club",
 "lbRating": 4.27,
-"rated": "2026-11-05",
+"rated": "2026-11-13",
 "posterPath": "/jSziioSwPVrOy9Yow3XhWIBDjq1.jpg"
 },
 "rv-scrooged-1998": {
