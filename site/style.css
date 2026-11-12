@@ -1361,8 +1361,5 @@ button.seat2 { cursor: pointer; }
 .cu .cstat { flex: none; max-width: 58%; display: inline-flex; align-items: center; gap: 6px; font: 600 12.5px var(--body); white-space: nowrap; min-width: 0; }
 .cu .cstat.you { color: var(--soon); }
 .cu .cstat.fr { color: var(--ink); }
-.cu .cstat .cdots { display: inline-flex; flex: none; }
-.cu .cstat .fdot { width: 20px; height: 20px; font-size: 8.5px; border: 1.5px solid var(--surface); }
-.cu .cstat .fdot + .fdot { margin-left: -6px; }
 .cu .cstat .cfn { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .cu .curows li:has(.cstat.you) a { box-shadow: inset 3px 0 0 var(--soon); }

@@ -832,9 +832,8 @@ function comingUpHtml() {
     const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
     // Status, not a button: if you're going, only that (who else is going matters less then); otherwise who is going, so you can see it's open to you.
     const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
-    const dots = r.friends.slice(0, 3).map((x) => `<span class="fdot" style="--h:${friendHue(x.id)}">${esc(initialsOf(x.name))}</span>`).join("");
     const status = r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
-      : `<span class="cstat fr"><span class="cdots">${dots}</span><span class="cfn">${esc(fwho)} going</span></span>`;
+      : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
     return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span>${status}</span><span class="csub">${esc(r.title)}</span></span><svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
   }).join("")}</ul></section>`;
 }
