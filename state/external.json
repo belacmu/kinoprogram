@@ -845,6 +845,12 @@
 "rated": "2026-11-11",
 "posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
 },
+"cl-club-kid": {
+"v": 4,
+"checked": "2026-11-12",
+"tmdbChecked": "2026-11-12",
+"tv": 2
+},
 "cl-como-robar-banco": {
 "imdb": "tt35866986",
 "imdbAll": [
@@ -877,9 +883,15 @@
 "enFrom": "tmdb",
 "lbSlug": "heart-of-the-beast-2026",
 "lbRating": 3.29,
-"rated": "2026-11-04",
+"rated": "2026-11-12",
 "posterPath": "/mYqiF90igComG2L2qm8SwFbaMwn.jpg",
 "v": 4
+},
+"cl-diversion-navidena-peppa-experiencia-cines": {
+"v": 4,
+"checked": "2026-11-12",
+"tmdbChecked": "2026-11-12",
+"tv": 2
 },
 "cl-gato-sombrero": {
 "imdb": "tt2321555",
@@ -902,42 +914,6 @@
 "rated": "2026-11-08",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
-"cl-george-michael-the-faith-tour": {
-"v": 4,
-"checked": "2026-11-06",
-"tmdbChecked": "2026-11-06",
-"tv": 2,
-"tmdb": 1649403,
-"lang": "en",
-"imdb": "tt40564737",
-"en": "George Michael: The Faith Tour",
-"enFrom": "tmdb",
-"lbSlug": "george-michael-the-faith-tour",
-"lbRating": null,
-"rated": "2026-11-06",
-"posterPath": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg"
-},
-"cl-gungo-juegos-cavernicolas": {
-"imdb": "tt39399214",
-"imdbAll": [
-"tt39399214"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Rock Bottom",
-"v": 4,
-"checked": "2026-11-06",
-"tmdbChecked": "2026-11-06",
-"tv": 2,
-"tmdb": 1548369,
-"lang": "es",
-"enFrom": "tmdb",
-"lbSlug": "rock-bottom-2026",
-"lbRating": null,
-"rated": "2026-11-06",
-"posterPath": "/p7J2gMXJL0lUAOxeVkUeVS9HHBI.jpg"
-},
 "cl-hope": {
 "imdb": "tt27369017",
 "imdbAll": [
@@ -954,8 +930,8 @@
 "tmdb": 1058424,
 "lang": "ko",
 "lbSlug": "hope-2026",
-"lbRating": 3.16,
-"rated": "2026-11-04",
+"lbRating": 3.15,
+"rated": "2026-11-12",
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "cl-juegos-hambre-amanecer-cosecha": {
@@ -999,11 +975,20 @@
 "rated": "2026-11-08",
 "posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
 },
-"cl-me-entiendes-te-explico-1": {
+"cl-me-entiendes-te-explico": {
 "v": 4,
-"checked": "2026-11-11",
-"tmdbChecked": "2026-11-11",
-"tv": 2
+"checked": "2026-11-12",
+"tmdbChecked": "2026-11-12",
+"tv": 2,
+"tmdb": 1689901,
+"lang": "es",
+"imdb": "tt42454327",
+"en": "Do You Understand Or Do I Have To Spell It Out For You?",
+"enFrom": "tmdb",
+"lbSlug": "do-you-understand-or-do-i-have-to-spell-it",
+"lbRating": null,
+"rated": "2026-11-12",
+"posterPath": "/4mlzrFT2ByFDTHx30j9WDq6J1qZ.jpg"
 },
 "cl-miserables": {
 "v": 4,
@@ -1015,8 +1000,8 @@
 "imdb": "tt35518109",
 "en": null,
 "lbSlug": "les-miserables-2026",
-"lbRating": 3.44,
-"rated": "2026-11-04",
+"lbRating": 3.49,
+"rated": "2026-11-12",
 "posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
 },
 "cl-origen": {
@@ -1093,8 +1078,8 @@
 "en": "Pray for Us",
 "enFrom": "tmdb",
 "lbSlug": "pray-for-us-2026",
-"lbRating": 3.4,
-"rated": "2026-11-04",
+"lbRating": 3.5,
+"rated": "2026-11-12",
 "posterPath": "/vgAae3dWzJoFuGQbRaKvSCmogDq.jpg"
 },
 "cl-sacamantecas": {
@@ -1114,8 +1099,8 @@
 "lang": "eu",
 "enFrom": "tmdb",
 "lbSlug": "the-harvester-2026",
-"lbRating": null,
-"rated": "2026-11-04",
+"lbRating": 3.3,
+"rated": "2026-11-12",
 "posterPath": "/ebvx1lw2XXDOMLJzBsz6pA4meud.jpg"
 },
 "cl-scrooge-fantasmas-navidad": {
@@ -1156,8 +1141,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "street-fighter-2026",
-"lbRating": 2.78,
-"rated": "2026-11-04",
+"lbRating": 2.77,
+"rated": "2026-11-12",
 "posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
 },
 "cl-superthings-pelicula": {
@@ -1221,7 +1206,7 @@
 "rated": "2026-11-11",
 "posterPath": "/9LHVZevgdsdbjJdkFr6bk9EwX7q.jpg"
 },
-"cl-wild-horse-nine-proyeccion-vose": {
+"cl-wild-horse-nine": {
 "imdb": "tt15799564",
 "imdbAll": [
 "tt15799564"
@@ -8847,16 +8832,16 @@
 "checked": "2026-11-05"
 },
 "mk-bts-world-tour-arirang-in-jakarta": {
+"tmdbChecked": "2026-11-12",
+"tv": 2,
 "v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
-"tv": 2
+"checked": "2026-11-12"
 },
 "mk-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
+"tmdbChecked": "2026-11-12",
+"tv": 2,
 "v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
-"tv": 2
+"checked": "2026-11-12"
 },
 "mk-como-robar-un-banco": {
 "imdb": "tt35866986",
@@ -8936,21 +8921,6 @@
 "v": 4,
 "checked": "2026-11-05"
 },
-"mk-george-michael-the-faith-tour": {
-"v": 4,
-"checked": "2026-11-06",
-"tmdbChecked": "2026-11-06",
-"tv": 2,
-"tmdb": 1649403,
-"lang": "en",
-"imdb": "tt40564737",
-"en": "George Michael: The Faith Tour",
-"enFrom": "tmdb",
-"lbSlug": "george-michael-the-faith-tour",
-"lbRating": null,
-"rated": "2026-11-06",
-"posterPath": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg"
-},
 "mk-gremlins": {
 "tmdbChecked": "2026-11-05",
 "tv": 2,
@@ -8979,8 +8949,8 @@
 "imdb": "tt35518109",
 "en": null,
 "lbSlug": "les-miserables-2026",
-"lbRating": 3.44,
-"rated": "2026-11-04",
+"lbRating": 3.49,
+"rated": "2026-11-12",
 "posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
 },
 "mk-origen": {
