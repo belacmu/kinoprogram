@@ -1155,16 +1155,18 @@ function peopleOf(f, s, plan, name) {
 const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
 // Two small lines in a grey tag: the word at the left, the number at the right ("Row:   5" / "Seat:   7"). Your own tag has a pencil.
 const PENCIL = `<svg class="pen" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
+// "Seat" for one number, "Seats" when there are two or more ("7-9", "7, 8", "7 8").
+const seatWord = (seats) => ((String(seats || "").match(/\d+/g) || []).length > 1 ? "Seats" : "Seat");
 function seatTag(v, tag = "span", attrs = "", edit = false) {
   const { row, seats } = seatParts(v);
-  const word = /[,–—\-\s]/.test(seats) ? "Seats" : "Seat";  // a range or several seats: "Seats"
+  const word = seatWord(seats);
   const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
   return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}><span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
 }
 // One line for other people: "Row 4, Seats 7–9".
 function seatLine(v) {
   const { row, seats } = seatParts(v);
-  const word = /[,–—\-\s]/.test(seats) ? "Seats" : "Seat";
+  const word = seatWord(seats);
   return `<span class="seat1">${[row ? `Row ${esc(row)}` : "", seats ? `${word} ${esc(seats)}` : ""].filter(Boolean).join(", ")}</span>`;
 }
 function seatLabel(v) {
@@ -1187,7 +1189,7 @@ function showingPage(f, s, dlg) {
     let seats;
     if (!p.me) seats = p.seats ? seatLine(p.seats) : "";
     else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
-    const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="4" maxlength="4" inputmode="numeric" autofocus></label><label><span>Seats</span><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
+    const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="4" maxlength="4" inputmode="numeric" autofocus></label><label><span>Seat(s)</span><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
     if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}${goBtn}</div>${edit}`;
     return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
   };
