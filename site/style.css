@@ -1071,3 +1071,10 @@ button.seat2, button.seat { cursor: pointer; }
 .pillr { position: absolute; right: 6px; bottom: 6px; gap: 3px; padding: 2px 7px 2px 8px; font-size: 12px; line-height: 1.25; }
 .pillr svg { width: 11px; height: 11px; }
 @media (max-width: 400px) { .fhead .actions .btn.wl { padding: 0 9px; gap: 4px; } .rate.lbpill { padding-right: 9px; } }
+
+/* poster badge: the translucent dark pill over the poster (as before), with the green star */
+.pillr { background: rgba(10, 12, 16, .78); border-color: transparent; color: #fff; }
+.pillr svg { color: #00e054; }
+/* the film sheet keeps one height, so opening a showing doesn't make it jump */
+#film { height: min(820px, calc(100dvh - 48px)); }
+@media (max-width: 560px) { #film { height: 88dvh; max-height: 88dvh; } }
