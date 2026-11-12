@@ -1164,16 +1164,16 @@ function showingPage(f, s, dlg) {
     if (!p.me) seats = p.seats ? `<span class="seat">${esc(seatLabel(p.seats))}</span>` : "";
     else seats = seatsOpen ? "" : `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(seatLabel(p.seats)) : "+ add row and seats"}</button>`;
     const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="F" maxlength="4" autofocus></label><label class="grow"><span>Seats</span><input class="seatinp" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
-    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
+    return `<div class="prow2${p.me ? " me" : ""}"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}${p.me ? `<small class="vnote">${tell ? "Others can see this" : "Only people you invite can see this"} · <button class="linkbtn" data-tell="1">${tell ? "turn off" : "turn on"}</button></small>` : ""}</span>${seats}</div>${edit}`;
   };
-  const nameFld = state.user ? "" : `<input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">`;
-  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button><span class="pnote2">${tell ? "Friends can see this" : "Only people you invite can see this"} · <button class="linkbtn" data-tell="1">${tell ? "turn off" : "turn on"}</button></span><button class="linkbtn leave" data-going="1">Not going</button></div>`
-    : `<div class="pjoin">${nameFld}<button class="gopill" data-going="1">I'm going</button></div>`;
+  const nameFld = state.user || on ? "" : `<div class="pjoin"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name, to join" maxlength="40" autocomplete="given-name" aria-label="Your name"></div>`;
+  const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">${on ? "✓ Going" : "I'm going"}</button>`;
+  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
     <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
-      <div class="who"><h4>Going${people.length ? ` · ${people.length}` : ""}</h4>${people.length ? people.map(row).join("") : `<p class="nobody">Nobody yet. Be the first.</p>`}</div>${join}</div></div>`;
+      <div class="who"><div class="wh"><h4>Going${people.length ? ` · ${people.length}` : ""}</h4>${goBtn}</div>${nameFld}${people.length ? people.map(row).join("") : `<p class="nobody">Nobody yet. Be the first.</p>`}</div>${join}</div></div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
 }
