@@ -1171,3 +1171,10 @@ button.seat { cursor: pointer; }
 .pfoot .leave { font-size: 12.5px; color: var(--muted); text-decoration: underline; padding: 0; }
 .pfoot .pnote2 { order: 3; flex: 1 0 100%; }
 .pfoot .leave { margin-left: auto; }
+
+.seat { font: 500 15px var(--mono); }
+.seatedit { display: flex; align-items: flex-end; gap: 8px; padding: 2px 14px 8px 58px; }
+.seatedit label { display: flex; flex-direction: column; gap: 2px; font: 600 11px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.seatedit label.grow { flex: 1; }
+.seatedit .seatinp { width: 64px; }
+.seatedit .grow .seatinp { width: 100%; }

@@ -819,9 +819,9 @@ function comingUpHtml() {
   const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [] }).get(id);
   for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
     const [fid, at, cin] = id.split("|");
-    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).people.push("You" + (p.seats ? ` (${p.seats})` : ""));
+    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).people.push("You" + (p.seats ? ` (${seatLabel(p.seats)})` : ""));
   }
-  for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).people.push(r.name + (r.seats ? ` (${r.seats})` : ""));
+  for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).people.push(r.name + (r.seats ? ` (${seatLabel(r.seats)})` : ""));
   const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
   if (!rows.length) return "";
   return `<section class="coming"><h3>Coming up</h3>${rows.map((r) => {
@@ -1142,6 +1142,12 @@ function peopleOf(f, s, plan, name) {
   for (const r of state.friendPlans) if (r.showing_id === id) add(r.name, r.seats);
   return out;
 }
+// Seats are kept as "row|seats" ("F|7–9"); older free text without the bar is just shown as the seats.
+const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
+function seatLabel(v) {
+  const { row, seats } = seatParts(v);
+  return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(" · ");
+}
 const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
 const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
 
@@ -1155,10 +1161,10 @@ function showingPage(f, s, dlg) {
   const seatsOpen = on && state.seatsOpen === planId(f, s);
   const row = (p) => {
     let seats;
-    if (!p.me) seats = p.seats ? `<span class="seat">${esc(p.seats)}</span>` : "";
-    else if (seatsOpen) seats = `<input class="seatinp" data-plan="seats" value="${esc(p.seats)}" placeholder="F 7–9" maxlength="30" aria-label="Your seats" autofocus>`;
-    else seats = `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(p.seats) : "+ add seats"}</button>`;
-    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
+    if (!p.me) seats = p.seats ? `<span class="seat">${esc(seatLabel(p.seats))}</span>` : "";
+    else seats = seatsOpen ? "" : `<button class="seat${p.seats ? "" : " add"}" data-seatstoggle="1">${p.seats ? esc(seatLabel(p.seats)) : "+ add row and seats"}</button>`;
+    const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="F" maxlength="4" autofocus></label><label class="grow"><span>Seats</span><input class="seatinp" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
+    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
   };
   const nameFld = state.user ? "" : `<input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">`;
   const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button><span class="pnote2">${tell ? "Friends can see this" : "Only people you invite can see this"} · <button class="linkbtn" data-tell="1">${tell ? "turn off" : "turn on"}</button></span><button class="linkbtn leave" data-going="1">Not going</button></div>`
@@ -1203,6 +1209,7 @@ async function planClick(t) {
   }
   else if (t.dataset.tell) setPlan(f, s, { tell: planOf(f, s)?.tell === false });
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
+  else if (t.dataset.seatsdone) state.seatsOpen = "";
   else {
     const url = inviteUrl(f, s);
     if (t.dataset.sharershow && canShare) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
@@ -1243,14 +1250,16 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
     if (!state.user) local.set("guestName", nm);
     if (state.guest && sb) { clearTimeout(nameTimer.t); nameTimer.t = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
   }
-  else if (planOf(f, s)) setPlan(f, s, { [k]: e.target.value.trim() });
+  else if (planOf(f, s)) {  // row and seats are two boxes, kept as "row|seats"
+    const row = $("film").querySelector('[data-plan="row"]')?.value.trim() || "", seats = $("film").querySelector('[data-plan="seats"]')?.value.trim() || "";
+    setPlan(f, s, { seats: row || seats ? `${row}|${seats}` : "" });
+  }
 });
-$("film").addEventListener("change", (e) => {  // leaving the seats box (or Enter): show them as the tag again
-  if (e.target.dataset?.plan !== "seats") return;
+$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = Done
+  if (e.key !== "Enter" || !["row", "seats"].includes(e.target.dataset?.plan)) return;
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (s) { state.seatsOpen = ""; showingPage(f, s, $("film")); }
 });
-$("film").addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.dataset?.plan === "seats") e.target.blur(); });
 
 // The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
 // once the strip is scrolled to that end; on phones it is swiped.
@@ -1353,10 +1362,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-tell],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-tell],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.notgoing || t.dataset.tell || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.notgoing || t.dataset.tell || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
