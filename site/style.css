@@ -1370,3 +1370,7 @@ button.seat2 { cursor: pointer; }
 .cu .cdt { margin-top: -3px; }
 .cu .csub { margin: 0 0 -2px; line-height: 1.1; }
 .cu .cgo { align-self: center; }
+/* date and time stay together at the top (as on the showing page); the film sits at the bottom edge */
+.cu .ctext { justify-content: flex-start; }
+.cu .cline { margin-top: 2px; }
+.cu .csub { margin-top: auto; }
