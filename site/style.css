@@ -1077,4 +1077,4 @@ button.seat2, button.seat { cursor: pointer; }
 .pillr svg { color: #00e054; }
 /* the film sheet keeps one height, so opening a showing doesn't make it jump */
 #film { height: min(820px, calc(100dvh - 48px)); }
-@media (max-width: 560px) { #film { height: 88dvh; max-height: 88dvh; } }
+@media (max-width: 560px) { #film { height: 80dvh; max-height: 80dvh; } }
