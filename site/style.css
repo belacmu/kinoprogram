@@ -285,7 +285,6 @@ a.stub:hover { border-color: var(--accent); }
 .fg { padding-block: 14px; }
 /* header: title left, location pill right */
 .top { align-items: center; padding-block: 20px 12px; }
-/* --- review fixes --- */
 /* group headings without border lines running through them; spacing separates groups */
 .fg { border: 0; padding: 0; margin: 0 0 18px; }
 .fg legend { padding: 0 0 8px; }
@@ -322,11 +321,6 @@ a.stub:hover { border-color: var(--accent); }
   .filters .opt-chip:has(input:checked) { background: var(--accent-tint); border: 0; }
   .filters-head { margin-bottom: 14px; }
 }
-/* --- pass 3: headers keep their size when collapsed; rating badge variants --- */
-.lbr { font-variant-numeric: tabular-nums; }
-.pillr { position: absolute; right: 6px; bottom: 6px; display: inline-flex; align-items: center; gap: 1px; padding: 3px 7px;
-  border-radius: 999px; background: rgba(10, 12, 16, .78); color: #fff; font: 600 12px/1.2 var(--body); }
-.pillr i { font-style: normal; font-size: 11px; color: #f2b84b; margin-left: 2px; }
 .card .m .nw { white-space: nowrap; }
 .card .m .nw.today { color: var(--soon); }
 /* keep last: stop iPhone zooming the page when the search box is tapped */
@@ -360,7 +354,6 @@ a.stub:hover { border-color: var(--accent); }
   #account, #friendsAdd { position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: 100%; height: auto; max-height: 92dvh;
     border-radius: 18px 18px 0 0; padding: 22px 18px calc(24px + env(safe-area-inset-bottom, 0px)); }
 }
-/* header band: the title row has a background that differs from the page */
 /* The band runs edge to edge through a pseudo-element, so menus can still drop out of it (a clip-path would cut them off). */
 body { overflow-x: clip; }
 .top { position: relative; z-index: 6; isolation: isolate; background: none; }
@@ -424,7 +417,6 @@ body { overflow-x: clip; }
 @media (min-width: 1000px) { .menu.cal { left: auto; right: 0; } }
 /* the date sits at the bar's right end: open leftwards */
 @media (max-width: 560px) { .dayempty { padding: 18px 12px 20px; } }
-/* What's new: a header button (it isn't a filter) opening a feed of what went on sale or got a date lately. */
 /* The header compacts step by step only as far as it must to stay on one row (fitHeader in app.js sets these). */
 .top { flex-wrap: wrap; }
 /* last resort: the buttons go under the title */
@@ -912,10 +904,6 @@ a.stub.going { border-left-color: var(--soon); }
 /* Letterboxd, Watchlist and the menu share one line of matching pills */
 .fhead .actions { flex-wrap: wrap; row-gap: 6px; gap: 6px; }
 .fhead .actions > * { flex: none; }
-.rate.lbpill { display: inline-flex; align-items: center; gap: 7px; height: 32px; box-sizing: border-box; margin: 0; padding: 0 12px 0 10px; border-radius: 999px; background: #14181c; color: #9ab; text-decoration: none; font-size: 13px; }
-.rate.lbpill b { font: 600 13px var(--mono); color: #00e054; }
-.rate.lbpill span { text-decoration: none; color: #d8e0e8; font-weight: 600; }
-.rate.lbpill:hover { filter: brightness(1.25); }
 .fhead .meta:has(+ .fmore) { margin-bottom: 10px; }
 /* Watchlist: outlined when off, filled accent when on, like the Watchlist chip on the main page */
 .fhead .actions .btn.wl { display: inline-flex; align-items: center; gap: 6px; height: 32px; min-height: 32px; padding: 0 12px; font-size: 13px; font-weight: 600; border-radius: 999px; background: transparent; color: var(--accent); border: 1px solid var(--accent); }
@@ -929,50 +917,6 @@ a.stub.going { border-left-color: var(--soon); }
 .blurb .linkbtn { padding: 2px 0 0; }
 .fhead { padding-bottom: 12px; margin-bottom: 12px; }
 #film:focus { outline: none; }
-.rate.lbpill b { display: inline-flex; align-items: center; gap: 3px; }
-.rate.lbpill .lbstar { color: #00e054; }
-.rate.lbpill .lbmark { display: block; margin: 0 -2px 0 -4px; }
-/* the pill is the logo's own white, so the logo's circle blends into it */
-.rate.lbpill { background: #fff; border: 1px solid var(--line); color: #14181c; }
-.rate.lbpill b { color: #14181c; }
-.rate.lbpill span { color: #14181c; }
-.rate.lbpill .lbstar { color: #00b848; }
-.rate.lbpill:hover { filter: none; background: #f4f6f8; }
-/* the logo's circle runs edge to edge: full height of the pill, flush with its left end */
-.rate.lbpill { padding-left: 0; gap: 4px; }
-.rate.lbpill .lbmark { width: 32px; height: 32px; margin: -1px 0 -1px -1px; border-radius: 50%; }
-/* flush inside the pill's border, so the border stays visible all the way round */
-.rate.lbpill .lbmark { width: 30px; height: 30px; margin: 0; }
-/* the dots sit centred between the pill's left edge and the number (the circle has more white on its right side than its left) */
-.rate.lbpill { gap: 1px; }
-.rate.lbpill { gap: 0; }
-.rate.lbpill .lbmark { margin-right: -1px; }
-.rate.lbpill .lbmark { margin-right: 0; }
-/* measured: the star's right side was ~14.3px from the pill's edge against ~13.2px inside Watchlist, so a pixel less padding; and a little room left of the dots */
-.rate.lbpill { padding-right: 11px; }
-.rate.lbpill .lbmark { margin-left: 2px; }
-.rate.lbpill .lbmark { margin-left: 1px; margin-right: .5px; }
-.rate.lbpill { padding-right: 12px; }
-/* same space left of the dots as right of the star (about 13px, like inside Watchlist) */
-.rate.lbpill .lbmark { margin-left: 8.5px; }
-.rate.lbpill { padding-right: 11.25px; }
-.rate.lbpill .lbmark { margin-left: 8.25px; }
-/* Letterboxd pill in dark mode: the logo's own dark circle colour, white text */
-.rate.lbpill .lb-dark { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .rate.lbpill { background: #202830; border-color: #2f3a46; }
-  :root:not([data-theme="light"]) .rate.lbpill b, :root:not([data-theme="light"]) .rate.lbpill span { color: #fff; }
-  :root:not([data-theme="light"]) .rate.lbpill .lbstar { color: #00e054; }
-  :root:not([data-theme="light"]) .rate.lbpill:hover { background: #2a343f; }
-  :root:not([data-theme="light"]) .rate.lbpill .lb-light { display: none; }
-  :root:not([data-theme="light"]) .rate.lbpill .lb-dark { display: block; }
-}
-:root[data-theme="dark"] .rate.lbpill { background: #202830; border-color: #2f3a46; }
-:root[data-theme="dark"] .rate.lbpill b, :root[data-theme="dark"] .rate.lbpill span { color: #fff; }
-:root[data-theme="dark"] .rate.lbpill .lbstar { color: #00e054; }
-:root[data-theme="dark"] .rate.lbpill:hover { background: #2a343f; }
-:root[data-theme="dark"] .rate.lbpill .lb-light { display: none; }
-:root[data-theme="dark"] .rate.lbpill .lb-dark { display: block; }
 .switch { flex: none; width: 48px; height: 28px; border-radius: 999px; border: 0; padding: 3px; background: var(--edge); cursor: pointer; display: flex; align-items: center; transition: background .15s; }
 .switch span { width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .15s; }
 .switch[aria-checked="true"] { background: var(--soon); }
@@ -983,7 +927,6 @@ a.stub.going { border-left-color: var(--soon); }
 /* the header's buttons stay on one line */
 .fhead .actions { flex-wrap: nowrap; min-width: 0; }
 .fhead .actions .btn.wl { min-width: 0; }
-@media (max-width: 400px) { .fhead .actions .btn.wl { padding: 0 9px; gap: 4px; } .rate.lbpill { padding-right: 9px; } }
 @media (max-width: 370px) { .fhead .actions .btn.wl .wll { display: none; } .fhead .actions .btn.wl { padding: 0 10px; } }
 /* Coming up: the same look as the showing page's card (date in the display font, time · cinema under it) */
 .cu { margin: 0 0 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
@@ -1030,18 +973,17 @@ a.stub.going { border-left-color: var(--soon); }
 .cu .cline { margin-top: 2px; }
 .cu .csub { margin: 9px 0 0; }
 .cu .cgo { align-self: center; }
-
 /* ================================================================ Showing page: the showing's card
    One spacing scale: 4 / 8 / 14 / 22. Side padding is 14. The people section has the same padding at the top and the bottom (14);
    inside it, things are separated by one 10px gap, and a few are pulled closer on purpose: the note under your row (4), a name box
    under its invitation (6). The heading is a little further from its first line (12) so it reads as the section's. */
 .showpage { padding: 0 22px 24px; }
-@media (max-width: 600px) { .showpage { padding-inline: 16px; } }  /* lines up with the film header above it */
+@media (max-width: 600px) { .showpage { padding-inline: 16px; } }
+/* lines up with the film header above it */
 .backrow { margin-bottom: 12px; }
 .showpage .back { height: 32px; min-height: 0; padding: 0 12px 0 10px; gap: 4px; background: var(--chip); color: var(--ink); font-size: 13px; font-weight: 400; text-decoration: none; max-width: none; }
 .showpage .back span { font-size: 16px; line-height: 1; margin-top: -1px; }
 .showpage .back:hover { background: color-mix(in srgb, var(--ink) 14%, var(--chip)); }
-
 .plan9 { margin-top: 2px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
 .ph9 { display: flex; align-items: flex-start; gap: 12px; padding: 14px; }
 .ph9 .l { flex: 1; min-width: 0; }
@@ -1052,7 +994,6 @@ a.stub.going { border-left-color: var(--soon); }
 .tkbtn { flex: none; align-self: center; display: inline-flex; align-items: center; justify-content: center; min-width: 124px; height: 52px; padding: 0 22px; box-sizing: border-box; border-radius: 999px;
   background: var(--ink); color: var(--bg); font: 700 17px var(--body); text-decoration: none; text-align: center; }
 .tkbtn.off { min-width: 0; background: var(--chip); color: var(--muted); font-size: 14px; }
-
 /* who is going: one column, equal padding top and bottom, a 10px gap between its parts */
 .plist { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-top: 1px solid var(--line); }
 .plist .wh { margin-bottom: 2px; }
@@ -1061,9 +1002,9 @@ a.stub.going { border-left-color: var(--soon); }
 .av { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 14px var(--body); }
 .pname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 16px var(--body); }
 .pname.muted { color: var(--muted); font-weight: 500; }
-.visnote { margin: -6px 0 0 44px; font: 400 12.5px var(--body); color: var(--muted); }                 /* 4px under your row */
-.plist > .visnote + .prow2 { margin-top: 4px; }                                                      /* and a little room before the others */
-
+.visnote { margin: -6px 0 0 44px; font: 400 12.5px var(--body); color: var(--muted); }
+/* 4px under your row */
+.plist > .visnote + .prow2 { margin-top: 4px; }
 /* before you've joined: the invitation (and its note), the button at the right; guests get a name box under it */
 .prow2.yours { min-height: 38px; }
 .ask { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -1072,13 +1013,13 @@ a.stub.going { border-left-color: var(--soon); }
 .asktop { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .asktop .pname { flex: none; overflow: visible; white-space: normal; text-overflow: clip; }
 .asktop small { max-width: 48%; text-align: right; line-height: 1.3; }
-.asktop + .prow2.yours { margin-top: -4px; }                                                         /* 6px: the invitation and its name box are one group */
+.asktop + .prow2.yours { margin-top: -4px; }
+/* 6px: the invitation and its name box are one group */
 .prow2.yours .inp { flex: 1; min-width: 0; min-height: 40px; }
-.plist > .prow2.yours + .prow2 { margin-top: 8px; }                                                  /* the join group stands apart from the people below */
-
+.plist > .prow2.yours + .prow2 { margin-top: 8px; }
+/* the join group stands apart from the people below */
 .gopill { flex: none; display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--soon); background: var(--soon); color: var(--bg); font: 700 15px var(--body); cursor: pointer; }
 .gopill.on { background: color-mix(in srgb, var(--soon) 14%, var(--surface)); color: var(--soon); }
-
 /* seats: others on one line, yours in two small lines with a pencil, "+ add seats" before you have any */
 .seat1 { flex: none; padding: 4px 9px; border-radius: 8px; background: var(--chip); color: var(--ink); font: 600 13px var(--body); white-space: nowrap; }
 .seat2 { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border: 0; border-radius: 8px; background: var(--chip); color: var(--ink); font: 600 13px/1.2 var(--body); text-align: left; white-space: nowrap; }
@@ -1092,11 +1033,9 @@ button.seat2, button.seat { cursor: pointer; }
 .seatedit .seatinp { width: 52px; min-height: 36px; box-sizing: border-box; padding: 0 8px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 16px var(--body); text-align: center; outline: none; }
 .seatedit .seatinp:focus { border-width: 2px; }
 .seatedit .seatinp.wide { width: 88px; }
-.pfoot { margin-top: 4px; }                                                                           /* 14px below the last row (gap 10 + 4) */
-
+.pfoot { margin-top: 4px; }
 /* the I'm going button: solid green call to action; once pressed, a lighter green confirmation with a check */
 .gopill.on { background: var(--surface); color: var(--soon); border-color: var(--soon); }
-
 /* the seat editor sits on your own line: labelled Row and Seat(s) boxes, then Done */
 .seatedit { flex: none; display: flex; align-items: flex-end; gap: 8px; }
 .seatedit .seatinp { width: 44px; }
@@ -1110,3 +1049,25 @@ button.seat2, button.seat { cursor: pointer; }
   .prow2.editing { flex-wrap: wrap; row-gap: 4px; }
   .prow2.editing .seatedit { flex: none; width: calc(100% - 44px); margin-left: 44px; }
 }
+
+/* ================================================================ Letterboxd rating: one look for the pill in the film header and the badge on posters
+   Light mode: white with a thin border, dark number, green star. Dark mode: Letterboxd's dark blue-grey, white number, brighter star.
+   The header pill also carries Letterboxd's own logo (the light or the dark version) at its left; the poster badge is the same without it. */
+:root { --rt-bg: #fff; --rt-bd: var(--line); --rt-ink: #14181c; --rt-star: #00b848; --rt-hover: #f4f6f8; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --rt-bg: #202830; --rt-bd: #2f3a46; --rt-ink: #fff; --rt-star: #00e054; --rt-hover: #2a343f; } }
+:root[data-theme="dark"] { --rt-bg: #202830; --rt-bd: #2f3a46; --rt-ink: #fff; --rt-star: #00e054; --rt-hover: #2a343f; }
+.rate.lbpill, .pillr { display: inline-flex; align-items: center; box-sizing: border-box; border: 1px solid var(--rt-bd); border-radius: 999px; background: var(--rt-bg); color: var(--rt-ink);
+  font: 600 13px var(--body); font-variant-numeric: tabular-nums; text-decoration: none; white-space: nowrap; }
+.rate.lbpill svg, .pillr svg { flex: none; color: var(--rt-star); }
+.rate.lbpill { height: 32px; margin: 0; padding: 0 11px 0 0; gap: 0; }
+.rate.lbpill:hover { background: var(--rt-hover); }
+.rate.lbpill b { display: inline-flex; align-items: center; gap: 3px; font: inherit; color: inherit; }
+.rate.lbpill span { color: inherit; font-weight: 600; text-decoration: none; }
+.rate.lbpill .lbmark { display: block; width: 30px; height: 30px; margin: 0 0 0 8px; border-radius: 50%; }
+.rate.lbpill .lb-dark { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .rate.lbpill .lb-light { display: none; } :root:not([data-theme="light"]) .rate.lbpill .lb-dark { display: block; } }
+:root[data-theme="dark"] .rate.lbpill .lb-light { display: none; }
+:root[data-theme="dark"] .rate.lbpill .lb-dark { display: block; }
+.pillr { position: absolute; right: 6px; bottom: 6px; gap: 3px; padding: 2px 7px 2px 8px; font-size: 12px; line-height: 1.25; }
+.pillr svg { width: 11px; height: 11px; }
+@media (max-width: 400px) { .fhead .actions .btn.wl { padding: 0 9px; gap: 4px; } .rate.lbpill { padding-right: 9px; } }

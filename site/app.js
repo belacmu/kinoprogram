@@ -510,7 +510,7 @@ function ratingHtml(f) {
   const r = f.ext?.lbRating;
   if (r == null) return "";
   const label = `Letterboxd rating ${r.toFixed(1)} out of 5`;
-  return `<span class="lbr pillr" title="${label}" aria-label="${label}">${r.toFixed(1)}<i aria-hidden="true">★</i></span>`;
+  return `<span class="lbr pillr" title="${label}" aria-label="${label}">${r.toFixed(1)}${STAR}</span>`;
 }
 // Watchlist heart (inline SVG so it's crisp and the same everywhere).
 const moreIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="19" cy="12" r="1.9" fill="currentColor"/></svg>`;
