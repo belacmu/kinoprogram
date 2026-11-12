@@ -1345,3 +1345,20 @@ button.seat2 { cursor: pointer; }
 .cu .curows a:hover .cgo, .cu .curows a:focus-visible .cgo { color: var(--ink); }
 .cu .curows a:active { background: color-mix(in srgb, var(--ink) 10%, var(--chip)); }
 .cu .csub { font: 500 14px var(--body); color: var(--ink); }
+
+/* showing buttons in the film's list: you (green check) and friends (initials) going */
+.stub { position: relative; }
+.stub .sgoers { position: absolute; top: 5px; right: 5px; display: flex; align-items: center; pointer-events: none; }
+.stub .sgoers .fdot { width: 18px; height: 18px; font-size: 8px; border: 1.5px solid var(--bg); }
+.stub .sgoers .fdot + .fdot, .stub .sgoers .sgo-you + .fdot { margin-left: -5px; }
+.stub .sgo-you { width: 18px; height: 18px; border-radius: 50%; background: var(--soon); color: #fff; display: grid; place-items: center; font-size: 10px; font-weight: 700; border: 1.5px solid var(--bg); box-sizing: border-box; }
+.stub.going { padding-right: 36px; }
+/* Coming up: going or open to join, at a glance */
+.cu .ctop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.cu .cbadge { flex: none; font: 700 12px/1 var(--body); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+.cu .cbadge.going { background: var(--soon); color: #fff; }
+.cu .cbadge.join { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); padding: 3.5px 9px; }
+.cu .curows li:has(.cbadge.going) a { box-shadow: inset 3px 0 0 var(--soon); }
+/* the goers sit on a line of their own at the bottom of the button (no overlap with the time) */
+.stub .sgoers { position: static; margin-top: 4px; align-self: flex-start; }
+.stub.going { padding-right: 11px; }

@@ -393,6 +393,10 @@ showing buttons come later.
 
 ## Later / out of scope for v1
 
+- **Feed tab badge for friends' new plans**: a small badge on the Feed tab when a friend newly says they're going to something (a
+  showing you haven't answered), cleared when you open the Feed. It needs a "seen up to" time for plans, like `feedSeen` for posts
+  (`friends_plans` already returns `created_at`). Idea noted during the showing-page work; not built.
+
 - More Oslo-area venues (Deichman, Cinema Neuf, Weird and Wonderful Cinema, FilmrullKlubb).
 - Derrick Theatre (Virden): Facebook only; best route is getting it listed on CinemaClock.
 - Push notifications.

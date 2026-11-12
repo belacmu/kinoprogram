@@ -817,10 +817,10 @@ function renderSkeleton() {
 // Coming up: showings you and your friends (who turned Tell friends on) are going to, soonest first.
 function comingUpHtml() {
   const now = localNow(), by = new Map();
-  const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [], names: [] }).get(id);
+  const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [], names: [], you: false }).get(id);
   for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
     const [fid, at, cin] = id.split("|");
-    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You");
+    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You"); by.get(id).you = true;
   }
   for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).names.push(r.name);
   const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
@@ -830,8 +830,8 @@ function comingUpHtml() {
   return `<section class="cu"><h4>Coming up</h4><ul class="curows">${rows.map((r) => {
     const f = findFilm(r.film), d = asDate(r.at);
     const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
-    const names = r.names, who = names.length > 2 ? `${names.slice(0, 2).join(", ")} +${names.length - 2}` : names.join(", ");  // names only; seats are on the showing's page
-    return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span><span class="cwho">${esc(who)}</span></span><span class="csub">${esc(r.title)}</span></span><svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
+    const names = r.names.filter((n) => n !== "You"), who = names.length > 2 ? `${names.slice(0, 2).join(", ")} +${names.length - 2}` : names.join(", ");  // names only; seats are on the showing's page
+    return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="ctop"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span>${r.you ? '<span class="cbadge going">✓ You\'re going</span>' : '<span class="cbadge join">Join</span>'}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span><span class="cwho">${esc(who)}</span></span><span class="csub">${esc(r.title)}</span></span><svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
   }).join("")}</ul></section>`;
 }
 function renderFeed() {
@@ -854,9 +854,10 @@ function renderFeed() {
     el.innerHTML = `${filter}<div class="fpanel">${needFriends}</div>${state.user && state.profile?.friend_code ? `<p class="nempty">Once your friends add films to their watchlists, they'll show up here.</p>` : ""}`;
     return;
   }
-  el.innerHTML = `${filter}${state.feedKinds.length ? "" : comingUpHtml()}${parts.length ? parts.join("")
+  const coming = state.feedKinds.length ? "" : comingUpHtml(), hasComing = !!coming;
+  el.innerHTML = `${filter}${coming}${parts.length ? parts.join("")
       : state.feedKinds.length ? `<p class="nempty">No updates of this kind yet. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`
-      : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
+      : `<p class="nempty">${state.feedKinds.length || !hasComing ? "Nothing new yet." : "No new films or updates yet."} Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
 }
 $("feedPage").addEventListener("click", (e) => {
@@ -981,6 +982,14 @@ function sheetTagList(all) {
 
 const MEAL_TAG = "Meal + film";  // dinner/brunch packages (Sommerro, sometimes Vega): priced far above a cinema ticket
 
+// Who is going to a showing, for its button in the film's list: you (a green check) and friends who told friends (their initials).
+function stubGoers(f, s) {
+  const id = planId(f, s), you = !!plans[id]?.going, fr = state.friendPlans.filter((r) => r.showing_id === id);
+  if (!you && !fr.length) return "";
+  const dots = fr.slice(0, 2).map((r) => `<span class="fdot" style="--h:${friendHue(r.friend_id)}">${esc(initialsOf(r.name))}</span>`).join("") + (fr.length > 2 ? `<span class="fdot more">+${fr.length - 2}</span>` : "");
+  const label = [you ? "You're going" : "", fr.length ? `${nameList(fr.map((r) => shortName(r.name)))} ${fr.length > 1 ? "are" : "is"} going` : ""].filter(Boolean).join(". ");
+  return `<span class="sgoers" role="img" aria-label="${esc(label)}" title="${esc(label)}">${you ? '<span class="sgo-you">✓</span>' : ""}${dots}</span>`;
+}
 function stubHtml(s, f) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const tags = showTags(s);
@@ -988,7 +997,7 @@ function stubHtml(s, f) {
     + (tags.length ? `<span class="tg">${esc(tags.map((t) => (t === MEAL_TAG ? "🍽 " : "") + t).join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
     + (!s.ticket ? `<span class="c">${esc(s.status || "Not on sale yet")}</span>` : "");
-  return `<a class="stub${s.ticket ? "" : " nosale"}${planOf(f, s)?.going ? " going" : ""}" href="${showHref(f, s)}">${inner}</a>`;
+  return `<a class="stub${s.ticket ? "" : " nosale"}${planOf(f, s)?.going ? " going" : ""}" href="${showHref(f, s)}">${inner}${stubGoers(f, s)}</a>`;
 }
 
 // Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
