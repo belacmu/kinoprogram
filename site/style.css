@@ -1124,3 +1124,19 @@ a.stub.going { border-left-color: var(--soon); }
 .switch span { width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .15s; }
 .switch[aria-checked="true"] { background: var(--soon); }
 .switch[aria-checked="true"] span { transform: translateX(20px); }
+
+/* invited: someone's plan you followed a link to */
+.invited { display: flex; align-items: center; gap: 10px; background: color-mix(in srgb, var(--accent) 12%, var(--surface)); border-radius: 10px; padding: 8px 12px; margin-bottom: 10px; font-size: 15px; }
+.invited .fdot { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+.schips .gp:not(.me) { background: var(--chip); }
+.schips .gp:not(.me) .fdot { background: var(--accent); }
+/* Coming up, pinned at the top of the Feed */
+.coming { margin: 0 0 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.coming h3 { margin: 0; padding: 12px 14px 8px; font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.coming a { display: grid; grid-template-columns: 70px 1fr; gap: 2px 12px; padding: 10px 14px; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.coming a:hover { background: var(--chip); }
+.coming .cwhen { grid-row: span 2; font: 500 13px var(--mono); color: var(--muted); display: flex; flex-direction: column; }
+.coming .cwhen b { font: 800 16px var(--display); text-transform: uppercase; color: var(--ink); }
+.coming .cwhat { font-weight: 600; display: flex; flex-direction: column; }
+.coming .cwhat small { font-weight: 400; color: var(--muted); }
+.coming .cwho { color: var(--soon); font-size: 13px; font-weight: 600; }

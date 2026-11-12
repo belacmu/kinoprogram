@@ -342,9 +342,9 @@ Data (Supabase):
 ## Showings and "I'm going"
 
 Clicking a showing no longer jumps to the ticket site. It opens that showing's own page inside the film sheet.
-This is the agreed design; **built so far:** the pages, the Going card (Tell friends switch, Seats, Invite), and plans saved to your
-account (table `plans`, in `supabase/schema.sql`: run it once in Supabase). Signed out, plans stay on the device and are added to the
-account on sign-in. Friends can't see them yet, and Invite only copies the plain showing link.
+This is the agreed design, and it is built: the pages, the Going card (Tell friends switch, Seats, Invite), plans saved to the
+account (`plans`, see `supabase/schema.sql`: run it once in Supabase), friends' plans on showing pages and in the Feed's Coming up,
+invite links, and guests. Signed out with no accounts available, plans stay on the device.
 
 **The page.** The film's header is drawn by one shared function (poster, title, details, Letterboxd pill, Watchlist, "…" menu,
 blurb), so the film sheet and a showing's page are identical above the divider. Below it, the showings zone changes: a
@@ -375,15 +375,23 @@ cinema + start time, so a shared page still renders after the schedule changes o
 **Feed.** A pinned "Coming up" section shows friends' plans (this is the payoff of the feature). Friend markers on the list's
 showing buttons come later.
 
+**How the pieces work**
+- Each plan has a private `invite_token`. **Invite** copies the showing link with `?inv=<token>`. Opening it (no account needed) calls
+  `plan_by_invite(token)`: the inviter's name and seats, then anyone who joined through it, and a "Anna is going. Join in?" banner.
+- A guest gives a name, then tapping **I'm going** signs them in anonymously (`signInAnonymously`) and saves a plan whose `joined_via`
+  is that token. If the schedule no longer has the showing, the page is rebuilt from the copy the plan kept.
+- Friends' plans come from `friends_plans(since)` (only plans with Tell friends on): chips on the showing page, and the Feed's
+  **Coming up** (yours and friends', soonest first, up to 8).
+- Signing in properly after being a guest: plans made on this device carry over (they are kept locally and added to the account),
+  but the guest's old server rows are left behind, so someone you invited may see both names. Linking the email to the anonymous
+  user instead would avoid that.
+
 **Not built yet**
-- Friends seeing plans (a `friends_plans()` function and the Feed's "Coming up" section), invite tokens, anonymous guests. Until
-  then "Tell friends" and Invite reach nobody.
 - Per-showing link previews ("Mia is going to X, Sat 19:00 at Saga"): a small edge function serving preview tags and then
   redirecting. Until then a showing link previews as the site.
-- Notifications, and what happens to plans for past showings.
+- Friend markers on the list's showing buttons, notifications, plans for past showings, and the "Everyone" admin level.
 
-**Build order:** (1) plans saved to the account (done, once the SQL is run); (2) friends see them in the Feed; (3) invite links and anonymous guests;
-(4) seats shared; (5) per-showing previews.
+**Next:** per-showing link previews, then friend markers on the list buttons.
 
 ## Later / out of scope for v1
 

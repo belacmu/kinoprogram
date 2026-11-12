@@ -86,7 +86,11 @@ const state = {
   blurbOpen: "",        // film sheet: the film whose description is expanded
   cinemasOpen: false,   // filter panel: all cinemas listed, not just the busiest
   friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
-  friendsAt: 0,         // when the friends were last loaded
+  friendsAt: 0,
+  guest: null,          // an anonymous account made by joining someone's showing: {id}. Counts for plans, not as being signed in
+  friendPlans: [], friendPlansAt: 0,  // friends' upcoming plans (friends_plans)
+  invite: null,         // the invite link being looked at: {token, rows: who is going through it}
+  seatsOpen: "",         // when the friends were last loaded
   friendsError: false,  // the last load failed
   acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
   pendingFriend: (() => { try { return sessionStorage.getItem("kino:pendingFriend") || ""; } catch { return ""; } })(),  // a code from an invite link, waiting for sign-in
@@ -809,6 +813,22 @@ function renderSkeleton() {
     $("grid").innerHTML = `<section class="sec sk" aria-hidden="true"><h2 class="sech"><span class="skbar"></span></h2>${cards(12)}</section>`;
   }
 }
+// Coming up: showings you and your friends (who turned Tell friends on) are going to, soonest first.
+function comingUpHtml() {
+  const now = localNow(), by = new Map();
+  const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [] }).get(id);
+  for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
+    const [fid, at, cin] = id.split("|");
+    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).people.push("You" + (p.seats ? ` (${p.seats})` : ""));
+  }
+  for (const r of state.friendPlans) if (r.starts >= now) entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema).people.push(r.name + (r.seats ? ` (${r.seats})` : ""));
+  const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
+  if (!rows.length) return "";
+  return `<section class="coming"><h3>Coming up</h3>${rows.map((r) => {
+    const d = asDate(r.at);
+    return `<a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cwhen"><b>${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</b>${hhmm(r.at)}</span><span class="cwhat">${esc(r.title)}<small>${esc(r.cinema)}</small></span><span class="cwho">${esc(r.people.join(", "))}</span></a>`;
+  }).join("")}</section>`;
+}
 function renderFeed() {
   if (!state.data) return;  // the skeleton stays until the programme arrives
   posterEager = 12;
@@ -829,7 +849,7 @@ function renderFeed() {
     el.innerHTML = `${filter}<div class="fpanel">${needFriends}</div>${state.user && state.profile?.friend_code ? `<p class="nempty">Once your friends add films to their watchlists, they'll show up here.</p>` : ""}`;
     return;
   }
-  el.innerHTML = `${filter}${parts.length ? parts.join("")
+  el.innerHTML = `${filter}${state.feedKinds.length ? "" : comingUpHtml()}${parts.length ? parts.join("")
       : state.feedKinds.length ? `<p class="nempty">No updates of this kind yet. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`
       : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
@@ -925,8 +945,8 @@ window.addEventListener("resize", () => { if ($("film").open) fitBlurb(); });
 
 // "#film/ID" is a film's sheet; "#film/ID/SHOWING" is one showing's page inside it (SHOWING = "time|cinema", encoded).
 function hashParts() {
-  const m = location.hash.match(/^#film\/([^/]+)(?:\/(.+))?$/);
-  return m ? { id: decodeURIComponent(m[1]), show: m[2] ? decodeURIComponent(m[2]) : "" } : { id: "", show: "" };
+  const m = location.hash.match(/^#film\/([^/?]+)(?:\/([^?]+))?(?:\?(.*))?$/);
+  return m ? { id: decodeURIComponent(m[1]), show: m[2] ? decodeURIComponent(m[2]) : "", inv: new URLSearchParams(m[3] || "").get("inv") || "" } : { id: "", show: "", inv: "" };
 }
 const showKey = (s) => `${s.t}|${s.cinema}`;
 const showHref = (f, s) => `#film/${encodeURIComponent(f.id)}/${encodeURIComponent(showKey(s))}`;
@@ -1008,7 +1028,10 @@ function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
-  const sh = hashParts().show && f.shows.find((s) => showKey(s) === hashParts().show);
+  const hp = hashParts();
+  if (hp.inv && state.invite?.token !== hp.inv && state.inviteLoading !== hp.inv) loadInvite(hp.inv);
+  if (hp.show && state.friendPlansAt === 0 && planUser() === state.user && state.user) loadFriendPlans();
+  const sh = hp.show && showFor(f, hp.show);
   if (sh) { showingPage(f, sh, dlg); return; }
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
@@ -1061,10 +1084,11 @@ function openFilm(id) {
 const plans = local.get("plans", {});
 for (const p of Object.values(plans)) if (p.vis !== undefined) { p.tell = p.vis === "friends"; delete p.vis; delete p.row; }  // the older three-way choice
 const planDirty = new Set(local.get("planDirty", []));  // plans changed here and not yet saved to the account
+const planUser = () => state.user || state.guest;  // signed in, or a guest (anonymous account)
 const planId = (f, s) => `${f.id}|${showKey(s)}`;
 const planOf = (f, s) => plans[planId(f, s)];
 function setPlan(f, s, patch) {
-  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch, film: f.id, title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: s.ticket || "" };
+  const id = planId(f, s), next = patch === null ? null : { inv: crypto.randomUUID(), ...(plans[id] || {}), ...patch, film: f.id, title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: s.ticket || "" };
   if (next) plans[id] = next; else delete plans[id];
   local.set("plans", plans);
   planDirty.add(id); local.set("planDirty", [...planDirty]);
@@ -1072,14 +1096,14 @@ function setPlan(f, s, patch) {
 }
 let planTimer = 0;
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
-const planRow = (id, p) => { const [fid, at, cin] = id.split("|"); return ({ user_id: state.user.id, showing_id: id, film_id: p.film || fid, film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), cinema: p.cinema || cin, starts: p.t || at, region: p.region || state.region, ticket: p.ticket || null,
+const planRow = (id, p) => { const [fid, at, cin] = id.split("|"); p.inv ||= crypto.randomUUID(); return ({ user_id: planUser().id, invite_token: p.inv, joined_via: p.via || null, showing_id: id, film_id: p.film || fid, film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), cinema: p.cinema || cin, starts: p.t || at, region: p.region || state.region, ticket: p.ticket || null,
   tell_friends: p.tell !== false, seats: p.seats || null, updated_at: new Date().toISOString() }); };  // plans made before the copy was kept: taken from the id
 // Save what changed here: plans that exist are written, plans that were retracted are deleted.
 async function syncPlans() {
-  if (!state.user || !sb || !planDirty.size) return;
+  if (!planUser() || !sb || !planDirty.size) return;
   for (const id of [...planDirty]) {
     const p = plans[id];
-    const { error } = p ? await sb.from("plans").upsert(planRow(id, p)) : await sb.from("plans").delete().eq("user_id", state.user.id).eq("showing_id", id);
+    const { error } = p ? await sb.from("plans").upsert(planRow(id, p)) : await sb.from("plans").delete().eq("user_id", planUser().id).eq("showing_id", id);
     if (error) { console.error("Saving a plan failed:", error.message); return; }  // stays marked, tried again next time
     planDirty.delete(id); local.set("planDirty", [...planDirty]);
   }
@@ -1087,20 +1111,37 @@ async function syncPlans() {
 // On sign-in: send this device's unsaved changes, then take the account's plans. The first time an account is used on this device,
 // plans made here before signing in are added to it; after that the account is the truth (a plan retracted on another device goes here too).
 async function loadPlans() {
-  if (!state.user || !sb) return;
+  if (!planUser() || !sb) return;
   await syncPlans();
-  const { data, error } = await sb.from("plans").select("showing_id,film_id,film_title,cinema,starts,region,ticket,tell_friends,seats").eq("user_id", state.user.id);
+  const { data, error } = await sb.from("plans").select("showing_id,film_id,film_title,cinema,starts,region,ticket,tell_friends,seats,invite_token,joined_via").eq("user_id", planUser().id);
   if (error) { console.error("Loading plans failed:", error.message); return; }
   const remote = new Map(data.map((r) => [r.showing_id, r]));
-  const firstHere = local.get("plansFor", "") !== state.user.id;
-  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: r.ticket || "" };
+  const firstHere = local.get("plansFor", "") !== planUser().id;
+  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: r.ticket || "" };
   for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id)) { if (firstHere) planDirty.add(id); else delete plans[id]; }
-  local.set("plans", plans); local.set("planDirty", [...planDirty]); local.set("plansFor", state.user.id);
+  local.set("plans", plans); local.set("planDirty", [...planDirty]); local.set("plansFor", planUser().id);
   await syncPlans();
   if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);
 }
 const myName = () => state.profile?.display_name || local.get("guestName", "");
 const showUrl = (f, s) => location.href.split(/[?#]/)[0] + showHref(f, s);
+// A showing from the schedule, or (for an invite link to one the schedule no longer has) rebuilt from the copy the plan kept.
+function showFor(f, key) {
+  const real = f?.shows.find((x) => showKey(x) === key);
+  const r = state.invite?.rows[0];
+  if (real || !f || !r || r.film_id !== f.id || `${r.starts}|${r.cinema}` !== key) return real || null;
+  return { t: r.starts, cinema: r.cinema, ticket: r.ticket || "", tags: [], screen: "", status: "" };
+}
+const personChip = (name, seats, me) => `<span class="gp${me ? " me" : ""}"><span class="fdot">${esc((name || "?")[0].toUpperCase())}</span>${esc(name)}${seats ? ` <small>${esc(seats)}</small>` : ""}</span>`;
+// Everyone you can see is going to this showing: you, whoever's invite link you opened, and friends who told friends.
+function peopleHtml(f, s, plan, name) {
+  const mine = plan?.going, id = planId(f, s), seen = new Set(mine ? [(name || "You").toLowerCase()] : []);
+  const out = mine ? [personChip(name || "You", plan.seats, true)] : [];
+  const add = (n, seats) => { if (!n || seen.has(n.toLowerCase())) return; seen.add(n.toLowerCase()); out.push(personChip(n, seats, false)); };
+  for (const r of state.invite?.rows || []) if (r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s)) add(r.name, r.seats);
+  for (const r of state.friendPlans) if (r.showing_id === id) add(r.name, r.seats);
+  return out.join("");
+}
 const goersHtml = (plan, name) => `<span class="gp me"><span class="fdot">${esc((name || "Y")[0].toUpperCase())}</span>${esc(name || "You")}</span>`;
 
 function showingPage(f, s, dlg) {
@@ -1121,12 +1162,14 @@ function showingPage(f, s, dlg) {
       <button class="switch" role="switch" aria-checked="${tell}" aria-label="Tell friends" data-tell="1"><span></span></button></div>
     <div class="acts2"><button class="pbtn sm" data-seatstoggle="1" aria-expanded="${seatsOpen}">${plan.seats ? `${esc(plan.seats)} ✎` : "+ Seats"}</button><button class="pbtn sm" data-sharershow="1">Invite ↗</button></div>
     ${seatsOpen ? `<label class="fld"><span>Your seats (optional)</span><input class="inp" data-plan="seats" value="${esc(plan.seats || "")}" placeholder="e.g. F 7–9" maxlength="30" autofocus><small class="pnote">Shown with your name to anyone who can see that you're going.</small></label>` : ""}</div>`;
-  const goers = on ? goersHtml(plan, name) : "";
+  const goers = peopleHtml(f, s, plan, name);
+  const host = state.invite?.rows.find((r) => r.is_host && r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s));
+  const invited = host && !on ? `<div class="invited"><span class="fdot">${esc(host.name[0].toUpperCase())}</span><b>${esc(host.name)} is going. Join in?</b></div>` : "";
   // The film's own header stays on top (as on the film sheet); the showing is a bigger version of its stub underneath.
   dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
-    <div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
+    ${invited}<div class="sstub${s.ticket ? "" : " nosale"}"><div class="sinfo2"><div class="sdate">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div>
       <div class="stime"><span class="tm">${hhmm(s.t)}</span><span class="dot">·</span><span>${esc(s.cinema)}</span></div></div>${buy}
       ${goers || chips ? `<div class="schips">${goers}${chips}</div>` : ""}</div>
     ${going}</div>`;
@@ -1134,34 +1177,77 @@ function showingPage(f, s, dlg) {
   fitBlurb();
 }
 
-function planClick(t) {
-  const { id, show } = hashParts(), f = findFilm(id), s = f?.shows.find((x) => showKey(x) === show);
+// A guest is an anonymous account, made when they first say they're going (so nobody needs an account to join in).
+async function guestSignIn(name) {
+  if (!sb) return true;  // no accounts here: the plan stays on this device
+  if (planUser()) return true;
+  const { data, error } = await sb.auth.signInAnonymously();
+  if (error || !data?.user) { console.error("Guest sign-in failed:", error?.message); return false; }
+  state.guest = { id: data.user.id };
+  await sb.from("profiles").update({ display_name: name }).eq("id", data.user.id);
+  return true;
+}
+const nameTimer = { t: 0 };
+const inviteUrl = (f, s) => showUrl(f, s) + "?inv=" + (planOf(f, s)?.inv || "");
+async function planClick(t) {
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
   if (t.dataset.going) {
     const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
     if (!state.user && nm) local.set("guestName", nm);
     if (planOf(f, s)?.going) setPlan(f, s, null);
     else {
-      setPlan(f, s, { going: true, tell: true });
+      if (!state.user && !state.guest && sb) {  // a guest: a name first, then an anonymous account
+        if (!nm) { const inp = $("film").querySelector('[data-plan="name"]'); inp?.focus(); toast("Add your name first, so people know who's going."); return; }
+        if (!(await guestSignIn(nm))) { toast("Couldn't add you. Try again in a moment."); return; }
+      }
+      const via = state.invite && state.invite.rows[0]?.is_host ? state.invite.token : undefined;  // joining through someone's invite
+      setPlan(f, s, { going: true, tell: true, via });
       if (!local.get("toldOnce", false)) { local.set("toldOnce", true); toast("Your friends can see you're going.", () => { setPlan(f, s, { tell: false }); showingPage(f, s, $("film")); }, "Make private"); }  // said once
     }
   }
   else if (t.dataset.tell) setPlan(f, s, { tell: planOf(f, s)?.tell === false });
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
   else {
-    const url = showUrl(f, s);
+    const url = inviteUrl(f, s);
     if (t.dataset.sharershow && canShare) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
-    navigator.clipboard.writeText(url).then(() => toast("Link copied"), () => toast("Couldn't copy the link"));
+    navigator.clipboard.writeText(url).then(() => toast("Invite link copied"), () => toast("Couldn't copy the link"));
     return;
   }
   showingPage(f, s, $("film"));
 }
+// The plan behind an invite link (who is going through it); works without an account.
+async function loadInvite(token) {
+  if (!sb) return;
+  state.inviteLoading = token;
+  const { data, error } = await sb.rpc("plan_by_invite", { token });
+  state.inviteLoading = "";
+  if (error) { console.error("Loading the invite failed:", error.message); return; }
+  state.invite = { token, rows: data || [] };
+  if ($("film").open && hashParts().inv === token) openFilm(hashParts().id);
+}
+// Friends' upcoming plans (those who turned Tell friends on), for the showing pages and the Feed's Coming up.
+async function loadFriendPlans() {
+  if (!sb || !state.user) return;
+  const uid = state.user.id;
+  state.friendPlansAt = Date.now();
+  const { data, error } = await sb.rpc("friends_plans", { since: localNow().slice(0, 10) + "T00:00" });
+  if (state.user?.id !== uid) return;
+  if (error) { console.error("Loading friends' plans failed:", error.message); return; }
+  state.friendPlans = (data || []).filter((r) => r.region === state.region);
+  if (state.page === "feed") renderFeed();
+  if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);
+}
 $("film").addEventListener("input", (e) => {  // name, row and seats save as you type
   const k = e.target.dataset?.plan;
   if (!k) return;
-  const { id, show } = hashParts(), f = findFilm(id), s = f?.shows.find((x) => showKey(x) === show);
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
-  if (k === "name") { if (!state.user) local.set("guestName", e.target.value.trim()); }
+  if (k === "name") {
+    const nm = e.target.value.trim();
+    if (!state.user) local.set("guestName", nm);
+    if (state.guest && sb) { clearTimeout(nameTimer.t); nameTimer.t = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
+  }
   else if (planOf(f, s)) setPlan(f, s, { [k]: e.target.value.trim() });
   const g = $("film").querySelector(".gp.me");
   if (g && planOf(f, s)) g.outerHTML = goersHtml(planOf(f, s), myName());  // the chip in the stub follows what you type
@@ -1681,6 +1767,7 @@ async function loadProfile() {
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
   if (data.friend_code) loadFriends();
   loadPlans();
+  loadFriendPlans();
 }
 
 let friendsSeq = 0;
@@ -1916,7 +2003,9 @@ function avatarInitial() {
   return c && c.id === state.user.id && c.i ? c.i : initialOf(state.user.email);
 }
 function setUser(session) {
-  state.user = session?.user ? { id: session.user.id, email: session.user.email } : null;
+  const anon = !!session?.user?.is_anonymous;
+  state.guest = anon ? { id: session.user.id } : null;
+  state.user = session?.user && !anon ? { id: session.user.id, email: session.user.email } : null;
   if (state.user) {
     paintAccount(true, avatarInitial(), state.user.email);
     if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });
@@ -2016,6 +2105,7 @@ if (sb) {
     state.authReady = true;
     setUser(session);
     if (state.user && state.user.id !== had) setTimeout(loadProfile, 0);
+    else if (state.guest) setTimeout(loadPlans, 0);
     settlePendingWatch();
     renderWatchInvite();
     settlePendingFriend();
