@@ -1140,7 +1140,16 @@ function peopleOf(f, s, plan, name) {
   const add = (n, seats) => { if (!n || seen.has(n.toLowerCase())) return; seen.add(n.toLowerCase()); out.push({ name: n, seats: seats || "", me: false }); };
   for (const r of state.invite?.rows || []) if (r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s)) add(r.name, r.seats);
   for (const r of state.friendPlans) if (r.showing_id === id) add(r.name, r.seats);
-  return out;
+  // Everyone else: by row, then seat; people with no seats come last, alphabetically. (You stay first, as your own line.)
+  const num = (s) => { const m = String(s || "").match(/\d+/); return m ? +m[0] : Infinity; };
+  const key = (p) => { const { row, seats } = seatParts(p.seats); return { has: !!(row || seats), row: row ? (/^\d+$/.test(row) ? +row : Infinity) : Infinity, rowTxt: row.toLowerCase(), seat: num(seats) }; };
+  const mine1 = out.filter((p) => p.me), rest = out.filter((p) => !p.me).sort((a, b) => {
+    const x = key(a), y = key(b);
+    if (x.has !== y.has) return x.has ? -1 : 1;
+    if (x.has) return x.row - y.row || x.rowTxt.localeCompare(y.rowTxt) || x.seat - y.seat || a.name.localeCompare(b.name);
+    return a.name.localeCompare(b.name);
+  });
+  return [...mine1, ...rest];
 }
 // Seats are kept as "row|seats" ("4|7–9"); older free text without the bar is just shown as the seats.
 const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
