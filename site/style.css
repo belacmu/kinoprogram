@@ -1289,3 +1289,6 @@ button.seat2 { cursor: pointer; }
 
 /* no "Going · N" heading: give the first line the room the heading would have taken */
 .plan9 .who.nohead { padding-top: 12px; padding-bottom: 8px; }
+/* guest: the invitation and, beside it at the right, the visibility note; then the name box and button */
+.asktop { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 8px; }
+.asktop small { text-align: right; max-width: 48%; line-height: 1.3; }
