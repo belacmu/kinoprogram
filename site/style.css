@@ -510,7 +510,7 @@ dialog { overscroll-behavior: contain; }
 .card .m .leave { color: var(--accent); font-weight: 600; }
 
 /* Poster overlays stay above the image when it zooms on hover (the transformed image otherwise paints over them). */
-.poster .flag, .poster .kind, .poster .pillr { z-index: 1; }
+.poster .flag, .poster .kind, .poster .pillr, .poster .fstack { z-index: 1; }
 
 /* Hide-a-film button: always visible, bottom-left of the poster, the height of the rating tag. Hidden films are dimmed (not their buttons). */
 .poster .hide { position: absolute; left: 6px; bottom: 6px; width: 20px; height: 20px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; z-index: 1;
