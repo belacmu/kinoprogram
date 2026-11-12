@@ -1363,3 +1363,10 @@ button.seat2 { cursor: pointer; }
 .cu .cstat.fr { color: var(--ink); }
 .cu .cstat .cfn { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .cu .curows li:has(.cstat.you) a { box-shadow: inset 3px 0 0 var(--soon); }
+/* the text block is as tall as the poster: date at the top edge, film at the bottom edge */
+.cu .curows a { align-items: stretch; }
+.cu .cposter { align-self: start; }
+.cu .ctext { justify-content: space-between; }
+.cu .cdt { margin-top: -3px; }
+.cu .csub { margin: 0 0 -2px; line-height: 1.1; }
+.cu .cgo { align-self: center; }
