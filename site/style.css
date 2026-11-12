@@ -1088,13 +1088,25 @@ button.seat2, button.seat { cursor: pointer; }
 .seat2 .v { font-weight: 600; font-variant-numeric: tabular-nums; }
 .seat2 .pen { flex: none; color: var(--muted); }
 .seat.add { flex: none; padding: 5px 10px; border: 1px dashed var(--edge); border-radius: 8px; background: transparent; color: var(--muted); font: 600 13px var(--body); white-space: nowrap; }
-.seatedit { display: flex; align-items: flex-end; gap: 8px; margin: -6px 0 0 44px; }                  /* attached to your row */
 .seatedit label { display: flex; flex-direction: column; gap: 2px; font: 600 11px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .seatedit .seatinp { width: 52px; min-height: 36px; box-sizing: border-box; padding: 0 8px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 16px var(--body); text-align: center; outline: none; }
 .seatedit .seatinp:focus { border-width: 2px; }
 .seatedit .seatinp.wide { width: 88px; }
-.seatedit .pbtn.sm { height: 36px; min-height: 36px; margin-left: auto; box-sizing: border-box; }
 .pfoot { margin-top: 4px; }                                                                           /* 14px below the last row (gap 10 + 4) */
 
 /* the I'm going button: solid green call to action; once pressed, a lighter green confirmation with a check */
 .gopill.on { background: var(--surface); color: var(--soon); border-color: var(--soon); }
+
+/* the seat editor sits on your own line: labelled Row and Seat(s) boxes, then Done */
+.seatedit { flex: none; display: flex; align-items: flex-end; gap: 8px; }
+.seatedit .seatinp { width: 44px; }
+.seatedit .seatinp.wide { width: 72px; }
+.seatedit .pbtn.sm { height: 36px; min-height: 36px; padding: 0 12px; box-sizing: border-box; }
+.prow2.editing { min-height: 0; }
+.visnote { margin-top: -6px; }
+/* not enough room on your own line (very narrow phones): the editor drops to a line under it, lined up with the name */
+.plist { container-type: inline-size; }
+@container (max-width: 290px) {
+  .prow2.editing { flex-wrap: wrap; row-gap: 4px; }
+  .prow2.editing .seatedit { flex: none; width: calc(100% - 44px); margin-left: 44px; }
+}

@@ -1234,9 +1234,10 @@ function showingPage(f, s, dlg) {
     let seats;
     if (!p.me) seats = p.seats ? seatLine(p.seats) : "";
     else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
-    const edit = p.me && seatsOpen ? `<div class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="4" maxlength="4" inputmode="numeric" autofocus></label><label><span>Seat(s)</span><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></div>` : "";
-    if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}${goBtn}</div>${edit}`;
-    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>${edit}`;
+    // Editing your seats happens on your own line when there is room: the boxes and Done take the place of the seats tag and the button.
+    const editor = `<span class="seatedit"><label><span>Row</span><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="4" maxlength="4" inputmode="numeric" autofocus></label><label><span>Seat(s)</span><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="7–9" maxlength="22"></label><button class="pbtn sm" data-seatsdone="1">Done</button></span>`;
+    if (p.me) return `<div class="prow2 me${seatsOpen ? " editing" : ""}"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seatsOpen ? editor : seats + goBtn}</div>`;
+    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
   };
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
