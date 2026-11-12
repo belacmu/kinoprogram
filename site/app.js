@@ -1180,7 +1180,7 @@ function showingPage(f, s, dlg) {
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
   const others = people.filter((p) => !p.me);
   const note = `<p class="visnote">Others can see that you're going.</p>`;
-  const prompt = others.length ? "Want to join?" : "Nobody is going yet. Be the first.";
+  const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
   let mine;
   if (on) mine = row(people.find((p) => p.me)) + note;
   else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>Others can see that you're going.</small></span>${goBtn}</div>`;
@@ -1190,7 +1190,7 @@ function showingPage(f, s, dlg) {
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
     <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
-      <div class="who">${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}</div>${join}</div></div>`;
+      <div class="who${people.length ? "" : " nohead"}">${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}</div>${join}</div></div>`;
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
 }

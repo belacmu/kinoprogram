@@ -1286,3 +1286,6 @@ button.seat2 { cursor: pointer; }
 .ask .pname, .asktop .pname { overflow: visible; text-overflow: clip; word-break: normal; overflow-wrap: normal; hyphens: none; }
 .seatedit .seatinp { outline: none; }
 .seatedit .seatinp:focus { border-width: 2px; }
+
+/* no "Going · N" heading: give the first line the room the heading would have taken */
+.plan9 .who.nohead { padding-top: 12px; padding-bottom: 8px; }
