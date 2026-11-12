@@ -167,6 +167,7 @@ declare
   friend_name text;
 begin
   if me is null then raise exception 'Not signed in'; end if;
+  if coalesce((auth.jwt() ->> 'is_anonymous')::boolean, false) then raise exception 'Create an account first'; end if;  -- guests (anonymous accounts) can't try friend codes
   select id, coalesce(nullif(display_name, ''), email) into friend, friend_name
     from public.profiles where friend_code = clean;
   if not found then return jsonb_build_object('status', 'unknown'); end if;
@@ -178,6 +179,7 @@ $$;
 
 revoke all on function public.redeem_friend_code(text) from public;
 grant execute on function public.redeem_friend_code(text) to authenticated;
+revoke execute on function public.redeem_friend_code(text) from anon;
 
 -- Your friends and their watchlists: only a name, an id and film ids, never anything else on the profile.
 create or replace function public.friends_watchlists()
@@ -187,11 +189,13 @@ language sql stable security definer set search_path = '' as $$
   from public.friendships f
   join public.profiles p on p.id = case when f.a = (select auth.uid()) then f.b else f.a end
   where (select auth.uid()) in (f.a, f.b)
+    and not coalesce((auth.jwt() ->> 'is_anonymous')::boolean, false)
   order by f.created_at;
 $$;
 
 revoke all on function public.friends_watchlists() from public;
 grant execute on function public.friends_watchlists() to authenticated;
+revoke execute on function public.friends_watchlists() from anon;
 
 -- What your friends recently added to their watchlists, for the Feed: one row per film still on their list that has an add
 -- time (UTC, "YYYY-MM-DDTHH:MI", stamped by on_watchlist_changed). Only a name, an id, a film id and a time.
@@ -203,6 +207,7 @@ language sql stable security definer set search_path = '' as $$
   join public.profiles p on p.id = case when f.a = (select auth.uid()) then f.b else f.a end
   cross join lateral jsonb_each(p.watchlist_added) w
   where (select auth.uid()) in (f.a, f.b)
+    and not coalesce((auth.jwt() ->> 'is_anonymous')::boolean, false)
     and w.key = any(p.watchlist)
   order by w.value #>> '{}' desc
   limit 400;
@@ -210,6 +215,7 @@ $$;
 
 revoke all on function public.friends_feed() from public;
 grant execute on function public.friends_feed() to authenticated;
+revoke execute on function public.friends_feed() from anon;
 
 -- ---------------------------------------------------------------- showings: "I'm going"
 -- One row per person per showing they're going to. The showing is copied into the row (film, cinema, time, ticket link), so a plan
@@ -267,27 +273,65 @@ language sql stable security definer set search_path = '' as $$
   join public.plans p on p.user_id = pr.id
   where (select auth.uid()) in (f.a, f.b)
     and p.tell_friends
+    and not coalesce((auth.jwt() ->> 'is_anonymous')::boolean, false)
     and p.starts >= since
   order by p.starts, p.created_at
   limit 400;
 $$;
 revoke all on function public.friends_plans(text) from public;
 grant execute on function public.friends_plans(text) to authenticated;
+revoke execute on function public.friends_plans(text) from anon;
 
--- A party: everyone connected through invite links to the same showing. The first plan starts it (party = its own invite token);
--- joining through anyone's link takes that plan's party. Everyone in a party sees everyone in it.
+-- A party: everyone connected through invite links to the same showing. A plan that is not joined through anyone's link starts
+-- its own (a new random party); joining through a link takes that plan's party. Both are decided by save_plan() on the server,
+-- never by the client. Everyone in a party sees everyone in it.
 alter table public.plans add column if not exists party uuid;
 update public.plans set party = invite_token where party is null;
-create or replace function public.plans_set_party()
-returns trigger language plpgsql set search_path = '' as $$
+alter table public.plans alter column party set default gen_random_uuid();
+alter table public.plans alter column party set not null;
+drop trigger if exists plans_party on public.plans;
+drop function if exists public.plans_set_party();
+create index if not exists plans_party_idx on public.plans (party);
+
+-- Content checks: a ticket link must be http(s) (a javascript: link would run on this site), and a showing id must be what the app
+-- builds from the other columns. Existing rows are repaired first; the id check only applies to new and changed rows.
+update public.plans set ticket = null where ticket is not null and ticket !~* '^https?://';
+alter table public.plans drop constraint if exists plans_ticket_http;
+alter table public.plans add constraint plans_ticket_http check (ticket is null or ticket ~* '^https?://');
+alter table public.plans drop constraint if exists plans_showing_id_matches;
+alter table public.plans add constraint plans_showing_id_matches check (showing_id = film_id || '|' || starts || '|' || cinema) not valid;
+
+-- The only way to write a plan: the client can't set the invite token, the party or who it joined through. Joining through an
+-- invite counts only for the same showing. Returns the plan's private invite token (made here, so it can't be chosen or reused).
+create or replace function public.save_plan(p_showing_id text, p_film_id text, p_film_title text, p_cinema text, p_starts text,
+                                           p_region text, p_ticket text, p_seats text, p_joined_via uuid)
+returns uuid language plpgsql security definer set search_path = '' as $$
+declare
+  me uuid := (select auth.uid());
+  via uuid; pty uuid; tok uuid;
 begin
-  new.party := coalesce(new.party, new.invite_token);
-  return new;
+  if me is null then raise exception 'Not signed in'; end if;
+  if p_ticket is not null and p_ticket !~* '^https?://' then p_ticket := null; end if;
+  select q.invite_token, q.party into via, pty
+    from public.plans q where q.invite_token = p_joined_via and q.showing_id = p_showing_id;
+  insert into public.plans (user_id, showing_id, film_id, film_title, cinema, starts, region, ticket, seats, joined_via, party)
+  values (me, p_showing_id, p_film_id, p_film_title, p_cinema, p_starts, p_region, p_ticket, nullif(p_seats, ''), via, coalesce(pty, gen_random_uuid()))
+  on conflict (user_id, showing_id) do update
+    set seats = excluded.seats, film_title = excluded.film_title, ticket = excluded.ticket, updated_at = now()
+  returning invite_token into tok;
+  return tok;
 end;
 $$;
-drop trigger if exists plans_party on public.plans;
-create trigger plans_party before insert on public.plans for each row execute function public.plans_set_party();
-create index if not exists plans_party_idx on public.plans (party);
+revoke all on function public.save_plan(text, text, text, text, text, text, text, text, uuid) from public;
+grant execute on function public.save_plan(text, text, text, text, text, text, text, text, uuid) to authenticated;
+revoke execute on function public.save_plan(text, text, text, text, text, text, text, text, uuid) from anon;
+drop policy if exists "add own plans" on public.plans;
+drop policy if exists "change own plans" on public.plans;
+revoke insert, update on public.plans from authenticated;
+
+-- Guests have no email, so they can't be subscribers either (the daily email needs an address).
+alter table public.profiles drop constraint if exists profiles_subscribed_needs_email;
+alter table public.profiles add constraint profiles_subscribed_needs_email check (subscribed = false or email is not null) not valid;
 
 -- What an invite link shows: the whole party of the plan whose link it is, that plan first. Works without signing in;
 -- names only (never an email), seats, and the showing.

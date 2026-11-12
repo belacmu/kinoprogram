@@ -1325,3 +1325,12 @@ button.seat2 { cursor: pointer; }
 .prow2.me + .seatedit { margin-top: -3px; }
 .seatedit { padding-bottom: 10px; }
 .seatedit .pbtn.sm { height: 36px; min-height: 36px; box-sizing: border-box; }
+
+/* Coming up: a small poster at the left of each showing */
+.coming a { grid-template-columns: 44px 64px 1fr; align-items: center; column-gap: 12px; }
+.coming .cposter { grid-row: span 2; grid-column: 1; }
+.coming .cposter .poster { width: 44px; border-radius: 4px; }
+.coming .cposter .ph { font-size: 7px; padding: 3px; line-height: 1; }
+.coming .cwhen { grid-column: 2; }
+.coming .cwhat { grid-column: 3; }
+.coming .cwho { grid-column: 3; }

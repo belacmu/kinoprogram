@@ -342,7 +342,7 @@ Data (Supabase):
 ## Showings and "I'm going"
 
 Clicking a showing no longer jumps to the ticket site. It opens that showing's own page inside the film sheet.
-This is the agreed design, and it is built: the pages, the Going card (Tell friends switch, Seats, Invite), plans saved to the
+This is the agreed design, and it is built: the pages, the Going card (I'm going, Seats, Invite), plans saved to the
 account (`plans`, see `supabase/schema.sql`: run it once in Supabase), friends' plans on showing pages and in the Feed's Coming up,
 invite links, and guests. Signed out with no accounts available, plans stay on the device.
 

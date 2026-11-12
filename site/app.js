@@ -86,11 +86,12 @@ const state = {
   blurbOpen: "",        // film sheet: the film whose description is expanded
   cinemasOpen: false,   // filter panel: all cinemas listed, not just the busiest
   friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
-  friendsAt: 0,
+  friendsAt: 0,          // when the friends were last loaded
   guest: null,          // an anonymous account made by joining someone's showing: {id}. Counts for plans, not as being signed in
   friendPlans: [], friendPlansAt: 0,  // friends' upcoming plans (friends_plans)
   invite: null,         // the invite link being looked at: {token, rows: who is going through it}
-  seatsOpen: "",         // when the friends were last loaded
+  seatsOpen: "",         // the plan whose seats are being edited
+  inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
   acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
   pendingFriend: (() => { try { return sessionStorage.getItem("kino:pendingFriend") || ""; } catch { return ""; } })(),  // a code from an invite link, waiting for sign-in
@@ -825,8 +826,9 @@ function comingUpHtml() {
   const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
   if (!rows.length) return "";
   return `<section class="coming"><h3>Coming up</h3>${rows.map((r) => {
-    const d = asDate(r.at);
-    return `<a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cwhen"><b>${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</b>${hhmm(r.at)}</span><span class="cwhat">${esc(r.title)}<small>${esc(r.cinema)}</small></span><span class="cwho">${esc(r.people.join(", "))}</span></a>`;
+    const d = asDate(r.at), f = findFilm(r.film);
+    const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
+    return `<a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="cwhen"><b>${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</b>${hhmm(r.at)}</span><span class="cwhat">${esc(r.title)}<small>${esc(r.cinema)}</small></span><span class="cwho">${esc(r.people.join(", "))}</span></a>`;
   }).join("")}</section>`;
 }
 function renderFeed() {
@@ -946,7 +948,10 @@ window.addEventListener("resize", () => { if ($("film").open) fitBlurb(); });
 // "#film/ID" is a film's sheet; "#film/ID/SHOWING" is one showing's page inside it (SHOWING = "time|cinema", encoded).
 function hashParts() {
   const m = location.hash.match(/^#film\/([^/?]+)(?:\/([^?]+))?(?:\?(.*))?$/);
-  return m ? { id: decodeURIComponent(m[1]), show: m[2] ? decodeURIComponent(m[2]) : "", inv: new URLSearchParams(m[3] || "").get("inv") || "" } : { id: "", show: "", inv: "" };
+  if (!m) return { id: "", show: "", inv: "" };
+  const dec = (x) => { try { return decodeURIComponent(x); } catch { return ""; } };  // a broken %-escape is just "nothing"
+  const inv = new URLSearchParams(m[3] || "").get("inv") || "";
+  return { id: dec(m[1]), show: m[2] ? dec(m[2]) : "", inv: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(inv) ? inv : "" };
 }
 const showKey = (s) => `${s.t}|${s.cinema}`;
 const showHref = (f, s) => `#film/${encodeURIComponent(f.id)}/${encodeURIComponent(showKey(s))}`;
@@ -1030,7 +1035,7 @@ function openFilm(id) {
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
   const hp = hashParts();
   if (hp.inv && state.invite?.token !== hp.inv && state.inviteLoading !== hp.inv) loadInvite(hp.inv);
-  if (hp.show && state.friendPlansAt === 0 && planUser() === state.user && state.user) loadFriendPlans();
+  if (hp.show && state.friendPlansAt === 0 && state.user) loadFriendPlans();
   const sh = hp.show && showFor(f, hp.show);
   if (sh) { showingPage(f, sh, dlg); return; }
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
@@ -1066,7 +1071,7 @@ function openFilm(id) {
     ${picks.menus || picks.strip ? `<div class="showings">${picks.menus ? `<div class="showhead">${picks.menus}</div>` : ""}${picks.strip}</div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
-  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it  // always start at the top, with the title and poster
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
   const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
   if (!strip) return;
@@ -1078,35 +1083,55 @@ function openFilm(id) {
 }
 
 // ---------------------------------------------------------------- a showing's own page
-// Plans: what you've said about a showing, kept on this device and, when signed in, in your account (table `plans`).
-// {going, tell, seats, ...a copy of the showing so it still shows if the schedule changes: film, title, cinema, time, region, ticket}.
+// Plans: what you've said about a showing, kept on this device and, when signed in (or a guest), in your account (table `plans`).
+// {going, tell, seats, inv, via, party, ...a copy of the showing so it still shows if the schedule changes: film, title, cinema, time, region, ticket}.
 // tell: always true for now (going is public); kept so a privacy control can come back.
+// inv is the plan's private invite token and party its party: both are made by the server (save_plan), never here.
 const plans = local.get("plans", {});
-for (const p of Object.values(plans)) if (p.vis !== undefined) { p.tell = p.vis === "friends"; delete p.vis; delete p.row; }  // the older three-way choice
+if (!local.get("plansV2", false)) { for (const p of Object.values(plans)) delete p.inv; local.set("plansV2", true); }  // tokens used to be made here; the server's are the real ones
 const planDirty = new Set(local.get("planDirty", []));  // plans changed here and not yet saved to the account
+const planV = {};  // how many times each plan was edited in this page (a save only clears the mark if nothing changed meanwhile)
 const planUser = () => state.user || state.guest;  // signed in, or a guest (anonymous account)
+const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "");  // only web links: never a javascript: URL
 const planId = (f, s) => `${f.id}|${showKey(s)}`;
 const planOf = (f, s) => plans[planId(f, s)];
 function setPlan(f, s, patch) {
-  const id = planId(f, s), next = patch === null ? null : { inv: crypto.randomUUID(), ...(plans[id] || {}), ...patch, film: f.id, title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: s.ticket || "" };
+  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch, film: f.id, title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: safeUrl(s.ticket) };
   if (next) plans[id] = next; else delete plans[id];
   local.set("plans", plans);
-  planDirty.add(id); local.set("planDirty", [...planDirty]);
+  planDirty.add(id); planV[id] = (planV[id] || 0) + 1; local.set("planDirty", [...planDirty]);
   syncPlansSoon();
 }
-let planTimer = 0;
+let planTimer = 0, planRetry = 0, syncChain = Promise.resolve();
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
-const planRow = (id, p) => { const [fid, at, cin] = id.split("|"); p.inv ||= crypto.randomUUID(); return ({ user_id: planUser().id, invite_token: p.inv, joined_via: p.via || null, party: p.party || null, showing_id: id, film_id: p.film || fid, film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), cinema: p.cinema || cin, starts: p.t || at, region: p.region || state.region, ticket: p.ticket || null,
-  tell_friends: true, seats: p.seats || null, updated_at: new Date().toISOString() }); };  // plans made before the copy was kept: taken from the id
-// Save what changed here: plans that exist are written, plans that were retracted are deleted.
-async function syncPlans() {
-  if (!planUser() || !sb || !planDirty.size) return;
+const planArgs = (id, p) => { const [fid, at, cin] = id.split("|"); return {  // plans made before the copy was kept: taken from the id
+  p_showing_id: id, p_film_id: p.film || fid, p_film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), p_cinema: p.cinema || cin,
+  p_starts: p.t || at, p_region: p.region || state.region, p_ticket: safeUrl(p.ticket) || null, p_seats: p.seats || null, p_joined_via: p.via || null }; };
+// Save what changed here: plans that exist are written, plans that were retracted are deleted. One run at a time; a plan that
+// fails is skipped (the rest still save) and everything left is tried again shortly.
+function syncPlans() { syncChain = syncChain.then(runSync, runSync); return syncChain; }
+async function runSync() {
+  const me = planUser();
+  if (!me || !sb || !planDirty.size) return;
+  let failed = false;
   for (const id of [...planDirty]) {
-    const p = plans[id];
-    const { error } = p ? await sb.from("plans").upsert(planRow(id, p)) : await sb.from("plans").delete().eq("user_id", planUser().id).eq("showing_id", id);
-    if (error) { console.error("Saving a plan failed:", error.message); return; }  // stays marked, tried again next time
-    planDirty.delete(id); local.set("planDirty", [...planDirty]);
+    const p = plans[id], v = planV[id] || 0;
+    let error, tok;
+    if (p) ({ data: tok, error } = await sb.rpc("save_plan", planArgs(id, p)));
+    else ({ error } = await sb.from("plans").delete().eq("user_id", me.id).eq("showing_id", id));
+    if (error) { console.error("Saving a plan failed:", error.message); failed = true; continue; }
+    if (p && tok && plans[id]) plans[id].inv = tok;
+    if ((planV[id] || 0) === v) planDirty.delete(id);  // edited again while saving: stays marked for the next round
   }
+  local.set("plans", plans); local.set("planDirty", [...planDirty]);
+  clearTimeout(planRetry);
+  if (planDirty.size) planRetry = setTimeout(syncPlans, failed ? 20000 : 700);
+}
+// Signing out, or into a different account, leaves nothing of the last person's plans behind on this device.
+function clearPlansState() {
+  for (const k of Object.keys(plans)) delete plans[k];
+  planDirty.clear(); state.friendPlans = []; state.friendPlansAt = 0; clearTimeout(planRetry); clearTimeout(planTimer);
+  local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
 }
 // On sign-in: send this device's unsaved changes, then take the account's plans. The first time an account is used on this device,
 // plans made here before signing in are added to it; after that the account is the truth (a plan retracted on another device goes here too).
@@ -1117,20 +1142,25 @@ async function loadPlans() {
   if (error) { console.error("Loading plans failed:", error.message); return; }
   const remote = new Map(data.map((r) => [r.showing_id, r]));
   const firstHere = local.get("plansFor", "") !== planUser().id;
-  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, party: r.party || undefined, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: r.ticket || "" };
-  for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id)) { if (firstHere) planDirty.add(id); else delete plans[id]; }
+  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, party: r.party || undefined, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: safeUrl(r.ticket) };
+  for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id)) { if (firstHere) { planDirty.add(id); planV[id] = (planV[id] || 0) + 1; } else delete plans[id]; }
   local.set("plans", plans); local.set("planDirty", [...planDirty]); local.set("plansFor", planUser().id);
   await syncPlans();
-  if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);
+  refreshSheet();
+}
+// Redraw the open film sheet, unless someone is typing in it (that would take the box away from them).
+function refreshSheet() {
+  const a = document.activeElement;
+  if ($("film").open && location.hash.startsWith("#film/") && !($("film").contains(a) && a.matches("input"))) openFilm(hashParts().id);
 }
 const myName = () => state.profile?.display_name || local.get("guestName", "");
-const showUrl = (f, s) => location.href.split(/[?#]/)[0] + showHref(f, s);
+const showUrl = (f, s) => location.origin + location.pathname + (state.region === "oslo" ? "" : `?r=${encodeURIComponent(state.region)}`) + showHref(f, s);
 // A showing from the schedule, or (for an invite link to one the schedule no longer has) rebuilt from the copy the plan kept.
 function showFor(f, key) {
   const real = f?.shows.find((x) => showKey(x) === key);
   const r = state.invite?.rows[0];
   if (real || !f || !r || r.film_id !== f.id || `${r.starts}|${r.cinema}` !== key) return real || null;
-  return { t: r.starts, cinema: r.cinema, ticket: r.ticket || "", tags: [], screen: "", status: "" };
+  return { t: r.starts, cinema: r.cinema, ticket: safeUrl(r.ticket), tags: [], screen: "", status: "" };
 }
 // Everyone you can see is going to this showing, as {name, seats, me}: you, then your party (everyone connected through invite links),
 // then friends who told friends.
@@ -1181,7 +1211,7 @@ function showingPage(f, s, dlg) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const sub = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).join(" · ");
   const name = myName(), on = !!plan?.going;
-  const buy = s.ticket ? `<a class="tkbtn" href="${esc(s.ticket)}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
+  const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
   const seatsOpen = on && state.seatsOpen === planId(f, s);
   const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}">I'm going</button>`;
@@ -1222,43 +1252,57 @@ async function guestSignIn(name) {
   await sb.from("profiles").update({ display_name: name }).eq("id", data.user.id);
   return true;
 }
-const nameTimer = { t: 0 };
-const inviteUrl = (f, s) => showUrl(f, s) + "?inv=" + (planOf(f, s)?.inv || "");
+let nameTimer = 0, joining = false;
+// The invite link needs the plan saved first: the server makes its private token.
+async function inviteUrl(f, s) {
+  if (!planOf(f, s)?.inv) await syncPlans();
+  const tok = planOf(f, s)?.inv;
+  return tok ? showUrl(f, s) + "?inv=" + tok : "";
+}
+// Does the invite being looked at belong to this very showing?
+const inviteFits = (f, s) => { const r = state.invite?.rows[0]; return !!r && r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s); };
 async function planClick(t) {
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
   if (t.dataset.going) {
+    if (joining) return;  // a second tap while the first is still joining
     const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
     if (!state.user && nm) local.set("guestName", nm);
     if (planOf(f, s)?.going) setPlan(f, s, null);
     else {
-      if (!state.user && !state.guest && sb) {  // a guest: a name first, then an anonymous account
-        if (!nm) { const inp = $("film").querySelector('[data-plan="name"]'); inp?.focus(); toast("Add your name first, so people know who's going."); return; }
-        if (!(await guestSignIn(nm))) { toast("Couldn't add you. Try again in a moment."); return; }
-      }
-      const inv = state.invite && state.invite.rows[0]?.film_id === f.id ? state.invite : null;  // joining through someone's invite
-      setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
+      joining = true;
+      try {
+        if (!state.user && !state.guest && sb) {  // a guest: a name first, then an anonymous account
+          if (!nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
+          if (!(await guestSignIn(nm))) { toast("Couldn't add you. Try again in a moment."); return; }
+        }
+        const inv = inviteFits(f, s) ? state.invite : null;  // joining through someone's invite (only for this showing)
+        setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
+      } finally { joining = false; }
     }
   }
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
   else if (t.dataset.seatsdone) state.seatsOpen = "";
   else {
-    const url = inviteUrl(f, s);
-    if (t.dataset.sharershow && canShare) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
+    const url = await inviteUrl(f, s);
+    if (!url) { toast("Couldn't make the invite link yet. Try again in a moment."); return; }
+    if (canShare) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
     navigator.clipboard.writeText(url).then(() => toast("Invite link copied"), () => toast("Couldn't copy the link"));
     return;
   }
+  if (!$("film").open || hashParts().show !== show) return;  // closed or moved on while waiting: don't draw it again
   showingPage(f, s, $("film"));
 }
 // The plan behind an invite link (who is going through it); works without an account.
 async function loadInvite(token) {
-  if (!sb) return;
+  if (!sb || state.inviteLoading === token) return;
   state.inviteLoading = token;
   const { data, error } = await sb.rpc("plan_by_invite", { token });
+  if (state.inviteLoading !== token) return;  // a different invite was asked for meanwhile
   state.inviteLoading = "";
   if (error) { console.error("Loading the invite failed:", error.message); return; }
   state.invite = { token, rows: data || [] };
-  if ($("film").open && hashParts().inv === token) openFilm(hashParts().id);
+  if (hashParts().inv === token) refreshSheet();
 }
 // Friends' upcoming plans (those who turned Tell friends on), for the showing pages and the Feed's Coming up.
 async function loadFriendPlans() {
@@ -1270,7 +1314,7 @@ async function loadFriendPlans() {
   if (error) { console.error("Loading friends' plans failed:", error.message); return; }
   state.friendPlans = (data || []).filter((r) => r.region === state.region);
   if (state.page === "feed") renderFeed();
-  if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);
+  refreshSheet();
 }
 $("film").addEventListener("input", (e) => {  // name, row and seats save as you type
   const k = e.target.dataset?.plan;
@@ -1280,9 +1324,10 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
   if (k === "name") {
     const nm = e.target.value.trim();
     if (!state.user) local.set("guestName", nm);
-    if (state.guest && sb) { clearTimeout(nameTimer.t); nameTimer.t = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
+    if (state.guest && sb) { clearTimeout(nameTimer); nameTimer = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
   }
   else if (planOf(f, s)) {  // row and seats are two boxes, kept as "row|seats"
+    if (e.target.value.includes("|")) e.target.value = e.target.value.replace(/\|/g, "");  // the bar separates row from seats
     const row = $("film").querySelector('[data-plan="row"]')?.value.trim() || "", seats = $("film").querySelector('[data-plan="seats"]')?.value.trim() || "";
     setPlan(f, s, { seats: row || seats ? `${row}|${seats}` : "" });
   }
@@ -1395,10 +1440,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-notgoing],[data-copyshow],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.notgoing || t.dataset.copyshow || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
@@ -2043,10 +2088,13 @@ function avatarInitial() {
   const c = local.get("acct", null);  // profile not loaded yet: keep what was shown last time for this account
   return c && c.id === state.user.id && c.i ? c.i : initialOf(state.user.email);
 }
+let lastRealUser = null;
 function setUser(session) {
   const anon = !!session?.user?.is_anonymous;
   state.guest = anon ? { id: session.user.id } : null;
   state.user = session?.user && !anon ? { id: session.user.id, email: session.user.email } : null;
+  if (lastRealUser && lastRealUser !== (state.user?.id || null)) clearPlansState();  // signed out, or into a different account
+  lastRealUser = state.user?.id || null;
   if (state.user) {
     paintAccount(true, avatarInitial(), state.user.email);
     if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });

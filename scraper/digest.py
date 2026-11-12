@@ -498,7 +498,8 @@ def fetch_rows(table, query):
 
 
 def fetch_profiles(filter_):
-    return fetch_rows("profiles", f"{filter_}&select=id,email,subscribed,prefs,watchlist,unsubscribe_token")
+    rows = fetch_rows("profiles", f"{filter_}&select=id,email,subscribed,prefs,watchlist,unsubscribe_token")
+    return [r for r in rows if r.get("email")] if rows else rows  # guests (anonymous accounts) have no email and get no mail
 
 
 def fetch_friends():
@@ -510,7 +511,7 @@ def fetch_friends():
     except Exception as ex:
         print(f"  ! friends' watchlists unavailable: {ex}", file=sys.stderr)
         return {}
-    name = lambda r: (r.get("display_name") or "").strip() or r["email"].split("@")[0]  # as on the site (shortName)
+    name = lambda r: (r.get("display_name") or "").strip() or (r.get("email") or "Someone").split("@")[0]  # as on the site (shortName); guests have no email
     out = {}
     for p in pairs:
         for me, friend in ((p["a"], p["b"]), (p["b"], p["a"])):
