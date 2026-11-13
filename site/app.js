@@ -90,6 +90,7 @@ const state = {
   guest: null,          // an anonymous account made by joining someone's showing: {id}. Counts for plans, not as being signed in
   friendPlansAll: [], friendPlansAt: 0,  // friends' upcoming plans (friends_plans), every region
   invite: null,         // the invite link being looked at: {token, rows: who is going through it}
+  updates: [],           // what's new in Cinecrab (site/updates.json)
   seatsOpen: "",         // the plan whose seats are being edited
   inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
@@ -709,10 +710,14 @@ function render() {
 // announced", "More showings for Dune", "Santi added 4 films to their watchlist". Events come from the programme data
 // (state.data.events, written by the scraper) and from friends (state.friendEvents); the same filters as the list apply.
 const FEED_DAYS = 30;
+// Someone's first visit on this device: updates from before it aren't news to them. A device that already has a watchlist or has seen the
+// feed counts as having been here from the start.
+if (!local.get("firstSeen", "")) local.set("firstSeen", local.get("watchlist", null) !== null || local.get("feedSeen", "") ? "2000-01-01T00:00" : new Date().toISOString().slice(0, 16));
 const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
 const FEED_ICONS = {  // 24x24, each glyph centred on (12, 12)
   sale: `<path d="M5 6h14a2 2 0 0 1 2 2v2.2a1.8 1.8 0 0 0 0 3.6V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.2a1.8 1.8 0 0 0 0-3.6V8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14.5 8.5v1.2M14.5 11.4v1.2M14.5 14.3v1.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
   announced: `<path d="M12 3l2.3 6.7L21 12l-6.7 2.3L12 21l-2.3-6.7L3 12l6.7-2.3z" fill="currentColor"/>`,
+  update: `<path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4.5 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 10h8M8 13h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
   showings: `<rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 9.5h16" stroke="currentColor" stroke-width="2"/><path d="M12 12.2v4.6M9.7 14.5h4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
 };
 // A UTC stamp ("2026-10-31T08:28", as the database keeps them) as this location's local time.
@@ -765,6 +770,15 @@ function feedPosts(filtered = true) {
     if (!p.rows.some((r) => r.f.id === e.row.f.id)) p.rows.push(e.row);
   }
   const posts = [...by.values()].sort((a, b) => b.at.localeCompare(a.at));
+  // What's new in Cinecrab: one post per entry of site/updates.json, newer than the visitor's first visit (the post's own time is `at`).
+  if (!filtered || !state.feedKinds.length) {
+    const oldest = addDays(localNow().slice(0, 10), 1 - FEED_DAYS), first = (local.get("firstSeen", "") || "").slice(0, 16);
+    for (const u of state.updates || []) {
+      if (!u?.at || !u.title || u.at.slice(0, 10) < oldest || (first && utcToLocal(first) > u.at)) continue;
+      posts.push({ key: `update|${u.at}`, type: "update", at: u.at, rows: [], update: u });
+    }
+    posts.sort((a, b) => b.at.localeCompare(a.at));
+  }
   // Friends going to showings: one post per friend per day, with their showings under it (only the ones still to come).
   if (!filtered || !state.feedKinds.length || state.feedKinds.includes("friend")) {
     const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - FEED_DAYS), goes = new Map();
@@ -786,6 +800,7 @@ function feedPosts(filtered = true) {
   return posts;
 }
 function postText(p) {
+  if (p.type === "update") return esc(p.update.title);
   if (p.type === "going") return `${esc(shortName(p.actor.name))} is going to ${p.shows.length === 1 ? `<b>${esc(p.shows[0].title)}</b>` : `${p.shows.length} showings`}`;
   const n = p.rows.length, one = titleOf(p.rows[0].f), films = n === 1 ? "one film" : `${n} films`;
   if (p.type === "friend") return `${esc(shortName(p.actor.name))} added ${n === 1 ? `<b>${esc(one)}</b>` : films} to their watchlist`;
@@ -804,6 +819,7 @@ const feedSeen = () => local.get("feedSeen", "");
 let feedLatest = "";
 function markFeedSeen() { if (feedLatest) local.set("feedSeen", feedLatest); }
 function postHtml(p) {
+  if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>${esc(p.update.title)}</strong><time>What's new in Cinecrab · ${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
   if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
   const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
   const icon = p.type === "friend"
@@ -867,7 +883,7 @@ function renderFeed() {
   if (!state.data) return;  // the skeleton stays until the programme arrives
   posterEager = 12;
   const el = $("feedPage"), seen = feedSeen(), posts = feedPosts();
-  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at), ...posts.filter((x) => x.type === "going").map((x) => x.at)].sort().at(-1) || "";
+  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at), ...posts.filter((x) => x.type === "going" || x.type === "update").map((x) => x.at)].sort().at(-1) || "";
   const parts = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
@@ -2398,6 +2414,7 @@ async function loadRegion(key) {
     $("grid").innerHTML = ""; $("feedPage").innerHTML = "";  // no placeholders for something that isn't coming
     return;
   }
+  try { const u = await fetch("updates.json", { cache: "no-cache" }); state.updates = u.ok ? await u.json() : []; } catch { state.updates = []; }  // optional: a missing file is no updates
   const g = state.data.generated;
   $("sub").textContent = `${state.data.location} · ${state.data.sources || "Filmweb + Cinemateket"} · updated ${dayLabel(g, { short: true })} ${hhmm(g)}`;
   $("foot").innerHTML = reg.key === "costadelsol"

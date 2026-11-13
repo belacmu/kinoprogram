@@ -221,6 +221,15 @@ def plan_local(created_at, tz):
     return d.astimezone(ZoneInfo(tz)).strftime(FMT)
 
 
+def pick_updates(site_dir, since):
+    """Entries of site/updates.json newer than `since`: what's new in Cinecrab. A missing or broken file is no updates."""
+    try:
+        entries = json.loads((site_dir / "updates.json").read_text())
+    except Exception:
+        return []
+    return sorted((u for u in entries if u.get("title") and (u.get("at") or "") > since), key=lambda u: u["at"], reverse=True)[:3]
+
+
 def pick_friend_going(films, rkey, profile, since, going, tz, now_s):
     """Showings (still to come) that friends said they're going to since `since`: [(film, {t, cinema}, names)], soonest first."""
     prefs = profile.get("prefs") or {}
@@ -432,7 +441,7 @@ def friend_status(f):
 
 
 def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo", rkey="oslo", showings=(), friend_picks=(),
-           watch=frozenset(), friend_going=()):
+           watch=frozenset(), friend_going=(), updates=()):
     global ASSET_BASE
     prefs = prefs or {}
     ASSET_BASE = site
@@ -471,6 +480,11 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
         for f, s, names in friend_going:
             txt += [f"{title_of(f)}", f"  {when(s['t'])} · {s['cinema']} · {name_list(names)} going", f"  {show_link(f, s)}", ""]
 
+    if updates:
+        txt += ["WHAT'S NEW IN CINECRAB", ""]
+        for u in updates:
+            txt += [u["title"]] + [f"  - {b}" for b in u.get("bullets") or []] + [""]
+
     blocks = []
     if watching:
         blocks.append(section_head("On your watchlist", len(watching)) + watch_grid_html(watching, link_of))
@@ -497,6 +511,13 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
         cards = [card_html(f, show_link(f, s), [f"{when(s['t'])} · {s['cinema']}", f"{name_list(names)} going"], heart_link=watch_of(f), watched=bool(watch & set(f["ids"])))
                  for f, s, names in friend_going]
         blocks.append(section_head("Friends are going", len(friend_going), "Showings your friends said they're going to.") + grid_html(cards))
+
+    if updates:
+        items_html = "".join(
+            f'<p style="margin:0 0 4px;font-size:15px;font-weight:600;color:#16181d" class="ink">{e(u["title"])}</p>'
+            + "".join(f'<p style="margin:0 0 4px;font-size:14px;line-height:1.45;color:#16181d" class="ink">&bull;&nbsp;{e(b)}</p>' for b in u.get("bullets") or [])
+            + '<div style="height:10px"></div>' for u in updates)
+        blocks.append(section_head("What's new in Cinecrab", len(updates)) + items_html)
 
     footer = f"Settings and watchlist: {site}\nUnsubscribe: {unsub_url}"
     sep = '<div class="line" style="border-top:1px solid #e2e5ea;margin:8px 0 22px"></div>'
@@ -747,10 +768,11 @@ def main():
                     continue  # other watchlist notices (leaving soon) and friends' picks alone never send an email
                 leaving = pick_leaving(data["films"], p, now_s, listed | {f["id"] for f, *_ in showings}, "" if preview else since, events)
                 picks = pick_friend_picks(data["films"], p, since, friends, cfg["tz"])
+                updates = pick_updates(ROOT / "site", since)
                 friend_going = pick_friend_going(data["films"], rkey, p, since, going, cfg["tz"], now_s)
                 unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
                 messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey,
-                                                     showings, picks, frozenset(p.get("watchlist") or []), friend_going=friend_going)))
+                                                     showings, picks, frozenset(p.get("watchlist") or []), friend_going=friend_going, updates=updates)))
             print(f"{mode}: {len(recipients)} subscriber(s), {len(messages)} with something new")
 
             if preview:

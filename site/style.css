@@ -1124,3 +1124,9 @@ button.seat2, button.seat { cursor: pointer; }
 .cu .cgo { grid-column: 4; grid-row: 1 / 4; align-self: center; }
 .cuin .curows a { grid-template-columns: 44px minmax(0, 1fr) 16px; }
 .cuin .cgo { grid-column: 3; }
+
+/* "What's new" post: the same post box as the others, with a short list */
+.pico.k-update { background: var(--chip-on); color: var(--chip-on-ink); }
+.uplist { margin: 0; padding: 0 0 4px 44px; list-style: disc; color: var(--ink); font-size: 14px; line-height: 1.45; }
+.uplist li { margin: 0 0 4px; padding-left: 2px; }
+.uplist li::marker { color: var(--muted); }
