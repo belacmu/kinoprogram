@@ -517,7 +517,7 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
             f'<p style="margin:0 0 4px;font-size:15px;font-weight:600;color:#16181d" class="ink">{e(u["title"])}</p>'
             + "".join(f'<p style="margin:0 0 4px;font-size:14px;line-height:1.45;color:#16181d" class="ink">&bull;&nbsp;{e(b)}</p>' for b in u.get("bullets") or [])
             + '<div style="height:10px"></div>' for u in updates)
-        blocks.append(section_head("What's new in Cinecrab", len(updates)) + items_html)
+        blocks.append(section_head("What's new in Cinecrab", 0, "") .replace(' <span class="mut" style="font-size:15px;color:#5d6470">0</span>', "") + items_html)  # no count: it is one note, not a list of things
 
     footer = f"Settings and watchlist: {site}\nUnsubscribe: {unsub_url}"
     sep = '<div class="line" style="border-top:1px solid #e2e5ea;margin:8px 0 22px"></div>'
