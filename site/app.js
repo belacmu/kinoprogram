@@ -825,7 +825,7 @@ function markFeedSeen() {
 }
 function postHtml(p) {
   if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>What's new in Cinecrab</strong><time>${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
-  if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
+  if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map((r) => comingRow(r)).join("")}</ul></div></article>`;
   const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
   const icon = p.type === "friend"
     ? `<span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span>`
@@ -878,7 +878,7 @@ function comingUpHtml(film) {  // `film`: only that film's showings, as rows wit
   if (film) return `<section class="cu cufilm" aria-label="Showings you and your friends are going to"><ul class="curows">${rows.map((r) => comingRow(r, true)).join("")}</ul></section>`;
   // Laid out like the showing page's card: date in the display font on top, "time · cinema" under it (who is going at the right of that line),
   // the film underneath. The poster is at the left, top-aligned with the date.
-  return `<section class="cu"><ul class="curows">${rows.map(comingRow).join("")}</ul></section>`;
+  return `<section class="cu"><ul class="curows">${rows.map((r) => comingRow(r)).join("")}</ul></section>`;
 }
 // Coming up lives at the top of the Films tab, above the filters.
 function renderComing() {
@@ -1105,7 +1105,8 @@ function openFilm(id) {
   if (!f) return;
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
   const hp = hashParts();
-  const partyTok = hp.inv || (hp.show ? plans[`${f.id}|${hp.show}`]?.inv : "");  // an invite link's token, or your own plan's: either shows the party
+  // The party is read through a token: the invite link's, your own plan's, or (after you've said you're not going) the one you joined through.
+  const partyTok = hp.inv || (hp.show ? plans[`${f.id}|${hp.show}`]?.inv || joinedVia[`${f.id}|${hp.show}`] : "");
   if (partyTok && state.inviteLoading !== partyTok && !(state.invite?.token === partyTok && Date.now() - state.invite.at < 15000)) loadInvite(partyTok);
   if (hp.show && state.friendPlansAt === 0 && state.user) loadFriendPlans();
   const sh = hp.show && showFor(f, hp.show);
@@ -1164,6 +1165,7 @@ const plans = local.get("plans", {});
 if (!local.get("plansV2", false)) { for (const p of Object.values(plans)) delete p.inv; local.set("plansV2", true); }  // tokens used to be made here; the server's are the real ones
 const planDirty = new Set(local.get("planDirty", []));  // plans changed here and not yet saved to the account
 const savedAt = {};  // when each plan was last saved from here (a load that started before must not delete it)
+const joinedVia = local.get("joinedVia", {});  // showing -> the invite token you joined through, kept after you leave so you can still see who is going
 const planV = {};  // how many times each plan was edited in this page (a save only clears the mark if nothing changed meanwhile)
 const planUser = () => state.user || state.guest;  // signed in, or a guest (anonymous account)
 const friendPlansHere = () => state.friendPlansAll.filter((r) => r.region === state.region);  // friends' plans in the location being shown
@@ -1213,6 +1215,7 @@ function clearPlansState() {
   for (const k of Object.keys(plans)) delete plans[k];
   planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
   local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
+  for (const k of Object.keys(joinedVia)) delete joinedVia[k]; local.set("joinedVia", {});
 }
 // On sign-in: send this device's unsaved changes, then take the account's plans. The first time an account is used on this device,
 // plans made here before signing in are added to it; after that the account is the truth (a plan retracted on another device goes here too).
@@ -1338,7 +1341,7 @@ async function guestSignIn(name) {
   if (!sb) return true;  // no accounts here: the plan stays on this device
   if (planUser()) return true;
   const { data, error } = await sb.auth.signInAnonymously();
-  if (error || !data?.user) { console.error("Guest sign-in failed:", error?.message); return false; }
+  if (error || !data?.user) { console.error("Guest sign-in failed:", error?.message); state.guestError = error?.code === "anonymous_provider_disabled" ? "guest sign-ins are switched off for this site" : (error?.message || "no reply"); return false; }
   state.guest = { id: data.user.id };
   await sb.from("profiles").update({ display_name: name }).eq("id", data.user.id);
   return true;
@@ -1359,13 +1362,18 @@ async function planClick(t) {
     if (joining) return;  // a second tap while the first is still joining
     const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
     if (!state.user && nm) local.set("guestName", nm);
-    if (planOf(f, s)?.going) { if (state.invite?.token === planOf(f, s).inv) state.invite = null; setPlan(f, s, null); }
+    if (planOf(f, s)?.going) {
+      // Not going: only YOUR row goes. The people you were with stay on the page (the party is still readable through the link you joined by).
+      const old = planOf(f, s);
+      if (old.via) { joinedVia[planId(f, s)] = old.via; local.set("joinedVia", joinedVia); }
+      setPlan(f, s, null);
+    }
     else {
       joining = true;
       try {
         if (!state.user && !state.guest && sb) {  // a guest: a name first, then an anonymous account
           if (!nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
-          if (!(await guestSignIn(nm))) { toast("Couldn't add you. Try again in a moment."); return; }
+          if (!(await guestSignIn(nm))) { toast(`Couldn't add you: ${state.guestError || "try again in a moment"}.`); return; }
         }
         const inv = inviteFits(f, s) ? state.invite : null;  // joining through someone's invite (only for this showing)
         setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
