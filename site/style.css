@@ -1086,3 +1086,8 @@ button.seat2, button.seat { cursor: pointer; }
 .prow2.me { min-height: 39px; }
 /* the note sits right-aligned under the Going button */
 .visnote { margin: -6px 0 0; text-align: right; }
+
+/* the arrow after "Search" only when the header's buttons still fit on one line */
+.fhead .ftext { container-type: inline-size; }
+.rate.lbpill .sa { font-style: normal; display: none; }
+@container (min-width: 240px) { .rate.lbpill .sa { display: inline; } }

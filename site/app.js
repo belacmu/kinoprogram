@@ -1018,7 +1018,7 @@ function extLinks(f) {
   const rated = !!(lb && x.lbRating);
   // No rating to show: the pill says Search and opens a Letterboxd search for the film (its original title when we have it, plus the year).
   const url = rated ? lb : `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
-  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>Search</span>`;
+  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>Search<i class="sa" aria-hidden="true"> ↗</i></span>`;
   return {
     top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${rated ? "Letterboxd rating" : "Search Letterboxd for this film"}" aria-label="${rated ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : "Search Letterboxd for this film"}">${LB_MARK}${label}</a>`,
     menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
