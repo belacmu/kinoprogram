@@ -1340,7 +1340,9 @@ function showingPage(f, s, dlg) {
 async function guestSignIn(name) {
   if (!sb) return true;  // no accounts here: the plan stays on this device
   if (planUser()) return true;
-  const { data, error } = await sb.auth.signInAnonymously();
+  let captchaToken_;
+  try { captchaToken_ = await captchaToken(); } catch (e) { state.guestError = /clos|cancel/i.test(String(e?.message || e)) ? "the check was cancelled" : `the check failed (${e?.message || e})`; return false; }
+  const { data, error } = await sb.auth.signInAnonymously(captchaToken_ ? { options: { captchaToken: captchaToken_ } } : undefined);
   if (error || !data?.user) { console.error("Guest sign-in failed:", error?.message); state.guestError = error?.code === "anonymous_provider_disabled" ? "guest sign-ins are switched off for this site" : (error?.message || "no reply"); return false; }
   state.guest = { id: data.user.id };
   await sb.from("profiles").update({ display_name: name }).eq("id", data.user.id);
@@ -1867,6 +1869,23 @@ $("account").addEventListener("close", () => {
 
 // ---------------------------------------------------------------- accounts (Supabase magic link)
 const cfg = window.KINO_CONFIG || {};
+
+// Sign-ups can be protected by hCaptcha (Supabase: Authentication > Attack Protection). When the site has a site key, every sign-in asks
+// for an invisible check first and sends its token along; with no key, nothing changes. Tokens are single-use, so each sign-in gets a new one.
+let hcLoading = null, hcWidget = null;
+const loadHcaptcha = () => window.hcaptcha ? Promise.resolve() : (hcLoading ||= new Promise((ok, no) => {
+  const s = document.createElement("script"); s.src = "https://js.hcaptcha.com/1/api.js?render=explicit"; s.async = true;
+  s.onload = ok; s.onerror = () => { hcLoading = null; no(new Error("the captcha could not be loaded")); };
+  document.head.appendChild(s);
+}));
+async function captchaToken() {
+  if (!cfg.captchaSiteKey) return undefined;
+  await loadHcaptcha();
+  if (hcWidget === null) { const box = document.createElement("div"); document.body.appendChild(box); hcWidget = window.hcaptcha.render(box, { sitekey: cfg.captchaSiteKey, size: "invisible" }); }
+  const r = await window.hcaptcha.execute(hcWidget, { async: true });
+  window.hcaptcha.reset(hcWidget);
+  return r.response;
+}
 const sb = cfg.supabaseUrl && cfg.supabaseKey && window.supabase ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey) : null;
 let syncTimer = null;
 
@@ -2235,7 +2254,9 @@ if (sb) {
   if (seen && seen.i) paintAccount(true, seen.i);  // as last time, until the saved session has been checked (setUser)
   let pendingName = "";  // the optional name typed at sign-up; only used when the email turns out to be new
   const sendCode = async (email) => {
-    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, ...(pendingName ? { data: { display_name: pendingName } } : {}) } });
+    let captcha;
+    try { captcha = await captchaToken(); } catch (e) { return `Couldn't send a code: the check failed (${e?.message || e}).`; }
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, ...(captcha ? { captchaToken: captcha } : {}), ...(pendingName ? { data: { display_name: pendingName } } : {}) } });
     if (error) return error.status === 429 || /rate|seconds/i.test(error.message)
       ? "Wait a minute before asking for another code." : `Couldn't send a code: ${error.message}`;
     state.pendingEmail = email;
