@@ -1105,7 +1105,8 @@ function openFilm(id) {
   if (!f) return;
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
   const hp = hashParts();
-  const partyTok = hp.inv || (hp.show ? plans[`${f.id}|${hp.show}`]?.inv : "");  // an invite link's token, or your own plan's: either shows the party
+  // The party is read through a token: the invite link's, your own plan's, or (after you've said you're not going) the one you joined through.
+  const partyTok = hp.inv || (hp.show ? plans[`${f.id}|${hp.show}`]?.inv || joinedVia[`${f.id}|${hp.show}`] : "");
   if (partyTok && state.inviteLoading !== partyTok && !(state.invite?.token === partyTok && Date.now() - state.invite.at < 15000)) loadInvite(partyTok);
   if (hp.show && state.friendPlansAt === 0 && state.user) loadFriendPlans();
   const sh = hp.show && showFor(f, hp.show);
@@ -1164,6 +1165,7 @@ const plans = local.get("plans", {});
 if (!local.get("plansV2", false)) { for (const p of Object.values(plans)) delete p.inv; local.set("plansV2", true); }  // tokens used to be made here; the server's are the real ones
 const planDirty = new Set(local.get("planDirty", []));  // plans changed here and not yet saved to the account
 const savedAt = {};  // when each plan was last saved from here (a load that started before must not delete it)
+const joinedVia = local.get("joinedVia", {});  // showing -> the invite token you joined through, kept after you leave so you can still see who is going
 const planV = {};  // how many times each plan was edited in this page (a save only clears the mark if nothing changed meanwhile)
 const planUser = () => state.user || state.guest;  // signed in, or a guest (anonymous account)
 const friendPlansHere = () => state.friendPlansAll.filter((r) => r.region === state.region);  // friends' plans in the location being shown
@@ -1213,6 +1215,7 @@ function clearPlansState() {
   for (const k of Object.keys(plans)) delete plans[k];
   planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
   local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
+  for (const k of Object.keys(joinedVia)) delete joinedVia[k]; local.set("joinedVia", {});
 }
 // On sign-in: send this device's unsaved changes, then take the account's plans. The first time an account is used on this device,
 // plans made here before signing in are added to it; after that the account is the truth (a plan retracted on another device goes here too).
@@ -1359,7 +1362,12 @@ async function planClick(t) {
     if (joining) return;  // a second tap while the first is still joining
     const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
     if (!state.user && nm) local.set("guestName", nm);
-    if (planOf(f, s)?.going) { if (state.invite?.token === planOf(f, s).inv) state.invite = null; setPlan(f, s, null); }
+    if (planOf(f, s)?.going) {
+      // Not going: only YOUR row goes. The people you were with stay on the page (the party is still readable through the link you joined by).
+      const old = planOf(f, s);
+      if (old.via) { joinedVia[planId(f, s)] = old.via; local.set("joinedVia", joinedVia); }
+      setPlan(f, s, null);
+    }
     else {
       joining = true;
       try {
