@@ -755,12 +755,6 @@
 "rated": "2026-11-12",
 "posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg"
 },
-"cl-akira": {
-"tmdbChecked": "2026-11-05",
-"tv": 2,
-"v": 4,
-"checked": "2026-11-05"
-},
 "cl-arriba-tutto": {
 "v": 4,
 "checked": "2026-10-20",
@@ -771,8 +765,8 @@
 "imdb": "tt37676022",
 "en": null,
 "lbSlug": "arriba-tutto",
-"lbRating": 3.28,
-"rated": "2026-11-05",
+"lbRating": 3.29,
+"rated": "2026-11-13",
 "posterPath": "/cO5d1CHpb1ravVNqHQmJr7NLcTN.jpg"
 },
 "cl-bola-negra": {
@@ -802,10 +796,10 @@
 "tv": 2
 },
 "cl-buscavidas": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "cl-clayface": {
 "imdb": "tt34890576",
@@ -870,6 +864,12 @@
 "posterPath": "/mYqiF90igComG2L2qm8SwFbaMwn.jpg",
 "v": 4
 },
+"cl-delitos-faltas": {
+"tmdbChecked": "2026-11-13",
+"tv": 2,
+"v": 4,
+"checked": "2026-11-13"
+},
 "cl-diversion-navidena-peppa-experiencia-cines": {
 "v": 4,
 "checked": "2026-11-12",
@@ -918,10 +918,25 @@
 "posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
 },
 "cl-juegos-hambre-amanecer-cosecha": {
-"tmdbChecked": "2026-11-05",
-"tv": 2,
+"imdb": "tt32558705",
+"imdbAll": [
+"tt32558705"
+],
+"lb": "the-hunger-games-sunrise-on-the-reaping",
+"rt": "m/the_hunger_games_sunrise_on_the_reaping",
+"mc": "movie/the-hunger-games-sunrise-on-the-reaping",
+"en": "The Hunger Games: Sunrise on the Reaping",
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
+"tv": 2,
+"tmdb": 1300968,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-hunger-games-sunrise-on-the-reaping",
+"lbRating": null,
+"rated": "2026-11-13",
+"posterPath": "/j1MNyNNgNQL6f27cb3m3uKaPKd6.jpg"
 },
 "cl-karateka": {
 "v": 4,
@@ -938,25 +953,10 @@
 "posterPath": "/bJh97VEUn9TWygQSrOOyJrwQXek.jpg"
 },
 "cl-ladron-bicicletas": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
-},
-"cl-leones-invierno": {
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 1689329,
-"lang": "es",
-"imdb": "tt39583295",
-"en": "Winter Lions",
-"enFrom": "tmdb",
-"lbSlug": "winter-lions",
-"lbRating": 3.27,
-"rated": "2026-11-08",
-"posterPath": "/ozr5OyKt1whnfuLei2viZsS38Kp.jpg"
+"checked": "2026-11-13"
 },
 "cl-me-entiendes-te-explico": {
 "v": 4,
@@ -988,10 +988,21 @@
 "posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
 },
 "cl-origen": {
-"tmdbChecked": "2026-11-05",
-"tv": 2,
+"imdb": "tt1375666",
+"imdbAll": [
+"tt1375666"
+],
+"lb": "inception",
+"rt": "m/inception",
+"mc": "movie/inception",
+"en": "Inception",
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
+"tv": 2,
+"lbSlug": "inception",
+"lbRating": 4.24,
+"rated": "2026-11-13"
 },
 "cl-otra-madre": {
 "v": 4,
@@ -1027,12 +1038,6 @@
 "v": 4,
 "checked": "2026-11-06",
 "tmdbChecked": "2026-11-06",
-"tv": 2
-},
-"cl-ramayana-nacimiento-leyenda": {
-"v": 4,
-"checked": "2026-11-05",
-"tmdbChecked": "2026-11-05",
 "tv": 2
 },
 "cl-ratones-ataque-operacion-navidad": {
@@ -1092,42 +1097,6 @@
 "v": 4,
 "checked": "2026-11-08"
 },
-"cl-sentido-sensibilidad": {
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1503762,
-"lang": "en",
-"imdb": "tt13609648",
-"en": "Sense and Sensibility",
-"enFrom": "tmdb",
-"lbSlug": "sense-and-sensibility-2026",
-"lbRating": 3.98,
-"rated": "2026-11-06",
-"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
-},
-"cl-street-fighter": {
-"imdb": "tt27419420",
-"imdbAll": [
-"tt27419420"
-],
-"lb": "street-fighter-1",
-"rt": "m/street_fighter_2026",
-"mc": null,
-"en": "Street Fighter",
-"v": 4,
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1153576,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "street-fighter-2026",
-"lbRating": 2.77,
-"rated": "2026-11-12",
-"posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
-},
 "cl-superthings-pelicula": {
 "imdb": "tt43600835",
 "imdbAll": [
@@ -1147,26 +1116,6 @@
 "lbRating": null,
 "rated": "2026-11-07",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
-},
-"cl-tadeo-jones-lampara-maravillosa": {
-"imdb": "tt36164852",
-"imdbAll": [
-"tt36164852"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Tad and the Magic Lamp",
-"v": 4,
-"checked": "2026-11-11",
-"tmdbChecked": "2026-11-11",
-"tv": 2,
-"tmdb": 1187326,
-"lang": "es",
-"lbSlug": "tad-and-the-magic-lamp",
-"lbRating": 2.84,
-"rated": "2026-11-11",
-"posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
 },
 "cl-victorian-psycho": {
 "imdb": "tt34374553",
@@ -4019,24 +3968,6 @@
 "v": 4,
 "checked": "2026-11-06"
 },
-"fw-EDI20260077": {
-"lbSlug": "no-good-men-2026",
-"lbRating": 3.59,
-"rated": "2026-11-10",
-"imdb": "tt13868840",
-"imdbAll": [
-"tt13868840"
-],
-"lb": null,
-"rt": "m/no_good_men",
-"mc": null,
-"en": "No Good Men",
-"v": 4,
-"checked": "2026-10-02",
-"tmdbChecked": "2026-10-02",
-"tv": 2,
-"tmdb": 1241574
-},
 "fw-EDI20260129": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4793,19 +4724,6 @@
 "mc": "movie/wildwood",
 "v": 4,
 "checked": "2026-10-03"
-},
-"fw-EDI20260848": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1287520,
-"imdb": "tt9219630",
-"en": "November 1963",
-"enFrom": "tmdb",
-"lbSlug": "november-1963",
-"lbRating": null,
-"rated": "2026-11-10",
-"v": 4,
-"checked": "2026-10-04"
 },
 "fw-EDI20260849": {
 "tmdbChecked": "2026-10-01",
@@ -6793,28 +6711,6 @@
 "lbRating": 4.58,
 "rated": "2026-11-13"
 },
-"fw-EDI20261755": {
-"imdb": "tt36629665",
-"imdbAll": [
-"tt36629665",
-"tt36629891"
-],
-"lb": "her-private-hell-2026",
-"rt": "m/her_private_hell",
-"mc": "movie/her-private-hell",
-"en": "Her Private Hell",
-"v": 4,
-"checked": "2026-10-29",
-"tmdbChecked": "2026-10-29",
-"tv": 2,
-"tmdb": 1469342,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "her-private-hell-2026",
-"lbRating": 2.22,
-"rated": "2026-11-06",
-"posterPath": "/pyIDpB5iZMRB5PdV9an146QEXAl.jpg"
-},
 "fw-EDI20261769": {
 "v": 4,
 "checked": "2026-11-02",
@@ -8702,17 +8598,11 @@
 "rated": "2026-11-06",
 "posterPath": "/ve72VxNqjGM69Uky4WTo2bK6rfq.jpg"
 },
-"mk-akira": {
-"tmdbChecked": "2026-11-05",
-"tv": 2,
-"v": 4,
-"checked": "2026-11-05"
-},
 "mk-blade-runner": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-bts-world-tour-arirang-in-jakarta": {
 "tmdbChecked": "2026-11-12",
@@ -8725,6 +8615,12 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-11-12"
+},
+"mk-club-kid": {
+"v": 4,
+"checked": "2026-11-12",
+"tmdbChecked": "2026-11-12",
+"tv": 2
 },
 "mk-como-robar-un-banco": {
 "imdb": "tt35866986",
@@ -8748,34 +8644,34 @@
 "posterPath": "/8sMzu56Nok5WlEXCRdflEgshYQO.jpg"
 },
 "mk-delitos-y-faltas": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-dune-parte-3": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-el-apartamento-cine": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-el-bazar-de-las-sorpresas": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-el-buscavidas": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-el-gato-con-sombrero3": {
 "imdb": "tt2321555",
@@ -8799,48 +8695,60 @@
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
 "mk-fargo": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-gremlins": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-ladron-de-bicicletas": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
-"tmdbChecked": "2026-11-05",
-"tv": 2,
+"imdb": "tt32558705",
+"imdbAll": [
+"tt32558705"
+],
+"lb": "the-hunger-games-sunrise-on-the-reaping",
+"rt": "m/the_hunger_games_sunrise_on_the_reaping",
+"mc": "movie/the-hunger-games-sunrise-on-the-reaping",
+"en": "The Hunger Games: Sunrise on the Reaping",
 "v": 4,
-"checked": "2026-11-05"
-},
-"mk-los-miserables-6ad8da10c40ae": {
-"v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
-"tmdb": 1241803,
-"lang": "fr",
-"imdb": "tt35518109",
-"en": null,
-"lbSlug": "les-miserables-2026",
-"lbRating": 3.49,
-"rated": "2026-11-12",
-"posterPath": "/tY3CoBNTCpvJayVRLqIIGDa4Ep8.jpg"
+"tmdb": 1300968,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "the-hunger-games-sunrise-on-the-reaping",
+"lbRating": null,
+"rated": "2026-11-13",
+"posterPath": "/j1MNyNNgNQL6f27cb3m3uKaPKd6.jpg"
 },
 "mk-origen": {
-"tmdbChecked": "2026-11-05",
-"tv": 2,
+"imdb": "tt1375666",
+"imdbAll": [
+"tt1375666"
+],
+"lb": "inception",
+"rt": "m/inception",
+"mc": "movie/inception",
+"en": "Inception",
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
+"tv": 2,
+"lbSlug": "inception",
+"lbRating": 4.24,
+"rated": "2026-11-13"
 },
 "mk-scrooge-y-los-fantasmas-de-la-navidad": {
 "tmdbChecked": "2026-11-08",
@@ -8849,10 +8757,10 @@
 "checked": "2026-11-08"
 },
 "mk-vengadores-doomsday4": {
-"tmdbChecked": "2026-11-05",
+"tmdbChecked": "2026-11-13",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-05"
+"checked": "2026-11-13"
 },
 "mk-wild-horse-nine": {
 "imdb": "tt15799564",
@@ -8917,11 +8825,26 @@
 "rated": "2026-11-13",
 "posterPath": "/jSziioSwPVrOy9Yow3XhWIBDjq1.jpg"
 },
-"rv-scrooged-1998": {
+"rv-scrooged-1988": {
+"imdb": "tt0096061",
+"imdbAll": [
+"tt0096061"
+],
+"lb": "scrooged",
+"rt": "m/scrooged",
+"mc": "movie/scrooged",
+"en": "Scrooged",
 "v": 4,
-"checked": "2026-11-12",
-"tmdbChecked": "2026-11-12",
-"tv": 2
+"checked": "2026-11-13",
+"tmdbChecked": "2026-11-13",
+"tv": 2,
+"tmdb": 9647,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "scrooged",
+"lbRating": 3.33,
+"rated": "2026-11-13",
+"posterPath": "/uO0znfB2ZzTXA1IS7jkrjNbpkYK.jpg"
 },
 "sr-brunsj-filmklassiker-10-holiday-inn-1942": {
 "imdb": "tt0034862",
