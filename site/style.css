@@ -1145,3 +1145,4 @@ button.seat2, button.seat { cursor: pointer; }
 .cufilm .cgo { grid-column: 3; grid-row: 1 / 3; }
 /* the time line has empty space under its letters, so the bottom padding is smaller: the card looks even at the top and the bottom */
 .cufilm .curows a { padding: 12px 14px 6px; }
+.cufilm .curows a .cstat, .cufilm .cgo { margin-top: -6px; }  /* the card's padding is lopsided on purpose (see above): keep the status and arrow on the card's middle */
