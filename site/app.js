@@ -1015,10 +1015,12 @@ function extLinks(f) {
   const x = f.ext || {};
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
-  const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
-  const label = lb && x.lbRating ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>${lb ? "Letterboxd" : "Search"} ↗</span>`;
+  const rated = !!(lb && x.lbRating);
+  // No rating to show: the pill says Search and opens a Letterboxd search for the film (its original title when we have it, plus the year).
+  const url = rated ? lb : `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
+  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>Search</span>`;
   return {
-    top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${lb && x.lbRating ? "Letterboxd rating" : lb ? "Letterboxd" : "Search Letterboxd"}" aria-label="${lb && x.lbRating ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : "Letterboxd"}">${LB_MARK}${label}</a>`,
+    top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${rated ? "Letterboxd rating" : "Search Letterboxd for this film"}" aria-label="${rated ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : "Search Letterboxd for this film"}">${LB_MARK}${label}</a>`,
     menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
   };
 }
