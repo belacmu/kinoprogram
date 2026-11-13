@@ -1111,3 +1111,16 @@ button.seat2, button.seat { cursor: pointer; }
 .cu .curows a:has(.cstat.you) .cstat { white-space: nowrap; }
 .cuin .curows a { grid-template-columns: 44px minmax(0, 1fr) 16px; }
 #comingUp .cu { margin-bottom: 0; }   /* 12px above the card, 12px below it (the controls add their own 12px of padding) */
+
+/* Coming up rows as one grid: the film title runs under the status (they sit on different lines), so it only shortens at the row's edge */
+.cu .curows a { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto 16px; grid-template-rows: auto auto auto; column-gap: 12px; align-items: start; }
+.cu .ctext { display: contents; }
+.cu .cposter { grid-column: 1; grid-row: 1 / 4; }
+.cu .cdt { grid-column: 2; grid-row: 1; }
+.cu .cline { grid-column: 2; grid-row: 2; }
+.cu .csub { grid-column: 2 / -2; grid-row: 3; display: block; }
+.cu .curows a .cstat { grid-column: 3; grid-row: 1 / 4; align-self: center; justify-self: end; max-width: 150px; white-space: nowrap; }
+.cu .curows a .cstat .cfn { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cu .cgo { grid-column: 4; grid-row: 1 / 4; align-self: center; }
+.cuin .curows a { grid-template-columns: 44px minmax(0, 1fr) 16px; }
+.cuin .cgo { grid-column: 3; }
