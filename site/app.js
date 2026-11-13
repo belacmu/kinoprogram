@@ -800,7 +800,7 @@ function feedPosts(filtered = true) {
   return posts;
 }
 function postText(p) {
-  if (p.type === "update") return esc(p.update.title);
+  if (p.type === "update") return "What's new in Cinecrab";
   if (p.type === "going") return `${esc(shortName(p.actor.name))} is going to ${p.shows.length === 1 ? `<b>${esc(p.shows[0].title)}</b>` : `${p.shows.length} showings`}`;
   const n = p.rows.length, one = titleOf(p.rows[0].f), films = n === 1 ? "one film" : `${n} films`;
   if (p.type === "friend") return `${esc(shortName(p.actor.name))} added ${n === 1 ? `<b>${esc(one)}</b>` : films} to their watchlist`;
@@ -819,7 +819,7 @@ const feedSeen = () => local.get("feedSeen", "");
 let feedLatest = "";
 function markFeedSeen() { if (feedLatest) local.set("feedSeen", feedLatest); }
 function postHtml(p) {
-  if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>${esc(p.update.title)}</strong><time>What's new in Cinecrab · ${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
+  if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>What's new in Cinecrab</strong><time>${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
   if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
   const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
   const icon = p.type === "friend"
