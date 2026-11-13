@@ -339,7 +339,66 @@ Data (Supabase):
   their own row; the daily job reads subscribers with the secret key.
 - **Gmail** (dedicated account, app password) sends the emails over SMTP.
 
+## Showings and "I'm going"
+
+Clicking a showing no longer jumps to the ticket site. It opens that showing's own page inside the film sheet.
+This is the agreed design, and it is built: the pages, the Going card (I'm going, Seats, Invite), plans saved to the
+account (`plans`, see `supabase/schema.sql`: run it once in Supabase), friends' plans on showing pages and in the Feed's Coming up,
+invite links, and guests. Signed out with no accounts available, plans stay on the device.
+
+**The page.** The film's header is drawn by one shared function (poster, title, details, Letterboxd pill, Watchlist, "…" menu,
+blurb), so the film sheet and a showing's page are identical above the divider. Below it, the showings zone changes: a
+"‹ All showings" pill sits where the cinema and format menus were, then the showing as an enlarged stub (big date, time and
+cinema, **Tickets** button top right, who's going and the tags in one row), then the Going card. Sold out or not on sale: the
+Tickets button shows the status instead. Every showing has its own link: `#film/<film id>/<time>|<cinema>`.
+
+**Going.** Personal, per showing, retractable at any time. One tap on **I'm going**; guests (not signed in) give a name first.
+Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row: 4 / Seat: 7" in two small lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never
+on the card itself.
+
+**Who sees it** (for now, simply public): marking yourself as going makes it visible to everyone who can reach the showing: friends
+(in their Feed and on the showing page) and anyone in your party (invite links, and the people they invite in turn). The page says so ("Others will see that you're going" before, "Others can see that you're going" after). There is no
+privacy control in the interface yet; the `tell_friends` column stays (always true) so it can be brought back as a switch later, along
+with "only people I invite". **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
+someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
+
+**Guests.** A guest is a Supabase anonymous user: a real user id with no email. Creating an account links an email to that same
+user, so nothing is copied or claimed. Needs anonymous sign-in switched on in Supabase, the `handle_new_user` trigger to cope
+with a null email, and bot protection. Retracting going is always possible. No plus-ones (enter several seats), no guest caps,
+no remembered default.
+
+**A plan keeps a copy of its showing** (film id, title, cinema, start time, ticket link) with a stable id made from film +
+cinema + start time, so a shared page still renders after the schedule changes or drops the showing.
+
+**Feed.** "Coming up" (your plans and your friends', soonest first) sits at the top of the Films tab, above the filters, with a status per row: "✓ You're going" or "Anna, Dan going". Friends going also appear in the Feed as posts ("Anna is going to …"), and the Feed badge counts them. The film sheet's showing buttons carry a green check (you) and friends' initials.
+
+**How the pieces work**
+- Each plan has a private `invite_token`. **Invite** copies the showing link with `?inv=<token>`. Opening it (no account needed) calls
+  `plan_by_invite(token)`: the inviter's name and seats, then anyone who joined through it, and a "Anna is going. Join in?" banner.
+- A guest gives a name, then tapping **I'm going** signs them in anonymously (`signInAnonymously`) and saves a plan whose `joined_via`
+  is that token. If the schedule no longer has the showing, the page is rebuilt from the copy the plan kept.
+- **What's new:** `site/updates.json` is a list of `{at, title, bullets}`; each entry is a Feed post ("What's new in Cinecrab", dated by `at` like any post, no version numbers, nothing to dismiss) for 30 days, but only for people whose first visit on that device was before `at` (`kino:firstSeen`; a device that already has a watchlist or has seen the feed counts as old). The daily email shows entries since its last send in a "What's new in Cinecrab" section, never triggering an email by itself. To announce something, add an entry to the file.
+- **Daily email:** a "Friends are going" section lists showings friends said they're going to since the last email (it never triggers an email by itself). It reads `plans` with the secret key, so `schema.sql` grants `select` on it to `service_role`.
+- **Invite link and merging:** `plan_by_invite(token)` returns the whole merged party, so one link also reveals the names and seats of friends of the host and their guests. Friend codes make a friendship instantly with no attempt limit; rate-limiting `redeem_friend_code` is a known follow-up.
+- **Merging:** when you go to a showing, your party is merged with the parties of your friends who are going to it (and with the invite you joined through), so everyone connected sees everyone, and friends of friends can reach each other's guests. Done inside `save_plan`.
+- Friends' plans come from `friends_plans(since)` (only plans with Tell friends on): chips on the showing page, and the Feed's
+  **Coming up** (yours and friends', soonest first, up to 8).
+- Signing in properly after being a guest: plans made on this device carry over (they are kept locally and added to the account),
+  but the guest's old server rows are left behind, so someone you invited may see both names. Linking the email to the anonymous
+  user instead would avoid that.
+
+**Not built yet**
+- Per-showing link previews ("Mia is going to X, Sat 19:00 at Saga"): a small edge function serving preview tags and then
+  redirecting. Until then a showing link previews as the site.
+- Notifications, plans for past showings, and the "Everyone" admin level.
+
+**Next:** per-showing link previews.
+
 ## Later / out of scope for v1
+
+- **Feed tab badge for friends' new plans**: a small badge on the Feed tab when a friend newly says they're going to something (a
+  showing you haven't answered), cleared when you open the Feed. It needs a "seen up to" time for plans, like `feedSeen` for posts
+  (`friends_plans` already returns `created_at`). Idea noted during the showing-page work; not built.
 
 - More Oslo-area venues (Deichman, Cinema Neuf, Weird and Wonderful Cinema, FilmrullKlubb).
 - Derrick Theatre (Virden): Facebook only; best route is getting it listed on CinemaClock.

@@ -86,7 +86,13 @@ const state = {
   blurbOpen: "",        // film sheet: the film whose description is expanded
   cinemasOpen: false,   // filter panel: all cinemas listed, not just the busiest
   friends: [],          // [{ id, name, list: Set of film ids }]: people who added each other by code
-  friendsAt: 0,         // when the friends were last loaded
+  friendsAt: 0,          // when the friends were last loaded
+  guest: null,          // an anonymous account made by joining someone's showing: {id}. Counts for plans, not as being signed in
+  friendPlansAll: [], friendPlansAt: 0,  // friends' upcoming plans (friends_plans), every region
+  invite: null,         // the invite link being looked at: {token, rows: who is going through it}
+  updates: [],           // what's new in Cinecrab (site/updates.json)
+  seatsOpen: "",         // the plan whose seats are being edited
+  inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
   acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
   pendingFriend: (() => { try { return sessionStorage.getItem("kino:pendingFriend") || ""; } catch { return ""; } })(),  // a code from an invite link, waiting for sign-in
@@ -505,7 +511,7 @@ function ratingHtml(f) {
   const r = f.ext?.lbRating;
   if (r == null) return "";
   const label = `Letterboxd rating ${r.toFixed(1)} out of 5`;
-  return `<span class="lbr pillr" title="${label}" aria-label="${label}">${r.toFixed(1)}<i aria-hidden="true">★</i></span>`;
+  return `<span class="lbr pillr" title="${label}" aria-label="${label}">${r.toFixed(1)}${STAR}</span>`;
 }
 // Watchlist heart (inline SVG so it's crisp and the same everywhere).
 const moreIcon = `<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="19" cy="12" r="1.9" fill="currentColor"/></svg>`;
@@ -695,7 +701,7 @@ function render() {
   if (!state.data) return;  // the programme hasn't arrived yet (an account finishing loading can ask for a redraw first)
   renderNav();
   if (state.page === "feed") { filmsDirty = true; renderFeed(); prepareFilms(); return; }
-  renderControls(); renderGrid();
+  renderComing(); renderControls(); renderGrid();
   filmsDirty = false;
 }
 
@@ -704,10 +710,14 @@ function render() {
 // announced", "More showings for Dune", "Santi added 4 films to their watchlist". Events come from the programme data
 // (state.data.events, written by the scraper) and from friends (state.friendEvents); the same filters as the list apply.
 const FEED_DAYS = 30;
+// Someone's first visit on this device: updates from before it aren't news to them. A device that already has a watchlist or has seen the
+// feed counts as having been here from the start.
+if (!local.get("firstSeen", "")) local.set("firstSeen", local.get("watchlist", null) !== null || local.get("feedSeen", "") ? "2000-01-01T00:00" : new Date().toISOString().slice(0, 16));
 const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
 const FEED_ICONS = {  // 24x24, each glyph centred on (12, 12)
   sale: `<path d="M5 6h14a2 2 0 0 1 2 2v2.2a1.8 1.8 0 0 0 0 3.6V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.2a1.8 1.8 0 0 0 0-3.6V8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14.5 8.5v1.2M14.5 11.4v1.2M14.5 14.3v1.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
   announced: `<path d="M12 3l2.3 6.7L21 12l-6.7 2.3L12 21l-2.3-6.7L3 12l6.7-2.3z" fill="currentColor"/>`,
+  update: `<path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4.5 3.5V17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 10h8M8 13h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
   showings: `<rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 9.5h16" stroke="currentColor" stroke-width="2"/><path d="M12 12.2v4.6M9.7 14.5h4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
 };
 // A UTC stamp ("2026-10-31T08:28", as the database keeps them) as this location's local time.
@@ -760,10 +770,38 @@ function feedPosts(filtered = true) {
     if (!p.rows.some((r) => r.f.id === e.row.f.id)) p.rows.push(e.row);
   }
   const posts = [...by.values()].sort((a, b) => b.at.localeCompare(a.at));
+  // What's new in Cinecrab: one post per entry of site/updates.json, newer than the visitor's first visit (the post's own time is `at`).
+  if (!filtered || !state.feedKinds.length) {
+    const oldest = addDays(localNow().slice(0, 10), 1 - FEED_DAYS), first = (local.get("firstSeen", "") || "").slice(0, 16);
+    for (const u of state.updates || []) {
+      if (!u?.at || !u.title || u.at.slice(0, 10) < oldest || (first && utcToLocal(first) > u.at)) continue;
+      posts.push({ key: `update|${u.at}`, type: "update", at: u.at, rows: [], update: u });
+    }
+    posts.sort((a, b) => b.at.localeCompare(a.at));
+  }
+  // Friends going to showings: one post per friend per day, with their showings under it (only the ones still to come).
+  if (!filtered || !state.feedKinds.length || state.feedKinds.includes("friend")) {
+    const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - FEED_DAYS), goes = new Map();
+    for (const r of friendPlansHere()) {
+      const at = utcToLocal(String(r.created_at || "").slice(0, 16));
+      if (r.starts < now || at.slice(0, 10) < oldest) continue;
+      const f = findFilm(r.film_id);
+      if (f && isHidden(f)) continue;
+      const k = `going|${r.friend_id}|${at.slice(0, 10)}`;
+      if (!goes.has(k)) goes.set(k, { key: k, type: "going", actor: { id: r.friend_id, name: r.name }, at, rows: [], shows: [] });
+      const g = goes.get(k);
+      if (at > g.at) g.at = at;
+      g.shows.push({ film: r.film_id, title: r.film_title, at: r.starts, cinema: r.cinema, friends: [], you: !!plans[r.showing_id]?.going, hideStatus: true });
+    }
+    for (const g of goes.values()) { g.shows.sort((a, b) => a.at.localeCompare(b.at)); posts.push(g); }
+    posts.sort((a, b) => b.at.localeCompare(a.at));
+  }
   for (const p of posts) p.rows.sort((a, b) => b.watched - a.watched || b.at.localeCompare(a.at) || byWithin(a, b));
   return posts;
 }
 function postText(p) {
+  if (p.type === "update") return "What's new in Cinecrab";
+  if (p.type === "going") return `${esc(shortName(p.actor.name))} is going to ${p.shows.length === 1 ? `<b>${esc(p.shows[0].title)}</b>` : `${p.shows.length} showings`}`;
   const n = p.rows.length, one = titleOf(p.rows[0].f), films = n === 1 ? "one film" : `${n} films`;
   if (p.type === "friend") return `${esc(shortName(p.actor.name))} added ${n === 1 ? `<b>${esc(one)}</b>` : films} to their watchlist`;
   if (p.type === "sale") return n === 1 ? "One new film on sale" : `${n} new films on sale`;
@@ -781,6 +819,8 @@ const feedSeen = () => local.get("feedSeen", "");
 let feedLatest = "";
 function markFeedSeen() { if (feedLatest) local.set("feedSeen", feedLatest); }
 function postHtml(p) {
+  if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>What's new in Cinecrab</strong><time>${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
+  if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
   const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
   const icon = p.type === "friend"
     ? `<span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span>`
@@ -809,11 +849,41 @@ function renderSkeleton() {
     $("grid").innerHTML = `<section class="sec sk" aria-hidden="true"><h2 class="sech"><span class="skbar"></span></h2>${cards(12)}</section>`;
   }
 }
+// One showing as a row: poster | date, time · cinema (+ who is going), film. Opens the showing. For Coming up and for feed posts.
+function comingRow(r) {
+  const f = findFilm(r.film), d = asDate(r.at);
+  const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
+  // Status, not a button: if you're going, only that; otherwise who is going, so you can see it's open to you.
+  const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
+  const status = r.hideStatus ? "" : r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
+    : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
+  return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span></span><span class="csub">${esc(r.title)}</span></span>${status}<svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
+}
+// Coming up: showings you and your friends (who turned Tell friends on) are going to, soonest first.
+function comingUpHtml() {
+  const now = localNow(), by = new Map();
+  const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [], names: [], friends: [], you: false }).get(id);
+  for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
+    const [fid, at, cin] = id.split("|");
+    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You"); by.get(id).you = true;
+  }
+  for (const r of friendPlansHere()) if (r.starts >= now) { const e = entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema); e.names.push(r.name); e.friends.push({ id: r.friend_id, name: r.name }); }
+  const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
+  if (!rows.length) return "";
+  // Laid out like the showing page's card: date in the display font on top, "time · cinema" under it (who is going at the right of that line),
+  // the film underneath. The poster is at the left, top-aligned with the date.
+  return `<section class="cu"><ul class="curows">${rows.map(comingRow).join("")}</ul></section>`;
+}
+// Coming up lives at the top of the Films tab, above the filters.
+function renderComing() {
+  const el = $("comingUp");
+  if (el) el.innerHTML = state.data && state.page === "films" ? comingUpHtml() : "";
+}
 function renderFeed() {
   if (!state.data) return;  // the skeleton stays until the programme arrives
   posterEager = 12;
   const el = $("feedPage"), seen = feedSeen(), posts = feedPosts();
-  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
+  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at), ...posts.filter((x) => x.type === "going" || x.type === "update").map((x) => x.at)].sort().at(-1) || "";
   const parts = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
@@ -923,6 +993,17 @@ function fitBlurb() {
 }
 window.addEventListener("resize", () => { if ($("film").open) fitBlurb(); });
 
+// "#film/ID" is a film's sheet; "#film/ID/SHOWING" is one showing's page inside it (SHOWING = "time|cinema", encoded).
+function hashParts() {
+  const m = location.hash.match(/^#film\/([^/?]+)(?:\/([^?]+))?(?:\?(.*))?$/);
+  if (!m) return { id: "", show: "", inv: "" };
+  const dec = (x) => { try { return decodeURIComponent(x); } catch { return ""; } };  // a broken %-escape is just "nothing"
+  const inv = new URLSearchParams(m[3] || "").get("inv") || "";
+  return { id: dec(m[1]), show: m[2] ? dec(m[2]) : "", inv: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(inv) ? inv : "" };
+}
+const showKey = (s) => `${s.t}|${s.cinema}`;
+const showHref = (f, s) => `#film/${encodeURIComponent(f.id)}/${encodeURIComponent(showKey(s))}`;
+
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
 
 // The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
@@ -945,38 +1026,84 @@ function sheetTagList(all) {
 
 const MEAL_TAG = "Meal + film";  // dinner/brunch packages (Sommerro, sometimes Vega): priced far above a cinema ticket
 
-function stubHtml(s) {
+// Who is going to a showing, for its button in the film's list: you (a green check) and friends who told friends (their initials).
+function stubGoers(f, s) {
+  const id = planId(f, s), you = !!plans[id]?.going, fr = friendPlansHere().filter((r) => r.showing_id === id);
+  if (!you && !fr.length) return "";
+  const dots = fr.slice(0, 2).map((r) => `<span class="fdot" style="--h:${friendHue(r.friend_id)}">${esc(initialsOf(r.name))}</span>`).join("") + (fr.length > 2 ? `<span class="fdot more">+${fr.length - 2}</span>` : "");
+  const label = [you ? "You're going" : "", fr.length ? `${nameList(fr.map((r) => shortName(r.name)))} ${fr.length > 1 ? "are" : "is"} going` : ""].filter(Boolean).join(". ");
+  return `<span class="sgoers" role="img" aria-label="${esc(label)}" title="${esc(label)}">${you ? '<span class="sgo-you">✓</span>' : ""}${dots}</span>`;
+}
+function stubHtml(s, f) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const tags = showTags(s);
   const inner = `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
     + (tags.length ? `<span class="tg">${esc(tags.map((t) => (t === MEAL_TAG ? "🍽 " : "") + t).join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
     + (!s.ticket ? `<span class="c">${esc(s.status || "Not on sale yet")}</span>` : "");
-  return s.ticket
-    ? `<a class="stub" href="${esc(s.ticket)}" target="_blank" rel="noopener" title="Buy tickets">${inner}</a>`
-    : `<span class="stub nosale">${inner}</span>`;
+  return `<a class="stub${s.ticket ? "" : " nosale"}${planOf(f, s)?.going ? " going" : ""}" href="${showHref(f, s)}">${inner}${stubGoers(f, s)}</a>`;
 }
 
 // Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
 // confidently (scraper/external.py); otherwise a Letterboxd search, which can't point at the wrong film.
 // The Letterboxd link is always at the top, with the rating when there is one; the cinema listing's own links (Filmweb, ...)
 // go in the "more" menu.
+// Letterboxd's own logos: the white-circle decal for light mode (site/icons/letterboxd.svg) and the dark-circle one for dark mode
+// (site/icons/letterboxd-dark.svg); the pill takes its colour from whichever is showing.
+const LB_MARK = `<img class="lbmark lb-light" src="icons/letterboxd.svg" alt="" width="32" height="32" onerror="this.remove()"><img class="lbmark lb-dark" src="icons/letterboxd-dark.svg" alt="" width="32" height="32" onerror="this.remove()">`;
+const STAR = `<svg class="lbstar" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z" fill="currentColor"/></svg>`;
 function extLinks(f) {
   const x = f.ext || {};
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
-  const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
-  const label = (lb && x.lbRating ? `<b>★ ${x.lbRating.toFixed(1)}</b> ` : "") + `<span>${lb ? "Letterboxd ↗" : "Search Letterboxd ↗"}</span>`;  // the underlined part is the link's look
+  const rated = !!(lb && x.lbRating);
+  // No rating to show: the pill says Search and opens a Letterboxd search for the film (its original title when we have it, plus the year).
+  const url = rated ? lb : `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
+  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>Search<i class="sa" aria-hidden="true"> ↗</i></span>`;
   return {
-    top: `<a class="rate" href="${esc(url)}" target="_blank" rel="noopener"${lb && x.lbRating ? ' title="Letterboxd rating"' : ""}>${label}</a>`,
+    top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${rated ? "Letterboxd rating" : "Search Letterboxd for this film"}" aria-label="${rated ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : "Search Letterboxd for this film"}">${LB_MARK}${label}</a>`,
     menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
   };
+}
+
+// The film's header (poster, title, details, actions): the film sheet and a showing's page both start with this, so they match.
+// Redrawing the sheet keeps the poster image that is already loaded, so it doesn't blink on every tap.
+function setSheet(dlg, html) {
+  const old = dlg.querySelector(".fhead img");
+  dlg.innerHTML = html;
+  const fresh = dlg.querySelector(".fhead img");
+  if (old && fresh && old.src === fresh.src && old.complete && old.naturalWidth) fresh.replaceWith(old);
+}
+function filmHead(f) {
+  const meta = [KIND_BADGE[f.kind], f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : "", f.countries.slice(0, 3).join(", "), f.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ");
+  const on = isWatched(f), info = isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "", ext = extLinks(f);
+  return `<div class="fhead">${f.poster ? `<button type="button" class="pzoom" data-zoom="${esc(f.id)}" aria-label="Enlarge the poster of ${esc(titleOf(f))}">${posterHtml(f)}</button>` : posterHtml(f)}<div class="ftext">
+      ${info ? `<div class="badges">${info}</div>` : ""}
+      <h2 id="filmTitle">${esc(titleOf(f))}</h2>
+      ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
+      <div class="meta">${esc(meta)}</div>
+    <div class="fmore">
+      <div class="actions">${ext.top}
+        <button class="btn wl${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}">${heart(on)}<span class="wll">${on ? "On watchlist" : "Watchlist"}</span></button>
+        <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
+          <div class="menu right" id="sheetMoreMenu" role="menu" hidden><button role="menuitem" data-share="${esc(f.id)}"><span class="mi">${canShare ? shareIcon : linkIcon}</span>${canShare ? "Share this film" : "Copy link to this film"}</button>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
+      </div>
+      ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
+    </div>
+    </div>
+    ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}</div>`;
 }
 
 function openFilm(id) {
   const f = findFilm(id);
   if (!f) return;
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
+  const hp = hashParts();
+  const partyTok = hp.inv || (hp.show ? plans[`${f.id}|${hp.show}`]?.inv : "");  // an invite link's token, or your own plan's: either shows the party
+  if (partyTok && state.inviteLoading !== partyTok && !(state.invite?.token === partyTok && Date.now() - state.invite.at < 15000)) loadInvite(partyTok);
+  if (hp.show && state.friendPlansAt === 0 && state.user) loadFriendPlans();
+  const sh = hp.show && showFor(f, hp.show);
+  if (sh) { showingPage(f, sh, dlg); return; }
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
   // Opened while a day is picked on the main page: list that day (if the film plays then), otherwise all days.
@@ -993,7 +1120,7 @@ function openFilm(id) {
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
     <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
-    <div class="stubs">${shows.map(stubHtml).join("")}</div></div>`).join("");
+    <div class="stubs">${shows.map((s) => stubHtml(s, f)).join("")}</div></div>`).join("");
   let empty = "";
   if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
   else if (!all.length && f.elsewhere?.length) empty = `<p class="hiddenNote">Premiere ${dayLabel(f.premiere)}. Showings so far only in ${esc(f.elsewhere.join(", "))}; none in ${esc(state.data.location)} yet.</p>`;
@@ -1005,29 +1132,12 @@ function openFilm(id) {
   const info = isNew(f) ? `<span class="badge new">${f.status === "on_sale" ? "New on sale" : "Newly announced"}</span>` : "";
   const ext = extLinks(f), picks = sheetPicks(all, shown, withTags, today);
   const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
-  dlg.innerHTML = `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
-    <div class="fhead">${f.poster ? `<button type="button" class="pzoom" data-zoom="${esc(f.id)}" aria-label="Enlarge the poster of ${esc(titleOf(f))}">${posterHtml(f)}</button>` : posterHtml(f)}<div class="ftext">
-      ${info ? `<div class="badges">${info}</div>` : ""}
-      <h2 id="filmTitle">${esc(titleOf(f))}</h2>
-      ${otherTitles(f).length ? `<div class="alt">${esc(otherTitles(f).join(" · "))}</div>` : ""}
-      <div class="meta">${esc(meta)}</div>
-      ${ext.top}
-      ${f.blurb ? `<div class="blurb${state.blurbOpen === f.id ? " open" : ""}"><p id="blurbText">${esc(f.blurb)}</p><button type="button" class="linkbtn" data-blurb="${esc(f.id)}" aria-controls="blurbText" aria-expanded="${state.blurbOpen === f.id}" hidden>${state.blurbOpen === f.id ? "Show less" : "Show more"}</button></div>` : ""}
-    </div>
-    <div class="fmore">
-      <div class="actions">
-        <button class="btn primary${on ? "" : " accent"}" data-star="${esc(f.id)}">${heart(on)} ${on ? "On your watchlist" : "Add to watchlist"}</button>
-        <button class="btn ghost share" data-share="${esc(f.id)}" aria-label="${canShare ? "Share" : "Copy link"}">${canShare ? shareIcon : linkIcon}<span class="lbl">${canShare ? "Share" : "Copy link"}</span></button>
-        <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
-          <div class="menu right" id="sheetMoreMenu" role="menu" hidden>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
-      </div>
-      ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
-    </div>
-    </div>
-    ${picks.menus || picks.strip ? `<div class="showings"><div class="showhead"><h3>Showings</h3>${picks.menus}</div>${picks.strip}</div>` : ""}
+  setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
+    ${filmHead(f)}
+    ${picks.menus || picks.strip ? `<div class="showings">${picks.menus ? `<div class="showhead">${picks.menus}</div>` : ""}${picks.strip}</div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
-    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`;
-  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; }  // always start at the top, with the title and poster
+    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
   const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
   if (!strip) return;
@@ -1037,6 +1147,282 @@ function openFilm(id) {
   fitDayStrip(strip);
   strip.addEventListener("scroll", () => fitDayStrip(strip), { passive: true });
 }
+
+// ---------------------------------------------------------------- a showing's own page
+// Plans: what you've said about a showing, kept on this device and, when signed in (or a guest), in your account (table `plans`).
+// {going, tell, seats, inv, via, party, ...a copy of the showing so it still shows if the schedule changes: film, title, cinema, time, region, ticket}.
+// tell: always true for now (going is public); kept so a privacy control can come back.
+// inv is the plan's private invite token and party its party: both are made by the server (save_plan), never here.
+const plans = local.get("plans", {});
+if (!local.get("plansV2", false)) { for (const p of Object.values(plans)) delete p.inv; local.set("plansV2", true); }  // tokens used to be made here; the server's are the real ones
+const planDirty = new Set(local.get("planDirty", []));  // plans changed here and not yet saved to the account
+const savedAt = {};  // when each plan was last saved from here (a load that started before must not delete it)
+const planV = {};  // how many times each plan was edited in this page (a save only clears the mark if nothing changed meanwhile)
+const planUser = () => state.user || state.guest;  // signed in, or a guest (anonymous account)
+const friendPlansHere = () => state.friendPlansAll.filter((r) => r.region === state.region);  // friends' plans in the location being shown
+const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "");  // only web links: never a javascript: URL
+const planId = (f, s) => `${f.id}|${showKey(s)}`;
+const planOf = (f, s) => plans[planId(f, s)];
+function setPlan(f, s, patch) {
+  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch, film: f.id, title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: safeUrl(s.ticket) };
+  if (next) plans[id] = next; else delete plans[id];
+  local.set("plans", plans);
+  planDirty.add(id); planV[id] = (planV[id] || 0) + 1; local.set("planDirty", [...planDirty]);
+  syncPlansSoon();
+  if (state.page === "films") renderComing();
+}
+let planTimer = 0, planRetry = 0, syncChain = Promise.resolve();
+const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
+const planArgs = (id, p) => { const [fid, at, cin] = id.split("|"); return {  // plans made before the copy was kept: taken from the id
+  p_showing_id: id, p_film_id: p.film || fid, p_film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), p_cinema: p.cinema || cin,
+  p_starts: p.t || at, p_region: p.region || state.region, p_ticket: safeUrl(p.ticket) || null, p_seats: p.seats || null, p_joined_via: p.via || null }; };
+// Save what changed here: plans that exist are written, plans that were retracted are deleted. One run at a time; a plan that
+// fails is skipped (the rest still save) and everything left is tried again shortly.
+function syncPlans() { syncChain = syncChain.then(runSync, runSync); return syncChain; }
+async function runSync() {
+  const me = planUser();
+  if (!me || !sb || !planDirty.size) return;
+  let failed = false;
+  for (const id of [...planDirty]) {
+    const p = plans[id], v = planV[id] || 0;
+    let error, tok;
+    if (p) ({ data: tok, error } = await sb.rpc("save_plan", planArgs(id, p)));
+    else ({ error } = await sb.from("plans").delete().eq("user_id", me.id).eq("showing_id", id));
+    if (error && /^(22|23)/.test(error.code || "")) { console.error("A plan was refused:", error.message); planDirty.delete(id); continue; }  // refused for good (a value too long, a check): trying again won't help
+    if (error) { console.error("Saving a plan failed:", error.message); failed = true; continue; }
+    if (p && tok && plans[id]) {
+      plans[id].inv = tok; savedAt[id] = Date.now();
+      const hp = hashParts();
+      if ($("film").open && hp.show && `${hp.id}|${hp.show}` === id) loadInvite(tok, true);  // you went, or changed your seats: the party may have changed
+    }
+    if ((planV[id] || 0) === v) planDirty.delete(id);  // edited again while saving: stays marked for the next round
+  }
+  local.set("plans", plans); local.set("planDirty", [...planDirty]);
+  clearTimeout(planRetry);
+  if (planDirty.size) planRetry = setTimeout(syncPlans, failed ? 20000 : 700);
+}
+// Signing out, or into a different account, leaves nothing of the last person's plans behind on this device.
+function clearPlansState() {
+  for (const k of Object.keys(plans)) delete plans[k];
+  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
+  local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
+}
+// On sign-in: send this device's unsaved changes, then take the account's plans. The first time an account is used on this device,
+// plans made here before signing in are added to it; after that the account is the truth (a plan retracted on another device goes here too).
+async function loadPlans() {
+  const me = planUser();
+  if (!me || !sb) return;
+  await syncPlans();
+  if (planUser()?.id !== me.id) return;
+  const t0 = Date.now();
+  const { data, error } = await sb.from("plans").select("showing_id,film_id,film_title,cinema,starts,region,ticket,tell_friends,seats,invite_token,joined_via,party").eq("user_id", me.id);
+  if (planUser()?.id !== me.id) return;  // signed out (or into another account) while loading: this belongs to nobody here any more
+  if (error) { console.error("Loading plans failed:", error.message); return; }
+  const remote = new Map(data.map((r) => [r.showing_id, r]));
+  const firstHere = local.get("plansFor", "") !== me.id;
+  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, party: r.party || undefined, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: safeUrl(r.ticket) };
+  for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id) && !((savedAt[id] || 0) >= t0)) { if (firstHere) { planDirty.add(id); planV[id] = (planV[id] || 0) + 1; } else delete plans[id]; }
+  local.set("plans", plans); local.set("planDirty", [...planDirty]); local.set("plansFor", me.id);
+  await syncPlans();
+  if (state.page === "feed") renderFeed(); else renderComing();
+  renderNav();
+  refreshSheet();
+}
+// Redraw the open film sheet, unless someone is typing in it (that would take the box away from them).
+function refreshSheet() {
+  const a = document.activeElement;
+  if ($("film").open && location.hash.startsWith("#film/") && !($("film").contains(a) && a.matches("input"))) openFilm(hashParts().id);
+}
+const myName = () => state.profile?.display_name || local.get("guestName", "");
+const showUrl = (f, s) => location.origin + location.pathname + (state.region === "oslo" ? "" : `?r=${encodeURIComponent(state.region)}`) + showHref(f, s);
+// A showing from the schedule, or (for an invite link to one the schedule no longer has) rebuilt from the copy the plan kept.
+function showFor(f, key) {
+  const real = f?.shows.find((x) => showKey(x) === key);
+  const r = state.invite?.rows[0];
+  if (real || !f || !r || r.film_id !== f.id || `${r.starts}|${r.cinema}` !== key) return real || null;
+  return { t: r.starts, cinema: r.cinema, ticket: safeUrl(r.ticket), tags: [], screen: "", status: "" };
+}
+// Everyone you can see is going to this showing, as {name, seats, me}: you, then your party (everyone connected through invite links),
+// then friends who told friends.
+function peopleOf(f, s, plan, name) {
+  const id = planId(f, s);
+  const out = plan?.going ? [{ name: name || "You", seats: plan.seats || "", me: true }] : [];
+  const friendRows = friendPlansHere().filter((r) => r.showing_id === id);
+  // The party (an invite link, or your own plan's): everyone but you, and but your friends (their rows come from friends_plans, with
+  // their real names) when we have those rows.
+  for (const r of state.invite?.rows || []) if (r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s) && !r.is_me && !(r.is_friend && friendRows.length)) out.push({ name: r.name, seats: r.seats || "", me: false });
+  for (const r of friendRows) out.push({ name: r.name, seats: r.seats || "", me: false });
+  // Everyone else: by row, then seat; people with no seats come last, alphabetically. (You stay first, as your own line.)
+  const num = (s) => { const m = String(s || "").match(/\d+/); return m ? +m[0] : Infinity; };
+  const key = (p) => { const { row, seats } = seatParts(p.seats); return { has: !!(row || seats), row: row ? (/^\d+$/.test(row) ? +row : Infinity) : Infinity, rowTxt: row.toLowerCase(), seat: num(seats) }; };
+  const mine1 = out.filter((p) => p.me), rest = out.filter((p) => !p.me).sort((a, b) => {
+    const x = key(a), y = key(b);
+    if (x.has !== y.has) return x.has ? -1 : 1;
+    if (x.has) return x.row - y.row || x.rowTxt.localeCompare(y.rowTxt) || x.seat - y.seat || a.name.localeCompare(b.name);
+    return a.name.localeCompare(b.name);
+  });
+  return [...mine1, ...rest];
+}
+// Seats are kept as "row|seats" ("4|7–9"); older free text without the bar is just shown as the seats.
+const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
+// Two small lines in a grey tag: the word at the left, the number at the right ("Row:   5" / "Seat:   7"). Your own tag has a pencil.
+const PENCIL = `<svg class="pen" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
+// "Seat" for one number, "Seats" when there are two or more ("7-9", "7, 8", "7 8").
+const seatWord = (seats) => ((String(seats || "").match(/\d+/g) || []).length > 1 ? "Seats" : "Seat");
+function seatTag(v, tag = "span", attrs = "", edit = false) {
+  const { row, seats } = seatParts(v);
+  const word = seatWord(seats);
+  const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
+  return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}><span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
+}
+// One line for other people: "Row 4, Seats 7–9".
+function seatLine(v) {
+  const { row, seats } = seatParts(v);
+  const word = seatWord(seats);
+  return `<span class="seat1">${[row ? `Row ${esc(row)}` : "", seats ? `${word} ${esc(seats)}` : ""].filter(Boolean).join(", ")}</span>`;
+}
+function seatLabel(v) {
+  const { row, seats } = seatParts(v);
+  return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(", ");
+}
+const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
+const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
+
+function showingPage(f, s, dlg) {
+  const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
+  const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
+  const sub = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).join(" · ");
+  const name = myName(), on = !!plan?.going;
+  const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
+  const people = peopleOf(f, s, plan, name);
+  const seatsOpen = on && state.seatsOpen === planId(f, s);
+  const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}"${on ? ' title="Tap to say you\'re not going"' : ""}>${on ? "✓ Going" : "I'm going"}</button>`;  // the words change with the state: a call to action, then a confirmation
+  const row = (p) => {
+    let seats;
+    if (!p.me) seats = p.seats ? seatLine(p.seats) : "";
+    else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
+    // Editing your seats happens on your own line when there is room: the boxes and Done take the place of the seats tag and the button.
+    const editor = `<span class="seatedit"><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric" autofocus><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"><button class="pbtn sm" data-seatsdone="1">Done</button></span>`;
+    if (p.me) return `<div class="prow2 me${seatsOpen ? " editing" : ""}"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seatsOpen ? editor : seats + goBtn}</div>`;
+    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
+  };
+  // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
+  // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
+  const others = people.filter((p) => !p.me);
+  const note = `<p class="visnote">Others can see that you're going.</p>`;
+  const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
+  let mine;
+  if (on) mine = row(people.find((p) => p.me)) + note;
+  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></span>${goBtn}</div>`;
+  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
+  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
+  setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
+    ${filmHead(f)}
+    <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
+    <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
+      <div class="plist">${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>`);
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
+  fitBlurb();
+  if (seatsOpen && !document.activeElement?.matches?.(".seatedit input")) dlg.querySelector('.seatedit [data-plan="row"]')?.focus();  // autofocus only works once per page
+}
+
+// A guest is an anonymous account, made when they first say they're going (so nobody needs an account to join in).
+async function guestSignIn(name) {
+  if (!sb) return true;  // no accounts here: the plan stays on this device
+  if (planUser()) return true;
+  const { data, error } = await sb.auth.signInAnonymously();
+  if (error || !data?.user) { console.error("Guest sign-in failed:", error?.message); return false; }
+  state.guest = { id: data.user.id };
+  await sb.from("profiles").update({ display_name: name }).eq("id", data.user.id);
+  return true;
+}
+let nameTimer = 0, joining = false;
+// The invite link needs the plan saved first: the server makes its private token.
+async function inviteUrl(f, s) {
+  if (!planOf(f, s)?.inv) await syncPlans();
+  const tok = planOf(f, s)?.inv;
+  return tok ? showUrl(f, s) + "?inv=" + tok : "";
+}
+// Does the invite being looked at belong to this very showing?
+const inviteFits = (f, s) => { const r = state.invite?.rows[0]; return !!r && r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s); };
+async function planClick(t) {
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
+  if (!s) return;
+  if (t.dataset.going) {
+    if (joining) return;  // a second tap while the first is still joining
+    const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
+    if (!state.user && nm) local.set("guestName", nm);
+    if (planOf(f, s)?.going) { if (state.invite?.token === planOf(f, s).inv) state.invite = null; setPlan(f, s, null); }
+    else {
+      joining = true;
+      try {
+        if (!state.user && !state.guest && sb) {  // a guest: a name first, then an anonymous account
+          if (!nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
+          if (!(await guestSignIn(nm))) { toast("Couldn't add you. Try again in a moment."); return; }
+        }
+        const inv = inviteFits(f, s) ? state.invite : null;  // joining through someone's invite (only for this showing)
+        setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
+      } finally { joining = false; }
+    }
+  }
+  else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
+  else if (t.dataset.seatsdone) state.seatsOpen = "";
+  else {
+    const url = await inviteUrl(f, s);
+    if (!url) { toast("Couldn't make the invite link yet. Try again in a moment."); return; }
+    if (canShare) { navigator.share({ title: titleOf(f), url }).catch(() => {}); return; }
+    navigator.clipboard.writeText(url).then(() => toast("Invite link copied"), () => toast("Couldn't copy the link"));
+    return;
+  }
+  if (!$("film").open || hashParts().show !== show) return;  // closed or moved on while waiting: don't draw it again
+  showingPage(f, s, $("film"));
+}
+// The plan behind an invite link (who is going through it); works without an account.
+async function loadInvite(token, force) {
+  if (!sb || state.inviteLoading === token) return;
+  state.inviteLoading = token;
+  const { data, error } = await sb.rpc("plan_by_invite", { token });
+  if (state.inviteLoading !== token) return;  // a different invite was asked for meanwhile
+  state.inviteLoading = "";
+  if (error) { console.error("Loading the invite failed:", error.message); return; }
+  state.invite = { token, rows: data || [], at: force ? 0 : Date.now() };
+  refreshSheet();
+}
+// Friends' upcoming plans (those who turned Tell friends on), for the showing pages and the Feed's Coming up.
+async function loadFriendPlans() {
+  if (!sb || !state.user) return;
+  const uid = state.user.id;
+  state.friendPlansAt = Date.now();
+  const { data, error } = await sb.rpc("friends_plans", { since: localNow().slice(0, 10) + "T00:00" });
+  if (state.user?.id !== uid) return;
+  if (error) { console.error("Loading friends' plans failed:", error.message); return; }
+  state.friendPlansAll = data || [];
+  if (state.page === "feed") renderFeed(); else renderComing();
+  renderNav();  // the Feed badge counts friends going
+  refreshSheet();
+}
+$("film").addEventListener("input", (e) => {  // name, row and seats save as you type
+  const k = e.target.dataset?.plan;
+  if (!k) return;
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
+  if (!s) return;
+  if (k === "name") {
+    const nm = e.target.value.trim();
+    if (!state.user) local.set("guestName", nm);
+    if (state.guest && sb) { clearTimeout(nameTimer); nameTimer = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
+  }
+  else if (planOf(f, s)) {  // row and seats are two boxes, kept as "row|seats"
+    if (e.target.value.includes("|")) e.target.value = e.target.value.replace(/\|/g, "");  // the bar separates row from seats
+    const row = $("film").querySelector('[data-plan="row"]')?.value.trim() || "", seats = $("film").querySelector('[data-plan="seats"]')?.value.trim() || "";
+    setPlan(f, s, { seats: row || seats ? `${row}|${seats}` : "" });
+  }
+});
+$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = Done
+  if (e.key !== "Enter" || !["row", "seats"].includes(e.target.dataset?.plan)) return;
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
+  if (s) { state.seatsOpen = ""; showingPage(f, s, $("film")); }
+});
+
 
 // The strip of days is one row. On wider screens it has arrows at both ends (hidden when every day fits), each dimmed
 // once the strip is scrolled to that end; on phones it is swiped.
@@ -1089,12 +1475,12 @@ function route() {
     if (f && !isWatched(f) && requestWatch(f)) { savePrefs(); render(); }
     history.replaceState(null, "", location.pathname + location.search + "#film/" + encodeURIComponent(id));
   }
-  const m = location.hash.match(/^#film\/(.+)$/);
+  const m = location.hash.match(/^#film\/([^/]+)/);
   const first = !state.routed;
   state.routed = true;
   if (m) {
     if (first && state.page !== "films") { state.page = "films"; render(); }  // a link straight to a film: the films list is behind it
-    openFilm(decodeURIComponent(m[1]));
+    openFilm(hashParts().id || m[1]);
     return;
   }
   if ($("film").open) $("film").close();
@@ -1139,9 +1525,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
+  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
@@ -1212,14 +1599,14 @@ document.addEventListener("click", (e) => {
     }
     // A menu stays open while picking in it, with the same item focused.
     const menu = t.closest(".menu")?.id, focus = menu && [...t.attributes].find((a) => a.name.startsWith("data-sheet"));
-    openFilm(location.hash.slice(6));
+    openFilm(hashParts().id);
     if (menu && $(menu)) {
       $(menu).hidden = false;
       $("film").querySelector(`[data-sheetmenu="${menu}"]`).setAttribute("aria-expanded", "true");
       $(menu).querySelector(`[${focus.name}="${CSS.escape(focus.value)}"]`)?.focus();
     }
     return;
-  } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(location.hash.slice(6)); return; }
+  } else if (t.dataset.showall) { state.showAll = t.dataset.showall === "1"; openFilm(hashParts().id); return; }
   render();
   flipRun();
 });
@@ -1441,13 +1828,13 @@ async function shareFilm(f) {
   try { await navigator.clipboard.writeText(url); toast("Link copied"); } catch { toast("Couldn't copy the link"); }
 }
 
-function toast(msg, undo) {
+function toast(msg, undo, label = "Undo") {
   const t = $("toast");
   t.textContent = "";
   const m = document.createElement("span"); m.textContent = msg; t.append(m);
   if (undo) {
     const b = document.createElement("button");
-    b.className = "linkbtn"; b.textContent = "Undo";
+    b.className = "linkbtn"; b.textContent = label;
     b.onclick = () => { undo(); try { t.hidePopover(); } catch { t.hidden = true; } };
     t.append(b);
   }
@@ -1512,7 +1899,7 @@ async function saveAccountNow(extra, withPrefs) {
     state.watchlist = shownList; state.prefs.hidden = shownHidden;
     local.set("watchlist", [...shownList]); local.set("prefs", state.prefs);
     render();
-    if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));
+    if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);
   }
   return true;
 }
@@ -1550,6 +1937,8 @@ async function loadProfile() {
   if (accountRegion && accountRegion !== state.region) loadRegion(accountRegion);  // the account remembers the location, so a new device opens on it
   if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
   if (data.friend_code) loadFriends();
+  loadPlans();
+  loadFriendPlans();
 }
 
 let friendsSeq = 0;
@@ -1579,13 +1968,14 @@ async function loadFriends() {
   state.friends = fresh;
   render();
   if ($("account").open && !typing()) renderAccount();  // not while something is being typed in it
-  if ($("film").open && location.hash.startsWith("#film/")) openFilm(location.hash.slice(6));  // a film sheet that's already open
+  if ($("film").open && location.hash.startsWith("#film/")) openFilm(hashParts().id);  // a film sheet that's already open
 }
 const typing = () => { const a = document.activeElement; return $("account").contains(a) && a.matches("input") && !!(a.value || a.defaultValue); };  // a box in the account dialog with text in it
 document.addEventListener("visibilitychange", () => {  // coming back to the app: friends may have added you or changed their lists
   if (document.visibilityState !== "visible" || !state.user || !state.profile) return;
   syncWatchlist();
   if (state.profile.friend_code && Date.now() - state.friendsAt > 60000) loadFriends();
+  if (Date.now() - state.friendPlansAt > 60000) loadFriendPlans();  // friends may have joined showings meanwhile
 });
 
 // Preferences: what else shows in the film list besides films. Kept on this device, and in the account when signed in.
@@ -1784,8 +2174,13 @@ function avatarInitial() {
   const c = local.get("acct", null);  // profile not loaded yet: keep what was shown last time for this account
   return c && c.id === state.user.id && c.i ? c.i : initialOf(state.user.email);
 }
+let lastRealUser = null;
 function setUser(session) {
-  state.user = session?.user ? { id: session.user.id, email: session.user.email } : null;
+  const anon = !!session?.user?.is_anonymous;
+  state.guest = anon ? { id: session.user.id } : null;
+  state.user = session?.user && !anon ? { id: session.user.id, email: session.user.email } : null;
+  if (lastRealUser && lastRealUser !== (state.user?.id || null)) clearPlansState();  // signed out, or into a different account
+  lastRealUser = state.user?.id || null;
   if (state.user) {
     paintAccount(true, avatarInitial(), state.user.email);
     if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });
@@ -1885,6 +2280,7 @@ if (sb) {
     state.authReady = true;
     setUser(session);
     if (state.user && state.user.id !== had) setTimeout(loadProfile, 0);
+    else if (state.guest) setTimeout(loadPlans, 0);
     settlePendingWatch();
     renderWatchInvite();
     settlePendingFriend();
@@ -2018,6 +2414,7 @@ async function loadRegion(key) {
     $("grid").innerHTML = ""; $("feedPage").innerHTML = "";  // no placeholders for something that isn't coming
     return;
   }
+  try { const u = await fetch("updates.json", { cache: "no-cache" }); state.updates = u.ok ? await u.json() : []; } catch { state.updates = []; }  // optional: a missing file is no updates
   const g = state.data.generated;
   $("sub").textContent = `${state.data.location} · ${state.data.sources || "Filmweb + Cinemateket"} · updated ${dayLabel(g, { short: true })} ${hhmm(g)}`;
   $("foot").innerHTML = reg.key === "costadelsol"
