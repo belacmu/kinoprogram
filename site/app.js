@@ -815,9 +815,14 @@ function ago(at) {
   if (mins < 60 * 24) return `${Math.floor(mins / 60)} h ago`;
   return dayLabel(at.slice(0, 10));
 }
-const feedSeen = () => local.get("feedSeen", "");
+// How far you've read the feed: the newer of this device's mark and the account's (kept in the account's settings, so every device agrees).
+const feedSeen = () => { const a = local.get("feedSeen", ""), b = (state.user && state.prefs.feedSeen) || ""; return a > b ? a : b; };
 let feedLatest = "";
-function markFeedSeen() { if (feedLatest) local.set("feedSeen", feedLatest); }
+function markFeedSeen() {
+  if (!feedLatest || feedLatest <= feedSeen()) return;
+  local.set("feedSeen", feedLatest);
+  if (state.user && state.profile) { state.prefs.feedSeen = feedLatest; savePrefs(); }  // the account remembers it too
+}
 function postHtml(p) {
   if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>What's new in Cinecrab</strong><time>${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
   if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
@@ -850,17 +855,17 @@ function renderSkeleton() {
   }
 }
 // One showing as a row: poster | date, time · cinema (+ who is going), film. Opens the showing. For Coming up and for feed posts.
-function comingRow(r) {
+function comingRow(r, compact) {
   const f = findFilm(r.film), d = asDate(r.at);
-  const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
+  const poster = compact ? "" : f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
   // Status, not a button: if you're going, only that; otherwise who is going, so you can see it's open to you.
   const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
   const status = r.hideStatus ? "" : r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
     : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
-  return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span></span><span class="csub">${esc(r.title)}</span></span>${status}<svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
+  return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}">${compact ? "" : `<span class="cposter">${poster}</span>`}<span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span></span>${compact ? "" : `<span class="csub">${esc(r.title)}</span>`}</span>${status}<svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
 }
 // Coming up: showings you and your friends (who turned Tell friends on) are going to, soonest first.
-function comingUpHtml() {
+function comingUpHtml(film) {  // `film`: only that film's showings, as rows without the poster and the film's name (on the film's own page)
   const now = localNow(), by = new Map();
   const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [], names: [], friends: [], you: false }).get(id);
   for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
@@ -868,8 +873,9 @@ function comingUpHtml() {
     entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You"); by.get(id).you = true;
   }
   for (const r of friendPlansHere()) if (r.starts >= now) { const e = entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema); e.names.push(r.name); e.friends.push({ id: r.friend_id, name: r.name }); }
-  const rows = [...by.values()].sort((a, b) => a.at.localeCompare(b.at)).slice(0, 8);
+  const rows = [...by.values()].filter((r) => !film || r.film === film.id || film.ids.includes(r.film)).sort((a, b) => a.at.localeCompare(b.at)).slice(0, film ? 20 : 8);
   if (!rows.length) return "";
+  if (film) return `<section class="cu cufilm" aria-label="Showings you and your friends are going to"><ul class="curows">${rows.map((r) => comingRow(r, true)).join("")}</ul></section>`;
   // Laid out like the showing page's card: date in the display font on top, "time · cinema" under it (who is going at the right of that line),
   // the film underneath. The poster is at the left, top-aligned with the date.
   return `<section class="cu"><ul class="curows">${rows.map(comingRow).join("")}</ul></section>`;
@@ -887,7 +893,7 @@ function renderFeed() {
   const parts = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
-    if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
+    if (!marked && p.at <= seen) { parts.push(`<div class="newmark" role="separator"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Everything below you've already seen</span></div>`); marked = true; }
     parts.push(postHtml(p));
   }
   const filter = feedFilterHtml();
@@ -1134,6 +1140,7 @@ function openFilm(id) {
   const stripAt = dlg.open ? dlg.querySelector(".dstrip")?.scrollLeft : undefined;  // re-rendering: keep the strip where it was
   setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
+    ${comingUpHtml(f)}
     ${picks.menus || picks.strip ? `<div class="showings">${picks.menus ? `<div class="showhead">${picks.menus}</div>` : ""}${picks.strip}</div>` : ""}
     <div class="days">${days}${hiddenNote}${empty}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
