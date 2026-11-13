@@ -700,7 +700,7 @@ function render() {
   if (!state.data) return;  // the programme hasn't arrived yet (an account finishing loading can ask for a redraw first)
   renderNav();
   if (state.page === "feed") { filmsDirty = true; renderFeed(); prepareFilms(); return; }
-  renderControls(); renderGrid();
+  renderComing(); renderControls(); renderGrid();
   filmsDirty = false;
 }
 
@@ -765,10 +765,28 @@ function feedPosts(filtered = true) {
     if (!p.rows.some((r) => r.f.id === e.row.f.id)) p.rows.push(e.row);
   }
   const posts = [...by.values()].sort((a, b) => b.at.localeCompare(a.at));
+  // Friends going to showings: one post per friend per day, with their showings under it (only the ones still to come).
+  if (!filtered || !state.feedKinds.length || state.feedKinds.includes("friend")) {
+    const now = localNow(), oldest = addDays(now.slice(0, 10), 1 - FEED_DAYS), goes = new Map();
+    for (const r of state.friendPlans) {
+      const at = utcToLocal(String(r.created_at || "").slice(0, 16));
+      if (r.starts < now || at.slice(0, 10) < oldest) continue;
+      const f = findFilm(r.film_id);
+      if (f && isHidden(f)) continue;
+      const k = `going|${r.friend_id}|${at.slice(0, 10)}`;
+      if (!goes.has(k)) goes.set(k, { key: k, type: "going", actor: { id: r.friend_id, name: r.name }, at, rows: [], shows: [] });
+      const g = goes.get(k);
+      if (at > g.at) g.at = at;
+      g.shows.push({ film: r.film_id, title: r.film_title, at: r.starts, cinema: r.cinema, friends: [], you: !!plans[r.showing_id]?.going, hideStatus: true });
+    }
+    for (const g of goes.values()) { g.shows.sort((a, b) => a.at.localeCompare(b.at)); posts.push(g); }
+    posts.sort((a, b) => b.at.localeCompare(a.at));
+  }
   for (const p of posts) p.rows.sort((a, b) => b.watched - a.watched || b.at.localeCompare(a.at) || byWithin(a, b));
   return posts;
 }
 function postText(p) {
+  if (p.type === "going") return `${esc(shortName(p.actor.name))} is going to ${p.shows.length === 1 ? `<b>${esc(p.shows[0].title)}</b>` : `${p.shows.length} showings`}`;
   const n = p.rows.length, one = titleOf(p.rows[0].f), films = n === 1 ? "one film" : `${n} films`;
   if (p.type === "friend") return `${esc(shortName(p.actor.name))} added ${n === 1 ? `<b>${esc(one)}</b>` : films} to their watchlist`;
   if (p.type === "sale") return n === 1 ? "One new film on sale" : `${n} new films on sale`;
@@ -786,6 +804,7 @@ const feedSeen = () => local.get("feedSeen", "");
 let feedLatest = "";
 function markFeedSeen() { if (feedLatest) local.set("feedSeen", feedLatest); }
 function postHtml(p) {
+  if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
   const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
   const icon = p.type === "friend"
     ? `<span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span>`
@@ -814,6 +833,16 @@ function renderSkeleton() {
     $("grid").innerHTML = `<section class="sec sk" aria-hidden="true"><h2 class="sech"><span class="skbar"></span></h2>${cards(12)}</section>`;
   }
 }
+// One showing as a row: poster | date, time · cinema (+ who is going), film. Opens the showing. For Coming up and for feed posts.
+function comingRow(r) {
+  const f = findFilm(r.film), d = asDate(r.at);
+  const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
+  // Status, not a button: if you're going, only that; otherwise who is going, so you can see it's open to you.
+  const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
+  const status = r.hideStatus ? "" : r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
+    : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
+  return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span>${status}</span><span class="csub">${esc(r.title)}</span></span><svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
+}
 // Coming up: showings you and your friends (who turned Tell friends on) are going to, soonest first.
 function comingUpHtml() {
   const now = localNow(), by = new Map();
@@ -827,21 +856,18 @@ function comingUpHtml() {
   if (!rows.length) return "";
   // Laid out like the showing page's card: date in the display font on top, "time · cinema" under it (who is going at the right of that line),
   // the film underneath. The poster is at the left, top-aligned with the date.
-  return `<section class="cu"><h4>Coming up</h4><ul class="curows">${rows.map((r) => {
-    const f = findFilm(r.film), d = asDate(r.at);
-    const poster = f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
-    // Status, not a button: if you're going, only that (who else is going matters less then); otherwise who is going, so you can see it's open to you.
-    const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
-    const status = r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
-      : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
-    return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}"><span class="cposter">${poster}</span><span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span>${status}</span><span class="csub">${esc(r.title)}</span></span><svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
-  }).join("")}</ul></section>`;
+  return `<section class="cu"><ul class="curows">${rows.map(comingRow).join("")}</ul></section>`;
+}
+// Coming up lives at the top of the Films tab, above the filters.
+function renderComing() {
+  const el = $("comingUp");
+  if (el) el.innerHTML = state.data && state.page === "films" ? comingUpHtml() : "";
 }
 function renderFeed() {
   if (!state.data) return;  // the skeleton stays until the programme arrives
   posterEager = 12;
   const el = $("feedPage"), seen = feedSeen(), posts = feedPosts();
-  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at)].sort().at(-1) || "";
+  feedLatest = [...catalogEvents().map((e) => e.at), ...state.friendEvents.map((e) => e.at), ...posts.filter((x) => x.type === "going").map((x) => x.at)].sort().at(-1) || "";
   const parts = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
@@ -857,10 +883,9 @@ function renderFeed() {
     el.innerHTML = `${filter}<div class="fpanel">${needFriends}</div>${state.user && state.profile?.friend_code ? `<p class="nempty">Once your friends add films to their watchlists, they'll show up here.</p>` : ""}`;
     return;
   }
-  const coming = state.feedKinds.length ? "" : comingUpHtml(), hasComing = !!coming;
-  el.innerHTML = `${filter}${coming}${parts.length ? parts.join("")
+  el.innerHTML = `${filter}${parts.length ? parts.join("")
       : state.feedKinds.length ? `<p class="nempty">No updates of this kind yet. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`
-      : `<p class="nempty">${state.feedKinds.length || !hasComing ? "Nothing new yet." : "No new films or updates yet."} Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
+      : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
 }
 $("feedPage").addEventListener("click", (e) => {
@@ -1125,6 +1150,7 @@ function setPlan(f, s, patch) {
   local.set("plans", plans);
   planDirty.add(id); planV[id] = (planV[id] || 0) + 1; local.set("planDirty", [...planDirty]);
   syncPlansSoon();
+  if (state.page === "films") renderComing();
 }
 let planTimer = 0, planRetry = 0, syncChain = Promise.resolve();
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
@@ -1338,7 +1364,7 @@ async function loadFriendPlans() {
   if (state.user?.id !== uid) return;
   if (error) { console.error("Loading friends' plans failed:", error.message); return; }
   state.friendPlans = (data || []).filter((r) => r.region === state.region);
-  if (state.page === "feed") renderFeed();
+  if (state.page === "feed") renderFeed(); else renderComing();
   refreshSheet();
 }
 $("film").addEventListener("input", (e) => {  // name, row and seats save as you type

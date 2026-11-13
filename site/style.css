@@ -758,7 +758,7 @@ dialog { overscroll-behavior: contain; }
   .mainnav a:not([aria-current]) { color: var(--muted); }
   body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
 }
-body.page-feed .controls, body.page-feed #wlInvite, body.page-feed #friendsPanel, body.page-feed #grid, body.page-feed #hiddenKinds, body.page-feed .filters, body.page-feed .scrim { display: none; }
+body.page-feed #comingUp, body.page-feed .controls, body.page-feed #wlInvite, body.page-feed #friendsPanel, body.page-feed #grid, body.page-feed #hiddenKinds, body.page-feed .filters, body.page-feed .scrim { display: none; }
 body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .feed { max-width: 860px; margin-inline: auto; width: 100%; }
 .feedtitle { font: 800 34px/0.95 var(--display); text-transform: uppercase; margin: 8px 0 4px; }
@@ -1091,3 +1091,15 @@ button.seat2, button.seat { cursor: pointer; }
 .fhead .ftext { container-type: inline-size; }
 .rate.lbpill .sa { font-style: normal; display: none; }
 @container (min-width: 240px) { .rate.lbpill .sa { display: inline; } }
+
+/* Coming up at the top of the Films tab: no title, no line above the first row */
+.cu .curows li:first-child { border-top: 0; }
+.cu { margin-bottom: 14px; }
+
+/* Coming-up rows inside a feed post: no box of their own */
+.cuin { border: 0; border-radius: 0; background: none; margin: 0; overflow: visible; }
+.cuin .curows a { padding-inline: 0; }
+.cuin .curows li:first-child a { padding-top: 4px; }
+.cuin .curows a:hover { background: none; }
+.cuin .curows li:last-child a { padding-bottom: 4px; }
+#comingUp:not(:empty) { padding-top: 12px; }
