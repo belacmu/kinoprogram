@@ -815,9 +815,14 @@ function ago(at) {
   if (mins < 60 * 24) return `${Math.floor(mins / 60)} h ago`;
   return dayLabel(at.slice(0, 10));
 }
-const feedSeen = () => local.get("feedSeen", "");
+// How far you've read the feed: the newer of this device's mark and the account's (kept in the account's settings, so every device agrees).
+const feedSeen = () => { const a = local.get("feedSeen", ""), b = (state.user && state.prefs.feedSeen) || ""; return a > b ? a : b; };
 let feedLatest = "";
-function markFeedSeen() { if (feedLatest) local.set("feedSeen", feedLatest); }
+function markFeedSeen() {
+  if (!feedLatest || feedLatest <= feedSeen()) return;
+  local.set("feedSeen", feedLatest);
+  if (state.user && state.profile) { state.prefs.feedSeen = feedLatest; savePrefs(); }  // the account remembers it too
+}
 function postHtml(p) {
   if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>What's new in Cinecrab</strong><time>${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
   if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
@@ -887,7 +892,7 @@ function renderFeed() {
   const parts = [];
   let marked = !seen || !posts.some((p) => p.at > seen) || !posts.some((p) => p.at <= seen);
   for (const p of posts) {
-    if (!marked && p.at <= seen) { parts.push(`<div class="newmark"><span>New since your last visit</span></div>`); marked = true; }
+    if (!marked && p.at <= seen) { parts.push(`<div class="newmark" role="separator"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Everything below you've already seen</span></div>`); marked = true; }
     parts.push(postHtml(p));
   }
   const filter = feedFilterHtml();

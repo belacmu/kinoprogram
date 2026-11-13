@@ -778,8 +778,6 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .post .card.nosale .poster img { opacity: 1; filter: none; }
 .post .card.nosale h3 { color: var(--ink); }
 .postmore { display: block; margin: 12px auto 0; }
-.newmark { display: flex; align-items: center; gap: 12px; margin: 16px 0 6px; color: var(--accent); font: 700 12px var(--body); letter-spacing: .06em; text-transform: uppercase; }
-.newmark::before, .newmark::after { content: ""; flex: 1; height: 1px; background: var(--accent); opacity: .5; }
 .feednudge { margin-top: 12px; }
 @media (max-width: 639px) { #toast { inset: auto 0 calc(80px + env(safe-area-inset-bottom, 0px)) 0; } }
 .feed .feedtitle { margin-top: 18px; }
@@ -1130,3 +1128,9 @@ button.seat2, button.seat { cursor: pointer; }
 .uplist { margin: 0; padding: 0 0 4px 44px; list-style: disc; color: var(--ink); font-size: 14px; line-height: 1.45; }
 .uplist li { margin: 0 0 4px; padding-left: 2px; }
 .uplist li::marker { color: var(--muted); }
+
+/* the line between new posts (above) and posts you have already seen (below) */
+.newmark { display: flex; align-items: center; gap: 10px; margin: 18px 0 14px; }
+.newmark::before, .newmark::after { content: ""; flex: 1; height: 1px; background: var(--edge); }
+.newmark span { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font: 600 13px var(--body); }
+.newmark svg { color: var(--soon); }
