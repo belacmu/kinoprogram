@@ -1103,3 +1103,10 @@ button.seat2, button.seat { cursor: pointer; }
 .cuin .curows a:hover { background: none; }
 .cuin .curows li:last-child a { padding-bottom: 4px; }
 #comingUp:not(:empty) { padding-top: 12px; }
+
+/* the status sits beside the arrow, centred on the row (not on the time line) */
+.cu .curows a { grid-template-columns: 44px minmax(0, 1fr) auto 16px; }
+.cu .curows a .cstat { align-self: center; justify-self: end; max-width: 96px; }
+.cu .curows a .cstat .cfn { white-space: normal; text-align: right; line-height: 1.2; }
+.cu .curows a:has(.cstat.you) .cstat { white-space: nowrap; }
+.cuin .curows a { grid-template-columns: 44px minmax(0, 1fr) 16px; }
