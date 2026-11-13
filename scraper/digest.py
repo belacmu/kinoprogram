@@ -213,6 +213,14 @@ def pick_friend_picks(films, profile, since, friends, tz):
     return [(f, names) for f, names, _ in out[:FRIEND_PICKS_MAX]]
 
 
+def plan_local(created_at, tz):
+    """A timestamp from the database ('2026-11-12T10:00:00.123+00:00') in the region's local time, as FMT."""
+    d = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+    if d.tzinfo is None:
+        d = d.replace(tzinfo=ZoneInfo("UTC"))
+    return d.astimezone(ZoneInfo(tz)).strftime(FMT)
+
+
 def pick_friend_going(films, rkey, profile, since, going, tz, now_s):
     """Showings (still to come) that friends said they're going to since `since`: [(film, {t, cinema}, names)], soonest first."""
     prefs = profile.get("prefs") or {}
@@ -221,7 +229,7 @@ def pick_friend_going(films, rkey, profile, since, going, tz, now_s):
     for name, plan in going.get(profile.get("id"), []):
         f = by_id.get(plan.get("film_id"))
         if (not f or plan.get("region") != rkey or (plan.get("starts") or "") <= now_s or not plan.get("created_at")
-                or local_time(plan["created_at"][:16], tz) <= since or is_hidden(f, prefs, set(profile.get("watchlist") or []))):
+                or plan_local(plan["created_at"], tz) <= since or is_hidden(f, prefs, set(profile.get("watchlist") or []))):
             continue
         film, show, names = by_show.get(plan["showing_id"], (f, {"t": plan["starts"], "cinema": plan["cinema"]}, []))
         if name not in names:
@@ -526,15 +534,26 @@ def fetch_rows(table, query):
         return json.loads(r.read())
 
 
-def fetch_friend_going():
-    """{user id: [(friend's name, plan row)]} for "Friends are going": the plans friends shared (tell_friends). Empty if the database
-    doesn't have the plans table yet: a nice-to-have, never a reason to fail."""
+_GOING = {}  # fetched once per run: every region and mode shares it
+
+
+def fetch_friend_going(today):
+    """{user id: [(friend's name, plan row)]} for "Friends are going": the plans friends shared (tell_friends) for showings from `today` on.
+    Empty if the database doesn't have the plans table (or the daily job may not read it): a nice-to-have, never a reason to fail."""
+    if "v" in _GOING:
+        return _GOING["v"]
     try:
-        pairs = fetch_rows("friendships", "select=a,b") or []
-        people = {r["id"]: r for r in fetch_rows("profiles", "select=id,email,display_name") or []}
-        plans = fetch_rows("plans", "tell_friends=eq.true&select=user_id,showing_id,film_id,cinema,starts,region,created_at") or []
+        pairs = fetch_rows("friendships", "select=a,b&limit=100000") or []
+        plans = fetch_rows("plans", f"tell_friends=eq.true&starts=gte.{urllib.parse.quote(today)}&select=user_id,showing_id,film_id,cinema,starts,region,created_at&limit=100000") or []
+        authors = sorted({pl["user_id"] for pl in plans})
+        people = {}
+        for i in range(0, len(authors), 80):  # a few at a time: the ids go in the address
+            ids = ",".join(authors[i:i + 80])
+            for r in fetch_rows("profiles", f"id=in.({ids})&select=id,email,display_name") or []:
+                people[r["id"]] = r
     except Exception as ex:
         print(f"  ! friends' plans unavailable: {ex}", file=sys.stderr)
+        _GOING["v"] = {}
         return {}
     name = lambda r: (r.get("display_name") or "").strip() or (r.get("email") or "Someone").split("@")[0]
     mine = {}
@@ -546,6 +565,7 @@ def fetch_friend_going():
             if friend in people:
                 for pl in mine.get(friend, []):
                     out.setdefault(me, []).append((name(people[friend]), pl))
+    _GOING["v"] = out
     return out
 
 
@@ -705,11 +725,11 @@ def main():
             if friends is None:
                 friends = fetch_friends() if any(p.get("id") for p in recipients) else {}
             if preview:  # a sample: one friend going to the first new film's first showing
-                s0 = new[0]["shows"][0]
-                going = {"preview": [("Anna", {"showing_id": "x", "film_id": new[0]["id"], "region": rkey, "starts": s0["t"], "cinema": s0["cinema"],
+                f0, s0 = next(((f, s) for f in data["films"] for s in f["shows"] if s["t"] > now_s and f["poster"]), (new[0], new[0]["shows"][0]))
+                going = {"preview": [("Anna", {"showing_id": "x", "film_id": f0["id"], "region": rkey, "starts": s0["t"], "cinema": s0["cinema"],
                                                "created_at": datetime.now(ZoneInfo("UTC")).strftime(FMT)})]}
             else:
-                going = fetch_friend_going() if any(p.get("id") for p in recipients) else {}
+                going = fetch_friend_going(now_s[:10] + "T00:00") if any(p.get("id") for p in recipients) else {}
             messages = []
             for p in recipients:
                 prefs = dict(p.get("prefs") or {})

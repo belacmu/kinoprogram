@@ -249,6 +249,7 @@ drop policy if exists "remove own plans" on public.plans;
 create policy "remove own plans" on public.plans for delete to authenticated using ((select auth.uid()) = user_id);
 
 revoke all on public.plans from anon, authenticated;
+grant select on public.plans to service_role;  -- the daily email's "Friends are going" reads it with the secret key
 grant select, insert, update, delete on public.plans to authenticated;
 
 -- ---------------------------------------------------------------- showings: friends, invites, guests
@@ -311,7 +312,9 @@ declare
   via uuid; pty uuid; mine uuid; fparties uuid[]; allp uuid[]; target uuid; tok uuid;
 begin
   if me is null then raise exception 'Not signed in'; end if;
-  if p_ticket is not null and p_ticket !~* '^https?://' then p_ticket := null; end if;
+  if p_ticket is not null and (p_ticket !~* '^https?://' or char_length(p_ticket) > 500) then p_ticket := null; end if;  -- not a web link, or too long to keep
+  p_film_title := left(p_film_title, 200);
+  perform pg_advisory_xact_lock(hashtext(p_showing_id));  -- two people going at the same moment merge one after the other
   -- the invite this plan joined through (only counts for the same showing)
   select q.invite_token, q.party into via, pty
     from public.plans q where q.invite_token = p_joined_via and q.showing_id = p_showing_id;
@@ -347,14 +350,18 @@ revoke insert, update on public.plans from authenticated;
 alter table public.profiles drop constraint if exists profiles_subscribed_needs_email;
 alter table public.profiles add constraint profiles_subscribed_needs_email check (subscribed = false or email is not null) not valid;
 
--- What an invite link shows: the whole party of the plan whose link it is, that plan first. Works without signing in;
--- names only (never an email), seats, and the showing.
+-- What an invite link shows: the whole party of the plan whose token it is, that plan first. Works without signing in; names only
+-- (never an email), seats, and the showing. is_me: that row is the caller's own; is_friend: it is one of the caller's friends (the
+-- page already gets those from friends_plans). Both are false for anonymous callers with no account, and never reveal an id.
 drop function if exists public.plan_by_invite(uuid);
 create or replace function public.plan_by_invite(token uuid)
-returns table (is_host boolean, name text, seats text, film_id text, film_title text, cinema text,
+returns table (is_host boolean, is_me boolean, is_friend boolean, name text, seats text, film_id text, film_title text, cinema text,
                starts text, region text, ticket text, party uuid)
 language sql stable security definer set search_path = '' as $$
-  select (p.invite_token = token), coalesce(nullif(pr.display_name, ''), 'Someone'), p.seats,
+  select (p.invite_token = token),
+         (p.user_id = (select auth.uid())),
+         exists (select 1 from public.friendships f where (f.a = (select auth.uid()) and f.b = p.user_id) or (f.b = (select auth.uid()) and f.a = p.user_id)),
+         coalesce(nullif(pr.display_name, ''), 'Someone'), p.seats,
          p.film_id, p.film_title, p.cinema, p.starts, p.region, p.ticket, p.party
   from public.plans p
   join public.profiles pr on pr.id = p.user_id

@@ -370,14 +370,15 @@ no remembered default.
 **A plan keeps a copy of its showing** (film id, title, cinema, start time, ticket link) with a stable id made from film +
 cinema + start time, so a shared page still renders after the schedule changes or drops the showing.
 
-**Feed.** A pinned "Coming up" section shows friends' plans (this is the payoff of the feature). Friend markers on the list's
-showing buttons come later.
+**Feed.** "Coming up" (your plans and your friends', soonest first) sits at the top of the Films tab, above the filters, with a status per row: "✓ You're going" or "Anna, Dan going". Friends going also appear in the Feed as posts ("Anna is going to …"), and the Feed badge counts them. The film sheet's showing buttons carry a green check (you) and friends' initials.
 
 **How the pieces work**
 - Each plan has a private `invite_token`. **Invite** copies the showing link with `?inv=<token>`. Opening it (no account needed) calls
   `plan_by_invite(token)`: the inviter's name and seats, then anyone who joined through it, and a "Anna is going. Join in?" banner.
 - A guest gives a name, then tapping **I'm going** signs them in anonymously (`signInAnonymously`) and saves a plan whose `joined_via`
   is that token. If the schedule no longer has the showing, the page is rebuilt from the copy the plan kept.
+- **Daily email:** a "Friends are going" section lists showings friends said they're going to since the last email (it never triggers an email by itself). It reads `plans` with the secret key, so `schema.sql` grants `select` on it to `service_role`.
+- **Invite link and merging:** `plan_by_invite(token)` returns the whole merged party, so one link also reveals the names and seats of friends of the host and their guests. Friend codes make a friendship instantly with no attempt limit; rate-limiting `redeem_friend_code` is a known follow-up.
 - **Merging:** when you go to a showing, your party is merged with the parties of your friends who are going to it (and with the invite you joined through), so everyone connected sees everyone, and friends of friends can reach each other's guests. Done inside `save_plan`.
 - Friends' plans come from `friends_plans(since)` (only plans with Tell friends on): chips on the showing page, and the Feed's
   **Coming up** (yours and friends', soonest first, up to 8).
@@ -388,9 +389,9 @@ showing buttons come later.
 **Not built yet**
 - Per-showing link previews ("Mia is going to X, Sat 19:00 at Saga"): a small edge function serving preview tags and then
   redirecting. Until then a showing link previews as the site.
-- Friend markers on the list's showing buttons, notifications, plans for past showings, and the "Everyone" admin level.
+- Notifications, plans for past showings, and the "Everyone" admin level.
 
-**Next:** per-showing link previews, then friend markers on the list buttons.
+**Next:** per-showing link previews.
 
 ## Later / out of scope for v1
 
