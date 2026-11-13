@@ -378,6 +378,7 @@ showing buttons come later.
   `plan_by_invite(token)`: the inviter's name and seats, then anyone who joined through it, and a "Anna is going. Join in?" banner.
 - A guest gives a name, then tapping **I'm going** signs them in anonymously (`signInAnonymously`) and saves a plan whose `joined_via`
   is that token. If the schedule no longer has the showing, the page is rebuilt from the copy the plan kept.
+- **Merging:** when you go to a showing, your party is merged with the parties of your friends who are going to it (and with the invite you joined through), so everyone connected sees everyone, and friends of friends can reach each other's guests. Done inside `save_plan`.
 - Friends' plans come from `friends_plans(since)` (only plans with Tell friends on): chips on the showing page, and the Feed's
   **Coming up** (yours and friends', soonest first, up to 8).
 - Signing in properly after being a guest: plans made on this device carry over (they are kept locally and added to the account),

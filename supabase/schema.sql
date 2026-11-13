@@ -308,17 +308,31 @@ create or replace function public.save_plan(p_showing_id text, p_film_id text, p
 returns uuid language plpgsql security definer set search_path = '' as $$
 declare
   me uuid := (select auth.uid());
-  via uuid; pty uuid; tok uuid;
+  via uuid; pty uuid; mine uuid; fparties uuid[]; allp uuid[]; target uuid; tok uuid;
 begin
   if me is null then raise exception 'Not signed in'; end if;
   if p_ticket is not null and p_ticket !~* '^https?://' then p_ticket := null; end if;
+  -- the invite this plan joined through (only counts for the same showing)
   select q.invite_token, q.party into via, pty
     from public.plans q where q.invite_token = p_joined_via and q.showing_id = p_showing_id;
+  -- my own plan for this showing, if I already have one
+  select q.party into mine from public.plans q where q.user_id = me and q.showing_id = p_showing_id;
+  -- the parties my friends who are going to this showing are in
+  select array_agg(distinct q.party) into fparties
+    from public.plans q
+    join public.friendships f on (f.a = me and f.b = q.user_id) or (f.b = me and f.a = q.user_id)
+    where q.showing_id = p_showing_id;
+  -- one party: the invite's first, then mine, then my friends'; everyone in the others moves into it
+  allp := array_remove(array[pty, mine] || coalesce(fparties, '{}'::uuid[]), null);
+  target := coalesce(allp[1], gen_random_uuid());
   insert into public.plans (user_id, showing_id, film_id, film_title, cinema, starts, region, ticket, seats, joined_via, party)
-  values (me, p_showing_id, p_film_id, p_film_title, p_cinema, p_starts, p_region, p_ticket, nullif(p_seats, ''), via, coalesce(pty, gen_random_uuid()))
+  values (me, p_showing_id, p_film_id, p_film_title, p_cinema, p_starts, p_region, p_ticket, nullif(p_seats, ''), via, target)
   on conflict (user_id, showing_id) do update
-    set seats = excluded.seats, film_title = excluded.film_title, ticket = excluded.ticket, updated_at = now()
+    set seats = excluded.seats, film_title = excluded.film_title, ticket = excluded.ticket, party = excluded.party, updated_at = now()
   returning invite_token into tok;
+  if cardinality(allp) > 1 then
+    update public.plans set party = target where showing_id = p_showing_id and party = any(allp) and party <> target;
+  end if;
   return tok;
 end;
 $$;
