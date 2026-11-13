@@ -825,7 +825,7 @@ function markFeedSeen() {
 }
 function postHtml(p) {
   if (p.type === "update") return `<article class="post"><header class="phead"><span class="pico k-update"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS.update}</svg></span><div class="ptext"><strong>What's new in Cinecrab</strong><time>${esc(ago(p.at))}</time></div></header>${(p.update.bullets || []).length ? `<ul class="uplist">${p.update.bullets.map((b) => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</article>`;
-  if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map(comingRow).join("")}</ul></div></article>`;
+  if (p.type === "going") return `<article class="post"><header class="phead"><span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span><div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header><div class="cu cuin"><ul class="curows">${p.shows.map((r) => comingRow(r)).join("")}</ul></div></article>`;
   const open = state.feedOpen.has(p.key), n = p.rows.length, shown = open ? p.rows : p.rows.slice(0, postShown());
   const icon = p.type === "friend"
     ? `<span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span>`
@@ -878,7 +878,7 @@ function comingUpHtml(film) {  // `film`: only that film's showings, as rows wit
   if (film) return `<section class="cu cufilm" aria-label="Showings you and your friends are going to"><ul class="curows">${rows.map((r) => comingRow(r, true)).join("")}</ul></section>`;
   // Laid out like the showing page's card: date in the display font on top, "time · cinema" under it (who is going at the right of that line),
   // the film underneath. The poster is at the left, top-aligned with the date.
-  return `<section class="cu"><ul class="curows">${rows.map(comingRow).join("")}</ul></section>`;
+  return `<section class="cu"><ul class="curows">${rows.map((r) => comingRow(r)).join("")}</ul></section>`;
 }
 // Coming up lives at the top of the Films tab, above the filters.
 function renderComing() {
@@ -1338,7 +1338,7 @@ async function guestSignIn(name) {
   if (!sb) return true;  // no accounts here: the plan stays on this device
   if (planUser()) return true;
   const { data, error } = await sb.auth.signInAnonymously();
-  if (error || !data?.user) { console.error("Guest sign-in failed:", error?.message); return false; }
+  if (error || !data?.user) { console.error("Guest sign-in failed:", error?.message); state.guestError = error?.code === "anonymous_provider_disabled" ? "guest sign-ins are switched off for this site" : (error?.message || "no reply"); return false; }
   state.guest = { id: data.user.id };
   await sb.from("profiles").update({ display_name: name }).eq("id", data.user.id);
   return true;
@@ -1365,7 +1365,7 @@ async function planClick(t) {
       try {
         if (!state.user && !state.guest && sb) {  // a guest: a name first, then an anonymous account
           if (!nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
-          if (!(await guestSignIn(nm))) { toast("Couldn't add you. Try again in a moment."); return; }
+          if (!(await guestSignIn(nm))) { toast(`Couldn't add you: ${state.guestError || "try again in a moment"}.`); return; }
         }
         const inv = inviteFits(f, s) ? state.invite : null;  // joining through someone's invite (only for this showing)
         setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
