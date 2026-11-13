@@ -44,6 +44,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+          HCAPTCHA_SITE_KEY: ${{ vars.HCAPTCHA_SITE_KEY }}
         run: sh scripts/write-site-config.sh
 
       - name: Write film preview pages

@@ -131,3 +131,11 @@ tag, hidden from search engines), next to the real site. To preview a branch, po
   reads from it every morning, which should prevent that; if it happens, click **Restore** in the dashboard.
 
 Check what is set up: `sh scripts/check-setup.sh`. Accounts and where each secret lives: [ACCOUNTS.md](ACCOUNTS.md).
+
+## Captcha (optional)
+
+If you turn on captcha protection in Supabase (Authentication > Attack Protection, hCaptcha), every sign-in, including guests joining a
+showing, needs a captcha token. Give the site the **site key** (public) as a repository variable called `HCAPTCHA_SITE_KEY`
+(Settings > Secrets and variables > Actions > Variables). The secret key goes only in Supabase. In hCaptcha, add the site's hostname
+(`belacmu.github.io`) to the site key's allowed domains. With no `HCAPTCHA_SITE_KEY` the site sends no token, so turn the Supabase
+setting off if you have no key.
