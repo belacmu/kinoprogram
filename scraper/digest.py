@@ -213,6 +213,24 @@ def pick_friend_picks(films, profile, since, friends, tz):
     return [(f, names) for f, names, _ in out[:FRIEND_PICKS_MAX]]
 
 
+def pick_friend_going(films, rkey, profile, since, going, tz, now_s):
+    """Showings (still to come) that friends said they're going to since `since`: [(film, {t, cinema}, names)], soonest first."""
+    prefs = profile.get("prefs") or {}
+    by_id = {i: f for f in films for i in f["ids"]}
+    by_show = {}  # showing id -> (film, show, names)
+    for name, plan in going.get(profile.get("id"), []):
+        f = by_id.get(plan.get("film_id"))
+        if (not f or plan.get("region") != rkey or (plan.get("starts") or "") <= now_s or not plan.get("created_at")
+                or local_time(plan["created_at"][:16], tz) <= since or is_hidden(f, prefs, set(profile.get("watchlist") or []))):
+            continue
+        film, show, names = by_show.get(plan["showing_id"], (f, {"t": plan["starts"], "cinema": plan["cinema"]}, []))
+        if name not in names:
+            names.append(name)
+        by_show[plan["showing_id"]] = (film, show, names)
+    out = sorted(by_show.values(), key=lambda x: x[1]["t"])
+    return out[:FRIEND_PICKS_MAX]
+
+
 def announced_when(f):
     if f["shows"]:
         statuses = {s["status"] for s in f["shows"]}  # all sold out, say, rather than not on sale yet
@@ -406,7 +424,7 @@ def friend_status(f):
 
 
 def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo", rkey="oslo", showings=(), friend_picks=(),
-           watch=frozenset()):
+           watch=frozenset(), friend_going=()):
     global ASSET_BASE
     prefs = prefs or {}
     ASSET_BASE = site
@@ -439,6 +457,12 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
             txt += [f"{'♥ ' if watch & set(f['ids']) else ''}{title_of(f)}", f"  Added by {name_list(names)} · {friend_status(f)}",
                     f"  {link_of(f)}", ""]
 
+    show_link = lambda f, s: f"{link_of(f)}/{urllib.parse.quote(s['t'] + '|' + s['cinema'], safe='')}"  # opens that showing's page on the site
+    if friend_going:
+        txt += ["FRIENDS ARE GOING", ""]
+        for f, s, names in friend_going:
+            txt += [f"{title_of(f)}", f"  {when(s['t'])} · {s['cinema']} · {name_list(names)} going", f"  {show_link(f, s)}", ""]
+
     blocks = []
     if watching:
         blocks.append(section_head("On your watchlist", len(watching)) + watch_grid_html(watching, link_of))
@@ -460,6 +484,11 @@ def render(items, announced, leaving, site, unsub_url, prefs=None, region="Oslo"
             cards.append(card_html(f, link_of(f), [f"Added by {name_list(names)}", friend_status(f)],
                                    dim=f["status"] != "on_sale", heart_link=watch_of(f), watched=w))
         blocks.append(section_head("Friends' new picks", len(friend_picks), "Recently added to your friends' watchlists.") + grid_html(cards))
+
+    if friend_going:
+        cards = [card_html(f, show_link(f, s), [f"{when(s['t'])} · {s['cinema']}", f"{name_list(names)} going"], heart_link=watch_of(f), watched=bool(watch & set(f["ids"])))
+                 for f, s, names in friend_going]
+        blocks.append(section_head("Friends are going", len(friend_going), "Showings your friends said they're going to.") + grid_html(cards))
 
     footer = f"Settings and watchlist: {site}\nUnsubscribe: {unsub_url}"
     sep = '<div class="line" style="border-top:1px solid #e2e5ea;margin:8px 0 22px"></div>'
@@ -495,6 +524,29 @@ def fetch_rows(table, query):
     req = urllib.request.Request(url.rstrip("/") + f"/rest/v1/{table}?{query}", headers=headers)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())
+
+
+def fetch_friend_going():
+    """{user id: [(friend's name, plan row)]} for "Friends are going": the plans friends shared (tell_friends). Empty if the database
+    doesn't have the plans table yet: a nice-to-have, never a reason to fail."""
+    try:
+        pairs = fetch_rows("friendships", "select=a,b") or []
+        people = {r["id"]: r for r in fetch_rows("profiles", "select=id,email,display_name") or []}
+        plans = fetch_rows("plans", "tell_friends=eq.true&select=user_id,showing_id,film_id,cinema,starts,region,created_at") or []
+    except Exception as ex:
+        print(f"  ! friends' plans unavailable: {ex}", file=sys.stderr)
+        return {}
+    name = lambda r: (r.get("display_name") or "").strip() or (r.get("email") or "Someone").split("@")[0]
+    mine = {}
+    for pl in plans:
+        mine.setdefault(pl["user_id"], []).append(pl)
+    out = {}
+    for p in pairs:
+        for me, friend in ((p["a"], p["b"]), (p["b"], p["a"])):
+            if friend in people:
+                for pl in mine.get(friend, []):
+                    out.setdefault(me, []).append((name(people[friend]), pl))
+    return out
 
 
 def fetch_profiles(filter_):
@@ -652,6 +704,12 @@ def main():
                               and (((p.get("prefs") or {}).get("frequency") == "weekly") == (mode == "weekly"))]
             if friends is None:
                 friends = fetch_friends() if any(p.get("id") for p in recipients) else {}
+            if preview:  # a sample: one friend going to the first new film's first showing
+                s0 = new[0]["shows"][0]
+                going = {"preview": [("Anna", {"showing_id": "x", "film_id": new[0]["id"], "region": rkey, "starts": s0["t"], "cinema": s0["cinema"],
+                                               "created_at": datetime.now(ZoneInfo("UTC")).strftime(FMT)})]}
+            else:
+                going = fetch_friend_going() if any(p.get("id") for p in recipients) else {}
             messages = []
             for p in recipients:
                 prefs = dict(p.get("prefs") or {})
@@ -669,9 +727,10 @@ def main():
                     continue  # other watchlist notices (leaving soon) and friends' picks alone never send an email
                 leaving = pick_leaving(data["films"], p, now_s, listed | {f["id"] for f, *_ in showings}, "" if preview else since, events)
                 picks = pick_friend_picks(data["films"], p, since, friends, cfg["tz"])
+                friend_going = pick_friend_going(data["films"], rkey, p, since, going, cfg["tz"], now_s)
                 unsub = f"{site}?unsubscribe={p['unsubscribe_token']}"
                 messages.append((p["email"], *render(items, announced, leaving, site, unsub, prefs, cfg["name"], rkey,
-                                                     showings, picks, frozenset(p.get("watchlist") or []))))
+                                                     showings, picks, frozenset(p.get("watchlist") or []), friend_going=friend_going)))
             print(f"{mode}: {len(recipients)} subscriber(s), {len(messages)} with something new")
 
             if preview:

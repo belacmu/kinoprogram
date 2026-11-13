@@ -1110,3 +1110,4 @@ button.seat2, button.seat { cursor: pointer; }
 .cu .curows a .cstat .cfn { white-space: normal; text-align: right; line-height: 1.2; }
 .cu .curows a:has(.cstat.you) .cstat { white-space: nowrap; }
 .cuin .curows a { grid-template-columns: 44px minmax(0, 1fr) 16px; }
+#comingUp .cu { margin-bottom: 0; }   /* 12px above the card, 12px below it (the controls add their own 12px of padding) */
