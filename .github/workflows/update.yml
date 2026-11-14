@@ -65,6 +65,9 @@ jobs:
         id: build
         env:
           TMDB_READ_TOKEN: ${{ secrets.TMDB_READ_TOKEN }}
+          # Films and showings are written to Supabase (scraper/filmids.py); if that fails the run carries on.
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
         run: |
           list="${{ steps.regions.outputs.list }}"
           # A region's data file is missing (first run or expired cache): build it too, or the site would lose it.

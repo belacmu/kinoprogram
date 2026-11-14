@@ -29,6 +29,7 @@ import costadelsol  # noqa: E402
 import mk2  # noqa: E402
 import deichman  # noqa: E402
 import external  # noqa: E402
+import filmids  # noqa: E402
 import revier  # noqa: E402
 import sommerro  # noqa: E402
 import sources  # noqa: E402
@@ -227,10 +228,19 @@ def event_ok(e):
     return e["type"] != "showings" or e.get("before", FEW_SHOWS) < FEW_SHOWS
 
 
-def log_events(films, now, state):
+def log_events(films, now, state, film_of=None):
     """The feed's catalog events (state["events"]): films that went on sale or were announced, and films that got more
-    showings. Everything the site's feed (and, later, the daily email) shows comes from this one list."""
+    showings. Everything the site's feed (and, later, the daily email) shows comes from this one list.
+    film_of(id): the stable id for an old film id, so events logged under a listing id are moved onto the film's stable id."""
     base = state["baseline"]
+    if film_of:
+        moved = {}
+        for e in state.get("events", []):
+            fid = film_of(e["film"]) or e["film"]
+            if fid != e["film"]:
+                e = {**e, "film": fid, "id": f"{e['type']}|{fid}|{e['at']}"}
+            moved.setdefault(e["id"], e)
+        state["events"] = list(moved.values())
     found = {}
     had_before = {e["id"]: e["before"] for e in state.get("events", []) if e["type"] == "showings" and "before" in e}
 
@@ -288,8 +298,9 @@ def track(films, now, state_path):
             if not first:
                 # Baseline runs and films that go straight on sale never count as announced.
                 first = state["baseline"] if dated_first_run or meal_only or f["status"] == "on_sale" else now_s
-            for i in f["ids"]:
-                dated[i] = {"first": first, "last": now_s}
+            for i in f["ids"]:  # kept under the stable id only (older runs keyed it by every listing id)
+                dated.pop(i, None)
+            dated[f["id"]] = {"first": first, "last": now_s}
             if f["status"] == "announced":
                 f["announcedSince"] = first
         recs = [seen[i] for i in f["ids"] if i in seen]
@@ -300,7 +311,8 @@ def track(films, now, state_path):
         gone_too_long = last and datetime.strptime(last, FMT) < datetime.strptime(now_s, FMT) - timedelta(days=OFF_SALE_DAYS)
         since = state["baseline"] if meal_only else now_s if (not recs or gone_too_long) else min(r["since"] for r in recs)
         for i in f["ids"]:
-            seen[i] = {"since": since, "last": now_s}
+            seen.pop(i, None)
+        seen[f["id"]] = {"since": since, "last": now_s}
         f["onSaleSince"] = since
     # Forget films that have been off sale long enough to count as new anyway.
     cutoff = (now - timedelta(days=OFF_SALE_DAYS + 3)).strftime(FMT)
@@ -397,9 +409,7 @@ def main(regions=None):
         now = datetime.now(ZoneInfo(cfg["tz"])).replace(tzinfo=None)
         print(f"== {cfg['name']}")
         films = finalise(cfg["fetch"](now), now)
-        state_path = ROOT / "state" / cfg["state"]
-        state = track(films, now, state_path)
-        built.append((r, cfg, now, films, state, state_path))
+        built.append([r, cfg, now, films])
 
     print("Looking up Letterboxd / IMDb links …")
     try:  # one call for all regions: the link cache is shared
@@ -408,12 +418,23 @@ def main(regions=None):
     except Exception as e:  # links are a nice-to-have; never fail the run over them
         print(f"  ! link lookup failed: {e}", file=sys.stderr)
 
-    for r, cfg, now, films, state, state_path in built:
+    # Stable film and showing ids (scraper/filmids.py, docs/stable-ids.md).
+    print("Film ids …")
+    utc = datetime.now(ZoneInfo("UTC"))
+    since = (utc - timedelta(days=2)).strftime("%Y-%m-%d")
+    reg = filmids.load(since)
+    resolved = filmids.resolve(reg, {b[0]: b[3] for b in built}, utc.isoformat(), filmids.load_history())
+    for b in built:
+        b[3] = resolved[b[0]]
+
+    for r, cfg, now, films in built:
+        state_path = ROOT / "state" / cfg["state"]
+        state = track(films, now, state_path)
         if r == "costadelsol":
             costadelsol.mark_dubbed(films)
         mark_last_chance(films)
         track_shows(films, now, state)
-        log_events(films, now, state)
+        log_events(films, now, state, reg.film_of)
         new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
         ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
         print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "
@@ -435,6 +456,24 @@ def main(regions=None):
         state_path.parent.mkdir(parents=True, exist_ok=True)
         state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
         print(f"Wrote {data.relative_to(ROOT)} ({data.stat().st_size // 1024} KB)")
+
+    filmids.save_local(reg, since)
+    # Every film id in any region's current data (regions not built in this run: their last file), so films in none are marked gone.
+    live, complete = set(), True
+    for r, cfg in REGIONS.items():
+        b = next((b for b in built if b[0] == r), None)
+        if b:
+            live |= {f["id"] for f in b[3]}
+            continue
+        path = ROOT / "site" / "data" / cfg["data"]
+        if not path.exists():
+            complete = False
+            continue
+        for f in json.loads(path.read_text()).get("films", []):
+            fid = reg.film_of(f["id"])
+            if fid:
+                live.add(fid)
+    filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete)
 
 
 if __name__ == "__main__":
