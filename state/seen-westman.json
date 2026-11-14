@@ -4,7 +4,7 @@
  "films": {
   "cc-armageddon-road-2026": {
    "since": "2026-11-09T16:11",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "cc-arrival-2016": {
    "since": "2026-10-01T07:04",
@@ -14,57 +14,21 @@
    "since": "2026-10-23T10:33",
    "last": "2026-11-05T13:24"
   },
-  "cc-clayface-2026": {
-   "since": "2026-10-08T12:40",
-   "last": "2026-11-13T13:16"
-  },
   "cc-digger-2026": {
    "since": "2026-10-23T10:33",
    "last": "2026-11-09T16:11"
   },
   "cc-drummer-boy-2026": {
    "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-ebenezer-2026": {
-   "since": "2026-10-27T11:07",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-festive-fun-with-peppa-cinema-experience-2026": {
-   "since": "2026-11-09T16:11",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-ghost-soldier-2026": {
-   "since": "2026-11-05T13:24",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-godzilla-minus-zero-2026": {
-   "since": "2026-10-07T12:37",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-heart-of-the-beast-2026": {
-   "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "cc-heated-rivalry-2025": {
    "since": "2026-10-31T10:55",
    "last": "2026-11-08T11:50"
   },
-  "cc-hope-2026": {
-   "since": "2026-10-11T11:28",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-how-to-rob-a-bank-2026": {
-   "since": "2026-10-28T11:53",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-i-play-rocky-2026": {
-   "since": "2026-11-13T13:16",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-klara-and-the-sun-2026": {
-   "since": "2026-11-07T11:41",
-   "last": "2026-11-13T13:16"
+  "cc-hen-2025": {
+   "since": "2026-10-23T10:33",
+   "last": "2026-11-14T10:08"
   },
   "cc-monday-mystery-movie-event": {
    "since": "2026-10-28T11:53",
@@ -78,65 +42,21 @@
    "since": "2026-10-01T07:04",
    "last": "2026-11-12T13:39"
   },
-  "cc-ramayana-rise-of-a-legend-2026": {
-   "since": "2026-10-29T12:12",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-run-terry-run-2025": {
-   "since": "2026-10-07T12:37",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-sense-and-sensibility-2026": {
-   "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-sheep-in-the-box-2026": {
    "since": "2026-10-11T11:28",
    "last": "2026-11-08T11:50"
   },
-  "cc-street-fighter-2026": {
-   "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-the-cat-in-the-hat-2026": {
-   "since": "2026-10-20T13:12",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-the-departed-2006": {
-   "since": "2026-11-05T13:24",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-the-hunger-games-sunrise-on-the-reaping-2026": {
-   "since": "2026-10-28T11:53",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-the-polar-express-2004": {
-   "since": "2026-10-15T12:57",
-   "last": "2026-11-13T13:16"
-  },
   "cc-the-salt-path-2024": {
    "since": "2026-10-11T11:28",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-the-social-reckoning-2026": {
-   "since": "2026-10-29T12:12",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "cc-verity-2026": {
    "since": "2026-10-01T07:04",
    "last": "2026-11-05T13:24"
   },
-  "cc-whalefall-2026": {
-   "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-wicker-2026": {
    "since": "2026-10-28T11:53",
    "last": "2026-11-12T13:39"
-  },
-  "cc-wild-horse-nine-2026": {
-   "since": "2026-11-11T13:12",
-   "last": "2026-11-13T13:16"
   },
   "cc-wildwood-2026": {
    "since": "2026-10-01T07:04",
@@ -146,65 +66,101 @@
    "since": "2026-10-21T10:44",
    "last": "2026-11-12T13:39"
   },
-  "ev-armageddon-road": {
-   "since": "2026-11-09T16:11",
-   "last": "2026-11-13T13:16"
+  "cl-clayface": {
+   "since": "2026-10-08T12:40",
+   "last": "2026-11-14T10:08"
   },
-  "ev-hen": {
-   "since": "2026-10-23T10:33",
-   "last": "2026-11-13T13:16"
+  "cl-como-robar-banco": {
+   "since": "2026-10-28T11:53",
+   "last": "2026-11-14T10:08"
   },
-  "ev-hope": {
+  "cl-corazon-bestia": {
+   "since": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-gato-sombrero": {
+   "since": "2026-10-20T13:12",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-hechizo-bienvenidos-hexe": {
+   "since": "2026-10-24T12:05",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-hope": {
    "since": "2026-10-11T11:28",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
+  },
+  "cl-juegos-hambre-amanecer-cosecha": {
+   "since": "2026-10-28T11:53",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-wild-horse-nine": {
+   "since": "2026-11-11T13:12",
+   "last": "2026-11-14T10:08"
   },
   "ev-remembrance-day-2026": {
    "since": "2026-10-29T12:12",
    "last": "2026-11-11T13:12"
   },
-  "ev-run-terry-run": {
-   "since": "2026-10-07T12:37",
-   "last": "2026-11-13T13:16"
-  },
   "ev-sheep-in-the-box": {
    "since": "2026-10-11T11:28",
    "last": "2026-11-08T11:50"
   },
-  "ev-the-salt-path": {
-   "since": "2026-10-11T11:28",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10002913": {
+  "fw-BVI20200545": {
    "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20250806": {
+   "since": "2026-11-05T13:24",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20251026": {
+   "since": "2026-10-22T10:44",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20251675": {
+   "since": "2026-10-27T11:07",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20251787": {
+   "since": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261027": {
+   "since": "2026-10-07T12:37",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261256": {
+   "since": "2026-11-13T13:16",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261593": {
+   "since": "2026-10-29T12:12",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-SMN20051022": {
+   "since": "2026-11-05T13:24",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-UIP20221470": {
+   "since": "2026-11-13T13:16",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-UIP20241718": {
+   "since": "2026-11-12T13:39",
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10002980": {
    "since": "2026-10-23T10:33",
    "last": "2026-11-09T16:11"
   },
-  "https-moviescout-ca-movies-10003032": {
-   "since": "2026-10-27T11:07",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003065": {
-   "since": "2026-11-13T13:16",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003069": {
-   "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003070": {
-   "since": "2026-10-08T12:40",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003071": {
    "since": "2026-10-07T12:37",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003072": {
    "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003073": {
    "since": "2026-10-28T11:53",
@@ -212,11 +168,11 @@
   },
   "https-moviescout-ca-movies-10003074": {
    "since": "2026-11-07T11:41",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003075": {
    "since": "2026-10-29T12:12",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003176": {
    "since": "2026-10-01T07:04",
@@ -228,43 +184,11 @@
   },
   "https-moviescout-ca-movies-10003179": {
    "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003196": {
-   "since": "2026-10-20T13:12",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003197": {
-   "since": "2026-10-07T12:37",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003199": {
-   "since": "2026-11-05T13:24",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003200": {
-   "since": "2026-10-28T11:53",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003201": {
-   "since": "2026-10-28T11:53",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003202": {
-   "since": "2026-11-11T13:12",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003203": {
    "since": "2026-11-05T13:24",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003204": {
-   "since": "2026-11-13T13:16",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003230": {
-   "since": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003231": {
    "since": "2026-10-01T07:04",
@@ -278,14 +202,6 @@
    "since": "2026-10-16T12:45",
    "last": "2026-11-06T12:45"
   },
-  "https-moviescout-ca-movies-10003357": {
-   "since": "2026-11-12T13:39",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003453": {
-   "since": "2026-10-24T12:05",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003460": {
    "since": "2026-10-31T10:55",
    "last": "2026-11-08T11:50"
@@ -294,33 +210,25 @@
    "since": "2026-10-23T10:33",
    "last": "2026-11-05T13:24"
   },
-  "https-moviescout-ca-movies-10003551": {
-   "since": "2026-11-05T13:24",
-   "last": "2026-11-13T13:16"
+  "https-moviescout-ca-movies-10003610": {
+   "since": "2026-11-09T16:11",
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-234081": {
    "since": "2026-10-01T07:04",
    "last": "2026-11-11T13:12"
   },
-  "https-moviescout-ca-movies-359230": {
-   "since": "2026-10-22T10:44",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-395181": {
    "since": "2026-10-28T11:53",
    "last": "2026-11-09T16:11"
   },
-  "https-moviescout-ca-movies-39816": {
-   "since": "2026-10-17T11:45",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-415960": {
-   "since": "2026-10-01T07:04",
-   "last": "2026-11-08T11:50"
-  },
   "https-moviescout-ca-movies-42160": {
    "since": "2026-10-15T12:57",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
+  },
+  "rv-elf-2003": {
+   "since": "2026-10-17T11:45",
+   "last": "2026-11-14T10:08"
   }
  },
  "dated": {
@@ -342,7 +250,7 @@
   },
   "cc-armageddon-road-2026": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "cc-arrival-2016": {
    "first": "2026-10-01T07:04",
@@ -368,10 +276,6 @@
    "first": "2026-10-01T07:04",
    "last": "2026-11-05T13:24"
   },
-  "cc-clayface-2026": {
-   "first": "2026-10-01T08:12",
-   "last": "2026-11-13T13:16"
-  },
   "cc-coyote-vs-acme-2026": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-11T11:28"
@@ -386,67 +290,31 @@
   },
   "cc-drummer-boy-2026": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "cc-e-t-the-extra-terrestrial-1982": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-19T09:55"
   },
-  "cc-ebenezer-2026": {
-   "first": "2026-10-24T12:05",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-festive-fun-with-peppa-cinema-experience-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-forgotten-island-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-01T11:57"
-  },
-  "cc-ghost-soldier-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-godzilla-minus-zero-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-halloween-1978": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-29T12:12"
-  },
-  "cc-heart-of-the-beast-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
   },
   "cc-heated-rivalry-2025": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-08T11:50"
   },
-  "cc-hope-2026": {
+  "cc-hen-2025": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "cc-hotel-transylvania-2012": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-01T11:57"
   },
-  "cc-how-to-rob-a-bank-2026": {
-   "first": "2026-10-23T10:33",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-i-play-rocky-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-jet-lag-the-game-japanorama-finale-event": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-03T10:00"
-  },
-  "cc-klara-and-the-sun-2026": {
-   "first": "2026-10-02T00:09",
-   "last": "2026-11-13T13:16"
   },
   "cc-monday-mystery-movie-event": {
    "first": "2026-10-01T07:04",
@@ -476,10 +344,6 @@
    "first": "2026-10-01T07:04",
    "last": "2026-10-11T11:28"
   },
-  "cc-ramayana-rise-of-a-legend-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-resident-evil-2026": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-03T13:09"
@@ -488,41 +352,17 @@
    "first": "2026-10-01T07:04",
    "last": "2026-10-08T12:40"
   },
-  "cc-run-terry-run-2025": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-sb19-wakas-at-simula-the-trilogy-concert-finale-2026": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-08T12:40"
-  },
-  "cc-sense-and-sensibility-1995": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-10-15T12:57"
-  },
-  "cc-sense-and-sensibility-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
   },
   "cc-sheep-in-the-box-2026": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-08T11:50"
   },
-  "cc-street-fighter-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-thaapi-2026": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-22T10:44"
-  },
-  "cc-the-cat-in-the-hat-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-the-departed-2006": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
   },
   "cc-the-exorcist-1973": {
    "first": "2026-10-01T07:04",
@@ -532,17 +372,9 @@
    "first": "2026-10-01T07:04",
    "last": "2026-10-31T10:55"
   },
-  "cc-the-hunger-games-sunrise-on-the-reaping-2026": {
-   "first": "2026-10-01T08:12",
-   "last": "2026-11-13T13:16"
-  },
   "cc-the-nightmare-before-christmas-1993": {
    "first": "2026-10-16T12:45",
    "last": "2026-11-02T15:35"
-  },
-  "cc-the-polar-express-2004": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
   },
   "cc-the-president-s-cake-2025": {
    "first": "2026-10-01T07:04",
@@ -550,11 +382,7 @@
   },
   "cc-the-salt-path-2024": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "cc-the-social-reckoning-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "cc-the-weight-2026": {
    "first": "2026-10-01T07:04",
@@ -572,17 +400,9 @@
    "first": "2026-10-01T07:04",
    "last": "2026-11-05T13:24"
   },
-  "cc-whalefall-2026": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "cc-wicker-2026": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-12T13:39"
-  },
-  "cc-wild-horse-nine-2026": {
-   "first": "2026-10-23T10:33",
-   "last": "2026-11-13T13:16"
   },
   "cc-wildwood-2026": {
    "first": "2026-10-01T07:04",
@@ -592,9 +412,37 @@
    "first": "2026-10-01T07:04",
    "last": "2026-11-12T13:39"
   },
-  "ev-armageddon-road": {
+  "cl-clayface": {
+   "first": "2026-10-01T08:12",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-como-robar-banco": {
+   "first": "2026-10-23T10:33",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-corazon-bestia": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
+  },
+  "cl-gato-sombrero": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-hechizo-bienvenidos-hexe": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-hope": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-juegos-hambre-amanecer-cosecha": {
+   "first": "2026-10-01T08:12",
+   "last": "2026-11-14T10:08"
+  },
+  "cl-wild-horse-nine": {
+   "first": "2026-10-23T10:33",
+   "last": "2026-11-14T10:08"
   },
   "ev-at-the-place-of-ghosts": {
    "first": "2026-10-01T07:04",
@@ -604,14 +452,6 @@
    "first": "2026-10-01T07:04",
    "last": "2026-11-01T11:57"
   },
-  "ev-hen": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "ev-hope": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "ev-once-upon-a-time-in-a-cinema": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-25T12:20"
@@ -619,10 +459,6 @@
   "ev-remembrance-day-2026": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-11T13:12"
-  },
-  "ev-run-terry-run": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
   },
   "ev-sheep-in-the-box": {
    "first": "2026-10-01T07:04",
@@ -632,17 +468,81 @@
    "first": "2026-10-01T07:04",
    "last": "2026-10-04T10:33"
   },
-  "ev-the-salt-path": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "ev-tow": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-11T11:28"
   },
-  "https-moviescout-ca-movies-10002913": {
+  "fw-BVI20200545": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20240731": {
+   "first": "2026-10-15T12:57",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20250047": {
+   "first": "2026-10-08T12:40",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20250146": {
+   "first": "2026-10-01T08:12",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20250806": {
+   "first": "2026-10-01T08:12",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20251026": {
+   "first": "2026-10-01T08:12",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20251675": {
+   "first": "2026-10-24T12:05",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20251787": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20260132": {
+   "first": "2026-10-15T12:57",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20260432": {
+   "first": "2026-10-08T12:40",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261027": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261052": {
+   "first": "2026-10-15T12:57",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261256": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261593": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-EDI20261747": {
+   "first": "2026-10-02T17:34",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-SMN20051022": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-UIP20221470": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
+  },
+  "fw-UIP20241718": {
+   "first": "2026-10-08T12:40",
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10002980": {
    "first": "2026-10-01T07:04",
@@ -652,10 +552,6 @@
    "first": "2026-10-01T07:04",
    "last": "2026-11-03T13:09"
   },
-  "https-moviescout-ca-movies-10003032": {
-   "first": "2026-10-24T12:05",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003052": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-17T11:45"
@@ -664,25 +560,13 @@
    "first": "2026-10-01T07:04",
    "last": "2026-10-30T11:52"
   },
-  "https-moviescout-ca-movies-10003065": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003069": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003070": {
-   "first": "2026-10-01T08:12",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003071": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003072": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003073": {
    "first": "2026-10-01T07:04",
@@ -690,11 +574,11 @@
   },
   "https-moviescout-ca-movies-10003074": {
    "first": "2026-10-02T00:09",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003075": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003082": {
    "first": "2026-10-01T07:04",
@@ -714,7 +598,7 @@
   },
   "https-moviescout-ca-movies-10003179": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003180": {
    "first": "2026-10-02T00:09",
@@ -724,45 +608,13 @@
    "first": "2026-10-01T07:04",
    "last": "2026-10-05T01:45"
   },
-  "https-moviescout-ca-movies-10003196": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003197": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003199": {
-   "first": "2026-10-01T08:12",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003200": {
-   "first": "2026-10-01T08:12",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003201": {
-   "first": "2026-10-23T10:33",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003202": {
-   "first": "2026-10-23T10:33",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003203": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003204": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003229": {
    "first": "2026-10-02T00:09",
    "last": "2026-10-08T12:40"
-  },
-  "https-moviescout-ca-movies-10003230": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
   },
   "https-moviescout-ca-movies-10003231": {
    "first": "2026-10-01T07:04",
@@ -775,10 +627,6 @@
   "https-moviescout-ca-movies-10003243": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-12T13:39"
-  },
-  "https-moviescout-ca-movies-10003250": {
-   "first": "2026-10-01T08:12",
-   "last": "2026-11-13T13:16"
   },
   "https-moviescout-ca-movies-10003271": {
    "first": "2026-10-01T07:04",
@@ -800,10 +648,6 @@
    "first": "2026-10-01T07:04",
    "last": "2026-10-08T12:40"
   },
-  "https-moviescout-ca-movies-10003332": {
-   "first": "2026-10-02T17:34",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003338": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-28T11:53"
@@ -820,37 +664,9 @@
    "first": "2026-10-08T12:40",
    "last": "2026-11-13T13:16"
   },
-  "https-moviescout-ca-movies-10003357": {
-   "first": "2026-10-08T12:40",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003364": {
-   "first": "2026-10-08T12:40",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003365": {
-   "first": "2026-10-08T12:40",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003378": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-14T10:37"
-  },
-  "https-moviescout-ca-movies-10003385": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-10-29T12:12"
-  },
-  "https-moviescout-ca-movies-10003388": {
-   "first": "2026-10-15T12:57",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003389": {
-   "first": "2026-10-15T12:57",
-   "last": "2026-11-13T13:16"
-  },
-  "https-moviescout-ca-movies-10003390": {
-   "first": "2026-10-15T12:57",
-   "last": "2026-11-13T13:16"
   },
   "https-moviescout-ca-movies-10003401": {
    "first": "2026-10-16T12:45",
@@ -876,10 +692,6 @@
    "first": "2026-10-23T10:33",
    "last": "2026-10-23T10:33"
   },
-  "https-moviescout-ca-movies-10003453": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003460": {
    "first": "2026-10-01T07:04",
    "last": "2026-11-08T11:50"
@@ -900,21 +712,17 @@
    "first": "2026-11-05T13:24",
    "last": "2026-11-10T13:22"
   },
-  "https-moviescout-ca-movies-10003551": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-10003556": {
    "first": "2026-11-06T12:45",
    "last": "2026-11-12T13:39"
   },
   "https-moviescout-ca-movies-10003557": {
    "first": "2026-11-06T12:45",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003558": {
    "first": "2026-11-12T13:39",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-10003560": {
    "first": "2026-11-06T12:45",
@@ -923,6 +731,10 @@
   "https-moviescout-ca-movies-10003594": {
    "first": "2026-11-12T13:39",
    "last": "2026-11-12T13:39"
+  },
+  "https-moviescout-ca-movies-10003610": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-165872": {
    "first": "2026-11-06T12:45",
@@ -940,13 +752,13 @@
    "first": "2026-11-06T12:45",
    "last": "2026-11-13T13:16"
   },
+  "https-moviescout-ca-movies-23692": {
+   "first": "2026-11-14T10:08",
+   "last": "2026-11-14T10:08"
+  },
   "https-moviescout-ca-movies-315543": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-11T11:28"
-  },
-  "https-moviescout-ca-movies-359230": {
-   "first": "2026-10-01T08:12",
-   "last": "2026-11-13T13:16"
   },
   "https-moviescout-ca-movies-363276": {
    "first": "2026-10-01T07:04",
@@ -960,25 +772,17 @@
    "first": "2026-10-01T07:04",
    "last": "2026-11-09T16:11"
   },
-  "https-moviescout-ca-movies-39816": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
-  },
   "https-moviescout-ca-movies-400903": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-03T10:00"
   },
-  "https-moviescout-ca-movies-415960": {
-   "first": "2026-10-01T07:04",
-   "last": "2026-11-08T11:50"
-  },
   "https-moviescout-ca-movies-42160": {
    "first": "2026-10-01T07:04",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-5748": {
    "first": "2026-11-06T12:45",
-   "last": "2026-11-13T13:16"
+   "last": "2026-11-14T10:08"
   },
   "https-moviescout-ca-movies-6377": {
    "first": "2026-10-09T12:16",
@@ -987,22 +791,24 @@
   "https-moviescout-ca-movies-6822": {
    "first": "2026-10-01T07:04",
    "last": "2026-10-29T12:12"
+  },
+  "rv-elf-2003": {
+   "first": "2026-10-01T07:04",
+   "last": "2026-11-14T10:08"
   }
  },
- "lastRun": "2026-11-13T13:16",
+ "lastRun": "2026-11-14T10:08",
  "lastWeekly": "2026-11-13T13:20",
  "shows": {
   "cc-armageddon-road-2026": {
-   "last": "2026-11-13T13:16",
+   "last": "2026-11-14T10:08",
    "shows": {
     "2026-11-25T18:30|Evans Theatre": ""
    }
   },
   "cc-drummer-boy-2026": {
-   "last": "2026-11-13T13:16",
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-13T19:10|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T10:00|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-14T11:30|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-14T19:10|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-15T10:00|Landmark Brandon": "2026-11-11T13:12",
@@ -1014,52 +820,12 @@
     "2026-11-19T18:45|Landmark Brandon": "2026-11-13T13:16"
    }
   },
-  "cc-festive-fun-with-peppa-cinema-experience-2026": {
-   "last": "2026-11-13T13:16",
+  "cc-hen-2025": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-14T12:00|Landmark Brandon": "",
-    "2026-11-15T12:00|Landmark Brandon": ""
-   }
-  },
-  "cc-hope-2026": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-27T19:30|Evans Theatre": "",
-    "2026-11-28T19:30|Evans Theatre": "",
-    "2026-11-29T14:00|Evans Theatre": ""
-   }
-  },
-  "cc-ramayana-rise-of-a-legend-2026": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-13T15:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-13T18:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-13T20:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-13T21:25|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T11:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T15:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T18:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T20:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T21:25|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T11:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T15:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T18:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T20:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T21:25|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-16T15:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-16T18:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-16T20:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-16T21:25|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-17T15:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-17T18:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-17T20:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-17T21:25|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-18T15:10|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-18T18:15|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-18T20:50|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-18T21:25|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-19T18:00|Landmark Brandon": "2026-11-13T13:16",
-    "2026-11-19T21:30|Landmark Brandon": "2026-11-13T13:16"
+    "2026-12-04T19:30|Evans Theatre": "",
+    "2026-12-05T19:30|Evans Theatre": "",
+    "2026-12-06T14:00|Evans Theatre": ""
    }
   },
   "cc-sheep-in-the-box-2026": {
@@ -1069,53 +835,15 @@
    }
   },
   "cc-the-salt-path-2024": {
-   "last": "2026-11-13T13:16",
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-13T19:30|Evans Theatre": "",
     "2026-11-14T19:30|Evans Theatre": "",
     "2026-11-15T14:00|Evans Theatre": ""
    }
   },
-  "ev-hen": {
-   "last": "2026-11-13T13:16",
+  "cl-clayface": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-12-04T19:30|Evans Theatre": "",
-    "2026-12-05T19:30|Evans Theatre": "",
-    "2026-12-06T14:00|Evans Theatre": ""
-   }
-  },
-  "ev-remembrance-day-2026": {
-   "last": "2026-11-11T13:12",
-   "shows": {
-    "2026-11-11T14:00|Evans Theatre": ""
-   }
-  },
-  "https-moviescout-ca-movies-10002980": {
-   "last": "2026-11-09T16:11",
-   "shows": {
-    "2026-11-09T19:30|Gaiety (Glenboro)": "2026-10-29T12:12"
-   }
-  },
-  "https-moviescout-ca-movies-10003065": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-13T19:30|Roxy (Neepawa)": ""
-   }
-  },
-  "https-moviescout-ca-movies-10003069": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-13T19:30|Avalon (Souris)": "2026-11-07T11:41",
-    "2026-11-13T20:00|Moosomin Community Theatre": "2026-11-07T11:41",
-    "2026-11-14T20:00|Moosomin Community Theatre": "2026-11-07T11:41",
-    "2026-11-14T19:30|Avalon (Souris)": "2026-11-08T11:50",
-    "2026-11-15T14:00|Avalon (Souris)": "2026-11-09T16:11"
-   }
-  },
-  "https-moviescout-ca-movies-10003070": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-13T22:10|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-14T22:10|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-15T22:10|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-16T22:10|Landmark Brandon": "2026-11-11T13:12",
@@ -1124,129 +852,106 @@
     "2026-11-19T21:50|Landmark Brandon": "2026-11-13T13:16"
    }
   },
-  "https-moviescout-ca-movies-10003071": {
-   "last": "2026-11-13T13:16",
+  "cl-como-robar-banco": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-20T19:30|Evans Theatre": "",
-    "2026-11-21T19:30|Evans Theatre": "",
-    "2026-11-22T14:00|Evans Theatre": ""
+    "2026-11-14T13:00|Landmark Brandon": "",
+    "2026-11-14T16:00|Landmark Brandon": "",
+    "2026-11-14T19:00|Landmark Brandon": "",
+    "2026-11-14T22:00|Landmark Brandon": "",
+    "2026-11-15T13:00|Landmark Brandon": "",
+    "2026-11-15T16:00|Landmark Brandon": "",
+    "2026-11-15T19:00|Landmark Brandon": "",
+    "2026-11-15T22:00|Landmark Brandon": "",
+    "2026-11-16T16:00|Landmark Brandon": "",
+    "2026-11-16T19:00|Landmark Brandon": "",
+    "2026-11-16T22:00|Landmark Brandon": "",
+    "2026-11-17T16:00|Landmark Brandon": "",
+    "2026-11-17T19:00|Landmark Brandon": "",
+    "2026-11-17T22:00|Landmark Brandon": "",
+    "2026-11-18T16:00|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-18T19:00|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-18T21:55|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-19T16:00|Landmark Brandon": "2026-11-13T13:16",
+    "2026-11-19T18:50|Landmark Brandon": "2026-11-13T13:16",
+    "2026-11-19T21:45|Landmark Brandon": "2026-11-13T13:16"
    }
   },
-  "https-moviescout-ca-movies-10003072": {
-   "last": "2026-11-13T13:16",
+  "cl-corazon-bestia": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-20T19:30|Gaiety (Glenboro)": "2026-10-31T10:55",
-    "2026-11-21T19:30|Gaiety (Glenboro)": "2026-11-01T11:57",
-    "2026-11-22T19:30|Gaiety (Glenboro)": "2026-11-02T15:35",
-    "2026-11-23T19:30|Gaiety (Glenboro)": "2026-11-03T13:09"
+    "2026-11-14T20:00|Moosomin Community Theatre": "2026-11-07T11:41",
+    "2026-11-14T19:30|Avalon (Souris)": "2026-11-08T11:50",
+    "2026-11-15T14:00|Avalon (Souris)": "2026-11-09T16:11"
    }
   },
-  "https-moviescout-ca-movies-10003073": {
-   "last": "2026-11-12T13:39",
+  "cl-gato-sombrero": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-12T22:15|Landmark Brandon": "2026-11-06T12:45"
+    "2026-11-14T10:15|Landmark Brandon": "",
+    "2026-11-14T11:45|Landmark Brandon": "",
+    "2026-11-14T13:50|Landmark Brandon": "",
+    "2026-11-14T15:15|Landmark Brandon": "",
+    "2026-11-14T16:05|Landmark Brandon": "",
+    "2026-11-14T18:05|Landmark Brandon": "",
+    "2026-11-14T21:15|Landmark Brandon": "",
+    "2026-11-15T10:15|Landmark Brandon": "",
+    "2026-11-15T11:45|Landmark Brandon": "",
+    "2026-11-15T13:50|Landmark Brandon": "",
+    "2026-11-15T15:15|Landmark Brandon": "",
+    "2026-11-15T16:05|Landmark Brandon": "",
+    "2026-11-15T18:05|Landmark Brandon": "",
+    "2026-11-15T21:15|Landmark Brandon": "",
+    "2026-11-16T15:15|Landmark Brandon": "",
+    "2026-11-16T16:05|Landmark Brandon": "",
+    "2026-11-16T18:05|Landmark Brandon": "",
+    "2026-11-16T21:15|Landmark Brandon": "",
+    "2026-11-17T15:15|Landmark Brandon": "",
+    "2026-11-17T16:05|Landmark Brandon": "",
+    "2026-11-17T18:05|Landmark Brandon": "",
+    "2026-11-17T21:15|Landmark Brandon": "",
+    "2026-11-18T15:20|Landmark Brandon": "",
+    "2026-11-18T16:05|Landmark Brandon": "",
+    "2026-11-18T18:05|Landmark Brandon": "",
+    "2026-11-19T15:15|Landmark Brandon": "",
+    "2026-11-19T16:30|Landmark Brandon": "",
+    "2026-11-20T19:30|Avalon (Souris)": "",
+    "2026-12-04T19:30|Gaiety (Glenboro)": ""
    }
   },
-  "https-moviescout-ca-movies-10003074": {
-   "last": "2026-11-13T13:16",
+  "cl-hechizo-bienvenidos-hexe": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-27T20:00|Moosomin Community Theatre": "",
-    "2026-11-28T20:00|Moosomin Community Theatre": "2026-11-08T11:50"
+    "2026-11-24T15:50|Landmark Brandon": "",
+    "2026-11-24T18:40|Landmark Brandon": "",
+    "2026-11-25T15:50|Landmark Brandon": "",
+    "2026-11-25T18:40|Landmark Brandon": "",
+    "2026-11-26T15:50|Landmark Brandon": "",
+    "2026-11-26T18:40|Landmark Brandon": "",
+    "2026-11-28T12:50|Landmark Brandon": "",
+    "2026-11-28T15:50|Landmark Brandon": "",
+    "2026-11-28T18:40|Landmark Brandon": "",
+    "2026-11-29T12:50|Landmark Brandon": "",
+    "2026-11-29T15:50|Landmark Brandon": "",
+    "2026-11-29T18:40|Landmark Brandon": "",
+    "2026-11-30T15:50|Landmark Brandon": "",
+    "2026-11-30T18:40|Landmark Brandon": "",
+    "2026-12-01T15:50|Landmark Brandon": "",
+    "2026-12-01T18:40|Landmark Brandon": "",
+    "2026-11-27T15:50|Landmark Brandon": "2026-10-28T11:53",
+    "2026-11-27T18:40|Landmark Brandon": "2026-10-28T11:53"
    }
   },
-  "https-moviescout-ca-movies-10003075": {
-   "last": "2026-11-13T13:16",
+  "cl-hope": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-13T19:30|Gaiety (Glenboro)": "",
-    "2026-11-14T19:30|Gaiety (Glenboro)": "",
-    "2026-11-15T19:30|Gaiety (Glenboro)": "",
-    "2026-11-16T19:30|Gaiety (Glenboro)": ""
+    "2026-11-27T19:30|Evans Theatre": "",
+    "2026-11-28T19:30|Evans Theatre": "",
+    "2026-11-29T14:00|Evans Theatre": ""
    }
   },
-  "https-moviescout-ca-movies-10003176": {
-   "last": "2026-11-05T13:24",
-   "shows": {
-    "2026-11-05T16:10|Landmark Brandon": "2026-10-30T11:52",
-    "2026-11-05T18:40|Landmark Brandon": "2026-10-30T11:52",
-    "2026-11-05T22:00|Landmark Brandon": "2026-10-30T11:52",
-    "2026-11-06T20:00|Moosomin Community Theatre": "2026-10-30T11:52",
-    "2026-11-07T20:00|Moosomin Community Theatre": "2026-10-30T11:52",
-    "2026-11-05T15:40|Landmark Brandon": "2026-11-04T13:21"
-   }
-  },
-  "https-moviescout-ca-movies-10003178": {
-   "last": "2026-11-12T13:39",
-   "shows": {
-    "2026-11-12T22:20|Landmark Brandon": "2026-11-06T12:45"
-   }
-  },
-  "https-moviescout-ca-movies-10003179": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-20T20:00|Moosomin Community Theatre": "2026-10-31T10:55",
-    "2026-11-21T20:00|Moosomin Community Theatre": "2026-11-01T11:57",
-    "2026-11-13T20:00|Community Theatre (Carnduff)": "2026-11-11T13:12",
-    "2026-11-14T20:00|Community Theatre (Carnduff)": "2026-11-11T13:12",
-    "2026-11-15T19:00|Community Theatre (Carnduff)": "2026-11-11T13:12"
-   }
-  },
-  "https-moviescout-ca-movies-10003197": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-13T16:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-13T18:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-13T21:55|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T13:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T16:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T18:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-14T21:55|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T10:30|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T13:00|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T16:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T18:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-15T21:55|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-16T16:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-16T18:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-16T21:55|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-17T16:15|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-17T18:50|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-17T21:55|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-18T16:15|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-18T18:50|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-18T22:00|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-19T16:15|Landmark Brandon": "2026-11-13T13:16"
-   }
-  },
-  "https-moviescout-ca-movies-10003199": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-25T16:20|Landmark Brandon": "",
-    "2026-11-25T19:10|Landmark Brandon": "",
-    "2026-11-25T21:50|Landmark Brandon": "",
-    "2026-11-26T16:20|Landmark Brandon": "",
-    "2026-11-26T19:10|Landmark Brandon": "",
-    "2026-11-26T21:50|Landmark Brandon": "",
-    "2026-11-27T16:20|Landmark Brandon": "",
-    "2026-11-27T19:10|Landmark Brandon": "",
-    "2026-11-27T21:50|Landmark Brandon": "",
-    "2026-11-28T13:40|Landmark Brandon": "",
-    "2026-11-28T16:20|Landmark Brandon": "",
-    "2026-11-28T19:10|Landmark Brandon": "",
-    "2026-11-28T21:50|Landmark Brandon": "",
-    "2026-11-29T13:40|Landmark Brandon": "",
-    "2026-11-29T16:20|Landmark Brandon": "",
-    "2026-11-29T19:10|Landmark Brandon": "",
-    "2026-11-29T21:50|Landmark Brandon": "",
-    "2026-11-30T16:20|Landmark Brandon": "",
-    "2026-11-30T19:10|Landmark Brandon": "",
-    "2026-11-30T21:50|Landmark Brandon": "",
-    "2026-12-01T16:20|Landmark Brandon": "",
-    "2026-12-01T19:10|Landmark Brandon": "",
-    "2026-12-01T21:50|Landmark Brandon": ""
-   }
-  },
-  "https-moviescout-ca-movies-10003200": {
-   "last": "2026-11-13T13:16",
+  "cl-juegos-hambre-amanecer-cosecha": {
+   "last": "2026-11-14T10:08",
    "shows": {
     "2026-11-19T15:30|Landmark Brandon": "",
     "2026-11-19T19:00|Landmark Brandon": "",
@@ -1275,43 +980,15 @@
     "2026-11-23T19:00|Landmark Brandon": "2026-11-12T13:39",
     "2026-11-23T22:30|Landmark Brandon": "2026-11-12T13:39",
     "2026-11-19T15:00|Landmark Brandon": "2026-11-13T13:16",
-    "2026-11-19T22:00|Landmark Brandon": "2026-11-13T13:16"
+    "2026-11-19T22:00|Landmark Brandon": "2026-11-13T13:16",
+    "2026-11-20T15:30|Landmark Brandon": "2026-11-14T10:08",
+    "2026-11-20T19:00|Landmark Brandon": "2026-11-14T10:08",
+    "2026-11-20T22:30|Landmark Brandon": "2026-11-14T10:08"
    }
   },
-  "https-moviescout-ca-movies-10003201": {
-   "last": "2026-11-13T13:16",
+  "cl-wild-horse-nine": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-13T16:00|Landmark Brandon": "",
-    "2026-11-13T19:00|Landmark Brandon": "",
-    "2026-11-13T22:00|Landmark Brandon": "",
-    "2026-11-14T13:00|Landmark Brandon": "",
-    "2026-11-14T16:00|Landmark Brandon": "",
-    "2026-11-14T19:00|Landmark Brandon": "",
-    "2026-11-14T22:00|Landmark Brandon": "",
-    "2026-11-15T13:00|Landmark Brandon": "",
-    "2026-11-15T16:00|Landmark Brandon": "",
-    "2026-11-15T19:00|Landmark Brandon": "",
-    "2026-11-15T22:00|Landmark Brandon": "",
-    "2026-11-16T16:00|Landmark Brandon": "",
-    "2026-11-16T19:00|Landmark Brandon": "",
-    "2026-11-16T22:00|Landmark Brandon": "",
-    "2026-11-17T16:00|Landmark Brandon": "",
-    "2026-11-17T19:00|Landmark Brandon": "",
-    "2026-11-17T22:00|Landmark Brandon": "",
-    "2026-11-18T16:00|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-18T19:00|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-18T21:55|Landmark Brandon": "2026-11-12T13:39",
-    "2026-11-19T16:00|Landmark Brandon": "2026-11-13T13:16",
-    "2026-11-19T18:50|Landmark Brandon": "2026-11-13T13:16",
-    "2026-11-19T21:45|Landmark Brandon": "2026-11-13T13:16"
-   }
-  },
-  "https-moviescout-ca-movies-10003202": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-13T15:30|Landmark Brandon": "",
-    "2026-11-13T18:30|Landmark Brandon": "",
-    "2026-11-13T21:40|Landmark Brandon": "",
     "2026-11-14T12:45|Landmark Brandon": "",
     "2026-11-14T15:30|Landmark Brandon": "",
     "2026-11-14T18:30|Landmark Brandon": "",
@@ -1334,12 +1011,256 @@
     "2026-11-19T21:40|Landmark Brandon": "2026-11-13T13:16"
    }
   },
-  "https-moviescout-ca-movies-10003203": {
-   "last": "2026-11-13T13:16",
+  "ev-remembrance-day-2026": {
+   "last": "2026-11-11T13:12",
    "shows": {
-    "2026-11-13T16:30|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-13T19:20|Landmark Brandon": "2026-11-11T13:12",
-    "2026-11-13T22:15|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-11T14:00|Evans Theatre": ""
+   }
+  },
+  "fw-EDI20250806": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-25T16:20|Landmark Brandon": "",
+    "2026-11-25T19:10|Landmark Brandon": "",
+    "2026-11-25T21:50|Landmark Brandon": "",
+    "2026-11-26T16:20|Landmark Brandon": "",
+    "2026-11-26T19:10|Landmark Brandon": "",
+    "2026-11-26T21:50|Landmark Brandon": "",
+    "2026-11-27T16:20|Landmark Brandon": "",
+    "2026-11-27T19:10|Landmark Brandon": "",
+    "2026-11-27T21:50|Landmark Brandon": "",
+    "2026-11-28T13:40|Landmark Brandon": "",
+    "2026-11-28T16:20|Landmark Brandon": "",
+    "2026-11-28T19:10|Landmark Brandon": "",
+    "2026-11-28T21:50|Landmark Brandon": "",
+    "2026-11-29T13:40|Landmark Brandon": "",
+    "2026-11-29T16:20|Landmark Brandon": "",
+    "2026-11-29T19:10|Landmark Brandon": "",
+    "2026-11-29T21:50|Landmark Brandon": "",
+    "2026-11-30T16:20|Landmark Brandon": "",
+    "2026-11-30T19:10|Landmark Brandon": "",
+    "2026-11-30T21:50|Landmark Brandon": "",
+    "2026-12-01T16:20|Landmark Brandon": "",
+    "2026-12-01T19:10|Landmark Brandon": "",
+    "2026-12-01T21:50|Landmark Brandon": ""
+   }
+  },
+  "fw-EDI20251675": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-14T12:15|Landmark Brandon": "",
+    "2026-11-14T15:10|Landmark Brandon": "",
+    "2026-11-14T15:40|Landmark Brandon": "",
+    "2026-11-14T18:40|Landmark Brandon": "",
+    "2026-11-14T19:30|Landmark Brandon": "",
+    "2026-11-14T22:15|Landmark Brandon": "",
+    "2026-11-15T12:15|Landmark Brandon": "",
+    "2026-11-15T15:10|Landmark Brandon": "",
+    "2026-11-15T15:40|Landmark Brandon": "",
+    "2026-11-15T18:40|Landmark Brandon": "",
+    "2026-11-15T19:30|Landmark Brandon": "",
+    "2026-11-15T22:15|Landmark Brandon": "",
+    "2026-11-16T15:20|Landmark Brandon": "",
+    "2026-11-16T15:50|Landmark Brandon": "",
+    "2026-11-16T18:40|Landmark Brandon": "",
+    "2026-11-16T19:30|Landmark Brandon": "",
+    "2026-11-16T22:15|Landmark Brandon": "",
+    "2026-11-17T15:20|Landmark Brandon": "",
+    "2026-11-17T15:50|Landmark Brandon": "",
+    "2026-11-17T18:40|Landmark Brandon": "",
+    "2026-11-17T19:30|Landmark Brandon": "",
+    "2026-11-17T22:15|Landmark Brandon": "",
+    "2026-11-18T15:00|Landmark Brandon": "",
+    "2026-11-18T19:30|Landmark Brandon": "",
+    "2026-11-18T22:30|Landmark Brandon": "",
+    "2026-11-19T15:50|Landmark Brandon": "",
+    "2026-11-19T19:30|Landmark Brandon": "",
+    "2026-11-19T22:20|Landmark Brandon": ""
+   }
+  },
+  "fw-EDI20251787": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-27T19:30|Gaiety (Glenboro)": "2026-11-07T11:41",
+    "2026-11-28T19:30|Gaiety (Glenboro)": "2026-11-08T11:50",
+    "2026-11-29T19:30|Gaiety (Glenboro)": "2026-11-09T16:11",
+    "2026-11-30T19:30|Gaiety (Glenboro)": "2026-11-10T13:22"
+   }
+  },
+  "fw-EDI20261027": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-14T13:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-14T16:15|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-14T18:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-14T21:55|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T10:30|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T13:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T16:15|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T18:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T21:55|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-16T16:15|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-16T18:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-16T21:55|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-17T16:15|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-17T18:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-17T21:55|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-18T16:15|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-18T18:50|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-18T22:00|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-19T16:15|Landmark Brandon": "2026-11-13T13:16"
+   }
+  },
+  "fw-EDI20261256": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-19T16:10|Landmark Brandon": "",
+    "2026-11-19T19:10|Landmark Brandon": "",
+    "2026-11-19T22:10|Landmark Brandon": "",
+    "2026-11-20T16:00|Landmark Brandon": "2026-11-14T10:08",
+    "2026-11-20T19:10|Landmark Brandon": "2026-11-14T10:08",
+    "2026-11-20T22:10|Landmark Brandon": "2026-11-14T10:08"
+   }
+  },
+  "fw-EDI20261593": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-14T11:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-14T15:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-14T18:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-14T20:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-14T21:25|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T11:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T15:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T18:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T20:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-15T21:25|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-16T15:15|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-16T18:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-16T20:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-16T21:25|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-17T15:15|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-17T18:00|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-17T20:50|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-17T21:25|Landmark Brandon": "2026-11-11T13:12",
+    "2026-11-18T15:10|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-18T18:15|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-18T20:50|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-18T21:25|Landmark Brandon": "2026-11-12T13:39",
+    "2026-11-19T18:00|Landmark Brandon": "2026-11-13T13:16",
+    "2026-11-19T21:30|Landmark Brandon": "2026-11-13T13:16"
+   }
+  },
+  "fw-SMN20051022": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-18T18:00|Landmark Brandon": "",
+    "2026-11-18T18:30|Landmark Brandon": "2026-11-12T13:39"
+   }
+  },
+  "fw-UIP20221470": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-14T19:30|Roxy (Neepawa)": "2026-11-14T10:08"
+   }
+  },
+  "fw-UIP20241718": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-12-03T19:20|Landmark Brandon": "",
+    "2026-12-03T22:10|Landmark Brandon": "",
+    "2026-12-04T16:30|Landmark Brandon": "",
+    "2026-12-04T19:20|Landmark Brandon": "",
+    "2026-12-04T22:10|Landmark Brandon": "",
+    "2026-12-05T13:40|Landmark Brandon": "",
+    "2026-12-05T16:30|Landmark Brandon": "",
+    "2026-12-05T19:20|Landmark Brandon": "",
+    "2026-12-05T22:10|Landmark Brandon": "",
+    "2026-12-06T13:40|Landmark Brandon": "",
+    "2026-12-06T16:30|Landmark Brandon": "",
+    "2026-12-06T19:20|Landmark Brandon": "",
+    "2026-12-06T22:10|Landmark Brandon": "",
+    "2026-12-07T16:30|Landmark Brandon": "",
+    "2026-12-07T19:20|Landmark Brandon": "",
+    "2026-12-07T22:10|Landmark Brandon": "",
+    "2026-12-08T16:30|Landmark Brandon": "",
+    "2026-12-08T19:20|Landmark Brandon": "",
+    "2026-12-08T22:10|Landmark Brandon": ""
+   }
+  },
+  "https-moviescout-ca-movies-10002980": {
+   "last": "2026-11-09T16:11",
+   "shows": {
+    "2026-11-09T19:30|Gaiety (Glenboro)": "2026-10-29T12:12"
+   }
+  },
+  "https-moviescout-ca-movies-10003071": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-20T19:30|Evans Theatre": "",
+    "2026-11-21T19:30|Evans Theatre": "",
+    "2026-11-22T14:00|Evans Theatre": ""
+   }
+  },
+  "https-moviescout-ca-movies-10003072": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-20T19:30|Gaiety (Glenboro)": "2026-10-31T10:55",
+    "2026-11-21T19:30|Gaiety (Glenboro)": "2026-11-01T11:57",
+    "2026-11-22T19:30|Gaiety (Glenboro)": "2026-11-02T15:35",
+    "2026-11-23T19:30|Gaiety (Glenboro)": "2026-11-03T13:09"
+   }
+  },
+  "https-moviescout-ca-movies-10003073": {
+   "last": "2026-11-12T13:39",
+   "shows": {
+    "2026-11-12T22:15|Landmark Brandon": "2026-11-06T12:45"
+   }
+  },
+  "https-moviescout-ca-movies-10003074": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-27T20:00|Moosomin Community Theatre": "",
+    "2026-11-28T20:00|Moosomin Community Theatre": "2026-11-08T11:50"
+   }
+  },
+  "https-moviescout-ca-movies-10003075": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-14T19:30|Gaiety (Glenboro)": "",
+    "2026-11-15T19:30|Gaiety (Glenboro)": "",
+    "2026-11-16T19:30|Gaiety (Glenboro)": ""
+   }
+  },
+  "https-moviescout-ca-movies-10003176": {
+   "last": "2026-11-05T13:24",
+   "shows": {
+    "2026-11-05T16:10|Landmark Brandon": "2026-10-30T11:52",
+    "2026-11-05T18:40|Landmark Brandon": "2026-10-30T11:52",
+    "2026-11-05T22:00|Landmark Brandon": "2026-10-30T11:52",
+    "2026-11-06T20:00|Moosomin Community Theatre": "2026-10-30T11:52",
+    "2026-11-07T20:00|Moosomin Community Theatre": "2026-10-30T11:52",
+    "2026-11-05T15:40|Landmark Brandon": "2026-11-04T13:21"
+   }
+  },
+  "https-moviescout-ca-movies-10003178": {
+   "last": "2026-11-12T13:39",
+   "shows": {
+    "2026-11-12T22:20|Landmark Brandon": "2026-11-06T12:45"
+   }
+  },
+  "https-moviescout-ca-movies-10003179": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-20T20:00|Moosomin Community Theatre": "2026-10-31T10:55",
+    "2026-11-21T20:00|Moosomin Community Theatre": "2026-11-01T11:57",
+    "2026-11-14T20:00|Community Theatre (Carnduff)": "2026-11-11T13:12",
+    "2026-11-15T19:00|Community Theatre (Carnduff)": "2026-11-11T13:12"
+   }
+  },
+  "https-moviescout-ca-movies-10003203": {
+   "last": "2026-11-14T10:08",
+   "shows": {
     "2026-11-14T13:40|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-14T16:35|Landmark Brandon": "2026-11-11T13:12",
     "2026-11-14T19:20|Landmark Brandon": "2026-11-11T13:12",
@@ -1359,23 +1280,6 @@
     "2026-11-18T22:15|Landmark Brandon": "2026-11-12T13:39",
     "2026-11-19T19:20|Landmark Brandon": "2026-11-13T13:16",
     "2026-11-19T22:15|Landmark Brandon": "2026-11-13T13:16"
-   }
-  },
-  "https-moviescout-ca-movies-10003204": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-19T16:10|Landmark Brandon": "",
-    "2026-11-19T19:10|Landmark Brandon": "",
-    "2026-11-19T22:10|Landmark Brandon": ""
-   }
-  },
-  "https-moviescout-ca-movies-10003230": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-27T19:30|Gaiety (Glenboro)": "2026-11-07T11:41",
-    "2026-11-28T19:30|Gaiety (Glenboro)": "2026-11-08T11:50",
-    "2026-11-29T19:30|Gaiety (Glenboro)": "2026-11-09T16:11",
-    "2026-11-30T19:30|Gaiety (Glenboro)": "2026-11-10T13:22"
    }
   },
   "https-moviescout-ca-movies-10003231": {
@@ -1400,53 +1304,6 @@
     "2026-11-14T20:00|Moosomin Community Theatre": ""
    }
   },
-  "https-moviescout-ca-movies-10003357": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-12-03T19:20|Landmark Brandon": "",
-    "2026-12-03T22:10|Landmark Brandon": "",
-    "2026-12-04T16:30|Landmark Brandon": "",
-    "2026-12-04T19:20|Landmark Brandon": "",
-    "2026-12-04T22:10|Landmark Brandon": "",
-    "2026-12-05T13:40|Landmark Brandon": "",
-    "2026-12-05T16:30|Landmark Brandon": "",
-    "2026-12-05T19:20|Landmark Brandon": "",
-    "2026-12-05T22:10|Landmark Brandon": "",
-    "2026-12-06T13:40|Landmark Brandon": "",
-    "2026-12-06T16:30|Landmark Brandon": "",
-    "2026-12-06T19:20|Landmark Brandon": "",
-    "2026-12-06T22:10|Landmark Brandon": "",
-    "2026-12-07T16:30|Landmark Brandon": "",
-    "2026-12-07T19:20|Landmark Brandon": "",
-    "2026-12-07T22:10|Landmark Brandon": "",
-    "2026-12-08T16:30|Landmark Brandon": "",
-    "2026-12-08T19:20|Landmark Brandon": "",
-    "2026-12-08T22:10|Landmark Brandon": ""
-   }
-  },
-  "https-moviescout-ca-movies-10003453": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-24T15:50|Landmark Brandon": "",
-    "2026-11-24T18:40|Landmark Brandon": "",
-    "2026-11-25T15:50|Landmark Brandon": "",
-    "2026-11-25T18:40|Landmark Brandon": "",
-    "2026-11-26T15:50|Landmark Brandon": "",
-    "2026-11-26T18:40|Landmark Brandon": "",
-    "2026-11-28T12:50|Landmark Brandon": "",
-    "2026-11-28T15:50|Landmark Brandon": "",
-    "2026-11-28T18:40|Landmark Brandon": "",
-    "2026-11-29T12:50|Landmark Brandon": "",
-    "2026-11-29T15:50|Landmark Brandon": "",
-    "2026-11-29T18:40|Landmark Brandon": "",
-    "2026-11-30T15:50|Landmark Brandon": "",
-    "2026-11-30T18:40|Landmark Brandon": "",
-    "2026-12-01T15:50|Landmark Brandon": "",
-    "2026-12-01T18:40|Landmark Brandon": "",
-    "2026-11-27T15:50|Landmark Brandon": "2026-10-28T11:53",
-    "2026-11-27T18:40|Landmark Brandon": "2026-10-28T11:53"
-   }
-  },
   "https-moviescout-ca-movies-10003460": {
    "last": "2026-11-08T11:50",
    "shows": {
@@ -1461,12 +1318,13 @@
     "2026-11-05T22:15|Landmark Brandon": "2026-10-30T11:52"
    }
   },
-  "https-moviescout-ca-movies-10003551": {
-   "last": "2026-11-13T13:16",
+  "https-moviescout-ca-movies-10003610": {
+   "last": "2026-11-14T10:08",
    "shows": {
-    "2026-11-14T10:00|Landmark Brandon": "",
-    "2026-11-18T18:00|Landmark Brandon": "",
-    "2026-11-18T18:30|Landmark Brandon": "2026-11-12T13:39"
+    "2026-11-14T12:00|Landmark Brandon": "",
+    "2026-11-15T12:00|Landmark Brandon": "",
+    "2026-11-21T11:10|Landmark Brandon": "2026-11-14T10:08",
+    "2026-11-22T11:10|Landmark Brandon": "2026-11-14T10:08"
    }
   },
   "https-moviescout-ca-movies-234081": {
@@ -1481,57 +1339,95 @@
     "2026-11-09T19:10|Landmark Brandon": ""
    }
   },
-  "https-moviescout-ca-movies-39816": {
-   "last": "2026-11-13T13:16",
-   "shows": {
-    "2026-11-21T10:00|Landmark Brandon": "",
-    "2026-11-22T10:00|Landmark Brandon": ""
-   }
-  },
-  "https-moviescout-ca-movies-415960": {
-   "last": "2026-11-08T11:50",
-   "shows": {
-    "2026-11-08T14:50|Landmark Brandon": "2026-11-04T13:21",
-    "2026-11-08T18:40|Landmark Brandon": "2026-11-04T13:21",
-    "2026-11-09T14:50|Landmark Brandon": "2026-11-04T13:21",
-    "2026-11-09T18:40|Landmark Brandon": "2026-11-04T13:21",
-    "2026-11-10T14:50|Landmark Brandon": "2026-11-04T13:21",
-    "2026-11-10T18:40|Landmark Brandon": "2026-11-04T13:21",
-    "2026-11-11T15:35|Landmark Brandon": "2026-11-05T13:24",
-    "2026-11-12T14:45|Landmark Brandon": "2026-11-06T12:45"
-   }
-  },
   "https-moviescout-ca-movies-42160": {
-   "last": "2026-11-13T13:16",
+   "last": "2026-11-14T10:08",
    "shows": {
     "2026-11-14T10:10|Landmark Brandon": "",
     "2026-11-15T10:10|Landmark Brandon": ""
+   }
+  },
+  "rv-elf-2003": {
+   "last": "2026-11-14T10:08",
+   "shows": {
+    "2026-11-21T10:00|Landmark Brandon": "",
+    "2026-11-22T10:00|Landmark Brandon": ""
    }
   }
  },
  "events": [
   {
-   "id": "sale|https-moviescout-ca-movies-10003204|2026-11-13T13:16",
+   "id": "showings|https-moviescout-ca-movies-10003610|2026-11-14T10:08",
+   "type": "showings",
+   "film": "https-moviescout-ca-movies-10003610",
+   "at": "2026-11-14T10:08",
+   "before": 2,
+   "n": 2,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-21T11:10|Landmark Brandon",
+    "2026-11-22T11:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|fw-UIP20221470|2026-11-14T10:08",
+   "type": "showings",
+   "film": "fw-UIP20221470",
+   "at": "2026-11-14T10:08",
+   "before": 0,
+   "n": 1,
+   "cinemas": [
+    "Roxy (Neepawa)"
+   ],
+   "keys": [
+    "2026-11-14T19:30|Roxy (Neepawa)"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20261256|2026-11-14T10:08",
+   "type": "showings",
+   "film": "fw-EDI20261256",
+   "at": "2026-11-14T10:08",
+   "before": 3,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-20T16:00|Landmark Brandon",
+    "2026-11-20T19:10|Landmark Brandon",
+    "2026-11-20T22:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "announced|https-moviescout-ca-movies-23692|2026-11-14T10:08",
+   "type": "announced",
+   "film": "https-moviescout-ca-movies-23692",
+   "at": "2026-11-14T10:08"
+  },
+  {
+   "id": "sale|fw-UIP20221470|2026-11-13T13:16",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003204",
+   "film": "fw-UIP20221470",
    "at": "2026-11-13T13:16"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003065|2026-11-13T13:16",
+   "id": "sale|fw-EDI20261256|2026-11-13T13:16",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003065",
+   "film": "fw-EDI20261256",
    "at": "2026-11-13T13:16"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003551|2026-11-13T00:00",
+   "id": "leaving|fw-SMN20051022|2026-11-13T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003551",
+   "film": "fw-SMN20051022",
    "at": "2026-11-13T00:00"
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003551|2026-11-12T13:39",
+   "id": "showings|fw-SMN20051022|2026-11-12T13:39",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003551",
+   "film": "fw-SMN20051022",
    "at": "2026-11-12T13:39",
    "before": 2,
    "n": 1,
@@ -1543,15 +1439,23 @@
    ]
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003357|2026-11-12T13:39",
-   "type": "sale",
-   "film": "https-moviescout-ca-movies-10003357",
-   "at": "2026-11-12T13:39"
+   "id": "showings|cl-clayface|2026-11-12T13:39",
+   "type": "showings",
+   "film": "cl-clayface",
+   "at": "2026-11-12T13:39",
+   "before": 4,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-18T21:50|Landmark Brandon"
+   ]
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003594|2026-11-12T13:39",
-   "type": "announced",
-   "film": "https-moviescout-ca-movies-10003594",
+   "id": "sale|fw-UIP20241718|2026-11-12T13:39",
+   "type": "sale",
+   "film": "fw-UIP20241718",
    "at": "2026-11-12T13:39"
   },
   {
@@ -1561,19 +1465,22 @@
    "at": "2026-11-12T13:39"
   },
   {
+   "id": "announced|fw-EDI20261746|2026-11-12T13:39",
+   "type": "announced",
+   "film": "fw-EDI20261746",
+   "at": "2026-11-12T13:39"
+  },
+  {
    "id": "showings|https-moviescout-ca-movies-10003203|2026-11-11T13:12",
    "type": "showings",
    "film": "https-moviescout-ca-movies-10003203",
    "at": "2026-11-11T13:12",
    "before": 4,
-   "n": 17,
+   "n": 14,
    "cinemas": [
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-13T16:30|Landmark Brandon",
-    "2026-11-13T19:20|Landmark Brandon",
-    "2026-11-13T22:15|Landmark Brandon",
     "2026-11-14T13:40|Landmark Brandon",
     "2026-11-14T16:35|Landmark Brandon",
     "2026-11-14T19:20|Landmark Brandon",
@@ -1591,85 +1498,31 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003197|2026-11-11T13:12",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003197",
-   "at": "2026-11-11T13:12",
-   "before": 4,
-   "n": 18,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-13T16:15|Landmark Brandon",
-    "2026-11-13T18:50|Landmark Brandon",
-    "2026-11-13T21:55|Landmark Brandon",
-    "2026-11-14T13:00|Landmark Brandon",
-    "2026-11-14T16:15|Landmark Brandon",
-    "2026-11-14T18:50|Landmark Brandon",
-    "2026-11-14T21:55|Landmark Brandon",
-    "2026-11-15T10:30|Landmark Brandon",
-    "2026-11-15T13:00|Landmark Brandon",
-    "2026-11-15T16:15|Landmark Brandon",
-    "2026-11-15T18:50|Landmark Brandon",
-    "2026-11-15T21:55|Landmark Brandon",
-    "2026-11-16T16:15|Landmark Brandon",
-    "2026-11-16T18:50|Landmark Brandon",
-    "2026-11-16T21:55|Landmark Brandon",
-    "2026-11-17T16:15|Landmark Brandon",
-    "2026-11-17T18:50|Landmark Brandon",
-    "2026-11-17T21:55|Landmark Brandon"
-   ]
-  },
-  {
    "id": "showings|https-moviescout-ca-movies-10003179|2026-11-11T13:12",
    "type": "showings",
    "film": "https-moviescout-ca-movies-10003179",
    "at": "2026-11-11T13:12",
    "before": 2,
-   "n": 3,
+   "n": 2,
    "cinemas": [
     "Community Theatre (Carnduff)"
    ],
    "keys": [
-    "2026-11-13T20:00|Community Theatre (Carnduff)",
     "2026-11-14T20:00|Community Theatre (Carnduff)",
     "2026-11-15T19:00|Community Theatre (Carnduff)"
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003070|2026-11-11T13:12",
+   "id": "showings|fw-EDI20261593|2026-11-11T13:12",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003070",
-   "at": "2026-11-11T13:12",
-   "before": 2,
-   "n": 5,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-13T22:10|Landmark Brandon",
-    "2026-11-14T22:10|Landmark Brandon",
-    "2026-11-15T22:10|Landmark Brandon",
-    "2026-11-16T22:10|Landmark Brandon",
-    "2026-11-17T22:10|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|cc-ramayana-rise-of-a-legend-2026|2026-11-11T13:12",
-   "type": "showings",
-   "film": "cc-ramayana-rise-of-a-legend-2026",
+   "film": "fw-EDI20261593",
    "at": "2026-11-11T13:12",
    "before": 3,
-   "n": 22,
+   "n": 18,
    "cinemas": [
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-13T15:15|Landmark Brandon",
-    "2026-11-13T18:00|Landmark Brandon",
-    "2026-11-13T20:50|Landmark Brandon",
-    "2026-11-13T21:25|Landmark Brandon",
     "2026-11-14T11:00|Landmark Brandon",
     "2026-11-14T15:00|Landmark Brandon",
     "2026-11-14T18:00|Landmark Brandon",
@@ -1691,18 +1544,61 @@
    ]
   },
   {
+   "id": "showings|fw-EDI20261027|2026-11-11T13:12",
+   "type": "showings",
+   "film": "fw-EDI20261027",
+   "at": "2026-11-11T13:12",
+   "before": 4,
+   "n": 15,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-14T13:00|Landmark Brandon",
+    "2026-11-14T16:15|Landmark Brandon",
+    "2026-11-14T18:50|Landmark Brandon",
+    "2026-11-14T21:55|Landmark Brandon",
+    "2026-11-15T10:30|Landmark Brandon",
+    "2026-11-15T13:00|Landmark Brandon",
+    "2026-11-15T16:15|Landmark Brandon",
+    "2026-11-15T18:50|Landmark Brandon",
+    "2026-11-15T21:55|Landmark Brandon",
+    "2026-11-16T16:15|Landmark Brandon",
+    "2026-11-16T18:50|Landmark Brandon",
+    "2026-11-16T21:55|Landmark Brandon",
+    "2026-11-17T16:15|Landmark Brandon",
+    "2026-11-17T18:50|Landmark Brandon",
+    "2026-11-17T21:55|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-clayface|2026-11-11T13:12",
+   "type": "showings",
+   "film": "cl-clayface",
+   "at": "2026-11-11T13:12",
+   "before": 2,
+   "n": 4,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-14T22:10|Landmark Brandon",
+    "2026-11-15T22:10|Landmark Brandon",
+    "2026-11-16T22:10|Landmark Brandon",
+    "2026-11-17T22:10|Landmark Brandon"
+   ]
+  },
+  {
    "id": "showings|cc-drummer-boy-2026|2026-11-11T13:12",
    "type": "showings",
    "film": "cc-drummer-boy-2026",
    "at": "2026-11-11T13:12",
    "before": 2,
-   "n": 9,
+   "n": 7,
    "cinemas": [
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-13T19:10|Landmark Brandon",
-    "2026-11-14T10:00|Landmark Brandon",
     "2026-11-14T11:30|Landmark Brandon",
     "2026-11-14T19:10|Landmark Brandon",
     "2026-11-15T10:00|Landmark Brandon",
@@ -1713,15 +1609,15 @@
    ]
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003202|2026-11-11T13:12",
+   "id": "sale|cl-wild-horse-nine|2026-11-11T13:12",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003202",
+   "film": "cl-wild-horse-nine",
    "at": "2026-11-11T13:12"
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003230|2026-11-10T13:22",
+   "id": "showings|fw-EDI20251787|2026-11-10T13:22",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003230",
+   "film": "fw-EDI20251787",
    "at": "2026-11-10T13:22",
    "before": 3,
    "n": 1,
@@ -1739,24 +1635,16 @@
    "at": "2026-11-10T00:00"
   },
   {
-   "id": "leaving|cc-festive-fun-with-peppa-cinema-experience-2026|2026-11-10T00:00",
+   "id": "leaving|https-moviescout-ca-movies-10003610|2026-11-10T00:00",
    "type": "leaving",
-   "film": "cc-festive-fun-with-peppa-cinema-experience-2026",
+   "film": "https-moviescout-ca-movies-10003610",
    "at": "2026-11-10T00:00"
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003230|2026-11-09T16:11",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003230",
-   "at": "2026-11-09T16:11",
-   "before": 2,
-   "n": 1,
-   "cinemas": [
-    "Gaiety (Glenboro)"
-   ],
-   "keys": [
-    "2026-11-29T19:30|Gaiety (Glenboro)"
-   ]
+   "id": "leaving|cc-the-salt-path-2024|2026-11-10T00:00",
+   "type": "leaving",
+   "film": "cc-the-salt-path-2024",
+   "at": "2026-11-10T00:00"
   },
   {
    "id": "showings|https-moviescout-ca-movies-10003071|2026-11-09T16:11",
@@ -1773,9 +1661,23 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003069|2026-11-09T16:11",
+   "id": "showings|fw-EDI20251787|2026-11-09T16:11",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003069",
+   "film": "fw-EDI20251787",
+   "at": "2026-11-09T16:11",
+   "before": 2,
+   "n": 1,
+   "cinemas": [
+    "Gaiety (Glenboro)"
+   ],
+   "keys": [
+    "2026-11-29T19:30|Gaiety (Glenboro)"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-11-09T16:11",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
    "at": "2026-11-09T16:11",
    "before": 4,
    "n": 1,
@@ -1787,15 +1689,9 @@
    ]
   },
   {
-   "id": "sale|ev-armageddon-road|2026-11-09T16:11",
+   "id": "sale|https-moviescout-ca-movies-10003610|2026-11-09T16:11",
    "type": "sale",
-   "film": "ev-armageddon-road",
-   "at": "2026-11-09T16:11"
-  },
-  {
-   "id": "sale|cc-festive-fun-with-peppa-cinema-experience-2026|2026-11-09T16:11",
-   "type": "sale",
-   "film": "cc-festive-fun-with-peppa-cinema-experience-2026",
+   "film": "https-moviescout-ca-movies-10003610",
    "at": "2026-11-09T16:11"
   },
   {
@@ -1805,24 +1701,10 @@
    "at": "2026-11-09T16:11"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003551|2026-11-09T00:00",
+   "id": "leaving|fw-SMN20051022|2026-11-09T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003551",
+   "film": "fw-SMN20051022",
    "at": "2026-11-09T00:00"
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003230|2026-11-08T11:50",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003230",
-   "at": "2026-11-08T11:50",
-   "before": 2,
-   "n": 1,
-   "cinemas": [
-    "Gaiety (Glenboro)"
-   ],
-   "keys": [
-    "2026-11-28T19:30|Gaiety (Glenboro)"
-   ]
   },
   {
    "id": "showings|https-moviescout-ca-movies-10003074|2026-11-08T11:50",
@@ -1839,9 +1721,23 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003069|2026-11-08T11:50",
+   "id": "showings|fw-EDI20251787|2026-11-08T11:50",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003069",
+   "film": "fw-EDI20251787",
+   "at": "2026-11-08T11:50",
+   "before": 2,
+   "n": 1,
+   "cinemas": [
+    "Gaiety (Glenboro)"
+   ],
+   "keys": [
+    "2026-11-28T19:30|Gaiety (Glenboro)"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-11-08T11:50",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
    "at": "2026-11-08T11:50",
    "before": 3,
    "n": 1,
@@ -1853,23 +1749,9 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003231|2026-11-07T11:41",
+   "id": "showings|fw-EDI20251787|2026-11-07T11:41",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003231",
-   "at": "2026-11-07T11:41",
-   "before": 1,
-   "n": 1,
-   "cinemas": [
-    "Strand (Melita)"
-   ],
-   "keys": [
-    "2026-11-07T19:30|Strand (Melita)"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003230|2026-11-07T11:41",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003230",
+   "film": "fw-EDI20251787",
    "at": "2026-11-07T11:41",
    "before": 2,
    "n": 1,
@@ -1881,19 +1763,30 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003069|2026-11-07T11:41",
+   "id": "showings|cl-wildwood-bosque-salvaje|2026-11-07T11:41",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003069",
+   "film": "cl-wildwood-bosque-salvaje",
+   "at": "2026-11-07T11:41",
+   "before": 1,
+   "n": 1,
+   "cinemas": [
+    "Strand (Melita)"
+   ],
+   "keys": [
+    "2026-11-07T19:30|Strand (Melita)"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-11-07T11:41",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
    "at": "2026-11-07T11:41",
    "before": 2,
-   "n": 3,
+   "n": 1,
    "cinemas": [
-    "Avalon (Souris)",
     "Moosomin Community Theatre"
    ],
    "keys": [
-    "2026-11-13T19:30|Avalon (Souris)",
-    "2026-11-13T20:00|Moosomin Community Theatre",
     "2026-11-14T20:00|Moosomin Community Theatre"
    ]
   },
@@ -1904,37 +1797,22 @@
    "at": "2026-11-07T11:41"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003243|2026-11-07T00:00",
+   "id": "leaving|fw-EDI20261752|2026-11-07T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003243",
+   "film": "fw-EDI20261752",
    "at": "2026-11-07T00:00"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003178|2026-11-07T00:00",
+   "id": "leaving|fw-EDI20251018|2026-11-07T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003178",
+   "film": "fw-EDI20251018",
    "at": "2026-11-07T00:00"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003073|2026-11-07T00:00",
+   "id": "leaving|cl-otra-madre|2026-11-07T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003073",
+   "film": "cl-otra-madre",
    "at": "2026-11-07T00:00"
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003243|2026-11-06T12:45",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003243",
-   "at": "2026-11-06T12:45",
-   "before": 2,
-   "n": 2,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-12T15:40|Landmark Brandon",
-    "2026-11-12T21:10|Landmark Brandon"
-   ]
   },
   {
    "id": "showings|https-moviescout-ca-movies-10003203|2026-11-06T12:45",
@@ -1952,23 +1830,40 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003178|2026-11-06T12:45",
+   "id": "showings|fw-EDI20261752|2026-11-06T12:45",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003178",
+   "film": "fw-EDI20261752",
    "at": "2026-11-06T12:45",
-   "before": 4,
-   "n": 1,
+   "before": 2,
+   "n": 2,
    "cinemas": [
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-12T22:20|Landmark Brandon"
+    "2026-11-12T15:40|Landmark Brandon",
+    "2026-11-12T21:10|Landmark Brandon"
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003073|2026-11-06T12:45",
+   "id": "showings|fw-EDI20261593|2026-11-06T12:45",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003073",
+   "film": "fw-EDI20261593",
+   "at": "2026-11-06T12:45",
+   "before": 3,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-12T14:30|Landmark Brandon",
+    "2026-11-12T18:15|Landmark Brandon",
+    "2026-11-12T21:35|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20251018|2026-11-06T12:45",
+   "type": "showings",
+   "film": "fw-EDI20251018",
    "at": "2026-11-06T12:45",
    "before": 4,
    "n": 1,
@@ -1980,9 +1875,23 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003070|2026-11-06T12:45",
+   "id": "showings|cl-otra-madre|2026-11-06T12:45",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003070",
+   "film": "cl-otra-madre",
+   "at": "2026-11-06T12:45",
+   "before": 4,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-12T22:20|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-clayface|2026-11-06T12:45",
+   "type": "showings",
+   "film": "cl-clayface",
    "at": "2026-11-06T12:45",
    "before": 3,
    "n": 2,
@@ -1992,22 +1901,6 @@
    "keys": [
     "2026-11-12T19:30|Landmark Brandon",
     "2026-11-12T22:30|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|cc-ramayana-rise-of-a-legend-2026|2026-11-06T12:45",
-   "type": "showings",
-   "film": "cc-ramayana-rise-of-a-legend-2026",
-   "at": "2026-11-06T12:45",
-   "before": 3,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-12T14:30|Landmark Brandon",
-    "2026-11-12T18:15|Landmark Brandon",
-    "2026-11-12T21:35|Landmark Brandon"
    ]
   },
   {
@@ -2059,9 +1952,9 @@
    "at": "2026-11-06T00:00"
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003243|2026-11-05T13:24",
+   "id": "showings|fw-EDI20261752|2026-11-05T13:24",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003243",
+   "film": "fw-EDI20261752",
    "at": "2026-11-05T13:24",
    "before": 3,
    "n": 2,
@@ -2074,53 +1967,9 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003178|2026-11-05T13:24",
+   "id": "showings|fw-EDI20261593|2026-11-05T13:24",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003178",
-   "at": "2026-11-05T13:24",
-   "before": 4,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-11T22:20|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003073|2026-11-05T13:24",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003073",
-   "at": "2026-11-05T13:24",
-   "before": 4,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-11T22:10|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003070|2026-11-05T13:24",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003070",
-   "at": "2026-11-05T13:24",
-   "before": 4,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-11T16:00|Landmark Brandon",
-    "2026-11-11T19:30|Landmark Brandon",
-    "2026-11-11T22:30|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|cc-ramayana-rise-of-a-legend-2026|2026-11-05T13:24",
-   "type": "showings",
-   "film": "cc-ramayana-rise-of-a-legend-2026",
+   "film": "fw-EDI20261593",
    "at": "2026-11-05T13:24",
    "before": 3,
    "n": 3,
@@ -2134,10 +1983,48 @@
    ]
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003551|2026-11-05T13:24",
-   "type": "sale",
-   "film": "https-moviescout-ca-movies-10003551",
-   "at": "2026-11-05T13:24"
+   "id": "showings|fw-EDI20251018|2026-11-05T13:24",
+   "type": "showings",
+   "film": "fw-EDI20251018",
+   "at": "2026-11-05T13:24",
+   "before": 4,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-11T22:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-otra-madre|2026-11-05T13:24",
+   "type": "showings",
+   "film": "cl-otra-madre",
+   "at": "2026-11-05T13:24",
+   "before": 4,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-11T22:20|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-clayface|2026-11-05T13:24",
+   "type": "showings",
+   "film": "cl-clayface",
+   "at": "2026-11-05T13:24",
+   "before": 4,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-11T16:00|Landmark Brandon",
+    "2026-11-11T19:30|Landmark Brandon",
+    "2026-11-11T22:30|Landmark Brandon"
+   ]
   },
   {
    "id": "sale|https-moviescout-ca-movies-10003203|2026-11-05T13:24",
@@ -2146,9 +2033,15 @@
    "at": "2026-11-05T13:24"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003199|2026-11-05T13:24",
+   "id": "sale|fw-SMN20051022|2026-11-05T13:24",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003199",
+   "film": "fw-SMN20051022",
+   "at": "2026-11-05T13:24"
+  },
+  {
+   "id": "sale|fw-EDI20250806|2026-11-05T13:24",
+   "type": "sale",
+   "film": "fw-EDI20250806",
    "at": "2026-11-05T13:24"
   },
   {
@@ -2158,9 +2051,115 @@
    "at": "2026-11-05T13:24"
   },
   {
-   "id": "showings|https-moviescout-ca-movies-415960|2026-11-04T13:21",
+   "id": "showings|fw-EDI20261752|2026-11-04T13:21",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-415960",
+   "film": "fw-EDI20261752",
+   "at": "2026-11-04T13:21",
+   "before": 3,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-10T15:30|Landmark Brandon",
+    "2026-11-10T18:00|Landmark Brandon",
+    "2026-11-10T21:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20261593|2026-11-04T13:21",
+   "type": "showings",
+   "film": "fw-EDI20261593",
+   "at": "2026-11-04T13:21",
+   "before": 2,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-10T14:30|Landmark Brandon",
+    "2026-11-10T18:10|Landmark Brandon",
+    "2026-11-10T21:35|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20251018|2026-11-04T13:21",
+   "type": "showings",
+   "film": "fw-EDI20251018",
+   "at": "2026-11-04T13:21",
+   "before": 3,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-10T22:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-wildwood-bosque-salvaje|2026-11-04T13:21",
+   "type": "showings",
+   "film": "cl-wildwood-bosque-salvaje",
+   "at": "2026-11-04T13:21",
+   "before": 4,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-08T11:00|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-otra-madre|2026-11-04T13:21",
+   "type": "showings",
+   "film": "cl-otra-madre",
+   "at": "2026-11-04T13:21",
+   "before": 2,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-10T22:20|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-11-04T13:21",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
+   "at": "2026-11-04T13:21",
+   "before": 3,
+   "n": 2,
+   "cinemas": [
+    "Landmark Brandon",
+    "Moosomin Community Theatre"
+   ],
+   "keys": [
+    "2026-11-07T20:00|Moosomin Community Theatre",
+    "2026-11-08T10:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-clayface|2026-11-04T13:21",
+   "type": "showings",
+   "film": "cl-clayface",
+   "at": "2026-11-04T13:21",
+   "before": 3,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-10T16:10|Landmark Brandon",
+    "2026-11-10T19:30|Landmark Brandon",
+    "2026-11-10T22:30|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cc-drummer-boy-2026|2026-11-04T13:21",
+   "type": "showings",
+   "film": "cc-drummer-boy-2026",
    "at": "2026-11-04T13:21",
    "before": 3,
    "n": 6,
@@ -2177,136 +2176,16 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003243|2026-11-04T13:21",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003243",
-   "at": "2026-11-04T13:21",
-   "before": 3,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-10T15:30|Landmark Brandon",
-    "2026-11-10T18:00|Landmark Brandon",
-    "2026-11-10T21:10|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003231|2026-11-04T13:21",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003231",
-   "at": "2026-11-04T13:21",
-   "before": 4,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-08T11:00|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003178|2026-11-04T13:21",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003178",
-   "at": "2026-11-04T13:21",
-   "before": 2,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-10T22:20|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003073|2026-11-04T13:21",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003073",
-   "at": "2026-11-04T13:21",
-   "before": 3,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-10T22:10|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003070|2026-11-04T13:21",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003070",
-   "at": "2026-11-04T13:21",
-   "before": 3,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-10T16:10|Landmark Brandon",
-    "2026-11-10T19:30|Landmark Brandon",
-    "2026-11-10T22:30|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003069|2026-11-04T13:21",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003069",
-   "at": "2026-11-04T13:21",
-   "before": 3,
-   "n": 2,
-   "cinemas": [
-    "Landmark Brandon",
-    "Moosomin Community Theatre"
-   ],
-   "keys": [
-    "2026-11-07T20:00|Moosomin Community Theatre",
-    "2026-11-08T10:10|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|cc-ramayana-rise-of-a-legend-2026|2026-11-04T13:21",
-   "type": "showings",
-   "film": "cc-ramayana-rise-of-a-legend-2026",
-   "at": "2026-11-04T13:21",
-   "before": 2,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-10T14:30|Landmark Brandon",
-    "2026-11-10T18:10|Landmark Brandon",
-    "2026-11-10T21:35|Landmark Brandon"
-   ]
-  },
-  {
    "id": "leaving|https-moviescout-ca-movies-395181|2026-11-04T00:00",
    "type": "leaving",
    "film": "https-moviescout-ca-movies-395181",
    "at": "2026-11-04T00:00"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10002980|2026-11-04T00:00",
+   "id": "leaving|fw-WAB20240252|2026-11-04T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10002980",
+   "film": "fw-WAB20240252",
    "at": "2026-11-04T00:00"
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003230|2026-11-03T13:09",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003230",
-   "at": "2026-11-03T13:09",
-   "before": 2,
-   "n": 1,
-   "cinemas": [
-    "Community Theatre (Carnduff)"
-   ],
-   "keys": [
-    "2026-11-08T19:00|Community Theatre (Carnduff)"
-   ]
   },
   {
    "id": "showings|https-moviescout-ca-movies-10003072|2026-11-03T13:09",
@@ -2323,9 +2202,23 @@
    ]
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003231|2026-11-03T00:00",
+   "id": "showings|fw-EDI20251787|2026-11-03T13:09",
+   "type": "showings",
+   "film": "fw-EDI20251787",
+   "at": "2026-11-03T13:09",
+   "before": 2,
+   "n": 1,
+   "cinemas": [
+    "Community Theatre (Carnduff)"
+   ],
+   "keys": [
+    "2026-11-08T19:00|Community Theatre (Carnduff)"
+   ]
+  },
+  {
+   "id": "leaving|cl-wildwood-bosque-salvaje|2026-11-03T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003231",
+   "film": "cl-wildwood-bosque-salvaje",
    "at": "2026-11-03T00:00"
   },
   {
@@ -2453,24 +2346,10 @@
    "at": "2026-10-31T00:00"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003176|2026-10-31T00:00",
+   "id": "leaving|fw-EDI20260552|2026-10-31T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003176",
+   "film": "fw-EDI20260552",
    "at": "2026-10-31T00:00"
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-415960|2026-10-30T11:52",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-415960",
-   "at": "2026-10-30T11:52",
-   "before": 2,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-05T15:10|Landmark Brandon"
-   ]
   },
   {
    "id": "showings|https-moviescout-ca-movies-10003475|2026-10-30T11:52",
@@ -2484,37 +2363,6 @@
    ],
    "keys": [
     "2026-11-05T22:15|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003243|2026-10-30T11:52",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003243",
-   "at": "2026-10-30T11:52",
-   "before": 3,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-05T14:45|Landmark Brandon",
-    "2026-11-05T18:15|Landmark Brandon",
-    "2026-11-05T21:30|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003231|2026-10-30T11:52",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003231",
-   "at": "2026-10-30T11:52",
-   "before": 2,
-   "n": 2,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-05T15:40|Landmark Brandon",
-    "2026-11-05T19:05|Landmark Brandon"
    ]
   },
   {
@@ -2533,9 +2381,25 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003178|2026-10-30T11:52",
+   "id": "showings|fw-EDI20261752|2026-10-30T11:52",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003178",
+   "film": "fw-EDI20261752",
+   "at": "2026-10-30T11:52",
+   "before": 3,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-05T14:45|Landmark Brandon",
+    "2026-11-05T18:15|Landmark Brandon",
+    "2026-11-05T21:30|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20261593|2026-10-30T11:52",
+   "type": "showings",
+   "film": "fw-EDI20261593",
    "at": "2026-10-30T11:52",
    "before": 3,
    "n": 2,
@@ -2543,14 +2407,14 @@
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-05T19:30|Landmark Brandon",
-    "2026-11-05T21:55|Landmark Brandon"
+    "2026-11-05T18:00|Landmark Brandon",
+    "2026-11-05T21:15|Landmark Brandon"
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003176|2026-10-30T11:52",
+   "id": "showings|fw-EDI20260552|2026-10-30T11:52",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003176",
+   "film": "fw-EDI20260552",
    "at": "2026-10-30T11:52",
    "before": 2,
    "n": 5,
@@ -2567,9 +2431,9 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003073|2026-10-30T11:52",
+   "id": "showings|fw-EDI20251018|2026-10-30T11:52",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003073",
+   "film": "fw-EDI20251018",
    "at": "2026-10-30T11:52",
    "before": 3,
    "n": 3,
@@ -2583,9 +2447,53 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003070|2026-10-30T11:52",
+   "id": "showings|cl-wildwood-bosque-salvaje|2026-10-30T11:52",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003070",
+   "film": "cl-wildwood-bosque-salvaje",
+   "at": "2026-10-30T11:52",
+   "before": 2,
+   "n": 2,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-05T15:40|Landmark Brandon",
+    "2026-11-05T19:05|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-otra-madre|2026-10-30T11:52",
+   "type": "showings",
+   "film": "cl-otra-madre",
+   "at": "2026-10-30T11:52",
+   "before": 3,
+   "n": 2,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-05T19:30|Landmark Brandon",
+    "2026-11-05T21:55|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-10-30T11:52",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
+   "at": "2026-10-30T11:52",
+   "before": 4,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-05T16:00|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-clayface|2026-10-30T11:52",
+   "type": "showings",
+   "film": "cl-clayface",
    "at": "2026-10-30T11:52",
    "before": 3,
    "n": 3,
@@ -2599,32 +2507,17 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003069|2026-10-30T11:52",
+   "id": "showings|cc-drummer-boy-2026|2026-10-30T11:52",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003069",
+   "film": "cc-drummer-boy-2026",
    "at": "2026-10-30T11:52",
-   "before": 4,
+   "before": 2,
    "n": 1,
    "cinemas": [
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-05T16:00|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|cc-ramayana-rise-of-a-legend-2026|2026-10-30T11:52",
-   "type": "showings",
-   "film": "cc-ramayana-rise-of-a-legend-2026",
-   "at": "2026-10-30T11:52",
-   "before": 3,
-   "n": 2,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-05T18:00|Landmark Brandon",
-    "2026-11-05T21:15|Landmark Brandon"
+    "2026-11-05T15:10|Landmark Brandon"
    ]
   },
   {
@@ -2634,15 +2527,15 @@
    "at": "2026-10-30T11:52"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003477|2026-10-30T11:52",
+   "id": "announced|fw-SFN20211456|2026-10-30T11:52",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003477",
+   "film": "fw-SFN20211456",
    "at": "2026-10-30T11:52"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003476|2026-10-30T11:52",
+   "id": "announced|fw-SFN20191100|2026-10-30T11:52",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003476",
+   "film": "fw-SFN20191100",
    "at": "2026-10-30T11:52"
   },
   {
@@ -2657,51 +2550,6 @@
    ],
    "keys": [
     "2026-11-04T22:15|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003243|2026-10-29T12:12",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003243",
-   "at": "2026-10-29T12:12",
-   "before": 3,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-04T14:45|Landmark Brandon",
-    "2026-11-04T18:10|Landmark Brandon",
-    "2026-11-04T21:20|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003231|2026-10-29T12:12",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003231",
-   "at": "2026-10-29T12:12",
-   "before": 3,
-   "n": 2,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-04T15:00|Landmark Brandon",
-    "2026-11-04T18:20|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003230|2026-10-29T12:12",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003230",
-   "at": "2026-10-29T12:12",
-   "before": 1,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-04T15:10|Landmark Brandon"
    ]
   },
   {
@@ -2721,9 +2569,23 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003178|2026-10-29T12:12",
+   "id": "showings|fw-WAB20240252|2026-10-29T12:12",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003178",
+   "film": "fw-WAB20240252",
+   "at": "2026-10-29T12:12",
+   "before": 0,
+   "n": 1,
+   "cinemas": [
+    "Gaiety (Glenboro)"
+   ],
+   "keys": [
+    "2026-11-09T19:30|Gaiety (Glenboro)"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20261752|2026-10-29T12:12",
+   "type": "showings",
+   "film": "fw-EDI20261752",
    "at": "2026-10-29T12:12",
    "before": 3,
    "n": 3,
@@ -2731,15 +2593,15 @@
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-04T16:40|Landmark Brandon",
-    "2026-11-04T19:30|Landmark Brandon",
-    "2026-11-04T21:55|Landmark Brandon"
+    "2026-11-04T14:45|Landmark Brandon",
+    "2026-11-04T18:10|Landmark Brandon",
+    "2026-11-04T21:20|Landmark Brandon"
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003176|2026-10-29T12:12",
+   "id": "showings|fw-EDI20260552|2026-10-29T12:12",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003176",
+   "film": "fw-EDI20260552",
    "at": "2026-10-29T12:12",
    "before": 3,
    "n": 2,
@@ -2752,9 +2614,23 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003073|2026-10-29T12:12",
+   "id": "showings|fw-EDI20251787|2026-10-29T12:12",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003073",
+   "film": "fw-EDI20251787",
+   "at": "2026-10-29T12:12",
+   "before": 1,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-04T15:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20251018|2026-10-29T12:12",
+   "type": "showings",
+   "film": "fw-EDI20251018",
    "at": "2026-10-29T12:12",
    "before": 3,
    "n": 3,
@@ -2768,9 +2644,55 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003070|2026-10-29T12:12",
+   "id": "showings|cl-wildwood-bosque-salvaje|2026-10-29T12:12",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003070",
+   "film": "cl-wildwood-bosque-salvaje",
+   "at": "2026-10-29T12:12",
+   "before": 3,
+   "n": 2,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-04T15:00|Landmark Brandon",
+    "2026-11-04T18:20|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-otra-madre|2026-10-29T12:12",
+   "type": "showings",
+   "film": "cl-otra-madre",
+   "at": "2026-10-29T12:12",
+   "before": 3,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-04T16:40|Landmark Brandon",
+    "2026-11-04T19:30|Landmark Brandon",
+    "2026-11-04T21:55|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-10-29T12:12",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
+   "at": "2026-10-29T12:12",
+   "before": 2,
+   "n": 2,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-04T16:15|Landmark Brandon",
+    "2026-11-04T19:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-clayface|2026-10-29T12:12",
+   "type": "showings",
+   "film": "cl-clayface",
    "at": "2026-10-29T12:12",
    "before": 3,
    "n": 3,
@@ -2784,38 +2706,15 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003069|2026-10-29T12:12",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003069",
-   "at": "2026-10-29T12:12",
-   "before": 2,
-   "n": 2,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-04T16:15|Landmark Brandon",
-    "2026-11-04T19:10|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10002980|2026-10-29T12:12",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10002980",
-   "at": "2026-10-29T12:12",
-   "before": 0,
-   "n": 1,
-   "cinemas": [
-    "Gaiety (Glenboro)"
-   ],
-   "keys": [
-    "2026-11-09T19:30|Gaiety (Glenboro)"
-   ]
-  },
-  {
    "id": "sale|https-moviescout-ca-movies-10003075|2026-10-29T12:12",
    "type": "sale",
    "film": "https-moviescout-ca-movies-10003075",
+   "at": "2026-10-29T12:12"
+  },
+  {
+   "id": "sale|fw-EDI20261593|2026-10-29T12:12",
+   "type": "sale",
+   "film": "fw-EDI20261593",
    "at": "2026-10-29T12:12"
   },
   {
@@ -2825,15 +2724,9 @@
    "at": "2026-10-29T12:12"
   },
   {
-   "id": "sale|cc-ramayana-rise-of-a-legend-2026|2026-10-29T12:12",
-   "type": "sale",
-   "film": "cc-ramayana-rise-of-a-legend-2026",
-   "at": "2026-10-29T12:12"
-  },
-  {
-   "id": "leaving|https-moviescout-ca-movies-10003031|2026-10-29T00:00",
+   "id": "leaving|fw-EDI20260642|2026-10-29T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003031",
+   "film": "fw-EDI20260642",
    "at": "2026-10-29T00:00"
   },
   {
@@ -2849,52 +2742,6 @@
    "keys": [
     "2026-11-03T18:45|Landmark Brandon",
     "2026-11-03T22:00|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003243|2026-10-28T11:53",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003243",
-   "at": "2026-10-28T11:53",
-   "before": 0,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-03T15:00|Landmark Brandon",
-    "2026-11-03T18:15|Landmark Brandon",
-    "2026-11-03T21:15|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003231|2026-10-28T11:53",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003231",
-   "at": "2026-10-28T11:53",
-   "before": 0,
-   "n": 3,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-03T15:15|Landmark Brandon",
-    "2026-11-03T18:50|Landmark Brandon",
-    "2026-11-03T21:20|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003230|2026-10-28T11:53",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003230",
-   "at": "2026-10-28T11:53",
-   "before": 0,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-03T15:45|Landmark Brandon"
    ]
   },
   {
@@ -2914,9 +2761,9 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003178|2026-10-28T11:53",
+   "id": "showings|fw-EDI20261752|2026-10-28T11:53",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003178",
+   "film": "fw-EDI20261752",
    "at": "2026-10-28T11:53",
    "before": 0,
    "n": 3,
@@ -2924,15 +2771,29 @@
     "Landmark Brandon"
    ],
    "keys": [
-    "2026-11-03T16:40|Landmark Brandon",
-    "2026-11-03T19:30|Landmark Brandon",
-    "2026-11-03T21:55|Landmark Brandon"
+    "2026-11-03T15:00|Landmark Brandon",
+    "2026-11-03T18:15|Landmark Brandon",
+    "2026-11-03T21:15|Landmark Brandon"
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003176|2026-10-28T11:53",
+   "id": "showings|fw-EDI20260642|2026-10-28T11:53",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003176",
+   "film": "fw-EDI20260642",
+   "at": "2026-10-28T11:53",
+   "before": 0,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-03T21:45|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|fw-EDI20260552|2026-10-28T11:53",
+   "type": "showings",
+   "film": "fw-EDI20260552",
    "at": "2026-10-28T11:53",
    "before": 0,
    "n": 3,
@@ -2946,9 +2807,70 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003070|2026-10-28T11:53",
+   "id": "showings|fw-EDI20251787|2026-10-28T11:53",
    "type": "showings",
-   "film": "https-moviescout-ca-movies-10003070",
+   "film": "fw-EDI20251787",
+   "at": "2026-10-28T11:53",
+   "before": 0,
+   "n": 1,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-03T15:45|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-wildwood-bosque-salvaje|2026-10-28T11:53",
+   "type": "showings",
+   "film": "cl-wildwood-bosque-salvaje",
+   "at": "2026-10-28T11:53",
+   "before": 0,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-03T15:15|Landmark Brandon",
+    "2026-11-03T18:50|Landmark Brandon",
+    "2026-11-03T21:20|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-otra-madre|2026-10-28T11:53",
+   "type": "showings",
+   "film": "cl-otra-madre",
+   "at": "2026-10-28T11:53",
+   "before": 0,
+   "n": 3,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-03T16:40|Landmark Brandon",
+    "2026-11-03T19:30|Landmark Brandon",
+    "2026-11-03T21:55|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-10-28T11:53",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
+   "at": "2026-10-28T11:53",
+   "before": 0,
+   "n": 2,
+   "cinemas": [
+    "Landmark Brandon"
+   ],
+   "keys": [
+    "2026-11-03T16:15|Landmark Brandon",
+    "2026-11-03T19:10|Landmark Brandon"
+   ]
+  },
+  {
+   "id": "showings|cl-clayface|2026-10-28T11:53",
+   "type": "showings",
+   "film": "cl-clayface",
    "at": "2026-10-28T11:53",
    "before": 0,
    "n": 3,
@@ -2962,56 +2884,27 @@
    ]
   },
   {
-   "id": "showings|https-moviescout-ca-movies-10003069|2026-10-28T11:53",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003069",
-   "at": "2026-10-28T11:53",
-   "before": 0,
-   "n": 2,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-03T16:15|Landmark Brandon",
-    "2026-11-03T19:10|Landmark Brandon"
-   ]
-  },
-  {
-   "id": "showings|https-moviescout-ca-movies-10003031|2026-10-28T11:53",
-   "type": "showings",
-   "film": "https-moviescout-ca-movies-10003031",
-   "at": "2026-10-28T11:53",
-   "before": 0,
-   "n": 1,
-   "cinemas": [
-    "Landmark Brandon"
-   ],
-   "keys": [
-    "2026-11-03T21:45|Landmark Brandon"
-   ]
-  },
-  {
    "id": "sale|https-moviescout-ca-movies-395181|2026-10-28T11:53",
    "type": "sale",
    "film": "https-moviescout-ca-movies-395181",
    "at": "2026-10-28T11:53"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003201|2026-10-28T11:53",
+   "id": "sale|fw-EDI20251018|2026-10-28T11:53",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003201",
+   "film": "fw-EDI20251018",
    "at": "2026-10-28T11:53"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003200|2026-10-28T11:53",
+   "id": "sale|cl-juegos-hambre-amanecer-cosecha|2026-10-28T11:53",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003200",
+   "film": "cl-juegos-hambre-amanecer-cosecha",
    "at": "2026-10-28T11:53"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003073|2026-10-28T11:53",
+   "id": "sale|cl-como-robar-banco|2026-10-28T11:53",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003073",
+   "film": "cl-como-robar-banco",
    "at": "2026-10-28T11:53"
   },
   {
@@ -3027,15 +2920,15 @@
    "at": "2026-10-28T00:00"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003032|2026-10-27T11:07",
+   "id": "sale|fw-EDI20251675|2026-10-27T11:07",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003032",
+   "film": "fw-EDI20251675",
    "at": "2026-10-27T11:07"
   },
   {
-   "id": "leaving|https-moviescout-ca-movies-10003065|2026-10-27T00:00",
+   "id": "leaving|fw-UIP20221470|2026-10-27T00:00",
    "type": "leaving",
-   "film": "https-moviescout-ca-movies-10003065",
+   "film": "fw-UIP20221470",
    "at": "2026-10-27T00:00"
   },
   {
@@ -3063,9 +2956,9 @@
    "at": "2026-10-24T12:05"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003453|2026-10-24T12:05",
+   "id": "sale|cl-hechizo-bienvenidos-hexe|2026-10-24T12:05",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003453",
+   "film": "cl-hechizo-bienvenidos-hexe",
    "at": "2026-10-24T12:05"
   },
   {
@@ -3075,45 +2968,45 @@
    "at": "2026-10-23T10:33"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10002980|2026-10-23T10:33",
+   "id": "sale|fw-WAB20240252|2026-10-23T10:33",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10002980",
+   "film": "fw-WAB20240252",
    "at": "2026-10-23T10:33"
   },
   {
-   "id": "sale|ev-hen|2026-10-23T10:33",
+   "id": "sale|cc-hen-2025|2026-10-23T10:33",
    "type": "sale",
-   "film": "ev-hen",
+   "film": "cc-hen-2025",
    "at": "2026-10-23T10:33"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003202|2026-10-23T10:33",
+   "id": "announced|cl-wild-horse-nine|2026-10-23T10:33",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003202",
+   "film": "cl-wild-horse-nine",
    "at": "2026-10-23T10:33"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-359230|2026-10-22T10:44",
+   "id": "sale|fw-EDI20251026|2026-10-22T10:44",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-359230",
+   "film": "fw-EDI20251026",
    "at": "2026-10-22T10:44"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003243|2026-10-21T10:44",
+   "id": "sale|fw-EDI20261752|2026-10-21T10:44",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003243",
+   "film": "fw-EDI20261752",
    "at": "2026-10-21T10:44"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003196|2026-10-20T13:12",
+   "id": "sale|cl-gato-sombrero|2026-10-20T13:12",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003196",
+   "film": "cl-gato-sombrero",
    "at": "2026-10-20T13:12"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003411|2026-10-20T13:12",
+   "id": "announced|fw-EDI20250282|2026-10-20T13:12",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003411",
+   "film": "fw-EDI20250282",
    "at": "2026-10-20T13:12"
   },
   {
@@ -3123,15 +3016,15 @@
    "at": "2026-10-18T12:01"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-39816|2026-10-17T11:45",
+   "id": "sale|rv-elf-2003|2026-10-17T11:45",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-39816",
+   "film": "rv-elf-2003",
    "at": "2026-10-17T11:45"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003297|2026-10-16T12:45",
+   "id": "sale|fw-EDI20260513|2026-10-16T12:45",
    "type": "sale",
-   "film": "https-moviescout-ca-movies-10003297",
+   "film": "fw-EDI20260513",
    "at": "2026-10-16T12:45"
   },
   {
@@ -3141,27 +3034,27 @@
    "at": "2026-10-15T12:57"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003390|2026-10-15T12:57",
+   "id": "announced|fw-EDI20261052|2026-10-15T12:57",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003390",
+   "film": "fw-EDI20261052",
    "at": "2026-10-15T12:57"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003389|2026-10-15T12:57",
+   "id": "announced|fw-EDI20260132|2026-10-15T12:57",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003389",
+   "film": "fw-EDI20260132",
    "at": "2026-10-15T12:57"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003388|2026-10-15T12:57",
+   "id": "announced|fw-EDI20240731|2026-10-15T12:57",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003388",
+   "film": "fw-EDI20240731",
    "at": "2026-10-15T12:57"
   },
   {
-   "id": "sale|ev-hope|2026-10-11T11:28",
+   "id": "sale|cl-hope|2026-10-11T11:28",
    "type": "sale",
-   "film": "ev-hope",
+   "film": "cl-hope",
    "at": "2026-10-11T11:28"
   },
   {
@@ -3177,27 +3070,9 @@
    "at": "2026-10-11T11:28"
   },
   {
-   "id": "sale|cc-hope-2026|2026-10-11T11:28",
+   "id": "sale|cl-clayface|2026-10-08T12:40",
    "type": "sale",
-   "film": "cc-hope-2026",
-   "at": "2026-10-11T11:28"
-  },
-  {
-   "id": "sale|https-moviescout-ca-movies-10003070|2026-10-08T12:40",
-   "type": "sale",
-   "film": "https-moviescout-ca-movies-10003070",
-   "at": "2026-10-08T12:40"
-  },
-  {
-   "id": "announced|https-moviescout-ca-movies-10003365|2026-10-08T12:40",
-   "type": "announced",
-   "film": "https-moviescout-ca-movies-10003365",
-   "at": "2026-10-08T12:40"
-  },
-  {
-   "id": "announced|https-moviescout-ca-movies-10003364|2026-10-08T12:40",
-   "type": "announced",
-   "film": "https-moviescout-ca-movies-10003364",
+   "film": "cl-clayface",
    "at": "2026-10-08T12:40"
   },
   {
@@ -3207,16 +3082,22 @@
    "at": "2026-10-08T12:40"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003354|2026-10-08T12:40",
+   "id": "announced|fw-EDI20260432|2026-10-08T12:40",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003354",
+   "film": "fw-EDI20260432",
    "at": "2026-10-08T12:40"
   },
   {
-   "id": "sale|https-moviescout-ca-movies-10003197|2026-10-07T12:37",
-   "type": "sale",
-   "film": "https-moviescout-ca-movies-10003197",
-   "at": "2026-10-07T12:37"
+   "id": "announced|fw-EDI20250047|2026-10-08T12:40",
+   "type": "announced",
+   "film": "fw-EDI20250047",
+   "at": "2026-10-08T12:40"
+  },
+  {
+   "id": "announced|fw-EDI20240689|2026-10-08T12:40",
+   "type": "announced",
+   "film": "fw-EDI20240689",
+   "at": "2026-10-08T12:40"
   },
   {
    "id": "sale|https-moviescout-ca-movies-10003071|2026-10-07T12:37",
@@ -3225,15 +3106,21 @@
    "at": "2026-10-07T12:37"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003332|2026-10-02T17:34",
+   "id": "sale|fw-EDI20261027|2026-10-07T12:37",
+   "type": "sale",
+   "film": "fw-EDI20261027",
+   "at": "2026-10-07T12:37"
+  },
+  {
+   "id": "announced|fw-EDI20261747|2026-10-02T17:34",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003332",
+   "film": "fw-EDI20261747",
    "at": "2026-10-02T17:34"
   },
   {
-   "id": "announced|https-moviescout-ca-movies-10003250|2026-10-01T08:12",
+   "id": "announced|fw-EDI20250146|2026-10-01T08:12",
    "type": "announced",
-   "film": "https-moviescout-ca-movies-10003250",
+   "film": "fw-EDI20250146",
    "at": "2026-10-01T08:12"
   }
  ]
