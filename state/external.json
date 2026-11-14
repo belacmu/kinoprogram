@@ -1685,24 +1685,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-hope": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1058424,
-"imdb": "tt27369017",
-"en": "Hope",
-"lbSlug": "hope-2026",
-"lbRating": 3.15,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt27369017"
-],
-"lb": "hope-2026",
-"rt": "m/hope_2026",
-"mc": "movie/hope-2026",
-"v": 4,
-"checked": "2026-10-04"
-},
 "cm-idiotene": {
 "imdb": "tt0154421",
 "imdbAll": [
@@ -1786,6 +1768,27 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-11-12"
+},
+"cm-ladyhawke": {
+"imdb": "tt0089457",
+"imdbAll": [
+"tt0089457"
+],
+"lb": "ladyhawke",
+"rt": "m/ladyhawke",
+"mc": "movie/ladyhawke",
+"en": "Ladyhawke",
+"v": 4,
+"checked": "2026-11-14",
+"tmdbChecked": "2026-11-14",
+"tv": 2,
+"tmdb": 526,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "ladyhawke",
+"lbRating": 3.36,
+"rated": "2026-11-14",
+"posterPath": "/9gbeNp1SibDT8GyURFebNjwMBrV.jpg"
 },
 "cm-lille-frk-norge": {
 "imdb": "tt0378255",
@@ -2323,26 +2326,6 @@
 "mc": "movie/the-big-lebowski",
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-the-difficult-bride": {
-"imdb": "tt42827406",
-"imdbAll": [
-"tt42827406"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "The Difficult Bride",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1593299,
-"lang": "bn",
-"lbSlug": "the-difficult-bride",
-"lbRating": 3.05,
-"rated": "2026-11-14",
-"posterPath": "/y4HdnyUE13LgtMovP3nTaI4gJuR.jpg"
 },
 "cm-the-shining": {
 "imdb": "tt0081505",
@@ -4909,24 +4892,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20261077": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1437703,
-"imdb": "tt35854741",
-"en": "Flies",
-"lbSlug": "flies-2026",
-"lbRating": 3.88,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt35854741"
-],
-"lb": "flies-2026",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
-},
 "fw-EDI20261082": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5523,24 +5488,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20261562": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 11655,
-"imdb": "tt0104029",
-"en": "Cronos",
-"lbSlug": "cronos",
-"lbRating": 3.41,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt0104029"
-],
-"lb": "cronos",
-"rt": "m/cronos",
-"mc": "movie/cronos",
-"v": 4,
-"checked": "2026-10-04"
-},
 "fw-EDI20261563": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5556,18 +5503,6 @@
 "lb": "enjoy-your-stay-2026",
 "rt": null,
 "mc": null,
-"v": 4,
-"checked": "2026-10-04"
-},
-"fw-EDI20261564": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1289485,
-"imdb": "tt41963466",
-"en": null,
-"lbSlug": "funk",
-"lbRating": 3.48,
-"rated": "2026-11-10",
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -5589,24 +5524,6 @@
 "tt35748025"
 ]
 },
-"fw-EDI20261574": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1419406,
-"imdb": "tt34610311",
-"en": "The Shadow's Edge",
-"lbSlug": "the-shadows-edge-2025",
-"lbRating": 3.53,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt34610311"
-],
-"lb": "the-shadows-edge-2025",
-"rt": "m/the_shadows_edge",
-"mc": "movie/the-shadows-edge",
-"v": 4,
-"checked": "2026-10-04"
-},
 "fw-EDI20261580": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5617,24 +5534,6 @@
 "lbSlug": "zi-2026",
 "lbRating": 3.0,
 "rated": "2026-11-10",
-"v": 4,
-"checked": "2026-10-04"
-},
-"fw-EDI20261581": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1517062,
-"imdb": "tt37660493",
-"en": "Divine Comedy",
-"lbSlug": "divine-comedy-2025",
-"lbRating": 3.41,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt37660493"
-],
-"lb": "divine-comedy-2025",
-"rt": null,
-"mc": null,
 "v": 4,
 "checked": "2026-10-04"
 },
@@ -5669,24 +5568,6 @@
 "tmdb": 1596257,
 "lang": "en",
 "enFrom": "tmdb"
-},
-"fw-EDI20261587": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1087209,
-"imdb": "tt12349818",
-"en": "Lady Nazca",
-"lbSlug": "lady-nazca",
-"lbRating": 3.43,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt12349818"
-],
-"lb": "lady-nazca",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
 },
 "fw-EDI20261593": {
 "v": 4,
