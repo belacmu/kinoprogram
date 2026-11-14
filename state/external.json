@@ -1160,26 +1160,6 @@
 "v": 4,
 "checked": "2026-11-11"
 },
-"cm-9-temples-to-heaven": {
-"imdb": "tt37740247",
-"imdbAll": [
-"tt37740247"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "9 Temples to Heaven",
-"v": 4,
-"checked": "2026-10-15",
-"tmdbChecked": "2026-10-15",
-"tv": 2,
-"tmdb": 1046304,
-"lang": "th",
-"lbSlug": "9-temples-to-heaven",
-"lbRating": 3.55,
-"rated": "2026-11-08",
-"posterPath": "/6Qb11di83PyJpuJpNlxvJvi1kBd.jpg"
-},
 "cm-a-better-tomorrow": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1653,25 +1633,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-ha-chan-shake-your-booty": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1596249,
-"imdb": "tt39149197",
-"en": "Ha-Chan, Shake Your Booty!",
-"lbSlug": "ha-chan-shake-your-booty",
-"lbRating": 3.8,
-"rated": "2026-11-10",
-"imdbAll": [
-"tt39149197"
-],
-"lb": "ha-chan-shake-your-booty",
-"rt": "m/ha_chan_shake_your_booty",
-"mc": "movie/ha-chan-shake-your-booty",
-"v": 4,
-"checked": "2026-10-04",
-"posterPath": "/w98RWv9o05OhXYfTvauDrotRZ13.jpg"
-},
 "cm-harold-and-maude": {
 "tmdbChecked": "2026-10-02",
 "tv": 2,
@@ -1825,27 +1786,6 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-11-12"
-},
-"cm-ladyhawke": {
-"imdb": "tt0089457",
-"imdbAll": [
-"tt0089457"
-],
-"lb": "ladyhawke",
-"rt": "m/ladyhawke",
-"mc": "movie/ladyhawke",
-"en": "Ladyhawke",
-"v": 4,
-"checked": "2026-11-08",
-"tmdbChecked": "2026-11-08",
-"tv": 2,
-"tmdb": 526,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "ladyhawke",
-"lbRating": 3.36,
-"rated": "2026-11-08",
-"posterPath": "/9gbeNp1SibDT8GyURFebNjwMBrV.jpg"
 },
 "cm-lille-frk-norge": {
 "imdb": "tt0378255",
@@ -5648,19 +5588,6 @@
 "tt30345011",
 "tt35748025"
 ]
-},
-"fw-EDI20261569": {
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1660660,
-"lang": "ht",
-"imdb": "tt42007280",
-"en": null,
-"lbSlug": "marie-madeleine",
-"lbRating": 3.59,
-"rated": "2026-11-14"
 },
 "fw-EDI20261574": {
 "tmdbChecked": "2026-10-01",
