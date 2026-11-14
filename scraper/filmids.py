@@ -16,6 +16,7 @@ Usage from build.py:
 """
 import json
 import os
+from datetime import datetime, timedelta, timezone
 import re
 import sys
 import urllib.error
@@ -31,6 +32,10 @@ IMDB = re.compile(r"^tt\d{5,10}$")
 # it: a source that fails (or silently returns nothing) must not mark a whole cinema's programme gone.
 GONE_MIN_SHARE = 0.5
 MAX_SHOWING_ID = 500
+# Only showings the database saw in the last day count as expected (so a cinema whose programme really shrank, or was renamed, is
+# held back for a day at most), and nothing starting within GONE_MARGIN of now is marked gone (sources drop showings once sales close).
+EXPECTED_HOURS = 24
+GONE_MARGIN_HOURS = 3
 
 
 class Registry:
@@ -102,8 +107,15 @@ class Registry:
             if fid == loser:
                 self.aliases[a] = winner
                 self.new_aliases[a] = (winner, self.kinds.get(a, "listing"))
-        self.kinds[loser] = self.kinds.get(loser, "listing")
-        self.add_alias(loser, winner, "merged")
+        self.kinds[loser] = "merged"
+        self.aliases[loser] = winner
+        self.new_aliases[loser] = (winner, "merged")
+        # Showings, exactly as sync_films does it in the database: a showing both films have stays with the winner (the loser's row
+        # is left on the loser, gone); the loser's other showings move to the winner.
+        have = {(v[1], v[2]) for v in self.shows.values() if v[0] == winner}
+        for sid, (fid, cinema, starts, region, gone) in list(self.shows.items()):
+            if fid == loser:
+                self.shows[sid] = (loser, cinema, starts, region, True) if (cinema, starts) in have else (winner, cinema, starts, region, gone)
         w = self.films[winner]
         for k in ("tmdb", "imdb", "year"):
             w[k] = w.get(k) or self.films[loser].get(k)
@@ -113,9 +125,7 @@ class Registry:
 
     # ---------------------------------------------------------------- local copy
     def to_json(self):
-        # Showings are kept only where the id isn't the one that would be made again from (film, start, cinema): the rest are
-        # rebuilt for free.
-        shows = {i: list(v[:4]) for i, v in self.shows.items() if i != f"{v[0]}|{v[2]}|{v[1]}"}
+        shows = {i: list(v[:4]) for i, v in self.shows.items()}
         films = {i: {k: v for k, v in f.items() if k != "order" and v} for i, f in self.films.items()}
         return {"films": dict(sorted(films.items())), "aliases": dict(sorted(self.aliases.items())),
                 "kinds": {a: k for a, k in sorted(self.kinds.items()) if k != "listing"}, "shows": dict(sorted(shows.items()))}
@@ -128,7 +138,7 @@ class Registry:
                             "merged": f.get("merged"), "first": f.get("first", "")}
         reg.aliases = dict(d.get("aliases") or {})
         reg.kinds = {a: (d.get("kinds") or {}).get(a, "listing") for a in reg.aliases}
-        reg.shows = {i: (v[0], v[1], v[2], v[3], False) for i, v in (d.get("shows") or {}).items()}
+        reg.shows = {i: (v[0], v[1], v[2], v[3], v[0] != reg.canon(v[0])) for i, v in (d.get("shows") or {}).items()}
         return reg
 
 
@@ -169,10 +179,12 @@ def _load_supabase(since):
     for r in _rows("film_aliases", "select=alias,film_id,kind&order=alias"):
         reg.aliases[r["alias"]] = r["film_id"]
         reg.kinds[r["alias"]] = r["kind"]
-    q = f"select=id,film_id,cinema,starts,region,gone_at&starts=gte.{urllib.parse.quote(since)}&order=id"
+    q = f"select=id,film_id,cinema,starts,region,gone_at,last_seen&starts=gte.{urllib.parse.quote(since)}&order=id"
+    recent = (datetime.now(timezone.utc) - timedelta(hours=EXPECTED_HOURS)).strftime("%Y-%m-%dT%H:%M")
     for r in _rows("showings", q):
         reg.shows[r["id"]] = (r["film_id"], r["cinema"], r["starts"], r["region"], bool(r["gone_at"]))
-    reg.db_shows = dict(reg.shows)
+        if not r["gone_at"] and (r.get("last_seen") or "") >= recent:
+            reg.db_shows[r["id"]] = reg.shows[r["id"]]
     reg.source = "supabase"
     return reg
 
@@ -211,7 +223,10 @@ def load(since):
 def save_local(reg, since):
     """Write the local copy. Showings before `since` ("YYYY-MM-DD") are left out: nothing will be resolved against them again."""
     reg.shows = {i: v for i, v in reg.shows.items() if v[2] >= since}
-    LOCAL.write_text(json.dumps(reg.to_json(), ensure_ascii=False, indent=0))
+    d = reg.to_json()
+    LOCAL.write_text("{\n" + ",\n".join(
+        f"{json.dumps(k)}:{{\n" + ",\n".join(f"{json.dumps(i, ensure_ascii=False)}:{json.dumps(v, ensure_ascii=False)}" for i, v in d[k].items()) + "\n}"
+        for k in ("films", "aliases", "kinds", "shows")) + "\n}\n")
 
 
 # ---------------------------------------------------------------- resolving
@@ -237,6 +252,7 @@ def resolve_film(reg, f, now_iso):
         fits = [c for c in cands if (tmdb and reg.films[c].get("tmdb") == tmdb) or (imdb and reg.films[c].get("imdb") == imdb)]
         fid = min(fits or cands, key=reg.age)
         for c in cands:
+            c = reg.canon(c)
             if c == fid:
                 continue
             a, b = reg.films[c], reg.films[fid]
@@ -253,7 +269,8 @@ def resolve_film(reg, f, now_iso):
             reg.add_alias(i, fid, "listing")
         # A listing already belonging to a different film (a clash above) stays where it is.
     film = reg.films[fid]
-    film["title"] = (f.get("ext") or {}).get("en") or f["title"] or film.get("title", "")
+    # One title for the film whatever region ran last: the English one if known, else the first seen.
+    film["title"] = (f.get("ext") or {}).get("en") or film.get("title") or f["title"]
     film["year"] = f.get("year") or film.get("year", "")
     film["tmdb"] = tmdb or film.get("tmdb")
     film["imdb"] = imdb or film.get("imdb")
@@ -349,7 +366,8 @@ def resolve(reg, regions, now_iso, history=None):
             for s in f["shows"]:
                 s["id"] = showing_id(reg, by_key, fid, s, r)
             others = sorted(names.get(fid, set()) - {fid} - set(f["listings"]))
-            f["ids"] = list(dict.fromkeys([fid] + f["listings"] + others))
+            mine = [i for i in f["listings"] if reg.film_of(i) == fid]  # a listing of another film (a clash) is not this film's
+            f["ids"] = list(dict.fromkeys([fid] + mine + others))
     return out
 
 
@@ -362,7 +380,7 @@ def gone_cinemas(reg, region, films, now_s):
     """The cinemas whose missing upcoming showings may be marked gone this run (see GONE_MIN_SHARE)."""
     known, seen = {}, {}
     for fid, cinema, starts, r, gone in reg.db_shows.values():
-        if r == region and starts >= now_s and not gone:
+        if r == region and starts >= now_s:
             known[cinema] = known.get(cinema, 0) + 1
     for f in films:
         for s in f["shows"]:
@@ -407,7 +425,8 @@ def sync(reg, built, live_ids, complete):
                         continue
                     shows.append({"id": s["id"], "film_id": f["id"], "cinema": s["cinema"], "starts": s["t"],
                                   "title": (f["title"] or f["id"])[:300], "ticket": _ticket(s.get("ticket"))})
-            _request("rpc/sync_showings", {"p": {"region": r, "now": now_s, "cinemas": cinemas[r][0], "showings": shows}}, timeout=120)
+            later = (datetime.strptime(now_s, "%Y-%m-%dT%H:%M") + timedelta(hours=GONE_MARGIN_HOURS)).strftime("%Y-%m-%dT%H:%M")
+            _request("rpc/sync_showings", {"p": {"region": r, "now": later, "cinemas": cinemas[r][0], "showings": shows}}, timeout=120)
             print(f"  film ids: wrote {len(shows)} {r} showings")
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", "replace")[:300]
