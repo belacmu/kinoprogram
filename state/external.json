@@ -688,6 +688,12 @@
 "rated": "2026-11-12",
 "posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg"
 },
+"cl-ahora-suegros-son-ellos": {
+"v": 4,
+"checked": "2026-11-14",
+"tmdbChecked": "2026-11-14",
+"tv": 2
+},
 "cl-arriba-tutto": {
 "v": 4,
 "checked": "2026-10-20",
@@ -830,6 +836,27 @@
 "rated": "2026-11-08",
 "posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
 },
+"cl-hechizo-bienvenidos-hexe": {
+"imdb": "tt38077943",
+"imdbAll": [
+"tt38077943"
+],
+"lb": "hexed-2026",
+"rt": "m/hexed_2026",
+"mc": "movie/hexed",
+"en": "Hexed",
+"v": 4,
+"checked": "2026-11-14",
+"tmdbChecked": "2026-11-14",
+"tv": 2,
+"tmdb": 1538497,
+"lang": "en",
+"enFrom": "tmdb",
+"lbSlug": "hexed-2026",
+"lbRating": null,
+"rated": "2026-11-14",
+"posterPath": "/yykeYKbDBM9eUMJUucaaDo2mi1p.jpg"
+},
 "cl-hope": {
 "imdb": "tt27369017",
 "imdbAll": [
@@ -968,10 +995,10 @@
 "posterPath": "/mMOptSPBVGUA9GHgnpsC35GzZ7e.jpg"
 },
 "cl-pavarotti-90th-the-grand-tribute-26-27": {
+"tmdbChecked": "2026-11-14",
+"tv": 2,
 "v": 4,
-"checked": "2026-11-06",
-"tmdbChecked": "2026-11-06",
-"tv": 2
+"checked": "2026-11-14"
 },
 "cl-ratones-ataque-operacion-navidad": {
 "v": 4,
@@ -1049,6 +1076,26 @@
 "lbRating": null,
 "rated": "2026-11-07",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
+},
+"cl-tadeo-jones-lampara-maravillosa": {
+"imdb": "tt36164852",
+"imdbAll": [
+"tt36164852"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Tad and the Magic Lamp",
+"v": 4,
+"checked": "2026-11-14",
+"tmdbChecked": "2026-11-14",
+"tv": 2,
+"tmdb": 1187326,
+"lang": "es",
+"lbSlug": "tad-and-the-magic-lamp",
+"lbRating": 2.83,
+"rated": "2026-11-14",
+"posterPath": "/AdDxZgNmRYgDuweY8899buyVqlr.jpg"
 },
 "cl-victorian-psycho": {
 "imdb": "tt34374553",
@@ -5334,12 +5381,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20261402": {
-"tmdbChecked": "2026-11-10",
-"tv": 2,
-"v": 4,
-"checked": "2026-11-12"
-},
 "fw-EDI20261408": {
 "tmdbChecked": "2026-11-12",
 "tv": 2,
@@ -8396,7 +8437,8 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-11-11"
+"rated": "2026-11-11",
+"posterPath": "/7QPeVsr9rcFU9Gl90yg0gTOTpVv.jpg"
 },
 "sr-brunsj-filmklassiker-10-mamma-mia-2008": {
 "imdb": "tt0795421",
