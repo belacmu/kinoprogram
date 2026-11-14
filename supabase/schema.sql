@@ -6,7 +6,7 @@
 do $$
 begin
   if exists (select 1 from information_schema.tables
-             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans')) then
+             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans', 'films', 'film_aliases', 'showings')) then
     raise exception 'This database already has other tables, so it is not a new Cinecrab project. Nothing was changed.';
   end if;
 end $$;
@@ -371,3 +371,151 @@ language sql stable security definer set search_path = '' as $$
 $$;
 revoke all on function public.plan_by_invite(uuid) from public;
 grant execute on function public.plan_by_invite(uuid) to anon, authenticated;
+
+-- ---------------------------------------------------------------- films and showings (stable ids, docs/stable-ids.md)
+-- Filled by the programme update (scraper/filmids.py) through sync_films() and sync_showings(), with the secret key. Nothing here is
+-- ever deleted: a film or showing that disappears gets gone_at, and a merged film points at the film it was merged into.
+-- A film's id is the first listing id it was seen with ("fw-EDI20261336"); every listing id it has had is in film_aliases.
+-- A showing's id is "<film id>|<start>|<cinema>" when first seen, and never changes, even if its film is merged later.
+create table if not exists public.films (
+  id          text primary key,
+  title       text not null,
+  year        text,
+  tmdb        integer,
+  imdb        text,
+  merged_into text references public.films on delete restrict,
+  first_seen  timestamptz not null default now(),
+  last_seen   timestamptz not null default now(),
+  gone_at     timestamptz,
+  check (merged_into is null or merged_into <> id)
+);
+create index if not exists films_tmdb_idx on public.films (tmdb) where tmdb is not null;
+create index if not exists films_merged_into_idx on public.films (merged_into) where merged_into is not null;
+
+create table if not exists public.film_aliases (
+  alias      text primary key,
+  film_id    text not null references public.films on delete restrict,
+  kind       text not null default 'listing' check (kind in ('listing', 'merged', 'history')),
+  created_at timestamptz not null default now()
+);
+create index if not exists film_aliases_film_id_idx on public.film_aliases (film_id);
+
+create table if not exists public.showings (
+  id          text primary key,
+  film_id     text not null references public.films on delete restrict,
+  region      text not null,
+  cinema      text not null,
+  starts      text not null check (starts ~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$'),   -- local time at the cinema, "2026-11-07T19:00"
+  title       text not null,                                                     -- the film's title as that region lists it
+  ticket      text check (ticket is null or ticket ~* '^https?://'),
+  first_seen  timestamptz not null default now(),
+  last_seen   timestamptz not null default now(),
+  gone_at     timestamptz,                         -- disappeared before it started (a showing that has simply started is not gone)
+  replaced_by text references public.showings on delete restrict,   -- gone, and the same film at the same cinema got a new time that day
+  unique (film_id, cinema, starts)
+);
+create index if not exists showings_region_starts_idx on public.showings (region, starts);
+
+-- The programme is public (it's what the site's JSON has): anyone may read it; only the update (secret key) writes it.
+alter table public.films enable row level security;
+alter table public.film_aliases enable row level security;
+alter table public.showings enable row level security;
+drop policy if exists "anyone can read films" on public.films;
+create policy "anyone can read films" on public.films for select to anon, authenticated using (true);
+drop policy if exists "anyone can read film aliases" on public.film_aliases;
+create policy "anyone can read film aliases" on public.film_aliases for select to anon, authenticated using (true);
+drop policy if exists "anyone can read showings" on public.showings;
+create policy "anyone can read showings" on public.showings for select to anon, authenticated using (true);
+revoke all on public.films, public.film_aliases, public.showings from anon, authenticated;
+grant select on public.films, public.film_aliases, public.showings to anon, authenticated;
+grant select, insert, update on public.films, public.film_aliases, public.showings to service_role;
+
+-- Films and aliases from one programme update. p = {films: [{id, title, year, tmdb, imdb}], merges: [{loser, winner}],
+-- aliases: [{alias, film_id, kind}], live: [film id, ...] (every film in any region's current data), complete: whether films not in
+-- `live` may be marked gone}. Runs as the caller (only the secret key may call it).
+create or replace function public.sync_films(p jsonb)
+returns void language plpgsql set search_path = '' as $$
+declare
+  m record;
+  live text[] := array(select jsonb_array_elements_text(coalesce(p -> 'live', '[]'::jsonb)));
+begin
+  insert into public.films as f (id, title, year, tmdb, imdb)
+  select x.id, left(coalesce(nullif(x.title, ''), x.id), 300), nullif(x.year, ''), x.tmdb, x.imdb
+  from jsonb_to_recordset(coalesce(p -> 'films', '[]'::jsonb)) as x(id text, title text, year text, tmdb integer, imdb text)
+  on conflict (id) do update
+    set title = excluded.title, year = coalesce(excluded.year, f.year), tmdb = coalesce(excluded.tmdb, f.tmdb),
+        imdb = coalesce(excluded.imdb, f.imdb), last_seen = now(), gone_at = null;
+
+  -- Merges: the loser points at the winner, its aliases and showings move over. A showing both films had stays with the winner;
+  -- the loser's copy is gone and points at it.
+  for m in select * from jsonb_to_recordset(coalesce(p -> 'merges', '[]'::jsonb)) as x(loser text, winner text) loop
+    continue when m.loser = m.winner or not exists (select 1 from public.films where id = m.winner);
+    update public.films set merged_into = m.winner where merged_into = m.loser;
+    update public.films set merged_into = m.winner, gone_at = null where id = m.loser;
+    update public.film_aliases set film_id = m.winner where film_id = m.loser;
+    if exists (select 1 from public.films where id = m.loser) then
+      insert into public.film_aliases (alias, film_id, kind) values (m.loser, m.winner, 'merged')
+      on conflict (alias) do update set film_id = excluded.film_id;
+    end if;
+    update public.showings l set gone_at = coalesce(l.gone_at, now()), replaced_by = w.id
+      from public.showings w
+      where l.film_id = m.loser and w.film_id = m.winner and w.cinema = l.cinema and w.starts = l.starts;
+    update public.showings l set film_id = m.winner
+      where l.film_id = m.loser
+        and not exists (select 1 from public.showings w where w.film_id = m.winner and w.cinema = l.cinema and w.starts = l.starts);
+  end loop;
+
+  insert into public.film_aliases (alias, film_id, kind)
+  select x.alias, x.film_id, coalesce(x.kind, 'listing')
+  from jsonb_to_recordset(coalesce(p -> 'aliases', '[]'::jsonb)) as x(alias text, film_id text, kind text)
+  where exists (select 1 from public.films where id = x.film_id)
+  on conflict (alias) do update set film_id = excluded.film_id;
+
+  update public.films set gone_at = null, last_seen = now() where id = any(live) and gone_at is not null;
+  if coalesce((p ->> 'complete')::boolean, false) then
+    update public.films set gone_at = now() where gone_at is null and merged_into is null and not (id = any(live));
+  end if;
+end;
+$$;
+revoke all on function public.sync_films(jsonb) from public;
+revoke execute on function public.sync_films(jsonb) from anon, authenticated;
+grant execute on function public.sync_films(jsonb) to service_role;
+
+-- One region's showings from one programme update. p = {region, now: local time "YYYY-MM-DDTHH:MI", cinemas: [names whose missing
+-- upcoming showings may be marked gone], showings: [{id, film_id, cinema, starts, title, ticket}]}.
+create or replace function public.sync_showings(p jsonb)
+returns void language plpgsql set search_path = '' as $$
+declare
+  r text := p ->> 'region';
+  t text := p ->> 'now';
+  ok text[] := array(select jsonb_array_elements_text(coalesce(p -> 'cinemas', '[]'::jsonb)));
+  seen text[];
+begin
+  if r is null or t is null then raise exception 'sync_showings needs region and now'; end if;
+  insert into public.showings as s (id, film_id, region, cinema, starts, title, ticket)
+  select x.id, x.film_id, r, x.cinema, x.starts, left(coalesce(nullif(x.title, ''), x.film_id), 300),
+         case when x.ticket ~* '^https?://' then x.ticket end
+  from jsonb_to_recordset(coalesce(p -> 'showings', '[]'::jsonb)) as x(id text, film_id text, cinema text, starts text, title text, ticket text)
+  where exists (select 1 from public.films where id = x.film_id)
+  on conflict (id) do update
+    set film_id = excluded.film_id, region = excluded.region, title = excluded.title, ticket = excluded.ticket,
+        last_seen = now(), gone_at = null, replaced_by = null;
+  seen := array(select x ->> 'id' from jsonb_array_elements(coalesce(p -> 'showings', '[]'::jsonb)) x);
+
+  -- Upcoming showings at a working cinema that weren't in this update are gone.
+  update public.showings set gone_at = now()
+    where region = r and starts >= t and gone_at is null and cinema = any(ok) and not (id = any(seen));
+  -- One showing gone and one new for the same film, cinema and day: the new one replaces it (the app offers to move plans).
+  update public.showings g set replaced_by = n.id
+    from public.showings n
+    where g.region = r and g.gone_at = now() and g.replaced_by is null
+      and n.region = r and n.first_seen = now() and n.film_id = g.film_id and n.cinema = g.cinema and left(n.starts, 10) = left(g.starts, 10)
+      and (select count(*) from public.showings g2 where g2.region = r and g2.gone_at = now() and g2.film_id = g.film_id
+             and g2.cinema = g.cinema and left(g2.starts, 10) = left(g.starts, 10)) = 1
+      and (select count(*) from public.showings n2 where n2.region = r and n2.first_seen = now() and n2.film_id = g.film_id
+             and n2.cinema = g.cinema and left(n2.starts, 10) = left(g.starts, 10)) = 1;
+end;
+$$;
+revoke all on function public.sync_showings(jsonb) from public;
+revoke execute on function public.sync_showings(jsonb) from anon, authenticated;
+grant execute on function public.sync_showings(jsonb) to service_role;

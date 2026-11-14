@@ -282,8 +282,7 @@ privacy setting.
 - **On posters**: small stacked initials of friends with the film on their watchlist (up to 3,
   then "+N"), separate from your own ♥.
 - **Film sheet**: "On Anna's and Jon's watchlists".
-- Friends in other regions show up only on films with the same id (ids are per source), which is
-  fine.
+- Film ids are global (see "Film and showing ids"), so a friend's watchlist film shows up in every region that lists it.
 
 Data (Supabase):
 - `profiles` gains `display_name` and `friend_code` (unique, generated at sign-up and backfilled).
@@ -293,6 +292,25 @@ Data (Supabase):
 - `friends_watchlists()` (security definer) returns each friend's id, display name and watchlist,
   never their email-only fields such as prefs or the unsubscribe token (the email is only returned
   as the name fallback).
+
+## Film and showing ids
+
+Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
+- **A film's id** is the first listing id it was ever seen with (e.g. `fw-EDI20261336`), frozen, and the same in every region. Every
+  listing id it has had since is an alias. A new listing joins a known film through a known listing id, else its TMDB id, else its
+  IMDb id; never by title. Two known films that turn out to be one are merged: the newer points at the older, nothing is deleted.
+- **In the JSON**, `id` is the film's id and `ids` every id it is known by (its id first, then its listing ids, then older aliases),
+  so anything saved under an old id (watchlists, hidden films, links) still finds the film. Entries of one region that are the same
+  film (same TMDB id, e.g. a film and its IMAX re-release) are one entry. Each showing has an `id`: `"<film id>|<start>|<cinema>"`
+  when first seen, frozen.
+- **In Supabase**, `films`, `film_aliases` and `showings` are written by each programme update (`scraper/filmids.py`, functions
+  `sync_films` and `sync_showings`, secret key only; anyone may read them). A film in no region's data, or an upcoming showing missing
+  from its region's update, gets `gone_at`; nothing is deleted. A cinema with under half the showings it had is skipped that run
+  (a failing source must not mark its programme gone). A gone showing replaced by one new showing of the same film at the same
+  cinema on the same day gets `replaced_by`. If Supabase can't be read, the ids come from `state/film-registry.json` and nothing is
+  written; the site never depends on it.
+- `state/listing-history.json` (made once by `scripts/film-history.py` from the git history of `state/external.json`) links old
+  listing ids to their films through TMDB/IMDb ids.
 
 ## The event log (the feed's source)
 

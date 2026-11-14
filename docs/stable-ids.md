@@ -1,6 +1,6 @@
 # Stable film and showing ids: design
 
-Status: **draft, waiting for approval**. Nothing here is built yet.
+Status: approved (all four recommendations). Stage 1 (tables, scraper, JSON) built; stages 2 and 3 not yet.
 
 ## What I found (confirmed by reading the code and the live data)
 
