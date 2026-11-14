@@ -75,10 +75,15 @@ def main():
         for f in data["films"]:
             if not f.get("id") or "/" in f["id"] or ".." in f["id"]:
                 continue
-            d = OUT / region / f["id"]
-            d.mkdir(parents=True, exist_ok=True)
-            (d / "index.html").write_text(page(f, region, data.get("location") or region))
-            total += 1
+            html_ = page(f, region, data.get("location") or region)
+            # The same page under every id the film has had (f["ids"]), so links shared before its id changed still work.
+            for i in dict.fromkeys([f["id"]] + (f.get("ids") or [])):
+                if not i or "/" in i or ".." in i or (OUT / region / i).exists():
+                    continue
+                d = OUT / region / i
+                d.mkdir(parents=True, exist_ok=True)
+                (d / "index.html").write_text(html_)
+                total += 1
     print(f"Wrote {total} film pages in {OUT.relative_to(ROOT)}")
 
 
