@@ -388,8 +388,13 @@ user, so nothing is copied or claimed. Needs anonymous sign-in switched on in Su
 with a null email, and bot protection. Retracting going is always possible. No plus-ones (enter several seats), no guest caps,
 no remembered default.
 
-**A plan keeps a copy of its showing** (film id, title, cinema, start time, ticket link) with a stable id made from film +
-cinema + start time, so a shared page still renders after the schedule changes or drops the showing.
+**A plan points at its showing** (`plans.showing_id` is a foreign key to `showings`, see "Film and showing ids"). The film, cinema,
+time, region and ticket link come from the showing, never from the app, and showings are never deleted, so a plan and a shared page
+still work after the schedule drops the showing. `save_plan(showing, seats, joined_via)` is the only way to write a plan; it refuses a
+new plan for a showing the cinema no longer lists. A dropped showing's page says "The cinema no longer lists this showing"; one the
+cinema moved to another time that day (`replaced_by`) says so, with **Move my plan** (`move_plan()`), which keeps your invite link and
+party. Coming up marks such plans "Time changed" or "No longer listed". (The plan's old copy columns are still filled, from the
+showing by a trigger, for pages loaded before this change; they and the older 9-argument `save_plan` will be dropped.)
 
 **Feed.** "Coming up" (your plans and your friends', soonest first) sits at the top of the Films tab, above the filters, with a status per row: "✓ You're going" or "Anna, Dan going". Friends going also appear in the Feed as posts ("Anna is going to …"), and the Feed badge counts them. The film sheet's showing buttons carry a green check (you) and friends' initials.
 
