@@ -305,10 +305,13 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   when first seen, frozen.
 - **In Supabase**, `films`, `film_aliases` and `showings` are written by each programme update (`scraper/filmids.py`, functions
   `sync_films` and `sync_showings`, secret key only; anyone may read them). A film in no region's data, or an upcoming showing missing
-  from its region's update, gets `gone_at`; nothing is deleted. A cinema with under half the showings it had is skipped that run
-  (a failing source must not mark its programme gone). A gone showing replaced by one new showing of the same film at the same
+  from its region's update, gets `gone_at`; nothing is deleted. Not within 3 hours of its start (sources drop showings once sales
+  close), and not at a cinema with under half the showings the database saw for it in the last day (a failing source must not mark
+  its programme gone; a cinema whose programme really shrank is held back a day at most). A gone showing replaced by one new showing of the same film at the same
   cinema on the same day gets `replaced_by`. If Supabase can't be read, the ids come from `state/film-registry.json` and nothing is
-  written; the site never depends on it.
+  written; the site never depends on it. While plans still use the old showing ids (until stage 2), the site matches plans, friends'
+  plans and invites against any of the film's `ids`, and `scripts/write-film-pages.py` writes a film's preview page under each of
+  its ids, so links and plans made before a film's id changed keep working.
 - `state/listing-history.json` (made once by `scripts/film-history.py` from the git history of `state/external.json`) links old
   listing ids to their films through TMDB/IMDb ids.
 

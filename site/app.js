@@ -1034,7 +1034,7 @@ const MEAL_TAG = "Meal + film";  // dinner/brunch packages (Sommerro, sometimes 
 
 // Who is going to a showing, for its button in the film's list: you (a green check) and friends who told friends (their initials).
 function stubGoers(f, s) {
-  const id = planId(f, s), you = !!plans[id]?.going, fr = friendPlansHere().filter((r) => r.showing_id === id);
+  const id = planId(f, s), ids = planIds(f, s), you = !!plans[id]?.going, fr = friendPlansHere().filter((r) => ids.includes(r.showing_id));
   if (!you && !fr.length) return "";
   const dots = fr.slice(0, 2).map((r) => `<span class="fdot" style="--h:${friendHue(r.friend_id)}">${esc(initialsOf(r.name))}</span>`).join("") + (fr.length > 2 ? `<span class="fdot more">+${fr.length - 2}</span>` : "");
   const label = [you ? "You're going" : "", fr.length ? `${nameList(fr.map((r) => shortName(r.name)))} ${fr.length > 1 ? "are" : "is"} going` : ""].filter(Boolean).join(". ");
@@ -1170,10 +1170,13 @@ const planV = {};  // how many times each plan was edited in this page (a save o
 const planUser = () => state.user || state.guest;  // signed in, or a guest (anonymous account)
 const friendPlansHere = () => state.friendPlansAll.filter((r) => r.region === state.region);  // friends' plans in the location being shown
 const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "");  // only web links: never a javascript: URL
-const planId = (f, s) => `${f.id}|${showKey(s)}`;
+// A showing's plan id is "<film id>|<time>|<cinema>". A film's id can change (ids became stable and shared across regions), so a plan
+// or a friend's plan saved under one of the film's other ids (f.ids) still belongs to the showing.
+const planIds = (f, s) => f.ids.map((i) => `${i}|${showKey(s)}`);
+const planId = (f, s) => planIds(f, s).find((id) => plans[id]) || `${f.id}|${showKey(s)}`;
 const planOf = (f, s) => plans[planId(f, s)];
 function setPlan(f, s, patch) {
-  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch, film: f.id, title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: safeUrl(s.ticket) };
+  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch, film: id.split("|")[0], title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: safeUrl(s.ticket) };
   if (next) plans[id] = next; else delete plans[id];
   local.set("plans", plans);
   planDirty.add(id); planV[id] = (planV[id] || 0) + 1; local.set("planDirty", [...planDirty]);
@@ -1202,7 +1205,7 @@ async function runSync() {
     if (p && tok && plans[id]) {
       plans[id].inv = tok; savedAt[id] = Date.now();
       const hp = hashParts();
-      if ($("film").open && hp.show && `${hp.id}|${hp.show}` === id) loadInvite(tok, true);  // you went, or changed your seats: the party may have changed
+      if ($("film").open && hp.show && findFilm(hp.id)?.ids.some((i) => `${i}|${hp.show}` === id)) loadInvite(tok, true);  // you went, or changed your seats: the party may have changed
     }
     if ((planV[id] || 0) === v) planDirty.delete(id);  // edited again while saving: stays marked for the next round
   }
@@ -1249,7 +1252,7 @@ const showUrl = (f, s) => location.origin + location.pathname + (state.region ==
 function showFor(f, key) {
   const real = f?.shows.find((x) => showKey(x) === key);
   const r = state.invite?.rows[0];
-  if (real || !f || !r || r.film_id !== f.id || `${r.starts}|${r.cinema}` !== key) return real || null;
+  if (real || !f || !r || !f.ids.includes(r.film_id) || `${r.starts}|${r.cinema}` !== key) return real || null;
   return { t: r.starts, cinema: r.cinema, ticket: safeUrl(r.ticket), tags: [], screen: "", status: "" };
 }
 // Everyone you can see is going to this showing, as {name, seats, me}: you, then your party (everyone connected through invite links),
@@ -1257,10 +1260,10 @@ function showFor(f, key) {
 function peopleOf(f, s, plan, name) {
   const id = planId(f, s);
   const out = plan?.going ? [{ name: name || "You", seats: plan.seats || "", me: true }] : [];
-  const friendRows = friendPlansHere().filter((r) => r.showing_id === id);
+  const ids = planIds(f, s), friendRows = friendPlansHere().filter((r) => ids.includes(r.showing_id));
   // The party (an invite link, or your own plan's): everyone but you, and but your friends (their rows come from friends_plans, with
   // their real names) when we have those rows.
-  for (const r of state.invite?.rows || []) if (r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s) && !r.is_me && !(r.is_friend && friendRows.length)) out.push({ name: r.name, seats: r.seats || "", me: false });
+  for (const r of state.invite?.rows || []) if (f.ids.includes(r.film_id) && `${r.starts}|${r.cinema}` === showKey(s) && !r.is_me && !(r.is_friend && friendRows.length)) out.push({ name: r.name, seats: r.seats || "", me: false });
   for (const r of friendRows) out.push({ name: r.name, seats: r.seats || "", me: false });
   // Everyone else: by row, then seat; people with no seats come last, alphabetically. (You stay first, as your own line.)
   const num = (s) => { const m = String(s || "").match(/\d+/); return m ? +m[0] : Infinity; };
@@ -1356,7 +1359,7 @@ async function inviteUrl(f, s) {
   return tok ? showUrl(f, s) + "?inv=" + tok : "";
 }
 // Does the invite being looked at belong to this very showing?
-const inviteFits = (f, s) => { const r = state.invite?.rows[0]; return !!r && r.film_id === f.id && `${r.starts}|${r.cinema}` === showKey(s); };
+const inviteFits = (f, s) => { const r = state.invite?.rows[0]; return !!r && f.ids.includes(r.film_id) && `${r.starts}|${r.cinema}` === showKey(s); };
 async function planClick(t) {
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;

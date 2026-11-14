@@ -455,7 +455,7 @@ begin
     update public.film_aliases set film_id = m.winner where film_id = m.loser;
     if exists (select 1 from public.films where id = m.loser) then
       insert into public.film_aliases (alias, film_id, kind) values (m.loser, m.winner, 'merged')
-      on conflict (alias) do update set film_id = excluded.film_id;
+      on conflict (alias) do update set film_id = excluded.film_id, kind = 'merged';
     end if;
     update public.showings l set gone_at = coalesce(l.gone_at, now()), replaced_by = w.id
       from public.showings w
@@ -481,7 +481,8 @@ revoke all on function public.sync_films(jsonb) from public;
 revoke execute on function public.sync_films(jsonb) from anon, authenticated;
 grant execute on function public.sync_films(jsonb) to service_role;
 
--- One region's showings from one programme update. p = {region, now: local time "YYYY-MM-DDTHH:MI", cinemas: [names whose missing
+-- One region's showings from one programme update. p = {region, now: local time "YYYY-MM-DDTHH:MI" (showings from then on that are
+-- missing are gone; the scraper sends a time a few hours ahead, as sources drop a showing once its sales close), cinemas: [names whose missing
 -- upcoming showings may be marked gone], showings: [{id, film_id, cinema, starts, title, ticket}]}.
 create or replace function public.sync_showings(p jsonb)
 returns void language plpgsql set search_path = '' as $$

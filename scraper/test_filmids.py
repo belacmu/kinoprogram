@@ -50,7 +50,7 @@ def test_tmdb_arriving_later_merges_into_older_film():
     assert f["id"] == "cm-old" and "cc-new" in f["ids"]
     assert reg.merges == [("cc-new", "cm-old")]
     assert reg.films["cc-new"]["merged"] == "cm-old" and reg.canon("cc-new") == "cm-old"
-    assert reg.new_aliases["cc-new"] == ("cm-old", "listing")
+    assert reg.new_aliases["cc-new"] == ("cm-old", "merged") and reg.merges.count(("cc-new", "cm-old")) == 1
 
 
 def test_different_tmdb_never_merged():
@@ -61,6 +61,7 @@ def test_different_tmdb_never_merged():
     out = filmids.resolve(reg, {"oslo": [film("A/B", ["fw-a", "fw-b"], tmdb=2)]}, LATER)
     assert out["oslo"][0]["id"] == "fw-b"
     assert reg.merges == [] and reg.film_of("fw-a") == "fw-a"
+    assert "fw-a" not in out["oslo"][0]["ids"]  # the other film's listing isn't counted as this one's
 
 
 def test_same_film_twice_in_a_region_is_combined():
@@ -95,6 +96,24 @@ def test_showing_ids_are_frozen_through_a_merge():
     out = filmids.resolve(reg, {"winnipeg": [film("New", ["cc-new"], tmdb=1, shows=[("2026-11-25T19:00", "Globe")])]}, "2026-11-21T10:00:00+00:00")
     assert out["winnipeg"][0]["id"] == "cm-old"
     assert out["winnipeg"][0]["shows"][0]["id"] == sid
+
+
+def test_chained_merges_keep_showing_ids_frozen():
+    """Two merges in one run (A into C, then B into C), where A and B had the same showing: the surviving row is the one the database
+    keeps (A's, moved first), and the payload never sends a row that would clash with the unique (film, cinema, start) key."""
+    reg = filmids.Registry()
+    for fid, first in (("fw-c", "2026-01"), ("fw-b", "2026-02"), ("fw-a", "2026-03")):
+        reg.films[fid] = {"title": fid, "year": "", "tmdb": 7 if fid == "fw-c" else None, "imdb": None, "merged": None, "first": first}
+        reg.aliases[fid] = fid
+    T = "2026-11-20T19:00"
+    reg.shows = {f"fw-a|{T}|Vega": ("fw-a", "Vega", T, "oslo", False), f"fw-b|{T}|Vega": ("fw-b", "Vega", T, "oslo", False)}
+    # one entry glues A and B (by listing) and carries C's TMDB id
+    out = filmids.resolve(reg, {"oslo": [film("X", ["fw-a", "fw-b"], tmdb=7, shows=[(T, "Vega")])]}, NOW)
+    f = out["oslo"][0]
+    assert f["id"] == "fw-c"
+    assert f["shows"][0]["id"] == f"fw-a|{T}|Vega", f["shows"][0]["id"]
+    assert len(reg.merges) == len(set(reg.merges)) == 2
+    assert reg.shows[f"fw-b|{T}|Vega"][0] == "fw-b" and reg.shows[f"fw-b|{T}|Vega"][4]   # left on the loser, gone
 
 
 def test_showing_id_collision_gets_a_suffix():
