@@ -35,7 +35,7 @@ jobs:
       - name: Take the programme data from the live site
         run: |
           mkdir -p site/data
-          for f in films.json westman.json costadelsol.json; do
+          for f in films.json westman.json winnipeg.json costadelsol.json; do
             curl -fsS --retry 3 -o "site/data/$f" "${{ steps.pages.outputs.base_url }}/data/$f"
             python3 -c "import json, sys; d = json.load(open(sys.argv[1])); assert d['films'], 'no films'" "site/data/$f"
           done
