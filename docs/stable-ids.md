@@ -1,6 +1,6 @@
 # Stable film and showing ids: design
 
-Status: approved (all four recommendations). Stage 1 (tables, scraper, JSON) live; stage 2 (plans) built; stage 3 not yet.
+Status: approved (all four recommendations). Stages 1 (tables, scraper, JSON) and 2 (plans, and the cleanup) are live; stage 3 (watchlists) built.
 
 ## What I found (confirmed by reading the code and the live data)
 
