@@ -986,7 +986,7 @@
 "enFrom": "tmdb",
 "lbSlug": "other-mommy",
 "lbRating": 2.18,
-"rated": "2026-11-07",
+"rated": "2026-11-15",
 "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg"
 },
 "cl-pavarotti-90th-the-grand-tribute-26-27": {
@@ -1069,7 +1069,7 @@
 "lang": "es",
 "lbSlug": "superthings-la-pelicula",
 "lbRating": null,
-"rated": "2026-11-07",
+"rated": "2026-11-15",
 "posterPath": "/ncJXMB0MbDiXIpqCdNSN4MYRe3k.jpg"
 },
 "cl-victorian-psycho": {
@@ -1125,8 +1125,8 @@
 "en": "Wildwood",
 "enFrom": "tmdb",
 "lbSlug": "wildwood-2026",
-"lbRating": 4.4,
-"rated": "2026-11-07",
+"lbRating": 4.38,
+"rated": "2026-11-15",
 "posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg"
 },
 "cm-11-x14": {
@@ -2620,10 +2620,10 @@
 "tv": 2
 },
 "dm-1051553638": {
-"tmdbChecked": "2026-11-07",
+"tmdbChecked": "2026-11-15",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-07"
+"checked": "2026-11-15"
 },
 "dm-1094853762": {
 "v": 4,
@@ -3628,7 +3628,7 @@
 },
 "fw-EDI20251703": {
 "v": 4,
-"checked": "2026-11-07",
+"checked": "2026-11-15",
 "tmdbChecked": "2026-10-30",
 "tv": 2,
 "tmdb": 1751226,
@@ -3637,7 +3637,7 @@
 "en": null,
 "lbSlug": "small-talk-2026-2",
 "lbRating": null,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "fw-EDI20251749": {
 "tmdbChecked": "2026-11-10",
@@ -4789,11 +4789,11 @@
 "en": "Blue Lock",
 "v": 4,
 "checked": "2026-11-07",
-"tmdbChecked": "2026-11-07",
+"tmdbChecked": "2026-11-15",
 "tv": 2,
 "lbSlug": "blue-lock-2026",
 "lbRating": 3.44,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "fw-EDI20261027": {
 "imdb": "tt34384661",
@@ -5199,7 +5199,7 @@
 "enFrom": "tmdb",
 "lbSlug": null,
 "lbRating": null,
-"rated": "2026-11-07",
+"rated": "2026-11-15",
 "posterPath": "/2m9ts8LfjG8d4xcUtx66aApngJL.jpg"
 },
 "fw-EDI20261399": {
@@ -5435,7 +5435,7 @@
 "enFrom": "tmdb",
 "lbSlug": "what-lies-between-us-2026",
 "lbRating": 3.55,
-"rated": "2026-11-07",
+"rated": "2026-11-15",
 "posterPath": "/sk4FKDH3gPiEWQc9zvNbYIFV1VJ.jpg"
 },
 "fw-EDI20261527": {
@@ -5516,8 +5516,8 @@
 "mc": null,
 "en": "On a String",
 "v": 4,
-"checked": "2026-11-14",
-"tmdbChecked": "2026-11-14",
+"checked": "2026-11-15",
+"tmdbChecked": "2026-11-15",
 "tv": 2,
 "conflict": [
 "tt30345011",
@@ -5580,8 +5580,8 @@
 "en": "Ramayana",
 "enFrom": "tmdb",
 "lbSlug": "ramayana-rise-of-a-legend",
-"lbRating": 3.67,
-"rated": "2026-11-07"
+"lbRating": 3.57,
+"rated": "2026-11-15"
 },
 "fw-EDI20261595": {
 "tmdbChecked": "2026-10-01",
@@ -5709,10 +5709,10 @@
 "posterPath": "/xe9V5utoUjyb92g5eBWbro1MSKd.jpg"
 },
 "fw-EDI20261676": {
-"tmdbChecked": "2026-11-07",
+"tmdbChecked": "2026-11-15",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-07"
+"checked": "2026-11-15"
 },
 "fw-EDI20261677": {
 "imdb": "tt38440263",
@@ -5919,7 +5919,7 @@
 "enFrom": "tmdb",
 "lbSlug": "slayground-2027",
 "lbRating": null,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "fw-EDI20261734": {
 "v": 4,
@@ -5931,8 +5931,8 @@
 "imdb": "tt38192494",
 "en": null,
 "lbSlug": "scene-2026",
-"lbRating": null,
-"rated": "2026-11-07"
+"lbRating": 3.96,
+"rated": "2026-11-15"
 },
 "fw-EDI20261739": {
 "v": 4,
@@ -5998,7 +5998,7 @@
 "lang": "uk",
 "lbSlug": "relatives-2026",
 "lbRating": null,
-"rated": "2026-11-07",
+"rated": "2026-11-15",
 "posterPath": "/jI6Ko8ET4P3PpnBZ1Eyq3D3l4fb.jpg"
 },
 "fw-EDI20261750": {
@@ -6315,10 +6315,10 @@
 "checked": "2026-11-12"
 },
 "fw-KUL20260648": {
-"tmdbChecked": "2026-11-07",
+"tmdbChecked": "2026-11-15",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-07"
+"checked": "2026-11-15"
 },
 "fw-KUL20260879": {
 "tmdbChecked": "2026-11-14",
@@ -6373,7 +6373,7 @@
 "en": null,
 "lbSlug": "hans-nielsen-hauge-2025",
 "lbRating": null,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "fw-NFD20230388": {
 "lbSlug": "journey-to-the-christmas-star-1976",
@@ -6738,10 +6738,10 @@
 "tv": 2
 },
 "fw-UAV20191573": {
-"tmdbChecked": "2026-11-07",
+"tmdbChecked": "2026-11-15",
 "tv": 2,
 "v": 4,
-"checked": "2026-11-07"
+"checked": "2026-11-15"
 },
 "fw-UAV20191951": {
 "v": 4,
@@ -8113,7 +8113,7 @@
 "enFrom": "tmdb",
 "lbSlug": "holiday-inn",
 "lbRating": 3.23,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "sr-brunsj-filmklassiker-10-it-s-a-wonderful-life-1946": {
 "imdb": "tt0038650",
@@ -8152,8 +8152,7 @@
 "enFrom": "tmdb",
 "lbSlug": "love-actually",
 "lbRating": 3.51,
-"rated": "2026-11-11",
-"posterPath": "/7QPeVsr9rcFU9Gl90yg0gTOTpVv.jpg"
+"rated": "2026-11-11"
 },
 "sr-brunsj-filmklassiker-10-mamma-mia-2008": {
 "imdb": "tt0795421",
@@ -8212,8 +8211,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "white-christmas",
-"lbRating": 3.68,
-"rated": "2026-11-07"
+"lbRating": 3.69,
+"rated": "2026-11-15"
 },
 "sr-izakaya-ghibli-nights-howl-s-moving-castle-2004": {
 "imdb": "tt0347149",
@@ -8232,7 +8231,7 @@
 "lang": "ja",
 "lbSlug": "howls-moving-castle",
 "lbRating": 4.36,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "sr-izakaya-ghibli-nights-my-neighbor-totoro-1988": {
 "imdb": "tt0096283",
@@ -8251,7 +8250,7 @@
 "lang": "ja",
 "lbSlug": "my-neighbor-totoro",
 "lbRating": 4.19,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "sr-tea-treats-tales-about-time-2013": {
 "imdb": "tt2194499",
@@ -8264,11 +8263,11 @@
 "en": "About Time",
 "v": 4,
 "checked": "2026-10-06",
-"tmdbChecked": "2026-11-07",
+"tmdbChecked": "2026-11-15",
 "tv": 2,
 "lbSlug": "about-time",
 "lbRating": 4.09,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "sr-tea-treats-tales-billy-elliot-the-musical-2014": {
 "imdb": "tt4085696",
@@ -8287,7 +8286,7 @@
 "lang": "en",
 "lbSlug": "billy-elliot-the-musical-live",
 "lbRating": 4.1,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 },
 "sr-tea-treats-tales-bridget-jones-s-diary-2001": {
 "imdb": "tt0243155",
@@ -8307,6 +8306,6 @@
 "enFrom": "tmdb",
 "lbSlug": "bridget-joness-diary",
 "lbRating": 3.49,
-"rated": "2026-11-07"
+"rated": "2026-11-15"
 }
 }
