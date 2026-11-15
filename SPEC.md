@@ -393,8 +393,10 @@ time, region and ticket link come from the showing, never from the app, and show
 still work after the schedule drops the showing. `save_plan(showing, seats, joined_via)` is the only way to write a plan; it refuses a
 new plan for a showing the cinema no longer lists. A dropped showing's page says "The cinema no longer lists this showing"; one the
 cinema moved to another time that day (`replaced_by`) says so, with **Move my plan** (`move_plan()`), which keeps your invite link and
-party. Coming up marks such plans "Time changed" or "No longer listed". (The plan's old copy columns are still filled, from the
-showing by a trigger, for pages loaded before this change; they and the older 9-argument `save_plan` will be dropped.)
+party. Coming up marks such plans "Time changed" or "No longer listed". A plan row holds only the person, the showing, seats, the invite
+token, who it joined through and the party; the daily email reads friends' plans with their showings through `plans_going_since()`.
+- **Your seats** on a showing's page are on one line ("Row 4, Seats 7–9" and a pencil), like everyone else's, when your line has room
+  for that and your whole name; otherwise in the two-line tag.
 
 **Feed.** "Coming up" (your plans and your friends', soonest first) sits at the top of the Films tab, above the filters, with a status per row: "✓ You're going" or "Anna, Dan going". Friends going also appear in the Feed as posts ("Anna is going to …"), and the Feed badge counts them. The film sheet's showing buttons carry a green check (you) and friends' initials.
 
@@ -404,7 +406,7 @@ showing by a trigger, for pages loaded before this change; they and the older 9-
 - A guest gives a name, then tapping **I'm going** signs them in anonymously (`signInAnonymously`) and saves a plan whose `joined_via`
   is that token. If the schedule no longer has the showing, the page is rebuilt from the copy the plan kept.
 - **What's new:** `site/updates.json` is a list of `{at, title, bullets}`; each entry is a Feed post ("What's new in Cinecrab", dated by `at` like any post, no version numbers, nothing to dismiss) for 30 days, but only for people whose first visit on that device was before `at` (`kino:firstSeen`; a device that already has a watchlist or has seen the feed counts as old). The daily email shows entries since its last send in a "What's new in Cinecrab" section, never triggering an email by itself. To announce something, add an entry to the file.
-- **Daily email:** a "Friends are going" section lists showings friends said they're going to since the last email (it never triggers an email by itself). It reads `plans` with the secret key, so `schema.sql` grants `select` on it to `service_role`.
+- **Daily email:** a "Friends are going" section lists showings friends said they're going to since the last email (it never triggers an email by itself). It reads them with the secret key through `plans_going_since()`.
 - **Invite link and merging:** `plan_by_invite(token)` returns the whole merged party, so one link also reveals the names and seats of friends of the host and their guests. Friend codes make a friendship instantly with no attempt limit; rate-limiting `redeem_friend_code` is a known follow-up.
 - **Merging:** when you go to a showing, your party is merged with the parties of your friends who are going to it (and with the invite you joined through), so everyone connected sees everyone, and friends of friends can reach each other's guests. Done inside `save_plan`.
 - Friends' plans come from `friends_plans(since)` (only plans with Tell friends on): chips on the showing page, and the Feed's

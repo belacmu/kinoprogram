@@ -368,24 +368,16 @@ grant execute on function public.sync_showings(jsonb) to service_role;
 
 -- ---------------------------------------------------------------- showings: "I'm going"
 -- One row per person per showing they're going to. showing_id points at public.showings (a foreign key, added below): the showing's
--- film, cinema, time, region and ticket link come from there. The copy columns (film_id .. ticket) are filled from showings by a
--- trigger, never by the app; they are kept only while older pages still read them, and will be dropped.
+-- film, cinema, time, region and ticket link come from there, never from the app.
 create table if not exists public.plans (
   user_id      uuid not null references public.profiles on delete cascade,
-  showing_id   text not null check (char_length(showing_id) <= 300),
-  film_id      text not null check (char_length(film_id) <= 100),
-  film_title   text not null check (char_length(film_title) <= 200),
-  cinema       text not null check (char_length(cinema) <= 100),
-  starts       text not null check (starts ~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$'),   -- local time at the cinema, "2026-11-07T19:00"
-  region       text not null check (char_length(region) <= 30),
-  ticket       text check (char_length(ticket) <= 500),
+  showing_id   text not null,
   tell_friends boolean not null default true,     -- friends see it in their Feed
   seats        text check (char_length(seats) <= 30),
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now(),
   primary key (user_id, showing_id)
 );
-create index if not exists plans_starts_idx on public.plans (starts);
 
 alter table public.plans enable row level security;
 
@@ -448,12 +440,15 @@ drop trigger if exists plans_party on public.plans;
 drop function if exists public.plans_set_party();
 create index if not exists plans_party_idx on public.plans (party);
 
--- Content check: a ticket link must be http(s) (a javascript: link would run on this site). (Plans used to also check that showing_id
--- was made from film, time and cinema; a showing's id is now frozen while its film can be merged, so that check is gone.)
-update public.plans set ticket = null where ticket is not null and ticket !~* '^https?://';
-alter table public.plans drop constraint if exists plans_ticket_http;
-alter table public.plans add constraint plans_ticket_http check (ticket is null or ticket ~* '^https?://');
+-- Plans used to keep a copy of their showing (film, title, cinema, time, region, ticket link, written by the app); the showing is now
+-- the one place those live (public.showings, through the foreign key below).
+drop trigger if exists plans_copy_showing on public.plans;
+drop function if exists public.plans_copy_showing();
+drop function if exists public.plans_match_showings();
+drop index if exists public.plans_starts_idx;
 alter table public.plans drop constraint if exists plans_showing_id_matches;
+alter table public.plans drop column if exists film_id, drop column if exists film_title, drop column if exists cinema,
+  drop column if exists starts, drop column if exists region, drop column if exists ticket;
 
 -- The showing an id names: the showing with that id, else (an id made from an older film id, "<film id>|<start>|<cinema>") the showing of
 -- that film (through film_aliases), cinema and time. Null if there is none. Used by save_plan only.
@@ -502,7 +497,7 @@ begin
   -- one party: the invite's first, then mine, then my friends'; everyone in the others moves into it
   allp := array_remove(array[pty, mine] || coalesce(fparties, '{}'::uuid[]), null);
   target := coalesce(allp[1], gen_random_uuid());
-  insert into public.plans (user_id, showing_id, seats, joined_via, party)   -- the showing's copy columns are filled by plans_copy_showing
+  insert into public.plans (user_id, showing_id, seats, joined_via, party)
   values (me, sid, nullif(p_seats, ''), via, target)
   on conflict (user_id, showing_id) do update
     set seats = excluded.seats, party = excluded.party, updated_at = now()
@@ -517,20 +512,7 @@ revoke all on function public.save_plan(text, text, uuid) from public;
 grant execute on function public.save_plan(text, text, uuid) to authenticated;
 revoke execute on function public.save_plan(text, text, uuid) from anon;
 
--- The older form, for pages loaded before this change: the film, title, cinema, time, region and ticket it is given are ignored (they
--- come from public.showings); the showing is found by its id, else by film, time and cinema. Will be dropped.
-create or replace function public.save_plan(p_showing_id text, p_film_id text, p_film_title text, p_cinema text, p_starts text,
-                                           p_region text, p_ticket text, p_seats text, p_joined_via uuid)
-returns uuid language plpgsql security definer set search_path = '' as $$
-begin
-  return (public.save_plan(coalesce(public.resolve_showing(p_showing_id),
-                                    public.resolve_showing(p_film_id || '|' || p_starts || '|' || p_cinema), p_showing_id),
-                           p_seats, p_joined_via) ->> 'token')::uuid;
-end;
-$$;
-revoke all on function public.save_plan(text, text, text, text, text, text, text, text, uuid) from public;
-grant execute on function public.save_plan(text, text, text, text, text, text, text, text, uuid) to authenticated;
-revoke execute on function public.save_plan(text, text, text, text, text, text, text, text, uuid) from anon;
+drop function if exists public.save_plan(text, text, text, text, text, text, text, text, uuid);   -- the older form, which took a copy of the showing
 drop policy if exists "add own plans" on public.plans;
 drop policy if exists "change own plans" on public.plans;
 revoke insert, update on public.plans from authenticated;
@@ -563,92 +545,25 @@ revoke all on function public.plan_by_invite(uuid) from public;
 grant execute on function public.plan_by_invite(uuid) to anon, authenticated;
 
 -- ---------------------------------------------------------------- plans point at showings (docs/stable-ids.md, stage 2)
--- Every plan's showing must be in public.showings before the foreign key is added. Plans made before showings existed are matched up
--- here; nothing is lost. Safe to re-run: once every plan has its showing, these statements change nothing.
--- 1. A plan whose showing id is unknown but whose film (or an older id of it), cinema and time are known: point it at that showing.
---    If the same person already has a plan for that showing, the older-id duplicate is removed (it is the same showing).
---    Run twice: step 2 can make showings that a second plan of the same showing then points at.
-create or replace function public.plans_match_showings()
-returns void language plpgsql set search_path = '' as $$
-begin
-  -- a plan for a showing the same person already has under its real id: the same showing twice, so the older-id copy goes
-  delete from public.plans p
-    using public.film_aliases a, public.showings s
-    where not exists (select 1 from public.showings x where x.id = p.showing_id)
-      and a.alias = p.film_id and s.film_id = a.film_id and s.cinema = p.cinema and s.starts = p.starts
-      and exists (select 1 from public.plans q where q.user_id = p.user_id and q.showing_id = s.id);
-  -- the others move to the showing's id (one per person and showing; a second one is then a duplicate, removed above next time)
-  with m as (
-    select distinct on (p.user_id, s.id) p.user_id, p.showing_id as old_id, s.id as new_id
-    from public.plans p
-    join public.film_aliases a on a.alias = p.film_id
-    join public.showings s on s.film_id = a.film_id and s.cinema = p.cinema and s.starts = p.starts
-    where not exists (select 1 from public.showings x where x.id = p.showing_id)
-    order by p.user_id, s.id, p.updated_at desc
-  )
-  update public.plans p set showing_id = m.new_id from m where p.user_id = m.user_id and p.showing_id = m.old_id;
-  delete from public.plans p
-    using public.film_aliases a, public.showings s
-    where not exists (select 1 from public.showings x where x.id = p.showing_id)
-      and a.alias = p.film_id and s.film_id = a.film_id and s.cinema = p.cinema and s.starts = p.starts
-      and exists (select 1 from public.plans q where q.user_id = p.user_id and q.showing_id = s.id);
-end;
-$$;
-revoke all on function public.plans_match_showings() from public;
-revoke execute on function public.plans_match_showings() from anon, authenticated;
-
-alter table public.plans drop constraint if exists plans_showing_id_matches;  -- (also dropped above; repeated so this part can run alone)
-do $$ begin perform public.plans_match_showings(); end $$;
--- 2. Any other plan (a showing that has been and gone, or that disappeared before showings were kept): its showing is made from the
---    plan's own copy, marked gone if it hadn't started yet. Its film too, if unknown.
-insert into public.films (id, title, first_seen, last_seen, gone_at)
-select distinct on (p.film_id) p.film_id, p.film_title, min(p.created_at) over (partition by p.film_id), now(), now()
-from public.plans p
-where not exists (select 1 from public.showings x where x.id = p.showing_id)
-  and not exists (select 1 from public.film_aliases a where a.alias = p.film_id)
-  and not exists (select 1 from public.films f where f.id = p.film_id)
-on conflict (id) do nothing;
-insert into public.film_aliases (alias, film_id)   -- every film is an alias of itself
-select f.id, f.id from public.films f
-where f.merged_into is null and not exists (select 1 from public.film_aliases a where a.alias = f.id)
-on conflict (alias) do nothing;
-insert into public.showings (id, film_id, region, cinema, starts, title, ticket, first_seen, last_seen, gone_at)
-select distinct on (p.showing_id) p.showing_id, coalesce(a.film_id, p.film_id), p.region, p.cinema, p.starts, p.film_title,
-       case when p.ticket ~* '^https?://' then p.ticket end, p.created_at, p.created_at,
-       case when p.starts >= to_char(now(), 'YYYY-MM-DD"T"HH24:MI') then now() end
-from public.plans p
-left join public.film_aliases a on a.alias = p.film_id
-where not exists (select 1 from public.showings x where x.id = p.showing_id)
-order by p.showing_id, p.created_at
-on conflict do nothing;
-do $$ begin perform public.plans_match_showings(); end $$;
-
--- 3. The foreign key, and an index for finding everyone going to a showing.
 create index if not exists plans_showing_id_idx on public.plans (showing_id);
 alter table public.plans drop constraint if exists plans_showing_fk;
 alter table public.plans add constraint plans_showing_fk foreign key (showing_id) references public.showings on delete restrict;
 
--- 4. The copy columns are filled from the showing on every write, whatever the writer sends (so the ticket link is never the client's).
-create or replace function public.plans_copy_showing()
-returns trigger language plpgsql set search_path = '' as $$
-begin
-  select left(s.film_id, 100), left(s.title, 200), left(s.cinema, 100), s.starts, left(s.region, 30),
-         case when char_length(s.ticket) <= 500 then s.ticket end
-    into new.film_id, new.film_title, new.cinema, new.starts, new.region, new.ticket
-    from public.showings s where s.id = new.showing_id;
-  return new;
-end;
+-- For the daily email's "Friends are going" (secret key only): the plans with "Tell friends" on for showings from `since` on, with
+-- their showing.
+create or replace function public.plans_going_since(since text)
+returns table (user_id uuid, showing_id text, film_id text, cinema text, starts text, region text, created_at timestamptz)
+language sql stable set search_path = '' as $$
+  select p.user_id, p.showing_id, s.film_id, s.cinema, s.starts, s.region, p.created_at
+  from public.plans p join public.showings s on s.id = p.showing_id
+  where p.tell_friends and s.starts >= since
+  order by s.starts;
 $$;
-revoke all on function public.plans_copy_showing() from public;
-revoke execute on function public.plans_copy_showing() from anon, authenticated;
-drop trigger if exists plans_copy_showing on public.plans;
-create trigger plans_copy_showing
-  before insert or update of showing_id, film_id, film_title, cinema, starts, region, ticket on public.plans
-  for each row execute function public.plans_copy_showing();
-update public.plans p set ticket = s.ticket   -- bring existing copies in line with their showings (the trigger does the rest)
-  from public.showings s where s.id = p.showing_id and p.ticket is distinct from s.ticket;
+revoke all on function public.plans_going_since(text) from public;
+revoke execute on function public.plans_going_since(text) from anon, authenticated;
+grant execute on function public.plans_going_since(text) to service_role;
 
--- 5. A showing whose time changed (gone, replaced_by the new one): move your plan to the new time, keeping your invite link and party,
+-- A showing whose time changed (gone, replaced_by the new one): move your plan to the new time, keeping your invite link and party,
 --    so the people you were going with who move too stay together. Returns the new showing's id.
 create or replace function public.move_plan(p_from text)
 returns text language plpgsql security definer set search_path = '' as $$

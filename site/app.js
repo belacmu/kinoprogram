@@ -1294,7 +1294,8 @@ function peopleOf(f, s, plan, name) {
 }
 // Seats are kept as "row|seats" ("4|7–9"); older free text without the bar is just shown as the seats.
 const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
-// Two small lines in a grey tag: the word at the left, the number at the right ("Row:   5" / "Seat:   7"). Your own tag has a pencil.
+// Two small lines in a grey tag: the word at the left, the number at the right ("Row:   5" / "Seat:   7"). Your own tag has a pencil, and
+// also carries the one-line form others get ("Row 4, Seats 7–9"): fitOwnSeats() shows that one when your line has room for it.
 const PENCIL = `<svg class="pen" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
 // "Seat" for one number, "Seats" when there are two or more ("7-9", "7, 8", "7 8").
 const seatWord = (seats) => ((String(seats || "").match(/\d+/g) || []).length > 1 ? "Seats" : "Seat");
@@ -1302,8 +1303,17 @@ function seatTag(v, tag = "span", attrs = "", edit = false) {
   const { row, seats } = seatParts(v);
   const word = seatWord(seats);
   const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
-  return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}><span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
+  const one = edit ? `<span class="oneline">${esc([row ? `Row ${row}` : "", seats ? `${word} ${seats}` : ""].filter(Boolean).join(", "))}</span>` : "";
+  return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}>${one}<span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
 }
+// Your seats on one line, like everyone else's, when that still leaves your whole name showing; otherwise the two-line tag.
+function fitOwnSeats() {
+  const tag = $("film").querySelector(".prow2.me .seat2"), name = $("film").querySelector(".prow2.me .pname");
+  if (!tag || !name || !tag.querySelector(".oneline")) return;
+  tag.classList.add("one");
+  if (name.scrollWidth > name.clientWidth + 1) tag.classList.remove("one");
+}
+addEventListener("resize", fitOwnSeats);
 // One line for other people: "Row 4, Seats 7–9".
 function seatLine(v) {
   const { row, seats } = seatParts(v);
@@ -1359,6 +1369,7 @@ function showingPage(f, s, dlg) {
       <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
+  fitOwnSeats();
   if (seatsOpen && !document.activeElement?.matches?.(".seatedit input")) dlg.querySelector('.seatedit [data-plan="row"]')?.focus();  // autofocus only works once per page
 }
 

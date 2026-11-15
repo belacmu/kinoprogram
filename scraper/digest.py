@@ -565,7 +565,8 @@ def fetch_friend_going(today):
         return _GOING["v"]
     try:
         pairs = fetch_rows("friendships", "select=a,b&limit=100000") or []
-        plans = fetch_rows("plans", f"tell_friends=eq.true&starts=gte.{urllib.parse.quote(today)}&select=user_id,showing_id,film_id,cinema,starts,region,created_at&limit=100000") or []
+        # Each plan with its showing (supabase/schema.sql: plans_going_since; the film, cinema and time live on the showing).
+        plans = fetch_rows("rpc/plans_going_since", f"since={urllib.parse.quote(today)}") or []
         authors = sorted({pl["user_id"] for pl in plans})
         people = {}
         for i in range(0, len(authors), 80):  # a few at a time: the ids go in the address
