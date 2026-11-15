@@ -1230,26 +1230,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-colony": {
-"imdb": "tt34385135",
-"imdbAll": [
-"tt34385135"
-],
-"lb": "colony-2",
-"rt": "m/colony",
-"mc": "movie/colony",
-"en": "Colony",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1375646,
-"lang": "ko",
-"lbSlug": "colony-2026",
-"lbRating": 3.36,
-"rated": "2026-11-14",
-"posterPath": "/enz3WLx5QU1FUyhXZld04QWIc6N.jpg"
-},
 "cm-death-becomes-her": {
 "imdb": "tt0104070",
 "imdbAll": [
@@ -1328,26 +1308,6 @@
 "mc": "movie/die-hard-2",
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-elephants-in-the-fog": {
-"imdb": "tt29279937",
-"imdbAll": [
-"tt29279937"
-],
-"lb": "elephants-in-the-fog",
-"rt": null,
-"mc": null,
-"en": "Elephants in the Fog",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1661926,
-"lang": "ne",
-"lbSlug": "elephants-in-the-fog",
-"lbRating": 3.88,
-"rated": "2026-11-14",
-"posterPath": "/jQZZsxtMzOOSjGvGMfrwDUZZyXs.jpg"
 },
 "cm-en-fremmed-flytter-inn": {
 "tmdbChecked": "2026-10-01",
@@ -4900,25 +4860,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20261378": {
-"imdb": "tt9000310",
-"imdbAll": [
-"tt9000310"
-],
-"lb": "ghost-in-the-cell",
-"rt": "m/ghost_in_the_cell",
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1393326,
-"lang": "id",
-"lbSlug": "ghost-in-the-cell",
-"lbRating": 3.47,
-"rated": "2026-11-14"
-},
 "fw-EDI20261386": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -5213,39 +5154,6 @@
 "mc": "movie/the-debut-2026",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20261580": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1595346,
-"imdb": "tt39150111",
-"en": "Zi",
-"enFrom": "tmdb",
-"lbSlug": "zi-2026",
-"lbRating": 3.0,
-"rated": "2026-11-10",
-"v": 4,
-"checked": "2026-10-04"
-},
-"fw-EDI20261586": {
-"imdb": "tt38111477",
-"imdbAll": [
-"tt38111477"
-],
-"lb": "lady-2026",
-"rt": null,
-"mc": null,
-"en": "Lady",
-"v": 4,
-"checked": "2026-10-28",
-"tmdbChecked": "2026-11-05",
-"tv": 2,
-"lbSlug": "lady-2026",
-"lbRating": 3.45,
-"rated": "2026-11-13",
-"tmdb": 1596257,
-"lang": "en",
-"enFrom": "tmdb"
 },
 "fw-EDI20261593": {
 "v": 4,
@@ -6367,7 +6275,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-departed",
 "lbRating": 4.35,
-"rated": "2026-11-08",
+"rated": "2026-11-16",
 "posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg"
 },
 "fw-SMN20060422": {
@@ -6388,7 +6296,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-prestige",
 "lbRating": 4.31,
-"rated": "2026-11-08",
+"rated": "2026-11-16",
 "posterPath": "/Ag2B2KHKQPukjH7WutmgnnSNurZ.jpg"
 },
 "fw-UAV20190694": {
