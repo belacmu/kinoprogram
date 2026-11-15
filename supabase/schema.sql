@@ -52,15 +52,32 @@ create unique index if not exists profiles_friend_code_key on public.profiles (f
 -- Kept by a trigger, never written by the app; films already on a list before this existed have no time (never "new").
 alter table public.profiles add column if not exists watchlist_added jsonb not null default '{}'::jsonb;
 
+-- On every change to a watchlist: each id becomes its film's stable id (through film_aliases: an older listing id, or a film that was
+-- merged into another), in order, without repeats; an id no film is known by stays as it is, so nothing is ever dropped. Then each film
+-- keeps the add time it had under any of its ids (the earliest), and a film that wasn't on the list before gets the time now.
 create or replace function public.stamp_watchlist_adds()
 returns trigger language plpgsql set search_path = '' as $$
+declare
+  ids text[];
+  was text[];
 begin
+  select coalesce(array_agg(c order by pos), '{}') into ids
+    from (select coalesce(a.film_id, w.i) as c, min(w.n) as pos
+          from unnest(new.watchlist) with ordinality as w(i, n)
+          left join public.film_aliases a on a.alias = w.i
+          group by 1) x;
+  select coalesce(array_agg(distinct coalesce(a.film_id, w.i)), '{}') into was
+    from unnest(old.watchlist) as w(i) left join public.film_aliases a on a.alias = w.i;
+  new.watchlist := ids;
   new.watchlist_added := coalesce((
-    select jsonb_object_agg(i, v) filter (where v is not null)
-    from (select i, coalesce(old.watchlist_added -> i,
-                             case when i <> all(old.watchlist)
-                                  then to_jsonb(to_char(now() at time zone 'utc', 'YYYY-MM-DD"T"HH24:MI')) end) as v
-          from unnest(new.watchlist) as i) x), '{}'::jsonb);
+    select jsonb_object_agg(c, v) filter (where v is not null)
+    from (select c, coalesce(
+                      (select to_jsonb(min(e.value #>> '{}'))
+                         from jsonb_each(old.watchlist_added || new.watchlist_added) e
+                         left join public.film_aliases a on a.alias = e.key
+                         where coalesce(a.film_id, e.key) = c),
+                      case when c <> all(was) then to_jsonb(to_char(now() at time zone 'utc', 'YYYY-MM-DD"T"HH24:MI')) end) as v
+          from unnest(ids) as c) x), '{}'::jsonb);
   return new;
 end;
 $$;
@@ -86,6 +103,7 @@ revoke insert, update, delete on public.profiles from anon, authenticated;
 grant select on public.profiles to authenticated;
 -- The daily job reads subscribers with the secret (service_role) key; new projects don't grant that automatically.
 grant select on public.profiles to service_role;
+grant update (watchlist) on public.profiles to service_role;   -- sync_films renames a merged film's id in watchlists (the trigger does it)
 grant update (subscribed, prefs, watchlist, updated_at, display_name) on public.profiles to authenticated;
 
 -- Create the profile row when someone signs up.
@@ -315,6 +333,10 @@ begin
   from jsonb_to_recordset(coalesce(p -> 'aliases', '[]'::jsonb)) as x(alias text, film_id text, kind text)
   where exists (select 1 from public.films where id = x.film_id)
   on conflict (alias) do update set film_id = excluded.film_id;
+
+  -- Watchlists with a merged film's old id: saving the list again lets stamp_watchlist_adds rename it, keeping its add time.
+  update public.profiles set watchlist = watchlist
+  where watchlist && array(select x.loser from jsonb_to_recordset(coalesce(p -> 'merges', '[]'::jsonb)) as x(loser text, winner text));
 
   update public.films set gone_at = null, last_seen = now() where id = any(live) and gone_at is not null;
   if coalesce((p ->> 'complete')::boolean, false) then
@@ -597,3 +619,10 @@ $$;
 revoke all on function public.move_plan(text) from public;
 grant execute on function public.move_plan(text) to authenticated;
 revoke execute on function public.move_plan(text) from anon;
+
+-- ---------------------------------------------------------------- watchlists hold stable film ids (docs/stable-ids.md, stage 3)
+-- Watchlists saved before this hold listing ids ("cm-agnus-dei"). Saving each list again lets stamp_watchlist_adds rename every id to
+-- its film's stable id and keep its add time; ids no film is known by stay. Only lists with something to change are touched.
+update public.profiles p set watchlist = watchlist
+where exists (select 1 from unnest(p.watchlist) w join public.film_aliases a on a.alias = w where a.film_id <> w)
+   or cardinality(p.watchlist) <> (select count(distinct w) from unnest(p.watchlist) w);

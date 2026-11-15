@@ -312,6 +312,11 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   written; the site never depends on it. While plans still use the old showing ids (until stage 2), the site matches plans, friends'
   plans and invites against any of the film's `ids`, and `scripts/write-film-pages.py` writes a film's preview page under each of
   its ids, so links and plans made before a film's id changed keep working.
+- **Watchlists** (`profiles.watchlist`) hold stable film ids. A database trigger (`stamp_watchlist_adds`) turns any other id the app
+  saves (an older listing id, a merged film) into its film's id, drops repeats, and keeps each film's add time (`watchlist_added`)
+  across renames, so a renamed film never shows up as a friend's new pick again; an id no film is known by is kept as it is. When the
+  update merges two films, `sync_films` re-saves the watchlists that had the old id. Hidden films (`prefs.hidden`) keep whatever ids
+  they were saved under; they still match through `ids`.
 - `state/listing-history.json` (made once by `scripts/film-history.py` from the git history of `state/external.json`) links old
   listing ids to their films through TMDB/IMDb ids.
 
