@@ -1028,6 +1028,9 @@ button.seat2, button.seat { cursor: pointer; }
 .seat2 .sl { display: flex; justify-content: space-between; gap: 8px; }
 .seat2 .v { font-weight: 600; font-variant-numeric: tabular-nums; }
 .seat2 .pen { flex: none; color: var(--muted); }
+.seat2 .oneline { display: none; font-variant-numeric: tabular-nums; }
+.seat2.one .oneline { display: inline; }
+.seat2.one .lines { display: none; }
 .seat.add { flex: none; padding: 5px 10px; border: 1px dashed var(--edge); border-radius: 8px; background: transparent; color: var(--muted); font: 600 13px var(--body); white-space: nowrap; }
 .seatedit label { display: flex; flex-direction: column; gap: 2px; font: 600 11px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .seatedit .seatinp { width: 52px; min-height: 36px; box-sizing: border-box; padding: 0 8px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 16px var(--body); text-align: center; outline: none; }
