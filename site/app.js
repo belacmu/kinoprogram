@@ -860,7 +860,7 @@ function comingRow(r, compact) {
   const poster = compact ? "" : f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
   // Status, not a button: if you're going, only that; otherwise who is going, so you can see it's open to you.
   const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
-  const status = r.hideStatus ? "" : r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
+  const status = r.hideStatus ? "" : r.note ? `<span class="cstat gone">${esc(r.note)}</span>` : r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
     : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
   return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}">${compact ? "" : `<span class="cposter">${poster}</span>`}<span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span></span>${compact ? "" : `<span class="csub">${esc(r.title)}</span>`}</span>${status}<svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
 }
@@ -871,6 +871,7 @@ function comingUpHtml(film) {  // `film`: only that film's showings, as rows wit
   for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
     const [fid, at, cin] = id.split("|");
     entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You"); by.get(id).you = true;
+    if (p.gone) by.get(id).note = p.replacedBy ? "Time changed" : "No longer listed";
   }
   for (const r of friendPlansHere()) if (r.starts >= now) { const e = entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema); e.names.push(r.name); e.friends.push({ id: r.friend_id, name: r.name }); }
   const rows = [...by.values()].filter((r) => !film || r.film === film.id || film.ids.includes(r.film)).sort((a, b) => a.at.localeCompare(b.at)).slice(0, film ? 20 : 8);
@@ -1106,7 +1107,8 @@ function openFilm(id) {
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
   const hp = hashParts();
   // The party is read through a token: the invite link's, your own plan's, or (after you've said you're not going) the one you joined through.
-  const partyTok = hp.inv || (hp.show ? plans[`${f.id}|${hp.show}`]?.inv || joinedVia[`${f.id}|${hp.show}`] : "");
+  const showIds = hp.show ? planIds(f, { id: f.shows.find((x) => showKey(x) === hp.show)?.id, t: hp.show.split("|")[0], cinema: hp.show.slice(hp.show.indexOf("|") + 1) }) : [];
+  const partyTok = hp.inv || showIds.map((i) => plans[i]?.inv || joinedVia[i]).find(Boolean) || "";
   if (partyTok && state.inviteLoading !== partyTok && !(state.invite?.token === partyTok && Date.now() - state.invite.at < 15000)) loadInvite(partyTok);
   if (hp.show && state.friendPlansAt === 0 && state.user) loadFriendPlans();
   const sh = hp.show && showFor(f, hp.show);
@@ -1158,7 +1160,9 @@ function openFilm(id) {
 
 // ---------------------------------------------------------------- a showing's own page
 // Plans: what you've said about a showing, kept on this device and, when signed in (or a guest), in your account (table `plans`).
-// {going, tell, seats, inv, via, party, ...a copy of the showing so it still shows if the schedule changes: film, title, cinema, time, region, ticket}.
+// Keyed by the showing's id (s.id, made by the scraper; the database's showings table has the same ids).
+// {going, tell, seats, inv, via, party, gone, replacedBy, ...a copy of the showing so it still shows if the schedule drops it: film, title,
+// cinema, time, region, ticket}. gone / replacedBy come from the database: the cinema no longer lists it / the showing that took its place.
 // tell: always true for now (going is public); kept so a privacy control can come back.
 // inv is the plan's private invite token and party its party: both are made by the server (save_plan), never here.
 const plans = local.get("plans", {});
@@ -1172,11 +1176,11 @@ const friendPlansHere = () => state.friendPlansAll.filter((r) => r.region === st
 const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "");  // only web links: never a javascript: URL
 // A showing's plan id is "<film id>|<time>|<cinema>". A film's id can change (ids became stable and shared across regions), so a plan
 // or a friend's plan saved under one of the film's other ids (f.ids) still belongs to the showing.
-const planIds = (f, s) => f.ids.map((i) => `${i}|${showKey(s)}`);
-const planId = (f, s) => planIds(f, s).find((id) => plans[id]) || `${f.id}|${showKey(s)}`;
+const planIds = (f, s) => [...new Set([s.id, ...f.ids.map((i) => `${i}|${showKey(s)}`)].filter(Boolean))];
+const planId = (f, s) => planIds(f, s).find((id) => plans[id]) || s.id || `${f.id}|${showKey(s)}`;
 const planOf = (f, s) => plans[planId(f, s)];
 function setPlan(f, s, patch) {
-  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch, film: id.split("|")[0], title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: safeUrl(s.ticket) };
+  const id = planId(f, s), next = patch === null ? null : { ...(plans[id] || {}), ...patch, film: f.id, title: titleOf(f), cinema: s.cinema, t: s.t, region: state.region, ticket: safeUrl(s.ticket) };
   if (next) plans[id] = next; else delete plans[id];
   local.set("plans", plans);
   planDirty.add(id); planV[id] = (planV[id] || 0) + 1; local.set("planDirty", [...planDirty]);
@@ -1185,9 +1189,8 @@ function setPlan(f, s, patch) {
 }
 let planTimer = 0, planRetry = 0, syncChain = Promise.resolve();
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
-const planArgs = (id, p) => { const [fid, at, cin] = id.split("|"); return {  // plans made before the copy was kept: taken from the id
-  p_showing_id: id, p_film_id: p.film || fid, p_film_title: p.title || (findFilm(fid) ? titleOf(findFilm(fid)) : fid), p_cinema: p.cinema || cin,
-  p_starts: p.t || at, p_region: p.region || state.region, p_ticket: safeUrl(p.ticket) || null, p_seats: p.seats || null, p_joined_via: p.via || null }; };
+// The server takes only the showing, the seats and the invite joined through: the showing's details and ticket link are its own.
+const planArgs = (id, p) => ({ p_showing_id: id, p_seats: p.seats || null, p_joined_via: p.via || null });
 // Save what changed here: plans that exist are written, plans that were retracted are deleted. One run at a time; a plan that
 // fails is skipped (the rest still save) and everything left is tried again shortly.
 function syncPlans() { syncChain = syncChain.then(runSync, runSync); return syncChain; }
@@ -1195,13 +1198,23 @@ async function runSync() {
   const me = planUser();
   if (!me || !sb || !planDirty.size) return;
   let failed = false;
-  for (const id of [...planDirty]) {
+  for (let id of [...planDirty]) {
     const p = plans[id], v = planV[id] || 0;
-    let error, tok;
-    if (p) ({ data: tok, error } = await sb.rpc("save_plan", planArgs(id, p)));
+    let error, res;
+    if (p) ({ data: res, error } = await sb.rpc("save_plan", planArgs(id, p)));
     else ({ error } = await sb.from("plans").delete().eq("user_id", me.id).eq("showing_id", id));
-    if (error && /^(22|23)/.test(error.code || "")) { console.error("A plan was refused:", error.message); planDirty.delete(id); continue; }  // refused for good (a value too long, a check): trying again won't help
+    if (error && /^(22|23)/.test(error.code || "")) {  // refused for good (a gone or unknown showing, a value too long): trying again won't help
+      console.error("A plan was refused:", error.message); planDirty.delete(id);
+      if (p && !p.inv) { delete plans[id]; toast(error.code === "22023" ? "That showing is no longer listed, so you can't join it." : "Couldn't save that: the showing isn't known."); refreshSheet(); }
+      continue;
+    }
     if (error) { console.error("Saving a plan failed:", error.message); failed = true; continue; }
+    let tok = res?.token;
+    if (p && res?.showing_id && res.showing_id !== id && plans[id]) {  // saved under an older id: the server's id is the showing's
+      plans[res.showing_id] = plans[id]; delete plans[id];
+      if ((planV[id] || 0) === v) planDirty.delete(id);
+      id = res.showing_id;
+    }
     if (p && tok && plans[id]) {
       plans[id].inv = tok; savedAt[id] = Date.now();
       const hp = hashParts();
@@ -1228,12 +1241,12 @@ async function loadPlans() {
   await syncPlans();
   if (planUser()?.id !== me.id) return;
   const t0 = Date.now();
-  const { data, error } = await sb.from("plans").select("showing_id,film_id,film_title,cinema,starts,region,ticket,tell_friends,seats,invite_token,joined_via,party").eq("user_id", me.id);
+  const { data, error } = await sb.from("plans").select("showing_id,tell_friends,seats,invite_token,joined_via,party,showing:showings(film_id,title,cinema,starts,region,ticket,gone_at,replaced_by)").eq("user_id", me.id);
   if (planUser()?.id !== me.id) return;  // signed out (or into another account) while loading: this belongs to nobody here any more
   if (error) { console.error("Loading plans failed:", error.message); return; }
   const remote = new Map(data.map((r) => [r.showing_id, r]));
   const firstHere = local.get("plansFor", "") !== me.id;
-  for (const [id, r] of remote) if (!planDirty.has(id)) plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, party: r.party || undefined, tell: r.tell_friends, seats: r.seats || "", film: r.film_id, title: r.film_title, cinema: r.cinema, t: r.starts, region: r.region, ticket: safeUrl(r.ticket) };
+  for (const [id, r] of remote) if (!planDirty.has(id)) { const sh = r.showing || {}; plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, party: r.party || undefined, tell: r.tell_friends, seats: r.seats || "", film: sh.film_id, title: sh.title, cinema: sh.cinema, t: sh.starts, region: sh.region, ticket: safeUrl(sh.ticket), gone: !!sh.gone_at, replacedBy: sh.replaced_by || undefined }; }
   for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id) && !((savedAt[id] || 0) >= t0)) { if (firstHere) { planDirty.add(id); planV[id] = (planV[id] || 0) + 1; } else delete plans[id]; }
   local.set("plans", plans); local.set("planDirty", [...planDirty]); local.set("plansFor", me.id);
   await syncPlans();
@@ -1251,9 +1264,12 @@ const showUrl = (f, s) => location.origin + location.pathname + (state.region ==
 // A showing from the schedule, or (for an invite link to one the schedule no longer has) rebuilt from the copy the plan kept.
 function showFor(f, key) {
   const real = f?.shows.find((x) => showKey(x) === key);
+  if (real || !f) return real || null;
   const r = state.invite?.rows[0];
-  if (real || !f || !r || !f.ids.includes(r.film_id) || `${r.starts}|${r.cinema}` !== key) return real || null;
-  return { t: r.starts, cinema: r.cinema, ticket: safeUrl(r.ticket), tags: [], screen: "", status: "" };
+  if (r && f.ids.includes(r.film_id) && `${r.starts}|${r.cinema}` === key) return { id: r.showing_id, t: r.starts, cinema: r.cinema, ticket: safeUrl(r.ticket), tags: [], screen: "", status: "No longer listed", gone: true };
+  // Your own plan for a showing the schedule no longer has
+  const [id, p] = Object.entries(plans).find(([i, p]) => p.going && `${p.t}|${p.cinema}` === key && f.ids.includes(p.film || i.split("|")[0])) || [];
+  return p ? { id, t: p.t, cinema: p.cinema, ticket: safeUrl(p.ticket), tags: [], screen: "", status: "No longer listed", gone: true } : null;
 }
 // Everyone you can see is going to this showing, as {name, seats, me}: you, then your party (everyone connected through invite links),
 // then friends who told friends.
@@ -1306,6 +1322,7 @@ function showingPage(f, s, dlg) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const sub = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).join(" · ");
   const name = myName(), on = !!plan?.going;
+  let mine;
   const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
   const seatsOpen = on && state.seatsOpen === planId(f, s);
@@ -1324,16 +1341,22 @@ function showingPage(f, s, dlg) {
   const others = people.filter((p) => !p.me);
   const note = `<p class="visnote">Others can see that you're going.</p>`;
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
-  let mine;
   if (on) mine = row(people.find((p) => p.me)) + note;
   else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></span>${goBtn}</div>`;
   else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
   const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
+  // A showing the cinema no longer lists (or moved to another time that day): say so, and offer to move your plan to the new time.
+  const moved = plan?.replacedBy && f.shows.find((x) => x.id === plan.replacedBy);
+  const gone = s.gone || plan?.gone;
+  if (gone && !on) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">This showing is no longer listed.</span></span></div>`;
+  const goneNote = !gone || !on ? "" : moved
+    ? `<div class="gonenote"><span>The cinema moved this showing to <b>${esc(dayLabel(moved.t))} ${hhmm(moved.t)}</b>.</span><button class="pbtn sm" data-moveplan="1">Move my plan</button></div>`
+    : `<div class="gonenote"><span>The cinema no longer lists this showing. Check with the cinema before you go.</span></div>`;
   setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
     <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
-      <div class="plist">${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>`);
+      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
   if (seatsOpen && !document.activeElement?.matches?.(".seatedit input")) dlg.querySelector('.seatedit [data-plan="row"]')?.focus();  // autofocus only works once per page
@@ -1363,6 +1386,20 @@ const inviteFits = (f, s) => { const r = state.invite?.rows[0]; return !!r && f.
 async function planClick(t) {
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
+  if (t.dataset.moveplan) {
+    const from = planId(f, s), p = plans[from];
+    if (!p || !sb || !planUser()) return;
+    await syncPlans();
+    const { data: dest, error } = await sb.rpc("move_plan", { p_from: from });
+    if (error || !dest) { toast(`Couldn't move your plan: ${error?.message || "try again"}`); return; }
+    const ns = f.shows.find((x) => x.id === dest);
+    plans[dest] = { ...p, gone: false, replacedBy: undefined, ...(ns ? { t: ns.t, cinema: ns.cinema, ticket: safeUrl(ns.ticket) } : {}) };
+    delete plans[from];
+    local.set("plans", plans);
+    toast("Moved to the new time");
+    if (ns) location.hash = showHref(f, ns).slice(1); else refreshSheet();
+    return;
+  }
   if (t.dataset.going) {
     if (joining) return;  // a second tap while the first is still joining
     const nm = $("film").querySelector('[data-plan="name"]')?.value.trim();
@@ -1545,10 +1582,10 @@ function setCollapsed(key, shut) {
 }
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
