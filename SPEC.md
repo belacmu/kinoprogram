@@ -356,9 +356,13 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
 
 ## Infrastructure (all free tiers)
 
-- **GitHub Actions** runs `scraper/build.py` six times a day (refreshes the site data) and
-  `scraper/digest.py` once a day after 09:00 Oslo. State (`state/seen.json`) is committed back to
-  the repo.
+- **GitHub Actions** runs `scraper/build.py` several times a day (refreshes the site data; scheduled at 17 minutes past, as GitHub
+  delays and drops runs at :00) and `scraper/digest.py` once a day after 09:00 local. State (`state/seen.json`) is committed back to
+  the repo. The regions are listed once, in `REGIONS` (`scraper/build.py`); the workflows read it through `scripts/regions.py`.
+- **When something fails**: a region whose sources crash, or whose fresh data has under half the films of its last data file, keeps
+  its last data and state (set `KINO_ACCEPT_DROP=1` to publish a real drop); the other regions, the deploy, the email and the state
+  save go ahead, and the run is marked failed at the end so it shows. The email goes out even if the site deploy failed. An email
+  that can't be sent is skipped (and the run marked failed); the others go out, and nobody gets the same email twice.
 - **GitHub Pages** hosts `site/` plus the generated `data/films.json`.
 - **Supabase** (free) stores accounts (email one-time-code auth) and a `profiles` row per user:
   settings, watchlist, subscription, unsubscribe token. Row-level security limits each user to

@@ -12,13 +12,16 @@ import html
 import json
 import os
 import shutil
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 OUT = SITE / "f"
 SITE_URL = os.environ.get("SITE_URL", "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"
-DATA = {"oslo": "films.json", "westman": "westman.json", "winnipeg": "winnipeg.json", "costadelsol": "costadelsol.json"}
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scraper"))
+from build import REGIONS  # noqa: E402  (the one list of regions)
+DATA = {k: cfg["data"] for k, cfg in REGIONS.items()}
 
 
 def clip(text, n):

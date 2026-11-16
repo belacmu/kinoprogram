@@ -5,7 +5,8 @@ on:
     # UTC. Oslo is refreshed on every run; Westman, Winnipeg and Costa del Sol twice a day each, by their local clocks (scraper/due.py);
     # other runs reuse their cached data. 07:00/08:00 cover 09:00 Oslo, 07:00/08:00 Spain, 14:00/15:00 Manitoba (summer/winter).
     # digest.py only sends after 09:00 local and once per day per region, and only for regions refreshed in the run.
-    - cron: "0 3,7,8,11,14,15,19 * * *"
+    # Not on the hour: GitHub delays and drops scheduled runs at :00 most (in November 2026 only ~3 of these 7 a day ran, 1-3 h late).
+    - cron: "17 3,7,8,11,14,15,19 * * *"
   workflow_dispatch:
     inputs:
       digest:
@@ -40,13 +41,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Restore other regions' data
+      # Every region's last data file: regions not refreshed in this run reuse it, and build.py compares a refreshed region with it
+      # (a region that fails, or suddenly has under half its films, keeps its last data).
+      - name: Restore the regions' last data
         uses: actions/cache@v4
         with:
-          path: |
-            site/data/westman.json
-            site/data/winnipeg.json
-            site/data/costadelsol.json
+          path: site/data/*.json
           key: region-data-${{ github.run_id }}
           restore-keys: region-data-
 
@@ -56,7 +56,7 @@ jobs:
         id: regions
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
-            echo "list=oslo westman winnipeg costadelsol" >> "$GITHUB_OUTPUT"
+            echo "list=$(python3 scripts/regions.py keys)" >> "$GITHUB_OUTPUT"
           else
             echo "list=$(python scraper/due.py)" >> "$GITHUB_OUTPUT"
           fi
@@ -71,11 +71,9 @@ jobs:
         run: |
           list="${{ steps.regions.outputs.list }}"
           # A region's data file is missing (first run or expired cache): build it too, or the site would lose it.
-          [ -f site/data/westman.json ] || list="$list westman"
-          [ -f site/data/winnipeg.json ] || list="$list winnipeg"
-          [ -f site/data/costadelsol.json ] || list="$list costadelsol"
+          while read -r region file; do [ -f "site/data/$file" ] || list="$list $region"; done < <(python3 scripts/regions.py pairs)
           list=$(printf '%s\n' $list | sort -u | tr '\n' ' ')
-          echo "regions=$list" >> "$GITHUB_OUTPUT"
+          # build.py writes the outputs "regions" (the regions it refreshed) and "failed" (those that kept their last data).
           python scraper/build.py $list
 
       - name: Write site config
@@ -99,8 +97,9 @@ jobs:
         id: deploy
         uses: actions/deploy-pages@v4
 
+      # The email doesn't need the site deploy to have worked (it links to the site, which keeps its last version).
       - name: Daily email
-        if: github.event_name == 'schedule' || inputs.digest
+        if: (github.event_name == 'schedule' || inputs.digest) && !cancelled() && steps.build.outcome == 'success'
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
@@ -110,7 +109,7 @@ jobs:
         run: python scraper/digest.py --scheduled --only "${{ steps.build.outputs.regions }}"
 
       - name: Test email
-        if: inputs.test_email != ''
+        if: inputs.test_email != '' && !cancelled() && steps.build.outcome == 'success'
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
@@ -130,3 +129,10 @@ jobs:
           git commit -m "Update state"
           git pull --rebase --autostash -X theirs  # on a clash, keep this (newer) run's state
           git push
+
+      # A region that failed kept its last data, and everything else went ahead; mark the run failed so it shows (and GitHub emails).
+      - name: Report regions that failed
+        if: always() && steps.build.outputs.failed != ''
+        run: |
+          echo "::error::These regions kept their last data: ${{ steps.build.outputs.failed }} (see the Fetch showings step)"
+          exit 1
