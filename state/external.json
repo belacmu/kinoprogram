@@ -741,6 +741,26 @@
 "v": 4,
 "checked": "2026-11-13"
 },
+"cl-director": {
+"imdb": "tt38454494",
+"imdbAll": [
+"tt38454494"
+],
+"lb": "el-director-1",
+"rt": null,
+"mc": null,
+"en": "The Editor",
+"v": 4,
+"checked": "2026-11-16",
+"tmdbChecked": "2026-11-16",
+"tv": 2,
+"tmdb": 1550356,
+"lang": "es",
+"lbSlug": "el-director-2026",
+"lbRating": null,
+"rated": "2026-11-16",
+"posterPath": "/9FKhEtXhX2Omvc7kVcjvDYk8DWG.jpg"
+},
 "cl-diversion-navidena-peppa-experiencia-cines": {
 "v": 4,
 "checked": "2026-11-12",
@@ -2249,19 +2269,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"db-filipinana": {
-"v": 4,
-"checked": "2026-11-14",
-"tmdbChecked": "2026-11-14",
-"tv": 2,
-"tmdb": 1417935,
-"lang": "tl",
-"imdb": "tt29512008",
-"en": null,
-"lbSlug": "filipinana-2026",
-"lbRating": 3.48,
-"rated": "2026-11-14"
-},
 "db-hands-on-a-hardbody-the-documentary": {
 "imdb": "tt0116481",
 "imdbAll": [
@@ -2313,26 +2320,6 @@
 "enFrom": "tmdb",
 "lbSlug": "my-brothers-wedding",
 "lbRating": 3.73,
-"rated": "2026-11-14"
-},
-"db-naza": {
-"imdb": "tt44766123",
-"imdbAll": [
-"tt44766123"
-],
-"lb": "naza",
-"rt": "m/naza",
-"mc": "movie/naza",
-"en": "NAZA",
-"v": 4,
-"checked": "2026-11-14",
-"tmdbChecked": "2026-11-14",
-"tv": 2,
-"tmdb": 1755291,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "naza",
-"lbRating": 4.54,
 "rated": "2026-11-14"
 },
 "db-otium": {
@@ -3431,6 +3418,44 @@
 "v": 4,
 "checked": "2026-11-14"
 },
+"fw-EDI20260077": {
+"imdb": "tt13868840",
+"imdbAll": [
+"tt13868840"
+],
+"lb": null,
+"rt": "m/no_good_men",
+"mc": null,
+"en": "No Good Men",
+"v": 4,
+"checked": "2026-11-16",
+"tmdbChecked": "2026-11-16",
+"tv": 2,
+"tmdb": 1241574,
+"lang": "ps",
+"lbSlug": "no-good-men-2026",
+"lbRating": 3.6,
+"rated": "2026-11-16"
+},
+"fw-EDI20260087": {
+"imdb": "tt35410859",
+"imdbAll": [
+"tt35410859"
+],
+"lb": "fjord-2026",
+"rt": "m/fjord",
+"mc": "movie/fjord",
+"en": "Fjord",
+"v": 4,
+"checked": "2026-11-16",
+"tmdbChecked": "2026-11-16",
+"tv": 2,
+"tmdb": 1401459,
+"lang": "ro",
+"lbSlug": "fjord-2026",
+"lbRating": 3.75,
+"rated": "2026-11-16"
+},
 "fw-EDI20260129": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4442,6 +4467,39 @@
 "lbRating": 3.34,
 "rated": "2026-11-10"
 },
+"fw-EDI20260974": {
+"imdb": "tt34383465",
+"imdbAll": [
+"tt34383465"
+],
+"lb": "nightborn",
+"rt": "m/nightborn",
+"mc": null,
+"en": "Nightborn",
+"v": 4,
+"checked": "2026-11-16",
+"tmdbChecked": "2026-11-16",
+"tv": 2,
+"tmdb": 964849,
+"lang": "fi",
+"lbSlug": "nightborn",
+"lbRating": 2.6,
+"rated": "2026-11-16"
+},
+"fw-EDI20260975": {
+"v": 4,
+"checked": "2026-11-16",
+"tmdbChecked": "2026-11-16",
+"tv": 2,
+"tmdb": 1781923,
+"lang": "sv",
+"imdb": "tt43714599",
+"en": "Little Ghost Laban Goes on Pranking",
+"enFrom": "tmdb",
+"lbSlug": "little-ghost-laban-goes-on-pranking",
+"lbRating": null,
+"rated": "2026-11-16"
+},
 "fw-EDI20260980": {
 "imdb": "tt39149951",
 "imdbAll": [
@@ -5416,26 +5474,6 @@
 "rated": "2026-11-12",
 "posterPath": "/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg"
 },
-"fw-EDI20261732": {
-"imdb": "tt37360759",
-"imdbAll": [
-"tt37360759"
-],
-"lb": null,
-"rt": "m/slayground_2027",
-"mc": "movie/slayground",
-"en": "Slayground",
-"v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"tmdb": 1442761,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "slayground-2027",
-"lbRating": null,
-"rated": "2026-11-15"
-},
 "fw-EDI20261734": {
 "v": 4,
 "checked": "2026-10-22",
@@ -5792,6 +5830,12 @@
 "v": 4,
 "checked": "2026-11-13",
 "tmdbChecked": "2026-11-13",
+"tv": 2
+},
+"fw-EDI20261840": {
+"v": 4,
+"checked": "2026-11-16",
+"tmdbChecked": "2026-11-16",
 "tv": 2
 },
 "fw-FID20210220": {
@@ -6302,6 +6346,25 @@
 "tv": 2,
 "v": 4,
 "checked": "2026-11-14"
+},
+"fw-UAV20247821": {
+"imdb": "tt30953759",
+"imdbAll": [
+"tt30953759"
+],
+"lb": "no-other-land",
+"rt": "m/no_other_land",
+"mc": "movie/no-other-land",
+"en": "No Other Land",
+"v": 4,
+"checked": "2026-11-16",
+"tmdbChecked": "2026-11-16",
+"tv": 2,
+"tmdb": 1232493,
+"lang": "ar",
+"lbSlug": "no-other-land",
+"lbRating": 4.6,
+"rated": "2026-11-16"
 },
 "fw-UIP20030473": {
 "imdb": "tt0314331",
