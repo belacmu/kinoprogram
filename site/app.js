@@ -1565,8 +1565,17 @@ $("film").addEventListener("close", () => {
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search + (state.page === "films" ? "#films" : "#feed"));
   render();  // back in the feed or list: show any heart or hide changes
 });
-$("film").addEventListener("click", (e) => { if (e.target === $("film")) $("film").close(); });
-$("account").addEventListener("click", (e) => { if (e.target === $("account")) $("account").close(); });
+// Close a modal dialog only on a click on its backdrop. A click on the dialog's own empty space also
+// has the dialog as its target, so check that the point lies outside the dialog's box.
+function closeOnBackdrop(dlg) {
+  dlg.addEventListener("click", (e) => {
+    if (e.target !== dlg) return;
+    const r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
+  });
+}
+closeOnBackdrop($("film"));
+closeOnBackdrop($("account"));
 
 // ---------------------------------------------------------------- events
 // The watchlist syncs as changes (films added, films removed), not as a whole list: sending a whole list from a device that
@@ -2438,7 +2447,7 @@ if (sb) {
     if (!state.profile?.friend_code) { toast(state.profileFailed ? "Couldn't load your account. Try again in a moment." : "Loading your account…"); return; }
     $("friendsAdd").showModal(); renderFriendsDialog();
   });
-  $("friendsAdd").addEventListener("click", (e) => { if (e.target === $("friendsAdd")) $("friendsAdd").close(); });
+  closeOnBackdrop($("friendsAdd"));
   $("account").addEventListener("click", async (e) => {  // the invite page's "Copy code" (signed out)
     const b = e.target.closest('[data-friend="copyinvite"]');
     if (!b) return;
