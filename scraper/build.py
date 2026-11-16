@@ -18,8 +18,10 @@ Each state file holds:
               when tracking of the film started).
 """
 import json
+import os
 import re
 import sys
+import traceback
 from datetime import datetime, time, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -401,14 +403,57 @@ REGIONS = {
 }
 
 
+# A refreshed region with fewer than this share of the films its last data had (and that had at least COLLAPSE_MIN) is treated as a
+# broken source: it keeps its last data and state. Set KINO_ACCEPT_DROP=1 to publish such a drop anyway (a real quiet season).
+COLLAPSE_SHARE, COLLAPSE_MIN = 0.5, 10
+
+
+def collapsed(cfg, films):
+    """Why this region's fresh data looks broken compared with its last data file, or "" if it looks fine."""
+    path = ROOT / "site" / "data" / cfg["data"]
+    if os.environ.get("KINO_ACCEPT_DROP") or not path.exists():
+        return ""
+    try:
+        before = len(json.loads(path.read_text()).get("films", []))
+    except (ValueError, OSError):
+        return ""
+    if before >= COLLAPSE_MIN and len(films) < COLLAPSE_SHARE * before:
+        return f"{len(films)} films, down from {before}"
+    return ""
+
+
+def github_output(**values):
+    """Outputs for the workflow (update.yml reads "regions" and "failed")."""
+    path = os.environ.get("GITHUB_OUTPUT")
+    if path:
+        with open(path, "a") as f:
+            for k, v in values.items():
+                f.write(f"{k}={v}\n")
+
+
 def main(regions=None):
     regions = regions or list(REGIONS)
-    built = []
+    built, failed = [], []
+
+    def fail(r, why):
+        # One region failing must not stop the others: it keeps its last data file and state (it isn't written below).
+        print(f"::error::{REGIONS[r]['name']}: {why}; it keeps its last data", file=sys.stderr)
+        failed.append(r)
+
     for r in regions:
         cfg = REGIONS[r]
         now = datetime.now(ZoneInfo(cfg["tz"])).replace(tzinfo=None)
         print(f"== {cfg['name']}")
-        films = finalise(cfg["fetch"](now), now)
+        try:
+            films = finalise(cfg["fetch"](now), now)
+        except Exception as e:
+            traceback.print_exc()
+            fail(r, f"fetching failed ({e})")
+            continue
+        why = collapsed(cfg, films)
+        if why:
+            fail(r, why)
+            continue
         built.append([r, cfg, now, films])
 
     print("Looking up Letterboxd / IMDb links …")
@@ -427,39 +472,18 @@ def main(regions=None):
     for b in built:
         b[3] = resolved[b[0]]
 
-    for r, cfg, now, films in built:
-        state_path = ROOT / "state" / cfg["state"]
-        state = track(films, now, state_path)
-        if r == "costadelsol":
-            costadelsol.mark_dubbed(films)
-        mark_last_chance(films)
-        track_shows(films, now, state)
-        log_events(films, now, state, reg.film_of)
-        new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
-        ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
-        print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "
-              f"{sum(f['status'] == 'announced' for f in films)} announced; since last digest: "
-              f"{len(new)} newly on sale, {len(ann)} newly announced")
-        for f in new:
-            print("  • on sale: " + f["title"])
-        for f in ann:
-            print("  • announced: " + f["title"])
-        cinemas = sorted({s["cinema"] for f in films for s in f["shows"]},
-                         key=lambda c: (c != cfg["first"], c.lower()))
-        data = ROOT / "site" / "data" / cfg["data"]
-        data.parent.mkdir(parents=True, exist_ok=True)
-        data.write_text(json.dumps({
-            "generated": now.strftime(FMT), "baseline": state["baseline"], "region": r,
-            "location": cfg["name"], "tz": cfg["tz"], "sources": cfg["sources"],
-            "cinemas": cinemas, "films": films, "events": state["events"],
-        }, ensure_ascii=False, separators=(",", ":")))
-        state_path.parent.mkdir(parents=True, exist_ok=True)
-        state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
-        print(f"Wrote {data.relative_to(ROOT)} ({data.stat().st_size // 1024} KB)")
+    for b in list(built):
+        r, cfg, now, films = b
+        try:
+            write_region(r, cfg, now, films, reg)
+        except Exception as e:
+            traceback.print_exc()
+            fail(r, f"writing failed ({e})")
+            built.remove(b)
 
     filmids.save_local(reg, since)
     # Every film id in any region's current data (regions not built in this run: their last file), so films in none are marked gone.
-    live, complete = set(), True
+    live, complete = set(), not failed
     for r, cfg in REGIONS.items():
         b = next((b for b in built if b[0] == r), None)
         if b:
@@ -474,6 +498,41 @@ def main(regions=None):
             if fid:
                 live.add(fid)
     filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete)
+    github_output(regions=" ".join(b[0] for b in built), failed=" ".join(failed))
+    if failed:
+        print(f"Kept the last data for: {', '.join(REGIONS[r]['name'] for r in failed)}", file=sys.stderr)
+
+
+def write_region(r, cfg, now, films, reg):
+    """Track, log events and write one region's data file and state file."""
+    state_path = ROOT / "state" / cfg["state"]
+    state = track(films, now, state_path)
+    if r == "costadelsol":
+        costadelsol.mark_dubbed(films)
+    mark_last_chance(films)
+    track_shows(films, now, state)
+    log_events(films, now, state, reg.film_of)
+    new = [f for f in films if f["onSaleSince"] and f["onSaleSince"] > state["lastDigest"]]
+    ann = [f for f in films if f["announcedSince"] and f["announcedSince"] > state["lastDigest"]]
+    print(f"{cfg['name']}: {sum(f['status'] == 'on_sale' for f in films)} on sale, "
+          f"{sum(f['status'] == 'announced' for f in films)} announced; since last digest: "
+          f"{len(new)} newly on sale, {len(ann)} newly announced")
+    for f in new:
+        print("  • on sale: " + f["title"])
+    for f in ann:
+        print("  • announced: " + f["title"])
+    cinemas = sorted({s["cinema"] for f in films for s in f["shows"]},
+                     key=lambda c: (c != cfg["first"], c.lower()))
+    data = ROOT / "site" / "data" / cfg["data"]
+    data.parent.mkdir(parents=True, exist_ok=True)
+    data.write_text(json.dumps({
+        "generated": now.strftime(FMT), "baseline": state["baseline"], "region": r,
+        "location": cfg["name"], "tz": cfg["tz"], "sources": cfg["sources"],
+        "cinemas": cinemas, "films": films, "events": state["events"],
+    }, ensure_ascii=False, separators=(",", ":")))
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
+    print(f"Wrote {data.relative_to(ROOT)} ({data.stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":

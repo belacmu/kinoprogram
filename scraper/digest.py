@@ -644,9 +644,16 @@ def profile_for(email):
 
 
 def send(messages):
+    """Send each message; one that fails is reported and skipped, so it doesn't stop the others (the connection is opened again once
+    if it dropped). Returns how many failed. A failure before anything is sent (e.g. logging in) raises."""
     user, pw = os.environ["GMAIL_USER"], os.environ["GMAIL_APP_PASSWORD"]
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60) as smtp:
+
+    def connect():
+        smtp = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=60)
         smtp.login(user, pw)
+        return smtp
+    smtp, failed = connect(), 0
+    try:
         for to, subject, text, body_html in messages:
             msg = EmailMessage()
             msg["From"] = formataddr(("Cinecrab", user))
@@ -654,8 +661,28 @@ def send(messages):
             msg["Subject"] = subject
             msg.set_content(text)
             msg.add_alternative(body_html, subtype="html")
-            smtp.send_message(msg)
-            print(f"  sent to {to[:2]}…@{to.split('@')[-1]}")
+            who = f"{to[:2]}…@{to.split('@')[-1]}"
+            for attempt in (1, 2):
+                try:
+                    smtp.send_message(msg)
+                    print(f"  sent to {who}")
+                    break
+                except smtplib.SMTPServerDisconnected:
+                    if attempt == 2:
+                        failed += 1
+                        print(f"::warning::couldn't send to {who}: the mail server disconnected", file=sys.stderr)
+                    else:
+                        smtp = connect()
+                except smtplib.SMTPException as e:
+                    failed += 1
+                    print(f"::warning::couldn't send to {who}: {e}", file=sys.stderr)
+                    break
+    finally:
+        try:
+            smtp.quit()
+        except smtplib.SMTPException:
+            pass
+    return failed
 
 
 def main():
@@ -664,8 +691,9 @@ def main():
     scheduled = "--scheduled" in args
     test_to = args[args.index("--to") + 1] if "--to" in args else None
     preview = args[args.index("--preview") + 1] if "--preview" in args else None
-    site = os.environ.get("SITE_URL", "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"
+    site = (os.environ.get("SITE_URL") or "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"  # empty if the deploy failed
     only = args[args.index("--only") + 1].split() if "--only" in args else list(REGIONS)  # regions refreshed in this run
+    failures = 0  # emails that couldn't be sent (the run is marked failed at the end, after everything else)
     if scheduled or "--stats" in args:
         try:
             write_stats()
@@ -786,10 +814,12 @@ def main():
                     print(f"\n=== {to}\n{subject}\n\n{txt}")
                 continue
             if messages:
-                send(messages)
+                failures += send(messages)  # those that went out are recorded below either way, so nobody gets this one twice
             if not test_to:
                 state[key] = now_s
                 state_path.write_text(json.dumps(state, ensure_ascii=False, indent=1))
+    if failures:
+        sys.exit(f"{failures} email(s) could not be sent (see the warnings above)")
 
 
 if __name__ == "__main__":
