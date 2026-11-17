@@ -71,7 +71,7 @@ def fetch_cinematheque():
         films.append(film(
             title=title, year=year_in_title or spec("Release Year")[:4], runtime=int(runtime[1]) if runtime else 0,
             director=", ".join(d["name"] for d in info.get("director") or [] if d.get("name")) or spec("Director"),
-            genres=info.get("genre") or [], blurb=html.unescape(info.get("description") or ""),
+            genres=info.get("genre") or [],
             poster=info.get("image") or (re.search(r'property="og:image" content="([^"]+)"', p) or [None, ""])[1],
             links=[{"label": "Cinematheque", "url": CINEMATHEQUE + path}], shows=shows,
         ))
