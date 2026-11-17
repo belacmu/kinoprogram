@@ -7,7 +7,9 @@ series/book/etc., its release year must be within ±1 of ours (the Norwegian pre
 Filmweb has no production year), and its running time must be within 10 minutes of ours when both are
 known. A film with no year at all gets no Wikidata match; on TMDB it matches only the single film with exactly
 its title, and only if that film is well known or new (see NO_YEAR_*). When Wikidata gives an IMDb id but TMDB's
-title search finds nothing, TMDB is asked for that IMDb id directly. Titles are compared with accents folded and
+title search finds nothing, TMDB is asked for that IMDb id directly. A listing with a wrong or missing year (a
+re-release listed with its re-release year) can still match the single film of any year with exactly its title,
+one of its directors and a running time within 10 minutes. Titles are compared with accents folded and
 listing suffixes ("- Tamil", "- Filmklubben") removed. Ties between same-title candidates go to the
 single one with a confirmed running time, else the single one first released in our year. If more than one item fits and
 none has exactly our title, we link nothing (the site then shows a Letterboxd search link).
@@ -181,7 +183,7 @@ def wikidata(title, year, runtime=0):
 # ---------------------------------------------------------------- TMDB (optional, needs a key)
 
 TMDB = "https://api.themoviedb.org/3"
-TMDB_VERSION = 3  # bump to re-check films on TMDB after a rule change (3: title folding, suffixes, no-year, IMDb lookup)
+TMDB_VERSION = 3  # bump to re-check films on TMDB after a rule change (3: title folding, suffixes, no-year, IMDb, director)
 # A film with no year matches only a TMDB film that is the single one with exactly its title, and is either well known
 # or new (released within this many days, or coming): a new film named like an old one must not get the old one's page.
 NO_YEAR_MIN_VOTES = 1000
@@ -251,19 +253,56 @@ def tmdb(f, today=None):
                      "yearExact": bool(year) and (d.get("release_date") or "")[:4] == str(year),
                      "votes": d.get("vote_count") or 0, "released": d.get("release_date") or ""})
     if not year:
-        if len(hits) != 1:
-            return None  # two films with this title and no year to tell them apart
-        h = hits[0]
+        h = hits[0] if len(hits) == 1 else None  # two films with this title and no year to tell them apart: none
         recent = (today or datetime.now()) - timedelta(days=NO_YEAR_RECENT_DAYS)
-        if not (h["votes"] >= NO_YEAR_MIN_VOTES or not h["released"] or h["released"] >= recent.strftime("%Y-%m-%d")):
-            return None  # an older, little-known film: ours could be a new one TMDB doesn't have yet
+        if h and not (h["votes"] >= NO_YEAR_MIN_VOTES or not h["released"] or h["released"] >= recent.strftime("%Y-%m-%d")):
+            h = None  # an older, little-known film: ours could be a new one TMDB doesn't have yet
+    else:
+        for k in ("premiereOk", "runtimeOk", "yearExact"):
+            if len(hits) > 1 and sum(h[k] for h in hits) == 1:
+                hits = [h for h in hits if h[k]]
+        h = hits[0] if len(hits) == 1 else None
+    if h:
         return {k: h[k] for k in ("tmdb", "imdb", "en", "lang")}
-    for k in ("premiereOk", "runtimeOk", "yearExact"):
-        if len(hits) > 1 and sum(h[k] for h in hits) == 1:
-            hits = [h for h in hits if h[k]]
-    if len(hits) != 1:
+    # No match by year (it may be a re-release year, or missing): the director can still pin the film down.
+    return tmdb_by_director(f, titles, langs)
+
+
+def directors(text):
+    """Director names from a listing: "Vittorio De Sica", "Joel Coen, Ethan Coen", "Joel y Ethan Coen" -> name sets."""
+    parts = re.split(r"\s*(?:,|;|/|&|\band\b|\bog\b|\by\b)\s*", text or "")
+    return [set(_norm(p).split()) for p in parts if _norm(p)]
+
+
+def same_director(ours, theirs):
+    """True when one of our directors is one of TMDB's: every word of our name is in theirs (middle names may be missing)."""
+    return any(o and (o <= t or t <= o) and len(o & t) >= 2 or (o == t and o) for o in ours for t in theirs)
+
+
+def tmdb_by_director(f, titles, langs):
+    """For a listing whose year is wrong or missing (a re-release listed with its re-release year): the single TMDB
+    film, of any year, with exactly our title, one of our directors, and a running time within RUNTIME_SLACK."""
+    ours_dir = directors(f.get("director"))
+    if not ours_dir:
         return None
-    return {k: hits[0][k] for k in ("tmdb", "imdb", "en", "lang")}
+    ours = {_norm(t) for t in titles}
+    cands = {}
+    for t in titles:
+        for lang in langs:
+            for m in tmdb_get("/search/movie", query=t, language=lang, include_adult="false").get("results", [])[:20]:
+                if {_norm(m.get("title")), _norm(m.get("original_title"))} & ours:
+                    cands.setdefault(m["id"], m)
+    hits = []
+    for mid in list(cands)[:8]:
+        d = tmdb_get(f"/movie/{mid}", language="en-US", append_to_response="external_ids,credits")
+        rt = d.get("runtime") or 0
+        if f["runtime"] and rt and abs(rt - f["runtime"]) > RUNTIME_SLACK:
+            continue
+        theirs = [set(_norm(c.get("name")).split()) for c in (d.get("credits") or {}).get("crew", []) if c.get("job") == "Director"]
+        if same_director(ours_dir, theirs):
+            hits.append({"tmdb": mid, "imdb": (d.get("external_ids") or {}).get("imdb_id") or None,
+                         "en": english_from_tmdb(d, titles), "lang": d.get("original_language") or None})
+    return hits[0] if len(hits) == 1 else None  # a director's two films of the same title: can't tell, no match
 
 
 def tmdb_by_imdb(imdb, f):
