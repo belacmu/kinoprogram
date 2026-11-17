@@ -107,8 +107,8 @@ def merge(primary, extra):
             match["shows"] += c["shows"]
             match["links"] += c["links"]
             match["series"] += c["series"]
-            for k in ("alt", "director", "runtime", "blurb", "poster", "year", "premiere"):
-                match[k] = match[k] or c[k]
+            for k in ("alt", "director", "runtime", "blurb", "poster", "year", "premiere", "package"):
+                match[k] = match.get(k) or c.get(k, "")
             match["knownIds"] = match.get("knownIds") or c.get("knownIds") or {}
             # Once a cinema here schedules a film, it's no longer only "opening in Canada".
             match["scope"] = "" if (match["shows"] or c["shows"]) else (match.get("scope") or c.get("scope", ""))
@@ -462,6 +462,9 @@ def main(regions=None):
         external.enrich([f for b in built for f in b[3]], datetime.now(ZoneInfo("Europe/Oslo")).replace(tzinfo=None), skipped)
     except Exception as e:  # links are a nice-to-have; never fail the run over them
         print(f"  ! link lookup failed: {e}", file=sys.stderr)
+        for b in built:  # still never publish the cinemas' full descriptions
+            for f in b[3]:
+                external.describe(f)
 
     # Stable film and showing ids (scraper/filmids.py, docs/stable-ids.md).
     print("Film ids …")

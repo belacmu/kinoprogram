@@ -312,7 +312,7 @@ def combine(films):
             main["links"] = list({l["url"]: l for x in g for l in x["links"]}.values())
             main["series"] = list(dict.fromkeys(s for x in g for s in x["series"]))
             main["listings"] = list(dict.fromkeys(i for x in g for i in x["listings"]))
-            for k in ("alt", "director", "runtime", "blurb", "poster", "year", "premiere", "ext"):
+            for k in ("alt", "director", "runtime", "blurb", "poster", "year", "premiere", "ext", "package"):
                 for x in g[1:]:
                     main[k] = main.get(k) or x.get(k)
             if any(s["ticket"] for s in main["shows"]):

@@ -241,6 +241,20 @@ def letterboxd(rec):
     return slug, (round(float(m[1]), 2) if m else None)
 
 
+def first_sentence(t, limit=200):
+    """The opening sentence of a description, at most `limit` characters (cut at a word, with an ellipsis)."""
+    t = re.sub(r"\s+", " ", t).strip()
+    m = re.search(r"^.{30,}?[.!?](?=\s|$)", t)
+    t = m[0] if m else t
+    return t if len(t) <= limit else t[:limit].rsplit(" ", 1)[0].rstrip(",;:") + "…"
+
+
+def describe(f, overview=""):
+    """Set a film's description: TMDB's overview if given, else the first sentence of the cinema's text; a
+    Sommerro package line ("Pakken inkluderer …") goes first either way."""
+    f["blurb"] = " ".join(x for x in (f.pop("package", ""), overview or first_sentence(f.get("blurb") or "")) if x)
+
+
 def film_year(f):
     """Production year, or for new releases without one, the year of the Norwegian premiere."""
     return f["year"] or (f["premiere"][:4] if f.get("premiere") else "")
@@ -437,6 +451,26 @@ def enrich(films, now, keep_prefixes=()):
                     f["poster"] = url
                 else:
                     f["poster2"] = url
+
+    # Descriptions: TMDB's overview (its API terms cover showing it, with the attribution the site gives) instead of the text
+    # the cinemas wrote, which is theirs. A film not matched on TMDB keeps only the first sentence of the cinema's text.
+    # Fetched once per film; the first runs after this change catch up over a few runs.
+    if tmdb_enabled():
+        budget = 200
+        for f in films:
+            rec = next((cache[i] for i in f["ids"] if i in cache), None)
+            if rec and rec.get("tmdb") and not rec.get("conflict") and "overview" not in rec and budget > 0:
+                budget -= 1
+                try:
+                    d = tmdb_get(f"/movie/{rec['tmdb']}", language="en-US")
+                    rec["overview"] = (d.get("overview") or "").strip()
+                    rec.setdefault("posterPath", d.get("poster_path") or "")
+                except Exception as e:
+                    print(f"  ! tmdb overview {f['title']}: {e}", file=sys.stderr)
+    for f in films:
+        rec = next((cache[i] for i in f["ids"] if i in cache), None)
+        overview = rec.get("overview") if rec and rec.get("tmdb") and not rec.get("conflict") else ""
+        describe(f, overview)
 
     # Keep the cache to films we still list.
     live = {i for f in films for i in f["ids"]}

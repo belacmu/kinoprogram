@@ -11,7 +11,7 @@ For one person and a few friends; must cost nothing to run.
 | --- | --- | --- |
 | Filmweb | Every Oslo cinema on Filmweb (ODEON, Saga, Ringen, Vega, Klingenberg, Colosseum, Vika, Symra, Gimle, Kunstnernes Hus) | Public GraphQL API `movieinfoqs.filmweb.no/graphql`: `getCurrentMovies` (on sale) and `getUpcomingMovies` (announced) |
 | Cinemateket | Cinemateket i Oslo (Tancred, Lillebil) | HTML: `/forestillinger/side-N` for the film list, each film page for its showings, ticket links and facts |
-| Revier Film Club | Free screenings at the Revier hotel (Kongens gate 5), Wednesdays and Fridays 18:00 | Eventbrite only, one event per screening named "Title (year, 1t 40m)": the organizer page's embedded JSON for the list, each event page for director ("Regi: …"), description and ticket release date. Free, but a seat must be reserved, so a showing counts as on sale while Eventbrite has places; "Fully booked" when it doesn't. |
+| Revier Film Club | Free screenings at the Revier hotel (Kongens gate 5), Wednesdays and Fridays 18:00 | Eventbrite only, one event per screening named "Title (year, 1t 40m)", director as the summary ("Regi: …"). Read through Eventbrite's API (`organizers/117564493841/events`, expanded with ticket availability; one request, private token in `EVENTBRITE_TOKEN`); without a token, the organizer page's embedded JSON and each event page instead. Free, but a seat must be reserved, so a showing counts as on sale while Eventbrite has places; "Fully booked" when it doesn't. |
 | Deichman Bjørvika | The main library's film screenings (Kinoen, Kinosalen), free | Its Hoopla ticket shop's public JSON API (`/api/public/v3.0/organizations/915950447`; behind a queue-it redirect that only needs cookies kept). The event list holds everything the library does; the film showings are those labelled "Filmvisning" / "Film og samtale" (the "Barnas kino:", "Film fra Sør:" and "Filmvisning:" prefixes and a trailing ". Lør kl. 14" are stripped from the title; year, running time and English subtitles come from the facts line in the description). A film-and-talk night or a double bill keeps its event name and is type Talks & events. Bookable when the event has ticket types (`available_ticket_types`), otherwise "Free tickets from <date>" (tickets open a week ahead, children's screenings the same morning). School and kindergarten "Utekino" screenings are for booked groups and left out. |
 | Sommerro | Hotel Sommerro's film evenings: a dinner, brunch or tea **package** and a film, prepaid | HTML: `/kultur/filmopplevelser/` has one block per screening (film, year, date, "(Utsolgt)" / "(Få plasser igjen)"); each series page gives what the package includes. Sold out shows as "Sold out", a few left in the note. Booking is a widget on the site, so a showing links to its series page. |
 
@@ -46,6 +46,10 @@ Landmark itself refuses automated requests (tested 2026-10-01, even from a Canad
 it isn't fetched directly. Cineplex's site and API are behind bot protection, so neither is fetched.
 Small theatres sell at the door: their showings link to the theatre page and count as "on sale".
 Landmark re-releases: the year comes from the title ("(1978)", "20th Anniversary") or is left empty.
+
+Descriptions: a film matched on TMDB shows TMDB's overview (English), not the text the cinema or listing site wrote,
+which is theirs; an unmatched film shows only the first sentence of the source's text (at most 200 characters).
+Sommerro's "Pakken inkluderer …" line (what the evening includes) is kept in front either way. See `external.py`.
 
 A film shown at more than one source is merged into one entry (normalised title, production year within ±1, so
 two different films with the same title stay separate). Version suffixes such as "– 70mm" and a

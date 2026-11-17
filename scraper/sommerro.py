@@ -86,8 +86,8 @@ def fetch_all(now):
             "tags": [MEAL_TAG, e["series"].title()], "note": note, "ticket": "" if e["sold_out"] else base,
             "status": "Sold out" if e["sold_out"] else "", "dub": False, "en": False,
         })
-        if package and package not in f["blurb"]:
-            f["blurb"] = f"{package} {f['blurb']}".strip()
+        if package:
+            f["package"] = package  # what the evening includes; kept when the description is replaced (external.py)
     return list(films.values())
 
 
