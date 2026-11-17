@@ -45,7 +45,6 @@ only advance showings. MovieScout has no ticket links: its showings link the cin
 Landmark itself refuses automated requests (tested 2026-10-01, even from a Canadian VPN exit), so
 it isn't fetched directly. Cineplex's site and API are behind bot protection, so neither is fetched.
 Small theatres sell at the door: their showings link to the theatre page and count as "on sale".
-Landmark re-releases: the year comes from the title ("(1978)", "20th Anniversary") or is left empty.
 
 Descriptions: a film matched on TMDB shows TMDB's overview (English). The texts the cinemas and listing sites wrote
 are theirs, so the scrapers don't collect them, and a film not matched on TMDB has no description. See `external.py`.
@@ -440,6 +439,14 @@ token, who it joined through and the party; the daily email reads friends' plans
   showing you haven't answered), cleared when you open the Feed. It needs a "seen up to" time for plans, like `feedSeen` for posts
   (`friends_plans` already returns `created_at`). Idea noted during the showing-page work; not built.
 
+- **Filmweb: possibly replace it with the cinemas' own sources.** Filmweb's terms ([brukervilkår](https://www.filmweb.no/filmnytt/brukervilkar),
+  March 2024) allow personal, non-commercial use, but reproducing its content needs its written consent, and its national
+  programme is the kind of database the Norwegian database right (åndsverkloven § 24) protects. Filmweb is an aggregator: all
+  of its Oslo ticket links go to the cinemas' own ticketing (checked November 2026: nfkino.no for Colosseum, Gimle,
+  Klingenberg, Ringen, Saga and Symra; odeonkino.no for ODEON Oslo; checkout.ebillett.no for Kunstnernes Hus and Vega),
+  so it gets nothing from our links but its film-page link. Its pages don't say where its programme comes from; most
+  likely those same ticketing systems. Options: ask Filmweb (kundeservice@filmweb.no), or fetch Nordisk Film Kino, ODEON
+  and Ebillett directly (three scrapers, each with its own terms to check). Low risk as it is; left alone for now.
 - More Oslo-area venues (Deichman, Cinema Neuf, Weird and Wonderful Cinema, FilmrullKlubb).
 - Derrick Theatre (Virden): Facebook only; best route is getting it listed on CinemaClock.
 - Push notifications.

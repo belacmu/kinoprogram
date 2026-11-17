@@ -393,7 +393,7 @@ REGIONS = {
              "sources": "Filmweb + Cinemateket + Revier + Deichman + Sommerro"},
     "westman": {"name": "Westman", "tz": "America/Winnipeg", "fetch": fetch_westman, "first": "Landmark Brandon",
                 "idprefixes": ("lm-", "cc-", "ev-", "https-moviescout"), "data": "westman.json", "state": "seen-westman.json",
-                "sources": "Landmark + CinemaClock + Evans Theatre"},
+                "sources": "CinemaClock + MovieScout + Evans Theatre"},
     "winnipeg": {"name": "Winnipeg", "tz": "America/Winnipeg", "fetch": fetch_winnipeg, "first": "Cinematheque",
                  "idprefixes": ("cc-", "db-", "https-moviescout"), "data": "winnipeg.json", "state": "seen-winnipeg.json",
                  "sources": "MovieScout + CinemaClock + Cinematheque"},
