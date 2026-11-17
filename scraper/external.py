@@ -4,8 +4,11 @@ once, not on every run.
 
 Matching is deliberately conservative: a Wikidata item must have an IMDb id, must not be a TV
 series/book/etc., its release year must be within ±1 of ours (the Norwegian premiere year when
-Filmweb has no production year; no year at all means no match), and its running time must be
-within 10 minutes of ours when both are known. Ties between same-title candidates go to the
+Filmweb has no production year), and its running time must be within 10 minutes of ours when both are
+known. A film with no year at all gets no Wikidata match; on TMDB it matches only the single film with exactly
+its title, and only if that film is well known or new (see NO_YEAR_*). When Wikidata gives an IMDb id but TMDB's
+title search finds nothing, TMDB is asked for that IMDb id directly. Titles are compared with accents folded and
+listing suffixes ("- Tamil", "- Filmklubben") removed. Ties between same-title candidates go to the
 single one with a confirmed running time, else the single one first released in our year. If more than one item fits and
 none has exactly our title, we link nothing (the site then shows a Letterboxd search link).
 """
@@ -15,6 +18,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -46,8 +50,24 @@ def _json(url, headers=UA):
         return json.load(r)
 
 
+FOLD = str.maketrans({"ı": "i", "ø": "o", "æ": "ae", "ß": "ss", "đ": "d", "ł": "l", "œ": "oe", "þ": "th"})
+
+
 def _norm(s):
-    return re.sub(r"[^0-9a-zæøåäöüéè]+", " ", (s or "").lower()).strip()
+    """A title for comparing: lower case, accents and special letters folded (Arkadaşım = Arkadasim, Ørnen = Ornen),
+    punctuation as spaces."""
+    s = unicodedata.normalize("NFKD", (s or "").lower().translate(FOLD))
+    return re.sub(r"[^0-9a-z]+", " ", "".join(c for c in s if not unicodedata.combining(c))).strip()
+
+
+# Listing suffixes that aren't part of the film's title: "Scene - Tamil", "Om - Tamil Film", "Sorcerer - Filmklubben".
+LISTING_SUFFIX = re.compile(r"\s+[-–]\s+(?:(?:Tamil|Telugu|Malayalam|Hindi|Kannada|Punjabi|Bengali|Marathi|Gujarati|Urdu)"
+                            r"(?:\s+(?:Film|Movie|Version))?|Filmklubben)\s*$", re.I)
+
+
+def search_title(t):
+    """The title to look a film up by: without a trailing "(1977)" or a listing suffix."""
+    return LISTING_SUFFIX.sub("", re.sub(r"\s*\(\d{4}\)\s*$", "", t or "")).strip()
 
 
 LANG_CODES = {"Q9027": "sv", "Q9035": "da", "Q188": "de", "Q150": "fr", "Q1321": "es", "Q652": "it",
@@ -91,7 +111,7 @@ def wikidata(title, year, runtime=0):
     """Return the one confident match for (title, year), or None. Year is required."""
     if not year:
         return None
-    q = re.sub(r"\s*\(\d{4}\)\s*$", "", title)
+    q = search_title(title)
     found = _json("https://www.wikidata.org/w/api.php?" + urllib.parse.urlencode({
         "action": "wbsearchentities", "search": q, "language": "en", "uselang": "en",
         "type": "item", "limit": 10, "format": "json"}))
@@ -161,7 +181,11 @@ def wikidata(title, year, runtime=0):
 # ---------------------------------------------------------------- TMDB (optional, needs a key)
 
 TMDB = "https://api.themoviedb.org/3"
-TMDB_VERSION = 2  # bump to re-check every film on TMDB after a rule change
+TMDB_VERSION = 3  # bump to re-check films on TMDB after a rule change (3: title folding, suffixes, no-year, IMDb lookup)
+# A film with no year matches only a TMDB film that is the single one with exactly its title, and is either well known
+# or new (released within this many days, or coming): a new film named like an old one must not get the old one's page.
+NO_YEAR_MIN_VOTES = 1000
+NO_YEAR_RECENT_DAYS = 365
 
 
 def tmdb_enabled():
@@ -177,21 +201,34 @@ def tmdb_get(path, **params):
     return _json(f"{TMDB}{path}?{urllib.parse.urlencode(params)}", headers)
 
 
-def tmdb(f):
+def english_from_tmdb(d, titles):
+    """TMDB's English title, unless it's only the original title or a transliteration of ours."""
+    title, orig = d.get("title") or "", d.get("original_title") or ""
+    # TMDB falls back to the original title when there's no English one; don't call that English.
+    en = title if d.get("original_language") == "en" or _norm(title) != _norm(orig) else None
+    if en and d.get("original_language") != "en" and any(spelling_variant(en, t) for t in titles):
+        en = None  # "Matloob Aaeleyan" for "Matloob Aelian" is a transliteration, not a translation
+    return en
+
+
+def tmdb(f, today=None):
     """Return the one confident TMDB match for a film, or None. Same rules as wikidata(), plus a
-    tie-break on the Norwegian release date in TMDB equalling Filmweb's premiere date."""
+    tie-break on the Norwegian release date in TMDB equalling Filmweb's premiere date. Without a year,
+    only a single exact-title film that is well known or new (NO_YEAR_*)."""
     year = film_year(f)
-    if not year:
-        return None
-    titles = [t for t in (f["alt"], f["title"]) if t]
-    ours = {_norm(re.sub(r"\s*\(\d{4}\)\s*$", "", t)) for t in titles}
+    titles = [search_title(t) for t in (f["alt"], f["title"]) if t]
+    ours = {_norm(t) for t in titles}
+    langs = ("nb-NO", "en-US") + (("es-ES",) if f["id"].startswith(("cl-", "mk-")) else ())
     cands = {}
     for t in titles:
-        for lang in ("nb-NO", "en-US"):
+        for lang in langs:
             for m in tmdb_get("/search/movie", query=t, language=lang, include_adult="false").get("results", [])[:20]:
                 y = (m.get("release_date") or "")[:4]
-                if y.isdigit() and abs(int(y) - int(year)) <= 1:
-                    cands.setdefault(m["id"], m)
+                if year and not (y.isdigit() and abs(int(y) - int(year)) <= 1):
+                    continue
+                if not year and not ({_norm(m.get("title")), _norm(m.get("original_title"))} & ours):
+                    continue  # no year to narrow by: only candidates whose own title is ours
+                cands.setdefault(m["id"], m)
     hits = []
     for mid in list(cands)[:8]:
         d = tmdb_get(f"/movie/{mid}", language="en-US",
@@ -206,22 +243,37 @@ def tmdb(f):
             continue
         no_dates = {x["release_date"][:10] for c in d.get("release_dates", {}).get("results", [])
                     if c.get("iso_3166_1") == "NO" for x in c.get("release_dates", [])}
-        title, orig = d.get("title") or "", d.get("original_title") or ""
-        # TMDB falls back to the original title when there's no English one; don't call that English.
-        en = title if d.get("original_language") == "en" or _norm(title) != _norm(orig) else None
-        if en and d.get("original_language") != "en" and any(spelling_variant(en, t) for t in titles):
-            en = None  # "Matloob Aaeleyan" for "Matloob Aelian" is a transliteration, not a translation
-        hits.append({"tmdb": mid, "imdb": (d.get("external_ids") or {}).get("imdb_id") or None, "en": en,
+        hits.append({"tmdb": mid, "imdb": (d.get("external_ids") or {}).get("imdb_id") or None,
+                     "en": english_from_tmdb(d, titles),
                      "lang": d.get("original_language") or None,
                      "premiereOk": bool(f.get("premiere") and f["premiere"] in no_dates),
                      "runtimeOk": bool(f["runtime"] and rt),
-                     "yearExact": (d.get("release_date") or "")[:4] == str(year)})
+                     "yearExact": bool(year) and (d.get("release_date") or "")[:4] == str(year),
+                     "votes": d.get("vote_count") or 0, "released": d.get("release_date") or ""})
+    if not year:
+        if len(hits) != 1:
+            return None  # two films with this title and no year to tell them apart
+        h = hits[0]
+        recent = (today or datetime.now()) - timedelta(days=NO_YEAR_RECENT_DAYS)
+        if not (h["votes"] >= NO_YEAR_MIN_VOTES or not h["released"] or h["released"] >= recent.strftime("%Y-%m-%d")):
+            return None  # an older, little-known film: ours could be a new one TMDB doesn't have yet
+        return {k: h[k] for k in ("tmdb", "imdb", "en", "lang")}
     for k in ("premiereOk", "runtimeOk", "yearExact"):
         if len(hits) > 1 and sum(h[k] for h in hits) == 1:
             hits = [h for h in hits if h[k]]
     if len(hits) != 1:
         return None
     return {k: hits[0][k] for k in ("tmdb", "imdb", "en", "lang")}
+
+
+def tmdb_by_imdb(imdb, f):
+    """The TMDB film for an IMDb id that Wikidata matched (an exact lookup, no title guessing), or None."""
+    found = tmdb_get(f"/find/{imdb}", external_source="imdb_id", language="en-US").get("movie_results") or []
+    if len(found) != 1:
+        return None
+    d = found[0]
+    titles = [search_title(t) for t in (f["alt"], f["title"]) if t]
+    return {"tmdb": d["id"], "imdb": imdb, "en": english_from_tmdb(d, titles), "lang": d.get("original_language") or None}
 
 
 def letterboxd(rec):
@@ -327,11 +379,14 @@ def enrich(films, now, keep_prefixes=()):
             if SKIP.search(f["title"]):
                 continue
             old = next((cache[i] for i in f["ids"] if i in cache), {})
-            if old.get("tv") == TMDB_VERSION and \
+            # A film matched under the old rules keeps its match until its normal re-check; one not matched is tried again.
+            if (old.get("tv") == TMDB_VERSION or (old.get("tmdb") and old.get("tv") == 2)) and \
                     not stale(old.get("tmdbChecked"), RECHECK_MATCHED_DAYS if old.get("tmdb") else RECHECK_MISSING_DAYS):
                 continue
             try:
-                t = tmdb(f)
+                t = tmdb(f, now)
+                if not t and old.get("imdb") and not old.get("conflict"):
+                    t = tmdb_by_imdb(old["imdb"], f)
             except urllib.error.HTTPError as e:
                 print(f"  ! tmdb {f['title']}: {e}", file=sys.stderr)
                 if e.code in (401, 429):
