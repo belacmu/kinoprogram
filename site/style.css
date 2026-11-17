@@ -741,22 +741,44 @@ dialog { overscroll-behavior: contain; }
    a guess until a card has been shown once; the browser then remembers its real height. */
 .sec > .grid > .card { content-visibility: auto; contain-intrinsic-size: auto 270px; }
 @media (min-width: 561px) { .sec > .grid > .card { contain-intrinsic-size: auto 330px; } }
-/* the feed and the main navigation */
-.mainnav { display: flex; gap: 4px; }
-.mainnav a { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; color: var(--muted); font-weight: 600; text-decoration: none; }
+/* the feed and the main navigation: a capsule in the iOS "liquid glass" manner. The tabs share the width equally and a
+   raised lens slides under the current one (pure CSS: it follows aria-current). Desktop: an inset track in the header;
+   phones: a floating glass bar at the foot of the screen with the icon over its label. */
+:root { --lens: #ffffff; --glass-hi: rgba(255, 255, 255, .7); --glass-lo: rgba(0, 0, 0, .06); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --lens: #3a3f49; --glass-hi: rgba(255, 255, 255, .14); --glass-lo: rgba(0, 0, 0, .4); } }
+:root[data-theme="dark"] { --lens: #3a3f49; --glass-hi: rgba(255, 255, 255, .14); --glass-lo: rgba(0, 0, 0, .4); }
+.mainnav { --navring: var(--chip); --pad: 4px; position: relative; isolation: isolate; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  padding: var(--pad); border-radius: 999px; background: var(--chip); box-shadow: inset 0 1px 2px var(--glass-lo); }
+.mainnav::before { content: ""; position: absolute; z-index: -1; top: var(--pad); bottom: var(--pad); left: var(--pad); width: calc((100% - 2 * var(--pad)) / 2);
+  border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, var(--lens));
+  box-shadow: inset 0 1px 0 var(--glass-hi), 0 0 0 .5px color-mix(in srgb, var(--accent) 25%, transparent), 0 2px 4px rgba(0, 0, 0, .08), 0 6px 16px -4px rgba(0, 0, 0, .18);
+  transition: transform .5s cubic-bezier(.34, 1.45, .5, 1), opacity .2s; }
+.mainnav:has(> a:nth-child(2)[aria-current])::before { transform: translateX(100%); }
+.mainnav:not(:has([aria-current]))::before { opacity: 0; }
+.mainnav a { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 7px 20px; border-radius: 999px; color: var(--muted);
+  font-weight: 600; text-decoration: none; -webkit-tap-highlight-color: transparent; transition: color .2s, transform .25s cubic-bezier(.34, 1.45, .5, 1); }
 .mainnav a:hover { color: var(--ink); }
-.mainnav a[aria-current] { color: var(--accent-ink); background: var(--accent); }
+.mainnav a[aria-current] { color: var(--accent); }
+.mainnav a:active { transform: scale(.92); }
+.mainnav a[aria-current] svg { stroke-width: 2.4; }
 .mainnav .ni { position: relative; display: grid; place-items: center; }
 .navdot { position: absolute; top: -10px; right: -9px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 10px; box-sizing: border-box; background: var(--accent); color: var(--accent-ink); font: 700 11px/18px var(--body); text-align: center; font-style: normal; box-shadow: 0 0 0 2px var(--navring, var(--band, var(--bg))); }
 .navdot[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .mainnav::before, .mainnav a { transition: none; } }
 @media (max-width: 639px) {
-  /* a floating capsule, not a full-width bar: translucent, centred, clear of the screen edge */
-  .mainnav { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 30; gap: 2px; padding: 4px;
-    border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 80%, transparent);
-    -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6); box-shadow: 0 6px 24px rgba(0, 0, 0, .16); }
-  .mainnav a { gap: 7px; padding: 8px 20px; font-size: 14px; }
-  .mainnav a:not([aria-current]) { color: var(--muted); }
-  body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  /* floating glass, clear of the screen edge: frosted and translucent, lit along its top edge, lifted by a soft shadow */
+  .mainnav { --navring: var(--lens); --pad: 6px; position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 30;
+    width: min(300px, calc(100% - 48px)); background: color-mix(in srgb, var(--surface) 64%, transparent);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
+    box-shadow: inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px color-mix(in srgb, var(--glass-hi) 50%, transparent),
+      0 0 0 .5px color-mix(in srgb, var(--ink) 14%, transparent), 0 2px 6px rgba(0, 0, 0, .08), 0 14px 36px -8px rgba(0, 0, 0, .32); }
+  .mainnav::before { background: color-mix(in srgb, var(--accent) 12%, color-mix(in srgb, var(--lens) 80%, transparent)); }
+  .mainnav a { flex-direction: column; gap: 3px; padding: 7px 12px 6px; font-size: 11.5px; line-height: 1.1; letter-spacing: .01em; }
+  .mainnav a:not([aria-current]) { color: color-mix(in srgb, var(--ink) 72%, var(--surface)); }
+  .mainnav a[aria-current] { color: var(--accent); }
+  .mainnav .ni svg { width: 26px; height: 26px; }
+  .navdot { top: -6px; right: -12px; }
+  body { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 }
 body.page-feed #comingUp, body.page-feed .controls, body.page-feed #wlInvite, body.page-feed #friendsPanel, body.page-feed #grid, body.page-feed #hiddenKinds, body.page-feed .filters, body.page-feed .scrim { display: none; }
 body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
@@ -779,15 +801,13 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .post .card.nosale h3 { color: var(--ink); }
 .postmore { display: block; margin: 12px auto 0; }
 .feednudge { margin-top: 12px; }
-@media (max-width: 639px) { #toast { inset: auto 0 calc(80px + env(safe-area-inset-bottom, 0px)) 0; } }
 .feed .feedtitle { margin-top: 18px; }
-@media (max-width: 639px) { #toast { inset: auto 0 calc(72px + env(safe-area-inset-bottom, 0px)) 0; } }
+@media (max-width: 639px) { #toast { inset: auto 0 calc(94px + env(safe-area-inset-bottom, 0px)) 0; } }
 .post .card .m:empty { display: none; }
 .post .card h3 { margin-bottom: 1px; }
 .feed { padding-top: 0; }
 .post .m .cin { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .post .m .dt { font-weight: 400; }
-@media (min-width: 640px) { .mainnav a { padding-block: 6px; } }
 /* posters in the feed are the size of the ones on Films: same columns, same side padding (full width on phones, like the sections) */
 @media (max-width: 560px) { .post { margin-inline: -16px; padding-inline: 12px; border-radius: 0; border-inline: 0; } }
 .feedfilter { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 12px; }
@@ -850,7 +870,6 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 @media (prefers-reduced-motion: reduce) { .sk .poster, .sk h3, .sk .m, .skbar, .sk .pico { animation: none; } }
 /* the Feed's filter row stays on screen under the header while you scroll */
 .feedfilter { position: sticky; top: calc(var(--hdr-h, 0px) + env(safe-area-inset-top, 0px)); z-index: 5; background: var(--bg); margin-inline: -16px; padding: 12px 16px; }
-@media (max-width: 639px) { .mainnav { --navring: var(--surface); } }
 /* the top-right button is a menu for everyone: an avatar when signed in, a person icon when not */
 #accountBtn.guest { width: var(--pill-h); padding: 0; justify-content: center; }
 #accountBtn.guest .ico { display: block; }
