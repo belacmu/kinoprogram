@@ -9,7 +9,8 @@ actual passwords in your password manager. Check what's set up with `sh scripts/
 | GitHub | Hosting, the daily job | `belacmu` | none (the `gh` login on your Mac) | GitHub |
 | Gmail (sender) | Daily email + sign-in codes | `cinecrabapp@gmail.com` | `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Password: your password manager. App password: GitHub secret only |
 | Supabase | Accounts, watchlists, subscriptions | _not created yet_ (project URL: `https://________.supabase.co`) | `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (variables), `SUPABASE_SECRET_KEY` (secret) | Login: password manager (or GitHub sign-in). Keys: GitHub |
-| TMDB | Film ids, English titles | `belacmu`-linked TMDB account | `TMDB_READ_TOKEN` | GitHub secret; regenerate at themoviedb.org → Settings → API |
+| Eventbrite | Revier Film Club's screenings (API) | a free Eventbrite account | `EVENTBRITE_TOKEN` | GitHub secret; the private token at eventbrite.com → Account settings → Developer links → API keys |
+| TMDB | Film ids, English titles, posters, film descriptions | `belacmu`-linked TMDB account | `TMDB_READ_TOKEN` | GitHub secret; regenerate at themoviedb.org → Settings → API |
 | MovieScout | Westman and Winnipeg showtimes | none (permission by email: small personal project, once a day, don't overload; extended to Winnipeg in October 2026 on the condition we poll sparingly) | none | Their reply emails: keep them. Daily request counts are in `state/moviescout.json` (`log`) |
 
 ## Rules
@@ -23,4 +24,5 @@ actual passwords in your password manager. Check what's set up with `sh scripts/
 ## Rotating things
 - **Gmail app password:** myaccount.google.com/apppasswords → create a new one → `gh secret set GMAIL_APP_PASSWORD …`. Supabase's SMTP settings also hold it (Authentication → Emails → SMTP Settings): update both.
 - **Supabase keys:** Project Settings → API Keys → regenerate → update `SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_SECRET_KEY`.
+- **Eventbrite token:** API keys page → regenerate the private token → `gh secret set EVENTBRITE_TOKEN …`.
 - **TMDB token:** regenerate in TMDB settings → `gh secret set TMDB_READ_TOKEN …`.
