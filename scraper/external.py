@@ -24,8 +24,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / "state" / "external.json"
 UA = {"User-Agent": "kinoprogram/1.0 (https://github.com/belacmu/kinoprogram; personal non-commercial use)"}
-BROWSER_UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-                            "(KHTML, like Gecko) Chrome/128.0 Safari/537.36"}
 RECHECK_MATCHED_DAYS = 90
 RECHECK_MISSING_DAYS = 7    # new releases often get a Wikidata entry a little later
 RATING_DAYS = 7
@@ -232,11 +230,14 @@ def letterboxd(rec):
     # Letterboxd slug can be out of date (e.g. a film's working title).
     url = (f"https://letterboxd.com/imdb/{rec['imdb']}/" if rec.get("imdb")
            else f"https://letterboxd.com/tmdb/{rec['tmdb']}/")
-    req = urllib.request.Request(url, headers=BROWSER_UA)
+    # Letterboxd allows showing its ratings and puts them in each film page's JSON-LD for that:
+    # https://support.letterboxd.com/hc/en-us/articles/17815623056911
+    req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=30) as r:
         final, page = r.geturl(), r.read().decode("utf-8", "replace")
     slug = (re.search(r"letterboxd\.com/film/([^/]+)/", final) or [None, None])[1]
-    m = re.search(r'name="twitter:data2" content="([\d.]+) out of 5"', page)
+    m = (re.search(r'"aggregateRating"\s*:\s*\{[^}]*"ratingValue"\s*:\s*([\d.]+)', page)
+         or re.search(r'name="twitter:data2" content="([\d.]+) out of 5"', page))
     return slug, (round(float(m[1]), 2) if m else None)
 
 
