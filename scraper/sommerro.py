@@ -4,7 +4,6 @@ Each screening is a package (dinner or brunch + film, prepaid), so every showing
 note: it costs far more than a cinema ticket. The programme is server-rendered HTML, one block per screening; booking
 is a widget on the site, so a showing links to its series page. "(Utsolgt)" is sold out, "(Få plasser igjen)" almost.
 """
-import html
 import json
 import re
 import sys
@@ -50,11 +49,10 @@ def parse(h, now):
         when = re.search(r"(\d{1,2})\.\s*([A-Za-zæøå]+)\s+kl\s*(\d{1,2}:\d{2})", b)
         if not (link and series and title and when) or when[2].lower() not in MONTHS:
             continue
-        paras = re.findall(r"<p>(.*?)</p>", b, re.S)
         poster = re.search(r'data-src="([^"]+/wp-content/uploads/[^"]+)"', b)
         out.append({
             "series": text(series[1]), "url": link[1], "title": text(title[1]),
-            "blurb": text(paras[0]) if paras else "", "poster": poster[1] if poster else "",
+            "poster": poster[1] if poster else "",
             "t": parse_date(when[1], when[2], when[3], now),
             "sold_out": "(Utsolgt)" in b, "few": "(Få plasser igjen)" in b,
             "place": text(re.search(r'__item__location">(.*?)</span>', b, re.S)[1]).lstrip("→ ") if "__item__location" in b else "",
@@ -75,19 +73,19 @@ def fetch_all(now):
         base = e["url"].split("#")[0]
         f = films.get(slug)
         if not f:
-            f = films[slug] = film(title=title, year=year, blurb=e["blurb"], poster=e["poster"],
+            f = films[slug] = film(title=title, year=year, poster=e["poster"],
                                    links=[{"label": "Sommerro", "url": f"{base}#{slug}"}], series=[e["series"].title()])
         if e["series"].title() not in f["series"]:
             f["series"].append(e["series"].title())
         package = package_blurb(base, packages)
-        note = "Meal + film package, prepaid" + (" · few seats left" if e["few"] and not e["sold_out"] else "")
+        # What the package includes belongs to the showing, not the film (the same film can come with a different meal).
+        note = " · ".join(x for x in ("Meal + film package, prepaid", package,
+                                      "few seats left" if e["few"] and not e["sold_out"] else "") if x)
         f["shows"].append({
             "t": e["t"].strftime("%Y-%m-%dT%H:%M"), "cinema": CINEMA, "screen": e["place"],
             "tags": [MEAL_TAG, e["series"].title()], "note": note, "ticket": "" if e["sold_out"] else base,
             "status": "Sold out" if e["sold_out"] else "", "dub": False, "en": False,
         })
-        if package:
-            f["package"] = package  # what the evening includes; kept when the description is replaced (external.py)
     return list(films.values())
 
 

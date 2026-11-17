@@ -37,7 +37,7 @@ def film(**kw):
 
 FILMWEB = "https://movieinfoqs.filmweb.no/graphql"
 MOVIE_FIELDS = """title titleOriginal mainVersionId productionYear lengthInMinutes genres nationalities
-  sanityImagePosterUrl synopsisIngress premiere isPremiereConfirmed"""
+  sanityImagePosterUrl premiere isPremiereConfirmed"""
 
 
 def filmweb_query(query, variables):
@@ -69,7 +69,6 @@ def filmweb_film(m, shows):
         runtime=m.get("lengthInMinutes") or 0,
         genres=m.get("genres") or [],
         countries=m.get("nationalities") or [],
-        blurb=m.get("synopsisIngress") or "",
         poster=poster,
         links=[{"label": "Filmweb", "url": f"https://www.filmweb.no/film/{m['mainVersionId']}"}],
         shows=shows,
@@ -163,7 +162,6 @@ def cine_film(url, listing):
     facts = {text(k): text(v) for k, v in re.findall(
         r'data-table__key">(.*?)</td>\s*<td class="data-table__value">(.*?)</td>', h, re.S)}
     series = [text(s) for s in re.findall(r'page-film__concepts-link"[^>]*>(.*?)</a>', h, re.S)]
-    intro = text((re.search(r'page-film__intro-text">(.*?)</div>', h, re.S) or [None, ""])[1])
     og = html.unescape((re.search(r'property="og:image" content="([^"]+)"', h) or [None, ""])[1])
     runtime = re.search(r"\((\d+) minutter\)", facts.get("Spilletid", ""))
     produced = facts.get("Produsert", "")
@@ -209,7 +207,6 @@ def cine_film(url, listing):
         runtime=int(runtime[1]) if runtime else 0,
         director=facts.get("Regi", ""),
         countries=countries,
-        blurb=intro,
         poster=listing["image"] or og,
         links=[{"label": "Cinemateket", "url": url}],
         series=series,

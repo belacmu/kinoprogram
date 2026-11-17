@@ -81,7 +81,6 @@ def fetch_all(now):
         f = films.get(key)
         if not f:
             f = films[key] = film(title=title, year=year, runtime=runtime,
-                                  blurb=re.sub(r"\s+", " ", (desc.split("OM FILMEN")[-1] if "OM FILMEN" in desc else desc)).strip()[:400],
                                   links=[{"label": "Deichman", "url": ticket_url}], kindHint="" if single else "talk")
         types = api(f"/events/{e['event_id']}/available_ticket_types")
         on_sale = any(g["ticket_types"] for g in types)

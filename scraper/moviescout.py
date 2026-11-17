@@ -471,7 +471,7 @@ def upcoming_films(cache):
         poster = (m.get("poster_imgs") or [""])[0]
         out.append(film(
             title=m["name"], year=m["release_date"][:4], runtime=m.get("duration_mins") or 0,
-            director=", ".join(m.get("directors") or []), blurb=m.get("synopsis") or "",
+            director=", ".join(m.get("directors") or []),
             poster=f"https://cdn.moviescout.ca/{poster}" if poster else "",
             links=[{"label": "MovieScout", "url": f"https://moviescout.ca/movies/{m['id']}"}],
             premiere=m["release_date"], premiereConfirmed=True, scope="Canada",

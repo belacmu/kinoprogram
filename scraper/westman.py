@@ -9,7 +9,6 @@
 Landmark Cinemas Brandon itself (not used: it refuses automated requests): its showtimes page embeds the full
 schedule as JSON; `landmark_extract()` saves it to state/landmark-brandon.json and `fetch_landmark()` reads it.
 """
-import html
 import json
 import re
 import sys
@@ -150,7 +149,6 @@ def fetch_landmark(now):
             year=year,
             runtime=int(m["RunTime"]) if str(m.get("RunTime", "")).isdigit() else 0,
             director=m.get("Director") or "",
-            blurb=html.unescape(m.get("Teaser") or ""),
             poster=m.get("Img") or "",
             links=[{"label": "Landmark", "url": f"{LANDMARK}/movie/{m.get('FriendlyName') or m['FilmId']}"}],
             shows=shows,
@@ -188,9 +186,8 @@ def fetch_evans():
                         "dub": False, "en": False,
                     })
         og = (re.search(r'property="og:image" content="([^"]+)"', p) or [None, ""])[1]
-        blurb = text((re.search(r'<div class="movie-rating">.*?</div>.*?<p>(.*?)</p>', p, re.S) or [None, ""])[1])
         if title and shows:
-            films.append(film(title=title, blurb=blurb, poster=og,
+            films.append(film(title=title, poster=og,
                               links=[{"label": "Evans Theatre", "url": EVANS + path}], shows=shows))
     return films
 
