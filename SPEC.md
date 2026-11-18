@@ -358,6 +358,11 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
 - **`resolve_films(ids)`** (public) gives, for each id asked for (a watchlist's, an old link's), the film it is now (through aliases
   and merges), its card and the regions where it has upcoming showings: one call for everything the app needs about films that
   aren't in the loaded region's data.
+- **Watchlist films from before the registry** (it began 2026-11-14): a film that left the cinemas before then was never in
+  `films`, so a watchlist id for it was unknown and the film missing from "Not showing". Each update looks at the signed-in
+  watchlists' unknown ids: one whose listing had a TMDB/IMDb match (`state/listing-history.json`) becomes an alias of the film
+  known under that match, or a new (gone) film under that id, from TMDB (title and year; its card is then filled like any other),
+  and is marked as wanted. Ids with no match stay unknown. A browser-only watchlist can't be seen, so isn't recovered.
 - `state/listing-history.json` (made once by `scripts/film-history.py` from the git history of `state/external.json`) links old
   listing ids to their films through TMDB/IMDb ids.
 
