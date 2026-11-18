@@ -58,22 +58,42 @@ def test_migrate_moves_earlier_details_once():
     assert reg.films["fw-d"]["meta"] == {"tmdbAt": "2026-11-01"}   # already done
 
 
-def test_due():
-    old = (NOW.date() - timedelta(days=40)).isoformat()
-    recent = (NOW.date() - timedelta(days=3)).isoformat()
-    films = {"recovered": {"tmdb": 1, "meta": {}}, "new-listed": {"tmdb": 2, "meta": {}}, "new-gone": {"tmdb": 3, "meta": {}},
-             "listed-stale": {"tmdb": 4, "meta": {"tmdbAt": old}}, "listed-fresh": {"tmdb": 5, "meta": {"tmdbAt": recent}},
-             "wanted-due": {"tmdb": 6, "meta": {"tmdbAt": recent}}, "wanted-fresh": {"tmdb": 7, "meta": {"tmdbAt": recent}},
-             "gone-old": {"tmdb": 8, "meta": {"tmdbAt": old}}, "no-tmdb": {"meta": {}}, "merged": {"tmdb": 9, "merged": "x", "meta": {}}}
-    reg = registry(films)
-    states = {"wanted-due": {"checked": NOW - timedelta(days=20), "found": False, "digital": []},
-              "wanted-fresh": {"checked": NOW - timedelta(days=2), "found": False, "digital": []}}
-    got = details.due(reg, {"new-listed", "listed-stale", "listed-fresh"}, {"wanted-due", "wanted-fresh"}, states, NOW,
-                      first={"recovered"})
-    # Never fetched (recovered, listed, then the rest), where to watch due, listed and stale. Not: fresh, gone, no TMDB, merged.
-    assert got == ["recovered", "new-listed", "new-gone", "wanted-due", "listed-stale"], got
-    assert details.due(reg, set(), set(), {}, NOW, budget=2) == ["new-gone", "new-listed"]
+def test_next_fetch():
+    """One schedule for every film, by whether it's listed and how recently it left the cinemas."""
+    today = NOW.date()
+    ago = lambda n: (today - timedelta(days=n)).isoformat()
+    f = lambda at, last=None: {"meta": {"tmdbAt": at, **({"last": {"oslo": last}} if last else {})}}
+    nothing, found = {"found": False, "digital": []}, {"found": True, "digital": []}
+    # Listed: monthly.
+    assert details.next_fetch(f(ago(0)), True, None, today) == (today + timedelta(days=30)).isoformat()
+    # Left recently, nothing to watch yet: weekly...
+    assert details.next_fetch(f(ago(0), ago(20)), False, nothing, today) == (today + timedelta(days=7)).isoformat()
+    # ...or the day after a digital release, if sooner (one ahead, or one that came since the last fetch).
+    assert details.next_fetch(f(ago(0), ago(20)), False, {"found": False, "digital": [(today + timedelta(days=3)).isoformat()]},
+                              today) == (today + timedelta(days=4)).isoformat()
+    assert details.next_fetch(f(ago(5), ago(20)), False, {"found": False, "digital": [ago(2)]}, today) == ago(1)
+    assert details.next_fetch(f(ago(0), ago(20)), False, {"found": False, "digital": ["2027-06-01"]}, today) == \
+        (today + timedelta(days=7)).isoformat()   # far ahead: weekly anyway (dates move)
+    # Left recently, somewhere to watch: monthly.
+    assert details.next_fetch(f(ago(0), ago(20)), False, found, today) == (today + timedelta(days=30)).isoformat()
+    # Left over six months ago, or never shown since the registry began (e.g. a recovered watchlist film): every 90 days.
+    assert details.next_fetch(f(ago(0), ago(200)), False, nothing, today) == (today + timedelta(days=90)).isoformat()
+    assert details.next_fetch(f(ago(0)), False, None, today) == (today + timedelta(days=90)).isoformat()
 
+
+def test_due():
+    recent = (NOW.date() - timedelta(days=20)).isoformat()
+    films = {"recovered": {"tmdb": 1, "meta": {}}, "new-listed": {"tmdb": 2, "meta": {}}, "new-gone": {"tmdb": 3, "meta": {}},
+             "listed-stale": {"tmdb": 4, "meta": {"tmdbAt": "2026-10-01"}}, "listed-fresh": {"tmdb": 5, "meta": {"tmdbAt": "2026-11-10"}},
+             "waiting": {"tmdb": 6, "meta": {"tmdbAt": "2026-11-09", "last": {"oslo": recent}}},
+             "waiting-fresh": {"tmdb": 7, "meta": {"tmdbAt": "2026-11-15", "last": {"oslo": recent}}},
+             "gone-old": {"tmdb": 8, "meta": {"tmdbAt": "2026-10-01", "last": {"oslo": "2025-01-01"}}},
+             "no-tmdb": {"meta": {}}, "merged": {"tmdb": 9, "merged": "x", "meta": {}}}
+    reg = registry(films)
+    got = details.due(reg, {"new-listed", "listed-stale", "listed-fresh"}, {}, NOW, first={"recovered"})
+    # Never fetched (recovered, listed, then the rest), then the most overdue. Not: fresh ones, gone-old (90 days), no TMDB, merged.
+    assert got == ["recovered", "new-listed", "new-gone", "listed-stale", "waiting"], got
+    assert details.due(reg, set(), {}, NOW, budget=2) == ["new-gone", "new-listed"]
 
 def test_update_one_request_per_film():
     reg = registry({"fw-klara": {"title": "Klara og solen", "tmdb": 2, "meta": {}}})

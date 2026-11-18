@@ -3,16 +3,11 @@ TMDB request per film also gives its services and release dates for every countr
 country the site covers (also when there's nothing), the country's digital release date in options["digital"] ("YYYY-MM-DD": the
 next one if there's one ahead, else the latest; "" if none). TMDB's data comes from JustWatch, which the site credits.
 
-When a wanted film is fetched again (next_check): every RECHECK_DAYS while it has no services anywhere (sooner, the day after a
-digital release date ahead of it); every RECHECK_FOUND_DAYS once it has some; never again once its digital release is over
-GIVE_UP_YEARS past and it still has none.
+How often a film is checked is the details step's schedule (details.next_fetch).
 """
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 
-RECHECK_DAYS = 14
-RECHECK_FOUND_DAYS = 60
-GIVE_UP_YEARS = 2
 DIGITAL = 4  # TMDB's release type for a digital release
 KINDS = (("flatrate", "stream"), ("free", "free"), ("ads", "ads"), ("rent", "rent"), ("buy", "buy"))
 
@@ -39,20 +34,6 @@ def digital_date(release_dates, country, today):
                    for d in r.get("release_dates") or [] if d.get("type") == DIGITAL and (d.get("release_date") or "")[:10]})
     ahead = [d for d in days if d > today]
     return ahead[0] if ahead else (days[-1] if days else "")
-
-
-def next_check(state, now):
-    """When to ask about a film again, from what its last check found (state: {checked, found, digital: [dates]}), or None: never."""
-    checked, today = state["checked"], now.date().isoformat()
-    if state["found"]:
-        return checked + timedelta(days=RECHECK_FOUND_DAYS)
-    ahead = sorted(d for d in state["digital"] if d > today)
-    if ahead:  # the day after its digital release, if that comes before the usual recheck
-        after = datetime.fromisoformat(ahead[0]).replace(tzinfo=timezone.utc) + timedelta(days=1)
-        return min(checked + timedelta(days=RECHECK_DAYS), after)
-    if state["digital"] and max(state["digital"]) < (now.date() - timedelta(days=365 * GIVE_UP_YEARS)).isoformat():
-        return None  # released digitally long ago and still nowhere: stop asking
-    return checked + timedelta(days=RECHECK_DAYS)
 
 
 def states_from(rows):

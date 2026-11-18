@@ -491,12 +491,10 @@ def main(regions=None):
     # 2. Details: one TMDB request per film that's due; then the listed films take theirs from their cards.
     print("Film details …")
     listed = {reg.canon(f["id"]) for b in built for f in b[3]}
-    marked = filmids.marked(reg)
-    pending = details.update(reg, listed, legacy, sorted({cfg["country"] for cfg in REGIONS.values()}), first=recovered,
-                             marked=marked)
+    pending = details.update(reg, listed, legacy, sorted({cfg["country"] for cfg in REGIONS.values()}), first=recovered)
     # 3. Letterboxd: the film's page and rating, per film by exact id.
     print("Letterboxd …")
-    letterboxd.update(reg, listed, marked, legacy)
+    letterboxd.update(reg, listed, legacy)
     for b in built:
         details.apply(reg, b[3])
         letterboxd.apply(reg, b[3])
@@ -531,8 +529,6 @@ def main(regions=None):
                 live.add(fid)
     filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete, since)
     details.flush(pending)  # where to watch, now that films created this run are in the database
-    if recovered:
-        filmids.mark(recovered)  # wanted, as they're on a watchlist (the database's own marking only saw ids it knew)
     github_output(regions=" ".join(b[0] for b in built), failed=" ".join(failed))
     if failed:
         print(f"Kept the last data for: {', '.join(REGIONS[r]['name'] for r in failed)}", file=sys.stderr)
