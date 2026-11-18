@@ -5,7 +5,7 @@ The update has three steps for what it knows about films (SPEC.md, "Film informa
   2. Details (here): per film, one TMDB request, /movie/{id} with credits, release dates and watch providers: English title (for
      films that have none from matching), poster, description, running time, director, original language, where to watch in
      every country and its digital release dates. Kept on the film's card (films.meta) and, for where to watch, watch_options.
-  3. Letterboxd (external.fill_letterboxd / enrich's weekly ratings): the film's Letterboxd page and rating.
+  3. Letterboxd (letterboxd.py): the film's Letterboxd page and rating, by exact id.
 
 When a film is fetched (due()):
   - never fetched: now (recovered watchlist films and listed films first);
@@ -119,7 +119,7 @@ def due(reg, listed, marked, watch_states, now, first=(), budget=BUDGET):
     return order[:budget]
 
 
-def update(reg, listed, legacy, countries, now=None, first=()):
+def update(reg, listed, legacy, countries, now=None, first=(), marked=None):
     """Fetch what's due (cards updated in place) and return the where-to-watch rows to write after the sync. Never raises."""
     now = now or datetime.now(timezone.utc)
     today = now.date().isoformat()
@@ -128,10 +128,9 @@ def update(reg, listed, legacy, countries, now=None, first=()):
         migrate(reg, legacy or {}, today)
         if not external.tmdb_enabled():
             return rows
-        marked, watch_states = set(), {}
+        marked, watch_states = marked or set(), {}
         if filmids._config()[0] and reg.source == "supabase":
             try:
-                marked = {reg.canon(r["film_id"]) for r in filmids._rows("film_marks", "select=film_id")}
                 watch_states = watch.states_from(filmids._rows("watch_options", "select=film_id,checked_at,options"))
             except urllib.error.HTTPError as e:
                 if e.code not in (400, 404):

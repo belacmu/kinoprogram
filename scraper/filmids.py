@@ -526,6 +526,17 @@ def watchlisted():
         return []
 
 
+def marked(reg):
+    """The films someone has wanted to see (film_marks; private, read with the secret key), as they are now; empty without it."""
+    if not _config()[0] or reg.source != "supabase":
+        return set()
+    try:
+        return {reg.canon(r["film_id"]) for r in _rows("film_marks", "select=film_id")}
+    except Exception as e:
+        print(f"  ! film ids: reading marks failed: {e}", file=sys.stderr)
+        return set()
+
+
 def mark(ids):
     """Mark films as wanted (film_marks), as a watchlist heart does. Never raises."""
     for k in range(0, len(ids), 200):

@@ -36,6 +36,7 @@ import revier  # noqa: E402
 import sommerro  # noqa: E402
 import sources  # noqa: E402
 import details  # noqa: E402
+import letterboxd  # noqa: E402
 import westman  # noqa: E402
 import winnipeg  # noqa: E402
 
@@ -490,9 +491,15 @@ def main(regions=None):
     # 2. Details: one TMDB request per film that's due; then the listed films take theirs from their cards.
     print("Film details …")
     listed = {reg.canon(f["id"]) for b in built for f in b[3]}
-    pending = details.update(reg, listed, legacy, sorted({cfg["country"] for cfg in REGIONS.values()}), first=recovered)
+    marked = filmids.marked(reg)
+    pending = details.update(reg, listed, legacy, sorted({cfg["country"] for cfg in REGIONS.values()}), first=recovered,
+                             marked=marked)
+    # 3. Letterboxd: the film's page and rating, per film by exact id.
+    print("Letterboxd …")
+    letterboxd.update(reg, listed, marked, legacy)
     for b in built:
         details.apply(reg, b[3])
+        letterboxd.apply(reg, b[3])
 
     for b in list(built):
         r, cfg, now, films = b
@@ -503,13 +510,9 @@ def main(regions=None):
             fail(r, f"writing failed ({e})")
             built.remove(b)
 
-    # Each film's card (filmids.py): what this run's listings say about it; then 3. Letterboxd for films not listed.
+    # Each film's card (filmids.py): what this run's listings say about it.
     for r, cfg, now, films in built:
         filmids.remember(reg, r, films)
-    try:
-        external.fill_letterboxd(reg, listed)
-    except Exception as e:  # cards are a nice-to-have
-        print(f"  ! film cards failed: {e}", file=sys.stderr)
     filmids.save_local(reg, since)
     # Every film id in any region's current data (regions not built in this run: their last file), so films in none are marked gone.
     live, complete = set(), not failed

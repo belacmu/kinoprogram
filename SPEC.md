@@ -210,8 +210,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   Letterboxd is always reached via the IMDb id, never via Wikidata's stored slug. The Letterboxd pill opens the film's own page
   whenever we know it exactly (its slug, or its IMDb/TMDB id): with the average rating when there is one, else "Letterboxd ↗";
   only a film we know nothing about gets "Search ↗". A film's card keeps its slug and rating; films not in the listings without
-  them (those that left before cards kept them, recovered watchlist films) are looked up on Letterboxd once, by their exact id,
-  40 a run, stopping for the run if Letterboxd refuses.
+  them get theirs from the Letterboxd step ("Film information", below).
 - Filters: search (Norwegian, English and original title, director, series), time window, my
   cinemas, hide Norwegian dubs, English subtitles only. Nothing is hidden by default.
 - **English titles** are always shown when we found a genuine one (not just the untranslated
@@ -367,8 +366,7 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   and is marked as wanted. Ids with no match stay unknown. A browser-only watchlist can't be seen, so isn't recovered.
 - **Film information: three steps, each with one job** (each update):
   1. **Matching** (`external.enrich`, per listing): which film a listing is: its TMDB and IMDb ids, Rotten Tomatoes / Metacritic
-     links and English title, by the careful rules above. `state/external.json` keeps only these matches (and, until the Letterboxd
-     step is merged into step 3, the listed films' weekly Letterboxd ratings).
+     links and English title, by the careful rules above. `state/external.json` keeps only these matches.
   2. **Details** (`scraper/details.py`, per film, after film ids are worked out): **one TMDB request** per film,
      `/movie/{id}` with credits, release dates and watch providers: poster, description, running time, director, original language,
      English title (only where matching gave none), where to watch in every country and digital release dates. Kept on the film's
@@ -378,10 +376,13 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
      cinema's is missing or a still (Cinemateket, Revier), or as the fallback (`poster2`) for listings from Westman's and Costa del
      Sol's sources (by the listing's own id); TMDB's description; for Costa del Sol, the original language if matching gave none.
      A film is "matched" when it has a TMDB id and its listing a match (a conflicting match gets none of TMDB's).
-  3. **Letterboxd** (by exact id): weekly for listed films (in step 1 for now); once for films not listed
-     (`external.fill_letterboxd`, 40 a run).
-  Details fetched before step 2 existed (the matching cache's posters and descriptions, the old one-off cards) moved to the cards
-  once, automatically, so nothing was fetched twice.
+  3. **Letterboxd** (`scraper/letterboxd.py`, per film): the film's page and average rating, asked by its exact IMDb/TMDB id
+     (Letterboxd resolves them), kept on the card (`lb`, `lbRating`, `lbAt`). **When**: never asked, now (listed films first); a
+     listed film, again every 7 days; a wanted film not listed, every 30 days; otherwise never again. At most 120 a run; none more
+     that run if Letterboxd refuses; a film Letterboxd doesn't have counts as asked. Listed films then take their page and rating
+     from their cards.
+  What the matching cache held before steps 2 and 3 existed (posters, descriptions, Letterboxd slugs and ratings, the old one-off
+  lookups) moved to the cards once, automatically, so nothing was asked twice.
 - `state/listing-history.json` (made once by `scripts/film-history.py` from the git history of `state/external.json`) links old
   listing ids to their films through TMDB/IMDb ids.
 

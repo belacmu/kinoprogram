@@ -1,4 +1,4 @@
-"""Matching (step 1 of the film information; details.py is step 2): which film each listing is.
+"""Matching (step 1 of the film information; details.py is step 2, letterboxd.py step 3): which film each listing is.
 
 Find each film's IMDb / Letterboxd / Rotten Tomatoes / Metacritic pages (via Wikidata, plus TMDB
 when TMDB_READ_TOKEN or TMDB_API_KEY is set) and its Letterboxd average rating. Results are cached in state/external.json so each film is looked up
@@ -34,13 +34,11 @@ CACHE = ROOT / "state" / "external.json"
 UA = {"User-Agent": "kinoprogram/1.0 (https://github.com/belacmu/kinoprogram; personal non-commercial use)"}
 RECHECK_MATCHED_DAYS = 90
 RECHECK_MISSING_DAYS = 7    # new releases often get a Wikidata entry a little later
-RATING_DAYS = 7
 RUNTIME_SLACK = 10          # minutes
 OTHER_LANGS = "en|nb|no|sv|da|de|fr|es|it|pt|nl|fi|pl"
 ENGLISH = "Q1860"
 MAX_LOOKUPS = 60            # per run; Wikidata rate-limits shared GitHub servers, so go slowly
 LOOKUP_PAUSE = 1.0          # seconds between Wikidata requests
-MAX_RATINGS = 120
 
 # Programme items that aren't single films: don't bother looking them up.
 SKIP = re.compile(r"\b(opera|ballet|rbo:|met opera|filmhistorie|kortfilm|shorts?\b|trilogi|maraton|konsert|"
@@ -449,8 +447,6 @@ def enrich(films, now, keep_prefixes=()):
                         tmdb_new += 1
                         print(f"  + TMDB: {f['title']} ({film_year(f)}) -> {t['imdb'] or 'tmdb ' + str(t['tmdb'])}"
                               + (f" \"{t['en']}\"" if t["en"] and _norm(t["en"]) != _norm(f["title"]) else ""))
-                        for k in ("lbSlug", "lbRating", "rated"):
-                            rec.pop(k, None)
                     rec["tmdb"] = t["tmdb"]
                     rec["lang"] = t.get("lang") or rec.get("lang")
                     # IMDb sometimes has duplicate ids for one film; prefer TMDB's (Letterboxd uses it).
@@ -461,29 +457,6 @@ def enrich(films, now, keep_prefixes=()):
             for i in f["ids"]:
                 cache[i] = rec
 
-    # Letterboxd ratings, refreshed weekly for films we've matched.
-    rate = []
-    for f in films:
-        rec = next((cache[i] for i in f["ids"] if i in cache), None)
-        if rec and (rec.get("imdb") or rec.get("tmdb")) and not rec.get("conflict") \
-                and stale(rec.get("rated"), RATING_DAYS) and rec not in rate:
-            rate.append(rec)
-    blocked = False
-    for rec in rate[:MAX_RATINGS]:
-        if blocked:
-            break
-        try:
-            rec["lbSlug"], rec["lbRating"] = letterboxd(rec)
-            rec["rated"] = today
-        except urllib.error.HTTPError as e:
-            if e.code in (403, 429):
-                print(f"  ! Letterboxd refused ({e.code}); skipping ratings this run", file=sys.stderr)
-                blocked = True
-            elif e.code == 404:
-                rec["rated"] = today
-        except Exception as e:
-            print(f"  ! letterboxd {rec.get('imdb')}: {e}", file=sys.stderr)
-
     matched = 0
     for f in films:
         rec = next((cache[i] for i in f["ids"] if i in cache), None)
@@ -492,16 +465,15 @@ def enrich(films, now, keep_prefixes=()):
                 cache[i] = rec
         if rec and (rec.get("imdb") or rec.get("tmdb")) and not rec.get("conflict"):
             matched += 1
-            f["ext"] = {k: rec.get(k) for k in ("imdb", "tmdb", "rt", "mc", "lbRating", "lang") if rec.get(k)}
+            f["ext"] = {k: rec.get(k) for k in ("imdb", "tmdb", "rt", "mc", "lang") if rec.get(k)}
             en = rec.get("en") or ""
             if en and len(en) < 120 and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])):
                 f["ext"]["en"] = en
-            f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
-    # Details (poster, description, …) are the details step's now (details.py), kept on each film's card. What this cache held of
-    # them goes to details.migrate once, through `legacy`, and is dropped here.
+    # Details (poster, description, …) and Letterboxd are steps 2 and 3 now (details.py, letterboxd.py), kept on each film's card.
+    # What this cache held of them goes to their migrate() once, through `legacy`, and is dropped here.
     legacy = {}
     for k, rec in cache.items():
-        got = {x: rec.pop(x) for x in ("posterPath", "overview") if x in rec}
+        got = {x: rec.pop(x) for x in ("posterPath", "overview", "lbSlug", "lbRating", "rated") if x in rec}
         if got:
             legacy[k] = {**got, "lang": rec.get("lang"), "tmdbChecked": rec.get("tmdbChecked")}
 
@@ -510,8 +482,7 @@ def enrich(films, now, keep_prefixes=()):
     # (ids of regions not built in this run, `keep_prefixes`, are left alone.)
     CACHE.write_text(json.dumps({k: v for k, v in sorted(cache.items()) if k in live or k.startswith(tuple(keep_prefixes))},
                                 ensure_ascii=False, indent=0))
-    print(f"  links for {matched}/{len(films)} films ({looked} looked up on Wikidata, "
-          f"{tmdb_checked} checked on TMDB ({tmdb_new} new), {min(len(rate), MAX_RATINGS)} ratings refreshed)")
+    print(f"  links for {matched}/{len(films)} films ({looked} looked up on Wikidata, {tmdb_checked} checked on TMDB ({tmdb_new} new))")
     return legacy
 
 
@@ -564,39 +535,3 @@ def recover_films(reg, ids, history, now_iso):
     if created or linked or left:
         print(f"  watchlist films from before the registry: {len(created)} recovered, {linked} linked to known films, {left} still unknown")
     return created
-
-
-# ---------------------------------------------------------------- Letterboxd for films no longer listed
-LB_CARD_BUDGET = 40  # Letterboxd pages per run
-
-
-def fill_letterboxd(reg, listed):
-    """Films not in this run's listings whose card has no Letterboxd slug or rating (those that left before cards kept them, and
-    recovered watchlist films): look the film up on Letterboxd once by its exact IMDb/TMDB id, for its page and average rating. Stops
-    for the run if Letterboxd refuses."""
-    todo = [(fid, f) for fid, f in sorted(reg.films.items()) if fid not in listed and not f.get("merged")
-            and (f.get("imdb") or f.get("tmdb")) and not (f.get("meta") or {}).get("lbChecked")
-            and not ((f.get("meta") or {}).get("lb") and (f.get("meta") or {}).get("lbRating"))]
-    done = 0
-    for fid, f in todo[:LB_CARD_BUDGET]:
-        m = dict(f.get("meta") or {})
-        try:
-            slug, rating = letterboxd({"imdb": f.get("imdb"), "tmdb": f.get("tmdb")})
-            if slug:
-                m["lb"] = slug
-            if rating:
-                m["lbRating"] = rating
-        except urllib.error.HTTPError as e:
-            if e.code in (403, 429):
-                print(f"  ! Letterboxd refused ({e.code}); film cards' ratings skipped this run", file=sys.stderr)
-                break
-            if e.code != 404:
-                continue
-        except Exception as e:
-            print(f"  ! letterboxd card {f.get('title')}: {e}", file=sys.stderr)
-            continue
-        m["lbChecked"] = datetime.now().strftime("%Y-%m-%d")  # once; a film listed again gets its rating from the listing
-        f["meta"] = m
-        done += 1
-    if done:
-        print(f"  film cards: {done} looked up on Letterboxd ({max(0, len(todo) - done)} to go)")
