@@ -750,35 +750,34 @@ dialog { overscroll-behavior: contain; }
 .mainnav { --navring: var(--chip); --pad: 4px; position: relative; isolation: isolate; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
   padding: var(--pad); border-radius: 999px; background: var(--chip); box-shadow: inset 0 1px 2px var(--glass-lo); }
 .mainnav::before { content: ""; position: absolute; z-index: -1; top: var(--pad); bottom: var(--pad); left: var(--pad); width: calc((100% - 2 * var(--pad)) / 2);
-  border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, var(--lens));
-  box-shadow: inset 0 1px 0 var(--glass-hi), 0 0 0 .5px color-mix(in srgb, var(--accent) 25%, transparent), 0 2px 4px rgba(0, 0, 0, .08), 0 6px 16px -4px rgba(0, 0, 0, .18);
+  border-radius: 999px; background: var(--lens); box-shadow: inset 0 1px 0 var(--glass-hi), 0 1px 3px rgba(0, 0, 0, .12), 0 4px 12px -4px rgba(0, 0, 0, .2);
   transition: transform .5s cubic-bezier(.34, 1.45, .5, 1), opacity .2s; }
 .mainnav:has(> a:nth-child(2)[aria-current])::before { transform: translateX(100%); }
 .mainnav:not(:has([aria-current]))::before { opacity: 0; }
-.mainnav a { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 7px 20px; border-radius: 999px; color: var(--muted);
+/* as on iOS: the tabs you're not on are plain ink (white in dark mode), the one you're on is the accent colour */
+.mainnav a { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 7px 20px; border-radius: 999px; color: var(--ink);
   font-weight: 600; text-decoration: none; -webkit-tap-highlight-color: transparent; transition: color .2s, transform .25s cubic-bezier(.34, 1.45, .5, 1); }
-.mainnav a:hover { color: var(--ink); }
-.mainnav a[aria-current] { color: var(--accent); }
+.mainnav a[aria-current] { color: var(--accent); font-weight: 700; }
 .mainnav a:active { transform: scale(.92); }
 .mainnav a[aria-current] svg { stroke-width: 2.4; }
 .mainnav .ni { position: relative; display: grid; place-items: center; }
 .navdot { position: absolute; top: -10px; right: -9px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 10px; box-sizing: border-box; background: var(--accent); color: var(--accent-ink); font: 700 11px/18px var(--body); text-align: center; font-style: normal; box-shadow: 0 0 0 2px var(--navring, var(--band, var(--bg))); }
 .navdot[hidden] { display: none; }
+@media (min-width: 640px) { .mainnav a:has(.navdot:not([hidden])) .nl { margin-left: 8px; } }
 @media (prefers-reduced-motion: reduce) { .mainnav::before, .mainnav a { transition: none; } }
 @media (max-width: 639px) {
-  /* floating glass, clear of the screen edge: frosted and translucent, lit along its top edge, lifted by a soft shadow */
-  .mainnav { --navring: var(--lens); --pad: 6px; position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 30;
-    width: min(300px, calc(100% - 48px)); background: color-mix(in srgb, var(--surface) 64%, transparent);
-    -webkit-backdrop-filter: blur(24px) saturate(1.8); backdrop-filter: blur(24px) saturate(1.8);
-    box-shadow: inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px color-mix(in srgb, var(--glass-hi) 50%, transparent),
-      0 0 0 .5px color-mix(in srgb, var(--ink) 14%, transparent), 0 2px 6px rgba(0, 0, 0, .08), 0 14px 36px -8px rgba(0, 0, 0, .32); }
-  .mainnav::before { background: color-mix(in srgb, var(--accent) 12%, color-mix(in srgb, var(--lens) 80%, transparent)); }
-  .mainnav a { flex-direction: column; gap: 3px; padding: 7px 12px 6px; font-size: 11.5px; line-height: 1.1; letter-spacing: .01em; }
-  .mainnav a:not([aria-current]) { color: color-mix(in srgb, var(--ink) 72%, var(--surface)); }
-  .mainnav a[aria-current] { color: var(--accent); }
-  .mainnav .ni svg { width: 26px; height: 26px; }
-  .navdot { top: -6px; right: -12px; }
-  body { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  /* floating glass, clear of the screen edge: clearly see-through (the page shows through, blurred) but held apart from it by a
+     fine edge, a lit top rim and a close, even shadow that doesn't reach the bottom of the screen */
+  .mainnav { --navring: var(--lens); --pad: 4px; position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 30;
+    width: min(250px, calc(100% - 48px)); background: color-mix(in srgb, var(--surface) 55%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.9); backdrop-filter: blur(16px) saturate(1.9);
+    box-shadow: inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px color-mix(in srgb, var(--glass-hi) 40%, transparent),
+      0 0 0 .5px color-mix(in srgb, var(--ink) 22%, transparent), 0 2px 10px rgba(0, 0, 0, .14); }
+  .mainnav::before { background: color-mix(in srgb, var(--ink) 11%, transparent); box-shadow: none; }
+  .mainnav a { flex-direction: column; gap: 1px; padding: 5px 10px 4px; font-size: 10.5px; line-height: 1.2; letter-spacing: .01em; }
+  .mainnav .ni svg { width: 22px; height: 22px; }
+  .navdot { top: -5px; right: -12px; min-width: 16px; height: 16px; font-size: 10px; line-height: 16px; padding: 0 4px; }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
 }
 body.page-feed #comingUp, body.page-feed .controls, body.page-feed #wlInvite, body.page-feed #friendsPanel, body.page-feed #grid, body.page-feed #hiddenKinds, body.page-feed .filters, body.page-feed .scrim { display: none; }
 body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
@@ -802,7 +801,7 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 .postmore { display: block; margin: 12px auto 0; }
 .feednudge { margin-top: 12px; }
 .feed .feedtitle { margin-top: 18px; }
-@media (max-width: 639px) { #toast { inset: auto 0 calc(94px + env(safe-area-inset-bottom, 0px)) 0; } }
+@media (max-width: 639px) { #toast { inset: auto 0 calc(76px + env(safe-area-inset-bottom, 0px)) 0; } }
 .post .card .m:empty { display: none; }
 .post .card h3 { margin-bottom: 1px; }
 .feed { padding-top: 0; }
