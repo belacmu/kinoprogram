@@ -4,6 +4,11 @@ A film's id is the first listing id it was ever seen with (e.g. "fw-EDI20261336"
 alias of it, forever. A new listing joins a known film through a known listing id, else the film's TMDB id, else its IMDb id (never
 by title). A showing's id is "<film id>|<start>|<cinema>" when first seen, frozen.
 
+Each film also keeps a card (its "meta": English title, poster, director, running time, description, Letterboxd slug, and the
+last day it played in each region), built up run by run: a run fills in what it learns about the films it lists, and a film no
+longer listed keeps the card it had. So the site can still show a film that has left every cinema (a watchlist film, an old link).
+Finished showings aren't kept: the database drops them (and the plans for them) a couple of days after they've played.
+
 The registry of films, aliases and showings lives in Supabase (tables films, film_aliases, showings; filled by sync()). A copy is
 kept in state/film-registry.json, so a run without Supabase still gives every film the same id. Ids are deterministic, so a film
 first seen while Supabase was down gets the id it would have got anyway.
@@ -11,6 +16,7 @@ first seen while Supabase was down gets the id it would have got anyway.
 Usage from build.py:
     reg = filmids.load(now_utc)
     filmids.resolve(reg, {region: films}, history)   # sets f["id"], f["ids"], each show's "id"; combines entries of one film
+    filmids.remember(reg, region, films)              # each region: add what this run knows to the films' cards
     filmids.save_local(reg)
     filmids.sync(reg, ...)                            # never raises
 """
@@ -40,7 +46,8 @@ GONE_MARGIN_HOURS = 3
 
 class Registry:
     def __init__(self):
-        self.films = {}      # id -> {"title", "year", "tmdb", "imdb", "merged", "first"}
+        self.films = {}      # id -> {"title", "year", "tmdb", "imdb", "merged", "first", "meta"}
+        self.db_meta = {}    # id -> the card as the database had it before this run (sync() sends the cards that changed)
         self.aliases = {}    # alias -> film id (may be a merged film: use canon())
         self.kinds = {}      # alias -> "listing" | "merged" | "history"
         self.shows = {}      # showing id -> (film id, cinema, starts, region, gone)
@@ -119,6 +126,8 @@ class Registry:
         w = self.films[winner]
         for k in ("tmdb", "imdb", "year"):
             w[k] = w.get(k) or self.films[loser].get(k)
+        if self.films[loser].get("meta"):  # the winner's card, with anything only the loser's had
+            w["meta"] = merge_meta(self.films[loser]["meta"], w.get("meta") or {})
         self.merges.append((loser, winner))
         self.touched.add(winner)
         print(f"  film ids: {loser} merged into {winner}")
@@ -135,7 +144,7 @@ class Registry:
         reg = cls()
         for i, f in (d.get("films") or {}).items():
             reg.films[i] = {"title": f.get("title", ""), "year": f.get("year", ""), "tmdb": f.get("tmdb"), "imdb": f.get("imdb"),
-                            "merged": f.get("merged"), "first": f.get("first", "")}
+                            "merged": f.get("merged"), "first": f.get("first", ""), "meta": f.get("meta") or {}}
         reg.aliases = dict(d.get("aliases") or {})
         reg.kinds = {a: (d.get("kinds") or {}).get(a, "listing") for a in reg.aliases}
         reg.shows = {i: (v[0], v[1], v[2], v[3], v[0] != reg.canon(v[0])) for i, v in (d.get("shows") or {}).items()}
@@ -173,9 +182,17 @@ def _rows(table, query):
 
 def _load_supabase(since):
     reg = Registry()
-    for r in _rows("films", "select=id,title,year,tmdb,imdb,merged_into,first_seen&order=id"):
+    cols = "id,title,year,tmdb,imdb,merged_into,first_seen"
+    try:
+        rows = _rows("films", f"select={cols},meta&order=id")
+    except urllib.error.HTTPError as e:  # the meta column isn't there yet (supabase/schema.sql not re-run): the local cards are used
+        if e.code != 400:
+            raise
+        rows = _rows("films", f"select={cols}&order=id")
+    for r in rows:
         reg.films[r["id"]] = {"title": r["title"] or "", "year": r["year"] or "", "tmdb": r["tmdb"], "imdb": r["imdb"],
-                              "merged": r["merged_into"], "first": r["first_seen"] or ""}
+                              "merged": r["merged_into"], "first": r["first_seen"] or "", "meta": r.get("meta") or {}}
+        reg.db_meta[r["id"]] = r.get("meta") or {}
     for r in _rows("film_aliases", "select=alias,film_id,kind&order=alias"):
         reg.aliases[r["alias"]] = r["film_id"]
         reg.kinds[r["alias"]] = r["kind"]
@@ -216,6 +233,10 @@ def load(since):
         local.merges = [(i, f["merged"]) for i, f in local.films.items() if f.get("merged")]
         print(f"  film ids: database is empty; seeding it from the local registry ({len(local.films)} films)")
         return local
+    # Cards the database doesn't have (made while it was unreachable, or before it had the column) come from the local copy.
+    for fid, f in reg.films.items():
+        if fid in local.films and local.films[fid].get("meta"):
+            f["meta"] = merge_meta(local.films[fid]["meta"], f.get("meta") or {})
     print(f"  film ids: {len(reg.films)} films, {len(reg.aliases)} aliases, {len(reg.shows)} upcoming showings from the database")
     return reg
 
@@ -394,10 +415,11 @@ def gone_cinemas(reg, region, films, now_s):
     return sorted(ok), sorted(skipped)
 
 
-def sync(reg, built, live_ids, complete):
+def sync(reg, built, live_ids, complete, prune_before):
     """Write this run's films and showings to Supabase. built: [(region, now_s, films)] for the regions built in this run.
     live_ids: every film id in any region's current data. complete: all regions' data is present, so films in none can be marked
-    gone. Never raises: the site doesn't depend on this."""
+    gone. prune_before ("YYYY-MM-DD"): showings that started before this day are deleted, with the plans for them. Never raises:
+    the site doesn't depend on this."""
     if not _config()[0]:
         return
     if reg.source != "supabase":
@@ -405,10 +427,12 @@ def sync(reg, built, live_ids, complete):
         return
     try:
         films = []
-        for fid in sorted(reg.touched if reg.seed else {reg.canon(i) for i in reg.touched}):
+        ids = set(reg.touched) if reg.seed else {reg.canon(i) for i in reg.touched}
+        ids |= {i for i, f in reg.films.items() if (f.get("meta") or {}) != reg.db_meta.get(i, {})}  # cards filled in this run
+        for fid in sorted(ids):
             f = reg.films[fid]
             films.append({"id": fid, "title": (f.get("title") or fid)[:300], "year": str(f.get("year") or "")[:10],
-                          "tmdb": f.get("tmdb"), "imdb": f.get("imdb")})
+                          "tmdb": f.get("tmdb"), "imdb": f.get("imdb"), "meta": f.get("meta") or {}})
         cinemas = {r: gone_cinemas(reg, r, fs, now_s) for r, now_s, fs in built}
         # Films in no region's data are marked gone only when every region is there and no cinema looked broken this run.
         complete = complete and not any(skipped for _, skipped in cinemas.values())
@@ -428,11 +452,67 @@ def sync(reg, built, live_ids, complete):
             later = (datetime.strptime(now_s, "%Y-%m-%dT%H:%M") + timedelta(hours=GONE_MARGIN_HOURS)).strftime("%Y-%m-%dT%H:%M")
             _request("rpc/sync_showings", {"p": {"region": r, "now": later, "cinemas": cinemas[r][0], "showings": shows}}, timeout=120)
             print(f"  film ids: wrote {len(shows)} {r} showings")
+        prune(prune_before)
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", "replace")[:300]
         print(f"  ! film ids: writing to the database failed: {e.code} {detail}", file=sys.stderr)
     except Exception as e:
         print(f"  ! film ids: writing to the database failed: {e}", file=sys.stderr)
+
+
+def prune(before):
+    """Delete the showings that started before `before` ("YYYY-MM-DD"), and the plans for them: nothing needs a showing once it has
+    been. Skipped (with a note) while the database doesn't have prune_showings yet."""
+    try:
+        n = _request("rpc/prune_showings", {"before": before}, timeout=120)
+        if n:
+            print(f"  film ids: deleted {n} showings that played before {before}")
+    except urllib.error.HTTPError as e:
+        if e.code != 404:
+            raise
+        print("  film ids: the database has no prune_showings yet (re-run supabase/schema.sql); finished showings kept")
+
+
+# ---------------------------------------------------------------- cards
+# A film's card: what the site shows for a film that isn't listed anywhere any more. Kept small; the poster is TMDB's where there is
+# one (a cinema's own image link may stop working once the film is off its site).
+CARD_KEYS = ("en", "poster", "director", "runtime", "kind", "genres", "countries", "blurb", "lb")
+BLURB_MAX = 1200
+
+
+def card(f, region):
+    """The card for a built film entry (after external.enrich): only the values it has."""
+    ext = f.get("ext") or {}
+    posters = [p for p in (f.get("poster"), f.get("poster2")) if p and str(p).startswith("https://")]
+    m = {"en": ext.get("en") or "",
+         "poster": next((p for p in posters if "image.tmdb.org" in p), posters[0] if posters else ""),
+         "director": f.get("director") or "", "runtime": f.get("runtime") or 0, "kind": f.get("kind") or "",
+         "genres": list(f.get("genres") or [])[:3], "countries": list(f.get("countries") or [])[:3],
+         "blurb": (f.get("blurb") or "")[:BLURB_MAX], "lb": ext.get("lb") or ""}
+    days = [s["t"][:10] for s in f.get("shows") or [] if s.get("t")]
+    if days:
+        m["last"] = {region: max(days)}
+    return {k: v for k, v in m.items() if v}
+
+
+def merge_meta(old, new):
+    """`old` with every value `new` has (an empty value never wipes a known one); "last" keeps each region's latest day."""
+    out = {**(old or {}), **{k: v for k, v in (new or {}).items() if v and k != "last"}}
+    last = dict((old or {}).get("last") or {})
+    for r, d in ((new or {}).get("last") or {}).items():
+        if d > last.get(r, ""):
+            last[r] = d
+    if last:
+        out["last"] = dict(sorted(last.items()))
+    return out
+
+
+def remember(reg, region, films):
+    """Add what this run knows about each of a region's (resolved) films to its card."""
+    for f in films:
+        fid = reg.canon(f.get("id") or "")
+        if fid in reg.films:
+            reg.films[fid]["meta"] = merge_meta(reg.films[fid].get("meta"), card(f, region))
 
 
 def load_history():

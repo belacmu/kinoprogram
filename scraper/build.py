@@ -481,6 +481,13 @@ def main(regions=None):
             fail(r, f"writing failed ({e})")
             built.remove(b)
 
+    # Each film's card (filmids.py): what this run knows about it, then TMDB's for films that left before cards were kept.
+    for r, cfg, now, films in built:
+        filmids.remember(reg, r, films)
+    try:
+        external.fill_cards(reg)
+    except Exception as e:  # cards are a nice-to-have
+        print(f"  ! film cards from TMDB failed: {e}", file=sys.stderr)
     filmids.save_local(reg, since)
     # Every film id in any region's current data (regions not built in this run: their last file), so films in none are marked gone.
     live, complete = set(), not failed
@@ -497,7 +504,7 @@ def main(regions=None):
             fid = reg.film_of(f["id"])
             if fid:
                 live.add(fid)
-    filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete)
+    filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete, since)
     github_output(regions=" ".join(b[0] for b in built), failed=" ".join(failed))
     if failed:
         print(f"Kept the last data for: {', '.join(REGIONS[r]['name'] for r in failed)}", file=sys.stderr)

@@ -236,8 +236,9 @@ grant execute on function public.friends_feed() to authenticated;
 revoke execute on function public.friends_feed() from anon;
 
 -- ---------------------------------------------------------------- films and showings (stable ids, docs/stable-ids.md)
--- Filled by the programme update (scraper/filmids.py) through sync_films() and sync_showings(), with the secret key. Nothing here is
--- ever deleted: a film or showing that disappears gets gone_at, and a merged film points at the film it was merged into.
+-- Filled by the programme update (scraper/filmids.py) through sync_films() and sync_showings(), with the secret key. Films are never
+-- deleted: a film that disappears gets gone_at, and a merged film points at the film it was merged into. A showing that disappears
+-- before it starts gets gone_at; once it has played it's no longer needed, and prune_showings() deletes it (and the plans for it).
 -- A film's id is the first listing id it was seen with ("fw-EDI20261336"); every listing id it has had is in film_aliases.
 -- A showing's id is "<film id>|<start>|<cinema>" when first seen, and never changes, even if its film is merged later.
 create table if not exists public.films (
@@ -254,6 +255,9 @@ create table if not exists public.films (
 );
 create index if not exists films_tmdb_idx on public.films (tmdb) where tmdb is not null;
 create index if not exists films_merged_into_idx on public.films (merged_into) where merged_into is not null;
+-- The film's card, built up run by run, so a film that has left every cinema can still be shown (scraper/filmids.py card()):
+-- {en, poster, director, runtime, kind, genres, countries, blurb, lb, last: {region: "YYYY-MM-DD" (its last showing there)}}.
+alter table public.films add column if not exists meta jsonb not null default '{}'::jsonb;
 
 create table if not exists public.film_aliases (
   alias      text primary key,
@@ -293,7 +297,7 @@ revoke all on public.films, public.film_aliases, public.showings from anon, auth
 grant select on public.films, public.film_aliases, public.showings to anon, authenticated;
 grant select, insert, update on public.films, public.film_aliases, public.showings to service_role;
 
--- Films and aliases from one programme update. p = {films: [{id, title, year, tmdb, imdb}], merges: [{loser, winner}],
+-- Films and aliases from one programme update. p = {films: [{id, title, year, tmdb, imdb, meta}], merges: [{loser, winner}],
 -- aliases: [{alias, film_id, kind}], live: [film id, ...] (every film in any region's current data), complete: whether films not in
 -- `live` may be marked gone}. Runs as the caller (only the secret key may call it).
 create or replace function public.sync_films(p jsonb)
@@ -302,12 +306,14 @@ declare
   m record;
   live text[] := array(select jsonb_array_elements_text(coalesce(p -> 'live', '[]'::jsonb)));
 begin
-  insert into public.films as f (id, title, year, tmdb, imdb)
-  select x.id, left(coalesce(nullif(x.title, ''), x.id), 300), nullif(x.year, ''), x.tmdb, x.imdb
-  from jsonb_to_recordset(coalesce(p -> 'films', '[]'::jsonb)) as x(id text, title text, year text, tmdb integer, imdb text)
+  -- A film sent without a card keeps the one it has (the scraper sends the whole card, already merged with what was here).
+  insert into public.films as f (id, title, year, tmdb, imdb, meta)
+  select x.id, left(coalesce(nullif(x.title, ''), x.id), 300), nullif(x.year, ''), x.tmdb, x.imdb, coalesce(x.meta, '{}'::jsonb)
+  from jsonb_to_recordset(coalesce(p -> 'films', '[]'::jsonb)) as x(id text, title text, year text, tmdb integer, imdb text, meta jsonb)
   on conflict (id) do update
     set title = excluded.title, year = coalesce(excluded.year, f.year), tmdb = coalesce(excluded.tmdb, f.tmdb),
-        imdb = coalesce(excluded.imdb, f.imdb), last_seen = now(), gone_at = null;
+        imdb = coalesce(excluded.imdb, f.imdb), meta = case when excluded.meta = '{}'::jsonb then f.meta else excluded.meta end,
+        last_seen = now(), gone_at = null;
 
   -- Merges: the loser points at the winner, its aliases and showings move over. A showing both films had stays with the winner;
   -- the loser's copy is gone and points at it.
@@ -626,3 +632,53 @@ revoke execute on function public.move_plan(text) from anon;
 update public.profiles p set watchlist = watchlist
 where exists (select 1 from unnest(p.watchlist) w join public.film_aliases a on a.alias = w where a.film_id <> w)
    or cardinality(p.watchlist) <> (select count(distinct w) from unnest(p.watchlist) w);
+
+-- ---------------------------------------------------------------- finished showings aren't kept
+-- Showings that started before `before` ("YYYY-MM-DD", local date; the scraper sends two days ago), and the plans for them, are
+-- deleted by each programme update. Films stay, with the last day they played in each region on their card (films.meta.last).
+-- Returns how many showings were deleted. Secret key only.
+create or replace function public.prune_showings(before text)
+returns integer language plpgsql security definer set search_path = '' as $$
+declare
+  n integer;
+begin
+  if before !~ '^\d{4}-\d{2}-\d{2}$' or before > to_char(now() at time zone 'utc' - interval '1 day', 'YYYY-MM-DD') then
+    raise exception 'prune_showings needs a day at least one day ago, "YYYY-MM-DD"' using errcode = '22023';
+  end if;
+  update public.showings set replaced_by = null
+    where replaced_by in (select id from public.showings where starts < before);
+  delete from public.plans where showing_id in (select id from public.showings where starts < before);
+  delete from public.showings where starts < before;
+  get diagnostics n = row_count;
+  return n;
+end;
+$$;
+revoke all on function public.prune_showings(text) from public;
+revoke execute on function public.prune_showings(text) from anon, authenticated;
+grant execute on function public.prune_showings(text) to service_role;
+
+-- ---------------------------------------------------------------- any film by any id it has had
+-- For the app: each id asked for (a watchlist's, an old link's; at most 500), the film it is now (through film_aliases and merges),
+-- with its card and the regions where it has upcoming showings. An id no film is known by isn't returned. Public, like the tables.
+create or replace function public.resolve_films(ids text[])
+returns table (asked text, id text, title text, year text, tmdb integer, imdb text, meta jsonb, gone_at timestamptz, regions text[])
+language sql stable set search_path = '' as $$
+  with recursive walk as (
+    select w.i as asked, coalesce(a.film_id, w.i) as fid, 0 as hops
+    from unnest(ids[1:500]) as w(i) left join public.film_aliases a on a.alias = w.i
+    union all
+    select w.asked, f.merged_into, w.hops + 1
+    from walk w join public.films f on f.id = w.fid
+    where f.merged_into is not null and w.hops < 10
+  ), ends as (
+    select distinct on (asked) asked, fid from walk order by asked, hops desc
+  )
+  select l.asked, f.id, f.title, f.year, f.tmdb, f.imdb, f.meta, f.gone_at,
+         array(select distinct s.region from public.showings s
+               where s.film_id = f.id and s.gone_at is null
+                 and s.starts >= to_char(now() at time zone 'utc' - interval '12 hours', 'YYYY-MM-DD"T"HH24:MI')  -- local times: a margin
+               order by 1)
+  from ends l join public.films f on f.id = l.fid;
+$$;
+revoke all on function public.resolve_films(text[]) from public;
+grant execute on function public.resolve_films(text[]) to anon, authenticated;

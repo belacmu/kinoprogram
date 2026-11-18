@@ -1247,7 +1247,8 @@ async function loadPlans() {
   const remote = new Map(data.map((r) => [r.showing_id, r]));
   const firstHere = local.get("plansFor", "") !== me.id;
   for (const [id, r] of remote) if (!planDirty.has(id)) { const sh = r.showing || {}; plans[id] = { going: true, inv: r.invite_token, via: r.joined_via || undefined, party: r.party || undefined, tell: r.tell_friends, seats: r.seats || "", film: sh.film_id, title: sh.title, cinema: sh.cinema, t: sh.starts, region: sh.region, ticket: safeUrl(sh.ticket), gone: !!sh.gone_at, replacedBy: sh.replaced_by || undefined }; }
-  for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id) && !((savedAt[id] || 0) >= t0)) { if (firstHere) { planDirty.add(id); planV[id] = (planV[id] || 0) + 1; } else delete plans[id]; }
+  // (a plan made here for a showing that has since played isn't sent: finished showings aren't kept, so it would be refused)
+  for (const id of Object.keys(plans)) if (!remote.has(id) && !planDirty.has(id) && !((savedAt[id] || 0) >= t0)) { if (firstHere && !(plans[id].t && plans[id].t < localNow())) { planDirty.add(id); planV[id] = (planV[id] || 0) + 1; } else delete plans[id]; }
   local.set("plans", plans); local.set("planDirty", [...planDirty]); local.set("plansFor", me.id);
   await syncPlans();
   if (state.page === "feed") renderFeed(); else renderComing();
