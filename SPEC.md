@@ -277,17 +277,16 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
     or buy first." (TMDB's digital release type; it usually means renting or buying first, streaming later, so it isn't called
     streaming.)
   - **None, nothing ahead**: "Not available to stream, rent or buy in Norway as far as we know (checked 5 Jan)."
-  - **Never checked** (nobody has watchlisted it, no TMDB match, or the next update hasn't run): nothing.
+  - **Never checked** (no TMDB match, or the next update hasn't run yet): nothing.
   A page with showings never shows it.
-- **Which films are looked up** (`scraper/watch.py`, each programme update): every film someone has wanted to see, matched on TMDB.
-  **Wanting** is a private mark on the film (`film_marks`), set the first time anyone puts it on a watchlist: signed in (a database
-  trigger on the watchlist) or not (the app calls `mark_watchlisted` when a heart is tapped, and once for the hearts a browser
-  already has). It stays when the film leaves the list. Only the update can read the marks: nobody can see who marked a film, or
-  which films are marked. One TMDB request per film gives every country's services and digital release dates; results are kept
-  per country in `watch_options` (public, like the programme), the digital date in `options.digital`, also when there's nothing.
-  A film is looked up on the next run after it's marked, then again: every 14 days while it has no services anywhere (the day after
-  a digital release ahead, if sooner); every 60 days once it has some; never again once its digital release is over two years past
-  and it still has none. At most 100 a run, never-checked films first.
+- **When where to watch is checked**: it comes with a film's details (below, "Film information"), so every film whose details are
+  fetched has it, for every country. Films someone has wanted to see are checked more often, as where to watch needs: every 14 days
+  while nothing is found (the day after a digital release ahead, if sooner), every 60 days once something is, never again once a
+  digital release is over two years past with still nothing. **Wanting** is a private mark on the film (`film_marks`), set the first
+  time anyone puts it on a watchlist: signed in (a database trigger on the watchlist) or not (the app calls `mark_watchlisted` when a
+  heart is tapped, and once for the hearts a browser already has). It stays when the film leaves the list. Only the update can read
+  the marks: nobody can see who marked a film, or which films are marked. Results are kept per country in `watch_options` (public,
+  like the programme), the digital release date in `options.digital`, also when there's nothing.
 - **Display name**: an optional name field on the sign-in form, used only if the email is new; existing users default to their email until they set
   one. Changeable on the Friends screen. Only friends see it.
 - **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
@@ -353,9 +352,8 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
 - **Film cards** (`films.meta`, also in `state/film-registry.json`): each film keeps what the site needs to show it after it has left
   every cinema: English title, poster (TMDB's where there is one), director, running time, kind, genres, countries, description,
   Letterboxd slug, and `last`, the last day it played in each region. Each update adds what it learns about the films it lists (an
-  empty value never wipes a known one; a merged film's card gets the other's values); a film no longer listed keeps its card. Films
-  that left before cards were kept are filled from TMDB (`external.fill_cards`, 60 a run, once per film); a film without a TMDB
-  match keeps only its title and year.
+  empty value never wipes a known one; a merged film's card gets the other's values); a film no longer listed keeps its card. TMDB's
+  part comes from the details step (below); a film without a TMDB match keeps only what its listings said, or its title and year.
 - **Finished showings aren't kept**, unless someone had a plan for them: each update deletes the showings that started over two
   days ago and that no plan points at (`prune_showings`). Plans are never deleted this way, so a past plan still has its showing (film,
   cinema, time; the film's card for the rest). `state/film-registry.json` keeps only recent showings.
@@ -367,6 +365,23 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   watchlists' unknown ids: one whose listing had a TMDB/IMDb match (`state/listing-history.json`) becomes an alias of the film
   known under that match, or a new (gone) film under that id, from TMDB (title and year; its card is then filled like any other),
   and is marked as wanted. Ids with no match stay unknown. A browser-only watchlist can't be seen, so isn't recovered.
+- **Film information: three steps, each with one job** (each update):
+  1. **Matching** (`external.enrich`, per listing): which film a listing is: its TMDB and IMDb ids, Rotten Tomatoes / Metacritic
+     links and English title, by the careful rules above. `state/external.json` keeps only these matches (and, until the Letterboxd
+     step is merged into step 3, the listed films' weekly Letterboxd ratings).
+  2. **Details** (`scraper/details.py`, per film, after film ids are worked out): **one TMDB request** per film,
+     `/movie/{id}` with credits, release dates and watch providers: poster, description, running time, director, original language,
+     English title (only where matching gave none), where to watch in every country and digital release dates. Kept on the film's
+     card (`tmdbPoster`, `blurb`, `lang`, `tmdbAt`, …) and in `watch_options`. **When**: a film never fetched, now (recovered watchlist
+     films, then listed ones, then the rest); a listed film, again every 30 days; a wanted film, as where to watch needs (above);
+     otherwise never again. At most 250 a run. Listed films then take their details from their cards: TMDB's poster where the
+     cinema's is missing or a still (Cinemateket, Revier), or as the fallback (`poster2`) for listings from Westman's and Costa del
+     Sol's sources (by the listing's own id); TMDB's description; for Costa del Sol, the original language if matching gave none.
+     A film is "matched" when it has a TMDB id and its listing a match (a conflicting match gets none of TMDB's).
+  3. **Letterboxd** (by exact id): weekly for listed films (in step 1 for now); once for films not listed
+     (`external.fill_letterboxd`, 40 a run).
+  Details fetched before step 2 existed (the matching cache's posters and descriptions, the old one-off cards) moved to the cards
+  once, automatically, so nothing was fetched twice.
 - `state/listing-history.json` (made once by `scripts/film-history.py` from the git history of `state/external.json`) links old
   listing ids to their films through TMDB/IMDb ids.
 

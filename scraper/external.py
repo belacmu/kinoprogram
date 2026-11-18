@@ -1,4 +1,6 @@
-"""Find each film's IMDb / Letterboxd / Rotten Tomatoes / Metacritic pages (via Wikidata, plus TMDB
+"""Matching (step 1 of the film information; details.py is step 2): which film each listing is.
+
+Find each film's IMDb / Letterboxd / Rotten Tomatoes / Metacritic pages (via Wikidata, plus TMDB
 when TMDB_READ_TOKEN or TMDB_API_KEY is set) and its Letterboxd average rating. Results are cached in state/external.json so each film is looked up
 once, not on every run.
 
@@ -459,16 +461,6 @@ def enrich(films, now, keep_prefixes=()):
             for i in f["ids"]:
                 cache[i] = rec
 
-    # Original language (TMDB) for Costa del Sol films: it tells a Spanish-language film from a dubbed one.
-    if tmdb_enabled():
-        for f in [f for f in films if f["id"].startswith(("cl-", "mk-"))][:40]:
-            rec = next((cache[i] for i in f["ids"] if i in cache), None)
-            if rec and rec.get("tmdb") and not rec.get("lang") and not rec.get("conflict"):
-                try:
-                    rec["lang"] = tmdb_get(f"/movie/{rec['tmdb']}", language="en-US").get("original_language") or ""
-                except Exception as e:
-                    print(f"  ! tmdb language {f['title']}: {e}", file=sys.stderr)
-
     # Letterboxd ratings, refreshed weekly for films we've matched.
     rate = []
     for f in films:
@@ -505,51 +497,13 @@ def enrich(films, now, keep_prefixes=()):
             if en and len(en) < 120 and _norm(en) not in (_norm(f["title"]), _norm(f["alt"])):
                 f["ext"]["en"] = en
             f["ext"]["lb"] = rec.get("lbSlug") or ""  # only a slug Letterboxd itself returned
-    # Posters from TMDB where the film is matched there: instead of Cinemateket's and Revier's wide stills and of missing posters, and as a
-    # fallback (`poster2`, used by the page if the first image fails to load) for Westman and Costa del Sol, whose image
-    # links can go dead (e.g. MovieScout's Avengers: Endgame Encore).
-    if tmdb_enabled():
-        budget = 150   # lookups per run; the Oslo stills come first, then Westman and Costa del Sol
-        for f in films:
-            poster = f.get("poster") or ""
-            replace = not poster or "vrs.gd" in poster or "evbuc.com" in poster
-            fallback = not replace and f["id"].startswith(("https-moviescout", "lm-", "cc-", "cl-", "mk-"))
-            if not (replace or fallback):
-                continue
-            rec = next((cache[i] for i in f["ids"] if i in cache), None)
-            if not rec or not rec.get("tmdb") or rec.get("conflict"):
-                continue
-            if "posterPath" not in rec and budget > 0:
-                budget -= 1
-                try:
-                    rec["posterPath"] = tmdb_get(f"/movie/{rec['tmdb']}", language="en-US").get("poster_path") or ""
-                except Exception as e:
-                    print(f"  ! tmdb poster {f['title']}: {e}", file=sys.stderr)
-            if rec.get("posterPath"):
-                url = "https://image.tmdb.org/t/p/w342" + rec["posterPath"]
-                if replace:
-                    f["poster"] = url
-                else:
-                    f["poster2"] = url
-
-    # Descriptions: TMDB's overview (its API terms cover showing it, with the attribution the site gives). The cinemas'
-    # and listing sites' own texts are theirs, so the scrapers don't collect them; a film not matched on TMDB has none.
-    # Fetched once per film; after a change the first runs catch up.
-    if tmdb_enabled():
-        budget = 200
-        for f in films:
-            rec = next((cache[i] for i in f["ids"] if i in cache), None)
-            if rec and rec.get("tmdb") and not rec.get("conflict") and "overview" not in rec and budget > 0:
-                budget -= 1
-                try:
-                    d = tmdb_get(f"/movie/{rec['tmdb']}", language="en-US")
-                    rec["overview"] = (d.get("overview") or "").strip()
-                    rec.setdefault("posterPath", d.get("poster_path") or "")
-                except Exception as e:
-                    print(f"  ! tmdb overview {f['title']}: {e}", file=sys.stderr)
-    for f in films:
-        rec = next((cache[i] for i in f["ids"] if i in cache), None)
-        f["blurb"] = rec.get("overview") or "" if rec and rec.get("tmdb") and not rec.get("conflict") else ""
+    # Details (poster, description, …) are the details step's now (details.py), kept on each film's card. What this cache held of
+    # them goes to details.migrate once, through `legacy`, and is dropped here.
+    legacy = {}
+    for k, rec in cache.items():
+        got = {x: rec.pop(x) for x in ("posterPath", "overview") if x in rec}
+        if got:
+            legacy[k] = {**got, "lang": rec.get("lang"), "tmdbChecked": rec.get("tmdbChecked")}
 
     # Keep the cache to films we still list.
     live = {i for f in films for i in f["ids"]}
@@ -558,39 +512,7 @@ def enrich(films, now, keep_prefixes=()):
                                 ensure_ascii=False, indent=0))
     print(f"  links for {matched}/{len(films)} films ({looked} looked up on Wikidata, "
           f"{tmdb_checked} checked on TMDB ({tmdb_new} new), {min(len(rate), MAX_RATINGS)} ratings refreshed)")
-
-
-# ---------------------------------------------------------------- cards of films no longer listed
-CARD_BUDGET = 60  # TMDB lookups per run
-
-
-def fill_cards(reg):
-    """A film no cinema lists any more keeps the card it had (filmids.py). Films that left before cards were kept have none: fill
-    them from TMDB (English title, poster, description, running time, director), a few each run, once per film."""
-    if not tmdb_enabled():
-        return
-    todo = [f for f in reg.films.values() if f.get("tmdb") and not f.get("merged")
-            and not (f.get("meta") or {}).get("poster") and not (f.get("meta") or {}).get("tmdbCard")]
-    done = 0
-    for f in todo[:CARD_BUDGET]:
-        try:
-            d = tmdb_get(f"/movie/{f['tmdb']}", language="en-US", append_to_response="credits")
-        except Exception as e:
-            print(f"  ! tmdb card {f.get('title')}: {e}", file=sys.stderr)
-            continue
-        directors = [c.get("name") for c in (d.get("credits") or {}).get("crew") or [] if c.get("job") == "Director" and c.get("name")]
-        m = dict(f.get("meta") or {})
-        for k, v in (("en", english_from_tmdb(d, [f.get("title") or ""])),
-                     ("poster", "https://image.tmdb.org/t/p/w342" + d["poster_path"] if d.get("poster_path") else ""),
-                     ("blurb", (d.get("overview") or "").strip()[:1200]), ("runtime", d.get("runtime") or 0),
-                     ("director", ", ".join(directors[:2]))):
-            if v and not m.get(k):
-                m[k] = v
-        m["tmdbCard"] = datetime.now().strftime("%Y-%m-%d")  # looked up once; the run's own data fills anything newer
-        f["meta"] = m
-        done += 1
-    if done:
-        print(f"  film cards: {done} filled from TMDB ({max(0, len(todo) - done)} to go)")
+    return legacy
 
 
 # ---------------------------------------------------------------- watchlist films from before films were kept
@@ -601,7 +523,7 @@ def recover_films(reg, ids, history, now_iso):
     """Watchlist ids no film is known by: films that left the cinemas before the film registry began (2026-11-14), so the database
     never had them. The listing's TMDB/IMDb match from git history (state/listing-history.json) identifies the film: an id of a film
     known under another id becomes its alias; otherwise the film is created under that id from TMDB (title and year here; its card is
-    filled by fill_cards). Ids with no match in the history stay unknown. Returns the ids of the films created."""
+    fetched by details.py). Ids with no match in the history stay unknown. Returns the ids of the films created."""
     unknown = sorted({i for i in ids if i and i not in reg.aliases and i not in reg.films})
     created, linked = [], 0
     for i in unknown:

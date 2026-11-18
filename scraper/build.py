@@ -35,7 +35,7 @@ import filmids  # noqa: E402
 import revier  # noqa: E402
 import sommerro  # noqa: E402
 import sources  # noqa: E402
-import watch  # noqa: E402
+import details  # noqa: E402
 import westman  # noqa: E402
 import winnipeg  # noqa: E402
 
@@ -458,9 +458,15 @@ def main(regions=None):
         built.append([r, cfg, now, films])
 
     print("Looking up Letterboxd / IMDb links …")
+    # What the update knows about films, in three steps (SPEC.md, "Film information"): 1. matching, per listing, here; 2. details from
+    # TMDB and 3. Letterboxd, per film, once film ids are worked out (below).
+    legacy = {}
+    for b in built:
+        for f in b[3]:
+            f["listing"] = f["id"]  # the listing's own id, for details.apply's poster rule (film ids may come from another region)
     try:  # one call for all regions: the link cache is shared
         skipped = [p for r, cfg in REGIONS.items() if r not in regions for p in cfg["idprefixes"]]  # regions not built this run
-        external.enrich([f for b in built for f in b[3]], datetime.now(ZoneInfo("Europe/Oslo")).replace(tzinfo=None), skipped)
+        legacy = external.enrich([f for b in built for f in b[3]], datetime.now(ZoneInfo("Europe/Oslo")).replace(tzinfo=None), skipped) or {}
     except Exception as e:  # links are a nice-to-have; never fail the run over them
         print(f"  ! link lookup failed: {e}", file=sys.stderr)
 
@@ -474,6 +480,20 @@ def main(regions=None):
     for b in built:
         b[3] = resolved[b[0]]
 
+    # Watchlist films that left the cinemas before the registry began: back as films (their details fetched just below).
+    recovered = []
+    if reg.source == "supabase":
+        try:
+            recovered = external.recover_films(reg, filmids.watchlisted(), history, utc.isoformat())
+        except Exception as e:
+            print(f"  ! recovering watchlist films failed: {e}", file=sys.stderr)
+    # 2. Details: one TMDB request per film that's due; then the listed films take theirs from their cards.
+    print("Film details …")
+    listed = {reg.canon(f["id"]) for b in built for f in b[3]}
+    pending = details.update(reg, listed, legacy, sorted({cfg["country"] for cfg in REGIONS.values()}), first=recovered)
+    for b in built:
+        details.apply(reg, b[3])
+
     for b in list(built):
         r, cfg, now, films = b
         try:
@@ -483,19 +503,11 @@ def main(regions=None):
             fail(r, f"writing failed ({e})")
             built.remove(b)
 
-    # Watchlist films that left the cinemas before the registry began: back as films (their cards filled just below).
-    recovered = []
-    if reg.source == "supabase":
-        try:
-            recovered = external.recover_films(reg, filmids.watchlisted(), history, utc.isoformat())
-        except Exception as e:
-            print(f"  ! recovering watchlist films failed: {e}", file=sys.stderr)
-    # Each film's card (filmids.py): what this run knows about it, then TMDB's for films that left before cards were kept.
+    # Each film's card (filmids.py): what this run's listings say about it; then 3. Letterboxd for films not listed.
     for r, cfg, now, films in built:
         filmids.remember(reg, r, films)
     try:
-        external.fill_cards(reg)
-        external.fill_letterboxd(reg, {reg.canon(f["id"]) for b in built for f in b[3]})
+        external.fill_letterboxd(reg, listed)
     except Exception as e:  # cards are a nice-to-have
         print(f"  ! film cards failed: {e}", file=sys.stderr)
     filmids.save_local(reg, since)
@@ -515,10 +527,9 @@ def main(regions=None):
             if fid:
                 live.add(fid)
     filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete, since)
+    details.flush(pending)  # where to watch, now that films created this run are in the database
     if recovered:
         filmids.mark(recovered)  # wanted, as they're on a watchlist (the database's own marking only saw ids it knew)
-    print("Where to watch …")
-    watch.update(reg, sorted({cfg["country"] for cfg in REGIONS.values()}))
     github_output(regions=" ".join(b[0] for b in built), failed=" ".join(failed))
     if failed:
         print(f"Kept the last data for: {', '.join(REGIONS[r]['name'] for r in failed)}", file=sys.stderr)
