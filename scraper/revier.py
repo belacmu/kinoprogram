@@ -10,6 +10,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.parse
 from datetime import datetime
 from pathlib import Path
@@ -92,7 +93,7 @@ def fetch_api(now, token):
     films, continuation = {}, ""
     stamp = now.strftime("%Y-%m-%dT%H:%M:%S")
     while True:
-        q = {"status": "live", "order_by": "start_asc", "expand": "ticket_availability", "page_size": 50}
+        q = {"status": "live", "order_by": "start_asc", "expand": "ticket_availability"}
         if continuation:
             q["continuation"] = continuation
         data = json.loads(get(f"{API}/organizers/{ORGANIZER_ID}/events/?{urllib.parse.urlencode(q)}",
@@ -153,10 +154,19 @@ def fetch_pages(now):
 
 def fetch_all(now):
     token = os.environ.get("EVENTBRITE_TOKEN")
-    if token:
+    if not token:
+        print("  ! Revier: no EVENTBRITE_TOKEN, reading the public pages instead", file=sys.stderr)
+        return fetch_pages(now)
+    try:
         return fetch_api(now, token)
-    print("  ! Revier: no EVENTBRITE_TOKEN, reading the public pages instead", file=sys.stderr)
-    return fetch_pages(now)
+    except urllib.error.HTTPError as e:
+        # Eventbrite says what it objected to in the body ({"error": …, "error_description": …}).
+        try:
+            body = e.read().decode("utf-8", "replace")[:300]
+        except Exception:
+            body = ""
+        print(f"  ! Revier: Eventbrite API {e.code}: {body}; reading the public pages instead", file=sys.stderr)
+        return fetch_pages(now)
 
 
 if __name__ == "__main__":
