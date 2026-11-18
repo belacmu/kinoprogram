@@ -191,10 +191,14 @@ async function site() {
       f.shows = []; f.scope = ""; f.premiere = f.premiere || "2099-01-01"; f.elsewhere = ["Bergen", "Trondheim"];
       return f.id;
     });
+    WATCH.push({ film_id: eid, country: "NO", link: "https://www.themoviedb.org/movie/1/watch?locale=NO", checked_at: `${Y}-01-05T10:00:00+00:00`,
+      options: { rent: [{ name: "Viaplay", logo: "" }] } });
     await page.evaluate((id) => { location.hash = "#film/" + encodeURIComponent(id); }, eid);
     await page.waitForSelector("#film[open] .hiddenNote");
+    await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
     const etext = await page.$eval("#film", (d) => d.textContent);
     check(!/Bergen|Trondheim/.test(etext) && /No showings announced in Oslo yet/.test(etext), "a film showing only in other cities doesn't name them");
+    check(/Watch at home in Norway/.test(etext) && /Viaplay/.test(etext), "a listed film with no showings yet also says where to watch it");
     await page.keyboard.press("Escape");
 
     // Marks are sent once per browser; a new heart sends its film's.
