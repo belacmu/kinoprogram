@@ -307,7 +307,7 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   when first seen, frozen.
 - **In Supabase**, `films`, `film_aliases` and `showings` are written by each programme update (`scraper/filmids.py`, functions
   `sync_films` and `sync_showings`, secret key only; anyone may read them). A film in no region's data, or an upcoming showing missing
-  from its region's update, gets `gone_at`; nothing is deleted. Not within 3 hours of its start (sources drop showings once sales
+  from its region's update, gets `gone_at`; films are never deleted. Not within 3 hours of its start (sources drop showings once sales
   close), and not at a cinema with under half the showings the database saw for it in the last day (a failing source must not mark
   its programme gone; a cinema whose programme really shrank is held back a day at most). A gone showing replaced by one new showing of the same film at the same
   cinema on the same day gets `replaced_by`. If Supabase can't be read, the ids come from `state/film-registry.json` and nothing is
@@ -319,6 +319,18 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   across renames, so a renamed film never shows up as a friend's new pick again; an id no film is known by is kept as it is. When the
   update merges two films, `sync_films` re-saves the watchlists that had the old id. Hidden films (`prefs.hidden`) keep whatever ids
   they were saved under; they still match through `ids`.
+- **Film cards** (`films.meta`, also in `state/film-registry.json`): each film keeps what the site needs to show it after it has left
+  every cinema: English title, poster (TMDB's where there is one), director, running time, kind, genres, countries, description,
+  Letterboxd slug, and `last`, the last day it played in each region. Each update adds what it learns about the films it lists (an
+  empty value never wipes a known one; a merged film's card gets the other's values); a film no longer listed keeps its card. Films
+  that left before cards were kept are filled from TMDB (`external.fill_cards`, 60 a run, once per film); a film without a TMDB
+  match keeps only its title and year.
+- **Finished showings aren't kept**, unless someone had a plan for them: each update deletes the showings that started over two
+  days ago and that no plan points at (`prune_showings`). Plans are never deleted this way, so a past plan still has its showing (film,
+  cinema, time; the film's card for the rest). `state/film-registry.json` keeps only recent showings.
+- **`resolve_films(ids)`** (public) gives, for each id asked for (a watchlist's, an old link's), the film it is now (through aliases
+  and merges), its card and the regions where it has upcoming showings: one call for everything the app needs about films that
+  aren't in the loaded region's data.
 - `state/listing-history.json` (made once by `scripts/film-history.py` from the git history of `state/external.json`) links old
   listing ids to their films through TMDB/IMDb ids.
 

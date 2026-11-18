@@ -151,6 +151,47 @@ def test_deterministic_without_registry():
     assert ra["oslo"][0]["shows"][0]["id"] == rb["oslo"][0]["shows"][0]["id"]
 
 
+def test_card_is_kept_after_the_film_leaves():
+    """A film's card is built up run by run and survives runs (and the local copy) that no longer list it."""
+    reg = filmids.Registry()
+    f = film("Klara", ["fw-k"], tmdb=1, shows=[("2026-11-15T19:00", "Vega"), ("2026-11-18T19:00", "Vega")])
+    f.update(director="Kogonada", runtime=101, blurb="A robot.", poster="https://image.tmdb.org/t/p/w342/k.jpg", kind="film")
+    f["ext"]["en"], f["ext"]["lb"] = "Klara and the Sun", "klara"
+    out = filmids.resolve(reg, {"oslo": [f]}, NOW)
+    filmids.remember(reg, "oslo", out["oslo"])
+    m = reg.films["fw-k"]["meta"]
+    assert m["poster"].endswith("/k.jpg") and m["en"] == "Klara and the Sun" and m["last"] == {"oslo": "2026-11-18"}, m
+    assert "genres" not in m  # empty values aren't stored
+    reg = roundtrip(reg)
+    reg.source = "supabase"
+    out = filmids.resolve(reg, {"oslo": []}, LATER)       # gone from Oslo
+    filmids.remember(reg, "oslo", out["oslo"])
+    w = film("Klara", ["cc-klara"], tmdb=1, shows=[("2026-12-01T19:00", "Cinematheque")])   # later in Winnipeg, no poster or text there
+    out = filmids.resolve(reg, {"winnipeg": [w]}, LATER)
+    filmids.remember(reg, "winnipeg", out["winnipeg"])
+    m = roundtrip(reg).films["fw-k"]["meta"]
+    assert m["blurb"] == "A robot." and m["director"] == "Kogonada", m
+    assert m["last"] == {"oslo": "2026-11-18", "winnipeg": "2026-12-01"}, m
+
+
+def test_merge_meta():
+    old = {"poster": "https://a", "blurb": "x", "last": {"oslo": "2026-11-20"}}
+    new = {"poster": "https://b", "blurb": "", "last": {"oslo": "2026-11-10", "westman": "2026-11-12"}}
+    m = filmids.merge_meta(old, new)
+    assert m == {"poster": "https://b", "blurb": "x", "last": {"oslo": "2026-11-20", "westman": "2026-11-12"}}, m
+
+
+def test_merged_film_keeps_both_cards():
+    reg = filmids.Registry()
+    a = film("Heat", ["fw-h1"], shows=[("2026-11-15T19:00", "Vega")])
+    b = film("Heat", ["fw-h2"], shows=[("2026-11-16T19:00", "Saga")])
+    out = filmids.resolve(reg, {"oslo": [a, b]}, NOW)
+    reg.films["fw-h2"]["meta"] = {"blurb": "Cops.", "last": {"oslo": "2026-11-16"}}
+    reg.films["fw-h1"]["meta"] = {"poster": "https://p"}
+    reg.merge("fw-h2", "fw-h1")
+    assert reg.films["fw-h1"]["meta"] == {"poster": "https://p", "blurb": "Cops.", "last": {"oslo": "2026-11-16"}}
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for t in tests:

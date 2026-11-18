@@ -558,3 +558,36 @@ def enrich(films, now, keep_prefixes=()):
                                 ensure_ascii=False, indent=0))
     print(f"  links for {matched}/{len(films)} films ({looked} looked up on Wikidata, "
           f"{tmdb_checked} checked on TMDB ({tmdb_new} new), {min(len(rate), MAX_RATINGS)} ratings refreshed)")
+
+
+# ---------------------------------------------------------------- cards of films no longer listed
+CARD_BUDGET = 60  # TMDB lookups per run
+
+
+def fill_cards(reg):
+    """A film no cinema lists any more keeps the card it had (filmids.py). Films that left before cards were kept have none: fill
+    them from TMDB (English title, poster, description, running time, director), a few each run, once per film."""
+    if not tmdb_enabled():
+        return
+    todo = [f for f in reg.films.values() if f.get("tmdb") and not f.get("merged")
+            and not (f.get("meta") or {}).get("poster") and not (f.get("meta") or {}).get("tmdbCard")]
+    done = 0
+    for f in todo[:CARD_BUDGET]:
+        try:
+            d = tmdb_get(f"/movie/{f['tmdb']}", language="en-US", append_to_response="credits")
+        except Exception as e:
+            print(f"  ! tmdb card {f.get('title')}: {e}", file=sys.stderr)
+            continue
+        directors = [c.get("name") for c in (d.get("credits") or {}).get("crew") or [] if c.get("job") == "Director" and c.get("name")]
+        m = dict(f.get("meta") or {})
+        for k, v in (("en", english_from_tmdb(d, [f.get("title") or ""])),
+                     ("poster", "https://image.tmdb.org/t/p/w342" + d["poster_path"] if d.get("poster_path") else ""),
+                     ("blurb", (d.get("overview") or "").strip()[:1200]), ("runtime", d.get("runtime") or 0),
+                     ("director", ", ".join(directors[:2]))):
+            if v and not m.get(k):
+                m[k] = v
+        m["tmdbCard"] = datetime.now().strftime("%Y-%m-%d")  # looked up once; the run's own data fills anything newer
+        f["meta"] = m
+        done += 1
+    if done:
+        print(f"  film cards: {done} filled from TMDB ({max(0, len(todo) - done)} to go)")

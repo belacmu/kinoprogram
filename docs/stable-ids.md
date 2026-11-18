@@ -1,6 +1,7 @@
 # Stable film and showing ids: design
 
 Status: approved (all four recommendations). Stages 1 (tables, scraper, JSON) and 2 (plans, and the cleanup) are live; stage 3 (watchlists) built.
+Later change: finished showings nobody planned for are now deleted and each film keeps a card (`films.meta`); see SPEC.md, "Film and showing ids".
 
 ## What I found (confirmed by reading the code and the live data)
 

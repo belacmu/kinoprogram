@@ -41,3 +41,11 @@ Repository **secrets**: `SUPABASE_SECRET_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD
 
 Without them the site still works (browsing, filters, a watchlist kept in the browser); sign-in and
 emails switch on once they're set.
+
+## Tests
+
+`sh scripts/test.sh` runs them all: the scraper's film ids and cards (`scraper/test_filmids.py`), a syntax check of
+`site/app.js`, and the database schema (`supabase/tests/`: `schema.sql` applied twice to a scratch Postgres, then film cards,
+`resolve_films`, pruning and past plans checked). The database part needs a local Postgres, or `DATABASE_URL` pointing at a scratch
+server; never the real Supabase project. GitHub runs them on every push that touches the scraper, the schema or the app
+(`.github/workflows/tests.yml`).

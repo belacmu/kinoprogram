@@ -1,0 +1,39 @@
+name: Tests
+
+# The scraper's film id and card logic, the app's syntax, and the database schema (supabase/tests: applied twice to a scratch
+# Postgres, then checked). No secrets: nothing here touches the real Supabase project or any website.
+on:
+  push:
+    paths:
+      - "scraper/**"
+      - "supabase/**"
+      - "site/app.js"
+      - "scripts/test.sh"
+      - ".github/workflows/tests.yml"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run the tests
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        run: sh scripts/test.sh
