@@ -1,7 +1,7 @@
 // Browser test of the app's "Not showing" section (Watchlist tab) and the film page of a film this location doesn't list.
 //   node scripts/test-app.js [screenshot dir]
 // Serves a copy of site/ with the programme data (site/data/ if it's there, else today's from the live site) and a fake Supabase:
-// resolve_films answers from FILMS below. Needs Playwright with Chromium (CI installs it; scripts/test.sh skips this without it).
+// resolve_films answers from FILMS below, watch_options from WATCH. Needs Playwright with Chromium (CI installs it; scripts/test.sh skips this without it).
 const { chromium } = require("playwright");
 const fs = require("fs");
 const http = require("http");
@@ -55,7 +55,16 @@ async function site() {
     "fw-nomatch": { id: "fw-nomatch", title: "Ukjent kortfilmprogram", year: "", meta: { last: { winnipeg: `${Y}-01-12` } }, gone_at: `${Y}-01-13T00:00:00Z`, regions: [] },
   };
   const ALIASES = { "fw-old-listing": there.id };  // an old listing id of a film only Winnipeg lists (playing there: never said here)
-  const calls = [];
+  const calls = [], watchAsked = [];
+  // Where to watch, as the update stores it: Klara-like film checked with services in Norway (and Canada, never shown on an Oslo
+  // page), the short checked with nothing; the Winnipeg film never checked (no row).
+  const WATCH = [
+    { film_id: "cm-gone", country: "NO", link: "https://www.themoviedb.org/movie/25188/watch?locale=NO", checked_at: `${Y}-01-05T10:00:00+00:00`,
+      options: { stream: [{ name: "Netflix", logo: "/nf.jpg" }, { name: "Max", logo: "" }], rent: [{ name: "Apple TV", logo: "/apple.jpg" }] } },
+    { film_id: "cm-gone", country: "CA", link: "https://www.themoviedb.org/movie/25188/watch?locale=CA", checked_at: `${Y}-01-05T10:00:00+00:00`,
+      options: { stream: [{ name: "Crave", logo: "" }] } },
+    { film_id: "fw-nomatch", country: "NO", link: "", checked_at: `${Y}-01-05T10:00:00+00:00`, options: {} },
+  ];
 
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1100, height: 900 } });
@@ -69,6 +78,14 @@ async function site() {
       calls.push(ids);
       const rows = ids.map((a) => { const f = FILMS[ALIASES[a] || a]; return f && { asked: a, ...f }; }).filter(Boolean);
       return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(rows) });
+    }
+    if (url.includes("/rest/v1/watch_options")) {
+      const q = new URL(url).searchParams, film = (q.get("film_id") || "").replace(/^eq\./, ""), country = (q.get("country") || "").replace(/^eq\./, "");
+      watchAsked.push(`${film}|${country}`);
+      const rows = WATCH.filter((w) => w.film_id === film && w.country === country).map(({ options, link, checked_at }) => ({ options, link, checked_at }));
+      const one = /vnd\.pgrst\.object/.test(route.request().headers()["accept"] || "");
+      if (one && !rows.length) return route.fulfill({ status: 406, contentType: "application/json", body: JSON.stringify({ code: "PGRST116", message: "0 rows" }) });
+      return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(one ? rows[0] : rows) });
     }
     return route.fulfill({ status: 200, contentType: "application/json", body: "[]" });
   });
@@ -115,6 +132,17 @@ async function site() {
     check(sheet.title === "The Last Picture Show" && sheet.meta.includes("1971 · 118 min · Directed by Peter Bogdanovich"), `the header comes from the film's card (${sheet.meta})`);
     check(sheet.note.startsWith("No showings in Oslo right now. Last shown here 2 Jan."), `says there are no showings and when it last played ("${sheet.note}")`);
     check(!sheet.menu && sheet.blurb.includes("bleak"), "its description; no share or hide menu");
+    await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
+    const wo = await page.$eval("#film", (d) => {
+      const box = d.querySelector(".watchopts");
+      return box && { title: box.querySelector("h3").textContent, groups: [...box.querySelectorAll(".wogroup")].map((g) => g.querySelector(".wokind").textContent + ": "
+        + [...g.querySelectorAll("li")].map((li) => li.textContent).join(", ")), link: box.querySelector(".wofoot a")?.href || "", text: box.textContent };
+    });
+    check(wo?.title === "Where to watch in Norway", `where to watch, in this location's country (${wo?.title})`);
+    check(JSON.stringify(wo?.groups) === JSON.stringify(["Stream: Netflix, Max", "Rent: Apple TV"]), `grouped as the update stored them (${JSON.stringify(wo?.groups)})`);
+    check(wo?.link.startsWith("https://www.themoviedb.org/") && /Data from JustWatch/.test(wo?.text || ""), "links to all options, credits JustWatch");
+    check(!/Crave|Canada/.test(wo?.text || ""), "nothing from another country");
+    check(watchAsked.includes("cm-gone|NO") && !watchAsked.some((a) => !a.endsWith("|NO")), `asked only for Norway (${JSON.stringify(watchAsked)})`);
     await shot("3-sheet.png");
 
     await page.click("#film .btn.wl");
@@ -127,12 +155,17 @@ async function site() {
     await page.goto(base + "#film/fw-nomatch");
     await page.waitForSelector("#film[open] #filmTitle");
     check((await page.$eval("#filmTitle", (e) => e.textContent)) === "Ukjent kortfilmprogram", "a link to a film no location lists opens its page");
+    await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
+    const none = await page.$eval("#film", (d) => d.querySelector(".watchopts .wonone")?.textContent || "");
+    check(none.startsWith("Not available to stream, rent or buy in Norway as far as we know (checked 5 Jan)"), `checked, nothing found, says so ("${none}")`);
 
     await page.goto(base + "#film/fw-old-listing");
     await page.waitForSelector("#film[open] .ghostnote");
     const other = await page.$eval("#film", (d) => ({ title: d.querySelector("#filmTitle").textContent, text: d.textContent }));
     check(other.title === there.title, `an old id finds its film (${other.title})`);
     check(!/Winnipeg|Westman|Costa del Sol/.test(other.text) && !/See its showings/.test(other.text), "its page doesn't mention the location where it is playing");
+    await page.waitForTimeout(800);
+    check(!(await page.$("#film .watchopts")), "a film never checked shows no where-to-watch block");
     await shot("4-other.png");
 
     check(!errors.length, `no errors on the page ${errors.length ? JSON.stringify(errors) : ""}`);

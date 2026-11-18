@@ -6,7 +6,7 @@
 do $$
 begin
   if exists (select 1 from information_schema.tables
-             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans', 'films', 'film_aliases', 'showings')) then
+             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans', 'films', 'film_aliases', 'showings', 'watch_options')) then
     raise exception 'This database already has other tables, so it is not a new Cinecrab project. Nothing was changed.';
   end if;
 end $$;
@@ -685,3 +685,43 @@ language sql stable set search_path = '' as $$
 $$;
 revoke all on function public.resolve_films(text[]) from public;
 grant execute on function public.resolve_films(text[]) to anon, authenticated;
+
+-- ---------------------------------------------------------------- where to watch (streaming, renting, buying)
+-- For films with no showings anywhere that are on at least one watchlist, the programme update asks TMDB where each can be watched
+-- (TMDB's data comes from JustWatch, which must be credited where it is shown) and keeps one row per country the site covers, also
+-- when there's nothing (so it isn't asked again). Checked when first needed, then again after a couple of weeks while still needed.
+-- options = {stream|free|ads|rent|buy: [{name, logo}]} (TMDB's order); link = TMDB's watch page for that film and country.
+create table if not exists public.watch_options (
+  film_id    text not null references public.films on delete cascade,
+  country    text not null check (country ~ '^[A-Z]{2}$'),
+  options    jsonb not null default '{}'::jsonb,
+  link       text check (link is null or link ~* '^https://'),
+  checked_at timestamptz not null default now(),
+  primary key (film_id, country)
+);
+alter table public.watch_options enable row level security;
+drop policy if exists "anyone can read watch options" on public.watch_options;
+create policy "anyone can read watch options" on public.watch_options for select to anon, authenticated using (true);
+revoke all on public.watch_options from anon, authenticated;
+grant select on public.watch_options to anon, authenticated;
+grant select on public.watch_options to service_role;
+
+-- One update's checks. p = [{film_id, country, options, link}]: each replaces that film's row for that country, stamped now.
+-- Rows for films the database doesn't know are skipped. Secret key only.
+create or replace function public.sync_watch_options(p jsonb)
+returns integer language plpgsql security definer set search_path = '' as $$
+declare
+  n integer;
+begin
+  insert into public.watch_options as w (film_id, country, options, link, checked_at)
+  select x.film_id, upper(x.country), coalesce(x.options, '{}'::jsonb), case when x.link ~* '^https://' then x.link end, now()
+  from jsonb_to_recordset(coalesce(p, '[]'::jsonb)) as x(film_id text, country text, options jsonb, link text)
+  where exists (select 1 from public.films f where f.id = x.film_id) and x.country ~* '^[a-z]{2}$'
+  on conflict (film_id, country) do update set options = excluded.options, link = excluded.link, checked_at = now();
+  get diagnostics n = row_count;
+  return n;
+end;
+$$;
+revoke all on function public.sync_watch_options(jsonb) from public;
+revoke execute on function public.sync_watch_options(jsonb) from anon, authenticated;
+grant execute on function public.sync_watch_options(jsonb) to service_role;

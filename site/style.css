@@ -213,6 +213,20 @@ a.stub:hover { border-color: var(--accent); }
 .hiddenNote { color: var(--muted); font-size: 13px; padding: 10px 0 0; border-top: 1px solid var(--line); }
 /* The sheet of a film this location doesn't list: why there are no showings. */
 .ghostnote p { color: var(--muted); font-size: 14px; margin: 0; max-width: 62ch; }
+/* Where to watch it instead (streaming, renting, buying) in this location's country. */
+.watchopts { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.watchopts h3 { font: 800 18px/1.1 var(--display); text-transform: uppercase; margin: 0 0 10px; }
+.wogroup { display: flex; gap: 10px; align-items: baseline; margin-bottom: 8px; }
+.wokind { flex: 0 0 92px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.wogroup ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.wogroup li { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 3px; border: 1px solid var(--line);
+  border-radius: 999px; background: var(--surface); font-size: 13px; }
+.wogroup li img { width: 24px; height: 24px; border-radius: 6px; }
+.wogroup li:not(:has(img)) { padding-left: 10px; }
+.wonone { color: var(--muted); font-size: 14px; margin: 0; }
+.wofoot { color: var(--muted); font-size: 12px; margin: 10px 0 0; }
+.wofoot a { color: inherit; }
+@media (max-width: 560px) { .wogroup { flex-direction: column; gap: 4px; } .wokind { flex-basis: auto; } }
 /* account */
 #account h2 { font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
 #account p { margin: 0 0 14px; font-size: 14px; color: var(--muted); }

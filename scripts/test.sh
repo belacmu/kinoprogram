@@ -5,8 +5,9 @@
 # a scratch server (as in CI). Never the real Supabase project.
 set -eu
 cd "$(dirname "$0")/.."
-echo "== scraper (film ids, cards)"
+echo "== scraper (film ids, cards, where to watch)"
 python3 scraper/test_filmids.py | tail -1
+python3 scraper/test_watch.py | tail -1
 echo "== app (syntax)"
 node --check site/app.js && echo "site/app.js ok"
 echo "== database (schema, cards, resolve_films, pruning, plans)"

@@ -35,6 +35,7 @@ import filmids  # noqa: E402
 import revier  # noqa: E402
 import sommerro  # noqa: E402
 import sources  # noqa: E402
+import watch  # noqa: E402
 import westman  # noqa: E402
 import winnipeg  # noqa: E402
 
@@ -388,16 +389,16 @@ def fetch_costadelsol(now):
 
 
 REGIONS = {
-    "oslo": {"name": "Oslo", "tz": "Europe/Oslo", "fetch": fetch_oslo, "first": "Cinemateket",
+    "oslo": {"name": "Oslo", "tz": "Europe/Oslo", "country": "NO", "fetch": fetch_oslo, "first": "Cinemateket",
              "idprefixes": ("fw-", "cm-", "rv-", "dm-", "sr-"), "data": "films.json", "state": "seen.json",
              "sources": "Filmweb + Cinemateket + Revier + Deichman + Sommerro"},
-    "westman": {"name": "Westman", "tz": "America/Winnipeg", "fetch": fetch_westman, "first": "Landmark Brandon",
+    "westman": {"name": "Westman", "tz": "America/Winnipeg", "country": "CA", "fetch": fetch_westman, "first": "Landmark Brandon",
                 "idprefixes": ("lm-", "cc-", "ev-", "https-moviescout"), "data": "westman.json", "state": "seen-westman.json",
                 "sources": "CinemaClock + MovieScout + Evans Theatre"},
-    "winnipeg": {"name": "Winnipeg", "tz": "America/Winnipeg", "fetch": fetch_winnipeg, "first": "Cinematheque",
+    "winnipeg": {"name": "Winnipeg", "tz": "America/Winnipeg", "country": "CA", "fetch": fetch_winnipeg, "first": "Cinematheque",
                  "idprefixes": ("cc-", "db-", "https-moviescout"), "data": "winnipeg.json", "state": "seen-winnipeg.json",
                  "sources": "MovieScout + CinemaClock + Cinematheque"},
-    "costadelsol": {"name": "Costa del Sol", "tz": "Europe/Madrid", "fetch": fetch_costadelsol,
+    "costadelsol": {"name": "Costa del Sol", "tz": "Europe/Madrid", "country": "ES", "fetch": fetch_costadelsol,
                     "first": "Alfil (Fuengirola)", "idprefixes": ("cl-", "mk-"), "data": "costadelsol.json", "state": "seen-costadelsol.json",
                     "sources": "CarteleraCines.es + mk2 Miramar"},
 }
@@ -490,11 +491,13 @@ def main(regions=None):
         print(f"  ! film cards from TMDB failed: {e}", file=sys.stderr)
     filmids.save_local(reg, since)
     # Every film id in any region's current data (regions not built in this run: their last file), so films in none are marked gone.
-    live, complete = set(), not failed
+    # ...and those with showings (for where to watch: only films with none anywhere are looked up).
+    live, showing, complete = set(), set(), not failed
     for r, cfg in REGIONS.items():
         b = next((b for b in built if b[0] == r), None)
         if b:
             live |= {f["id"] for f in b[3]}
+            showing |= {f["id"] for f in b[3] if f["shows"]}
             continue
         path = ROOT / "site" / "data" / cfg["data"]
         if not path.exists():
@@ -504,7 +507,11 @@ def main(regions=None):
             fid = reg.film_of(f["id"])
             if fid:
                 live.add(fid)
+                if f.get("shows"):
+                    showing.add(fid)
     filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete, since)
+    print("Where to watch …")
+    watch.update(reg, showing, sorted({cfg["country"] for cfg in REGIONS.values()}))
     github_output(regions=" ".join(b[0] for b in built), failed=" ".join(failed))
     if failed:
         print(f"Kept the last data for: {', '.join(REGIONS[r]['name'] for r in failed)}", file=sys.stderr)

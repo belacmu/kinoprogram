@@ -149,4 +149,42 @@ do $$ begin
     'old and merged ids become the film id, once; unknown ids stay';
 end $$;
 
+-- ---------------------------------------------------------------- where to watch
+do $$ begin
+  begin
+    set local role anon;
+    perform public.sync_watch_options('[]');
+    assert false, 'anon must not write where-to-watch';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+reset role;
+set role service_role;
+do $$
+declare n int;
+begin
+  n := public.sync_watch_options('[
+    {"film_id": "fw-klara", "country": "NO", "options": {"stream": [{"name": "Netflix", "logo": "/nf.jpg"}]},
+     "link": "https://www.themoviedb.org/movie/858035/watch?locale=NO"},
+    {"film_id": "fw-klara", "country": "ca", "options": {}, "link": "javascript:alert(1)"},
+    {"film_id": "no-such-film", "country": "NO", "options": {}}]');
+  assert n = 2, format('two rows written, the unknown film skipped (got %s)', n);
+  -- A later check replaces the row.
+  perform public.sync_watch_options('[{"film_id": "fw-klara", "country": "NO", "options": {"rent": [{"name": "Apple TV", "logo": ""}]}, "link": ""}]');
+end $$;
+reset role;
+set role anon;
+do $$ begin
+  assert (select options -> 'rent' -> 0 ->> 'name' from public.watch_options where film_id = 'fw-klara' and country = 'NO') = 'Apple TV',
+    'anyone can read it; a new check replaced the old options';
+  assert (select options from public.watch_options where film_id = 'fw-klara' and country = 'NO') ? 'stream' = false, 'nothing left over';
+  assert (select link from public.watch_options where film_id = 'fw-klara' and country = 'CA') is null, 'a link that is not https is dropped';
+  begin
+    insert into public.watch_options (film_id, country) values ('fw-klara', 'ES');
+    assert false, 'anon must not insert';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+reset role;
+
 \echo 'database tests passed'

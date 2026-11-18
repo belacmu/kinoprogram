@@ -15,10 +15,10 @@ const local = {
 
 // ---------------------------------------------------------------- regions + time (data is in the region's local time)
 const REGIONS = [
-  { key: "oslo", name: "Oslo", file: "films.json", tz: "Europe/Oslo" },
-  { key: "westman", name: "Westman", file: "westman.json", tz: "America/Winnipeg" },
-  { key: "winnipeg", name: "Winnipeg", file: "winnipeg.json", tz: "America/Winnipeg" },
-  { key: "costadelsol", name: "Costa del Sol", file: "costadelsol.json", tz: "Europe/Madrid" },
+  { key: "oslo", name: "Oslo", file: "films.json", tz: "Europe/Oslo", country: "NO", countryName: "Norway" },
+  { key: "westman", name: "Westman", file: "westman.json", tz: "America/Winnipeg", country: "CA", countryName: "Canada" },
+  { key: "winnipeg", name: "Winnipeg", file: "winnipeg.json", tz: "America/Winnipeg", country: "CA", countryName: "Canada" },
+  { key: "costadelsol", name: "Costa del Sol", file: "costadelsol.json", tz: "Europe/Madrid", country: "ES", countryName: "Spain" },
 ];
 let clockFmt = null;
 function setClock(tz) {
@@ -1078,6 +1078,34 @@ function ghostMeta(g) {
   const here = g.ghost.last[state.region];
   return here ? `Last shown ${esc(shortDay(here))}` : "No showings here";
 }
+// Where a film with no showings here can be watched in this location's country (table watch_options, filled by the programme
+// update from TMDB, whose data comes from JustWatch: credited here). Only films on a watchlist with no showings anywhere are checked,
+// so for others there's no row and nothing is shown. state.watchOpts: "film|country" -> row, or null (none).
+state.watchOpts = new Map();
+const WATCH_KINDS = [["stream", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
+const curRegion = () => REGIONS.find((r) => r.key === state.region) || REGIONS[0];
+function loadWatchOpts(g) {
+  const key = `${g.id}|${curRegion().country}`;
+  if (!sb || state.watchOpts.has(key)) return;
+  state.watchOpts.set(key, undefined);  // asking
+  sb.from("watch_options").select("options,link,checked_at").eq("film_id", g.id).eq("country", curRegion().country).maybeSingle()
+    .then(({ data, error }) => {
+      if (error) { console.error("Loading where to watch failed:", error.message); state.watchOpts.delete(key); return; }
+      state.watchOpts.set(key, data || null);
+      if ($("film").open && hashParts().id && anyFilm(hashParts().id)?.id === g.id) openGhost(hashParts().id);
+    });
+}
+function watchHtml(g) {
+  const row = state.watchOpts.get(`${g.id}|${curRegion().country}`);
+  if (!row) return "";  // not checked (not on a watchlist), or still loading
+  const credit = `Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a>`;
+  const groups = WATCH_KINDS.filter(([k]) => row.options?.[k]?.length).map(([k, label]) => `<div class="wogroup"><span class="wokind">${label}</span><ul>${
+    row.options[k].map((p) => `<li>${p.logo ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<span>${esc(p.name)}</span></li>`).join("")}</ul></div>`).join("");
+  const checked = row.checked_at ? shortDay(row.checked_at.slice(0, 10)) : "";
+  return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Where to watch in ${esc(curRegion().countryName)}</h3>${groups
+    || `<p class="wonone">Not available to stream, rent or buy in ${esc(curRegion().countryName)} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`}
+    <p class="wofoot">${groups && safeUrl(row.link) ? `<a href="${esc(safeUrl(row.link))}" target="_blank" rel="noopener">All options and prices ↗</a> · ` : ""}${credit}</p></section>`;
+}
 // The film sheet of a film this region doesn't list.
 function openGhost(id) {
   const g = state.ghosts.get(id);
@@ -1093,10 +1121,11 @@ function openGhost(id) {
     + (isWatched(g) ? ` It's on your watchlist, so you'll see it marked as new if it ${here ? "comes back" : `comes to ${esc(state.data.location)}`}.` : "");
   setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(g)}
-    <div class="days ghostnote"><p>${note}</p></div>
+    <div class="days ghostnote"><p>${note}</p>${watchHtml(g)}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }
   fitBlurb();
+  loadWatchOpts(g);
 }
 
 // The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
