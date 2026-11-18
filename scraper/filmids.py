@@ -476,7 +476,7 @@ def prune(before):
 # ---------------------------------------------------------------- cards
 # A film's card: what the site shows for a film that isn't listed anywhere any more. Kept small; the poster is TMDB's where there is
 # one (a cinema's own image link may stop working once the film is off its site).
-CARD_KEYS = ("en", "poster", "director", "runtime", "kind", "genres", "countries", "blurb", "lb")
+CARD_KEYS = ("en", "poster", "director", "runtime", "kind", "genres", "countries", "blurb", "lb", "lbRating")
 BLURB_MAX = 1200
 
 
@@ -488,7 +488,7 @@ def card(f, region):
          "poster": next((p for p in posters if "image.tmdb.org" in p), posters[0] if posters else ""),
          "director": f.get("director") or "", "runtime": f.get("runtime") or 0, "kind": f.get("kind") or "",
          "genres": list(f.get("genres") or [])[:3], "countries": list(f.get("countries") or [])[:3],
-         "blurb": (f.get("blurb") or "")[:BLURB_MAX], "lb": ext.get("lb") or ""}
+         "blurb": (f.get("blurb") or "")[:BLURB_MAX], "lb": ext.get("lb") or "", "lbRating": ext.get("lbRating") or 0}
     days = [s["t"][:10] for s in f.get("shows") or [] if s.get("t")]
     if days:
         m["last"] = {region: max(days)}

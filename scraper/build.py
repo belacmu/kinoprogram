@@ -495,8 +495,9 @@ def main(regions=None):
         filmids.remember(reg, r, films)
     try:
         external.fill_cards(reg)
+        external.fill_letterboxd(reg, {reg.canon(f["id"]) for b in built for f in b[3]})
     except Exception as e:  # cards are a nice-to-have
-        print(f"  ! film cards from TMDB failed: {e}", file=sys.stderr)
+        print(f"  ! film cards failed: {e}", file=sys.stderr)
     filmids.save_local(reg, since)
     # Every film id in any region's current data (regions not built in this run: their last file), so films in none are marked gone.
     live, complete = set(), not failed

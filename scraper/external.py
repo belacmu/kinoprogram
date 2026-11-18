@@ -642,3 +642,39 @@ def recover_films(reg, ids, history, now_iso):
     if created or linked or left:
         print(f"  watchlist films from before the registry: {len(created)} recovered, {linked} linked to known films, {left} still unknown")
     return created
+
+
+# ---------------------------------------------------------------- Letterboxd for films no longer listed
+LB_CARD_BUDGET = 40  # Letterboxd pages per run
+
+
+def fill_letterboxd(reg, listed):
+    """Films not in this run's listings whose card has no Letterboxd slug or rating (those that left before cards kept them, and
+    recovered watchlist films): look the film up on Letterboxd once by its exact IMDb/TMDB id, for its page and average rating. Stops
+    for the run if Letterboxd refuses."""
+    todo = [(fid, f) for fid, f in sorted(reg.films.items()) if fid not in listed and not f.get("merged")
+            and (f.get("imdb") or f.get("tmdb")) and not (f.get("meta") or {}).get("lbChecked")
+            and not ((f.get("meta") or {}).get("lb") and (f.get("meta") or {}).get("lbRating"))]
+    done = 0
+    for fid, f in todo[:LB_CARD_BUDGET]:
+        m = dict(f.get("meta") or {})
+        try:
+            slug, rating = letterboxd({"imdb": f.get("imdb"), "tmdb": f.get("tmdb")})
+            if slug:
+                m["lb"] = slug
+            if rating:
+                m["lbRating"] = rating
+        except urllib.error.HTTPError as e:
+            if e.code in (403, 429):
+                print(f"  ! Letterboxd refused ({e.code}); film cards' ratings skipped this run", file=sys.stderr)
+                break
+            if e.code != 404:
+                continue
+        except Exception as e:
+            print(f"  ! letterboxd card {f.get('title')}: {e}", file=sys.stderr)
+            continue
+        m["lbChecked"] = datetime.now().strftime("%Y-%m-%d")  # once; a film listed again gets its rating from the listing
+        f["meta"] = m
+        done += 1
+    if done:
+        print(f"  film cards: {done} looked up on Letterboxd ({max(0, len(todo) - done)} to go)")
