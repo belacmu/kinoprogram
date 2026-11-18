@@ -491,13 +491,11 @@ def main(regions=None):
         print(f"  ! film cards from TMDB failed: {e}", file=sys.stderr)
     filmids.save_local(reg, since)
     # Every film id in any region's current data (regions not built in this run: their last file), so films in none are marked gone.
-    # ...and those with showings (for where to watch: only films with none anywhere are looked up).
-    live, showing, complete = set(), set(), not failed
+    live, complete = set(), not failed
     for r, cfg in REGIONS.items():
         b = next((b for b in built if b[0] == r), None)
         if b:
             live |= {f["id"] for f in b[3]}
-            showing |= {f["id"] for f in b[3] if f["shows"]}
             continue
         path = ROOT / "site" / "data" / cfg["data"]
         if not path.exists():
@@ -507,11 +505,9 @@ def main(regions=None):
             fid = reg.film_of(f["id"])
             if fid:
                 live.add(fid)
-                if f.get("shows"):
-                    showing.add(fid)
     filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete, since)
     print("Where to watch …")
-    watch.update(reg, showing, sorted({cfg["country"] for cfg in REGIONS.values()}))
+    watch.update(reg, sorted({cfg["country"] for cfg in REGIONS.values()}))
     github_output(regions=" ".join(b[0] for b in built), failed=" ".join(failed))
     if failed:
         print(f"Kept the last data for: {', '.join(REGIONS[r]['name'] for r in failed)}", file=sys.stderr)

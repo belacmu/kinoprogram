@@ -183,23 +183,37 @@ async function site() {
       await page.$eval("#film .watchopts", (e) => e.scrollIntoView({ block: "center" })).catch(() => {});
       await shot("5-phone-dark.png");
     }
-    // A film Filmweb has showings for only in other cities: its page never names them.
-    await page.goto(base);
-    await page.waitForSelector("#grid .card");
-    const eid = await page.evaluate(() => {
-      const f = state.data.films.find((x) => x.premiere) || state.data.films[0];
-      f.shows = []; f.scope = ""; f.premiere = f.premiere || "2099-01-01"; f.elsewhere = ["Bergen", "Trondheim"];
+    // Films listed here with no showings. Before its cinema premiere: the date (and a film Filmweb has showings for only in other
+    // cities never names them). After it: no date at all. Where to watch either way, or its digital release if nothing yet.
+    const sheetOf = async (setup, watchRow) => {
+      await page.goto(base);
+      await page.waitForSelector("#grid .card");
+      const id = await page.evaluate(setup);
+      if (watchRow) WATCH.push({ film_id: id, country: "NO", link: "https://www.themoviedb.org/movie/1/watch?locale=NO", checked_at: `${Y}-01-05T10:00:00+00:00`, ...watchRow });
+      await page.evaluate((i) => { location.hash = "#film/" + encodeURIComponent(i); }, id);
+      await page.waitForSelector("#film[open] .hiddenNote");
+      if (watchRow) await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
+      const r = await page.$eval("#film", (d) => ({ text: d.textContent, note: d.querySelector(".days .hiddenNote").textContent,
+        line: getComputedStyle(d.querySelector(".days .hiddenNote")).borderTopWidth }));
+      await page.keyboard.press("Escape");
+      return r;
+    };
+    const coming = await sheetOf(() => {
+      const f = state.data.films[0];
+      f.shows = []; f.scope = ""; f.premiere = "2099-01-29"; f.premiereConfirmed = true; f.elsewhere = ["Bergen", "Trondheim"];
       return f.id;
-    });
-    WATCH.push({ film_id: eid, country: "NO", link: "https://www.themoviedb.org/movie/1/watch?locale=NO", checked_at: `${Y}-01-05T10:00:00+00:00`,
-      options: { rent: [{ name: "Viaplay", logo: "" }] } });
-    await page.evaluate((id) => { location.hash = "#film/" + encodeURIComponent(id); }, eid);
-    await page.waitForSelector("#film[open] .hiddenNote");
-    await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
-    const etext = await page.$eval("#film", (d) => d.textContent);
-    check(!/Bergen|Trondheim/.test(etext) && /No showings announced in Oslo yet/.test(etext), "a film showing only in other cities doesn't name them");
-    check(/Watch at home in Norway/.test(etext) && /Viaplay/.test(etext), "a listed film with no showings yet also says where to watch it");
-    await page.keyboard.press("Escape");
+    }, { options: { rent: [{ name: "Viaplay", logo: "" }] } });
+    check(/^Cinema premiere Thu 29 Jan 2099\. No showings announced in Oslo yet\./.test(coming.note), `before its cinema premiere: the date ("${coming.note}")`);
+    check(!/Bergen|Trondheim/.test(coming.text), "a film showing only in other cities doesn't name them");
+    check(/Watch at home in Norway/.test(coming.text) && /Viaplay/.test(coming.text), "a listed film with no showings yet also says where to watch it");
+    check(coming.line === "0px", `no second line under the header (${coming.line})`);
+    const past = await sheetOf(() => {
+      const f = state.data.films[1];
+      f.shows = []; f.scope = ""; f.premiere = "2020-03-01"; f.premiereConfirmed = true;
+      return f.id;
+    }, { options: { digital: "2099-12-12" } });
+    check(/^No showings in Oslo right now\./.test(past.note) && !/premiere|2020/i.test(past.text), `after its cinema premiere: no date ("${past.note}")`);
+    check(/Not available yet\. Digital release in Norway: 12 Dec 2099, usually to rent or buy first\./.test(past.text), "nothing to watch yet: its digital release date");
 
     // Marks are sent once per browser; a new heart sends its film's.
     const before = marks.length;
