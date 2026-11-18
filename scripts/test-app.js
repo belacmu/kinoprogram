@@ -183,6 +183,20 @@ async function site() {
       await page.$eval("#film .watchopts", (e) => e.scrollIntoView({ block: "center" })).catch(() => {});
       await shot("5-phone-dark.png");
     }
+    // A film Filmweb has showings for only in other cities: its page never names them.
+    await page.goto(base);
+    await page.waitForSelector("#grid .card");
+    const eid = await page.evaluate(() => {
+      const f = state.data.films.find((x) => x.premiere) || state.data.films[0];
+      f.shows = []; f.scope = ""; f.premiere = f.premiere || "2099-01-01"; f.elsewhere = ["Bergen", "Trondheim"];
+      return f.id;
+    });
+    await page.evaluate((id) => { location.hash = "#film/" + encodeURIComponent(id); }, eid);
+    await page.waitForSelector("#film[open] .hiddenNote");
+    const etext = await page.$eval("#film", (d) => d.textContent);
+    check(!/Bergen|Trondheim/.test(etext) && /No showings announced in Oslo yet/.test(etext), "a film showing only in other cities doesn't name them");
+    await page.keyboard.press("Escape");
+
     // Marks are sent once per browser; a new heart sends its film's.
     const before = marks.length;
     await page.goto(base);
