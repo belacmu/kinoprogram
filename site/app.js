@@ -1097,14 +1097,18 @@ function loadWatchOpts(g) {
 }
 function watchHtml(g) {
   const row = state.watchOpts.get(`${g.id}|${curRegion().country}`);
-  if (!row) return "";  // not checked (not on a watchlist), or still loading
-  const credit = `Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a>`;
-  const groups = WATCH_KINDS.filter(([k]) => row.options?.[k]?.length).map(([k, label]) => `<div class="wogroup"><span class="wokind">${label}</span><ul>${
-    row.options[k].map((p) => `<li>${p.logo ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<span>${esc(p.name)}</span></li>`).join("")}</ul></div>`).join("");
+  if (!row) return "";  // not checked, or still loading
+  const country = esc(curRegion().countryName);
+  // A service: its logo over a tile with its initials (in a colour of its own; what shows if there's no logo or it fails), then its name.
+  const tile = (p) => `<li class="wotile"><span class="woini" style="--h:${friendHue(p.name)}" aria-hidden="true">${esc(initialsOf(p.name))}${p.logo
+    ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}</span><span class="won">${esc(p.name)}</span></li>`;
+  const rows = WATCH_KINDS.filter(([k]) => row.options?.[k]?.length)
+    .map(([k, label]) => `<div class="worow"><h4>${label}</h4><ul>${row.options[k].map(tile).join("")}</ul></div>`).join("");
   const checked = row.checked_at ? shortDay(row.checked_at.slice(0, 10)) : "";
-  return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Where to watch in ${esc(curRegion().countryName)}</h3>${groups
-    || `<p class="wonone">Not available to stream, rent or buy in ${esc(curRegion().countryName)} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`}
-    <p class="wofoot">${groups && safeUrl(row.link) ? `<a href="${esc(safeUrl(row.link))}" target="_blank" rel="noopener">All options and prices ↗</a> · ` : ""}${credit}</p></section>`;
+  const link = rows && safeUrl(row.link) ? `<a href="${esc(safeUrl(row.link))}" target="_blank" rel="noopener">All options and prices ↗</a>` : "";
+  return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Watch at home in ${country}</h3>${rows
+    || `<p class="wonone">Not available to stream, rent or buy in ${country} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`}
+    <p class="wofoot">${link}<span>Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a></span></p></section>`;
 }
 // The film sheet of a film this region doesn't list.
 function openGhost(id) {

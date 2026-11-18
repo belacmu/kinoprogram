@@ -135,10 +135,10 @@ async function site() {
     await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
     const wo = await page.$eval("#film", (d) => {
       const box = d.querySelector(".watchopts");
-      return box && { title: box.querySelector("h3").textContent, groups: [...box.querySelectorAll(".wogroup")].map((g) => g.querySelector(".wokind").textContent + ": "
-        + [...g.querySelectorAll("li")].map((li) => li.textContent).join(", ")), link: box.querySelector(".wofoot a")?.href || "", text: box.textContent };
+      return box && { title: box.querySelector("h3").textContent, groups: [...box.querySelectorAll(".worow")].map((g) => g.querySelector("h4").textContent + ": "
+        + [...g.querySelectorAll(".won")].map((n) => n.textContent).join(", ")), link: box.querySelector(".wofoot a")?.href || "", text: box.textContent };
     });
-    check(wo?.title === "Where to watch in Norway", `where to watch, in this location's country (${wo?.title})`);
+    check(wo?.title === "Watch at home in Norway", `where to watch, in this location's country (${wo?.title})`);
     check(JSON.stringify(wo?.groups) === JSON.stringify(["Stream: Netflix, Max", "Rent: Apple TV"]), `grouped as the update stored them (${JSON.stringify(wo?.groups)})`);
     check(wo?.link.startsWith("https://www.themoviedb.org/") && /Data from JustWatch/.test(wo?.text || ""), "links to all options, credits JustWatch");
     check(!/Crave|Canada/.test(wo?.text || ""), "nothing from another country");
@@ -168,6 +168,16 @@ async function site() {
     check(!(await page.$("#film .watchopts")), "a film never checked shows no where-to-watch block");
     await shot("4-other.png");
 
+    if (shots) {  // for looking at: a phone, in dark mode
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.emulateMedia({ colorScheme: "dark" });
+      await page.goto(base + "?r=oslo#film/cm-gone");
+      await page.evaluate(() => localStorage.setItem("kino:region", JSON.stringify("oslo")));
+      await page.reload();
+      await page.waitForSelector("#film .watchopts", { timeout: 8000 }).catch(() => {});
+      await page.$eval("#film .watchopts", (e) => e.scrollIntoView({ block: "center" })).catch(() => {});
+      await shot("5-phone-dark.png");
+    }
     check(!errors.length, `no errors on the page ${errors.length ? JSON.stringify(errors) : ""}`);
   } finally {
     await browser.close();
