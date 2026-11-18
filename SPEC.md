@@ -252,15 +252,13 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   On first sign-in the device's list is added to the account (existing accounts get it merged in).
 - **Not showing in <location>**: at the top of the Watchlist tab, above the day, a section of the watchlist films this location
   doesn't list (any more, or yet), **shut by default** (its header shows the count and a few titles; not remembered across reloads,
-  like other sections). Not while searching. Films playing in another location come first ("Playing in Winnipeg"), then the most
-  recently shown ("Last shown 2 Nov", or "Last shown in Winnipeg, 12 Sep"); "No showings" if it never played anywhere we know. Hearts
-  work as usual; there's no hide button. The films are looked up with `resolve_films` (one call for all the ids, once per visit), so
-  an old id still finds its film; needs Supabase configured (else the section isn't there). Films with no TMDB match show their
-  title card and year only.
+  like other sections). Not while searching. The most recently shown here first ("Last shown 2 Nov"), then the rest by title ("No
+  showings here"). **Only this location counts: nothing says where else a film plays or played.** Hearts work as usual; there's no
+  hide button. The films are looked up with `resolve_films` (one call for all the ids, once per visit), so an old id still finds its
+  film; needs Supabase configured (else the section isn't there). Films with no TMDB match show their title card and year only.
 - **A film this location doesn't list** (from that section, an old share link or a past plan's link) opens a film page from its
   card: poster, title, year, running time, director, description, Letterboxd and the heart, without the share / hide menu, then
-  "No showings in Oslo right now. Last shown here 2 Nov." If it plays elsewhere: "It's playing in Winnipeg." and a **See its showings
-  in Winnipeg** button, which switches location and opens the film there. An id no film is known by opens nothing, as before.
+  "No showings in Oslo right now. Last shown here 2 Nov." An id no film is known by opens nothing, as before.
 
 ## Friends
 

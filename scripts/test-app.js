@@ -51,10 +51,10 @@ async function site() {
       meta: { en: "The Last Picture Show", director: "Peter Bogdanovich", runtime: 118, lb: "the-last-picture-show",
         blurb: "A group of 1950s high schoolers come of age in a bleak, isolated, atrophied West Texas town.", last: { oslo: `${Y}-01-02` } },
       gone_at: `${Y}-01-03T00:00:00Z`, regions: [] },
-    [there.id]: { id: there.id, title: there.title, year: there.year || "", meta: {}, gone_at: null, regions: ["winnipeg"] },
+    [there.id]: { id: there.id, title: there.title, year: there.year || "", meta: { last: { winnipeg: `${Y}-01-20` } }, gone_at: null, regions: ["winnipeg"] },
     "fw-nomatch": { id: "fw-nomatch", title: "Ukjent kortfilmprogram", year: "", meta: { last: { winnipeg: `${Y}-01-12` } }, gone_at: `${Y}-01-13T00:00:00Z`, regions: [] },
   };
-  const ALIASES = { "fw-old-listing": there.id };  // an old listing id of the Winnipeg film
+  const ALIASES = { "fw-old-listing": there.id };  // an old listing id of a film only Winnipeg lists (playing there: never said here)
   const calls = [];
 
   const browser = await chromium.launch();
@@ -100,11 +100,11 @@ async function site() {
     await page.waitForSelector("#grid .sec:first-of-type .card");
     const cards = await page.$$eval("#grid .sec:first-of-type .card", (cs) => cs.map((c) => ({ id: c.dataset.id, meta: c.querySelector(".m").textContent,
       hide: !!c.querySelector("[data-hide]"), on: c.querySelector(".star").getAttribute("aria-pressed") })));
-    check(cards[0]?.id === there.id && cards[0].meta === "Playing in Winnipeg", `a film playing elsewhere comes first, saying where (${JSON.stringify(cards[0])})`);
     const meta = (id) => cards.find((c) => c.id === id)?.meta;
-    check(meta("cm-gone") === "Last shown 2 Jan", `when it was last shown here (got "${meta("cm-gone")}")`);
-    check(meta("fw-nomatch") === "Last shown in Winnipeg, 12 Jan", `when it was last shown elsewhere (got "${meta("fw-nomatch")}")`);
-    check(cards[1]?.id === "fw-nomatch", "then the most recently shown first");
+    check(cards[0]?.id === "cm-gone" && meta("cm-gone") === "Last shown 2 Jan", `the film last shown here comes first, saying when (${JSON.stringify(cards[0])})`);
+    check(meta(there.id) === "No showings here" && meta("fw-nomatch") === "No showings here", `films never shown here say only that (got "${meta(there.id)}", "${meta("fw-nomatch")}")`);
+    const sectionText = await page.$eval("#grid .sec:first-of-type", (e) => e.textContent);
+    check(!/Winnipeg|Westman|Costa del Sol/.test(sectionText), "nothing in the section mentions another location");
     check(cards.every((c) => !c.hide && c.on === "true"), "hearts on, no hide button");
     await shot("2-open.png");
 
@@ -129,13 +129,11 @@ async function site() {
     check((await page.$eval("#filmTitle", (e) => e.textContent)) === "Ukjent kortfilmprogram", "a link to a film no location lists opens its page");
 
     await page.goto(base + "#film/fw-old-listing");
-    await page.waitForSelector("#film[open] [data-goregion]");
-    check((await page.$eval("#film .ghostnote p", (e) => e.textContent)).includes("It's playing in Winnipeg."), "a film playing in another location says so");
-    await shot("4-elsewhere.png");
-    await page.click("[data-goregion]");
-    await page.waitForFunction(() => document.querySelector("#film[open] .stub"), null, { timeout: 15000 });
-    const after = await page.evaluate(() => ({ region: JSON.parse(localStorage.getItem("kino:region")), stubs: document.querySelectorAll("#film .stub").length }));
-    check(after.region === "winnipeg" && after.stubs > 0, `its button switches to Winnipeg, where the film opens with its showings (${JSON.stringify(after)})`);
+    await page.waitForSelector("#film[open] .ghostnote");
+    const other = await page.$eval("#film", (d) => ({ title: d.querySelector("#filmTitle").textContent, text: d.textContent }));
+    check(other.title === there.title, `an old id finds its film (${other.title})`);
+    check(!/Winnipeg|Westman|Costa del Sol/.test(other.text) && !/See its showings/.test(other.text), "its page doesn't mention the location where it is playing");
+    await shot("4-other.png");
 
     check(!errors.length, `no errors on the page ${errors.length ? JSON.stringify(errors) : ""}`);
   } finally {

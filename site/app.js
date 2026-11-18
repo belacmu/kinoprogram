@@ -1023,8 +1023,8 @@ function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids
 
 // ---------------------------------------------------------------- films not in this region's listings
 // A watchlist film (or an old link's film) that this region's data doesn't have: the database resolves its id to the film it is now
-// (resolve_films: through old listing ids and merges) with the card the scraper keeps for every film (films.meta), and the regions
-// where it has upcoming showings. It becomes a film object shaped like the programme's, with no showings (`ghost` set), so cards,
+// (resolve_films: through old listing ids and merges) with the card the scraper keeps for every film (films.meta). Only what concerns
+// this location is shown: never where else it plays or played. It becomes a film object shaped like the programme's, with no showings (`ghost` set), so cards,
 // hearts and the film header work as usual. state.ghosts: any id asked for, or a film's own id -> its ghost, or null (no film known).
 state.ghosts = new Map();
 let ghostsLoading = null, ghostsFailedAt = 0;
@@ -1034,7 +1034,7 @@ function ghostFilm(r) {
   return { id: r.id, ids: [r.id], title: r.title || r.id, alt: "", year: r.year || "", kind: m.kind || "",
     ext: { en: m.en || "", lb: m.lb || "", imdb: r.imdb || "", tmdb: r.tmdb || "" }, poster: m.poster || "", poster2: "",
     director: m.director || "", runtime: m.runtime || 0, countries: m.countries || [], genres: m.genres || [], blurb: m.blurb || "",
-    links: [], series: [], shows: [], status: "", ghost: { regions: r.regions || [], last: m.last || {} } };
+    links: [], series: [], shows: [], status: "", ghost: { last: m.last || {} } };
 }
 async function loadGhosts(ids) {
   ids = [...new Set(ids)].filter((i) => i && !state.ghosts.has(i)).slice(0, 500);
@@ -1058,7 +1058,7 @@ function ensureGhosts() {
 }
 // A film by any id: this region's, else one looked up.
 const anyFilm = (id) => findFilm(id) || state.ghosts.get(id) || null;
-// Watchlist films with no listing here, most recently shown first.
+// Watchlist films with no listing here: the most recently shown here first, then the rest by title.
 function goneHere() {
   const out = new Map();
   for (const id of state.watchlist) {
@@ -1066,22 +1066,17 @@ function goneHere() {
     const g = state.ghosts.get(id);
     if (g && !out.has(g.id) && !findFilm(g.id)) out.set(g.id, g);
   }
-  const lastShown = (g) => Object.values(g.ghost.last).sort().at(-1) || "";
-  return [...out.values()].sort((a, b) => (b.ghost.regions.length - a.ghost.regions.length) || lastShown(b).localeCompare(lastShown(a)) || titleOf(a).localeCompare(titleOf(b), "nb"));
+  const lastHere = (g) => g.ghost.last[state.region] || "";
+  return [...out.values()].sort((a, b) => lastHere(b).localeCompare(lastHere(a)) || titleOf(a).localeCompare(titleOf(b), "nb"));
 }
-const placeName = (k) => REGIONS.find((r) => r.key === k)?.name || k;
 function shortDay(day) {
   const d = asDate(day), year = d.getUTCFullYear();
   return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}${String(year) === localNow().slice(0, 4) ? "" : " " + year}`;
 }
-// Under its poster: where it's playing instead, or when it was last shown.
+// Under its poster: when it was last shown here.
 function ghostMeta(g) {
-  const elsewhere = g.ghost.regions.filter((r) => r !== state.region);
-  if (elsewhere.length) return `Playing in ${esc(nameList(elsewhere.map(placeName)))}`;
   const here = g.ghost.last[state.region];
-  if (here) return `Last shown ${esc(shortDay(here))}`;
-  const [r, day] = Object.entries(g.ghost.last).sort((a, b) => b[1].localeCompare(a[1]))[0] || [];
-  return r ? `Last shown in ${esc(placeName(r))}, ${esc(shortDay(day))}` : "No showings";
+  return here ? `Last shown ${esc(shortDay(here))}` : "No showings here";
 }
 // The film sheet of a film this region doesn't list.
 function openGhost(id) {
@@ -1093,14 +1088,12 @@ function openGhost(id) {
   if (!g) return;  // no film is known by that id
   if (findFilm(g.id)) { openFilm(g.id); return; }
   const dlg = $("film");
-  const elsewhere = g.ghost.regions.filter((r) => r !== state.region), here = g.ghost.last[state.region];
+  const here = g.ghost.last[state.region];
   const note = `No showings in ${esc(state.data.location)} right now.${here ? ` Last shown here ${esc(shortDay(here))}.` : ""}`
-    + (elsewhere.length ? ` It's playing in ${esc(nameList(elsewhere.map(placeName)))}.` : "")
     + (isWatched(g) ? ` It's on your watchlist, so you'll see it marked as new if it ${here ? "comes back" : `comes to ${esc(state.data.location)}`}.` : "");
-  const go = elsewhere.map((r) => `<button class="btn" data-goregion="${esc(r)}">See its showings in ${esc(placeName(r))} ›</button>`).join("");
   setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(g)}
-    <div class="days ghostnote"><p>${note}</p>${go ? `<div class="goregions">${go}</div>` : ""}</div>
+    <div class="days ghostnote"><p>${note}</p></div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }
   fitBlurb();
@@ -1698,10 +1691,9 @@ function setCollapsed(key, shut) {
 const sectionShut = (key) => (key === GONE_KEY ? !state.collapsed.has(GONE_OPEN) : state.collapsed.has(key));
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-goregion],[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.goregion) { pickRegion(t.dataset.goregion); return; }  // a film playing in another location: go there (the sheet reopens with its showings)
   if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
