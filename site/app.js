@@ -1105,8 +1105,11 @@ function watchHtml(g) {
   const rows = WATCH_KINDS.filter(([k]) => row.options?.[k]?.length)
     .map(([k, label, sub]) => `<div class="day worow"><h4>${label}<small>${sub}</small></h4><div class="stubs">${row.options[k].map(stub).join("")}</div></div>`).join("");
   const checked = row.checked_at ? shortDay(row.checked_at.slice(0, 10)) : "";
+  // Nothing yet, but a digital release ahead in this country (usually to rent or buy first; streaming tends to come later).
+  const digital = !rows && row.options?.digital > localNow().slice(0, 10) ? row.options.digital : "";
   return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Watch at home in ${country}</h3>${rows
-    || `<p class="wonone">Not available to stream, rent or buy in ${country} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`}
+    || (digital ? `<p class="wonone">Not available yet. Digital release in ${country}: ${esc(shortDay(digital))}, usually to rent or buy first.</p>`
+      : `<p class="wonone">Not available to stream, rent or buy in ${country} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`)}
     <p class="wofoot">${rows && link ? `<a href="${esc(link)}" target="_blank" rel="noopener">All options and prices ↗</a> · ` : ""}Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a></p></section>`;
 }
 // The film sheet of a film this region doesn't list.
@@ -1249,8 +1252,12 @@ function openFilm(id) {
     <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
     <div class="stubs">${shows.map((s) => stubHtml(s, f)).join("")}</div></div>`).join("");
   let empty = "";
-  if (!all.length && f.scope === "Canada") empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
-  else if (!all.length) empty = `<p class="hiddenNote">${f.premiere ? `Premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
+  // No showings here: before its cinema premiere (or announced without a date), the date and what's to come; otherwise only that
+  // there are none now (a cinema premiere that has passed says nothing any more).
+  const ahead = !!f.premiere && f.premiere.slice(0, 10) >= today;
+  if (!all.length && f.scope === "Canada" && ahead) empty = `<p class="hiddenNote">Opens in Canadian cinemas ${dayLabel(f.premiere)}. No ${esc(state.data.location)} cinema has scheduled it yet; it moves to On sale as soon as one lists showtimes.${on ? "" : " Add it to your watchlist to have it highlighted then."}</p>`;
+  else if (!all.length && (ahead || !f.premiere)) empty = `<p class="hiddenNote">${ahead ? `Cinema premiere ${dayLabel(f.premiere)}${f.premiereConfirmed ? "" : " (not confirmed)"}. ` : ""}No showings announced in ${esc(state.data.location)} yet.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
+  else if (!all.length) empty = `<p class="hiddenNote">No showings in ${esc(state.data.location)} right now.${on ? " You'll see it marked as new when tickets go on sale." : " Add it to your watchlist to have it highlighted when tickets go on sale."}</p>`;
   if (all.length && !listed.length && (state.sheetCinemas.size || state.sheetTags.size || state.sheetDay)) empty = `<p class="hiddenNote">No showings match what you picked. <button class="linkbtn" data-sheetclear="1">Show all</button></p>`;
   const hiddenNote = hidden ? `<p class="hiddenNote">${hidden} showing${hidden > 1 ? "s" : ""} hidden by your filters. <button class="linkbtn" data-showall="1">Show all</button></p>`
     : state.showAll && all.some((s) => !showMatches(s, now)) ? `<p class="hiddenNote"><button class="linkbtn" data-showall="0">Apply my filters</button></p>` : "";
