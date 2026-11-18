@@ -259,7 +259,7 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - **A film this location doesn't list** (from that section, an old share link or a past plan's link) opens a film page from its
   card: poster, title, year, running time, director, description, Letterboxd and the heart, without the share / hide menu, then
   "No showings in Oslo right now. Last shown here 2 Nov." An id no film is known by opens nothing, as before.
-- **Watch at home in <country>**: under that note, where the film can be streamed, watched free (or with ads), rented or bought in
+- **Watch at home in <country>**: on the page of any film with no showings here (no longer listed, or listed with none yet), under its note, where the film can be streamed, watched free (or with ads), rented or bought in
   the location's own country (Norway for Oslo, Canada for Westman and Winnipeg, Spain for Costa del Sol; never another country).
   Laid out like the showings: a day-style row per kind ("Stream · subscription", "Rent · pay per view", "Buy · to keep"…), each
   service a stub with its logo and name that opens TMDB's page of all options and prices for that country. "Data from JustWatch"

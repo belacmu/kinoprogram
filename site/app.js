@@ -1078,7 +1078,7 @@ function ghostMeta(g) {
   const here = g.ghost.last[state.region];
   return here ? `Last shown ${esc(shortDay(here))}` : "No showings here";
 }
-// Where a film with no showings here can be watched in this location's country (table watch_options, filled by the programme
+// Where a film with no showings here (no longer listed, or listed with none yet) can be watched in this location's country (table watch_options, filled by the programme
 // update from TMDB, whose data comes from JustWatch: credited here). Only films on a watchlist with no showings anywhere are checked,
 // so for others there's no row and nothing is shown. state.watchOpts: "film|country" -> row, or null (none).
 state.watchOpts = new Map();
@@ -1092,7 +1092,7 @@ function loadWatchOpts(g) {
     .then(({ data, error }) => {
       if (error) { console.error("Loading where to watch failed:", error.message); state.watchOpts.delete(key); return; }
       state.watchOpts.set(key, data || null);
-      if ($("film").open && hashParts().id && anyFilm(hashParts().id)?.id === g.id) openGhost(hashParts().id);
+      if ($("film").open && anyFilm(hashParts().id)?.id === g.id) refreshSheet();  // the sheet still shows this film: redraw it
     });
 }
 // Laid out like the showings: one day-style row per kind, each service a stub (its logo and name) that opens all the options.
@@ -1262,10 +1262,11 @@ function openFilm(id) {
     ${filmHead(f)}
     ${comingUpHtml(f)}
     ${picks.menus || picks.strip ? `<div class="showings">${picks.menus ? `<div class="showhead">${picks.menus}</div>` : ""}${picks.strip}</div>` : ""}
-    <div class="days">${days}${hiddenNote}${empty}</div>
+    <div class="days">${days}${hiddenNote}${empty}${all.length ? "" : watchHtml(f)}</div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
+  if (!all.length) loadWatchOpts(f);  // no showings here: where to watch it instead
   const strip = dlg.querySelector(".dstrip"), dayOn = strip?.querySelector('[aria-pressed="true"]');
   if (!strip) return;
   // Just opened: the picked day in view (centred), only if it's off the end, so "All days" stays visible when it can.
