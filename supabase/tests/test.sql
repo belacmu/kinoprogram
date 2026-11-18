@@ -149,4 +149,70 @@ do $$ begin
     'old and merged ids become the film id, once; unknown ids stay';
 end $$;
 
+-- ---------------------------------------------------------------- where to watch
+do $$ begin
+  begin
+    set local role anon;
+    perform public.sync_watch_options('[]');
+    assert false, 'anon must not write where-to-watch';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+reset role;
+set role service_role;
+do $$
+declare n int;
+begin
+  n := public.sync_watch_options('[
+    {"film_id": "fw-klara", "country": "NO", "options": {"stream": [{"name": "Netflix", "logo": "/nf.jpg"}]},
+     "link": "https://www.themoviedb.org/movie/858035/watch?locale=NO"},
+    {"film_id": "fw-klara", "country": "ca", "options": {}, "link": "javascript:alert(1)"},
+    {"film_id": "no-such-film", "country": "NO", "options": {}}]');
+  assert n = 2, format('two rows written, the unknown film skipped (got %s)', n);
+  -- A later check replaces the row.
+  perform public.sync_watch_options('[{"film_id": "fw-klara", "country": "NO", "options": {"rent": [{"name": "Apple TV", "logo": ""}]}, "link": ""}]');
+end $$;
+reset role;
+set role anon;
+do $$ begin
+  assert (select options -> 'rent' -> 0 ->> 'name' from public.watch_options where film_id = 'fw-klara' and country = 'NO') = 'Apple TV',
+    'anyone can read it; a new check replaced the old options';
+  assert (select options from public.watch_options where film_id = 'fw-klara' and country = 'NO') ? 'stream' = false, 'nothing left over';
+  assert (select link from public.watch_options where film_id = 'fw-klara' and country = 'CA') is null, 'a link that is not https is dropped';
+  begin
+    insert into public.watch_options (film_id, country) values ('fw-klara', 'ES');
+    assert false, 'anon must not insert';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+reset role;
+
+-- ---------------------------------------------------------------- the private mark: films someone has wanted to see
+-- The watchlist saved above (fw-EDI1, cm-klara, fw-klara, unknown-id) marked fw-klara through the trigger.
+do $$ begin
+  assert (select array_agg(film_id order by film_id) from public.film_marks) = array['fw-klara'], 'a signed-in watchlist marks its films';
+end $$;
+set role anon;
+do $$ begin
+  perform public.mark_watchlisted(array['cc-heat', 'nobody-knows-this', 'cc-heat']);   -- signed out: a heart tapped
+  begin
+    perform 1 from public.film_marks;
+    assert false, 'nobody but the update may read the marks';
+  exception when insufficient_privilege then null;
+  end;
+  begin
+    perform public.mark_films(array['cc-heat']);
+    assert false, 'the uncapped function is not public';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+reset role;
+do $$ begin
+  assert (select array_agg(film_id order by film_id) from public.film_marks) = array['cc-heat', 'fw-klara'], 'anyone can mark; unknown ids ignored; once each';
+end $$;
+update public.profiles set watchlist = '{}' where id = '00000000-0000-0000-0000-00000000000a';
+do $$ begin
+  assert exists (select 1 from public.film_marks where film_id = 'fw-klara'), 'a mark stays when the film leaves the list';
+end $$;
+
 \echo 'database tests passed'

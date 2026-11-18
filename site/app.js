@@ -15,10 +15,10 @@ const local = {
 
 // ---------------------------------------------------------------- regions + time (data is in the region's local time)
 const REGIONS = [
-  { key: "oslo", name: "Oslo", file: "films.json", tz: "Europe/Oslo" },
-  { key: "westman", name: "Westman", file: "westman.json", tz: "America/Winnipeg" },
-  { key: "winnipeg", name: "Winnipeg", file: "winnipeg.json", tz: "America/Winnipeg" },
-  { key: "costadelsol", name: "Costa del Sol", file: "costadelsol.json", tz: "Europe/Madrid" },
+  { key: "oslo", name: "Oslo", file: "films.json", tz: "Europe/Oslo", country: "NO", countryName: "Norway" },
+  { key: "westman", name: "Westman", file: "westman.json", tz: "America/Winnipeg", country: "CA", countryName: "Canada" },
+  { key: "winnipeg", name: "Winnipeg", file: "winnipeg.json", tz: "America/Winnipeg", country: "CA", countryName: "Canada" },
+  { key: "costadelsol", name: "Costa del Sol", file: "costadelsol.json", tz: "Europe/Madrid", country: "ES", countryName: "Spain" },
 ];
 let clockFmt = null;
 function setClock(tz) {
@@ -547,7 +547,7 @@ function cardHtml(row) {
   const { f } = row;
   const flag = (isNew(f) ? `<span class="flag">New</span>` : "") + (KIND_BADGE[f.kind] ? `<span class="kind">${KIND_BADGE[f.kind]}</span>` : "")
     + ratingHtml(f)
-    + `<button type="button" class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Show" : "Hide"} this film" title="${row.hidden ? "Show this film again" : "Hide this film"}">${row.hidden ? eyeOn : eyeOff}</button>`;
+    + (row.ghost ? "" : `<button type="button" class="hide" data-hide="${esc(f.id)}" aria-label="${row.hidden ? "Show" : "Hide"} this film" title="${row.hidden ? "Show this film again" : "Hide this film"}">${row.hidden ? eyeOn : eyeOff}</button>`);
   const on = isWatched(f);
   return `<li class="card${row.onSale ? "" : " nosale"}${row.hidden ? " hid" : ""}" data-id="${esc(f.id)}">
     <a href="#film/${esc(f.id)}">${posterHtml(f).replace('<div class="poster">', `<div class="poster">${flag}${friendsStack(f)}`)}
@@ -565,7 +565,7 @@ function renderGrid() {
     if (!sections.length || sections.at(-1).key !== r.sec.key) sections.push({ key: r.sec.key, label: r.sec.label, rows: [] });
     sections.at(-1).rows.push(r);
   }
-  const isCollapsed = (s) => state.collapsed.has(s.key);
+  const isCollapsed = (s) => sectionShut(s.key);
   let empty = "No films match these filters.", offerClear = true;  // "Clear filters" only when the filters are why nothing shows
   if (state.q.trim()) empty = `Nothing matching “${esc(state.q.trim())}” in ${esc(state.data.location)}'s listings yet.`;
   else if (state.onlyWatch && !state.watchlist.size) { empty = "Your watchlist is empty. Tap the heart on any poster to add it; it'll be highlighted when tickets go on sale."; offerClear = false; }
@@ -577,6 +577,13 @@ function renderGrid() {
   const today = localNow().slice(0, 10), chosen = chosenDay(today);
   const withDay = dayMode() && !(state.onlyWatch && !watchedHere()) && !(state.onlyFriends && !friendsHere());
   if (withDay && sections[0]?.key !== DAY_KEY) sections.unshift({ key: DAY_KEY, label: dayTitle(chosen, today), rows: [] });
+  // Watchlist tab: films on it that this location doesn't list, above everything, shut until opened. Not while searching.
+  const listed = sections.length;
+  if (state.onlyWatch && !state.q.trim()) {
+    ensureGhosts();
+    const gone = goneHere();
+    if (gone.length) sections.unshift({ key: GONE_KEY, label: `Not showing in ${state.data.location}`, rows: gone.map((g) => ({ f: g, ghost: true, onSale: false, hidden: false, meta: ghostMeta(g) })) });
+  }
   const dayEmpty = `${state.onlyWatch ? "Nothing on your watchlist is" : state.onlyFriends ? "Nothing on your friends' watchlists is" : "Nothing is"} playing ${chosen === today ? "for the rest of today" : `on ${dayLabel(chosen)}`}${activeFilters() ? " with these filters" : ""}.`;
   // When nothing (or nothing on the day) turns up, offer a way back out of the search and filters.
   const q = state.q.trim(), nf = activeFilters();
@@ -597,7 +604,8 @@ function renderGrid() {
         <span class="lbl">${esc(s.label)}</span> <span class="n">${s.rows.length}</span>${peek}<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button></h2>
       ${shut ? "" : isDay && !s.rows.length ? `<p class="dayempty">${esc(dayEmpty)}${clearBtn(false)}</p>` : `<ul class="grid" id="secgrid-${i}">${s.rows.map(cardHtml).join("")}</ul>`}</section>`;
-  }).join("") : empty ? `<p class="empty">${empty}${offerClear || q ? clearBtn(true) : ""}</p>` : "";
+  }).join("") + (!listed && empty ? `<p class="empty">${empty}${offerClear || q ? clearBtn(true) : ""}</p>` : "")
+    : empty ? `<p class="empty">${empty}${offerClear || q ? clearBtn(true) : ""}</p>` : "";
   const hk = hiddenKindsLine();
   $("hiddenKinds").hidden = !hk;
   $("hiddenKinds").innerHTML = hk;
@@ -977,7 +985,7 @@ window.addEventListener("pagehide", () => { if (state.page === "feed") markFeedS
 // otherwise the one already loaded, shown larger. If an upgraded image fails to load, the next best is tried.
 const bigPoster = (url) => String(url).replace("/t/p/w342/", "/t/p/w780/").replace(/([?&])w=\d+&h=\d+/, "$1w=900&h=1350");
 function openZoom(id, from) {
-  const f = findFilm(id), dlg = $("zoom");
+  const f = anyFilm(id), dlg = $("zoom");
   if (!f || !f.poster || !from?.querySelector("img")) return;  // no poster image (it failed to load, or there's only the title card)
   const urls = [...new Set([bigPoster(f.poster), f.poster, f.poster2].filter(Boolean))];
   dlg.innerHTML = `<form method="dialog" class="dlg-close zclose"><button class="x" aria-label="Close">×</button></form><img alt="Poster of ${esc(titleOf(f))}">`;
@@ -1012,6 +1020,116 @@ const showKey = (s) => `${s.t}|${s.cinema}`;
 const showHref = (f, s) => `#film/${encodeURIComponent(f.id)}/${encodeURIComponent(showKey(s))}`;
 
 function findFilm(id) { return state.data.films.find((f) => f.id === id || f.ids.includes(id)); }
+
+// ---------------------------------------------------------------- films not in this region's listings
+// A watchlist film (or an old link's film) that this region's data doesn't have: the database resolves its id to the film it is now
+// (resolve_films: through old listing ids and merges) with the card the scraper keeps for every film (films.meta). Only what concerns
+// this location is shown: never where else it plays or played. It becomes a film object shaped like the programme's, with no showings (`ghost` set), so cards,
+// hearts and the film header work as usual. state.ghosts: any id asked for, or a film's own id -> its ghost, or null (no film known).
+state.ghosts = new Map();
+let ghostsLoading = null, ghostsFailedAt = 0;
+const GONE_KEY = "gone", GONE_OPEN = "gone:open";  // its section is shut unless opened (state.collapsed has GONE_OPEN)
+function ghostFilm(r) {
+  const m = r.meta || {};
+  return { id: r.id, ids: [r.id], title: r.title || r.id, alt: "", year: r.year || "", kind: m.kind || "",
+    ext: { en: m.en || "", lb: m.lb || "", imdb: r.imdb || "", tmdb: r.tmdb || "" }, poster: m.poster || "", poster2: "",
+    director: m.director || "", runtime: m.runtime || 0, countries: m.countries || [], genres: m.genres || [], blurb: m.blurb || "",
+    links: [], series: [], shows: [], status: "", ghost: { last: m.last || {} } };
+}
+async function loadGhosts(ids) {
+  ids = [...new Set(ids)].filter((i) => i && !state.ghosts.has(i)).slice(0, 500);
+  if (!sb || !ids.length) return false;
+  const { data, error } = await sb.rpc("resolve_films", { ids });
+  if (error) { console.error("Looking up films failed:", error.message); ghostsFailedAt = Date.now(); return false; }
+  for (const r of data || []) {
+    const g = state.ghosts.get(r.id) || ghostFilm(r);
+    if (!g.ids.includes(r.asked)) g.ids.push(r.asked);
+    state.ghosts.set(r.id, g); state.ghosts.set(r.asked, g);
+  }
+  for (const i of ids) if (!state.ghosts.has(i)) state.ghosts.set(i, null);
+  return true;
+}
+// Look up the watchlist films this region doesn't list (once each), then redraw the Watchlist tab.
+function ensureGhosts() {
+  if (!sb || ghostsLoading || Date.now() - ghostsFailedAt < 60000) return;
+  const missing = [...state.watchlist].filter((i) => !state.ghosts.has(i) && !findFilm(i));
+  if (!missing.length) return;
+  ghostsLoading = loadGhosts(missing).then((ok) => { ghostsLoading = null; if (ok && state.onlyWatch && state.page === "films") renderGrid(); });
+}
+// A film by any id: this region's, else one looked up.
+const anyFilm = (id) => findFilm(id) || state.ghosts.get(id) || null;
+// Watchlist films with no listing here: the most recently shown here first, then the rest by title.
+function goneHere() {
+  const out = new Map();
+  for (const id of state.watchlist) {
+    if (findFilm(id)) continue;
+    const g = state.ghosts.get(id);
+    if (g && !out.has(g.id) && !findFilm(g.id)) out.set(g.id, g);
+  }
+  const lastHere = (g) => g.ghost.last[state.region] || "";
+  return [...out.values()].sort((a, b) => lastHere(b).localeCompare(lastHere(a)) || titleOf(a).localeCompare(titleOf(b), "nb"));
+}
+function shortDay(day) {
+  const d = asDate(day), year = d.getUTCFullYear();
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}${String(year) === localNow().slice(0, 4) ? "" : " " + year}`;
+}
+// Under its poster: when it was last shown here.
+function ghostMeta(g) {
+  const here = g.ghost.last[state.region];
+  return here ? `Last shown ${esc(shortDay(here))}` : "No showings here";
+}
+// Where a film with no showings here can be watched in this location's country (table watch_options, filled by the programme
+// update from TMDB, whose data comes from JustWatch: credited here). Only films on a watchlist with no showings anywhere are checked,
+// so for others there's no row and nothing is shown. state.watchOpts: "film|country" -> row, or null (none).
+state.watchOpts = new Map();
+const WATCH_KINDS = [["stream", "Stream", "subscription"], ["free", "Free", "no cost"], ["ads", "Free", "with ads"], ["rent", "Rent", "pay per view"], ["buy", "Buy", "to keep"]];
+const curRegion = () => REGIONS.find((r) => r.key === state.region) || REGIONS[0];
+function loadWatchOpts(g) {
+  const key = `${g.id}|${curRegion().country}`;
+  if (!sb || state.watchOpts.has(key)) return;
+  state.watchOpts.set(key, undefined);  // asking
+  sb.from("watch_options").select("options,link,checked_at").eq("film_id", g.id).eq("country", curRegion().country).maybeSingle()
+    .then(({ data, error }) => {
+      if (error) { console.error("Loading where to watch failed:", error.message); state.watchOpts.delete(key); return; }
+      state.watchOpts.set(key, data || null);
+      if ($("film").open && hashParts().id && anyFilm(hashParts().id)?.id === g.id) openGhost(hashParts().id);
+    });
+}
+// Laid out like the showings: one day-style row per kind, each service a stub (its logo and name) that opens all the options.
+function watchHtml(g) {
+  const row = state.watchOpts.get(`${g.id}|${curRegion().country}`);
+  if (!row) return "";  // not checked, or still loading
+  const country = esc(curRegion().countryName), link = safeUrl(row.link);
+  const stub = (p) => `<${link ? `a href="${esc(link)}" target="_blank" rel="noopener"` : "span"} class="stub wostub">${p.logo
+    ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<span class="t">${esc(p.name)}</span></${link ? "a" : "span"}>`;
+  const rows = WATCH_KINDS.filter(([k]) => row.options?.[k]?.length)
+    .map(([k, label, sub]) => `<div class="day worow"><h4>${label}<small>${sub}</small></h4><div class="stubs">${row.options[k].map(stub).join("")}</div></div>`).join("");
+  const checked = row.checked_at ? shortDay(row.checked_at.slice(0, 10)) : "";
+  return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Watch at home in ${country}</h3>${rows
+    || `<p class="wonone">Not available to stream, rent or buy in ${country} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`}
+    <p class="wofoot">${rows && link ? `<a href="${esc(link)}" target="_blank" rel="noopener">All options and prices ↗</a> · ` : ""}Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a></p></section>`;
+}
+// The film sheet of a film this region doesn't list.
+function openGhost(id) {
+  const g = state.ghosts.get(id);
+  if (g === undefined) {  // not looked up yet: ask, then open it if the link is still the one showing
+    loadGhosts([id]).then((ok) => { if (ok && state.ghosts.has(id) && hashParts().id === id) openGhost(id); });
+    return;
+  }
+  if (!g) return;  // no film is known by that id
+  if (findFilm(g.id)) { openFilm(g.id); return; }
+  const dlg = $("film");
+  const here = g.ghost.last[state.region];
+  const note = `No showings in ${esc(state.data.location)} right now.${here ? ` Last shown here ${esc(shortDay(here))}.` : ""}`
+    + (isWatched(g) ? ` It's on your watchlist, so you'll see it marked as new if it ${here ? "comes back" : `comes to ${esc(state.data.location)}`}.` : "");
+  setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
+    ${filmHead(g)}
+    <div class="days ghostnote"><p>${note}</p>${watchHtml(g)}</div>
+    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
+  if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }
+  fitBlurb();
+  loadWatchOpts(g);
+}
 
 // The tags a showing's stub shows. "Norsk tekst" is left out: nearly every Oslo showing has it.
 const showTags = (s) => [...s.tags.filter((t) => t !== "Norsk tekst"), s.dub ? "Dubbed" : ""].filter(Boolean);
@@ -1092,8 +1210,8 @@ function filmHead(f) {
     <div class="fmore">
       <div class="actions">${ext.top}
         <button class="btn wl${on ? " on" : ""}" data-star="${esc(f.id)}" aria-pressed="${on}">${heart(on)}<span class="wll">${on ? "On watchlist" : "Watchlist"}</span></button>
-        <div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
-          <div class="menu right" id="sheetMoreMenu" role="menu" hidden><button role="menuitem" data-share="${esc(f.id)}"><span class="mi">${canShare ? shareIcon : linkIcon}</span>${canShare ? "Share this film" : "Copy link to this film"}</button>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>
+        ${f.ghost ? "" : `<div class="dd"><button class="btn ghost icon" aria-haspopup="menu" aria-expanded="false" aria-controls="sheetMoreMenu" data-sheetmenu="sheetMoreMenu" aria-label="More" title="More">${moreIcon}</button>
+          <div class="menu right" id="sheetMoreMenu" role="menu" hidden><button role="menuitem" data-share="${esc(f.id)}"><span class="mi">${canShare ? shareIcon : linkIcon}</span>${canShare ? "Share this film" : "Copy link to this film"}</button>${ext.menu}${ext.menu ? '<div class="menusep"></div>' : ""}<button role="menuitem" data-hide="${esc(f.id)}"><span class="mi">${isHidden(f) ? eyeOn : eyeOff}</span>${isHidden(f) ? "Show this film again" : "Hide this film"}</button></div></div>`}
       </div>
       ${friendsOn(f).length ? `<div class="friendline">${friendsStack(f)}<span>${esc(friendsLine(friendsOn(f)))}</span></div>` : ""}
     </div>
@@ -1103,7 +1221,7 @@ function filmHead(f) {
 
 function openFilm(id) {
   const f = findFilm(id);
-  if (!f) return;
+  if (!f) { openGhost(id); return; }
   const dlg = $("film"), now = localNow(), today = now.slice(0, 10);
   const hp = hashParts();
   // The party is read through a token: the invite link's, your own plan's, or (after you've said you're not going) the one you joined through.
@@ -1599,8 +1717,10 @@ const sameHidden = (a, b) => Object.keys(a).length === Object.keys(b).length && 
 function savePrefs() { local.set("prefs", state.prefs); local.set("watchlist", [...state.watchlist]); queueSync(); }
 
 function setCollapsed(key, shut) {
+  if (key === GONE_KEY) { shut ? state.collapsed.delete(GONE_OPEN) : state.collapsed.add(GONE_OPEN); return; }
   shut ? state.collapsed.add(key) : state.collapsed.delete(key);
 }
+const sectionShut = (key) => (key === GONE_KEY ? !state.collapsed.has(GONE_OPEN) : state.collapsed.has(key));
 
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
@@ -1618,7 +1738,7 @@ document.addEventListener("click", (e) => {
     // The header pins just below the top bar, so "pinned" means above that line, not above the screen.
     const stick = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--stick-top")) || 0;
     const pinned = $("sec-" + i).getBoundingClientRect().top < stick - 1;
-    setCollapsed(key, !state.collapsed.has(key));
+    setCollapsed(key, !sectionShut(key));
     renderGrid();
     if (pinned) window.scrollBy(0, $("sec-" + i).getBoundingClientRect().top - stick);  // keep this header where it was pinned
     $("grid").querySelector(`[data-sec="${i}"]`)?.focus({ preventScroll: true });
@@ -1642,7 +1762,8 @@ document.addEventListener("click", (e) => {
   if (t.dataset.hide) { e.preventDefault(); toggleHidden(findFilm(t.dataset.hide)); return; }
   if (t.dataset.star) {
     e.preventDefault();
-    const f = findFilm(t.dataset.star);
+    const f = anyFilm(t.dataset.star);
+    if (!f) return;
     flushRender();
     const was = isWatched(f);
     if (was) { f.ids.forEach((id) => state.watchlist.delete(id)); wlChange(f.ids, false); savePrefs(); }
@@ -1873,7 +1994,19 @@ window.addEventListener("hashchange", route);
 
 // ---------------------------------------------------------------- the watchlist works without an account
 // A signed-out visitor's list stays on this device; signing in later adds it to the account (see wlChange / loadProfile).
-function requestWatch(f) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); return true; }
+function requestWatch(f) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); markWanted([f.id]); return true; }
+// The private "someone wanted to see this" mark (table film_marks), which is how the update knows which films that leave the cinemas
+// to look up where to watch: sent when a heart is tapped, and once for the hearts this browser already had, signed in or not (a
+// signed-in watchlist is also marked by the database itself). Only the update can read the marks.
+const markedHere = new Set(local.get("marked", []));
+function markWanted(ids) {
+  ids = [...new Set(ids)].filter((i) => i && !markedHere.has(i)).slice(0, 200);
+  if (!sb || !ids.length) return;
+  sb.rpc("mark_watchlisted", { ids }).then(({ error }) => {
+    if (error) return;  // tried again next visit
+    ids.forEach((i) => markedHere.add(i)); local.set("marked", [...markedHere]);
+  });
+}
 function promptSignIn() {
   renderAccount();
   if (!$("account").open) $("account").showModal();
@@ -1889,6 +2022,7 @@ function settlePendingWatch() {
   state.watchlist.add(f.id);
   wlChange([f.id], true);
   unhideFilm(f);
+  markWanted([f.id]);
   state.profile ? savePrefs() : local.set("watchlist", [...state.watchlist]);  // profile not loaded yet: the merge will save it
   if ($("account").open) $("account").close();
   render();
@@ -2525,6 +2659,7 @@ async function loadRegion(key) {
   if (!state.routed) state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // which page we open on (Films unless asked for the feed), before anything is drawn
   render();
   route();
+  markWanted([...state.watchlist]);  // hearts from before marks existed, or that couldn't be sent
 }
 
 // First visit on a device whose time zone is one of ours: offer that location (once). Everyone else just gets Oslo.

@@ -211,6 +211,19 @@ a.stub:hover { border-color: var(--accent); }
 .stub .nt { font-size: 11px; color: var(--ink); max-width: 28ch; }
 .stub.nosale { border-left-color: var(--muted); border-style: dashed; opacity: .75; }
 .hiddenNote { color: var(--muted); font-size: 13px; padding: 10px 0 0; border-top: 1px solid var(--line); }
+/* The sheet of a film this location doesn't list: why there are no showings. */
+.ghostnote > p { color: var(--muted); font-size: 14px; margin: 0; max-width: 62ch; }
+/* Where to watch it instead, in this location's country: built from the showings' own parts (a day-style row per kind, each service
+   a stub), under a heading in the day labels' type. */
+.watchopts { margin-top: 18px; }
+.watchopts h3 { margin: 0 0 4px; font: 700 22px/1.1 var(--display); text-transform: uppercase; }
+.worow { padding-block: 10px; }
+.wostub { flex-direction: row; align-items: center; gap: 8px; padding: 7px 12px 7px 9px; color: var(--ink); }
+.wostub img { width: 22px; height: 22px; border-radius: 3px; flex: none; }
+.wostub .t { font: 600 14px var(--body); }
+.wonone { color: var(--muted); font-size: 14px; margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--line); }
+.wofoot { color: var(--muted); font-size: 12px; margin: 0; padding-top: 10px; border-top: 1px solid var(--line); }
+.wofoot a { color: inherit; }
 /* account */
 #account h2 { font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
 #account p { margin: 0 0 14px; font-size: 14px; color: var(--muted); }

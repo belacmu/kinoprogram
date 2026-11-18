@@ -6,7 +6,7 @@
 do $$
 begin
   if exists (select 1 from information_schema.tables
-             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans', 'films', 'film_aliases', 'showings')) then
+             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans', 'films', 'film_aliases', 'showings', 'watch_options', 'film_marks')) then
     raise exception 'This database already has other tables, so it is not a new Cinecrab project. Nothing was changed.';
   end if;
 end $$;
@@ -685,3 +685,90 @@ language sql stable set search_path = '' as $$
 $$;
 revoke all on function public.resolve_films(text[]) from public;
 grant execute on function public.resolve_films(text[]) to anon, authenticated;
+
+-- ---------------------------------------------------------------- films someone has wanted to see (private)
+-- A film is marked the first time anyone puts it on a watchlist: signed in (the trigger below) or not (the app calls
+-- mark_watchlisted when a heart is tapped, and once for the hearts a browser already has). The mark stays when the film leaves the
+-- list. Only the programme update reads it (to decide which films to look up where to watch); nobody can see who marked what, or
+-- even which films are marked.
+create table if not exists public.film_marks (
+  film_id  text primary key references public.films on delete cascade,
+  first_at timestamptz not null default now()
+);
+alter table public.film_marks enable row level security;
+revoke all on public.film_marks from anon, authenticated;
+grant select on public.film_marks to service_role;
+
+-- Mark films by any id they have had (an old listing id, a merged film): the film they are now. Unknown ids are ignored.
+create or replace function public.mark_films(ids text[])
+returns void language sql security definer set search_path = '' as $$
+  insert into public.film_marks (film_id)
+  select distinct coalesce(f.merged_into, f.id)
+  from unnest(ids) as w(i)
+  left join public.film_aliases a on a.alias = w.i
+  join public.films f on f.id = coalesce(a.film_id, w.i)
+  on conflict (film_id) do nothing;
+$$;
+revoke all on function public.mark_films(text[]) from public;
+revoke execute on function public.mark_films(text[]) from anon, authenticated;
+-- What the app calls (anyone, signed in or not): at most 200 ids a call.
+create or replace function public.mark_watchlisted(ids text[])
+returns void language sql security definer set search_path = '' as $$
+  select public.mark_films(ids[1:200]);
+$$;
+revoke all on function public.mark_watchlisted(text[]) from public;
+grant execute on function public.mark_watchlisted(text[]) to anon, authenticated, service_role;
+
+create or replace function public.mark_watchlist_films()
+returns trigger language plpgsql security definer set search_path = '' as $$
+begin
+  perform public.mark_films(new.watchlist);
+  return null;
+end;
+$$;
+drop trigger if exists on_watchlist_marked on public.profiles;
+create trigger on_watchlist_marked
+  after insert or update of watchlist on public.profiles
+  for each row execute function public.mark_watchlist_films();
+-- Every film already on a watchlist (safe to re-run).
+select public.mark_films(array(select distinct w from public.profiles p, unnest(p.watchlist) w));
+
+-- ---------------------------------------------------------------- where to watch (streaming, renting, buying)
+-- For marked films (above) with no showings anywhere, the programme update asks TMDB where each can be watched
+-- (TMDB's data comes from JustWatch, which must be credited where it is shown) and keeps one row per country the site covers, also
+-- when there's nothing (so it isn't asked again). Checked when first needed, then again after a couple of weeks while still needed.
+-- options = {stream|free|ads|rent|buy: [{name, logo}]} (TMDB's order); link = TMDB's watch page for that film and country.
+create table if not exists public.watch_options (
+  film_id    text not null references public.films on delete cascade,
+  country    text not null check (country ~ '^[A-Z]{2}$'),
+  options    jsonb not null default '{}'::jsonb,
+  link       text check (link is null or link ~* '^https://'),
+  checked_at timestamptz not null default now(),
+  primary key (film_id, country)
+);
+alter table public.watch_options enable row level security;
+drop policy if exists "anyone can read watch options" on public.watch_options;
+create policy "anyone can read watch options" on public.watch_options for select to anon, authenticated using (true);
+revoke all on public.watch_options from anon, authenticated;
+grant select on public.watch_options to anon, authenticated;
+grant select on public.watch_options to service_role;
+
+-- One update's checks. p = [{film_id, country, options, link}]: each replaces that film's row for that country, stamped now.
+-- Rows for films the database doesn't know are skipped. Secret key only.
+create or replace function public.sync_watch_options(p jsonb)
+returns integer language plpgsql security definer set search_path = '' as $$
+declare
+  n integer;
+begin
+  insert into public.watch_options as w (film_id, country, options, link, checked_at)
+  select x.film_id, upper(x.country), coalesce(x.options, '{}'::jsonb), case when x.link ~* '^https://' then x.link end, now()
+  from jsonb_to_recordset(coalesce(p, '[]'::jsonb)) as x(film_id text, country text, options jsonb, link text)
+  where exists (select 1 from public.films f where f.id = x.film_id) and x.country ~* '^[a-z]{2}$'
+  on conflict (film_id, country) do update set options = excluded.options, link = excluded.link, checked_at = now();
+  get diagnostics n = row_count;
+  return n;
+end;
+$$;
+revoke all on function public.sync_watch_options(jsonb) from public;
+revoke execute on function public.sync_watch_options(jsonb) from anon, authenticated;
+grant execute on function public.sync_watch_options(jsonb) to service_role;

@@ -250,6 +250,28 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
 - **Watchlist without an account**: anyone can tap hearts; the list is kept on the device. The
   Watchlist tab shows a box while signed out ("Keep your watchlist safe" + **Sign in or register**).
   On first sign-in the device's list is added to the account (existing accounts get it merged in).
+- **Not showing in <location>**: at the top of the Watchlist tab, above the day, a section of the watchlist films this location
+  doesn't list (any more, or yet), **shut by default** (its header shows the count and a few titles; not remembered across reloads,
+  like other sections). Not while searching. The most recently shown here first ("Last shown 2 Nov"), then the rest by title ("No
+  showings here"). **Only this location counts: nothing says where else a film plays or played.** Hearts work as usual; there's no
+  hide button. The films are looked up with `resolve_films` (one call for all the ids, once per visit), so an old id still finds its
+  film; needs Supabase configured (else the section isn't there). Films with no TMDB match show their title card and year only.
+- **A film this location doesn't list** (from that section, an old share link or a past plan's link) opens a film page from its
+  card: poster, title, year, running time, director, description, Letterboxd and the heart, without the share / hide menu, then
+  "No showings in Oslo right now. Last shown here 2 Nov." An id no film is known by opens nothing, as before.
+- **Watch at home in <country>**: under that note, where the film can be streamed, watched free (or with ads), rented or bought in
+  the location's own country (Norway for Oslo, Canada for Westman and Winnipeg, Spain for Costa del Sol; never another country).
+  Laid out like the showings: a day-style row per kind ("Stream · subscription", "Rent · pay per view", "Buy · to keep"…), each
+  service a stub with its logo and name that opens TMDB's page of all options and prices for that country. "Data from JustWatch"
+  (required: TMDB's data comes from JustWatch). Checked and nothing found: "Not available to stream, rent or buy in Norway as far as
+  we know (checked 5 Jan)". Never checked: nothing shown.
+- **Which films are looked up** (`scraper/watch.py`, each programme update): films with no showings in any location that someone has
+  wanted to see. **Wanting** is a private mark on the film (`film_marks`), set the first time anyone puts it on a watchlist: signed
+  in (a database trigger on the watchlist) or not (the app calls `mark_watchlisted` when a heart is tapped, and once for the hearts a
+  browser already has). It stays when the film leaves the list. Only the update can read the marks: nobody can see who marked a film,
+  or which films are marked. A film is looked up when it first qualifies (the next run), then every 14 days while it still does;
+  one TMDB request per film gives every country; at most 100 a run. Results are kept per country in `watch_options` (public, like the
+  programme), also when there's nothing, so a film isn't asked again before its time.
 
 ## Friends
 
