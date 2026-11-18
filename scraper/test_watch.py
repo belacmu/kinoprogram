@@ -45,21 +45,6 @@ def test_digital_date_per_country():
     assert watch.digital_date([], "NO", TODAY) == ""
 
 
-def test_next_check():
-    st = lambda days_ago, found=False, digital=(): {"checked": NOW - timedelta(days=days_ago), "found": found, "digital": list(digital)}
-    # Nothing found: every 14 days.
-    assert watch.next_check(st(0), NOW) == NOW + timedelta(days=14)
-    # Found somewhere: every 60 days.
-    assert watch.next_check(st(0, found=True), NOW) == NOW + timedelta(days=60)
-    # A digital release ahead, before the usual recheck: the day after it.
-    assert watch.next_check(st(0, digital=["2026-11-22"]), NOW) == datetime(2026, 11, 23, tzinfo=timezone.utc)
-    # ...after it: the usual 14 days.
-    assert watch.next_check(st(0, digital=["2027-03-01"]), NOW) == NOW + timedelta(days=14)
-    # Released digitally over two years ago and still nowhere: never again. Under two years: keep asking.
-    assert watch.next_check(st(0, digital=["2024-01-01"]), NOW) is None
-    assert watch.next_check(st(0, digital=["2025-06-01"]), NOW) == NOW + timedelta(days=14)
-
-
 def test_states_from():
     rows = [{"film_id": "a", "checked_at": "2026-11-01T00:00:00+00:00", "options": {"digital": "2026-12-12"}},
             {"film_id": "a", "checked_at": "2026-10-30T00:00:00Z", "options": {"rent": [{"name": "X", "logo": ""}]}},

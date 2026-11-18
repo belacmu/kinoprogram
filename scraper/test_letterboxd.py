@@ -26,14 +26,12 @@ def registry(films):
 def test_due():
     reg = registry({"new-listed": {"imdb": "tt1", "meta": {}}, "new-gone": {"tmdb": 2, "meta": {}},
                     "listed-stale": {"imdb": "tt3", "meta": {"lbAt": DAY(8)}}, "listed-fresh": {"imdb": "tt4", "meta": {"lbAt": DAY(2)}},
-                    "wanted-stale": {"imdb": "tt5", "meta": {"lbAt": DAY(40)}}, "wanted-fresh": {"imdb": "tt6", "meta": {"lbAt": DAY(10)}},
-                    "gone-old": {"imdb": "tt7", "meta": {"lbAt": DAY(400)}}, "no-ids": {"meta": {}},
-                    "merged": {"imdb": "tt9", "merged": "x", "meta": {}}})
-    got = letterboxd.due(reg, {"new-listed", "listed-stale", "listed-fresh"}, {"wanted-stale", "wanted-fresh"}, NOW.date())
-    # Never asked (listed first), then the longest ago among the due: wanted monthly, listed weekly. Never: the rest.
-    assert got == ["new-listed", "new-gone", "wanted-stale", "listed-stale"], got
-    assert letterboxd.due(reg, set(), set(), NOW.date(), budget=1) == ["new-gone"]
-
+                    "gone-stale": {"imdb": "tt5", "meta": {"lbAt": DAY(100)}}, "gone-fresh": {"imdb": "tt6", "meta": {"lbAt": DAY(40)}},
+                    "no-ids": {"meta": {}}, "merged": {"imdb": "tt9", "merged": "x", "meta": {}}})
+    got = letterboxd.due(reg, {"new-listed", "listed-stale", "listed-fresh"}, NOW.date())
+    # Never asked (listed first), then the longest ago among the due: listed weekly, the rest every 90 days.
+    assert got == ["new-listed", "new-gone", "gone-stale", "listed-stale"], got
+    assert letterboxd.due(reg, set(), NOW.date(), budget=1) == ["new-gone"]
 
 def test_update_by_exact_id_and_once():
     reg = registry({"gone": {"title": "Drive My Car", "tmdb": 758866, "imdb": "tt14039582", "meta": {"poster": "https://p"}},
@@ -45,14 +43,14 @@ def test_update_by_exact_id_and_once():
             raise urllib.error.HTTPError("u", 404, "no", {}, io.BytesIO(b""))
         return "drive-my-car", 4.21
     external.letterboxd = lb
-    letterboxd.update(reg, set(), set(), {}, now=NOW)
+    letterboxd.update(reg, set(), {}, now=NOW)
     assert sorted(map(str, asked)) == ["5", "tt14039582"], asked
     assert reg.films["gone"]["meta"] == {"poster": "https://p", "lb": "drive-my-car", "lbRating": 4.21, "lbAt": TODAY}
     assert reg.films["missing"]["meta"] == {"lbAt": TODAY}   # 404: asked, nothing there
     assert {"gone", "missing"} <= reg.touched
     asked.clear()
-    letterboxd.update(reg, set(), set(), {}, now=NOW)
-    assert asked == []   # not listed, not wanted: never again
+    letterboxd.update(reg, set(), {}, now=NOW)
+    assert asked == []   # asked today: not again for 90 days
 
 
 def test_refusing_stops_the_run():
@@ -62,7 +60,7 @@ def test_refusing_stops_the_run():
         asked.append(rec["tmdb"])
         raise urllib.error.HTTPError("u", 429, "slow down", {}, io.BytesIO(b""))
     external.letterboxd = lb
-    letterboxd.update(reg, set(), set(), {}, now=NOW)
+    letterboxd.update(reg, set(), {}, now=NOW)
     assert asked == [1] and not any(f["meta"] for f in reg.films.values())   # nothing marked asked: tried again next run
 
 

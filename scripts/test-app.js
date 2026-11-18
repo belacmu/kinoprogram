@@ -114,7 +114,6 @@ async function site() {
     check(first.label === "Not showing in Oslo", `the first section is "Not showing in Oslo" (got "${first.label}")`);
     check(first.n === "3", `it holds the 3 films found; an id no film is known by is left out (got ${first.n})`);
     check(first.shut, "it is shut by default");
-    check(marks.length === 1 && JSON.stringify([...marks[0]].sort()) === JSON.stringify([...watch].sort()), `the hearts this browser had are marked as wanted, once (${JSON.stringify(marks)})`);
     check(calls.length === 1 && calls[0].length === 4 && !calls[0].includes(here.id), `one lookup, only for the ids Oslo doesn't list: ${JSON.stringify(calls[0])}`);
     await shot("1-shut.png");
 
@@ -219,16 +218,14 @@ async function site() {
     check(/^No showings in Oslo right now\./.test(past.note) && !/premiere|2020/i.test(past.text), `after its cinema premiere: no date ("${past.note}")`);
     check(/Not available yet\. Digital release in Norway: 12 Dec 2099, usually to rent or buy first\./.test(past.text), "nothing to watch yet: its digital release date");
 
-    // Marks are sent once per browser; a new heart sends its film's.
-    const before = marks.length;
+    // Hearts don't send anything but the watchlist itself: no "marks" any more.
     await page.goto(base);
     await page.waitForSelector("#grid .card");
-    await page.waitForTimeout(500);
-    check(marks.length === before, "marks already sent aren't sent again");
     const fresh = await page.$eval("#grid .card .star[aria-pressed='false']", (b) => b.dataset.star);
     await page.click(`#grid .card .star[data-star="${fresh}"]`);
     await page.waitForTimeout(500);
-    check(JSON.stringify(marks.at(-1)) === JSON.stringify([fresh]), `a new heart marks its film (${JSON.stringify(marks.at(-1))})`);
+    check(!marks.length && (await page.evaluate(() => JSON.parse(localStorage.getItem("kino:watchlist")))).includes(fresh),
+      `a heart adds to the watchlist and sends no marks (${JSON.stringify(marks)})`);
 
     check(!errors.length, `no errors on the page ${errors.length ? JSON.stringify(errors) : ""}`);
   } finally {

@@ -6,12 +6,11 @@ Per film, by its exact IMDb or TMDB id (Letterboxd resolves them itself: letterb
 When a film is asked:
   - never asked: now (listed films first);
   - listed now: again after LISTED_DAYS;
-  - wanted (film_marks) but not listed: again after WANTED_DAYS;
-  - otherwise never again: the film keeps what it has.
+  - otherwise: again after OTHER_DAYS (ratings of films no longer showing barely move).
 At most BUDGET a run; if Letterboxd refuses (403, 429), no more this run. A film Letterboxd doesn't have (404) counts as asked.
 
 Usage from build.py, after details.update and before the films are written:
-    letterboxd.update(reg, listed, marked, legacy)   # never raises
+    letterboxd.update(reg, listed, legacy)   # never raises
     letterboxd.apply(reg, films)                     # each region's listed films
 """
 import sys
@@ -22,7 +21,7 @@ import external
 
 BUDGET = 120
 LISTED_DAYS = 7
-WANTED_DAYS = 30
+OTHER_DAYS = 90
 
 
 def migrate(reg, legacy, today):
@@ -52,29 +51,29 @@ def migrate(reg, legacy, today):
         print(f"  letterboxd: {n} films' earlier ratings moved to their cards")
 
 
-def due(reg, listed, marked, today, budget=BUDGET):
+def due(reg, listed, today, budget=BUDGET):
     """The films to ask about this run: never asked (listed first), then the longest ago among those due."""
     never, stale = [], []
     week = (today - timedelta(days=LISTED_DAYS)).isoformat()
-    month = (today - timedelta(days=WANTED_DAYS)).isoformat()
+    quarter = (today - timedelta(days=OTHER_DAYS)).isoformat()
     for fid, f in sorted(reg.films.items()):
         if f.get("merged") or not (f.get("imdb") or f.get("tmdb")):
             continue
         at = (f.get("meta") or {}).get("lbAt")
         if not at:
             never.append((fid not in listed, fid))
-        elif (fid in listed and at <= week) or (fid in marked and fid not in listed and at <= month):
+        elif at <= (week if fid in listed else quarter):
             stale.append((at, fid))
     return ([f for _, f in sorted(never)] + [f for _, f in sorted(stale)])[:budget]
 
 
-def update(reg, listed, marked, legacy, now=None):
+def update(reg, listed, legacy, now=None):
     """Ask Letterboxd about the films that are due; cards updated in place. Never raises."""
     now = now or datetime.now(timezone.utc)
     today = now.date().isoformat()
     try:
         migrate(reg, legacy or {}, today)
-        todo = due(reg, listed, marked, now.date())
+        todo = due(reg, listed, now.date())
         asked = rated = 0
         for fid in todo:
             f = reg.films[fid]

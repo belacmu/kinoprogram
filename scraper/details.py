@@ -7,12 +7,9 @@ The update has three steps for what it knows about films (SPEC.md, "Film informa
      every country and its digital release dates. Kept on the film's card (films.meta) and, for where to watch, watch_options.
   3. Letterboxd (letterboxd.py): the film's Letterboxd page and rating, by exact id.
 
-When a film is fetched (due()):
-  - never fetched: now (recovered watchlist films and listed films first);
-  - listed now: again after REFRESH_DAYS;
-  - wanted (film_marks): as where to watch needs it (watch.next_check: every 14 days while nothing is found, the day after a
-    digital release ahead, every 60 days once something is, never after a digital release long past with still nothing);
-  - otherwise never again: the film keeps what it has.
+When a film is fetched (due(), next_fetch()): never fetched, now (recovered watchlist films and listed films first); listed, every 30
+days; left the cinemas within about six months and nothing to watch yet, weekly (or the day after a digital release, if sooner);
+left recently with somewhere to watch, every 30 days; left longer ago, every 90 days. The same for every film: no watchlists involved.
 At most BUDGET requests a run.
 
 Usage from build.py:
@@ -23,14 +20,18 @@ Usage from build.py:
 """
 import sys
 import urllib.error
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import external
 import filmids
 import watch
 
 BUDGET = 250
-REFRESH_DAYS = 30
+LISTED_DAYS = 30     # listed films
+RECENT_DAYS = 182    # "left the cinemas recently": last shown within about six months
+WAITING_DAYS = 7     # ...and nothing to watch yet
+FOUND_DAYS = 30      # ...and somewhere to watch
+OLD_DAYS = 90        # left longer ago
 POSTER = "https://image.tmdb.org/t/p/w342"
 BLURB_MAX = filmids.BLURB_MAX
 # Posters: TMDB's replaces a missing one and Cinemateket's / Revier's wide stills; for Westman and Costa del Sol, whose image links
@@ -95,31 +96,49 @@ def migrate(reg, legacy, today):
         print(f"  film details: {n} films' earlier details moved to their cards")
 
 
-def due(reg, listed, marked, watch_states, now, first=(), budget=BUDGET):
-    """The films to fetch this run, in order: never fetched (`first`, e.g. recovered films, then listed ones, then the rest), where to
-    watch due, listed and stale."""
+def next_fetch(film, listed, state, today):
+    """The day a film's details are due again ("YYYY-MM-DD"), from when they were fetched (tmdbAt), whether it's listed, when it was
+    last shown anywhere (card's `last`) and what that fetch found to watch (state: watch.states_from's {found, digital}):
+      - listed: every LISTED_DAYS;
+      - left the cinemas within RECENT_DAYS, nothing to watch yet: every WAITING_DAYS, or the day after a digital release, if
+        sooner (that's when people wait to see where it turns up);
+      - left within RECENT_DAYS, somewhere to watch: every FOUND_DAYS (it may move, e.g. from renting to streaming);
+      - left longer ago (or never shown since the registry began): every OLD_DAYS."""
+    m = film.get("meta") or {}
+    at = date.fromisoformat(m["tmdbAt"][:10])
+    if listed:
+        return (at + timedelta(days=LISTED_DAYS)).isoformat()
+    last = max((m.get("last") or {}).values(), default="")
+    if not last or last < (today - timedelta(days=RECENT_DAYS)).isoformat():
+        return (at + timedelta(days=OLD_DAYS)).isoformat()
+    state = state or {"found": False, "digital": []}
+    if state["found"]:
+        return (at + timedelta(days=FOUND_DAYS)).isoformat()
+    nxt = (at + timedelta(days=WAITING_DAYS)).isoformat()
+    released = sorted(d for d in state["digital"] if d >= at.isoformat())  # a digital release since the last fetch, or ahead
+    if released:
+        nxt = min(nxt, (date.fromisoformat(released[0]) + timedelta(days=1)).isoformat())
+    return nxt
+
+
+def due(reg, listed, watch_states, now, first=(), budget=BUDGET):
+    """The films to fetch this run, in order: never fetched (`first`, e.g. recovered films, then listed ones, then the rest), then
+    the most overdue."""
     today = now.date()
-    never, wanted, stale = [], [], []
+    never, overdue = [], []
     for fid, f in sorted(reg.films.items()):
         if f.get("merged") or not f.get("tmdb"):
             continue
-        at = (f.get("meta") or {}).get("tmdbAt")
-        if not at:
+        if not (f.get("meta") or {}).get("tmdbAt"):
             never.append((0 if fid in first else 1 if fid in listed else 2, fid))
             continue
-        if fid in marked:
-            st = watch_states.get(fid)
-            t = watch.next_check(st, now) if st else now
-            if t is not None and t <= now:
-                wanted.append((t, fid))
-                continue
-        if fid in listed and at <= (today - timedelta(days=REFRESH_DAYS)).isoformat():
-            stale.append((at, fid))
-    order = [f for _, f in sorted(never)] + [f for _, f in sorted(wanted)] + [f for _, f in sorted(stale)]
-    return order[:budget]
+        nxt = next_fetch(f, fid in listed, watch_states.get(fid), today)
+        if nxt <= today.isoformat():
+            overdue.append((nxt, fid))
+    return ([f for _, f in sorted(never)] + [f for _, f in sorted(overdue)])[:budget]
 
 
-def update(reg, listed, legacy, countries, now=None, first=(), marked=None):
+def update(reg, listed, legacy, countries, now=None, first=()):
     """Fetch what's due (cards updated in place) and return the where-to-watch rows to write after the sync. Never raises."""
     now = now or datetime.now(timezone.utc)
     today = now.date().isoformat()
@@ -128,14 +147,14 @@ def update(reg, listed, legacy, countries, now=None, first=(), marked=None):
         migrate(reg, legacy or {}, today)
         if not external.tmdb_enabled():
             return rows
-        marked, watch_states = marked or set(), {}
+        watch_states = {}
         if filmids._config()[0] and reg.source == "supabase":
             try:
                 watch_states = watch.states_from(filmids._rows("watch_options", "select=film_id,checked_at,options"))
             except urllib.error.HTTPError as e:
                 if e.code not in (400, 404):
                     raise
-        todo = due(reg, listed, marked, watch_states, now, first=set(first))
+        todo = due(reg, listed, watch_states, now, first=set(first))
         fetched = found = 0
         for fid in todo:
             f = reg.films[fid]

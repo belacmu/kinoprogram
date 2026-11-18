@@ -1078,9 +1078,9 @@ function ghostMeta(g) {
   const here = g.ghost.last[state.region];
   return here ? `Last shown ${esc(shortDay(here))}` : "No showings here";
 }
-// Where a film with no showings here (no longer listed, or listed with none yet) can be watched in this location's country (table watch_options, filled by the programme
-// update from TMDB, whose data comes from JustWatch: credited here). Only films on a watchlist with no showings anywhere are checked,
-// so for others there's no row and nothing is shown. state.watchOpts: "film|country" -> row, or null (none).
+// Where a film with no showings here (no longer listed, or listed with none yet) can be watched in this location's country (table
+// watch_options, filled by the programme update with every film's details from TMDB, whose data comes from JustWatch: credited here).
+// A film not yet checked (or not matched on TMDB) has no row, and nothing is shown. state.watchOpts: "film|country" -> row, or null (none).
 state.watchOpts = new Map();
 const WATCH_KINDS = [["stream", "Stream", "subscription"], ["free", "Free", "no cost"], ["ads", "Free", "with ads"], ["rent", "Rent", "pay per view"], ["buy", "Buy", "to keep"]];
 const curRegion = () => REGIONS.find((r) => r.key === state.region) || REGIONS[0];
@@ -2002,19 +2002,7 @@ window.addEventListener("hashchange", route);
 
 // ---------------------------------------------------------------- the watchlist works without an account
 // A signed-out visitor's list stays on this device; signing in later adds it to the account (see wlChange / loadProfile).
-function requestWatch(f) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); markWanted([f.id]); return true; }
-// The private "someone wanted to see this" mark (table film_marks), which is how the update knows which films that leave the cinemas
-// to look up where to watch: sent when a heart is tapped, and once for the hearts this browser already had, signed in or not (a
-// signed-in watchlist is also marked by the database itself). Only the update can read the marks.
-const markedHere = new Set(local.get("marked", []));
-function markWanted(ids) {
-  ids = [...new Set(ids)].filter((i) => i && !markedHere.has(i)).slice(0, 200);
-  if (!sb || !ids.length) return;
-  sb.rpc("mark_watchlisted", { ids }).then(({ error }) => {
-    if (error) return;  // tried again next visit
-    ids.forEach((i) => markedHere.add(i)); local.set("marked", [...markedHere]);
-  });
-}
+function requestWatch(f) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); return true; }
 function promptSignIn() {
   renderAccount();
   if (!$("account").open) $("account").showModal();
@@ -2030,7 +2018,6 @@ function settlePendingWatch() {
   state.watchlist.add(f.id);
   wlChange([f.id], true);
   unhideFilm(f);
-  markWanted([f.id]);
   state.profile ? savePrefs() : local.set("watchlist", [...state.watchlist]);  // profile not loaded yet: the merge will save it
   if ($("account").open) $("account").close();
   render();
@@ -2667,7 +2654,6 @@ async function loadRegion(key) {
   if (!state.routed) state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // which page we open on (Films unless asked for the feed), before anything is drawn
   render();
   route();
-  markWanted([...state.watchlist]);  // hearts from before marks existed, or that couldn't be sent
 }
 
 // First visit on a device whose time zone is one of ours: offer that location (once). Everyone else just gets Oslo.

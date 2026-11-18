@@ -187,32 +187,14 @@ do $$ begin
 end $$;
 reset role;
 
--- ---------------------------------------------------------------- the private mark: films someone has wanted to see
--- The watchlist saved above (fw-EDI1, cm-klara, fw-klara, unknown-id) marked fw-klara through the trigger.
+-- ---------------------------------------------------------------- the watchlist marks are gone
 do $$ begin
-  assert (select array_agg(film_id order by film_id) from public.film_marks) = array['fw-klara'], 'a signed-in watchlist marks its films';
+  assert to_regclass('public.film_marks') is null, 'no film_marks table';
+  assert to_regprocedure('public.mark_watchlisted(text[])') is null and to_regprocedure('public.mark_films(text[])') is null,
+    'no marking functions';
+  assert not exists (select 1 from pg_trigger where tgname = 'on_watchlist_marked'), 'no marking trigger';
 end $$;
-set role anon;
-do $$ begin
-  perform public.mark_watchlisted(array['cc-heat', 'nobody-knows-this', 'cc-heat']);   -- signed out: a heart tapped
-  begin
-    perform 1 from public.film_marks;
-    assert false, 'nobody but the update may read the marks';
-  exception when insufficient_privilege then null;
-  end;
-  begin
-    perform public.mark_films(array['cc-heat']);
-    assert false, 'the uncapped function is not public';
-  exception when insufficient_privilege then null;
-  end;
-end $$;
-reset role;
-do $$ begin
-  assert (select array_agg(film_id order by film_id) from public.film_marks) = array['cc-heat', 'fw-klara'], 'anyone can mark; unknown ids ignored; once each';
-end $$;
-update public.profiles set watchlist = '{}' where id = '00000000-0000-0000-0000-00000000000a';
-do $$ begin
-  assert exists (select 1 from public.film_marks where film_id = 'fw-klara'), 'a mark stays when the film leaves the list';
-end $$;
+-- Saving a watchlist still works without them.
+update public.profiles set watchlist = array['fw-klara'] where id = '00000000-0000-0000-0000-00000000000a';
 
 \echo 'database tests passed'
