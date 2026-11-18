@@ -2,8 +2,9 @@
 
 The schedule lives only on Eventbrite, one event per screening, named "Title (year, 1t 40m)", with the director as the
 summary ("Regi: …"). Read through Eventbrite's API (a private token in EVENTBRITE_TOKEN): one request for all upcoming
-events with their ticket availability. Without a token, falls back to reading the public pages. Tickets are free but
-must be reserved, so a showing links to its event page.
+events with their ticket availability. Eventbrite's terms rule out scraping its pages, so there is no fallback: without
+a token, or when the API refuses, the run reports Revier as failed. Tickets are free but must be reserved, so a showing
+links to its event page.
 """
 import html
 import json
@@ -19,16 +20,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 from sources import film, get  # noqa: E402
 
 ORGANIZER_ID = "117564493841"
-ORGANIZER = f"https://www.eventbrite.com/o/revier-{ORGANIZER_ID}"
 API = "https://www.eventbriteapi.com/v3"
 CINEMA = "Revier Film Club"
 STATUS = {"sold_out": "Fully booked", "sales_ended": "Booking closed", "unavailable": "Not available"}
 MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
-
-
-def next_data(h):
-    m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', h, re.S)
-    return json.loads(m[1])["props"]["pageProps"]
 
 
 def parse_name(name):
@@ -37,35 +32,6 @@ def parse_name(name):
     if not m:
         return name.strip(), "", 0
     return m[1], m[2], int(m[3] or 0) * 60 + int(m[4] or 0)
-
-
-def event_details(url):
-    """Director, image and ticket release date from the event page; empty if the page can't be read."""
-    try:
-        h = get(url)
-        ev = next((d for d in map(json.loads, re.findall(r'<script type="application/ld\+json"[^>]*>(.*?)</script>', h, re.S))
-                   if d.get("@type") == "Event"), {})
-        page = next_data(h)
-    except Exception as e:
-        print(f"  ! {url}: {e}", file=sys.stderr)
-        return {}
-    # The page props are nested differently from page to page; find the sales status wherever it is.
-    found = {}
-
-    def walk(o):
-        if isinstance(o, dict):
-            if isinstance(o.get("salesStatus"), dict) and "sales" not in found:
-                found["sales"] = o["salesStatus"]
-            for v in o.values():
-                walk(v)
-        elif isinstance(o, list):
-            for v in o:
-                walk(v)
-    walk(page)
-    director = re.match(r"^\s*Regi:\s*(.+?)\s*$", html.unescape(ev.get("description") or ""))
-    start = ((found.get("sales") or {}).get("startSalesDate") or {}).get("local") or ""
-    return {"director": director[1] if director else "", "image": ev.get("image") or "",
-            "salesStart": start}
 
 
 def show(f, when, url, ticket, status):
@@ -126,37 +92,10 @@ def fetch_api(now, token):
             return list(films.values())
 
 
-def fetch_pages(now):
-    """Fallback without an API token: the organizer page's embedded events, and each event page for the director and
-    the ticket release date."""
-    page = next_data(get(ORGANIZER))
-    if page.get("upcomingEventsFailed"):
-        raise RuntimeError("Eventbrite could not load the upcoming events")
-    events = page.get("upcomingEvents") or []
-    if page.get("hasMoreUpcoming"):
-        print(f"  ! Revier: only {len(events)} of {page.get('upcomingEventsTotal')} upcoming events on the page", file=sys.stderr)
-    films = {}
-    for e in events:
-        if e.get("is_cancelled") or e.get("is_online_event"):
-            continue
-        details = event_details(e["url"])
-        f = film_for(films, e["name"], details.get("director", ""),
-                     details.get("image") or ((e.get("image") or {}).get("image_sizes") or {}).get("medium", ""), e["url"])
-        sales = (e.get("event_sales_status") or {}).get("sales_status") or ""
-        ticket = e["url"] if sales == "on_sale" else ""
-        status = STATUS.get(sales, "")
-        start = details.get("salesStart", "")
-        if not ticket and not status and start:
-            status = sales_from(start)
-        show(f, f"{e['start_date']}T{e['start_time'][:5]}", e["url"], ticket, status)
-    return list(films.values())
-
-
 def fetch_all(now):
     token = os.environ.get("EVENTBRITE_TOKEN")
     if not token:
-        print("  ! Revier: no EVENTBRITE_TOKEN, reading the public pages instead", file=sys.stderr)
-        return fetch_pages(now)
+        raise RuntimeError("no EVENTBRITE_TOKEN")
     try:
         return fetch_api(now, token)
     except urllib.error.HTTPError as e:
@@ -165,8 +104,7 @@ def fetch_all(now):
             body = e.read().decode("utf-8", "replace")[:300]
         except Exception:
             body = ""
-        print(f"  ! Revier: Eventbrite API {e.code}: {body}; reading the public pages instead", file=sys.stderr)
-        return fetch_pages(now)
+        raise RuntimeError(f"Eventbrite API {e.code}: {body}") from e
 
 
 if __name__ == "__main__":
