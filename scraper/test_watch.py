@@ -44,12 +44,12 @@ def test_options_for():
     assert watch.options_for({"link": "javascript:alert(1)"})[1] == ""
 
 
-def test_only_watchlist_films_with_no_showings():
-    """On a watchlist (under any id it has had) and no showings anywhere; a film with no TMDB match can't be looked up."""
+def test_only_marked_films_with_no_showings():
+    """Marked (under any id it has had) and no showings anywhere; a film with no TMDB match can't be looked up."""
     reg = registry()
-    lists = [["fw-dune", "fw-EDI9"], ["cm-old", "fw-notmdb", "never-heard-of"], None]
-    got = watch.candidates(reg, lists, with_showings={"fw-dune"})
-    assert got == {"fw-gone"}, got   # Dune is showing; fw-unwatched is on no list
+    marked = ["fw-dune", "fw-EDI9", "cm-old", "fw-notmdb", "never-heard-of"]
+    got = watch.candidates(reg, marked, with_showings={"fw-dune"})
+    assert got == {"fw-gone"}, got   # Dune is showing; fw-unwatched isn't marked
 
 
 def test_due():
@@ -62,7 +62,7 @@ def test_due():
 def test_update_writes_every_country_and_skips_fresh():
     reg = registry()
     sent, asked = [], []
-    rows = {"profiles": [{"watchlist": ["fw-gone", "fw-dune"]}], "watch_options": []}
+    rows = {"film_marks": [{"film_id": "fw-gone"}, {"film_id": "fw-dune"}], "watch_options": []}
     filmids._config = lambda: ("http://x", "k")
     filmids._rows = lambda table, q: rows[table]
     filmids._request = lambda path, body=None, timeout=60: sent.append((path, body))
@@ -86,9 +86,7 @@ def test_update_without_the_table_does_nothing():
     reg = registry()
     filmids._config = lambda: ("http://x", "k")
     def rows(table, q):
-        if table == "watch_options":
-            raise urllib.error.HTTPError("u", 404, "no table", {}, io.BytesIO(b""))
-        return [{"watchlist": ["fw-gone"]}]
+        raise urllib.error.HTTPError("u", 404, "no table", {}, io.BytesIO(b""))
     filmids._rows = rows
     asked = []
     external.tmdb_enabled = lambda: True

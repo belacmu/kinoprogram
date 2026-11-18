@@ -1082,7 +1082,7 @@ function ghostMeta(g) {
 // update from TMDB, whose data comes from JustWatch: credited here). Only films on a watchlist with no showings anywhere are checked,
 // so for others there's no row and nothing is shown. state.watchOpts: "film|country" -> row, or null (none).
 state.watchOpts = new Map();
-const WATCH_KINDS = [["stream", "Stream"], ["free", "Free"], ["ads", "Free with ads"], ["rent", "Rent"], ["buy", "Buy"]];
+const WATCH_KINDS = [["stream", "Stream", "subscription"], ["free", "Free", "no cost"], ["ads", "Free", "with ads"], ["rent", "Rent", "pay per view"], ["buy", "Buy", "to keep"]];
 const curRegion = () => REGIONS.find((r) => r.key === state.region) || REGIONS[0];
 function loadWatchOpts(g) {
   const key = `${g.id}|${curRegion().country}`;
@@ -1095,20 +1095,19 @@ function loadWatchOpts(g) {
       if ($("film").open && hashParts().id && anyFilm(hashParts().id)?.id === g.id) openGhost(hashParts().id);
     });
 }
+// Laid out like the showings: one day-style row per kind, each service a stub (its logo and name) that opens all the options.
 function watchHtml(g) {
   const row = state.watchOpts.get(`${g.id}|${curRegion().country}`);
   if (!row) return "";  // not checked, or still loading
-  const country = esc(curRegion().countryName);
-  // A service: its logo over a tile with its initials (in a colour of its own; what shows if there's no logo or it fails), then its name.
-  const tile = (p) => `<li class="wotile"><span class="woini" style="--h:${friendHue(p.name)}" aria-hidden="true">${esc(initialsOf(p.name))}${p.logo
-    ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}</span><span class="won">${esc(p.name)}</span></li>`;
+  const country = esc(curRegion().countryName), link = safeUrl(row.link);
+  const stub = (p) => `<${link ? `a href="${esc(link)}" target="_blank" rel="noopener"` : "span"} class="stub wostub">${p.logo
+    ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<span class="t">${esc(p.name)}</span></${link ? "a" : "span"}>`;
   const rows = WATCH_KINDS.filter(([k]) => row.options?.[k]?.length)
-    .map(([k, label]) => `<div class="worow"><h4>${label}</h4><ul>${row.options[k].map(tile).join("")}</ul></div>`).join("");
+    .map(([k, label, sub]) => `<div class="day worow"><h4>${label}<small>${sub}</small></h4><div class="stubs">${row.options[k].map(stub).join("")}</div></div>`).join("");
   const checked = row.checked_at ? shortDay(row.checked_at.slice(0, 10)) : "";
-  const link = rows && safeUrl(row.link) ? `<a href="${esc(safeUrl(row.link))}" target="_blank" rel="noopener">All options and prices ↗</a>` : "";
   return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Watch at home in ${country}</h3>${rows
     || `<p class="wonone">Not available to stream, rent or buy in ${country} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`}
-    <p class="wofoot">${link}<span>Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a></span></p></section>`;
+    <p class="wofoot">${rows && link ? `<a href="${esc(link)}" target="_blank" rel="noopener">All options and prices ↗</a> · ` : ""}Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a></p></section>`;
 }
 // The film sheet of a film this region doesn't list.
 function openGhost(id) {
@@ -1995,7 +1994,19 @@ window.addEventListener("hashchange", route);
 
 // ---------------------------------------------------------------- the watchlist works without an account
 // A signed-out visitor's list stays on this device; signing in later adds it to the account (see wlChange / loadProfile).
-function requestWatch(f) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); return true; }
+function requestWatch(f) { state.watchlist.add(f.id); wlChange([f.id], true); unhideFilm(f); markWanted([f.id]); return true; }
+// The private "someone wanted to see this" mark (table film_marks), which is how the update knows which films that leave the cinemas
+// to look up where to watch: sent when a heart is tapped, and once for the hearts this browser already had, signed in or not (a
+// signed-in watchlist is also marked by the database itself). Only the update can read the marks.
+const markedHere = new Set(local.get("marked", []));
+function markWanted(ids) {
+  ids = [...new Set(ids)].filter((i) => i && !markedHere.has(i)).slice(0, 200);
+  if (!sb || !ids.length) return;
+  sb.rpc("mark_watchlisted", { ids }).then(({ error }) => {
+    if (error) return;  // tried again next visit
+    ids.forEach((i) => markedHere.add(i)); local.set("marked", [...markedHere]);
+  });
+}
 function promptSignIn() {
   renderAccount();
   if (!$("account").open) $("account").showModal();
@@ -2011,6 +2022,7 @@ function settlePendingWatch() {
   state.watchlist.add(f.id);
   wlChange([f.id], true);
   unhideFilm(f);
+  markWanted([f.id]);
   state.profile ? savePrefs() : local.set("watchlist", [...state.watchlist]);  // profile not loaded yet: the merge will save it
   if ($("account").open) $("account").close();
   render();
@@ -2647,6 +2659,7 @@ async function loadRegion(key) {
   if (!state.routed) state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // which page we open on (Films unless asked for the feed), before anything is drawn
   render();
   route();
+  markWanted([...state.watchlist]);  // hearts from before marks existed, or that couldn't be sent
 }
 
 // First visit on a device whose time zone is one of ours: offer that location (once). Everyone else just gets Oslo.

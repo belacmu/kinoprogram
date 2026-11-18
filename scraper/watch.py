@@ -1,8 +1,8 @@
 """Where films can be watched instead (streaming, free, with ads, rent, buy), for the page of a film with no showings.
 
-Only films that need it are looked up: no showings in any location's data, and on at least one watchlist (signed-in accounts; a
-list kept only in a browser can't be seen from here). Each is asked once when it first needs it, then again after RECHECK_DAYS while
-it still does. One TMDB request per film gives every country; one row per country the site covers is kept (also when there's
+Only films that need it are looked up: no showings in any location's data, and marked as wanted (film_marks: someone put it on a
+watchlist at some point, signed in or not; the mark is private and stays). Each is asked once when it first needs it, then again
+after RECHECK_DAYS while it still does. One TMDB request per film gives every country; one row per country the site covers is kept (also when there's
 nothing, so it isn't asked again) in Supabase's watch_options. TMDB's data comes from JustWatch, which the site credits.
 
 Usage from build.py, after filmids.sync():  watch.update(reg, films_with_showings, countries)   # never raises
@@ -43,14 +43,13 @@ def due(candidates, checked, now, budget=BUDGET):
     return (never + stale)[:budget]
 
 
-def candidates(reg, watchlists, with_showings):
-    """Film ids (as they are now) on some watchlist, with no showings anywhere, matched on TMDB."""
+def candidates(reg, marked, with_showings):
+    """Film ids (as they are now) that someone has wanted to see, with no showings anywhere, matched on TMDB."""
     out = set()
-    for wl in watchlists:
-        for i in wl or []:
-            fid = reg.film_of(i) or (reg.canon(i) if i in reg.films else None)
-            if fid and fid not in with_showings and reg.films.get(fid, {}).get("tmdb"):
-                out.add(fid)
+    for i in marked:
+        fid = reg.film_of(i) or (reg.canon(i) if i in reg.films else None)
+        if fid and fid not in with_showings and reg.films.get(fid, {}).get("tmdb"):
+            out.add(fid)
     return out
 
 
@@ -65,19 +64,19 @@ def update(reg, with_showings, countries):
     if not filmids._config()[0] or reg.source != "supabase" or not external.tmdb_enabled():
         return
     try:
-        lists = [r.get("watchlist") for r in filmids._rows("profiles", "select=watchlist")]
         try:
+            marked = [r["film_id"] for r in filmids._rows("film_marks", "select=film_id")]
             rows = filmids._rows("watch_options", "select=film_id,checked_at")
         except urllib.error.HTTPError as e:
             if e.code in (400, 404):
-                print("  where to watch: the database has no watch_options yet (re-run supabase/schema.sql); skipped")
+                print("  where to watch: the database has no film_marks / watch_options yet (re-run supabase/schema.sql); skipped")
                 return
             raise
         checked = {}
         for r in rows:  # a film's rows are written together; the oldest counts
             t = _when(r["checked_at"])
             checked[r["film_id"]] = min(t, checked.get(r["film_id"], t))
-        want = candidates(reg, lists, with_showings)
+        want = candidates(reg, marked, with_showings)
         todo = due(want, checked, datetime.now(timezone.utc))
         out = []
         for fid in todo:
@@ -91,7 +90,7 @@ def update(reg, with_showings, countries):
                 out.append({"film_id": fid, "country": c, "options": opts, "link": link})
         if out:
             filmids._request("rpc/sync_watch_options", {"p": out}, timeout=120)
-        print(f"  where to watch: {len(want)} watchlist films with no showings; checked {len(todo)} "
+        print(f"  where to watch: {len(want)} wanted films with no showings; checked {len(todo)} "
               f"({sum(1 for f in todo if f not in checked)} new)")
     except Exception as e:
         print(f"  ! where to watch failed: {e}", file=sys.stderr)

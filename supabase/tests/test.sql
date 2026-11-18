@@ -187,4 +187,32 @@ do $$ begin
 end $$;
 reset role;
 
+-- ---------------------------------------------------------------- the private mark: films someone has wanted to see
+-- The watchlist saved above (fw-EDI1, cm-klara, fw-klara, unknown-id) marked fw-klara through the trigger.
+do $$ begin
+  assert (select array_agg(film_id order by film_id) from public.film_marks) = array['fw-klara'], 'a signed-in watchlist marks its films';
+end $$;
+set role anon;
+do $$ begin
+  perform public.mark_watchlisted(array['cc-heat', 'nobody-knows-this', 'cc-heat']);   -- signed out: a heart tapped
+  begin
+    perform 1 from public.film_marks;
+    assert false, 'nobody but the update may read the marks';
+  exception when insufficient_privilege then null;
+  end;
+  begin
+    perform public.mark_films(array['cc-heat']);
+    assert false, 'the uncapped function is not public';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+reset role;
+do $$ begin
+  assert (select array_agg(film_id order by film_id) from public.film_marks) = array['cc-heat', 'fw-klara'], 'anyone can mark; unknown ids ignored; once each';
+end $$;
+update public.profiles set watchlist = '{}' where id = '00000000-0000-0000-0000-00000000000a';
+do $$ begin
+  assert exists (select 1 from public.film_marks where film_id = 'fw-klara'), 'a mark stays when the film leaves the list';
+end $$;
+
 \echo 'database tests passed'

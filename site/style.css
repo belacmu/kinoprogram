@@ -212,24 +212,18 @@ a.stub:hover { border-color: var(--accent); }
 .stub.nosale { border-left-color: var(--muted); border-style: dashed; opacity: .75; }
 .hiddenNote { color: var(--muted); font-size: 13px; padding: 10px 0 0; border-top: 1px solid var(--line); }
 /* The sheet of a film this location doesn't list: why there are no showings. */
-.ghostnote p { color: var(--muted); font-size: 14px; margin: 0; max-width: 62ch; }
-/* Where to watch it instead, in this location's country: a soft panel (no divider: the header already has one), one row per kind
-   laid out like the showings' day rows, each service a tile (its logo, or its initials). */
-.watchopts { margin-top: 16px; padding: 14px 16px 12px; border-radius: 12px; background: var(--bg); }
-.watchopts h3 { font: 700 13px var(--sans, inherit); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 12px; }
-.worow { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; align-items: start; padding-block: 6px; }
-.worow h4 { margin: 0; padding-top: 9px; font: 700 18px/1.1 var(--display); text-transform: uppercase; }
-.worow ul { display: flex; flex-wrap: wrap; gap: 14px 10px; list-style: none; margin: 0; padding: 0; }
-.wotile { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 64px; text-align: center; }
-.woini { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; flex: none; overflow: hidden;
-  box-shadow: 0 0 0 1px var(--line); font: 700 14px var(--display); color: #fff; background: hsl(var(--h) 45% 42%); }
-.woini img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.won { font-size: 11px; line-height: 1.25; color: var(--ink); overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-.wonone { color: var(--muted); font-size: 14px; margin: 0; }
-.wofoot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; color: var(--muted); font-size: 12px; margin: 12px 0 0; }
-.wofoot span { margin-left: auto; }
+.ghostnote > p { color: var(--muted); font-size: 14px; margin: 0; max-width: 62ch; }
+/* Where to watch it instead, in this location's country: built from the showings' own parts (a day-style row per kind, each service
+   a stub), under a heading in the day labels' type. */
+.watchopts { margin-top: 18px; }
+.watchopts h3 { margin: 0 0 4px; font: 700 22px/1.1 var(--display); text-transform: uppercase; }
+.worow { padding-block: 10px; }
+.wostub { flex-direction: row; align-items: center; gap: 8px; padding: 7px 12px 7px 9px; color: var(--ink); }
+.wostub img { width: 22px; height: 22px; border-radius: 3px; flex: none; }
+.wostub .t { font: 600 14px var(--body); }
+.wonone { color: var(--muted); font-size: 14px; margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--line); }
+.wofoot { color: var(--muted); font-size: 12px; margin: 0; padding-top: 10px; border-top: 1px solid var(--line); }
 .wofoot a { color: inherit; }
-@media (max-width: 560px) { .worow { grid-template-columns: 1fr; gap: 6px; } .worow h4 { padding-top: 0; font-size: 16px; } }
 /* account */
 #account h2 { font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
 #account p { margin: 0 0 14px; font-size: 14px; color: var(--muted); }

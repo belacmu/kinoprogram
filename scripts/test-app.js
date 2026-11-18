@@ -55,7 +55,7 @@ async function site() {
     "fw-nomatch": { id: "fw-nomatch", title: "Ukjent kortfilmprogram", year: "", meta: { last: { winnipeg: `${Y}-01-12` } }, gone_at: `${Y}-01-13T00:00:00Z`, regions: [] },
   };
   const ALIASES = { "fw-old-listing": there.id };  // an old listing id of a film only Winnipeg lists (playing there: never said here)
-  const calls = [], watchAsked = [];
+  const calls = [], watchAsked = [], marks = [];
   // Where to watch, as the update stores it: Klara-like film checked with services in Norway (and Canada, never shown on an Oslo
   // page), the short checked with nothing; the Winnipeg film never checked (no row).
   const WATCH = [
@@ -73,6 +73,10 @@ async function site() {
   await page.route(/^https?:\/\/(?!127\.0\.0\.1|cdn\.jsdelivr\.net)/, async (route) => {
     const url = route.request().url();
     if (!url.startsWith("https://fake.supabase.co/")) return route.abort();  // posters and the like: not needed
+    if (url.includes("/rpc/mark_watchlisted")) {
+      marks.push(JSON.parse(route.request().postData()).ids);
+      return route.fulfill({ status: 204, body: "" });
+    }
     if (url.includes("/rpc/resolve_films")) {
       const ids = JSON.parse(route.request().postData()).ids;
       calls.push(ids);
@@ -110,6 +114,7 @@ async function site() {
     check(first.label === "Not showing in Oslo", `the first section is "Not showing in Oslo" (got "${first.label}")`);
     check(first.n === "3", `it holds the 3 films found; an id no film is known by is left out (got ${first.n})`);
     check(first.shut, "it is shut by default");
+    check(marks.length === 1 && JSON.stringify([...marks[0]].sort()) === JSON.stringify([...watch].sort()), `the hearts this browser had are marked as wanted, once (${JSON.stringify(marks)})`);
     check(calls.length === 1 && calls[0].length === 4 && !calls[0].includes(here.id), `one lookup, only for the ids Oslo doesn't list: ${JSON.stringify(calls[0])}`);
     await shot("1-shut.png");
 
@@ -135,8 +140,8 @@ async function site() {
     await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
     const wo = await page.$eval("#film", (d) => {
       const box = d.querySelector(".watchopts");
-      return box && { title: box.querySelector("h3").textContent, groups: [...box.querySelectorAll(".worow")].map((g) => g.querySelector("h4").textContent + ": "
-        + [...g.querySelectorAll(".won")].map((n) => n.textContent).join(", ")), link: box.querySelector(".wofoot a")?.href || "", text: box.textContent };
+      return box && { title: box.querySelector("h3").textContent, groups: [...box.querySelectorAll(".worow")].map((g) => g.querySelector("h4").firstChild.textContent + ": "
+        + [...g.querySelectorAll(".wostub .t")].map((n) => n.textContent).join(", ")), link: box.querySelector(".wofoot a")?.href || "", text: box.textContent };
     });
     check(wo?.title === "Watch at home in Norway", `where to watch, in this location's country (${wo?.title})`);
     check(JSON.stringify(wo?.groups) === JSON.stringify(["Stream: Netflix, Max", "Rent: Apple TV"]), `grouped as the update stored them (${JSON.stringify(wo?.groups)})`);
@@ -178,6 +183,17 @@ async function site() {
       await page.$eval("#film .watchopts", (e) => e.scrollIntoView({ block: "center" })).catch(() => {});
       await shot("5-phone-dark.png");
     }
+    // Marks are sent once per browser; a new heart sends its film's.
+    const before = marks.length;
+    await page.goto(base);
+    await page.waitForSelector("#grid .card");
+    await page.waitForTimeout(500);
+    check(marks.length === before, "marks already sent aren't sent again");
+    const fresh = await page.$eval("#grid .card .star[aria-pressed='false']", (b) => b.dataset.star);
+    await page.click(`#grid .card .star[data-star="${fresh}"]`);
+    await page.waitForTimeout(500);
+    check(JSON.stringify(marks.at(-1)) === JSON.stringify([fresh]), `a new heart marks its film (${JSON.stringify(marks.at(-1))})`);
+
     check(!errors.length, `no errors on the page ${errors.length ? JSON.stringify(errors) : ""}`);
   } finally {
     await browser.close();

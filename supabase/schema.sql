@@ -6,7 +6,7 @@
 do $$
 begin
   if exists (select 1 from information_schema.tables
-             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans', 'films', 'film_aliases', 'showings', 'watch_options')) then
+             where table_schema = 'public' and table_type = 'BASE TABLE' and table_name not in ('profiles', 'friendships', 'plans', 'films', 'film_aliases', 'showings', 'watch_options', 'film_marks')) then
     raise exception 'This database already has other tables, so it is not a new Cinecrab project. Nothing was changed.';
   end if;
 end $$;
@@ -686,8 +686,55 @@ $$;
 revoke all on function public.resolve_films(text[]) from public;
 grant execute on function public.resolve_films(text[]) to anon, authenticated;
 
+-- ---------------------------------------------------------------- films someone has wanted to see (private)
+-- A film is marked the first time anyone puts it on a watchlist: signed in (the trigger below) or not (the app calls
+-- mark_watchlisted when a heart is tapped, and once for the hearts a browser already has). The mark stays when the film leaves the
+-- list. Only the programme update reads it (to decide which films to look up where to watch); nobody can see who marked what, or
+-- even which films are marked.
+create table if not exists public.film_marks (
+  film_id  text primary key references public.films on delete cascade,
+  first_at timestamptz not null default now()
+);
+alter table public.film_marks enable row level security;
+revoke all on public.film_marks from anon, authenticated;
+grant select on public.film_marks to service_role;
+
+-- Mark films by any id they have had (an old listing id, a merged film): the film they are now. Unknown ids are ignored.
+create or replace function public.mark_films(ids text[])
+returns void language sql security definer set search_path = '' as $$
+  insert into public.film_marks (film_id)
+  select distinct coalesce(f.merged_into, f.id)
+  from unnest(ids) as w(i)
+  left join public.film_aliases a on a.alias = w.i
+  join public.films f on f.id = coalesce(a.film_id, w.i)
+  on conflict (film_id) do nothing;
+$$;
+revoke all on function public.mark_films(text[]) from public;
+revoke execute on function public.mark_films(text[]) from anon, authenticated;
+-- What the app calls (anyone, signed in or not): at most 200 ids a call.
+create or replace function public.mark_watchlisted(ids text[])
+returns void language sql security definer set search_path = '' as $$
+  select public.mark_films(ids[1:200]);
+$$;
+revoke all on function public.mark_watchlisted(text[]) from public;
+grant execute on function public.mark_watchlisted(text[]) to anon, authenticated, service_role;
+
+create or replace function public.mark_watchlist_films()
+returns trigger language plpgsql security definer set search_path = '' as $$
+begin
+  perform public.mark_films(new.watchlist);
+  return null;
+end;
+$$;
+drop trigger if exists on_watchlist_marked on public.profiles;
+create trigger on_watchlist_marked
+  after insert or update of watchlist on public.profiles
+  for each row execute function public.mark_watchlist_films();
+-- Every film already on a watchlist (safe to re-run).
+select public.mark_films(array(select distinct w from public.profiles p, unnest(p.watchlist) w));
+
 -- ---------------------------------------------------------------- where to watch (streaming, renting, buying)
--- For films with no showings anywhere that are on at least one watchlist, the programme update asks TMDB where each can be watched
+-- For marked films (above) with no showings anywhere, the programme update asks TMDB where each can be watched
 -- (TMDB's data comes from JustWatch, which must be credited where it is shown) and keeps one row per country the site covers, also
 -- when there's nothing (so it isn't asked again). Checked when first needed, then again after a couple of weeks while still needed.
 -- options = {stream|free|ads|rent|buy: [{name, logo}]} (TMDB's order); link = TMDB's watch page for that film and country.
