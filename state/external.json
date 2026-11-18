@@ -1,18 +1,4 @@
 {
-"cc-70-syaal-2026": {
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"tmdb": 1650675,
-"lang": "pa",
-"imdb": null,
-"en": null,
-"lbSlug": "70-siyal",
-"lbRating": null,
-"rated": "2026-11-17",
-"posterPath": "/emQ7eos5E2AuYYZrjAGAK265D9j.jpg"
-},
 "cc-aakasamlo-oka-tara-2026": {
 "v": 4,
 "checked": "2026-11-17",
@@ -25,21 +11,20 @@
 "lbSlug": "aakasamlo-oka-tara",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/yJa9yFLUMpRmGF99yB5dkFz3CqC.jpg"
+"posterPath": "/yJa9yFLUMpRmGF99yB5dkFz3CqC.jpg",
+"overview": "A girl from a remote village dreams of becoming an astronaut and wishes to defy the odds and doubts from those around her."
 },
 "cc-always-yours-never-mine-2026": {
 "imdb": null,
 "tmdb": 1748404,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
-"lbSlug": "always-yours-never-mine",
-"lbRating": 2.97,
-"rated": "2026-11-17",
-"posterPath": "/sDAbgrVhhdQxkPQwtBWpGhVtJ5b.jpg"
+"posterPath": "/sDAbgrVhhdQxkPQwtBWpGhVtJ5b.jpg",
+"overview": "Across thirty years, several almosts, and timing that is never quite right, two people keep crossing paths – always on the verge of being together, but never quite making it."
 },
 "cc-armageddon-road-2026": {
 "tmdbChecked": "2026-11-17",
@@ -54,7 +39,8 @@
 "lbSlug": "armageddon-road",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/kW4xPFmtP0m2AFwgcOdClxyQork.jpg"
+"posterPath": "/kW4xPFmtP0m2AFwgcOdClxyQork.jpg",
+"overview": "A hopeless romantic with big dreams, Steve is an ex-con hired to chauffeur a mob boss' girlfriend for a night. He's blissfully unaware that his passenger has died and is now possessed by one of the Four Horsemen of the Apocalypse."
 },
 "cc-bachelor-party-d-eux-2026": {
 "v": 4,
@@ -68,7 +54,27 @@
 "lbSlug": "bachelor-party-deux",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/lEDB8YRlotPqZhZrF5Enwqhtdq6.jpg"
+"posterPath": "/lEDB8YRlotPqZhZrF5Enwqhtdq6.jpg",
+"overview": "When urban chaos erupts around them, a band of honour-bound thieves must pull off a dangerous escape together, refusing to abandon each other despite deadly obstacles in their path."
+},
+"cc-boreal-express-2004": {
+"imdb": "tt0338348",
+"imdbAll": [
+"tt0338348"
+],
+"lb": "the-polar-express",
+"rt": "m/polar_express",
+"mc": "movie/the-polar-express",
+"en": "The Polar Express",
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"tmdb": 5255,
+"lang": "en",
+"enFrom": "tmdb",
+"posterPath": "/eOoCzH0MqeGr2taUZO4SwG416PF.jpg",
+"overview": "When a doubting young boy takes an extraordinary train ride to the North Pole, he embarks on a journey of self-discovery that shows him that the wonder of life never fades for those who believe."
 },
 "cc-bts-world-tour-arirang-in-kaohsiung-2026": {
 "imdb": "tt50486016",
@@ -77,14 +83,27 @@
 "tt50486016"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "bts-world-tour-arirang-in-kaohsiung-live",
 "lbRating": null,
 "rated": "2026-11-14",
-"posterPath": "/kbwAR849GqMmZs01Uwm5MXL6CWd.jpg"
+"posterPath": "/kbwAR849GqMmZs01Uwm5MXL6CWd.jpg",
+"overview": "The record-breaking journey continues as BTS’s history-making tour across Asia makes its way to the big screen. Join the roar of the crowds in Kaohsiung in November and experience the breathtaking performances and electrifying energy of BTS’s stadium tour. Don't miss your chance to witness BTS WORLD TOUR 'ARIRANG' in all its glory in cinemas worldwide."
+},
+"cc-chakkven-2026": {
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"tmdb": 1650834,
+"lang": "pa",
+"imdb": "tt40304652",
+"en": null,
+"posterPath": "/lmgM5V9izLecJ3XUTqnJsiejwLa.jpg",
+"overview": "Written and Directed by Happy Rode"
 },
 "cc-clayface-2026": {
 "imdb": "tt34890576",
@@ -93,28 +112,27 @@
 "tt34890576"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "clayface",
 "lbRating": 3.71,
 "rated": "2026-11-11",
-"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
+"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg",
+"overview": "Matt Hagen's meteoric rise from Gotham street kid to Hollywood leading man is tragically cut short when a local crime boss's actions leave him horribly disfigured. Abandoned by his team and with nothing left, Matt seeks out a cutting edge treatment that miraculously returns him to his former self… but also unexpectedly affects his grip on reality, spiraling him down a destructive path of all-consuming revenge."
 },
 "cc-doctor-who-the-satan-pit-event": {
 "imdb": null,
 "tmdb": 1770183,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
-"lbSlug": "doctor-who-the-satan-pit",
-"lbRating": null,
-"rated": "2026-11-17",
-"posterPath": "/zaR2tGiaDjbenNAWMYKo6E7zmRB.jpg"
+"posterPath": "/zaR2tGiaDjbenNAWMYKo6E7zmRB.jpg",
+"overview": "Join the Doctor and Rose as they travel to Sanctuary Base 6, a remote outpost perched on a planet orbiting a black hole. When an ancient force awakens beneath the surface, the crew find themselves trapped in a battle against an evil older than time itself."
 },
 "cc-drishyam-the-conclusion-2026": {
 "tmdbChecked": "2026-11-17",
@@ -135,23 +153,8 @@
 "rated": "2026-11-12",
 "posterPath": "/bhjdgMm2fFrysSzVqv5RwRwIbVf.jpg",
 "v": 4,
-"checked": "2026-10-04"
-},
-"cc-dune-part-two-2024": {
-"imdb": "tt15239678",
-"tmdb": 693134,
-"imdbAll": [
-"tt15239678"
-],
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"source": "moviescout",
-"lbSlug": "dune-part-two",
-"lbRating": 4.37,
-"rated": "2026-11-15",
-"posterPath": "/6izwz7rsy95ARzTR3poZ8H6c5pp.jpg"
+"checked": "2026-10-04",
+"overview": "As America’s fight for independence begins, a young drummer boy, an enslaved woman, and a divided family search for freedom. Through battle and loss, music carries hope in a deeply human story of faith and forgiveness."
 },
 "cc-ebenezer-2026": {
 "imdb": "tt38773219",
@@ -160,14 +163,15 @@
 "tt38773219"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "ebenezer-2026",
 "lbRating": 3.27,
 "rated": "2026-11-17",
-"posterPath": "/6H2N59jJW1hZEzn2ZdrMvJw5vNI.jpg"
+"posterPath": "/6H2N59jJW1hZEzn2ZdrMvJw5vNI.jpg",
+"overview": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness."
 },
 "cc-ek-onkar-2026": {
 "v": 4,
@@ -182,14 +186,15 @@
 "tt0319343"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "elf",
 "lbRating": 3.45,
 "rated": "2026-11-11",
-"posterPath": "/oOleziEempUPu96jkGs0Pj6tKxj.jpg"
+"posterPath": "/oOleziEempUPu96jkGs0Pj6tKxj.jpg",
+"overview": "When young Buddy falls into Santa's gift sack on Christmas Eve, he's transported back to the North Pole and raised as a toy-making elf by Santa's helpers. But as he grows into adulthood, he can't shake the nagging feeling that he doesn't belong. Buddy vows to visit Manhattan and find his real dad, a workaholic."
 },
 "cc-ene-repeat-2026": {
 "v": 4,
@@ -203,7 +208,8 @@
 "lbSlug": "ene-repeat",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/qMBlRfQNusaUhhBAIcHmforVTW5.jpg"
+"posterPath": "/qMBlRfQNusaUhhBAIcHmforVTW5.jpg",
+"overview": "Vivek and his gang of friends embark on an attempt to create an ambitious survival film."
 },
 "cc-festive-fun-with-peppa-cinema-experience-2026": {
 "imdb": "tt46666063",
@@ -212,14 +218,15 @@
 "tt46666063"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "festive-fun-with-peppa",
 "lbRating": null,
 "rated": "2026-11-14",
-"posterPath": "/m73eSyjsue3zTorttAJbckNVJtA.jpg"
+"posterPath": "/m73eSyjsue3zTorttAJbckNVJtA.jpg",
+"overview": "Join Peppa Pig and her family as they celebrate baby Evie’s first Christmas. This festive cinema experience brings together seven classic festive-themed Peppa Pig episodes, new interstitial content, and four brand-new songs with music videos. From snowy adventures and festive plays to decorating the Christmas tree, Peppa and her family share treasured Christmas memories in this special big-screen experience."
 },
 "cc-ghost-soldier-2026": {
 "imdb": "tt38686316",
@@ -228,14 +235,15 @@
 "tt38686316"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "ghost-soldier",
 "lbRating": 2.81,
 "rated": "2026-11-12",
-"posterPath": "/8Y4oJ5iUs3hgPcDB3SIEmsNYjZk.jpg"
+"posterPath": "/8Y4oJ5iUs3hgPcDB3SIEmsNYjZk.jpg",
+"overview": "Henry “Fitz” Fitzgerald has spent years living quietly off the grid, hiding from a past few people know anything about. But when a powerful foreign corporation moves into his hometown to seize his neighbors’ land for a massive payday, Fitz is forced to reveal who he really is: a former Special Forces soldier and advanced weapons developer. Armed with experimental technology, lethal combat skills, and an unwavering code of justice, Fitz wages a one-man war against an enemy that never saw him coming."
 },
 "cc-giant-the-play-2026": {
 "v": 4,
@@ -250,7 +258,8 @@
 "lbSlug": "giant-2026-1",
 "lbRating": null,
 "rated": "2026-11-13",
-"posterPath": "/mI3F2JdhxQuXiCoWKAtAZssQVkj.jpg"
+"posterPath": "/mI3F2JdhxQuXiCoWKAtAZssQVkj.jpg",
+"overview": "Set in the summer of 1983, just before the release of The Witches, Giant imagines a tense meeting between Roald Dahl and his American and British publishers as they scramble to contain the fallout from his public denunciation of Israel and defence of the Palestinians in a review of a book on the 1982 Lebanon war. Filmed live onstage at the Harold Pinter Theatre in London's West End in 2025."
 },
 "cc-godzilla-minus-zero-2026": {
 "imdb": "tt34384661",
@@ -259,14 +268,15 @@
 "tt34384661"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "godzilla-minus-zero",
 "lbRating": 4.02,
 "rated": "2026-11-16",
-"posterPath": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg"
+"posterPath": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
+"overview": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant. There is no third time. Everything ends here."
 },
 "cc-hadoota-2026": {
 "v": 4,
@@ -280,22 +290,8 @@
 "lbSlug": "hadota",
 "lbRating": null,
 "rated": "2026-11-11",
-"posterPath": "/2OOyL8O8bM0f08p3y9O4uTzfkUf.jpg"
-},
-"cc-heated-rivalry-marathon-event": {
-"imdb": "tt35495073",
-"tmdb": null,
-"imdbAll": [
-"tt35495073"
-],
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"source": "moviescout",
-"lbSlug": null,
-"lbRating": null,
-"rated": "2026-11-16"
+"posterPath": "/2OOyL8O8bM0f08p3y9O4uTzfkUf.jpg",
+"overview": "Hadoota, a 40-year-old thug, can’t remember the hiding place of an International artist he kidnapped. He resorts to hypnotherapy to retrieve this missing information. But in order to restore his memory, he needs to confront old enemies, past events, and most importantly… himself."
 },
 "cc-hen-2025": {
 "imdb": "tt29283995",
@@ -315,7 +311,25 @@
 "lbSlug": "hen-2025",
 "lbRating": 3.48,
 "rated": "2026-11-16",
-"posterPath": "/q1HgK2pyhKfWCALvJTN9Gq9gBu4.jpg"
+"posterPath": "/q1HgK2pyhKfWCALvJTN9Gq9gBu4.jpg",
+"overview": "Escaping from a chicken farm, a hen finds refuge in the courtyard of a crumbling restaurant. There, she discovers love, confronts the pecking order, and fights to protect her eggs from a greedy owner. Her droll yet touching quest for motherhood mirrors the messy compromises and silent struggles of human lives."
+},
+"cc-hexed-2026": {
+"imdb": "tt38077943",
+"tmdb": 1538497,
+"imdbAll": [
+"tt38077943"
+],
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"source": "moviescout",
+"lbSlug": "hexed-2026",
+"lbRating": null,
+"rated": "2026-11-17",
+"posterPath": "/dZVHrtaZa5MsuPc4gW72e3S9bii.jpg",
+"overview": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever."
 },
 "cc-hope-2026": {
 "imdb": "tt27369017",
@@ -335,7 +349,8 @@
 "lbSlug": "hope-2026",
 "lbRating": 3.15,
 "rated": "2026-11-12",
-"posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
+"posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg",
+"overview": "In the remote South Korean village of Hope Harbor, police chief Bum-seok and officer Sung-ae are called to investigate a mysterious creature wreaking havoc on the community. But all is not as it seems, and perceptions can be misleading. What begins as ignorance plants the seed of disaster, escalating through human conflict into a tragedy of cosmic proportions."
 },
 "cc-how-to-rob-a-bank-2026": {
 "imdb": "tt35866986",
@@ -344,14 +359,15 @@
 "tt35866986"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "how-to-rob-a-bank-2026",
 "lbRating": 3.1,
 "rated": "2026-11-16",
-"posterPath": "/ifYDZkr2qkHFz87TNVvlxajOxl5.jpg"
+"posterPath": "/ifYDZkr2qkHFz87TNVvlxajOxl5.jpg",
+"overview": "A crew of social media-savvy bank robbers broadcasts their daring heists, unaware that their growing viral fame has put them in the crosshairs of a veteran FBI agent and a brilliant software engineer. Despite the unlikely duo closing in, the crime ring pushes past their limits, putting everything on the line for their most ambitious heist yet."
 },
 "cc-i-play-rocky-2026": {
 "imdb": "tt11995650",
@@ -360,14 +376,15 @@
 "tt11995650"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "i-play-rocky",
 "lbRating": 3.73,
 "rated": "2026-11-13",
-"posterPath": "/xE5tY3lppZUyG7WKKThsuYHuAHr.jpg"
+"posterPath": "/xE5tY3lppZUyG7WKKThsuYHuAHr.jpg",
+"overview": "The electrifying true story about an unknown actor with an unshakable belief that he wasn't just meant to write Rocky—he was meant to be Rocky Balboa. Told \"no\" at every turn, Sylvester Stallone bets everything on himself, holding the line on playing the lead against seemingly impossible odds."
 },
 "cc-klara-and-the-sun-2026": {
 "imdb": "tt14371256",
@@ -376,14 +393,15 @@
 "tt14371256"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "klara-and-the-sun",
 "lbRating": 3.1,
 "rated": "2026-11-15",
-"posterPath": "/xqovj2p6HRsgHxN81qYAYF4StgM.jpg"
+"posterPath": "/xqovj2p6HRsgHxN81qYAYF4StgM.jpg",
+"overview": "When Klara, an Artificial Friend who wants nothing more than to find the perfect home, meets Josie, each immediately senses a kindred spirit in the other. Josie has a fraught relationship with her mother and they've suffered great loss, but Klara's innocent wonder and unwavering loyalty begin to heal the family and bring light to Josie's complicated world."
 },
 "cc-om-chapter-1-udhiram-the-blood-wood-2026": {
 "v": 4,
@@ -398,7 +416,8 @@
 "lbSlug": "om-operation-mole",
 "lbRating": null,
 "rated": "2026-11-14",
-"posterPath": "/gWWedXJXLrEaKCTrC4nMPPumDSb.jpg"
+"posterPath": "/gWWedXJXLrEaKCTrC4nMPPumDSb.jpg",
+"overview": "Set across the temple corridors of Tirupati and Tiruvannamalai, an elite undercover operative infiltrates a sprawling transnational red sanders syndicate. As criminal politics escalate, a covert task force launches Operation Mole to dismantle the cartel from within."
 },
 "cc-ramayana-rise-of-a-legend-2026": {
 "imdb": "tt27988879",
@@ -418,24 +437,23 @@
 "lbSlug": "ramayana-rise-of-a-legend",
 "lbRating": 3.58,
 "rated": "2026-11-14",
-"posterPath": "/hz2Hv8tPToHvQ7HaxzqeLvahmcJ.jpg"
+"posterPath": "/hz2Hv8tPToHvQ7HaxzqeLvahmcJ.jpg",
+"overview": "An ancient epic follows a young prince and princess whose marriage and subsequent exile mark the beginning of a legendary journey. Their story of love, duty and destiny sets the stage for greater challenges ahead."
 },
 "cc-remember-2026": {
 "imdb": null,
 "tmdb": 1710024,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
-"lbSlug": "remember-2026-2",
-"lbRating": null,
-"rated": "2026-11-17",
-"posterPath": "/ftLdiSFp7HXZ4wTkZpC5P5ZWVN2.jpg"
+"posterPath": "/ftLdiSFp7HXZ4wTkZpC5P5ZWVN2.jpg",
+"overview": "An estranged couple who have forgotten what it means to love each other find themselves pretending to be together again for the sake of their daughter, whose memory is fading."
 },
 "cc-resident-evil-2026": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "tmdb": 1423191,
 "imdb": "tt35538033",
@@ -445,12 +463,13 @@
 "tt35538033"
 ],
 "v": 4,
-"checked": "2026-11-17",
+"checked": "2026-11-18",
 "source": "moviescout",
 "lbSlug": "resident-evil-2026",
 "lbRating": 3.74,
 "rated": "2026-11-11",
-"posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
+"posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+"overview": "Medical courier Bryan unwittingly finds himself fighting for survival as one fateful, horrifying night collapses around him in chaos."
 },
 "cc-run-terry-run-2025": {
 "imdb": "tt39130015",
@@ -459,14 +478,15 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "run-terry-run",
 "lbRating": 3.88,
 "rated": "2026-11-13",
-"posterPath": "/sSstsc561xip9s5FKereo1r1I9i.jpg"
+"posterPath": "/sSstsc561xip9s5FKereo1r1I9i.jpg",
+"overview": "The extraordinary story of Canadian icon Terry Fox will be told like never before in Run Terry Run, a new feature-length documentary directed by acclaimed filmmaker Sean Menard. The film offers an intimate, behind-the-scenes look at Terry’s legendary 1980 Marathon of Hope, drawing from 96 reels of never-before-seen footage and unheard audio interviews that have remained untouched for 45 years."
 },
 "cc-scene-2026": {
 "imdb": "tt38192494",
@@ -486,7 +506,8 @@
 "rated": "2026-11-16",
 "tmdb": 1402181,
 "lang": "ta",
-"posterPath": "/1vjVJKpdT6gha7cpkmDJODpk8mU.jpg"
+"posterPath": "/1vjVJKpdT6gha7cpkmDJODpk8mU.jpg",
+"overview": "Inbaraj, a police officer, is forced to come back from retirement when a new case resembles one he closed years ago. This time, he must solve it with a chaotic and troublesome team. As they struggle to work together and deal with the twists and turns of the case, the investigation takes them on a chaotic and unpredictable ride."
 },
 "cc-sense-and-sensibility-2026": {
 "imdb": "tt13609648",
@@ -495,14 +516,15 @@
 "tt13609648"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "sense-and-sensibility-2026",
 "lbRating": 3.97,
 "rated": "2026-11-12",
-"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
+"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg",
+"overview": "A charming, witty, and deeply relatable story of love and sisterhood."
 },
 "cc-street-fighter-2026": {
 "imdb": "tt27419420",
@@ -511,14 +533,15 @@
 "tt27419420"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "street-fighter-2026",
 "lbRating": 2.77,
 "rated": "2026-11-12",
-"posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
+"posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg",
+"overview": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!"
 },
 "cc-the-cat-in-the-hat-2026": {
 "imdb": "tt2321555",
@@ -527,14 +550,15 @@
 "tt2321555"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-cat-in-the-hat-2026",
 "lbRating": 3.1,
 "rated": "2026-11-13",
-"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
+"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg",
+"overview": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever."
 },
 "cc-the-departed-2006": {
 "imdb": "tt0407887",
@@ -543,14 +567,15 @@
 "tt0407887"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-departed",
 "lbRating": 4.35,
 "rated": "2026-11-13",
-"posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg"
+"posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg",
+"overview": "To take down South Boston's Irish Mafia, the police send in one of their own to infiltrate the underworld, not realizing the syndicate has done likewise. While an undercover cop curries favor with the mob kingpin, a career criminal rises through the police ranks. But both sides soon discover there's a mole among them."
 },
 "cc-the-hunger-games-sunrise-on-the-reaping-2026": {
 "imdb": "tt32558705",
@@ -559,14 +584,41 @@
 "tt32558705"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-hunger-games-sunrise-on-the-reaping",
 "lbRating": null,
 "rated": "2026-11-13",
-"posterPath": "/jNcZH8yplxttRlf0wwqfGGMKHxX.jpg"
+"posterPath": "/jNcZH8yplxttRlf0wwqfGGMKHxX.jpg",
+"overview": "Return to the world of Panem 24 years before the events of The Hunger Games, starting on the morning of the reaping of the 50th Hunger Games, also known as the Second Quarter Quell."
+},
+"cc-the-lord-of-the-rings-the-rings-of-power-2022": {
+"imdb": "tt41902195",
+"tmdb": 1828101,
+"imdbAll": [
+"tt41902195"
+],
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"source": "moviescout",
+"posterPath": "/d9moHIig8e21mN1RCk8zu80ld3k.jpg",
+"overview": "As Middle-earth's fate hangs in the balance, Sauron reaches the height of his power in his quest for the One Ring."
+},
+"cc-the-polar-express-2004": {
+"imdb": "tt0338348",
+"tmdb": null,
+"imdbAll": [
+"tt0338348"
+],
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"source": "moviescout"
 },
 "cc-whalefall-2026": {
 "imdb": "tt28535715",
@@ -575,14 +627,15 @@
 "tt28535715"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "whalefall",
 "lbRating": 3.21,
 "rated": "2026-11-12",
-"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
+"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+"overview": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape."
 },
 "cc-wicker-2026": {
 "imdb": "tt29611136",
@@ -591,14 +644,15 @@
 "tt29611136"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "wicker",
 "lbRating": 3.65,
 "rated": "2026-11-17",
-"posterPath": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg"
+"posterPath": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg",
+"overview": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos."
 },
 "cc-wild-horse-nine-2026": {
 "imdb": "tt15799564",
@@ -607,14 +661,15 @@
 "tt15799564"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "wild-horse-nine",
 "lbRating": 4.14,
 "rated": "2026-11-12",
-"posterPath": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg"
+"posterPath": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg",
+"overview": "Shortly before the 1973 Chilean coup, CIA agents Chris and Lee are dispatched from Santiago to Easter Island by their bureau chief, MJ. Amongst the Island's iconic statues, and as the longtime partners wrestle with their dark pasts and present conspiracies, Chris's newfound bond with a pair of rebellious students threatens to send everyone’s trip to this remote paradise sideways."
 },
 "cc-wildwood-2026": {
 "imdb": "tt2056785",
@@ -623,14 +678,15 @@
 "tt2056785"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "wildwood-2026",
 "lbRating": 4.39,
 "rated": "2026-11-12",
-"posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg"
+"posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg",
+"overview": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra."
 },
 "cc-you-can-see-everything-2026": {
 "imdb": "tt45368240",
@@ -639,20 +695,37 @@
 "tt45368240"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "you-can-see-everything",
 "lbRating": 4.58,
 "rated": "2026-11-12",
-"posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg"
+"posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
+"overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss."
 },
 "cl-ahora-suegros-son-ellos": {
 "v": 4,
 "checked": "2026-11-14",
 "tmdbChecked": "2026-11-17",
 "tv": 3
+},
+"cl-apartamento": {
+"tmdbChecked": "2026-11-17",
+"tv": 3,
+"v": 4,
+"checked": "2026-11-13",
+"tmdb": 284,
+"lang": "en",
+"imdb": "tt0053604",
+"en": "The Apartment",
+"enFrom": "tmdb",
+"lbSlug": "the-apartment",
+"lbRating": 4.43,
+"rated": "2026-11-17",
+"posterPath": "/hhSRt1KKfRT0yEhEtRW3qp31JFU.jpg",
+"overview": "Bud Baxter is a minor clerk in a huge New York insurance company, until he discovers a quick way to climb the corporate ladder. He lends out his apartment to the executives as a place to take their mistresses. Although he often has to deal with the aftermath of their visits, one night he's left with a major problem to solve."
 },
 "cl-arriba-tutto": {
 "v": 4,
@@ -690,11 +763,21 @@
 "posterPath": "/l76qrRUs1e1Th4CNeQIQ10TjHOl.jpg",
 "overview": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy."
 },
-"cl-bts-world-tour-arirang-in-kaohsiung": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
+"cl-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"tmdb": 1820083,
+"lang": "en",
+"imdb": "tt50486016",
+"en": "BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING",
+"enFrom": "tmdb",
+"lbSlug": "bts-world-tour-arirang-in-kaohsiung-live",
+"lbRating": null,
+"rated": "2026-11-18",
+"posterPath": "/kbwAR849GqMmZs01Uwm5MXL6CWd.jpg",
+"overview": "The record-breaking journey continues as BTS’s history-making tour across Asia makes its way to the big screen. Join the roar of the crowds in Kaohsiung in November and experience the breathtaking performances and electrifying energy of BTS’s stadium tour. Don't miss your chance to witness BTS WORLD TOUR 'ARIRANG' in all its glory in cinemas worldwide."
 },
 "cl-buscavidas": {
 "tmdbChecked": "2026-11-17",
@@ -716,6 +799,12 @@
 "v": 4,
 "checked": "2026-11-17",
 "tmdbChecked": "2026-11-17",
+"tv": 3
+},
+"cl-cascanueces-26-27-1": {
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3
 },
 "cl-citas-pelicula-1": {
@@ -1194,7 +1283,8 @@
 "rt": "m/thirteen-lakes",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Shots of 13 great lakes in the USA, with each shot containing half water and half sky or land."
 },
 "cm-2026-troll-i-eske-desember": {
 "tmdbChecked": "2026-11-17",
@@ -1219,7 +1309,8 @@
 "rt": "m/better_tomorrow",
 "mc": "movie/a-better-tomorrow",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A reforming ex-gangster tries to reconcile with his estranged policeman brother, but the ties to his former gang are difficult to break."
 },
 "cm-a-fox-under-a-pink-moon": {
 "tmdbChecked": "2026-10-01",
@@ -1232,7 +1323,8 @@
 "rated": "2026-11-10",
 "posterPath": "/pWhGSn4IaPOfNAgh9ZhGVhkuvO1.jpg",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "At just 16, Soraya is already creating stunning drawings and sculptures that are as beautiful as they are dark. This strong-willed Afghan sculptor and illustrator has been trying for five years to escape Iran and join her mother in Austria."
 },
 "cm-aldri-annet-enn-brak": {
 "tmdbChecked": "2026-10-02",
@@ -1252,7 +1344,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "The working-class family Bråten is living in a top floor of a tenement house on the outskirts of Oslo. The family includes three sons and two daughters, mother and father in one room and kitchen. Mother Hulda is the family hub while Mr.Bråten itself is a silent and withdrawn worker. Children contribute in their own way to the neighbors are right when they exclaim: Never anything but trouble! There are problems for all when the police come into the picture after the one his son is participating in a car theft. Middle of all this chaos, 16-year-old Maiken (Vigdis Røising) moves out and seek questionable friends, which brings her into conflict with his father. A tragedy brings the family together again."
 },
 "cm-angst": {
 "tmdbChecked": "2026-10-01",
@@ -1271,7 +1364,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "The Øyens' leave their 5 year old daughter to the babysitter, who later that night receives some mystical phone calls."
 },
 "cm-bawke-hedda": {
 "tmdbChecked": "2026-11-17",
@@ -1296,7 +1390,8 @@
 "rt": "m/celine-et-julie-vont-en-bateau-celine-and-julie-go-boating",
 "mc": "movie/celine-and-julie-go-boating",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Julie, a daydreaming librarian, meets Céline, an enigmatic magician, and together they become the heroines of a time-warping adventure involving a haunted house, psychotropic candy, and a murder-mystery melodrama."
 },
 "cm-death-becomes-her": {
 "imdb": "tt0104070",
@@ -1317,7 +1412,8 @@
 "lbSlug": "death-becomes-her",
 "lbRating": 3.78,
 "rated": "2026-11-13",
-"posterPath": "/kkWxyyyWFK5KNk9WVwQuGEC9H9H.jpg"
+"posterPath": "/kkWxyyyWFK5KNk9WVwQuGEC9H9H.jpg",
+"overview": "Madeline is married to Ernest, who was once her arch-rival Helen's fiancé. After recovering from a mental breakdown, Helen vows to kill Madeline and steal back Ernest. Unfortunately for everyone, the introduction of a magic potion causes things to be a great deal more complicated than a mere murder plot."
 },
 "cm-det-gode-ekteskap": {
 "tmdbChecked": "2026-10-01",
@@ -1337,7 +1433,8 @@
 "rt": "m/a_good_marriage",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Sabine vows to give up married lovers, and is determined to find a good husband. Her best friend Clarisse introduces her to her cousin Edmond, a busy lawyer from Paris. Sabine pursues Edmond, with the encouragement of Clarisse, but Edmond does not seem very interested."
 },
 "cm-die-hard": {
 "tmdbChecked": "2026-10-01",
@@ -1347,7 +1444,7 @@
 "en": "Die Hard",
 "lbSlug": "die-hard",
 "lbRating": 4.06,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/7Bjd8kfmDSOzpmhySpEhkUyK2oH.jpg",
 "imdbAll": [
 "tt0095016"
@@ -1376,7 +1473,8 @@
 "rt": "m/die_hard_2_1990",
 "mc": "movie/die-hard-2",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "One year after his heroics in Los Angeles, John McClane is an off-duty cop who is the wrong guy in the wrong place at the wrong time. On a snowy Christmas Eve, as he waits for his wife's plane to land at Washington Dulles International Airport, terrorists take over the air traffic control system in a plot to free a South American army general and drug smuggler being flown into the US to face drug charges. It's now up to McClane to take on the terrorists, while coping with an inept airport police chief, an uncooperative anti-terrorist squad, and the life of his wife and everyone else trapped in planes circling overhead."
 },
 "cm-en-fremmed-flytter-inn": {
 "tmdbChecked": "2026-10-01",
@@ -1390,7 +1488,8 @@
 "rated": "2026-11-10",
 "posterPath": "/4PCliaC45WdVi5VI50Ky1dmI7E1.jpg",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Amanda has found the perfect man online - he's kind, funny and the heir to one of the richest families in Denmark. She lets him into her home and life, but is he really who he says he is?"
 },
 "cm-everything-everywhere-all-at-once": {
 "tmdbChecked": "2026-10-01",
@@ -1409,7 +1508,8 @@
 "rt": "m/everything_everywhere_all_at_once",
 "mc": "movie/everything-everywhere-all-at-once",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "An aging Chinese immigrant is swept up in an insane adventure, where she alone can save what's important to her by connecting with the lives she could have led in other universes."
 },
 "cm-exponerad": {
 "tmdbChecked": "2026-10-01",
@@ -1429,7 +1529,8 @@
 "rt": "m/771245533",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Lena is a young woman in need of excitement and sexual satisfaction. Torn between her meek and innocent boyfriend Jan and the sadistic partygoer Helge, Lena‘s life is turned upside down when Helge take some nude photographs of her. These photos could destroy her life."
 },
 "cm-eyes-wide-shut": {
 "tmdbChecked": "2026-10-01",
@@ -1439,7 +1540,7 @@
 "en": "Eyes Wide Shut",
 "lbSlug": "eyes-wide-shut",
 "lbRating": 3.98,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/knEIz1eNGl5MQDbrEAVWA7iRqF9.jpg",
 "imdbAll": [
 "tt0120663"
@@ -1459,7 +1560,7 @@
 "en": "Fanny and Alexander",
 "lbSlug": "fanny-and-alexander",
 "lbRating": 4.4,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/q8jlA3Wc1Z987hNKRFA44g5OugC.jpg",
 "imdbAll": [
 "tt0083922"
@@ -1488,7 +1589,8 @@
 "rt": "m/four_adventures_of_reinette_and_mirabelle",
 "mc": "movie/four-adventures-of-reinette-and-mirabelle",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Two young girls meet, Reinette from the countryside and Mirabelle from Paris, and decide to take a flat together in Paris where they attend University. Four successive stories about their daily lives illustrate the very different views, characters and relation to the world of these two friends."
 },
 "cm-fra-nrk-arkivet-erik-bye": {
 "tmdbChecked": "2026-11-17",
@@ -1519,7 +1621,8 @@
 "rt": "m/full_moon_in_paris",
 "mc": "movie/full-moon-in-paris",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Feeling suffocated by a possessive boyfriend, work and suburban life, a young woman starts spending the weekends in her Paris apartment in order to reclaim some of her lost freedom."
 },
 "cm-funny-face": {
 "tmdbChecked": "2026-10-01",
@@ -1538,7 +1641,8 @@
 "rt": "m/funny_face",
 "mc": "movie/funny-face",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A shy Greenwich Village book clerk is discovered by a fashion photographer and whisked off to Paris where she becomes a reluctant model."
 },
 "cm-gaza": {
 "tmdbChecked": "2026-10-01",
@@ -1557,7 +1661,8 @@
 "rt": "m/gaza",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "GAZA brings us into a unique place beyond the reach of television news reports to reveal a world rich with eloquent and resilient characters, offering us a cinematic and enriching portrait of a people attempting to lead meaningful lives against the rubble of perennial conflict.\r Throughout its entire history the Gaza Strip has been witness to conflict and upheaval. From ancient times this tiny coastal territory, located at a crossroads between continents, has been a pawn whose fate rested in the hands of powerful neighbours."
 },
 "cm-ghost-world": {
 "imdb": "tt0162346",
@@ -1578,7 +1683,8 @@
 "lbSlug": "ghost-world",
 "lbRating": 3.58,
 "rated": "2026-11-13",
-"posterPath": "/uwKqnUPE4dSM0kKuMW0vXpURh2T.jpg"
+"posterPath": "/uwKqnUPE4dSM0kKuMW0vXpURh2T.jpg",
+"overview": "Two quirky and cynical teenage girls try to figure out what to do with their lives following high school graduation. After they play a prank on an eccentric, middle-aged record collector, one of them befriends him, which causes a rift in the girls’ friendship."
 },
 "cm-gjenforeningen": {
 "tmdbChecked": "2026-10-01",
@@ -1597,7 +1703,8 @@
 "rt": "m/atertraffen",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A film between fiction and reality, highlighting questions about group dynamics and established hierarchies. A group of people meet for their high school reunion 20 years later. One of them talks about her being bullied and outcast and soon the former classmates fall back to the roles they used to have back in school. But this is just half of the film."
 },
 "cm-gubben-og-katten-og-nissemaskinen": {
 "tmdbChecked": "2026-10-01",
@@ -1616,7 +1723,8 @@
 "rt": "m/770684223",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "The old man PETTSON and his cat FINDUS live on a small farm way out in the countryside in Sweden. Christmas is approaching, and Pettson has given Findus the rash promise that THE TOMTE will come around with gifts for him at Christmas Eve. Pettson does not believe in the Tomte, but in order not to disappoint his cat, he decides to build an artificial Tomte - a mechanical TOMTE MACHINE. Pettson has a hard time keeping the project secret from Findus and getting the machine to actually work in due time. But somehow a mysterious magical force interferes..."
 },
 "cm-harold-and-maude": {
 "tmdbChecked": "2026-10-02",
@@ -1635,7 +1743,8 @@
 "rt": "m/harold_and_maude",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A deadpan young man obsessed with death meets an eccentric septuagenarian who teaches him to live life to the fullest."
 },
 "cm-herr-bachmann-og-klassen-hans": {
 "tmdbChecked": "2026-10-01",
@@ -1654,7 +1763,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Mr. Bachmann And His Class explores the close bond between an elementary school teacher and his students. His unconventional methods clash with the complex social and cultural realities of the provincial German industrial town they live in."
 },
 "cm-idiotene": {
 "imdb": "tt0154421",
@@ -1675,7 +1785,8 @@
 "lbSlug": "the-idiots",
 "lbRating": 3.55,
 "rated": "2026-11-13",
-"posterPath": "/dZUgHe2XH8egBFerMC6yLoqUqii.jpg"
+"posterPath": "/dZUgHe2XH8egBFerMC6yLoqUqii.jpg",
+"overview": "A group of perfectly intelligent young people decide to react to society's cult of aimless, non-creative and non-responsible form intellect by living together in a community of 'idiots'. Their primary activity becomes going out into the world of 'normal' people and pretending to be mentally incompetent. They take advantage of this situation to create anarchy, and, by every possible means, to make those around them miserable."
 },
 "cm-its-a-wonderful-life": {
 "imdb": "tt0038650",
@@ -1694,7 +1805,7 @@
 "enFrom": "tmdb",
 "lbSlug": "its-a-wonderful-life",
 "lbRating": 4.45,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "George Bailey has spent his entire life giving to the people of Bedford Falls.  All that prevents rich skinflint Mr. Potter from taking over the entire town is George's modest building and loan company.  But on Christmas Eve the business's $8,000 is lost and George's troubles begin.",
 "posterPath": "/bSqt9rhDZx1Q7UZ86dBPKdNomp2.jpg"
 },
@@ -1715,7 +1826,8 @@
 "rt": "m/770681352",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Svante is a young boy who lives with his family in a Stockholm apartment. One day he meets Karlsson, a chubby little man in the prime of his life, who can fly using a propeller on his back and who lives in his little house on the roof."
 },
 "cm-kristin-lavransdatter": {
 "tmdbChecked": "2026-10-01",
@@ -1734,7 +1846,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "The daughter of a prominent medieval Norway landowner, Kristin grows up in total harmony with the ideals of the time: strong family ties, social pride and devout Christianity. As she accepts the fact that she has been arranged to marry the son of another landowner, Kristin's beauty, innocence and purity evokes violent emotions around her: envy, lust, murder, revenge. She seeks refuge in a convent, awaiting marriage. Here, the passion of her life strikes, the knight Erlend Nikulaussonn. However, their love cannot be private, and suddenly Kristin is the centre of a scandal."
 },
 "cm-la-defense-trilogien": {
 "tmdbChecked": "2026-11-17",
@@ -1761,7 +1874,8 @@
 "lbSlug": "ladyhawke",
 "lbRating": 3.36,
 "rated": "2026-11-14",
-"posterPath": "/9gbeNp1SibDT8GyURFebNjwMBrV.jpg"
+"posterPath": "/9gbeNp1SibDT8GyURFebNjwMBrV.jpg",
+"overview": "Captain Etienne Navarre is a man on whose shoulders lies a cruel curse. Punished for loving each other, Navarre must become a wolf by night whilst his lover, Lady Isabeau, takes the form of a hawk by day. Together, with the thief Philippe Gaston, they must try to overthrow the corrupt Bishop and in doing so break the spell."
 },
 "cm-lille-frk-norge": {
 "imdb": "tt0378255",
@@ -1782,7 +1896,8 @@
 "lbSlug": "the-beast-of-beauty",
 "lbRating": 3.3,
 "rated": "2026-11-12",
-"posterPath": "/jWzv8hZYjFO7syMLeAhwvP0jjI7.jpg"
+"posterPath": "/jWzv8hZYjFO7syMLeAhwvP0jjI7.jpg",
+"overview": "Lotte and her father moves in with Kristin, a former beauty queen, and her daughter, Vendela. Kristin is grooming Vendela to win the Little Miss Norway contest, and as a result both girls get more and more preoccupied with their looks. When Lotte is allowed to participate in the contest, it soon becomes clear that being too vain can be a frightening experience."
 },
 "cm-lost-highway": {
 "tmdbChecked": "2026-10-01",
@@ -1801,7 +1916,8 @@
 "rt": "m/lost_highway",
 "mc": "movie/lost-highway",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A tormented jazz musician finds himself lost in an enigmatic story involving murder, surveillance, gangsters, doppelgängers, and an impossible transformation inside a prison cell."
 },
 "cm-min-venninnes-venn": {
 "tmdbChecked": "2026-10-01",
@@ -1820,7 +1936,8 @@
 "rt": "m/boyfriends_and_girlfriends",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Middle-class Parisian suburbs: Blanche and Léa, office worker and student, meet and become friends. Léa is going out with Fabien, but is thinking of leaving him. Blanche falls for Léa's handsome and witty friend Alexandre, but is tongue-tied whenever she meets him. Léa goes on holiday and Blanche, still smitten with the dashing Alexandre, begins to get to know Fabien."
 },
 "cm-miracle-on-34th-street": {
 "tmdbChecked": "2026-10-01",
@@ -1839,7 +1956,8 @@
 "rt": "m/miracle_on_34th_street",
 "mc": "movie/miracle-on-34th-street",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Kris Kringle, seemingly the embodiment of Santa Claus, is asked to portray the jolly old fellow at Macy's following his performance in the Thanksgiving Day parade. His portrayal is so complete that many begin to question if he truly is Santa Claus, while others question his sanity."
 },
 "cm-mitt-palestina": {
 "tmdbChecked": "2026-10-01",
@@ -1858,7 +1976,8 @@
 "rt": "m/all_thats_left_of_you",
 "mc": "movie/all-thats-left-of-you",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "After a Palestinian teen gets swept up into a West Bank protest, his mother recounts the family story of hope, courage and relentless struggle that led to this fateful moment."
 },
 "cm-mongoland": {
 "tmdbChecked": "2026-10-01",
@@ -1877,7 +1996,8 @@
 "rt": "m/573759462",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Pia is coming home for Christmas after traveling in England for about 6 months. She wants to catch up with her boyfriend, Kristoffer, who was supposed to have joined her on the trip, but backed out at the last minute. Finding him, however, is turning out to be quite a task. While searching, she meets several more or less disgruntled and dissatisfied people. And when Santa turns up things start happening..."
 },
 "cm-my-national-gallery": {
 "tmdbChecked": "2026-11-17",
@@ -1896,7 +2016,8 @@
 "rated": "2026-11-10",
 "posterPath": "/nrlLcvB9xi2MjXP8UjGEIygkEoE.jpg",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Numbi, a little village hidden deep in the Democratic Republic of Congo mountains, lies nonetheless at the heart of our world. Here, with their bare hands, miners dig the coltan which will find its way – legally or otherwise – to our industrialized world. For decades this grey gold, indispensable to the manufacture of almost all contemporary technological devices, has been the cause of conflicts and a bitter exploitation. In Numbi, bodies are covered in mud, hands red with blood, and coltan hides in every pocket. Every inhabitant lives with the illusory hope of escaping fate and enjoying for themselves the riches of the Congo. Sensitive, shocking and deeply moving, Of Mud and Blood documents the everyday existence of the inhabitant of Numbi, revealing the hardships and trials of a story from which we must not look away."
 },
 "cm-om-tilla": {
 "imdb": "tt0057584",
@@ -1917,7 +2038,8 @@
 "tmdb": 231198,
 "lang": "no",
 "enFrom": "tmdb",
-"posterPath": "/pyHZWRzfCY1WZLj0MJKw69lMK35.jpg"
+"posterPath": "/pyHZWRzfCY1WZLj0MJKw69lMK35.jpg",
+"overview": "One autumn day, Ivar goes to the Botanical Garden in Oslo to visit Maria who is the mother of a little girl named Tilla. Ivar is a child psychologist and had Tilla observed a few months earlier. Treatment for her was agreed upon, but Maria has not returned with Tilla. Now Ivar finds her sleeping under a tree in the garden, and he meets Maria bent over a microscope in the laboratory. Maria has become even more nervous and unbalanced than the last time he met her, because nothing has been \"corrected\" as quickly as she had hoped --  Tilla has not spoken now for a year and a half. Maria herself is on her way to being as closed off as her own little girl. Ivar persuades Maria to come to the pediatric psychiatric clinic with Tilla so they can begin her treatment. There she meets Mimi Backer. But neither does Mimi get Maria to open up about her experiences with Tilla. In the clinic's observation room, however, the first little flicker of light falls on the mystery..."
 },
 "cm-orlando": {
 "tmdbChecked": "2026-10-01",
@@ -1936,7 +2058,8 @@
 "rt": "m/orlando",
 "mc": "movie/orlando",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "England, 1600. Queen Elizabeth I promises Orlando, a young nobleman obsessed with poetry, that she will grant him land and fortune if he agrees to satisfy a very particular request."
 },
 "cm-oslo-31-august": {
 "tmdbChecked": "2026-10-01",
@@ -1955,7 +2078,8 @@
 "rt": "m/oslo_august_31st",
 "mc": "movie/oslo-august-31st",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A recovering drug addict is granted a day’s leave from rehab and returns to Oslo, where he reconnects with friends, faces the weight of his past, and struggles with uncertainty about his future. Over the course of one day, he drifts through encounters that reflect his longing for connection and his deep sense of alienation."
 },
 "cm-paraplyene-i-cherbourg": {
 "tmdbChecked": "2026-10-01",
@@ -1974,7 +2098,8 @@
 "rt": "m/the_umbrellas_of_cherbourg_1964",
 "mc": "movie/the-umbrellas-of-cherbourg",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "This simple romantic tragedy begins in 1957. Guy Foucher, a 20-year-old French auto mechanic, has fallen in love with 17-year-old Geneviève Emery, an employee in her widowed mother's chic but financially embattled umbrella shop. On the evening before Guy is to leave for a two-year tour of combat in Algeria, he and Geneviève make love. She becomes pregnant and must choose between waiting for Guy's return or accepting an offer of marriage from a wealthy diamond merchant."
 },
 "cm-pauline-pa-stranden": {
 "tmdbChecked": "2026-10-01",
@@ -1993,7 +2118,8 @@
 "rt": "m/pauline_at_the_beach",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Marion is about to divorce from her husband and takes her 15-year-old niece, Pauline, on a vacation to Granville. There, she meets an old love..."
 },
 "cm-pushwagner": {
 "tmdbChecked": "2026-10-01",
@@ -2012,12 +2138,13 @@
 "rt": "m/pushwagner",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Behind the success of Hariton Pushwagner we find a dramatic story about a son of a wealthy family who became homeless, only to end up as a celebrated artist. Pushwagner himself says, \"It's not true but it's a good story\". Against this backdrop, the film reflects on what the reality of Pushwagner is, both as an artist and a human being."
 },
 "cm-reisen-til-julestjernen": {
 "lbSlug": "journey-to-the-christmas-star-1976",
-"lbRating": 3.43,
-"rated": "2026-11-10",
+"lbRating": 3.42,
+"rated": "2026-11-18",
 "imdb": "tt0075128",
 "imdbAll": [
 "tt0075128"
@@ -2046,7 +2173,8 @@
 "rated": "2026-11-10",
 "posterPath": "/e67rFXSnk0ZgOOI3TpfM4EKa5PH.jpg",
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-12",
+"overview": "Amidst the immense greenery of the Czech countryside, Pavel quietly tends spring meadows damaged by deforestation, preserving rare plant species, while Klára, who works with the Czech Ornithological Society, scours the land for illegal bait traps with the help of her loyal dogs, discovering threats to the local wildlife."
 },
 "cm-searching-for-sugar-man": {
 "tmdbChecked": "2026-10-01",
@@ -2065,7 +2193,8 @@
 "rt": "m/searching_for_sugar_man",
 "mc": "movie/searching-for-sugar-man",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Two South Africans set out to discover what happened to their unlikely musical hero, the mysterious 1970s rock 'n' roller, Rodriguez."
 },
 "cm-sirkus": {
 "tmdbChecked": "2026-10-01",
@@ -2084,7 +2213,8 @@
 "rt": "m/1052608-circus",
 "mc": "movie/the-circus",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Charlie, a wandering tramp, becomes a circus handyman - soon the star of the show - and falls in love with the circus owner's stepdaughter."
 },
 "cm-sirocco-og-vindens-rike": {
 "tmdbChecked": "2026-10-01",
@@ -2103,7 +2233,8 @@
 "rt": "m/sirocco_and_the_kingdom_of_the_winds",
 "mc": "movie/sirocco-and-the-kingdom-of-the-winds",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Agnès, Juliette and Carmen's neighbour, writes children's storybooks that take place in a fantasy world, The Kingdom of the Winds. The intrepid sisters discover a passageway between their world and this extraordinary universe. Once on the other side, the girls take on the appearance of cats and discover Sirocco, a terrifying character who can control the wind."
 },
 "cm-small-roads": {
 "tmdbChecked": "2026-11-17",
@@ -2129,7 +2260,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Carpenter Andersen and Santa Claus makes a deal which saves Christmas for them both."
 },
 "cm-solan-og-ludvig---jul-i-flaklypa": {
 "tmdbChecked": "2026-10-01",
@@ -2148,7 +2280,8 @@
 "rt": "m/louis_and_luca_and_the_snow_machine",
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "The small town of Pinchcliffe is experiencing a great lack of snow, which is why the inventor Reodor Felgen is asked to create a snow machine. However, things do not go as planned."
 },
 "cm-stargate-en-julefortelling": {
 "tmdbChecked": "2026-10-01",
@@ -2159,11 +2292,24 @@
 "enFrom": "tmdb",
 "lbSlug": "brightly-shining",
 "lbRating": 3.52,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-03",
 "overview": "Christmas is approaching, and when their father loses his job as a Christmas tree seller, Ronja and Melissa take over the responsibility. While their father drowns his sorrows in the Stargate pub, the two girls are forced to fend for themselves and dream of a different reality. It is a film about a father who does his best, but is not enough; about an older sister who has far too big shoes to fill; and about a little sister who never stops hoping.",
 "posterPath": "/CeBPgOEcB4JiVYKeePp5WUevWL.jpg"
+},
+"cm-stemple-pass": {
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"tmdb": 170884,
+"lang": "en",
+"imdb": "tt2652874",
+"en": "Stemple Pass",
+"enFrom": "tmdb",
+"posterPath": "/tlgVjZn9YSYaolOUONJcn1l44Uu.jpg",
+"overview": "Four landscape shots containing a replica of Ted Kaczynski’s cabin, one shot per season. On the soundtrack, Benning reads extracts from Kaczynski’s journals from the early 1970s, recording his progress at hunting and gathering, and his connection to the Montana wilderness; a hand-written folded sheet of paper detailing his acts of “monkey wrenching” and first attempts at planting bombs; two notebooks written in numerical code in 1985 and decoded by Benning in 2011; two excepts from Industrial Society and Its Future by \"FC\" (aka the Unabomber Manifesto) as published in The New York Times and The Washington Post in 1995; and a 2001 interview with Kaczynski by J. Alienus Rychalski, special correspondent for the Blackfoot Valley Dispatch."
 },
 "cm-streik-bull-tuhus": {
 "tmdbChecked": "2026-10-01",
@@ -2182,7 +2328,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A movie loosely based on a strike in the community of Sauda, Norway 2. June 1970. The strike lasted for five weeks, and was on the news almost every day."
 },
 "cm-sublimations-toxiques": {
 "tmdbChecked": "2026-11-17",
@@ -2209,7 +2356,8 @@
 "lbSlug": "sick-of-myself",
 "lbRating": 3.72,
 "rated": "2026-11-13",
-"posterPath": "/ynePU5z7JFn2Gf82RmfZgV84H8X.jpg"
+"posterPath": "/ynePU5z7JFn2Gf82RmfZgV84H8X.jpg",
+"overview": "Increasingly overshadowed by her boyfriend's recent rise to fame as a contemporary artist creating sculptures from stolen furniture, Signe hatches a vicious plan to reclaim her rightfully deserved attention within the milieu of Oslo's cultural elite."
 },
 "cm-taxi-driver": {
 "tmdbChecked": "2026-10-01",
@@ -2228,7 +2376,8 @@
 "rt": "m/taxi_driver",
 "mc": "movie/taxi-driver-1976",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Suffering from insomnia, disturbed loner Travis Bickle takes a job as a New York City cabbie, haunting the streets nightly, growing increasingly detached from reality as he dreams of cleaning up the filthy city."
 },
 "cm-the-big-lebowski": {
 "tmdbChecked": "2026-10-01",
@@ -2247,7 +2396,8 @@
 "rt": "m/the_big_lebowski",
 "mc": "movie/the-big-lebowski",
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "Jeffrey 'The Dude' Lebowski, a Los Angeles slacker who only wants to bowl and drink White Russians, is mistaken for another Jeffrey Lebowski, a wheelchair-bound millionaire, and finds himself dragged into a strange series of events involving nihilists, adult film producers, ferrets, errant toes, and large sums of money."
 },
 "cm-the-shining": {
 "imdb": "tt0081505",
@@ -2268,7 +2418,8 @@
 "tmdb": 694,
 "lang": "en",
 "enFrom": "tmdb",
-"posterPath": "/uAR0AWqhQL1hQa69UDEbb2rE5Wx.jpg"
+"posterPath": "/uAR0AWqhQL1hQa69UDEbb2rE5Wx.jpg",
+"overview": "Jack Torrance accepts a caretaker job at the Overlook Hotel, where he, along with his wife Wendy and their son Danny, must live isolated from the rest of the world for the winter. But they aren't prepared for the madness that lurks within."
 },
 "cm-tillitsmannen": {
 "tmdbChecked": "2026-10-01",
@@ -2287,7 +2438,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "A documentary about the statesman Einar Gerhardsen and his relation to the labour movement, how the Labour Party under his rule became the overall leading party."
 },
 "cm-utopiske-signaler": {
 "tmdbChecked": "2026-11-17",
@@ -2313,7 +2465,8 @@
 "lbSlug": "vagabond",
 "lbRating": 4.11,
 "rated": "2026-11-13",
-"posterPath": "/2KFfwiPct1hwqi9dkKqoom0BenC.jpg"
+"posterPath": "/2KFfwiPct1hwqi9dkKqoom0BenC.jpg",
+"overview": "Mona Bergeron is dead, her frozen body found in a ditch in the French countryside. From this, the film flashes back to the weeks leading up to her death. Through these flashbacks, Mona gradually declines as she travels from place to place, taking odd jobs and staying with whomever will offer her a place to sleep. Mona is fiercely independent, craving freedom over comfort, but it is this desire to be free that will eventually lead to her demise."
 },
 "cm-white-paradise": {
 "tmdbChecked": "2026-10-01",
@@ -2332,7 +2485,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-03"
+"checked": "2026-10-03",
+"overview": "After a young man is arrested for a crime he didn't commit, the daughter of the local tavern owners must spring to the rescue."
 },
 "db-filipinana": {
 "v": 4,
@@ -2345,7 +2499,9 @@
 "en": null,
 "lbSlug": "filipinana-2026",
 "lbRating": 3.48,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "While working at an elite country club outside Manila, a 17-year-old Ilocana attendant uncovers the violent truths of her workplace, her country, and her own past after attempting to return a lost golf club to the club's president.",
+"posterPath": "/64hnrTmeJEvUYoJyuOM7taE3CqT.jpg"
 },
 "db-hands-on-a-hardbody-the-documentary": {
 "imdb": "tt0116481",
@@ -2364,7 +2520,9 @@
 "lang": "en",
 "lbSlug": "hands-on-a-hardbody-the-documentary",
 "lbRating": 4.0,
-"rated": "2026-11-14"
+"rated": "2026-11-14",
+"overview": "Filmmaker S.R. Bindler profiles Texas contestants trying to win a truck by keeping one hand on it longer than everyone else.",
+"posterPath": "/snyLQ21YGNWHNcDSNUIouzBFObh.jpg"
 },
 "db-its-a-wonderful-life-4k-restoration": {
 "imdb": "tt0038650",
@@ -2384,7 +2542,9 @@
 "enFrom": "tmdb",
 "lbSlug": "its-a-wonderful-life",
 "lbRating": 4.45,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "George Bailey has spent his entire life giving to the people of Bedford Falls.  All that prevents rich skinflint Mr. Potter from taking over the entire town is George's modest building and loan company.  But on Christmas Eve the business's $8,000 is lost and George's troubles begin.",
+"posterPath": "/bSqt9rhDZx1Q7UZ86dBPKdNomp2.jpg"
 },
 "db-mares-nest": {
 "imdb": "tt37537649",
@@ -2404,7 +2564,9 @@
 "enFrom": "tmdb",
 "lbSlug": "mares-nest-2025",
 "lbRating": 3.14,
-"rated": "2026-11-14"
+"rated": "2026-11-14",
+"overview": "Moon travels through a mysterious unexplained world free of adults. Moon meets a scholar turned sage and her translator in a mountain hut, where she tries to understand what is happening, based on a play by Don DeLillo. She meets many others who perform for her, show her a film, give her gifts, show her different possibilities for living. She observes and moves on into an unknown future.",
+"posterPath": "/r6qpvcmfJ9p0eHr0Hlc5CFv5NX.jpg"
 },
 "db-my-brothers-wedding-4k-restoration": {
 "v": 4,
@@ -2418,27 +2580,9 @@
 "enFrom": "tmdb",
 "lbSlug": "my-brothers-wedding",
 "lbRating": 3.73,
-"rated": "2026-11-14"
-},
-"db-naza": {
-"imdb": "tt44766123",
-"imdbAll": [
-"tt44766123"
-],
-"lb": "naza",
-"rt": "m/naza",
-"mc": "movie/naza",
-"en": "NAZA",
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"tmdb": 1755291,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "naza",
-"lbRating": 4.54,
-"rated": "2026-11-17"
+"rated": "2026-11-14",
+"overview": "A young African-American man, living in Los Angeles without direction in his life, reluctantly agrees to be the best man for his brother, an upwardly mobile lawyer.",
+"posterPath": "/zNTkmyNtdncmMFHOavpgevwsh6o.jpg"
 },
 "db-otium": {
 "v": 4,
@@ -2452,7 +2596,9 @@
 "enFrom": "tmdb",
 "lbSlug": "otium",
 "lbRating": null,
-"rated": "2026-11-14"
+"rated": "2026-11-14",
+"overview": "Hanna is a real estate photographer from Mississauga who commutes daily to Toronto to snap pictures of luxury apartments for a network of shady, elusive corporations. With his debut feature, director Christopher Beaulieu provides an illuminating insight into the notion of liminality and the economic dispossession of younger generations. Favouring a detached approach, where the warmth of his celluloid images clashes with the cold functionality of Hanna’s digital photographs, where the nostalgia of past prosperity seamlessly seeps into the film material, Otium shows a rare kind of lucidity. Probing the spacious depths of empty dwellings, it tells of the contemporary Tantaluses of Hanna’s generation, for whom the gig economy provides dreams of wealth that it will make sure to keep unfulfilled.",
+"posterPath": "/smqrwBu4A95p00UfPMntYITqQ4Z.jpg"
 },
 "db-rex-a-dinosaurs-story": {
 "imdb": "tt0227379",
@@ -2471,7 +2617,9 @@
 "lang": "ja",
 "lbSlug": "rex-a-dinosaurs-story",
 "lbRating": 3.58,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "A young girl befriends an infant T-rex after her paleontologist father nurtures a lair of lost dinosaur eggs.",
+"posterPath": "/f7EsJ9YCIslx2pf4AGOGe8GfqgJ.jpg"
 },
 "db-saigon-story-two-shootings-in-the-forest-kingdom": {
 "v": 4,
@@ -2484,7 +2632,9 @@
 "en": null,
 "lbSlug": "saigon-story-two-shootings-in-the-forest",
 "lbRating": null,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "Which is more final, the gun or the camera? Armed with a powerful visual style, Oscar®-nominated filmmaker Kim Nguyen reveals the elusive connection between two families and one iconic photo: Saigon Execution. Part history, part mystery, Saigon Story confronts the family secrets left in the wake of the Vietnam War, exposing the resilience of survivors and the blurred legacy of wartime memory.",
+"posterPath": "/ev5ZegjbZxSgzYvNUXszvT8WdwS.jpg"
 },
 "db-siksikakowan-the-blackfoot-man": {
 "v": 4,
@@ -2498,7 +2648,9 @@
 "enFrom": "tmdb",
 "lbSlug": "siksikakowan-the-blackfoot-man",
 "lbRating": null,
-"rated": "2026-11-14"
+"rated": "2026-11-14",
+"overview": "Amidst a sweeping Prairies backdrop, this luminous exploration of strength and vulnerability spans generations of Siksika men and boys as they learn to embrace the intricacies of self-discovery, identity and love in a world that often misunderstands and stigmatizes them.",
+"posterPath": "/gMnkbxE3QzdRqDLBXI2AnD8cqoT.jpg"
 },
 "db-the-best-way-is-by-accident": {
 "imdb": "tt42353729",
@@ -2517,7 +2669,9 @@
 "lang": "fr",
 "lbSlug": "the-best-way-is-by-accident",
 "lbRating": 3.71,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "After the death of her adoptive father, a young filmmaker delves into his video archives only to realize that she never filmed him—except once, by accident. As the end of the world approaches, she now sets out to capture the extraordinary in the ordinary… which, too, is destined to disappear.",
+"posterPath": "/xVUfxSUFU5abWh4PNPitW79iMhS.jpg"
 },
 "db-the-changeling": {
 "imdb": "tt0080516",
@@ -2537,7 +2691,9 @@
 "enFrom": "tmdb",
 "lbSlug": "the-changeling",
 "lbRating": 3.58,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "After a tragic event happens, composer John Russell moves to Seattle to try to overcome it and build a new and peaceful life in a lonely big house that has been uninhabited for many years. But, soon after, the obscure history of such an old mansion and his own past begin to haunt him.",
+"posterPath": "/z4nTYj3JZ5jWAhDgrmEhW2GRAzb.jpg"
 },
 "db-the-cook-the-thief-his-wife-her-lover": {
 "imdb": "tt0097108",
@@ -2556,7 +2712,9 @@
 "lang": "en",
 "lbSlug": "the-cook-the-thief-his-wife-her-lover",
 "lbRating": 4.18,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "When churlish mobster Albert Spica acquires an upscale French restaurant in London, he dines there nightly, effectively scaring off the clientele with his bad manners. His wife, Georgina, is especially disgusted by him, and soon begins an affair with regular guest Michael. Despite their best efforts to keep it secret, Spica learns about their trysts, and he plots a terrible revenge.",
+"posterPath": "/15xMqAnFsROopAT66zdRyu2Dtek.jpg"
 },
 "db-the-day-she-returns": {
 "imdb": "tt39368030",
@@ -2575,7 +2733,9 @@
 "lang": "ko",
 "lbSlug": "the-day-she-returns",
 "lbRating": 3.58,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "​Having stepped back from acting after marriage and a subsequent divorce, actress Bae Jeongsu returns to the profession with a role in an independent film. As the film’s release approaches, she takes part in a series of press interviews, only to discover later, when asked to revisit those moments in her acting class, that she cannot clearly recall what was said.",
+"posterPath": "/18Ba4BbB9AgDVBTAPw0DNXSJXTr.jpg"
 },
 "db-two-cuckolds-go-swimming": {
 "v": 4,
@@ -2589,7 +2749,9 @@
 "enFrom": "tmdb",
 "lbSlug": "two-cuckolds-go-swimming",
 "lbRating": null,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "Adult film star Molly Chambers flies home to visit her mom in a small, coastal town. A simple trip, challenged by the presence of Sunshine, an embittered ex-boyfriend staying in her childhood bedroom.",
+"posterPath": "/vXvE5dswUTivsB1p5Dww0GFeVsG.jpg"
 },
 "db-unzipped-4k-restoration": {
 "imdb": "tt0114805",
@@ -2609,7 +2771,9 @@
 "enFrom": "tmdb",
 "lbSlug": "unzipped",
 "lbRating": 3.92,
-"rated": "2026-11-14"
+"rated": "2026-11-14",
+"overview": "Isaac Mizrahi, one of the most successful designers in high fashion, plans his fall 1994 collection.",
+"posterPath": "/dnIzv4rXr9FXkqW880E3rStYQA7.jpg"
 },
 "db-vinyl-25th-anniversary-re-release": {
 "v": 4,
@@ -2634,7 +2798,9 @@
 "lang": "tr",
 "lbSlug": "yellow-letters",
 "lbRating": 3.53,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "The marriage of Derya and Aziz is under pressure after losing their jobs because of state arbitrariness and moving to Istanbul to live with Aziz's parents. They and their 13-year-old daughter Ezgi have to redefine their way of life.",
+"posterPath": "/8Sxp3QIdamyoAfgLsUaGCQ1Z1ID.jpg"
 },
 "db-you-can-see-everything": {
 "imdb": "tt45368240",
@@ -2643,14 +2809,15 @@
 "tt45368240"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "you-can-see-everything",
 "lbRating": 4.58,
 "rated": "2026-11-12",
-"posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg"
+"posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
+"overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss."
 },
 "db-zi": {
 "imdb": "tt39150111",
@@ -2669,7 +2836,9 @@
 "lang": "en",
 "lbSlug": "zi-2026",
 "lbRating": 3.0,
-"rated": "2026-11-17"
+"rated": "2026-11-17",
+"overview": "In Hong Kong, a young woman haunted by visions of her future self meets a stranger who changes the course of her night -- and possibly her life.",
+"posterPath": "/k0MdqAUD3PsdgjDGBNGhP5E0Xct.jpg"
 },
 "dm-1051553638": {
 "tmdbChecked": "2026-11-17",
@@ -2690,7 +2859,8 @@
 "lbSlug": "mary-oliver-saved-by-the-beauty-of-the-world",
 "lbRating": 3.81,
 "rated": "2026-11-12",
-"posterPath": "/aAZ7Ih2tU65y55CfE0nIFSaow4n.jpg"
+"posterPath": "/aAZ7Ih2tU65y55CfE0nIFSaow4n.jpg",
+"overview": "From a lonely childhood to literary fame, her life was shaped by devotion to nature, paying attention, and the long journey toward learning to love and to be loved.  If poetry had a pop icon, Mary Oliver would be it."
 },
 "dm-127862487": {
 "imdb": "tt33077003",
@@ -2711,7 +2881,8 @@
 "tmdb": 978102,
 "lang": "fr",
 "enFrom": "tmdb",
-"posterPath": "/1ZGnQmQ7B6DTEvqykga32jIrIrB.jpg"
+"posterPath": "/1ZGnQmQ7B6DTEvqykga32jIrIrB.jpg",
+"overview": "In a festive and fairytale atmosphere, animals from around the world are brought together through five poetic and humorous adventures to celebrate Christmas and wintertime. They will learn about the importance of helping each other, being generous and rediscovering the beauty of nature."
 },
 "dm-15280150": {
 "lbSlug": "minions-monsters-2026",
@@ -2731,7 +2902,8 @@
 "tv": 2,
 "tmdb": 1315772,
 "enFrom": "tmdb",
-"posterPath": "/4LwvU9SZc8QQzW1X1FAPhNbXnEU.jpg"
+"posterPath": "/4LwvU9SZc8QQzW1X1FAPhNbXnEU.jpg",
+"overview": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created."
 },
 "dm-1609958980": {
 "lbSlug": "siri-hustvedt-dance-around-the-self",
@@ -2763,7 +2935,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-curse-of-kane",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-05",
 "overview": "We’ve all dreamed about making it big. About doing something that sets us apart and makes an indelible claim about who we are. Gunnar Ryan Wiik is a dreamer. But what makes him stand out is that he is seemingly willing to do anything to make his dreams come through. Directors Even G. Benestad and August B. Hanssen has been following the Norwegian entrepreneur Gunnar Ryan Wiik since 2017 when his spectacular film project about the Western hero Morgan Kane collapsed and became front-page material in Norwegian newspapers. Ryan lost everything. With unique access over seven years, the film follows Ryan's new and adventurous projects. Can he finally succeed, or will the ghosts of the past consume him?",
@@ -2788,7 +2960,8 @@
 "lbSlug": "north-2025",
 "lbRating": null,
 "rated": "2026-11-10",
-"posterPath": "/dmZICQpB4Q1LWLjilfrnqe2owMq.jpg"
+"posterPath": "/dmZICQpB4Q1LWLjilfrnqe2owMq.jpg",
+"overview": "Young Gerda sets off into the great unknown in search of her friend Kai, who has mysteriously vanished."
 },
 "dm-564210868": {
 "imdb": "tt33029380",
@@ -2807,7 +2980,7 @@
 "lang": "fr",
 "lbSlug": "marsupilami-2025",
 "lbRating": 2.66,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
 "posterPath": "/kMhVs1XqmzXlD0mDQ4rTJh4Kvf1.jpg"
 },
@@ -2824,7 +2997,8 @@
 "lbSlug": "armageddon-road",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/kW4xPFmtP0m2AFwgcOdClxyQork.jpg"
+"posterPath": "/kW4xPFmtP0m2AFwgcOdClxyQork.jpg",
+"overview": "A hopeless romantic with big dreams, Steve is an ex-con hired to chauffeur a mob boss' girlfriend for a night. He's blissfully unaware that his passenger has died and is now possessed by one of the Four Horsemen of the Apocalypse."
 },
 "ev-hen": {
 "imdb": "tt29283995",
@@ -2844,7 +3018,8 @@
 "lbSlug": "hen-2025",
 "lbRating": 3.48,
 "rated": "2026-11-16",
-"posterPath": "/q1HgK2pyhKfWCALvJTN9Gq9gBu4.jpg"
+"posterPath": "/q1HgK2pyhKfWCALvJTN9Gq9gBu4.jpg",
+"overview": "Escaping from a chicken farm, a hen finds refuge in the courtyard of a crumbling restaurant. There, she discovers love, confronts the pecking order, and fights to protect her eggs from a greedy owner. Her droll yet touching quest for motherhood mirrors the messy compromises and silent struggles of human lives."
 },
 "ev-hope": {
 "imdb": "tt27369017",
@@ -2864,7 +3039,8 @@
 "lbSlug": "hope-2026",
 "lbRating": 3.15,
 "rated": "2026-11-12",
-"posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg"
+"posterPath": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg",
+"overview": "In the remote South Korean village of Hope Harbor, police chief Bum-seok and officer Sung-ae are called to investigate a mysterious creature wreaking havoc on the community. But all is not as it seems, and perceptions can be misleading. What begins as ignorance plants the seed of disaster, escalating through human conflict into a tragedy of cosmic proportions."
 },
 "ev-run-terry-run": {
 "imdb": "tt39130015",
@@ -2873,14 +3049,15 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "run-terry-run",
 "lbRating": 3.88,
 "rated": "2026-11-13",
-"posterPath": "/sSstsc561xip9s5FKereo1r1I9i.jpg"
+"posterPath": "/sSstsc561xip9s5FKereo1r1I9i.jpg",
+"overview": "The extraordinary story of Canadian icon Terry Fox will be told like never before in Run Terry Run, a new feature-length documentary directed by acclaimed filmmaker Sean Menard. The film offers an intimate, behind-the-scenes look at Terry’s legendary 1980 Marathon of Hope, drawing from 96 reels of never-before-seen footage and unheard audio interviews that have remained untouched for 45 years."
 },
 "fw-ART20160673": {
 "imdb": "tt4048272",
@@ -2920,7 +3097,8 @@
 "rt": "m/star_wars_starfighter",
 "mc": "movie/star-wars-starfighter",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "When a cynical rogue is confronted by his mysterious past, he is hurled into a dangerous adventure across the galaxy that puts him on a crash course with destiny."
 },
 "fw-BVI20200545": {
 "imdb": "tt21357150",
@@ -2939,7 +3117,7 @@
 "enFrom": "tmdb",
 "lbSlug": "avengers-doomsday",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
 "posterPath": "/1zqWkLwC1zLBBBtIWzmkmWeMWnT.jpg"
 },
@@ -2960,7 +3138,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Explores the glamour and corruption of mid-'80s Miami inspired by the pilot episode of Miami Vice. Plot TBA."
 },
 "fw-EDI20240230": {
 "tmdbChecked": "2026-10-01",
@@ -2970,7 +3149,7 @@
 "en": "Viqueens",
 "lbSlug": "viqueens-2026",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt38886307"
 ],
@@ -3006,7 +3185,7 @@
 "enFrom": "tmdb",
 "lbSlug": "jumanji-open-world",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Our heroes have escaped the ever-changing jungles of Jumanji before, but this time the game comes to us—as Jumanji breaks free of its console, unleashing its chaos into our world.",
 "posterPath": "/ntjF2gemedf3ZcWzARGt6cuZlnJ.jpg"
 },
@@ -3018,7 +3197,7 @@
 "en": "Ice Age: Boiling Point",
 "lbSlug": "ice-age-boiling-point",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt34512981"
 ],
@@ -3026,7 +3205,9 @@
 "rt": "m/ice_age_boiling_point",
 "mc": "movie/ice-age-boiling-point",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A dinosaur-and-lava-filled madcap adventure takes Manny, Sid, Diego, Ellie, Buck, acorn-obsessed Scrat – this time joined by Baby Scrat and the enormous Jurassic Scrat – and the rest of the herd to visit never before-seen corners of the treacherous Lost World.",
+"posterPath": "/mPhAreyZLLcZ9pl4KRyEaqSu1Zv.jpg"
 },
 "fw-EDI20240786": {
 "imdb": "tt39443962",
@@ -3057,8 +3238,8 @@
 "imdb": "tt28301231",
 "en": "Kevlar Soul",
 "lbSlug": "kevlar-soul",
-"lbRating": 3.57,
-"rated": "2026-11-10",
+"lbRating": 3.56,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt28301231"
 ],
@@ -3078,7 +3259,7 @@
 "en": "Children of Blood and Bone",
 "lbSlug": "children-of-blood-and-bone",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt6779038"
 ],
@@ -3104,7 +3285,7 @@
 "en": "Not Alone",
 "lbSlug": "not-alone-2027",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/9HqA8Hxwd7KNs6ttYqRbXtYHLpv.jpg",
 "imdbAll": [
 "tt43609247"
@@ -3113,7 +3294,8 @@
 "rt": "m/not_alone_2027",
 "mc": "movie/not-alone",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "While preparing for a revolutionary space launch, an introverted rocket mechanic and a brilliant astro-botanist spark an unexpected romance—only for three runaway aliens to crash-land in his home, looking for a ride back to the stars."
 },
 "fw-EDI20250146": {
 "tmdbChecked": "2026-10-01",
@@ -3123,7 +3305,7 @@
 "en": "Werwulf",
 "lbSlug": "werwulf",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt35514120"
 ],
@@ -3143,7 +3325,7 @@
 "en": "Sonic the Hedgehog 4",
 "lbSlug": "sonic-the-hedgehog-4",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/t8uoHBODkFlSQJRL6qc4IclUBlH.jpg",
 "imdbAll": [
 "tt16744566"
@@ -3152,7 +3334,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "The fourth installment in the Sonic the Hedgehog film franchise. Plot TBA."
 },
 "fw-EDI20250183": {
 "checked": "2026-10-03",
@@ -3178,7 +3361,7 @@
 "en": "The Angry Birds Movie 3",
 "lbSlug": "the-angry-birds-movie-3",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/oxaW6X3xohnzdFSBKCrCjRDckMe.jpg",
 "imdbAll": [
 "tt32557122"
@@ -3208,7 +3391,9 @@
 "enFrom": "tmdb",
 "lbSlug": "remain-2026-1",
 "lbRating": 3.5,
-"rated": "2026-11-14"
+"rated": "2026-11-14",
+"overview": "In the modern age it's easier than ever to forsake the outside and remain on the inside.",
+"posterPath": ""
 },
 "fw-EDI20250595": {
 "imdb": "tt0113277",
@@ -3240,7 +3425,7 @@
 "en": "Die Hard",
 "lbSlug": "die-hard",
 "lbRating": 4.06,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/7Bjd8kfmDSOzpmhySpEhkUyK2oH.jpg",
 "imdbAll": [
 "tt0095016"
@@ -3294,7 +3479,7 @@
 "en": "Frost without Snow and Ice",
 "lbSlug": "frost-without-snow-and-ice",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/4UXoIhWxIKR13E76l47LJ0SFTnB.jpg",
 "imdbAll": [
 "tt40335152"
@@ -3321,7 +3506,7 @@
 "enFrom": "tmdb",
 "lbSlug": "det-nye-museet",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-11-14",
 "overview": "",
@@ -3339,7 +3524,7 @@
 "enFrom": "tmdb",
 "lbSlug": "ellis-park",
 "lbRating": 3.67,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Australian musician Warren Ellis guides us through his musical career and his wildlife sanctuary in Sumatra, where rescued trafficked animals are nursed back to health by conservationists.",
 "posterPath": "/69f9FbDKASNdgjj7AQXhr2QYyuW.jpg"
 },
@@ -3352,7 +3537,7 @@
 "fw-EDI20250794": {
 "lbSlug": "shaun-the-sheep-the-beast-of-mossy-bottom",
 "lbRating": 3.58,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdb": "tt36841161",
 "imdbAll": [
 "tt36841161"
@@ -3378,7 +3563,7 @@
 "en": "Gatto",
 "lbSlug": "gatto",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt26443610"
 ],
@@ -3386,7 +3571,9 @@
 "rt": "m/gatto",
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "After years of maneuvering the canal-ridden, superstitious city of Venice, Italy, a scrappy black cat named Nero begins to question whether he’s lived the right lives. Indebted to Rocco, a ruthless local feline mob boss, Nero finds himself in a quandary and is forced to forge a truly unexpected friendship that may finally lead him to his purpose—unless Venice gets the better of him first.",
+"posterPath": "/jNDWZ8hV7LHATIhaA3pDV5iWWcZ.jpg"
 },
 "fw-EDI20250806": {
 "tmdbChecked": "2026-10-01",
@@ -3396,7 +3583,7 @@
 "en": "Focker-in-Law",
 "lbSlug": "focker-in-law",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt34966140"
 ],
@@ -3416,7 +3603,7 @@
 "en": "The Legend of Zelda",
 "lbSlug": "the-legend-of-zelda",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt29873948"
 ],
@@ -3424,12 +3611,14 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A live-action adaptation of Nintendo's Legend of Zelda video game series.",
+"posterPath": "/4XuaHHQ5eR9czPZPHcaaUjekx5w.jpg"
 },
 "fw-EDI20250893": {
 "lbSlug": "other-mommy",
 "lbRating": 2.18,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdb": "tt36586020",
 "imdbAll": [
 "tt36586020"
@@ -3454,8 +3643,8 @@
 "imdb": "tt29611136",
 "en": "Wicker",
 "lbSlug": "wicker",
-"lbRating": 3.66,
-"rated": "2026-11-10",
+"lbRating": 3.65,
+"rated": "2026-11-18",
 "posterPath": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg",
 "imdbAll": [
 "tt29611136"
@@ -3486,7 +3675,8 @@
 "tmdb": 1290000,
 "lang": "en",
 "enFrom": "tmdb",
-"posterPath": ""
+"posterPath": "",
+"overview": "The relentless greed of the Fairbank family and their associates fuels betrayal and murder in the battle for succession."
 },
 "fw-EDI20251026": {
 "imdb": "tt31378509",
@@ -3505,7 +3695,7 @@
 "enFrom": "tmdb",
 "lbSlug": "dune-part-three",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Nearly two decades after he seized control of the Imperium, Paul Atreides is now a ruthless Emperor, and must face the consequences of his reign as old allies return, terrifying new threats emerge, and betrayal lurks in every shadow. Haunted by visions of Imperial collapse and the reappearance of his long-lost love, Paul is drawn into a sweeping conspiracy, with Chani at the heart of its unfolding mystery. As enemies close in, Paul must confront the true cost of power and the fate of those he loves the most.",
 "posterPath": "/d43fvHQsIMa4kpyhKXw0haEJIvI.jpg"
 },
@@ -3516,8 +3706,8 @@
 "imdb": "tt32558705",
 "en": "The Hunger Games: Sunrise on the Reaping",
 "lbSlug": "the-hunger-games-sunrise-on-the-reaping",
-"lbRating": null,
-"rated": "2026-11-10",
+"lbRating": 3.9,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32558705"
 ],
@@ -3543,7 +3733,7 @@
 "en": "Hexed",
 "lbSlug": "hexed-2026",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt38077943"
 ],
@@ -3571,7 +3761,9 @@
 "rt": "m/the_bluey_movie",
 "mc": "movie/bluey-the-movie",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "On an action-packed day, a big surprise changes everything for Bluey and her family.",
+"posterPath": "/6SumSGYgZClqPy8rjhJXRrScGlq.jpg"
 },
 "fw-EDI20251380": {
 "imdb": "tt0038650",
@@ -3590,14 +3782,14 @@
 "enFrom": "tmdb",
 "lbSlug": "its-a-wonderful-life",
 "lbRating": 4.45,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "George Bailey has spent his entire life giving to the people of Bedford Falls.  All that prevents rich skinflint Mr. Potter from taking over the entire town is George's modest building and loan company.  But on Christmas Eve the business's $8,000 is lost and George's troubles begin.",
 "posterPath": "/bSqt9rhDZx1Q7UZ86dBPKdNomp2.jpg"
 },
 "fw-EDI20251399": {
 "lbSlug": "growth-of-the-soil-2026",
 "lbRating": 3.6,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdb": "tt5782552",
 "imdbAll": [
 "tt5782552"
@@ -3660,7 +3852,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "The eleventh and final installment in The Fast Saga. Plot TBA."
 },
 "fw-EDI20251675": {
 "tmdbChecked": "2026-10-01",
@@ -3669,8 +3862,8 @@
 "imdb": "tt38773219",
 "en": "Ebenezer",
 "lbSlug": "ebenezer-2026",
-"lbRating": null,
-"rated": "2026-11-10",
+"lbRating": 3.26,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt38773219"
 ],
@@ -3711,7 +3904,7 @@
 "en": "CoComelon: The Movie",
 "lbSlug": "cocomelon-the-movie",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/dDYSKF9VWmcgOy2sruIJkHs5DDG.jpg",
 "imdbAll": [
 "tt31339071"
@@ -3720,7 +3913,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "JJ embarks on the biggest adventure of his life: Kindergarten. But when, on his first day at school, JJ discovers that his beloved stuffed bear Boba has gone missing, JJ and his friends Cody, CeCe and Nina will begin a quest that will transport them into a magical land ruled by Princess Harmony, who has created a world with one rule: No singing."
 },
 "fw-EDI20251787": {
 "imdb": "tt13609648",
@@ -3739,8 +3933,8 @@
 "tmdb": 1503762,
 "enFrom": "tmdb",
 "lbSlug": "sense-and-sensibility-2026",
-"lbRating": 3.97,
-"rated": "2026-11-10",
+"lbRating": 3.96,
+"rated": "2026-11-18",
 "overview": "A charming, witty, and deeply relatable story of love and sisterhood.",
 "posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
 },
@@ -3751,8 +3945,8 @@
 "imdb": "tt32429174",
 "en": null,
 "lbSlug": "calle-malaga",
-"lbRating": 3.67,
-"rated": "2026-11-10",
+"lbRating": 3.68,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32429174"
 ],
@@ -3820,7 +4014,7 @@
 "en": "The Exorcist: Martyrs",
 "lbSlug": "the-exorcist-martyrs",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/zMD6qOYZYdhJLidlHdhD5a4GtCN.jpg",
 "imdbAll": [
 "tt32492552"
@@ -3829,7 +4023,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Thirteen years ago, New York City detective Julie Miller ended the terror reign of satanic serial killer Father Sunday. The case made her a hero, and she has thrown herself into her work ever since. Now a new killer scrawls her name in an altar boy's blood on the walls of a church crypt, dragging her back into the darkness she believed she had buried with him."
 },
 "fw-EDI20260132": {
 "tmdbChecked": "2026-10-01",
@@ -3840,10 +4035,11 @@
 "enFrom": "tmdb",
 "lbSlug": "the-comeback-king",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/37ii02yqhWAbNYS3VxXYPp9wDGD.jpg",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A country western star named Aubrey must return to college to earn his long-abandoned degree after a false rumor that he cheated on his girlfriend throws his career into free fall."
 },
 "fw-EDI20260203": {
 "imdb": "tt7526136",
@@ -3862,7 +4058,7 @@
 "enFrom": "tmdb",
 "lbSlug": "heart-of-the-beast-2026",
 "lbRating": 3.29,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
 "posterPath": "/6sYemVUn79UPKz1ZsSG6kPU4RVy.jpg"
 },
@@ -3880,7 +4076,7 @@
 "en": "The Last Supper",
 "lbSlug": "the-last-supper-2025-1",
 "lbRating": 2.71,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32461003"
 ],
@@ -3888,7 +4084,9 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "In the days leading to betrayal, a gathering of disciples unravels into a web of secrets and hidden motives. As tensions simmer beneath the surface, trust is tested, and loyalty is questioned. The Last Supper becomes a night where nothing is as it seems, and every glance hides a deeper truth.",
+"posterPath": "/fulEdvN5u6mIpwig7HcBnYpkJEQ.jpg"
 },
 "fw-EDI20260251": {
 "imdb": "tt28228084",
@@ -3922,7 +4120,7 @@
 "en": null,
 "lbSlug": "22-lengths",
 "lbRating": 3.3,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Tilda's days are strictly structured: she studies, works at the supermarket checkout and looks after her little sister Ida - on some days she also has to look after her alcoholic mother. But this summer brings a change: Tilda receives a promising job offer for a doctorate in Berlin. Viktor also turns up, who, like her, always swims 22 laps in the swimming pool. When Tilda begins to believe that everything could be better, the situation at home spirals out of control.",
 "posterPath": "/iSAv70EuzDqkxZGt5vJ1O3XkQyu.jpg"
 },
@@ -3945,7 +4143,8 @@
 "lbSlug": "the-mummy-book-of-the-dead",
 "lbRating": null,
 "rated": "2026-11-12",
-"posterPath": "/pTr2Y0uGQeNEUdCgffbXeWk7fNk.jpg"
+"posterPath": "/pTr2Y0uGQeNEUdCgffbXeWk7fNk.jpg",
+"overview": "The fourth installment in the franchise. Plot TBA."
 },
 "fw-EDI20260369": {
 "tmdbChecked": "2026-10-01",
@@ -3955,7 +4154,7 @@
 "en": "Wild Horse Nine",
 "lbSlug": "wild-horse-nine",
 "lbRating": 4.15,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt15799564"
 ],
@@ -3979,7 +4178,9 @@
 "enFrom": "tmdb",
 "lbSlug": "la-det-swinge",
 "lbRating": null,
-"rated": "2026-11-10"
+"rated": "2026-11-10",
+"overview": "The wild, true story of how Bobbysocks changed Norway forever! A film that takes us from the grey monotony of everyday life in Norway to glitter and euphoria, from defeat and doubt to three minutes that changed everything. A dazzling, music-filled crowd-pleaser bursting with humor, hope, and goosebumps.",
+"posterPath": ""
 },
 "fw-EDI20260432": {
 "tmdbChecked": "2026-10-02",
@@ -4010,7 +4211,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-curse-of-kane",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-05",
 "overview": "We’ve all dreamed about making it big. About doing something that sets us apart and makes an indelible claim about who we are. Gunnar Ryan Wiik is a dreamer. But what makes him stand out is that he is seemingly willing to do anything to make his dreams come through. Directors Even G. Benestad and August B. Hanssen has been following the Norwegian entrepreneur Gunnar Ryan Wiik since 2017 when his spectacular film project about the Western hero Morgan Kane collapsed and became front-page material in Norwegian newspapers. Ryan lost everything. With unique access over seven years, the film follows Ryan's new and adventurous projects. Can he finally succeed, or will the ghosts of the past consume him?",
@@ -4033,14 +4234,14 @@
 "lang": "fr",
 "lbSlug": "marsupilami-2025",
 "lbRating": 2.66,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
 "posterPath": "/kMhVs1XqmzXlD0mDQ4rTJh4Kvf1.jpg"
 },
 "fw-EDI20260513": {
 "lbSlug": "monster-mia",
-"lbRating": 3.16,
-"rated": "2026-11-10",
+"lbRating": 3.15,
+"rated": "2026-11-18",
 "imdb": "tt38807889",
 "imdbAll": [
 "tt38807889"
@@ -4065,7 +4266,7 @@
 "en": "Bitter Christmas",
 "lbSlug": "bitter-christmas",
 "lbRating": 3.15,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt28088049"
 ],
@@ -4091,7 +4292,7 @@
 "en": "Verity",
 "lbSlug": "verity-2026",
 "lbRating": 2.63,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32261958"
 ],
@@ -4117,7 +4318,7 @@
 "en": null,
 "lbSlug": "dante-2026",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-05",
 "overview": "10 million euros go missing and the prime suspect is forced to flee and ends up in the city dump. In the search for the truth, two heads clash – but what price friendship?",
@@ -4126,7 +4327,7 @@
 "fw-EDI20260563": {
 "lbSlug": "whispers-in-the-woods-2025",
 "lbRating": 3.94,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdb": "tt32368068",
 "imdbAll": [
 "tt32368068"
@@ -4147,7 +4348,7 @@
 "fw-EDI20260564": {
 "lbSlug": "rose-2026",
 "lbRating": 3.87,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdb": "tt25399154",
 "imdbAll": [
 "tt25399154"
@@ -4172,7 +4373,7 @@
 "en": "Yellow Letters",
 "lbSlug": "yellow-letters",
 "lbRating": 3.53,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32888226"
 ],
@@ -4192,9 +4393,11 @@
 "en": null,
 "lbSlug": "in-cod-we-trust",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
-"checked": "2026-11-14"
+"checked": "2026-11-14",
+"overview": "Welcome to Båtsfjord, one of the northernmost fishing villages of the world, where cod is more important than God. In Cod We Trust is a mosaic puzzle, where people are knit together by fish, the town and nature. With an observational camera and closely heard dialogue, you will feel like you are there, candidly watching them, as they reveal how history and circumstances shape us and our perception of home. Båtsfjord might be the most remote and coldest place on earth, but here you will find the warmest people with the most outstanding humour.",
+"posterPath": "/zTUGqpgxCxCubyrKwGoYlkWmOPD.jpg"
 },
 "fw-EDI20260574": {
 "tmdbChecked": "2026-10-01",
@@ -4204,7 +4407,7 @@
 "en": "Árru",
 "lbSlug": "arru",
 "lbRating": 3.23,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/UFAIK0f9qvQYndcUF6i2hrSqSb.jpg",
 "imdbAll": [
 "tt13975248"
@@ -4223,8 +4426,8 @@
 "imdb": "tt32321285",
 "en": "Josephine",
 "lbSlug": "josephine-2026",
-"lbRating": 4.05,
-"rated": "2026-11-10",
+"lbRating": 4.04,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32321285"
 ],
@@ -4244,7 +4447,7 @@
 "en": "Everybody Digs Bill Evans",
 "lbSlug": "everybody-digs-bill-evans",
 "lbRating": 3.35,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt34347792"
 ],
@@ -4268,7 +4471,8 @@
 "rated": "2026-11-10",
 "posterPath": "",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A feature adaptation of the classic TV series. Plot TBA."
 },
 "fw-EDI20260606": {
 "checked": "2026-11-12",
@@ -4294,7 +4498,7 @@
 "en": "K-Pop: The Debut",
 "lbSlug": "k-pop-the-debut",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/bGz5IMugwOsoyASG5AwEy0NpZMg.jpg",
 "imdbAll": [
 "tt8992304"
@@ -4303,7 +4507,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Lizzy Lee, a young Korean-American woman, has spent her life following the path her family chose for her. But when she earns a spot in a globally televised competition to form the next K-pop girl group, she travels to Seoul, South Korea, to pursue the dream she must still keep hidden."
 },
 "fw-EDI20260632": {
 "lbSlug": "siri-hustvedt-dance-around-the-self",
@@ -4356,7 +4561,7 @@
 "en": "The Beekeeper 2",
 "lbSlug": "the-beekeeper-2",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt35935357"
 ],
@@ -4376,7 +4581,7 @@
 "en": null,
 "lbSlug": "khan-tumhara",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-04",
 "overview": "A genre blend of action sequences with romance and drama, centering on the character Yusuf Khan, described as navigating power, love and vengeance.",
@@ -4395,7 +4600,8 @@
 "lbSlug": "snoop",
 "lbRating": null,
 "rated": "2026-11-12",
-"posterPath": ""
+"posterPath": "",
+"overview": "The rise of the artist, mogul and gangsta rap icon that we know as Snoop Dogg."
 },
 "fw-EDI20260732": {
 "v": 4,
@@ -4431,7 +4637,8 @@
 "lbSlug": "the-catch-2027",
 "lbRating": null,
 "rated": "2026-11-12",
-"posterPath": "/p9rZJczpvEYw7j9wytMwLp07EU7.jpg"
+"posterPath": "/p9rZJczpvEYw7j9wytMwLp07EU7.jpg",
+"overview": "A baseball fan accidentally alters the trajectory of a game-winning catch."
 },
 "fw-EDI20260748": {
 "tmdbChecked": "2026-11-17",
@@ -4453,7 +4660,7 @@
 "en": "The Resurrection of the Christ: Part One",
 "lbSlug": "the-resurrection-of-the-christ-part-one",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt5795232"
 ],
@@ -4461,7 +4668,9 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "The first part of a two-part sequel to The Passion of the Christ. Plot TBA.",
+"posterPath": "/qx3QVH1eVqtrdvL1dndXPhCktLq.jpg"
 },
 "fw-EDI20260768": {
 "tmdbChecked": "2026-10-01",
@@ -4479,7 +4688,9 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "The second part of a two-part sequel to The Passion of the Christ. Plot TBA.",
+"posterPath": "/qx3QVH1eVqtrdvL1dndXPhCktLq.jpg"
 },
 "fw-EDI20260811": {
 "imdb": "tt14129116",
@@ -4498,8 +4709,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "a-talent-for-murder-2026",
-"lbRating": 3.21,
-"rated": "2026-11-10",
+"lbRating": 3.19,
+"rated": "2026-11-18",
 "overview": "A young man travels from New York to Switzerland to try to persuade acclaimed thriller writer Patricia Highsmith to write one final installment of her Tom Ripley series, with his efforts gradually turning more sinister.",
 "posterPath": "/mstDPKNKgSGFvVFVdfzeMNkcyw2.jpg"
 },
@@ -4520,7 +4731,8 @@
 "rt": "m/frozen_3",
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Third installment in the Disney animated franchise. Plot TBA."
 },
 "fw-EDI20260830": {
 "tmdbChecked": "2026-11-17",
@@ -4541,8 +4753,8 @@
 "imdb": "tt2056785",
 "en": "Wildwood",
 "lbSlug": "wildwood-2026",
-"lbRating": 4.39,
-"rated": "2026-11-10",
+"lbRating": 4.38,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt2056785"
 ],
@@ -4563,7 +4775,7 @@
 "enFrom": "tmdb",
 "lbSlug": "asterix-the-kingdom-of-nubia",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32243339"
 ],
@@ -4592,8 +4804,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "a-prayer-for-the-dying-2026",
-"lbRating": 3.12,
-"rated": "2026-11-10",
+"lbRating": 3.1,
+"rated": "2026-11-18",
 "overview": "In 1870 Friendship, Wisconsin, a small town of Scandinavian settlers is still suffering the repercussions of the recent Civil War. When faced with a new and even deadlier threat, one man is forced to make a harrowing choice: save his young family or defend the community that gave him a second chance at life and meaning.",
 "posterPath": "/kYIhGPwr5ztkvnRcD4GzZGfuNhv.jpg"
 },
@@ -4605,7 +4817,7 @@
 "en": "The Beloved",
 "lbSlug": "the-beloved-2026",
 "lbRating": 3.84,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt33451014"
 ],
@@ -4613,7 +4825,9 @@
 "rt": "m/the_beloved_2026",
 "mc": "movie/the-beloved",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Acclaimed film director Esteban Martínez is a legend both for his films and for his past marked by violence and excess. For his latest project, he offers his daughter Emilia a role under the pretext of helping her with her stalled acting career. Living together on set will foster a closeness they haven’t shared for years, but it will also reopen old wounds that never healed.",
+"posterPath": "/whk02IOeEHz8KCYZGm3fF92zg0v.jpg"
 },
 "fw-EDI20260861": {
 "tmdbChecked": "2026-10-01",
@@ -4623,7 +4837,7 @@
 "en": "Congo Boy",
 "lbSlug": "congo-boy",
 "lbRating": 3.63,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt41592086"
 ],
@@ -4653,7 +4867,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Wide-eyed Julián is about to spend the summer with a grandmother he barely knows. He is amazed to discover her treasure-trove apartment, his own Caribbean heritage and the lively Brooklyn community he is surrounded by. But most surprising of all, Julián discovers that he is, in fact, a mermaid!"
 },
 "fw-EDI20260878": {
 "tmdbChecked": "2026-10-01",
@@ -4663,7 +4878,7 @@
 "en": "A Place in Hell",
 "lbSlug": "a-place-in-hell-2027",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/4gSgzVw59vhegejEh1yMMfStXsU.jpg",
 "imdbAll": [
 "tt36931184"
@@ -4672,7 +4887,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A top criminal defense attorney, known for representing unlikeable clients in high-profile cases, is a relentless workhorse at her firm and fully expects to be named partner. When another attorney joins the firm, her job is put to the test and makes her question just how far she’ll go to protect it."
 },
 "fw-EDI20260881": {
 "tmdbChecked": "2026-10-01",
@@ -4682,7 +4898,7 @@
 "en": "Paper Tiger",
 "lbSlug": "paper-tiger-2026",
 "lbRating": 3.38,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/zVYm9mNSyr9EYhUUI72DOGgYRZH.jpg",
 "imdbAll": [
 "tt34385689"
@@ -4702,7 +4918,7 @@
 "en": null,
 "lbSlug": "just-an-illusion-2026",
 "lbRating": 3.82,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/eWPq3wSvJEMakESTXzaBECUNBYr.jpg",
 "imdbAll": [
 "tt36842933"
@@ -4743,7 +4959,8 @@
 "lbSlug": "joes-assignment",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": ""
+"posterPath": "",
+"overview": "Ambulance driver Joe loses his job when self-driving vehicles take over. He's then absorbed into a government system under which people without work are assigned mandatory tasks to prevent them from becoming too passive. Joe’s problem is that his own assignment appears to have vanished somewhere inside the machinery of the system. His attempt to discover his purpose propels him through a succession of increasingly strange encounters, as his search for purpose becomes entangled with his desire for love, friendship and some kind of place in the world."
 },
 "fw-EDI20260912": {
 "checked": "2026-10-03",
@@ -4795,8 +5012,8 @@
 "imdb": "tt33095251",
 "en": "Tony",
 "lbSlug": "tony-2026",
-"lbRating": 3.8,
-"rated": "2026-11-10",
+"lbRating": 3.79,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt33095251"
 ],
@@ -4815,8 +5032,8 @@
 "imdb": "tt36834996",
 "en": "All of a Sudden",
 "lbSlug": "all-of-a-sudden-2026",
-"lbRating": 4.21,
-"rated": "2026-11-10",
+"lbRating": 4.22,
+"rated": "2026-11-18",
 "posterPath": "/tTmSoi5eiLk1pNFMHyk2ejnfZz1.jpg",
 "imdbAll": [
 "tt36834996"
@@ -4836,7 +5053,7 @@
 "en": "Fatherland",
 "lbSlug": "fatherland-2026",
 "lbRating": 3.65,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt37304295"
 ],
@@ -4855,8 +5072,8 @@
 "imdb": "tt13652154",
 "en": "Mouse",
 "lbSlug": "mouse-2026",
-"lbRating": 4.0,
-"rated": "2026-11-10",
+"lbRating": 4.04,
+"rated": "2026-11-18",
 "posterPath": "/iKBFfOCdeu21lxxLxWaSAXxkmJ5.jpg",
 "imdbAll": [
 "tt13652154"
@@ -4865,7 +5082,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "In 2002 Arkansas, Callie and Minnie’s friendship is suddenly upended the summer before their senior year of high school. Left rudderless without her best friend, Minnie forms a complicated bond with Callie’s mother."
 },
 "fw-EDI20260973": {
 "imdb": "tt27739255",
@@ -4885,7 +5103,7 @@
 "enFrom": "tmdb",
 "lbSlug": "charlie-harper",
 "lbRating": 3.34,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "As an ambitious chef and her struggling partner move to a new city to start fresh, the stark divide in their drives tests the limits of their love.",
 "posterPath": "/9Nf8Pluoi1JrT6S0qDsDMndFnlz.jpg"
 },
@@ -5030,8 +5248,9 @@
 "enFrom": "tmdb",
 "lbSlug": "bunker-2026-1",
 "lbRating": 3.13,
-"rated": "2026-11-10",
-"posterPath": "/gPo96q7vKzoCiZlLH4T78FYStk0.jpg"
+"rated": "2026-11-18",
+"posterPath": "/gPo96q7vKzoCiZlLH4T78FYStk0.jpg",
+"overview": "When an architect accepts a morally ambiguous project — building a survivalist bunker for a tech billionaire — his wife of 17 years begins to question their relationship."
 },
 "fw-EDI20261052": {
 "tmdbChecked": "2026-10-01",
@@ -5041,7 +5260,7 @@
 "en": "The Thomas Crown Affair",
 "lbSlug": "the-thomas-crown-affair-2027",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt5500064"
 ],
@@ -5049,7 +5268,9 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A debonair, adventuresome man believes he has pulled off the perfect multi-million dollar heist, only to match wits with an insurance investigator who will do anything to get her man.",
+"posterPath": "/sT1TQeAy1PdRfPIb6rrM2DB7DB.jpg"
 },
 "fw-EDI20261073": {
 "tmdbChecked": "2026-10-01",
@@ -5060,7 +5281,7 @@
 "enFrom": "tmdb",
 "lbSlug": "berlin-hero",
 "lbRating": 3.0,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/o83t6sTDBqN5hhUZZW4uUJNbWEg.jpg",
 "imdbAll": [
 "tt35010081"
@@ -5069,7 +5290,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Micha unwittingly becomes a German hero when a journalist portrays him as the mastermind behind the mass exodus from East Germany."
 },
 "fw-EDI20261082": {
 "tmdbChecked": "2026-10-01",
@@ -5078,8 +5300,8 @@
 "imdb": "tt32528560",
 "en": "A Brief Affair",
 "lbSlug": "a-brief-affair",
-"lbRating": 3.27,
-"rated": "2026-11-10",
+"lbRating": 3.26,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32528560"
 ],
@@ -5107,7 +5329,9 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "In the small community of Åmotfors in Värmland, Olof lives a quiet life as a beekeeper after losing his partner many years ago. All that remains is his teenage daughter Lise, who increasingly seeks to escape the confines of home. Olof struggles to reach her, and grief has long lain buried in silence—until he suddenly falls ill and is forced to confront all that has remained unspoken. With great sensitivity, Marcus Carlsson portrays the different stages of life and reminds us how the fragility between people can hold both pain and light.",
+"posterPath": "/txmqhFSOujA0GTmDSsH9lDjpZXY.jpg"
 },
 "fw-EDI20261141": {
 "tmdbChecked": "2026-10-01",
@@ -5116,8 +5340,8 @@
 "imdb": "tt38058097",
 "en": "Club Kid",
 "lbSlug": "club-kid",
-"lbRating": 4.41,
-"rated": "2026-11-10",
+"lbRating": 4.44,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt38058097"
 ],
@@ -5136,8 +5360,8 @@
 "imdb": "tt27369017",
 "en": "Hope",
 "lbSlug": "hope-2026",
-"lbRating": 3.15,
-"rated": "2026-11-10",
+"lbRating": 3.14,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt27369017"
 ],
@@ -5172,8 +5396,8 @@
 "imdb": "tt37967547",
 "en": "Ink",
 "lbSlug": "ink-2026",
-"lbRating": 3.44,
-"rated": "2026-11-10",
+"lbRating": 3.43,
+"rated": "2026-11-18",
 "posterPath": "/aZECpoGsveEXtxogaz0GMiyVB6n.jpg",
 "imdbAll": [
 "tt37967547"
@@ -5203,7 +5427,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-devils",
 "lbRating": 4.28,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "In 1634 France, charismatic Father Urbain Grandier becomes the target of sexually depraved Sister Jeanne's accusations of witchcraft, which corrupt officials of church and state are all too happy to exploit.​​​​​​​​​​​​​​​​",
 "posterPath": "/y1k7eiOFc6fzm8XeTa1kNGx6JIs.jpg"
 },
@@ -5219,7 +5443,9 @@
 "enFrom": "tmdb",
 "lbSlug": "john-rambo",
 "lbRating": null,
-"rated": "2026-11-10"
+"rated": "2026-11-10",
+"overview": "The origin story of a young John Rambo during the Vietnam War.",
+"posterPath": "/nNgeEw5b9cc1UFTEyLhlAQT3UG9.jpg"
 },
 "fw-EDI20261220": {
 "tmdbChecked": "2026-10-01",
@@ -5229,7 +5455,7 @@
 "en": null,
 "lbSlug": "la-bola-negra",
 "lbRating": 4.46,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt35511966"
 ],
@@ -5249,7 +5475,7 @@
 "en": "Minotaur",
 "lbSlug": "minotaur-2026",
 "lbRating": 3.71,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt37118301"
 ],
@@ -5257,7 +5483,9 @@
 "rt": "m/minotaur_2026",
 "mc": "movie/minotaur",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "When Gleb, a successful company director, finds himself under siege from mounting corporate pressures, an increasingly unstable world, and the discovery of his wife's affair, the collapse of his carefully ordered life accelerates toward violence.",
+"posterPath": "/bM37B5CuMWrPyGPpNsKzTGict4Q.jpg"
 },
 "fw-EDI20261230": {
 "tmdbChecked": "2026-10-01",
@@ -5266,8 +5494,8 @@
 "imdb": "tt36415529",
 "en": "Behemoth!",
 "lbSlug": "behemoth-2026",
-"lbRating": 3.55,
-"rated": "2026-11-10",
+"lbRating": 3.54,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt36415529"
 ],
@@ -5291,7 +5519,8 @@
 "rated": "2026-11-10",
 "posterPath": "/4Le0CZgOhEDCG4aTzEOB3sNVHAD.jpg",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A remake of Andrzej Zulawski's 1981 cult horror. Plot TBA."
 },
 "fw-EDI20261256": {
 "tmdbChecked": "2026-10-01",
@@ -5300,8 +5529,8 @@
 "imdb": "tt11995650",
 "en": "I Play Rocky",
 "lbSlug": "i-play-rocky",
-"lbRating": 3.72,
-"rated": "2026-11-10",
+"lbRating": 3.78,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt11995650"
 ],
@@ -5321,7 +5550,7 @@
 "en": null,
 "lbSlug": "delivery-boy-2026",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-04",
 "overview": "A young food delivery rider, who dreams of becoming a police officer, is forced to steal money to save his critically injured mother. Months later, when he discovers that the same man has been falsely accused of murder, he risks everything to save the life he once unknowingly changed forever.",
@@ -5351,7 +5580,7 @@
 "en": "The Fix",
 "lbSlug": "the-fix-2026",
 "lbRating": 2.47,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/9iSkee8DPpwBQI3GhXSTGZJKNYM.jpg",
 "imdbAll": [
 "tt9601292"
@@ -5383,7 +5612,7 @@
 "en": null,
 "lbSlug": "witch-on-the-holy-night",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-05",
 "overview": "Near the end of the Showa era in the late 1980s, in Misaki town, an old mansion is rumored to be the home of a witch. After moving into the mansion, Aoko Aozaki begins to learn sorcery from a young mage, Alice Kuonji, the rumored witch of the mansion. The Aozaki family oversees the land on which Misaki is built and the heir (Aoko) is tasked with protecting it. Mysterious intruders have been disrupting the bounded field in Misaki, leading Alice and Aoko to investigate. A mannequin or puppet attacks them and is incinerated. As this happens, both of them spot someone running away, a civilian who must not get away having seen magic alive. Unexpectedly, a young boy named Soujuurou Shizuki is drawn to the mansion and comes to reside with them as well.",
@@ -5397,7 +5626,7 @@
 "en": "The Day of the Beast",
 "lbSlug": "the-day-of-the-beast",
 "lbRating": 3.69,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt0112922"
 ],
@@ -5412,7 +5641,7 @@
 "fw-EDI20261469": {
 "lbSlug": "speed-racer",
 "lbRating": 3.62,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdb": "tt0811080",
 "imdbAll": [
 "tt0811080"
@@ -5447,8 +5676,8 @@
 "lang": "en",
 "enFrom": "tmdb",
 "lbSlug": "primetime-2026",
-"lbRating": 3.65,
-"rated": "2026-11-10",
+"lbRating": 3.63,
+"rated": "2026-11-18",
 "posterPath": "/lmrulvLbmaejTix1YaMxo1oGhH1.jpg",
 "overview": "In 2006, To Catch a Predator host Chris Hansen sets out to make television history. When a high stakes operation goes fatally wrong, his veneered dream of fame curdles into a nightmare of performative justice."
 },
@@ -5460,9 +5689,11 @@
 "en": null,
 "lbSlug": "lek-med-alfons-aberg",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "",
+"posterPath": ""
 },
 "fw-EDI20261484": {
 "tmdbChecked": "2026-10-01",
@@ -5471,8 +5702,8 @@
 "imdb": "tt37171180",
 "en": "Artificial",
 "lbSlug": "artificial-2026",
-"lbRating": 3.77,
-"rated": "2026-11-10",
+"lbRating": 3.76,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt37171180"
 ],
@@ -5480,7 +5711,9 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "In November 2023, amidst the height of a global AI boom, OpenAI co-founder Ilya Sutskever teamed with the company board to make one of the defining decisions that has drastically reshaped the company as we know it, the firing of current CEO Sam Altman. This controversial decision would lead to immense backlash, ultimately resulting in Altman's return five days later.",
+"posterPath": "/2bz0HPE8OFOqnyvl8sCdVDIg1KX.jpg"
 },
 "fw-EDI20261485": {
 "tmdbChecked": "2026-10-17",
@@ -5495,7 +5728,8 @@
 "posterPath": "/w1nNmvd5nYcoN8kvO55OcCUmE2Z.jpg",
 "lbSlug": "lords-of-war",
 "lbRating": null,
-"rated": "2026-11-10"
+"rated": "2026-11-18",
+"overview": "Yuri Orlov, the world's most famous arms dealer, discovers that he has a son, Anton who is trying to outdo his father by raising an army of mercenaries to fight in America's Middle Eastern conflicts, triggering a father-son rivalry."
 },
 "fw-EDI20261493": {
 "tmdbChecked": "2026-11-17",
@@ -5520,7 +5754,7 @@
 "en": "Elsinore",
 "lbSlug": "elsinore",
 "lbRating": 3.86,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/mTd1B0Nq4vwMRilsf7eGNpdGIrv.jpg",
 "imdbAll": [
 "tt37363222"
@@ -5529,7 +5763,8 @@
 "rt": "m/elsinore",
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "The deeply emotional and inspirational true story of Ian Charleson, a gifted actor whose greatest challenge becomes his greatest triumph. Facing his own mortality with unflinching honesty, wit, and grace, Charleson delivers a courageous performance that becomes a source of healing and inspiration for those around him."
 },
 "fw-EDI20261511": {
 "tmdbChecked": "2026-10-01",
@@ -5539,7 +5774,7 @@
 "en": "Narnia: The Magician's Nephew",
 "lbSlug": "narnia-the-magicians-nephew",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt9077514"
 ],
@@ -5547,7 +5782,9 @@
 "rt": null,
 "mc": "movie/narnia",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Two children discover a wood full of pools leading to other worlds. One takes them to a dead city beneath a dying sun, where they wake a queen who exterminated its population and accidentally bring her back to London.",
+"posterPath": "/yrqR0qquy4JOfqZCsFJV7vJoOSh.jpg"
 },
 "fw-EDI20261518": {
 "tmdbChecked": "2026-10-01",
@@ -5556,8 +5793,8 @@
 "imdb": "tt44766123",
 "en": "NAZA",
 "lbSlug": "naza",
-"lbRating": 4.55,
-"rated": "2026-11-10",
+"lbRating": 4.54,
+"rated": "2026-11-18",
 "posterPath": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg",
 "imdbAll": [
 "tt44766123"
@@ -5594,7 +5831,8 @@
 "lbSlug": "what-lies-between-us-2026",
 "lbRating": 3.55,
 "rated": "2026-11-15",
-"posterPath": "/sk4FKDH3gPiEWQc9zvNbYIFV1VJ.jpg"
+"posterPath": "/sk4FKDH3gPiEWQc9zvNbYIFV1VJ.jpg",
+"overview": "A quiet suburban community is shaken by the alleged sexual assault of a teenage boy by two of his peers. As the town reels, successful real estate agent Anne Sofie discovers her own son may be more involved than she imagined. Determined to protect him and the family's reputation, she makes a choice that sets her on a collision course with the other boys' mothers, Sarah and Ulrikke. As accusations against her son begin to spread, the pressure mounts and to shield her family, Anne Sofie pins the blame on one of the other boys. But as her relationships fracture and her moral compass wavers, she’s forced to make a life-altering decision."
 },
 "fw-EDI20261527": {
 "tmdbChecked": "2026-10-01",
@@ -5605,10 +5843,11 @@
 "enFrom": "tmdb",
 "lbSlug": "monitor-2026",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/4mNVblPF1tTRok3PINiQnZW7RMl.jpg",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A social media moderator unleashes a deadly terror when she refuses to publish a cryptic video."
 },
 "fw-EDI20261531": {
 "tmdbChecked": "2026-10-01",
@@ -5618,7 +5857,7 @@
 "en": "The Debut",
 "lbSlug": "the-debut-2026",
 "lbRating": 4.09,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt34718200"
 ],
@@ -5626,7 +5865,9 @@
 "rt": "m/the_debut_2026",
 "mc": "movie/the-debut-2026",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "When Mona Friedman is cast in a bit part at a small community theater, she transforms from a shy, unassuming housewife into a zealous method actor willing to do anything to protect the artistic integrity of her marginal role—even if it means waging war against the show’s domineering director.",
+"posterPath": "/5CZdxLiBpYMBXwo0rur6YzZTVP4.jpg"
 },
 "fw-EDI20261558": {
 "imdb": "tt0208502",
@@ -5688,29 +5929,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
-},
-"fw-EDI20261617": {
-"imdb": "tt0093437",
-"imdbAll": [
-"tt0093437"
-],
-"lb": "the-lost-boys",
-"rt": "m/lost_boys",
-"mc": "movie/the-lost-boys",
-"en": "The Lost Boys",
-"v": 4,
 "checked": "2026-10-05",
-"tmdbChecked": "2026-10-05",
-"tv": 2,
-"tmdb": 1547,
-"lang": "en",
-"enFrom": "tmdb",
-"lbSlug": "the-lost-boys",
-"lbRating": 3.68,
-"rated": "2026-11-14",
-"overview": "When an unsuspecting town newcomer is drawn to local blood fiends, the Frog brothers and other unlikely heroes gear up to rescue him.",
-"posterPath": "/nH1lvyQvfbL5GKScTtT6zkIvDEn.jpg"
+"overview": "When a group of fame-seeking wannabe \"ghosthunters\" find themselves in over their heads, things spiral wildly and terrifyingly out of control."
 },
 "fw-EDI20261653": {
 "imdb": "tt46619473",
@@ -5768,8 +5988,9 @@
 "enFrom": "tmdb",
 "lbSlug": "babies-2026-1",
 "lbRating": 3.54,
-"rated": "2026-11-10",
-"posterPath": "/qthjxiZ2cNvyQvVbbJz6rfUCEgk.jpg"
+"rated": "2026-11-18",
+"posterPath": "/qthjxiZ2cNvyQvVbbJz6rfUCEgk.jpg",
+"overview": "Struggling with the decision of whether or not to bring a child into the world, Annie and her husband Aaron become instant co-parents when their newly-divorced friend moves into their home with her 4-year-old. An ensemble comedy drama about the journey to parenthood... or not."
 },
 "fw-EDI20261673": {
 "imdb": "tt33085567",
@@ -5826,7 +6047,7 @@
 "lang": "de",
 "lbSlug": "no-mercy-2025-1",
 "lbRating": 3.51,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "From the starting point of her admiration for the pioneering Ukrainian filmmaker Kira Muratova (1934-2018), the director poses a question: is cinema made by women really tougher, more violent? Seeking answers, she talks to great contemporary filmmakers like Catherine Breillat, Virginie Despentes, Alice Diop, Céline Sciamma, Ana Lily Amirpour, and Monika Treut, among others. It becomes obvious that the cinema screen is a space for the projection of real social problems and power relations.",
 "posterPath": "/1gPUuYRtZKVjEKzGuHjLv7YlIuj.jpg"
 },
@@ -5846,16 +6067,16 @@
 "tmdb": 1601856,
 "lang": "de",
 "lbSlug": "gropiusstadt-supernova",
-"lbRating": null,
-"rated": "2026-11-10",
+"lbRating": 3.44,
+"rated": "2026-11-18",
 "overview": "Berlin-Gropiusstadt, a prefabricated housing estate on the outskirts of the city. On the last day of the year, three young people are at a turning point: Tarik receives a letter about his impending deportation, Stella gets accepted to an acting school abroad, and Luan wakes up from a nightmare in which he is left behind by both of them.",
 "posterPath": "/gXndvkCJ1DCtJYi1dioD7GbuOWe.jpg"
 },
 "fw-EDI20261679": {
-"v": 4,
-"checked": "2026-11-10",
 "tmdbChecked": "2026-11-17",
-"tv": 3
+"tv": 3,
+"v": 4,
+"checked": "2026-11-18"
 },
 "fw-EDI20261680": {
 "imdb": "tt39382755",
@@ -5874,7 +6095,7 @@
 "lang": "de",
 "lbSlug": "home-stories-2026",
 "lbRating": 3.15,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "As a contestant in a singing casting show, Lea is asked by the TV team who she is and what makes her special. She doesn't know and begins to slip into different roles in her search for what makes her special, developing an unexpected fascination for her aunt Kati. Kati's return home as head architect for the renovation of the Residenzschloss after many years abroad reunites the family in one place. This reunion raises the hopes of grandparents Friedrich and Christel that they can join forces to give their pension, which has few visitors, a new lease of life.",
 "posterPath": "/8csPkVGtYuaCOa4opwbCdFreSAT.jpg"
 },
@@ -5889,7 +6110,7 @@
 "en": null,
 "lbSlug": "ingeborg-bachmann-someone-who-was-once-me",
 "lbRating": 3.42,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Sandra Hüller portrays Ingeborg Bachmann on an imaginary day in Rome. Regina Schilling’s hybrid film weaves together reenactments, archival footage, and Bachmann’s own writings into a portrait that offers a refreshing new perspective on the author and positions her writings as a reference point in current debates on gender relations and power.",
 "posterPath": "/qKJV8zX23FcoNM3Vx3jtU8S58F8.jpg"
 },
@@ -5903,8 +6124,8 @@
 "imdb": "tt33888334",
 "en": null,
 "lbSlug": "oh-this-unspeakable-void",
-"lbRating": 3.65,
-"rated": "2026-11-10",
+"lbRating": 3.64,
+"rated": "2026-11-18",
 "overview": "At the age of 20, Joachim is unexpectedly accepted into the renowned acting school in Munich and moves into the villa with his grandparents, Inge and Hermann. Between the bizarre challenges of acting school and the eccentric, mostly alcohol-fueled rituals of his grandparents, Joachim tries to find his place in the world — without knowing what role he actually plays in it.",
 "posterPath": "/knxomBCHcmYGTqDF5NnQaN9SLND.jpg"
 },
@@ -5924,8 +6145,8 @@
 "tmdb": 1356474,
 "lang": "de",
 "lbSlug": "babystar",
-"lbRating": 3.32,
-"rated": "2026-11-10",
+"lbRating": 3.3,
+"rated": "2026-11-18",
 "overview": "Luca is an influencer. For as long as she can remember, she has been the star of her parents' family social media business and their only pride and joy. When her parents decide to have another child, things change. Luca feels betrayed and is afraid of no longer being needed by her parents, whose attention remains tied to her performance for the family account.",
 "posterPath": "/vrqHneBh2iDYWvyPzxJqlw2JknT.jpg"
 },
@@ -5946,7 +6167,7 @@
 "lang": "de",
 "lbSlug": "donkey-days",
 "lbRating": 3.34,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Sisters Anna and Charlotte have always fought for their mother’s attention. As old wounds reopen and suck them back to their family home, they unravel mesmerizing mysteries, including anonymous ashes and their mother’s love for a donkey. Will they come to terms with each other?",
 "posterPath": "/wmVdGnrXyB2YkzPMiyBfzyYh7eX.jpg"
 },
@@ -5967,7 +6188,7 @@
 "lang": "de",
 "lbSlug": "you-believe-in-angels-mr-drowak",
 "lbRating": 3.49,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Lena is a cheerful student who firmly believes in happiness and the good in people. As part of a social project, she is sent by the office as a writing coach to Hugo Drowak, who has long since lost his luck and lives alone in a run-down tower block.",
 "posterPath": "/nnjnQ2Z5qeEfQqpECtopk4Z8RPj.jpg"
 },
@@ -6154,8 +6375,8 @@
 "en": "Our Revolution",
 "enFrom": "tmdb",
 "lbSlug": "our-revolution",
-"lbRating": 3.41,
-"rated": "2026-11-10",
+"lbRating": 3.47,
+"rated": "2026-11-18",
 "overview": "He is exuberant, loud, and charismatic. She is courageous, delicate, and warm. Jacek and Grażyna Kuroń are utterly in love and convinced that together they can change the world. They give up their privacy to dedicate their lives to the fight for freedom. Their apartment becomes the \"headquarters\" of the opposition; a meeting place for people willing to risk everything in the name of a better tomorrow.",
 "posterPath": "/xKy9qtcumqXJqCv0Kzx3JiM5C90.jpg"
 },
@@ -6163,7 +6384,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-10",
+"checked": "2026-11-18",
 "tmdb": 1601776,
 "lang": "pl",
 "imdb": null,
@@ -6303,7 +6524,8 @@
 "lbSlug": "coward-2026",
 "lbRating": 3.94,
 "rated": "2026-11-17",
-"posterPath": "/l05jDisMYVVpyAH3zgx1bUqPocZ.jpg"
+"posterPath": "/l05jDisMYVVpyAH3zgx1bUqPocZ.jpg",
+"overview": "Surrounded by brutality but bound by a tender intimacy, two World War I soldiers find a fragile sanctuary of love and art amid the shadows of the Belgian trenches."
 },
 "fw-EDI20261811": {
 "tmdbChecked": "2026-11-17",
@@ -6344,7 +6566,7 @@
 "enFrom": "tmdb",
 "lbSlug": "heat-1995",
 "lbRating": 4.33,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Obsessive master thief Neil McCauley leads a top-notch crew on various daring heists throughout Los Angeles while determined detective Vincent Hanna pursues him without rest. Each man recognizes and respects the ability and the dedication of the other even though they are aware their cat-and-mouse game may end in violence.",
 "posterPath": "/umSVjVdbVwtx5ryCA2QXL44Durm.jpg"
 },
@@ -6426,7 +6648,8 @@
 "lbSlug": "yol-arkadasm-3",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": ""
+"posterPath": "",
+"overview": ""
 },
 "fw-EDI20261840": {
 "v": 4,
@@ -6550,8 +6773,8 @@
 "tv": 2,
 "tmdb": 1261032,
 "lbSlug": "butterfly-2026",
-"lbRating": 3.14,
-"rated": "2026-11-10",
+"lbRating": 3.13,
+"rated": "2026-11-18",
 "overview": "Two sisters raised on a charter resort in Gran Canaria. After 27 years, they reluctantly return to their childhood island to deal with their parents death, and end up with a half-finished esoteric retreat center in the Canary Islands.",
 "posterPath": "/8t5K9PhfCOrn2N8BXdojwbASXnB.jpg"
 },
@@ -6605,8 +6828,8 @@
 },
 "fw-NFD20230388": {
 "lbSlug": "journey-to-the-christmas-star-1976",
-"lbRating": 3.43,
-"rated": "2026-11-10",
+"lbRating": 3.42,
+"rated": "2026-11-18",
 "imdb": "tt0075128",
 "imdbAll": [
 "tt0075128"
@@ -6635,8 +6858,8 @@
 "en": "No Paradise If You Are Killed by a Woman",
 "enFrom": "tmdb",
 "lbSlug": "no-paradise-if-you-are-killed-by-a-woman",
-"lbRating": 3.47,
-"rated": "2026-11-10",
+"lbRating": 3.48,
+"rated": "2026-11-18",
 "overview": "A female Kurdish-Norwegian sniper returns to the battlefield she once escaped, driven by vengeance and by the desperate hope of rescuing her younger sister, still imprisoned by ISIS in Mosul.",
 "posterPath": "/7InHgpBa0YEEbLi7zGgGmgnUt70.jpg"
 },
@@ -6731,7 +6954,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-brothers-gruff-go-on-a-holiday",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-04",
 "overview": "Brothers Gruff decide to have the holiday of a lifetime, but they run into big problems when their dream hotel turns out to be run by a troll who would rather eat his guests!",
@@ -6749,7 +6972,7 @@
 "posterPath": "",
 "lbSlug": "bygd-pa-kjrlighet",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "\"Bygd på kjærlighet\" is based on the real events that led to the birth of Pizza Grandiosa. The film takes us back to the 80s, where a group of Westerners refuse to comply, and instead decide to stand together and take up the fight against the superior power in Oslo. With love, rage, creative inventions and a good dose of madness, they lay the foundation for what turned out to be one of Norway's most famous brands.  \"Bygd på kjærlighet\" is a humorous and heartwarming story about a group of people who can argue about most things, but stand together when it really matters."
 },
 "fw-NOR20240724": {
@@ -6760,10 +6983,11 @@
 "en": null,
 "lbSlug": "vampyr-2027",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/u0rmkQr32u1UkC8GdluAqnVd1de.jpg",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "A struggling author, obsessed with Edvard Munch, finds himself on the verge of madness when he's dragged into a dangerous murder mystery surrounding the world-famous painter."
 },
 "fw-NOR20240726": {
 "tmdbChecked": "2026-11-02",
@@ -6777,7 +7001,7 @@
 "enFrom": "tmdb",
 "lbSlug": "the-class-trip",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "The film follows a junior high school class on a field trip to Auschwitz in Poland. While the adults intend for the students to experience the gravity of history and a profound tragedy firsthand, the teenagers largely view the trip as an opportunity to break away from their parents, drink alcohol, and find romantic partners. These expectations are on a direct collision course with reality.",
 "posterPath": "/3acIM3ZOGSFaiYAEQZTlNTM4mp6.jpg"
 },
@@ -6817,7 +7041,7 @@
 "en": "The Passion of the Christ",
 "lbSlug": "the-passion-of-the-christ",
 "lbRating": 3.63,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt0335345"
 ],
@@ -6847,7 +7071,7 @@
 "enFrom": "tmdb",
 "lbSlug": "edge-of-tomorrow",
 "lbRating": 3.78,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "Major Bill Cage is an officer who has never seen a day of combat when he is unceremoniously demoted and dropped into combat. Cage is killed within minutes, managing to take an alpha alien down with him. He awakens back at the beginning of the same day and is forced to fight and die again... and again - as physical contact with the alien has thrown him into a time loop.",
 "posterPath": "/nBM9MMa2WCwvMG4IJ3eiGUdbPe6.jpg"
 },
@@ -6890,7 +7114,9 @@
 "lbRating": null,
 "rated": "2026-11-14",
 "tmdb": 1798442,
-"lang": "en"
+"lang": "en",
+"overview": "Upon entering the afterlife, Grace finds herself in the limbo of the ‘Waiting Room’. When the room’s unnatural origins begin to surface, she wonders if she’ll make it to Heaven at all.",
+"posterPath": "/zPLor7vHqxZg6n9F5Yas3AeiISd.jpg"
 },
 "fw-SFN20211456": {
 "imdb": "tt15239678",
@@ -6930,7 +7156,9 @@
 "rt": "m/spider_man_beyond_the_spider_verse",
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Hunted by Miguel O'Hara's Spider Society and betrayed by his friends, Miles finds himself in the darkest corners of the Spider-Verse in search of a way home. Knowing that his family has been not only fractured but endangered by his calling, it's a race against the clock for Miles to travel across the wildest reaches of time and space to fight for and reunite everything he holds most dear.",
+"posterPath": "/9KAe39xqyZnv9J4W3DRGdQqX82h.jpg"
 },
 "fw-SFN20231642": {
 "tmdbChecked": "2026-10-01",
@@ -6941,7 +7169,7 @@
 "enFrom": "tmdb",
 "lbSlug": "brightly-shining",
 "lbRating": 3.52,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "v": 4,
 "checked": "2026-10-03",
 "overview": "Christmas is approaching, and when their father loses his job as a Christmas tree seller, Ronja and Melissa take over the responsibility. While their father drowns his sorrows in the Stargate pub, the two girls are forced to fend for themselves and dream of a different reality. It is a film about a father who does his best, but is not enough; about an older sister who has far too big shoes to fill; and about a little sister who never stops hoping.",
@@ -6962,8 +7190,8 @@
 "tv": 2,
 "tmdb": 1052577,
 "lbSlug": "the-nations-gambit",
-"lbRating": 3.29,
-"rated": "2026-11-10",
+"lbRating": 3.3,
+"rated": "2026-11-18",
 "overview": "Norway's Prime Minister is kidnapped by a terrorist who makes only one demand – that the politicians in power play a game of chess over the Prime Minister's life. Each chess piece represents people who work for the state or leaders in society. If the politicians win the game, the prime minister will live, but every piece lost on the chess boards means the loss of a human life. The politicians and their appointed rescue team, the Delta Squad, are faced with an impossible dilemma: can they afford to sacrifice human lives in an attempt to save the Prime Minister? With only 24 hours to win the game and save the prime minister, they have no choice but to play the deadly game.",
 "posterPath": "/xCurrNdWFxem5afCe8B1Xtx7FaX.jpg"
 },
@@ -7040,7 +7268,7 @@
 "en": "Fanny and Alexander",
 "lbSlug": "fanny-and-alexander",
 "lbRating": 4.4,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/q8jlA3Wc1Z987hNKRFA44g5OugC.jpg",
 "imdbAll": [
 "tt0083922"
@@ -7065,10 +7293,10 @@
 "checked": "2026-11-15"
 },
 "fw-UAV20191951": {
-"v": 4,
-"checked": "2026-11-10",
 "tmdbChecked": "2026-11-17",
-"tv": 3
+"tv": 3,
+"v": 4,
+"checked": "2026-11-18"
 },
 "fw-UAV20192209": {
 "imdb": "tt0104431",
@@ -7100,7 +7328,7 @@
 "en": "Eyes Wide Shut",
 "lbSlug": "eyes-wide-shut",
 "lbRating": 3.98,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "posterPath": "/knEIz1eNGl5MQDbrEAVWA7iRqF9.jpg",
 "imdbAll": [
 "tt0120663"
@@ -7200,7 +7428,8 @@
 "rt": "m/shrek_5",
 "mc": "movie/shrek-5",
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "Shrek and Donkey team up for another whirlwind, big-city adventure—this time traveling to the magical city of Further, Further Away to rescue Felicia, who has left the swamp to learn magic."
 },
 "fw-UIP20221470": {
 "imdb": "tt36583977",
@@ -7231,8 +7460,8 @@
 "imdb": "tt33764258",
 "en": "The Odyssey",
 "lbSlug": "the-odyssey-2026",
-"lbRating": 4.34,
-"rated": "2026-11-10",
+"lbRating": 4.33,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt33764258"
 ],
@@ -7252,7 +7481,7 @@
 "en": "Violent Night 2",
 "lbSlug": "violent-night-2",
 "lbRating": null,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "imdbAll": [
 "tt32432428"
 ],
@@ -7281,7 +7510,8 @@
 "rt": null,
 "mc": null,
 "v": 4,
-"checked": "2026-10-05"
+"checked": "2026-10-05",
+"overview": "The second live-action adaptation of the animated trilogy. Plot TBA."
 },
 "fw-WAB20240223": {
 "tmdbChecked": "2026-10-01",
@@ -7290,8 +7520,8 @@
 "imdb": "tt2321555",
 "en": "The Cat in the Hat",
 "lbSlug": "the-cat-in-the-hat-2026",
-"lbRating": 3.12,
-"rated": "2026-11-10",
+"lbRating": 3.08,
+"rated": "2026-11-18",
 "imdbAll": [
 "tt2321555"
 ],
@@ -7332,7 +7562,7 @@
 "checked": "2026-11-14"
 },
 "https-moviescout-ca-movies-10002913": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "tmdb": 1003596,
 "imdb": "tt21357150",
@@ -7342,15 +7572,16 @@
 "tt21357150"
 ],
 "v": 4,
-"checked": "2026-11-17",
+"checked": "2026-11-18",
 "source": "moviescout",
 "lbSlug": "avengers-doomsday",
 "lbRating": null,
 "rated": "2026-11-11",
-"posterPath": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg"
+"posterPath": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg",
+"overview": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered."
 },
 "https-moviescout-ca-movies-10003031": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "tmdb": 1423191,
 "imdb": "tt35538033",
@@ -7360,12 +7591,13 @@
 "tt35538033"
 ],
 "v": 4,
-"checked": "2026-11-17",
+"checked": "2026-11-18",
 "source": "moviescout",
 "lbSlug": "resident-evil-2026",
 "lbRating": 3.74,
 "rated": "2026-11-11",
-"posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
+"posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+"overview": "Medical courier Bryan unwittingly finds himself fighting for survival as one fateful, horrifying night collapses around him in chaos."
 },
 "https-moviescout-ca-movies-10003032": {
 "imdb": "tt38773219",
@@ -7374,14 +7606,15 @@
 "tt38773219"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "ebenezer-2026",
 "lbRating": 3.27,
 "rated": "2026-11-17",
-"posterPath": "/6H2N59jJW1hZEzn2ZdrMvJw5vNI.jpg"
+"posterPath": "/6H2N59jJW1hZEzn2ZdrMvJw5vNI.jpg",
+"overview": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness."
 },
 "https-moviescout-ca-movies-10003070": {
 "imdb": "tt34890576",
@@ -7390,14 +7623,15 @@
 "tt34890576"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "clayface",
 "lbRating": 3.71,
 "rated": "2026-11-11",
-"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg"
+"posterPath": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg",
+"overview": "Matt Hagen's meteoric rise from Gotham street kid to Hollywood leading man is tragically cut short when a local crime boss's actions leave him horribly disfigured. Abandoned by his team and with nothing left, Matt seeks out a cutting edge treatment that miraculously returns him to his former self… but also unexpectedly affects his grip on reality, spiraling him down a destructive path of all-consuming revenge."
 },
 "https-moviescout-ca-movies-10003071": {
 "imdb": "tt39130015",
@@ -7406,14 +7640,15 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "run-terry-run",
 "lbRating": 3.88,
 "rated": "2026-11-13",
-"posterPath": "/sSstsc561xip9s5FKereo1r1I9i.jpg"
+"posterPath": "/sSstsc561xip9s5FKereo1r1I9i.jpg",
+"overview": "The extraordinary story of Canadian icon Terry Fox will be told like never before in Run Terry Run, a new feature-length documentary directed by acclaimed filmmaker Sean Menard. The film offers an intimate, behind-the-scenes look at Terry’s legendary 1980 Marathon of Hope, drawing from 96 reels of never-before-seen footage and unheard audio interviews that have remained untouched for 45 years."
 },
 "https-moviescout-ca-movies-10003072": {
 "imdb": "tt28535715",
@@ -7422,14 +7657,15 @@
 "tt28535715"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "whalefall",
 "lbRating": 3.21,
 "rated": "2026-11-12",
-"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg"
+"posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+"overview": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape."
 },
 "https-moviescout-ca-movies-10003073": {
 "imdb": "tt29611136",
@@ -7438,14 +7674,15 @@
 "tt29611136"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "wicker",
 "lbRating": 3.65,
 "rated": "2026-11-17",
-"posterPath": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg"
+"posterPath": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg",
+"overview": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker. In an otherwise conservative town, this unconventional romance sparks outrage, jealousy and chaos."
 },
 "https-moviescout-ca-movies-10003074": {
 "imdb": "tt14371256",
@@ -7454,14 +7691,15 @@
 "tt14371256"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "klara-and-the-sun",
 "lbRating": 3.1,
 "rated": "2026-11-15",
-"posterPath": "/xqovj2p6HRsgHxN81qYAYF4StgM.jpg"
+"posterPath": "/xqovj2p6HRsgHxN81qYAYF4StgM.jpg",
+"overview": "When Klara, an Artificial Friend who wants nothing more than to find the perfect home, meets Josie, each immediately senses a kindred spirit in the other. Josie has a fraught relationship with her mother and they've suffered great loss, but Klara's innocent wonder and unwavering loyalty begin to heal the family and bring light to Josie's complicated world."
 },
 "https-moviescout-ca-movies-10003179": {
 "imdb": "tt27419420",
@@ -7470,14 +7708,15 @@
 "tt27419420"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "street-fighter-2026",
 "lbRating": 2.77,
 "rated": "2026-11-12",
-"posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg"
+"posterPath": "/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg",
+"overview": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!"
 },
 "https-moviescout-ca-movies-10003196": {
 "imdb": "tt2321555",
@@ -7486,14 +7725,15 @@
 "tt2321555"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-cat-in-the-hat-2026",
 "lbRating": 3.1,
 "rated": "2026-11-13",
-"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg"
+"posterPath": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg",
+"overview": "Assigned his toughest mission yet, the Cat must cheer up siblings Gabby and Sebastian as they adjust to life in a new town. Known for pushing boundaries, this agent of chaos must prove himself or risk losing his magical hat forever."
 },
 "https-moviescout-ca-movies-10003197": {
 "imdb": "tt34384661",
@@ -7502,14 +7742,15 @@
 "tt34384661"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "godzilla-minus-zero",
 "lbRating": 4.02,
 "rated": "2026-11-16",
-"posterPath": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg"
+"posterPath": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
+"overview": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant. There is no third time. Everything ends here."
 },
 "https-moviescout-ca-movies-10003199": {
 "imdb": "tt34966140",
@@ -7518,14 +7759,15 @@
 "tt34966140"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "focker-in-law",
 "lbRating": null,
 "rated": "2026-11-13",
-"posterPath": "/gPdzdeehaoaYqxH2rA6yayEDSsS.jpg"
+"posterPath": "/gPdzdeehaoaYqxH2rA6yayEDSsS.jpg",
+"overview": "Henry, son of Greg and Pam Focker, aims to marry Olivia, a strong-willed former hostage negotiator who appears to be his complete mismatch. To Greg's shock, stepdad Jack Byrnes takes a liking to Olivia, and her unprecedented rise into his Circle of Trust sparks chaos in the family before Jack's 80th birthday party."
 },
 "https-moviescout-ca-movies-10003200": {
 "imdb": "tt32558705",
@@ -7534,14 +7776,15 @@
 "tt32558705"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-hunger-games-sunrise-on-the-reaping",
 "lbRating": null,
 "rated": "2026-11-13",
-"posterPath": "/jNcZH8yplxttRlf0wwqfGGMKHxX.jpg"
+"posterPath": "/jNcZH8yplxttRlf0wwqfGGMKHxX.jpg",
+"overview": "Return to the world of Panem 24 years before the events of The Hunger Games, starting on the morning of the reaping of the 50th Hunger Games, also known as the Second Quarter Quell."
 },
 "https-moviescout-ca-movies-10003201": {
 "imdb": "tt35866986",
@@ -7550,14 +7793,15 @@
 "tt35866986"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "how-to-rob-a-bank-2026",
 "lbRating": 3.1,
 "rated": "2026-11-16",
-"posterPath": "/ifYDZkr2qkHFz87TNVvlxajOxl5.jpg"
+"posterPath": "/ifYDZkr2qkHFz87TNVvlxajOxl5.jpg",
+"overview": "A crew of social media-savvy bank robbers broadcasts their daring heists, unaware that their growing viral fame has put them in the crosshairs of a veteran FBI agent and a brilliant software engineer. Despite the unlikely duo closing in, the crime ring pushes past their limits, putting everything on the line for their most ambitious heist yet."
 },
 "https-moviescout-ca-movies-10003202": {
 "imdb": "tt15799564",
@@ -7566,14 +7810,15 @@
 "tt15799564"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "wild-horse-nine",
 "lbRating": 4.14,
 "rated": "2026-11-12",
-"posterPath": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg"
+"posterPath": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg",
+"overview": "Shortly before the 1973 Chilean coup, CIA agents Chris and Lee are dispatched from Santiago to Easter Island by their bureau chief, MJ. Amongst the Island's iconic statues, and as the longtime partners wrestle with their dark pasts and present conspiracies, Chris's newfound bond with a pair of rebellious students threatens to send everyone’s trip to this remote paradise sideways."
 },
 "https-moviescout-ca-movies-10003203": {
 "imdb": "tt38686316",
@@ -7582,14 +7827,15 @@
 "tt38686316"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "ghost-soldier",
 "lbRating": 2.81,
 "rated": "2026-11-12",
-"posterPath": "/8Y4oJ5iUs3hgPcDB3SIEmsNYjZk.jpg"
+"posterPath": "/8Y4oJ5iUs3hgPcDB3SIEmsNYjZk.jpg",
+"overview": "Henry “Fitz” Fitzgerald has spent years living quietly off the grid, hiding from a past few people know anything about. But when a powerful foreign corporation moves into his hometown to seize his neighbors’ land for a massive payday, Fitz is forced to reveal who he really is: a former Special Forces soldier and advanced weapons developer. Armed with experimental technology, lethal combat skills, and an unwavering code of justice, Fitz wages a one-man war against an enemy that never saw him coming."
 },
 "https-moviescout-ca-movies-10003204": {
 "imdb": "tt11995650",
@@ -7598,14 +7844,15 @@
 "tt11995650"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "i-play-rocky",
 "lbRating": 3.73,
 "rated": "2026-11-13",
-"posterPath": "/xE5tY3lppZUyG7WKKThsuYHuAHr.jpg"
+"posterPath": "/xE5tY3lppZUyG7WKKThsuYHuAHr.jpg",
+"overview": "The electrifying true story about an unknown actor with an unshakable belief that he wasn't just meant to write Rocky—he was meant to be Rocky Balboa. Told \"no\" at every turn, Sylvester Stallone bets everything on himself, holding the line on playing the lead against seemingly impossible odds."
 },
 "https-moviescout-ca-movies-10003230": {
 "imdb": "tt13609648",
@@ -7614,14 +7861,15 @@
 "tt13609648"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "sense-and-sensibility-2026",
 "lbRating": 3.97,
 "rated": "2026-11-12",
-"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg"
+"posterPath": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg",
+"overview": "A charming, witty, and deeply relatable story of love and sisterhood."
 },
 "https-moviescout-ca-movies-10003231": {
 "imdb": "tt2056785",
@@ -7630,14 +7878,15 @@
 "tt2056785"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "wildwood-2026",
 "lbRating": 4.39,
 "rated": "2026-11-12",
-"posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg"
+"posterPath": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg",
+"overview": "Prue and her classmate Curtis are drawn into a magical forest filled with enchanted creatures, loyal allies, and formidable adversaries as they embark on a desperate quest to rescue Prue's abducted baby brother from a murder of crows led by a mysterious woman named Alexandra."
 },
 "https-moviescout-ca-movies-10003243": {
 "imdb": "tt45368240",
@@ -7646,14 +7895,15 @@
 "tt45368240"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "you-can-see-everything",
 "lbRating": 4.58,
 "rated": "2026-11-12",
-"posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg"
+"posterPath": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
+"overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss."
 },
 "https-moviescout-ca-movies-10003250": {
 "imdb": "tt35514120",
@@ -7662,14 +7912,15 @@
 "tt35514120"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "werwulf",
 "lbRating": null,
 "rated": "2026-11-14",
-"posterPath": "/imnkSt4PSQpxIuyiRpJCiLk3SZz.jpg"
+"posterPath": "/imnkSt4PSQpxIuyiRpJCiLk3SZz.jpg",
+"overview": "A harrowing tale of devotion, damnation and the devil within."
 },
 "https-moviescout-ca-movies-10003332": {
 "imdb": "tt36408401",
@@ -7678,28 +7929,27 @@
 "tt36408401"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-further-mis-adventures-of-cliff-booth",
 "lbRating": null,
 "rated": "2026-11-11",
-"posterPath": "/5jO6rhfethzH7xdWl6KCOxCNCzQ.jpg"
+"posterPath": "/5jO6rhfethzH7xdWl6KCOxCNCzQ.jpg",
+"overview": "Eight years after the events of Once Upon a Time in... Hollywood, Cliff Booth returns to a changing Los Angeles. Now working as a fixer in the shadows of the Hollywood studio system, Cliff finds himself entangled in a dangerous web of secrets, crimes and betrayals that will test everything he knows about loyalty and survival."
 },
 "https-moviescout-ca-movies-10003336": {
 "imdb": null,
 "tmdb": 1748404,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
-"lbSlug": "always-yours-never-mine",
-"lbRating": 2.97,
-"rated": "2026-11-17",
-"posterPath": "/sDAbgrVhhdQxkPQwtBWpGhVtJ5b.jpg"
+"posterPath": "/sDAbgrVhhdQxkPQwtBWpGhVtJ5b.jpg",
+"overview": "Across thirty years, several almosts, and timing that is never quite right, two people keep crossing paths – always on the verge of being together, but never quite making it."
 },
 "https-moviescout-ca-movies-10003354": {
 "imdb": "tt26735127",
@@ -7708,14 +7958,15 @@
 "tt26735127"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "jumanji-open-world",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/ntjF2gemedf3ZcWzARGt6cuZlnJ.jpg"
+"posterPath": "/ntjF2gemedf3ZcWzARGt6cuZlnJ.jpg",
+"overview": "Our heroes have escaped the ever-changing jungles of Jumanji before, but this time the game comes to us—as Jumanji breaks free of its console, unleashing its chaos into our world."
 },
 "https-moviescout-ca-movies-10003355": {
 "imdb": "tt30093348",
@@ -7724,14 +7975,15 @@
 "tt30093348"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "mr-irrelevant",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/v9xESDLVKXw9CqzbzA7MNWs1ROT.jpg"
+"posterPath": "/v9xESDLVKXw9CqzbzA7MNWs1ROT.jpg",
+"overview": "The last player selected in the 1983 NFL draft by the New York Giants, underdog John Tuggle, defies expectations on and off the field for head coach Bill Parcells, his newfound love, and his team, proving that remarkable hope and perseverance can transcend even the greatest challenges."
 },
 "https-moviescout-ca-movies-10003357": {
 "imdb": "tt32432428",
@@ -7740,14 +7992,15 @@
 "tt32432428"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "violent-night-2",
 "lbRating": null,
 "rated": "2026-11-12",
-"posterPath": "/7HPvgItDw9NgW3iy4tFRRuGNbuN.jpg"
+"posterPath": "/7HPvgItDw9NgW3iy4tFRRuGNbuN.jpg",
+"overview": "When Santa forgets the true meaning of Christmas, he finds himself in the heart of a lively mall community in desperate need of his help. Sapped of his magic, he’ll need another way to take on the goons threatening the mall, and time is running out. Santa has to rediscover his faith in goodness and call in some last-minute reinforcements from the one person no baddie wants to tangle with: Mrs. Claus."
 },
 "https-moviescout-ca-movies-10003364": {
 "imdb": "tt35606013",
@@ -7756,14 +8009,15 @@
 "tt35606013"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-rescue-2027",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/nb7NUk2fOqeA8FLlRqG2LqKezPW.jpg"
+"posterPath": "/nb7NUk2fOqeA8FLlRqG2LqKezPW.jpg",
+"overview": "A former rodeo cowboy takes matters into his own hands when his daughter is kidnapped for ransom. With her devoted dog by his side, he sets out to bring her home and will stop at nothing to find her."
 },
 "https-moviescout-ca-movies-10003365": {
 "imdb": "tt6779038",
@@ -7772,14 +8026,15 @@
 "tt6779038"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "children-of-blood-and-bone",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/qxUPu92DF5Bo6jcCDhnMTHFPEEc.jpg"
+"posterPath": "/qxUPu92DF5Bo6jcCDhnMTHFPEEc.jpg",
+"overview": "In the world of Orïsha, a young woman goes on a quest to reclaim the magic that was violently stolen from her people. She and her brother ally with the daughter and son of the king to fight back against his brutal rule."
 },
 "https-moviescout-ca-movies-10003375": {
 "tmdbChecked": "2026-11-17",
@@ -7794,14 +8049,15 @@
 "tt5500064"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-thomas-crown-affair-2027",
 "lbRating": null,
 "rated": "2026-11-16",
-"posterPath": "/sT1TQeAy1PdRfPIb6rrM2DB7DB.jpg"
+"posterPath": "/sT1TQeAy1PdRfPIb6rrM2DB7DB.jpg",
+"overview": "A debonair, adventuresome man believes he has pulled off the perfect multi-million dollar heist, only to match wits with an insurance investigator who will do anything to get her man."
 },
 "https-moviescout-ca-movies-10003389": {
 "imdb": "tt36593129",
@@ -7810,14 +8066,15 @@
 "tt36593129"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-comeback-king",
 "lbRating": null,
 "rated": "2026-11-16",
-"posterPath": "/37ii02yqhWAbNYS3VxXYPp9wDGD.jpg"
+"posterPath": "/37ii02yqhWAbNYS3VxXYPp9wDGD.jpg",
+"overview": "A country western star named Aubrey must return to college to earn his long-abandoned degree after a false rumor that he cheated on his girlfriend throws his career into free fall."
 },
 "https-moviescout-ca-movies-10003390": {
 "imdb": "tt34512981",
@@ -7826,14 +8083,15 @@
 "tt34512981"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "ice-age-boiling-point",
 "lbRating": null,
 "rated": "2026-11-16",
-"posterPath": "/mPhAreyZLLcZ9pl4KRyEaqSu1Zv.jpg"
+"posterPath": "/mPhAreyZLLcZ9pl4KRyEaqSu1Zv.jpg",
+"overview": "A dinosaur-and-lava-filled madcap adventure takes Manny, Sid, Diego, Ellie, Buck, acorn-obsessed Scrat – this time joined by Baby Scrat and the enormous Jurassic Scrat – and the rest of the herd to visit never before-seen corners of the treacherous Lost World."
 },
 "https-moviescout-ca-movies-10003411": {
 "imdb": "tt32557122",
@@ -7842,14 +8100,15 @@
 "tt32557122"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-angry-birds-movie-3",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/xyml31x5gu23tOMIFJ43XO4aTD6.jpg"
+"posterPath": "/xyml31x5gu23tOMIFJ43XO4aTD6.jpg",
+"overview": "Red faces his greatest challenge yet—surviving fatherhood… while saving the world."
 },
 "https-moviescout-ca-movies-10003453": {
 "imdb": "tt38077943",
@@ -7858,73 +8117,39 @@
 "tt38077943"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "hexed-2026",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/dZVHrtaZa5MsuPc4gW72e3S9bii.jpg"
-},
-"https-moviescout-ca-movies-10003460": {
-"imdb": "tt35495073",
-"tmdb": null,
-"imdbAll": [
-"tt35495073"
-],
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"source": "moviescout",
-"lbSlug": null,
-"lbRating": null,
-"rated": "2026-11-16"
+"posterPath": "/dZVHrtaZa5MsuPc4gW72e3S9bii.jpg",
+"overview": "An impulsive and unconventional teenage girl named Billie discovers secret magical abilities which, once unleashed, hurtle her into a spectacle-filled journey out of suburbia and into a vast witch realm called Hexe. Forced to team up with her cautious mother, Alice, they uncover family mysteries that could change the world of witches forever."
 },
 "https-moviescout-ca-movies-10003471": {
 "imdb": null,
 "tmdb": 1710024,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
-"lbSlug": "remember-2026-2",
-"lbRating": null,
-"rated": "2026-11-17",
-"posterPath": "/ftLdiSFp7HXZ4wTkZpC5P5ZWVN2.jpg"
+"posterPath": "/ftLdiSFp7HXZ4wTkZpC5P5ZWVN2.jpg",
+"overview": "An estranged couple who have forgotten what it means to love each other find themselves pretending to be together again for the sake of their daughter, whose memory is fading."
 },
 "https-moviescout-ca-movies-10003472": {
 "imdb": null,
 "tmdb": 1770183,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
-"lbSlug": "doctor-who-the-satan-pit",
-"lbRating": null,
-"rated": "2026-11-17",
-"posterPath": "/zaR2tGiaDjbenNAWMYKo6E7zmRB.jpg"
-},
-"https-moviescout-ca-movies-10003477": {
-"imdb": "tt15239678",
-"tmdb": 693134,
-"imdbAll": [
-"tt15239678"
-],
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"source": "moviescout",
-"lbSlug": "dune-part-two",
-"lbRating": 4.37,
-"rated": "2026-11-15",
-"posterPath": "/6izwz7rsy95ARzTR3poZ8H6c5pp.jpg"
+"posterPath": "/zaR2tGiaDjbenNAWMYKo6E7zmRB.jpg",
+"overview": "Join the Doctor and Rose as they travel to Sanctuary Base 6, a remote outpost perched on a planet orbiting a black hole. When an ancient force awakens beneath the surface, the crew find themselves trapped in a battle against an evil older than time itself."
 },
 "https-moviescout-ca-movies-10003551": {
 "imdb": "tt0407887",
@@ -7933,14 +8158,15 @@
 "tt0407887"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-departed",
 "lbRating": 4.35,
 "rated": "2026-11-13",
-"posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg"
+"posterPath": "/nT97ifVT2J1yMQmeq20Qblg61T.jpg",
+"overview": "To take down South Boston's Irish Mafia, the police send in one of their own to infiltrate the underworld, not realizing the syndicate has done likewise. While an undercover cop curries favor with the mob kingpin, a career criminal rises through the police ranks. But both sides soon discover there's a mole among them."
 },
 "https-moviescout-ca-movies-10003557": {
 "imdb": "tt1324999",
@@ -7949,14 +8175,15 @@
 "tt1324999"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-twilight-saga-breaking-dawn-part-1",
 "lbRating": 2.77,
 "rated": "2026-11-14",
-"posterPath": "/qs8LsHKYlVRmJbFUiSUhhRAygwj.jpg"
+"posterPath": "/qs8LsHKYlVRmJbFUiSUhhRAygwj.jpg",
+"overview": "Bella Swan and Edward Cullen's honeymoon phase is abruptly disrupted by betrayals and unforeseen tragedies that endanger their world."
 },
 "https-moviescout-ca-movies-10003558": {
 "imdb": "tt1673434",
@@ -7965,14 +8192,15 @@
 "tt1673434"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "the-twilight-saga-breaking-dawn-part-2",
 "lbRating": 3.02,
 "rated": "2026-11-12",
-"posterPath": "/7IGdPaKujv0BjI0Zd0m0a4CzEjJ.jpg"
+"posterPath": "/7IGdPaKujv0BjI0Zd0m0a4CzEjJ.jpg",
+"overview": "After the birth of Renesmee, the Cullens gather other vampire clans in order to protect the child from a false allegation that puts the family in front of the Volturi."
 },
 "https-moviescout-ca-movies-10003610": {
 "imdb": "tt46666063",
@@ -7981,14 +8209,15 @@
 "tt46666063"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "festive-fun-with-peppa",
 "lbRating": null,
 "rated": "2026-11-14",
-"posterPath": "/m73eSyjsue3zTorttAJbckNVJtA.jpg"
+"posterPath": "/m73eSyjsue3zTorttAJbckNVJtA.jpg",
+"overview": "Join Peppa Pig and her family as they celebrate baby Evie’s first Christmas. This festive cinema experience brings together seven classic festive-themed Peppa Pig episodes, new interstitial content, and four brand-new songs with music videos. From snowy adventures and festive plays to decorating the Christmas tree, Peppa and her family share treasured Christmas memories in this special big-screen experience."
 },
 "https-moviescout-ca-movies-10003611": {
 "imdb": "tt42870035",
@@ -7997,14 +8226,15 @@
 "tt42870035"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "giant-2026-1",
 "lbRating": null,
 "rated": "2026-11-17",
-"posterPath": "/mI3F2JdhxQuXiCoWKAtAZssQVkj.jpg"
+"posterPath": "/mI3F2JdhxQuXiCoWKAtAZssQVkj.jpg",
+"overview": "Set in the summer of 1983, just before the release of The Witches, Giant imagines a tense meeting between Roald Dahl and his American and British publishers as they scramble to contain the fallout from his public denunciation of Israel and defence of the Palestinians in a review of a book on the 1982 Lebanon war. Filmed live onstage at the Harold Pinter Theatre in London's West End in 2025."
 },
 "https-moviescout-ca-movies-10003613": {
 "imdb": "tt50486016",
@@ -8013,14 +8243,29 @@
 "tt50486016"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "bts-world-tour-arirang-in-kaohsiung-live",
 "lbRating": null,
 "rated": "2026-11-14",
-"posterPath": "/kbwAR849GqMmZs01Uwm5MXL6CWd.jpg"
+"posterPath": "/kbwAR849GqMmZs01Uwm5MXL6CWd.jpg",
+"overview": "The record-breaking journey continues as BTS’s history-making tour across Asia makes its way to the big screen. Join the roar of the crowds in Kaohsiung in November and experience the breathtaking performances and electrifying energy of BTS’s stadium tour. Don't miss your chance to witness BTS WORLD TOUR 'ARIRANG' in all its glory in cinemas worldwide."
+},
+"https-moviescout-ca-movies-10003623": {
+"imdb": "tt41902195",
+"tmdb": 1828101,
+"imdbAll": [
+"tt41902195"
+],
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"source": "moviescout",
+"posterPath": "/d9moHIig8e21mN1RCk8zu80ld3k.jpg",
+"overview": "As Middle-earth's fate hangs in the balance, Sauron reaches the height of his power in his quest for the One Ring."
 },
 "https-moviescout-ca-movies-359230": {
 "imdb": "tt31378509",
@@ -8029,8 +8274,8 @@
 "tt31378509"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "dune-part-three",
@@ -8044,20 +8289,33 @@
 "tt0319343"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "elf",
 "lbRating": 3.45,
 "rated": "2026-11-11",
-"posterPath": "/oOleziEempUPu96jkGs0Pj6tKxj.jpg"
+"posterPath": "/oOleziEempUPu96jkGs0Pj6tKxj.jpg",
+"overview": "When young Buddy falls into Santa's gift sack on Christmas Eve, he's transported back to the North Pole and raised as a toy-making elf by Santa's helpers. But as he grows into adulthood, he can't shake the nagging feeling that he doesn't belong. Buddy vows to visit Manhattan and find his real dad, a workaholic."
 },
 "https-moviescout-ca-movies-403590": {
 "v": 4,
 "checked": "2026-11-17",
 "tmdbChecked": "2026-11-17",
 "tv": 3
+},
+"https-moviescout-ca-movies-42160": {
+"imdb": "tt0338348",
+"tmdb": null,
+"imdbAll": [
+"tt0338348"
+],
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"source": "moviescout"
 },
 "https-moviescout-ca-movies-5748": {
 "imdb": "tt0062622",
@@ -8066,14 +8324,15 @@
 "tt0062622"
 ],
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
 "lbSlug": "2001-a-space-odyssey",
 "lbRating": 4.23,
 "rated": "2026-11-14",
-"posterPath": "/ve72VxNqjGM69Uky4WTo2bK6rfq.jpg"
+"posterPath": "/ve72VxNqjGM69Uky4WTo2bK6rfq.jpg",
+"overview": "Humanity finds a mysterious object buried beneath the lunar surface and sets off to find its origins with the help of HAL 9000, the world's most advanced super computer."
 },
 "https-moviescout-ca-movies-58169": {
 "imdb": "tt0795421",
@@ -8085,8 +8344,8 @@
 "mc": "movie/mamma-mia!",
 "en": "Mamma Mia!",
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
 "tv": 3,
 "tmdb": 11631,
 "lang": "en",
@@ -8094,7 +8353,9 @@
 "lbSlug": "mamma-mia",
 "lbRating": 3.87,
 "rated": "2026-11-17",
-"posterPath": "/xYLiCWmAMHJubx5jNZ7HuXKjAbV.jpg"
+"posterPath": "/xYLiCWmAMHJubx5jNZ7HuXKjAbV.jpg",
+"source": "moviescout",
+"overview": "A spirited young bride-to-be living with her single mother on a small Greek island secretly invites three of her mother's ex-boyfriends in hope of finding her biological father to walk her down the aisle."
 },
 "mk-blade-runner": {
 "tmdbChecked": "2026-11-17",
@@ -8400,6 +8661,44 @@
 "posterPath": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg",
 "overview": "Shortly before the 1973 Chilean coup, CIA agents Chris and Lee are dispatched from Santiago to Easter Island by their bureau chief, MJ. Amongst the Island's iconic statues, and as the longtime partners wrestle with their dark pasts and present conspiracies, Chris's newfound bond with a pair of rebellious students threatens to send everyone’s trip to this remote paradise sideways."
 },
+"rv-elf-2003": {
+"imdb": "tt0319343",
+"imdbAll": [
+"tt0319343"
+],
+"lb": "elf",
+"rt": "m/elf",
+"mc": "movie/elf",
+"en": "Elf",
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"tmdb": 10719,
+"lang": "en",
+"enFrom": "tmdb",
+"posterPath": "/oOleziEempUPu96jkGs0Pj6tKxj.jpg",
+"overview": "When young Buddy falls into Santa's gift sack on Christmas Eve, he's transported back to the North Pole and raised as a toy-making elf by Santa's helpers. But as he grows into adulthood, he can't shake the nagging feeling that he doesn't belong. Buddy vows to visit Manhattan and find his real dad, a workaholic."
+},
+"rv-scrooged-1988": {
+"imdb": "tt0096061",
+"imdbAll": [
+"tt0096061"
+],
+"lb": "scrooged",
+"rt": "m/scrooged",
+"mc": "movie/scrooged",
+"en": "Scrooged",
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"tmdb": 9647,
+"lang": "en",
+"enFrom": "tmdb",
+"posterPath": "/uO0znfB2ZzTXA1IS7jkrjNbpkYK.jpg",
+"overview": "Frank Cross is a wildly successful television executive whose cold ambition and curmudgeonly nature has driven away the love of his life. But after firing a staff member on Christmas Eve, Frank is visited by a series of ghosts who give him a chance to re-evaluate his actions and right the wrongs of his past."
+},
 "sr-brunsj-filmklassiker-10-holiday-inn-1942": {
 "imdb": "tt0034862",
 "imdbAll": [
@@ -8418,7 +8717,9 @@
 "enFrom": "tmdb",
 "lbSlug": "holiday-inn",
 "lbRating": 3.23,
-"rated": "2026-11-15"
+"rated": "2026-11-15",
+"overview": "Lovely Linda Mason has crooner Jim Hardy head over heels, but suave stepper Ted Hanover wants her for his new dance partner after fickle Lila Dixon gives him the brush. Jim's supper club, Holiday Inn, is the setting for the chase by Hanover and his manager.",
+"posterPath": "/7eZzwqLM1w1Mljg60rzB1zr27lu.jpg"
 },
 "sr-brunsj-filmklassiker-10-it-s-a-wonderful-life-1946": {
 "imdb": "tt0038650",
@@ -8437,7 +8738,7 @@
 "enFrom": "tmdb",
 "lbSlug": "its-a-wonderful-life",
 "lbRating": 4.45,
-"rated": "2026-11-10",
+"rated": "2026-11-18",
 "overview": "George Bailey has spent his entire life giving to the people of Bedford Falls.  All that prevents rich skinflint Mr. Potter from taking over the entire town is George's modest building and loan company.  But on Christmas Eve the business's $8,000 is lost and George's troubles begin.",
 "posterPath": "/bSqt9rhDZx1Q7UZ86dBPKdNomp2.jpg"
 },
@@ -8481,7 +8782,9 @@
 "enFrom": "tmdb",
 "lbSlug": "mamma-mia",
 "lbRating": 3.87,
-"rated": "2026-11-11"
+"rated": "2026-11-11",
+"overview": "A spirited young bride-to-be living with her single mother on a small Greek island secretly invites three of her mother's ex-boyfriends in hope of finding her biological father to walk her down the aisle.",
+"posterPath": "/xYLiCWmAMHJubx5jNZ7HuXKjAbV.jpg"
 },
 "sr-brunsj-filmklassiker-10-white-christmas-1954": {
 "imdb": "tt0047673",
@@ -8501,7 +8804,9 @@
 "enFrom": "tmdb",
 "lbSlug": "white-christmas",
 "lbRating": 3.69,
-"rated": "2026-11-15"
+"rated": "2026-11-15",
+"overview": "Two talented song-and-dance men team up after the war to become one of the hottest acts in show business. In time they befriend and become romantically involved with the beautiful Haynes sisters who comprise a sister act.",
+"posterPath": "/A5kBQsHKbIptxJyELEpHQJROCRj.jpg"
 },
 "sr-izakaya-ghibli-nights-howl-s-moving-castle-2004": {
 "imdb": "tt0347149",
@@ -8520,7 +8825,9 @@
 "lang": "ja",
 "lbSlug": "howls-moving-castle",
 "lbRating": 4.36,
-"rated": "2026-11-15"
+"rated": "2026-11-15",
+"overview": "Sophie, a young milliner, is turned into an elderly woman by a witch who enters her shop and curses her. She encounters a wizard named Howl and gets caught up in his resistance to fighting for the king.",
+"posterPath": "/13kOl2v0nD2OLbVSHnHk8GUFEhO.jpg"
 },
 "sr-izakaya-ghibli-nights-my-neighbor-totoro-1988": {
 "imdb": "tt0096283",
@@ -8539,7 +8846,9 @@
 "lang": "ja",
 "lbSlug": "my-neighbor-totoro",
 "lbRating": 4.19,
-"rated": "2026-11-15"
+"rated": "2026-11-15",
+"overview": "Two sisters move to the country with their father in order to be closer to their hospitalized mother, and discover the surrounding trees are inhabited by Totoros, magical spirits of the forest. When the youngest runs away from home, the older sister seeks help from the spirits to find her.",
+"posterPath": "/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg"
 },
 "sr-tea-treats-tales-about-time-2013": {
 "imdb": "tt2194499",
@@ -8559,7 +8868,9 @@
 "rated": "2026-11-15",
 "tmdb": 122906,
 "lang": "en",
-"enFrom": "tmdb"
+"enFrom": "tmdb",
+"overview": "The night after another unsatisfactory New Year's party, Tim's father reveals to him that the men in their family have the ability to travel through time. They can't change history, but they can change what happens and has happened in their own lives. Thus begins the start of a lesson in learning to appreciate life itself as it is, as it comes, and most importantly, the people living alongside us.",
+"posterPath": "/ls6zswrOZVhCXQBh96DlbnLBajM.jpg"
 },
 "sr-tea-treats-tales-billy-elliot-the-musical-2014": {
 "imdb": "tt4085696",
@@ -8578,7 +8889,9 @@
 "lang": "en",
 "lbSlug": "billy-elliot-the-musical-live",
 "lbRating": 4.1,
-"rated": "2026-11-15"
+"rated": "2026-11-15",
+"overview": "In County Durham, England, 1984, a talented young dancer, Billy Elliot, stumbles out of the boxing ring and onto the ballet floor. He faces many trials and triumphs as he strives to conquer his family’s set ways, inner conflict, and standing on his toes in a musical that questions masculinity, gender norms and conformity.",
+"posterPath": "/cVe13jzHzWNOpv02xdDuozbIJBm.jpg"
 },
 "sr-tea-treats-tales-bridget-jones-s-diary-2001": {
 "imdb": "tt0243155",
@@ -8598,6 +8911,8 @@
 "enFrom": "tmdb",
 "lbSlug": "bridget-joness-diary",
 "lbRating": 3.49,
-"rated": "2026-11-15"
+"rated": "2026-11-15",
+"overview": "Bridget Jones is an average woman struggling against expectations. As a New Year's resolution, Bridget decides to take control of her life, starting by keeping a diary in which she will always tell the complete truth. Her charming boss takes an interest in her, and she cannot stop running into a rather disagreeable acquaintance whom Bridget cannot help finding quietly attractive.",
+"posterPath": "/olMTi7uCaec9Yr3Ar07D2SIja1G.jpg"
 }
 }
