@@ -144,7 +144,7 @@ async function site() {
       return box && { title: box.querySelector("h3").textContent, groups: [...box.querySelectorAll(".worow")].map((g) => g.querySelector("h4").firstChild.textContent + ": "
         + [...g.querySelectorAll(".wostub .t")].map((n) => n.textContent).join(", ")), link: box.querySelector(".wofoot a")?.href || "", text: box.textContent };
     });
-    check(wo?.title === "Watch at home in Norway", `where to watch, in this location's country (${wo?.title})`);
+    check(wo?.title === "Watch at home", `where to watch, with no country named (${wo?.title})`);
     check(JSON.stringify(wo?.groups) === JSON.stringify(["Stream: Netflix, Max", "Rent: Apple TV"]), `grouped as the update stored them (${JSON.stringify(wo?.groups)})`);
     check(wo?.link.startsWith("https://www.themoviedb.org/") && /Data from JustWatch/.test(wo?.text || ""), "links to all options, credits JustWatch");
     check(!/Crave|Canada/.test(wo?.text || ""), "nothing from another country");
@@ -163,9 +163,8 @@ async function site() {
     check((await page.$eval("#filmTitle", (e) => e.textContent)) === "Ukjent kortfilmprogram", "a link to a film no location lists opens its page");
     const pill2 = await page.$eval("#film .lbpill", (a) => ({ text: a.textContent.trim(), href: a.href }));
     check(pill2.text.startsWith("Search") && pill2.href.includes("/search/films/"), `Letterboxd: nothing known, a search (${JSON.stringify(pill2)})`);
-    await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
-    const none = await page.$eval("#film", (d) => d.querySelector(".watchopts .wonone")?.textContent || "");
-    check(none.startsWith("Not available to stream, rent or buy in Norway as far as we know (checked 5 Jan)"), `checked, nothing found, says so ("${none}")`);
+    await page.waitForTimeout(800);  // its where-to-watch row (checked, nothing found) has arrived by now
+    check(watchAsked.includes("fw-nomatch|NO") && !(await page.$("#film .watchopts")), "checked, nothing found and no date: says nothing");
 
     await page.goto(base + "#film/fw-old-listing");
     await page.waitForSelector("#film[open] .ghostnote");
@@ -208,7 +207,7 @@ async function site() {
     }, { options: { rent: [{ name: "Viaplay", logo: "" }] } });
     check(/^Cinema premiere Thu 29 Jan 2099\. No showings announced in Oslo yet\./.test(coming.note), `before its cinema premiere: the date ("${coming.note}")`);
     check(!/Bergen|Trondheim/.test(coming.text), "a film showing only in other cities doesn't name them");
-    check(/Watch at home in Norway/.test(coming.text) && /Viaplay/.test(coming.text), "a listed film with no showings yet also says where to watch it");
+    check(/Watch at home/.test(coming.text) && /Viaplay/.test(coming.text), "a listed film with no showings yet also says where to watch it");
     check(coming.line === "0px", `no second line under the header (${coming.line})`);
     const past = await sheetOf(() => {
       const f = state.data.films[1];
@@ -216,7 +215,8 @@ async function site() {
       return f.id;
     }, { options: { digital: "2099-12-12" } });
     check(/^No showings in Oslo right now\./.test(past.note) && !/premiere|2020/i.test(past.text), `after its cinema premiere: no date ("${past.note}")`);
-    check(/Not available yet\. Digital release in Norway: 12 Dec 2099, usually to rent or buy first\./.test(past.text), "nothing to watch yet: its digital release date");
+    check(/Not available yet\. Digital release: 12 Dec 2099, usually to rent or buy first\./.test(past.text) && !/Norway/.test(past.text),
+      "nothing to watch yet: its digital release date, no country named");
 
     // Hearts don't send anything but the watchlist itself: no "marks" any more.
     await page.goto(base);
