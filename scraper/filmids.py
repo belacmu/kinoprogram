@@ -515,5 +515,25 @@ def remember(reg, region, films):
             reg.films[fid]["meta"] = merge_meta(reg.films[fid].get("meta"), card(f, region))
 
 
+def watchlisted():
+    """Every id on any signed-in watchlist (the database's), or [] without it."""
+    if not _config()[0]:
+        return []
+    try:
+        return sorted({i for r in _rows("profiles", "select=watchlist") for i in (r.get("watchlist") or [])})
+    except Exception as e:
+        print(f"  ! film ids: reading watchlists failed: {e}", file=sys.stderr)
+        return []
+
+
+def mark(ids):
+    """Mark films as wanted (film_marks), as a watchlist heart does. Never raises."""
+    for k in range(0, len(ids), 200):
+        try:
+            _request("rpc/mark_watchlisted", {"ids": ids[k:k + 200]})
+        except Exception as e:
+            print(f"  ! film ids: marking failed: {e}", file=sys.stderr)
+
+
 def load_history():
     return json.loads(HISTORY.read_text()) if HISTORY.exists() else {}

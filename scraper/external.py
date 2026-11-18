@@ -591,3 +591,54 @@ def fill_cards(reg):
         done += 1
     if done:
         print(f"  film cards: {done} filled from TMDB ({max(0, len(todo) - done)} to go)")
+
+
+# ---------------------------------------------------------------- watchlist films from before films were kept
+RECOVER_BUDGET = 40  # films created per run (one or two TMDB requests each)
+
+
+def recover_films(reg, ids, history, now_iso):
+    """Watchlist ids no film is known by: films that left the cinemas before the film registry began (2026-11-14), so the database
+    never had them. The listing's TMDB/IMDb match from git history (state/listing-history.json) identifies the film: an id of a film
+    known under another id becomes its alias; otherwise the film is created under that id from TMDB (title and year here; its card is
+    filled by fill_cards). Ids with no match in the history stay unknown. Returns the ids of the films created."""
+    unknown = sorted({i for i in ids if i and i not in reg.aliases and i not in reg.films})
+    created, linked = [], 0
+    for i in unknown:
+        ext = history.get(i) or {}
+        tmdb, imdb = ext.get("tmdb"), ext.get("imdb")
+        if not (tmdb or imdb):
+            continue
+        known = reg.by_ext("tmdb", tmdb) or reg.by_ext("imdb", imdb)
+        if known:  # e.g. the same film from another cinema, recovered just before
+            reg.add_alias(i, known, "history")
+            linked += 1
+            continue
+        if len(created) >= RECOVER_BUDGET or not tmdb_enabled():
+            continue
+        try:
+            if not tmdb:
+                tmdb = next(iter((tmdb_get(f"/find/{imdb}", external_source="imdb_id").get("movie_results") or [])), {}).get("id")
+                if not tmdb:
+                    continue
+                known = reg.by_ext("tmdb", tmdb)
+                if known:
+                    reg.add_alias(i, known, "history")
+                    linked += 1
+                    continue
+            d = tmdb_get(f"/movie/{tmdb}", language="en-US")
+        except Exception as e:
+            print(f"  ! recovering {i}: {e}", file=sys.stderr)
+            continue
+        title = (d.get("title") or d.get("original_title") or "").strip()
+        if not title:
+            continue
+        reg.films[i] = {"title": title, "year": (d.get("release_date") or "")[:4], "tmdb": tmdb, "imdb": imdb or d.get("imdb_id"),
+                        "merged": None, "first": now_iso, "meta": {}}
+        reg.add_alias(i, i, "listing")
+        reg.touched.add(i)
+        created.append(i)
+    left = sum(1 for i in unknown if i not in reg.aliases)
+    if created or linked or left:
+        print(f"  watchlist films from before the registry: {len(created)} recovered, {linked} linked to known films, {left} still unknown")
+    return created

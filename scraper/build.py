@@ -469,7 +469,8 @@ def main(regions=None):
     utc = datetime.now(ZoneInfo("UTC"))
     since = (utc - timedelta(days=2)).strftime("%Y-%m-%d")
     reg = filmids.load(since)
-    resolved = filmids.resolve(reg, {b[0]: b[3] for b in built}, utc.isoformat(), filmids.load_history())
+    history = filmids.load_history()
+    resolved = filmids.resolve(reg, {b[0]: b[3] for b in built}, utc.isoformat(), history)
     for b in built:
         b[3] = resolved[b[0]]
 
@@ -482,6 +483,13 @@ def main(regions=None):
             fail(r, f"writing failed ({e})")
             built.remove(b)
 
+    # Watchlist films that left the cinemas before the registry began: back as films (their cards filled just below).
+    recovered = []
+    if reg.source == "supabase":
+        try:
+            recovered = external.recover_films(reg, filmids.watchlisted(), history, utc.isoformat())
+        except Exception as e:
+            print(f"  ! recovering watchlist films failed: {e}", file=sys.stderr)
     # Each film's card (filmids.py): what this run knows about it, then TMDB's for films that left before cards were kept.
     for r, cfg, now, films in built:
         filmids.remember(reg, r, films)
@@ -506,6 +514,8 @@ def main(regions=None):
             if fid:
                 live.add(fid)
     filmids.sync(reg, [(r, now.strftime(FMT), films) for r, cfg, now, films in built], live, complete, since)
+    if recovered:
+        filmids.mark(recovered)  # wanted, as they're on a watchlist (the database's own marking only saw ids it knew)
     print("Where to watch …")
     watch.update(reg, sorted({cfg["country"] for cfg in REGIONS.values()}))
     github_output(regions=" ".join(b[0] for b in built), failed=" ".join(failed))

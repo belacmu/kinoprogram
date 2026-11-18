@@ -8,6 +8,7 @@ cd "$(dirname "$0")/.."
 echo "== scraper (film ids, cards, where to watch)"
 python3 scraper/test_filmids.py | tail -1
 python3 scraper/test_watch.py | tail -1
+python3 scraper/test_recover.py | tail -1
 echo "== app (syntax)"
 node --check site/app.js && echo "site/app.js ok"
 echo "== database (schema, cards, resolve_films, pruning, plans)"
