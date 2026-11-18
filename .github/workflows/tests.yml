@@ -1,14 +1,16 @@
 name: Tests
 
-# The scraper's film id and card logic, the app's syntax, and the database schema (supabase/tests: applied twice to a scratch
-# Postgres, then checked). No secrets: nothing here touches the real Supabase project or any website.
+# The scraper's film id and card logic, the app's syntax, the database schema (supabase/tests: applied twice to a scratch
+# Postgres, then checked), and the app in a browser (scripts/test-app.js, with today's programme from the live site and a fake
+# Supabase). No secrets: nothing here touches the real Supabase project.
 on:
   push:
     paths:
       - "scraper/**"
       - "supabase/**"
-      - "site/app.js"
       - "scripts/test.sh"
+      - "scripts/test-app.js"
+      - "site/**"
       - ".github/workflows/tests.yml"
   pull_request:
   workflow_dispatch:
@@ -33,6 +35,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright (the browser test)
+        run: |
+          npm install --no-save --no-package-lock --prefix "$RUNNER_TEMP/pw" playwright@1.56.1
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+          echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
       - name: Run the tests
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres

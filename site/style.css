@@ -211,6 +211,9 @@ a.stub:hover { border-color: var(--accent); }
 .stub .nt { font-size: 11px; color: var(--ink); max-width: 28ch; }
 .stub.nosale { border-left-color: var(--muted); border-style: dashed; opacity: .75; }
 .hiddenNote { color: var(--muted); font-size: 13px; padding: 10px 0 0; border-top: 1px solid var(--line); }
+/* The sheet of a film this location doesn't list: why there are no showings, and where it is playing instead. */
+.ghostnote p { color: var(--muted); font-size: 14px; margin: 0; max-width: 62ch; }
+.ghostnote .goregions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 /* account */
 #account h2 { font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
 #account p { margin: 0 0 14px; font-size: 14px; color: var(--muted); }
