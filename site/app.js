@@ -1099,17 +1099,17 @@ function loadWatchOpts(g) {
 function watchHtml(g) {
   const row = state.watchOpts.get(`${g.id}|${curRegion().country}`);
   if (!row) return "";  // not checked, or still loading
-  const country = esc(curRegion().countryName), link = safeUrl(row.link);
+  const link = safeUrl(row.link);
   const stub = (p) => `<${link ? `a href="${esc(link)}" target="_blank" rel="noopener"` : "span"} class="stub wostub">${p.logo
     ? `<img src="https://image.tmdb.org/t/p/w92${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<span class="t">${esc(p.name)}</span></${link ? "a" : "span"}>`;
   const rows = WATCH_KINDS.filter(([k]) => row.options?.[k]?.length)
     .map(([k, label, sub]) => `<div class="day worow"><h4>${label}<small>${sub}</small></h4><div class="stubs">${row.options[k].map(stub).join("")}</div></div>`).join("");
-  const checked = row.checked_at ? shortDay(row.checked_at.slice(0, 10)) : "";
-  // Nothing yet, but a digital release ahead in this country (usually to rent or buy first; streaming tends to come later).
+  // Nothing yet, but a digital release ahead (usually to rent or buy first; streaming tends to come later).
   const digital = !rows && row.options?.digital > localNow().slice(0, 10) ? row.options.digital : "";
-  return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Watch at home in ${country}</h3>${rows
-    || (digital ? `<p class="wonone">Not available yet. Digital release in ${country}: ${esc(shortDay(digital))}, usually to rent or buy first.</p>`
-      : `<p class="wonone">Not available to stream, rent or buy in ${country} as far as we know${checked ? ` (checked ${esc(checked)})` : ""}.</p>`)}
+  // Only when there's something to act on: nothing to watch and no date says nothing (it's obvious for a film not out yet).
+  if (!rows && !digital) return "";
+  return `<section class="watchopts" aria-labelledby="woTitle"><h3 id="woTitle">Watch at home</h3>${rows
+    || `<p class="wonone">Not available yet. Digital release: ${esc(shortDay(digital))}, usually to rent or buy first.</p>`}
     <p class="wofoot">${rows && link ? `<a href="${esc(link)}" target="_blank" rel="noopener">All options and prices ↗</a> · ` : ""}Data from <a href="https://www.justwatch.com" target="_blank" rel="noopener">JustWatch</a></p></section>`;
 }
 // The film sheet of a film this region doesn't list.

@@ -267,16 +267,15 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   a new film and an old one coming back). Otherwise: "No showings in Oslo right now.", plus "Last shown here 2 Nov." for a film that
   played here (known for films no longer listed). A cinema premiere date that has passed is never shown. Then what the watchlist
   heart will do, as before.
-- **Watch at home in <country>**: on any film page with no showings here, under that note, where the film can be watched at home in
-  the location's own country (Norway for Oslo, Canada for Westman and Winnipeg, Spain for Costa del Sol; never another country):
+- **Watch at home**: on any film page with no showings here, under that note, where the film can be watched at home in the
+  location's own country (Norway for Oslo, Canada for Westman and Winnipeg, Spain for Costa del Sol; never another country, and the
+  country isn't named: it's always this location's). **Only when there's something to act on**:
   - **Services known**: laid out like the showings, a day-style row per kind ("Stream · subscription", "Free · no cost", "Free ·
     with ads", "Rent · pay per view", "Buy · to keep"), each service a stub with its logo and name that opens TMDB's page of all
     options and prices for that country; "Data from JustWatch" (required: TMDB's data comes from JustWatch).
-  - **None yet, a digital release ahead in this country**: "Not available yet. Digital release in Norway: 12 Dec, usually to rent
-    or buy first." (TMDB's digital release type; it usually means renting or buying first, streaming later, so it isn't called
-    streaming.)
-  - **None, nothing ahead**: "Not available to stream, rent or buy in Norway as far as we know (checked 5 Jan)."
-  - **Never checked** (no TMDB match, or the next update hasn't run yet): nothing.
+  - **None yet, a digital release ahead**: "Not available yet. Digital release: 12 Dec, usually to rent or buy first." (TMDB's
+    digital release type; it usually means renting or buying first, streaming later, so it isn't called streaming.)
+  - **Nothing, and no date ahead** (always the case for a film not in cinemas yet), or not checked: nothing at all.
   A page with showings never shows it.
 - **When where to watch is checked**: it comes with a film's details (below, "Film information"), for every country and every film
   matched on TMDB, on one schedule for all films (no watchlists involved): a film that has just left the cinemas and has nothing to
