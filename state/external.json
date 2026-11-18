@@ -23,6 +23,9 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
+"lbSlug": "always-yours-never-mine",
+"lbRating": 2.97,
+"rated": "2026-11-18",
 "posterPath": "/sDAbgrVhhdQxkPQwtBWpGhVtJ5b.jpg",
 "overview": "Across thirty years, several almosts, and timing that is never quite right, two people keep crossing paths – always on the verge of being together, but never quite making it."
 },
@@ -74,7 +77,10 @@
 "lang": "en",
 "enFrom": "tmdb",
 "posterPath": "/eOoCzH0MqeGr2taUZO4SwG416PF.jpg",
-"overview": "When a doubting young boy takes an extraordinary train ride to the North Pole, he embarks on a journey of self-discovery that shows him that the wonder of life never fades for those who believe."
+"overview": "When a doubting young boy takes an extraordinary train ride to the North Pole, he embarks on a journey of self-discovery that shows him that the wonder of life never fades for those who believe.",
+"lbSlug": "the-polar-express",
+"lbRating": 3.34,
+"rated": "2026-11-18"
 },
 "cc-bts-world-tour-arirang-in-kaohsiung-2026": {
 "imdb": "tt50486016",
@@ -103,7 +109,10 @@
 "imdb": "tt40304652",
 "en": null,
 "posterPath": "/lmgM5V9izLecJ3XUTqnJsiejwLa.jpg",
-"overview": "Written and Directed by Happy Rode"
+"overview": "Written and Directed by Happy Rode",
+"lbSlug": "chakkven",
+"lbRating": null,
+"rated": "2026-11-18"
 },
 "cc-clayface-2026": {
 "imdb": "tt34890576",
@@ -131,6 +140,9 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
+"lbSlug": "doctor-who-the-satan-pit",
+"lbRating": null,
+"rated": "2026-11-18",
 "posterPath": "/zaR2tGiaDjbenNAWMYKo6E7zmRB.jpg",
 "overview": "Join the Doctor and Rose as they travel to Sanctuary Base 6, a remote outpost perched on a planet orbiting a black hole. When an ancient force awakens beneath the surface, the crew find themselves trapped in a battle against an evil older than time itself."
 },
@@ -449,6 +461,9 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
+"lbSlug": "remember-2026-2",
+"lbRating": null,
+"rated": "2026-11-18",
 "posterPath": "/ftLdiSFp7HXZ4wTkZpC5P5ZWVN2.jpg",
 "overview": "An estranged couple who have forgotten what it means to love each other find themselves pretending to be together again for the sake of their daughter, whose memory is fading."
 },
@@ -606,7 +621,10 @@
 "tv": 3,
 "source": "moviescout",
 "posterPath": "/d9moHIig8e21mN1RCk8zu80ld3k.jpg",
-"overview": "As Middle-earth's fate hangs in the balance, Sauron reaches the height of his power in his quest for the One Ring."
+"overview": "As Middle-earth's fate hangs in the balance, Sauron reaches the height of his power in his quest for the One Ring.",
+"lbSlug": "the-lord-of-the-rings-the-rings-of-power",
+"lbRating": null,
+"rated": "2026-11-18"
 },
 "cc-the-polar-express-2004": {
 "imdb": "tt0338348",
@@ -618,7 +636,10 @@
 "checked": "2026-11-18",
 "tmdbChecked": "2026-11-18",
 "tv": 3,
-"source": "moviescout"
+"source": "moviescout",
+"lbSlug": "the-polar-express",
+"lbRating": 3.34,
+"rated": "2026-11-18"
 },
 "cc-whalefall-2026": {
 "imdb": "tt28535715",
@@ -6660,6 +6681,12 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3
 },
+"fw-EDI20261841": {
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3
+},
 "fw-EDI20261844": {
 "imdb": "tt27610832",
 "imdbAll": [
@@ -7950,6 +7977,9 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
+"lbSlug": "always-yours-never-mine",
+"lbRating": 2.97,
+"rated": "2026-11-18",
 "posterPath": "/sDAbgrVhhdQxkPQwtBWpGhVtJ5b.jpg",
 "overview": "Across thirty years, several almosts, and timing that is never quite right, two people keep crossing paths – always on the verge of being together, but never quite making it."
 },
@@ -8138,6 +8168,9 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
+"lbSlug": "remember-2026-2",
+"lbRating": null,
+"rated": "2026-11-18",
 "posterPath": "/ftLdiSFp7HXZ4wTkZpC5P5ZWVN2.jpg",
 "overview": "An estranged couple who have forgotten what it means to love each other find themselves pretending to be together again for the sake of their daughter, whose memory is fading."
 },
@@ -8150,6 +8183,9 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "source": "moviescout",
+"lbSlug": "doctor-who-the-satan-pit",
+"lbRating": null,
+"rated": "2026-11-18",
 "posterPath": "/zaR2tGiaDjbenNAWMYKo6E7zmRB.jpg",
 "overview": "Join the Doctor and Rose as they travel to Sanctuary Base 6, a remote outpost perched on a planet orbiting a black hole. When an ancient force awakens beneath the surface, the crew find themselves trapped in a battle against an evil older than time itself."
 },
@@ -8267,7 +8303,10 @@
 "tv": 3,
 "source": "moviescout",
 "posterPath": "/d9moHIig8e21mN1RCk8zu80ld3k.jpg",
-"overview": "As Middle-earth's fate hangs in the balance, Sauron reaches the height of his power in his quest for the One Ring."
+"overview": "As Middle-earth's fate hangs in the balance, Sauron reaches the height of his power in his quest for the One Ring.",
+"lbSlug": "the-lord-of-the-rings-the-rings-of-power",
+"lbRating": null,
+"rated": "2026-11-18"
 },
 "https-moviescout-ca-movies-359230": {
 "imdb": "tt31378509",
@@ -8317,7 +8356,10 @@
 "checked": "2026-11-18",
 "tmdbChecked": "2026-11-18",
 "tv": 3,
-"source": "moviescout"
+"source": "moviescout",
+"lbSlug": "the-polar-express",
+"lbRating": 3.34,
+"rated": "2026-11-18"
 },
 "https-moviescout-ca-movies-5748": {
 "imdb": "tt0062622",
@@ -8769,8 +8811,8 @@
 "lbSlug": "love-actually",
 "lbRating": 3.51,
 "rated": "2026-11-11",
-"overview": "Eight very different couples deal with their love lives in various loosely interrelated tales all set during a frantic month before Christmas in London.",
-"posterPath": "/7QPeVsr9rcFU9Gl90yg0gTOTpVv.jpg"
+"posterPath": "/7QPeVsr9rcFU9Gl90yg0gTOTpVv.jpg",
+"overview": "Eight very different couples deal with their love lives in various loosely interrelated tales all set during a frantic month before Christmas in London."
 },
 "sr-brunsj-filmklassiker-10-mamma-mia-2008": {
 "imdb": "tt0795421",
