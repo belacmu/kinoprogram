@@ -7,7 +7,7 @@ by title). A showing's id is "<film id>|<start>|<cinema>" when first seen, froze
 Each film also keeps a card (its "meta": English title, poster, director, running time, description, Letterboxd slug, and the
 last day it played in each region), built up run by run: a run fills in what it learns about the films it lists, and a film no
 longer listed keeps the card it had. So the site can still show a film that has left every cinema (a watchlist film, an old link).
-Finished showings aren't kept: the database drops them (and the plans for them) a couple of days after they've played.
+Finished showings aren't kept: the database drops them a couple of days after they've played, except those someone had a plan for.
 
 The registry of films, aliases and showings lives in Supabase (tables films, film_aliases, showings; filled by sync()). A copy is
 kept in state/film-registry.json, so a run without Supabase still gives every film the same id. Ids are deterministic, so a film
@@ -418,7 +418,7 @@ def gone_cinemas(reg, region, films, now_s):
 def sync(reg, built, live_ids, complete, prune_before):
     """Write this run's films and showings to Supabase. built: [(region, now_s, films)] for the regions built in this run.
     live_ids: every film id in any region's current data. complete: all regions' data is present, so films in none can be marked
-    gone. prune_before ("YYYY-MM-DD"): showings that started before this day are deleted, with the plans for them. Never raises:
+    gone. prune_before ("YYYY-MM-DD"): showings that started before this day are deleted, unless someone had a plan for them. Never raises:
     the site doesn't depend on this."""
     if not _config()[0]:
         return
@@ -461,8 +461,8 @@ def sync(reg, built, live_ids, complete, prune_before):
 
 
 def prune(before):
-    """Delete the showings that started before `before` ("YYYY-MM-DD"), and the plans for them: nothing needs a showing once it has
-    been. Skipped (with a note) while the database doesn't have prune_showings yet."""
+    """Delete the showings that started before `before` ("YYYY-MM-DD") that nobody had a plan for (a past plan keeps its showing).
+    Skipped (with a note) while the database doesn't have prune_showings yet."""
     try:
         n = _request("rpc/prune_showings", {"before": before}, timeout=120)
         if n:

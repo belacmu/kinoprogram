@@ -325,8 +325,9 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   empty value never wipes a known one; a merged film's card gets the other's values); a film no longer listed keeps its card. Films
   that left before cards were kept are filled from TMDB (`external.fill_cards`, 60 a run, once per film); a film without a TMDB
   match keeps only its title and year.
-- **Finished showings aren't kept**: each update deletes the showings that started over two days ago, with the plans for them
-  (`prune_showings`). `state/film-registry.json` likewise keeps only recent showings.
+- **Finished showings aren't kept**, unless someone had a plan for them: each update deletes the showings that started over two
+  days ago and that no plan points at (`prune_showings`). Plans are never deleted this way, so a past plan still has its showing (film,
+  cinema, time; the film's card for the rest). `state/film-registry.json` keeps only recent showings.
 - **`resolve_films(ids)`** (public) gives, for each id asked for (a watchlist's, an old link's), the film it is now (through aliases
   and merges), its card and the regions where it has upcoming showings: one call for everything the app needs about films that
   aren't in the loaded region's data.

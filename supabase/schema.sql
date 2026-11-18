@@ -238,7 +238,8 @@ revoke execute on function public.friends_feed() from anon;
 -- ---------------------------------------------------------------- films and showings (stable ids, docs/stable-ids.md)
 -- Filled by the programme update (scraper/filmids.py) through sync_films() and sync_showings(), with the secret key. Films are never
 -- deleted: a film that disappears gets gone_at, and a merged film points at the film it was merged into. A showing that disappears
--- before it starts gets gone_at; once it has played it's no longer needed, and prune_showings() deletes it (and the plans for it).
+-- before it starts gets gone_at; once it has played, prune_showings() deletes it unless someone had a plan for it (a past plan keeps
+-- its showing: the film, cinema and time it was for).
 -- A film's id is the first listing id it was seen with ("fw-EDI20261336"); every listing id it has had is in film_aliases.
 -- A showing's id is "<film id>|<start>|<cinema>" when first seen, and never changes, even if its film is merged later.
 create table if not exists public.films (
@@ -633,9 +634,10 @@ update public.profiles p set watchlist = watchlist
 where exists (select 1 from unnest(p.watchlist) w join public.film_aliases a on a.alias = w where a.film_id <> w)
    or cardinality(p.watchlist) <> (select count(distinct w) from unnest(p.watchlist) w);
 
--- ---------------------------------------------------------------- finished showings aren't kept
--- Showings that started before `before` ("YYYY-MM-DD", local date; the scraper sends two days ago), and the plans for them, are
--- deleted by each programme update. Films stay, with the last day they played in each region on their card (films.meta.last).
+-- ---------------------------------------------------------------- finished showings aren't kept (unless planned)
+-- Showings that started before `before` ("YYYY-MM-DD", local date; the scraper sends two days ago) are deleted by each programme
+-- update, except those someone had a plan for: plans are never deleted here, so a past plan still says which film, cinema and time it
+-- was for. Films stay, with the last day they played in each region on their card (films.meta.last).
 -- Returns how many showings were deleted. Secret key only.
 create or replace function public.prune_showings(before text)
 returns integer language plpgsql security definer set search_path = '' as $$
@@ -646,9 +648,10 @@ begin
     raise exception 'prune_showings needs a day at least one day ago, "YYYY-MM-DD"' using errcode = '22023';
   end if;
   update public.showings set replaced_by = null
-    where replaced_by in (select id from public.showings where starts < before);
-  delete from public.plans where showing_id in (select id from public.showings where starts < before);
-  delete from public.showings where starts < before;
+    where replaced_by in (select s.id from public.showings s
+                          where s.starts < before and not exists (select 1 from public.plans p where p.showing_id = s.id));
+  delete from public.showings s
+    where s.starts < before and not exists (select 1 from public.plans p where p.showing_id = s.id);
   get diagnostics n = row_count;
   return n;
 end;
