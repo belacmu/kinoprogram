@@ -207,7 +207,11 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   Wikidata and cached in `state/external.json`. Only confident matches (IMDb id, film not series,
   year ±1 using the Norwegian premiere year when Filmweb has no production year, running time
   within 10 min, a single candidate) get direct links; otherwise a Letterboxd search link.
-  Letterboxd is always reached via the IMDb id, never via Wikidata's stored slug.
+  Letterboxd is always reached via the IMDb id, never via Wikidata's stored slug. The Letterboxd pill opens the film's own page
+  whenever we know it exactly (its slug, or its IMDb/TMDB id): with the average rating when there is one, else "Letterboxd ↗";
+  only a film we know nothing about gets "Search ↗". A film's card keeps its slug and rating; films not in the listings without
+  them (those that left before cards kept them, recovered watchlist films) are looked up on Letterboxd once, by their exact id,
+  40 a run, stopping for the run if Letterboxd refuses.
 - Filters: search (Norwegian, English and original title, director, series), time window, my
   cinemas, hide Norwegian dubs, English subtitles only. Nothing is hidden by default.
 - **English titles** are always shown when we found a genuine one (not just the untranslated

@@ -1032,7 +1032,7 @@ const GONE_KEY = "gone", GONE_OPEN = "gone:open";  // its section is shut unless
 function ghostFilm(r) {
   const m = r.meta || {};
   return { id: r.id, ids: [r.id], title: r.title || r.id, alt: "", year: r.year || "", kind: m.kind || "",
-    ext: { en: m.en || "", lb: m.lb || "", imdb: r.imdb || "", tmdb: r.tmdb || "" }, poster: m.poster || "", poster2: "",
+    ext: { en: m.en || "", lb: m.lb || "", imdb: r.imdb || "", tmdb: r.tmdb || "", ...(m.lbRating ? { lbRating: m.lbRating } : {}) }, poster: m.poster || "", poster2: "",
     director: m.director || "", runtime: m.runtime || 0, countries: m.countries || [], genres: m.genres || [], blurb: m.blurb || "",
     links: [], series: [], shows: [], status: "", ghost: { last: m.last || {} } };
 }
@@ -1185,11 +1185,12 @@ function extLinks(f) {
   const lb = x.lb ? `https://letterboxd.com/film/${encodeURIComponent(x.lb)}/`
     : x.imdb ? `https://letterboxd.com/imdb/${x.imdb}/` : x.tmdb ? `https://letterboxd.com/tmdb/${x.tmdb}/` : "";
   const rated = !!(lb && x.lbRating);
-  // No rating to show: the pill says Search and opens a Letterboxd search for the film (its original title when we have it, plus the year).
-  const url = rated ? lb : `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
-  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>Search<i class="sa" aria-hidden="true"> ↗</i></span>`;
+  // The film's own Letterboxd page whenever we know it exactly (its slug, or its IMDb/TMDB id, which Letterboxd resolves), with the
+  // rating if there is one. Only a film we know nothing about gets a Letterboxd search (its original title, plus the year).
+  const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
+  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>${lb ? "Letterboxd" : "Search"}<i class="sa" aria-hidden="true"> ↗</i></span>`;
   return {
-    top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${rated ? "Letterboxd rating" : "Search Letterboxd for this film"}" aria-label="${rated ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : "Search Letterboxd for this film"}">${LB_MARK}${label}</a>`,
+    top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${rated ? "Letterboxd rating" : lb ? "This film on Letterboxd" : "Search Letterboxd for this film"}" aria-label="${rated ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : lb ? "This film on Letterboxd" : "Search Letterboxd for this film"}">${LB_MARK}${label}</a>`,
     menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
   };
 }

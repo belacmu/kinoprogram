@@ -48,7 +48,7 @@ async function site() {
   const Y = new Date().getUTCFullYear();  // dates in this year show without the year
   const FILMS = {
     "cm-gone": { id: "cm-gone", title: "The Last Picture Show", year: "1971", tmdb: 25188, imdb: "tt0067328",
-      meta: { en: "The Last Picture Show", director: "Peter Bogdanovich", runtime: 118, lb: "the-last-picture-show",
+      meta: { en: "The Last Picture Show", director: "Peter Bogdanovich", runtime: 118, lb: "the-last-picture-show", lbRating: 3.94,
         blurb: "A group of 1950s high schoolers come of age in a bleak, isolated, atrophied West Texas town.", last: { oslo: `${Y}-01-02` } },
       gone_at: `${Y}-01-03T00:00:00Z`, regions: [] },
     [there.id]: { id: there.id, title: there.title, year: there.year || "", meta: { last: { winnipeg: `${Y}-01-20` } }, gone_at: null, regions: ["winnipeg"] },
@@ -137,6 +137,8 @@ async function site() {
     check(sheet.title === "The Last Picture Show" && sheet.meta.includes("1971 · 118 min · Directed by Peter Bogdanovich"), `the header comes from the film's card (${sheet.meta})`);
     check(sheet.note.startsWith("No showings in Oslo right now. Last shown here 2 Jan."), `says there are no showings and when it last played ("${sheet.note}")`);
     check(!sheet.menu && sheet.blurb.includes("bleak"), "its description; no share or hide menu");
+    const pill = await page.$eval("#film .lbpill", (a) => ({ text: a.textContent.trim(), href: a.href }));
+    check(pill.text === "3.9" && pill.href === "https://letterboxd.com/film/the-last-picture-show/", `Letterboxd: its rating, linking to the film (${JSON.stringify(pill)})`);
     await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
     const wo = await page.$eval("#film", (d) => {
       const box = d.querySelector(".watchopts");
@@ -160,6 +162,8 @@ async function site() {
     await page.goto(base + "#film/fw-nomatch");
     await page.waitForSelector("#film[open] #filmTitle");
     check((await page.$eval("#filmTitle", (e) => e.textContent)) === "Ukjent kortfilmprogram", "a link to a film no location lists opens its page");
+    const pill2 = await page.$eval("#film .lbpill", (a) => ({ text: a.textContent.trim(), href: a.href }));
+    check(pill2.text.startsWith("Search") && pill2.href.includes("/search/films/"), `Letterboxd: nothing known, a search (${JSON.stringify(pill2)})`);
     await page.waitForSelector("#film .watchopts", { timeout: 5000 }).catch(() => {});
     const none = await page.$eval("#film", (d) => d.querySelector(".watchopts .wonone")?.textContent || "");
     check(none.startsWith("Not available to stream, rent or buy in Norway as far as we know (checked 5 Jan)"), `checked, nothing found, says so ("${none}")`);
