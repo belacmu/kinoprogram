@@ -1185,12 +1185,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-fra-nrk-arkivet-erik-bye": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-12"
-},
 "cm-fra-nrk-arkivet-julekalender-spesial": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
@@ -1421,21 +1415,6 @@
 "tmdb": 382012,
 "lang": "no",
 "enFrom": "tmdb"
-},
-"cm-lost-highway": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 638,
-"imdb": "tt0116922",
-"en": "Lost Highway",
-"imdbAll": [
-"tt0116922"
-],
-"lb": "lost-highway",
-"rt": "m/lost_highway",
-"mc": "movie/lost-highway",
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-min-venninnes-venn": {
 "tmdbChecked": "2026-10-01",
@@ -2136,17 +2115,6 @@
 "tv": 3,
 "v": 4,
 "checked": "2026-11-15"
-},
-"dm-1094853762": {
-"v": 4,
-"checked": "2026-10-19",
-"tmdbChecked": "2026-10-19",
-"tv": 2,
-"tmdb": 1631822,
-"lang": "en",
-"imdb": "tt39643966",
-"en": "Mary Oliver: Saved by the Beauty of the World",
-"enFrom": "tmdb"
 },
 "dm-127862487": {
 "imdb": "tt33077003",
@@ -3625,23 +3593,6 @@
 "v": 4,
 "checked": "2026-10-04"
 },
-"fw-EDI20260850": {
-"imdb": "tt31183803",
-"imdbAll": [
-"tt31183803"
-],
-"lb": "a-prayer-for-the-dying-2026",
-"rt": "m/a_prayer_for_the_dying_2026",
-"mc": null,
-"en": "A Prayer for the Dying",
-"v": 4,
-"checked": "2026-11-10",
-"tmdbChecked": "2026-11-10",
-"tv": 2,
-"tmdb": 1241046,
-"lang": "en",
-"enFrom": "tmdb"
-},
 "fw-EDI20260853": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3755,16 +3706,6 @@
 "en": "Joe's Assignment",
 "enFrom": "tmdb"
 },
-"fw-EDI20260912": {
-"checked": "2026-10-03",
-"tmdbChecked": "2026-10-03",
-"tv": 2,
-"tmdb": 1545391,
-"lang": "sv",
-"imdb": "tt38890302",
-"en": null,
-"v": 4
-},
 "fw-EDI20260913": {
 "imdb": "tt34587446",
 "imdbAll": [
@@ -3848,23 +3789,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20260973": {
-"imdb": "tt27739255",
-"imdbAll": [
-"tt27739255"
-],
-"lb": "charlie-harper",
-"rt": "m/charlie_harper",
-"mc": null,
-"en": "Charlie Harper",
-"v": 4,
-"checked": "2026-11-10",
-"tmdbChecked": "2026-11-10",
-"tv": 2,
-"tmdb": 1126097,
-"lang": "en",
-"enFrom": "tmdb"
-},
 "fw-EDI20260974": {
 "imdb": "tt34383465",
 "imdbAll": [
@@ -3890,23 +3814,6 @@
 "lang": "sv",
 "imdb": "tt43714599",
 "en": "Little Ghost Laban Goes on Pranking",
-"enFrom": "tmdb"
-},
-"fw-EDI20260980": {
-"imdb": "tt39149951",
-"imdbAll": [
-"tt39149951"
-],
-"lb": "american-doctor",
-"rt": "m/american_doctor",
-"mc": null,
-"en": "American Doctor",
-"v": 4,
-"checked": "2026-10-21",
-"tmdbChecked": "2026-10-21",
-"tv": 2,
-"tmdb": 1596332,
-"lang": "en",
 "enFrom": "tmdb"
 },
 "fw-EDI20261025": {
@@ -4107,23 +4014,6 @@
 "mc": "movie/ink",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20261192": {
-"imdb": "tt0066993",
-"imdbAll": [
-"tt0066993"
-],
-"lb": "the-devils",
-"rt": "m/the_devils",
-"mc": "movie/the-devils",
-"en": "The Devils",
-"v": 4,
-"checked": "2026-11-10",
-"tmdbChecked": "2026-11-10",
-"tv": 2,
-"tmdb": 31767,
-"lang": "en",
-"enFrom": "tmdb"
 },
 "fw-EDI20261219": {
 "v": 4,
@@ -5078,6 +4968,22 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "tmdb": 1489396,
+"lang": "hi"
+},
+"fw-EDI20261854": {
+"imdb": "tt28228084",
+"imdbAll": [
+"tt28228084"
+],
+"lb": "king-2026",
+"rt": null,
+"mc": null,
+"en": "King",
+"v": 4,
+"checked": "2026-11-18",
+"tmdbChecked": "2026-11-18",
+"tv": 3,
+"tmdb": 1145110,
 "lang": "hi"
 },
 "fw-FID20210220": {
@@ -6574,23 +6480,6 @@
 "tmdbChecked": "2026-11-18",
 "tv": 3,
 "tmdb": 10719,
-"lang": "en",
-"enFrom": "tmdb"
-},
-"rv-scrooged-1988": {
-"imdb": "tt0096061",
-"imdbAll": [
-"tt0096061"
-],
-"lb": "scrooged",
-"rt": "m/scrooged",
-"mc": "movie/scrooged",
-"en": "Scrooged",
-"v": 4,
-"checked": "2026-11-18",
-"tmdbChecked": "2026-11-18",
-"tv": 3,
-"tmdb": 9647,
 "lang": "en",
 "enFrom": "tmdb"
 },
