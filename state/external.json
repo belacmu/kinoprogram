@@ -958,7 +958,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-11"
+"checked": "2026-11-19"
 },
 "cm-a-better-tomorrow": {
 "tmdbChecked": "2026-10-01",
@@ -4141,7 +4141,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-11"
+"checked": "2026-11-19"
 },
 "fw-EDI20261419": {
 "tmdbChecked": "2026-10-01",
@@ -4865,10 +4865,10 @@
 "enFrom": "tmdb"
 },
 "fw-EDI20261823": {
-"v": 4,
-"checked": "2026-11-11",
 "tmdbChecked": "2026-11-17",
-"tv": 3
+"tv": 3,
+"v": 4,
+"checked": "2026-11-19"
 },
 "fw-EDI20261827": {
 "v": 4,
