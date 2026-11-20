@@ -274,8 +274,8 @@ async function site() {
     check(kept && gone, `Cancel keeps you going, OK takes you off (kept: ${kept}, then off: ${gone})`);
     await page.keyboard.press("Escape");
 
-    // Phones: an open sheet pins the page (iOS would let it scroll under the keyboard) and sits right on top of the keyboard. The
-    // keyboard is played by a stand-in visualViewport reporting a shorter visible area, as iOS does.
+    // Phones: an open sheet pins the page behind it (iOS would let it scroll, e.g. under the keyboard). A stand-in visualViewport
+    // reports a shorter visible area, as iOS does for its address bar and keyboard.
     await page.setViewportSize({ width: 390, height: 844 });
     await page.addInitScript(() => {
       const vv = new EventTarget();
@@ -302,21 +302,17 @@ async function site() {
         return { top: Math.round(r.top), bottom: Math.round(r.bottom), pinned: document.body.style.position, y: window.scrollY };
       });
     };
-    // Safari's address bar shrinking or growing as you scroll also changes the visible height: with nothing being typed, the sheet
-    // stays on the bottom (it used to lift into the air).
+    // The sheet isn't moved for the address bar or the keyboard (moving it fought iOS's own scrolling to the box being typed in).
     const bar = await kb(760);
-    check(bar.bottom === 844, `scrolling (address bar changes, nothing typed): the sheet stays on the bottom (${JSON.stringify(bar)})`);
-    await kb(844);
-    // Typing in a box in the sheet: the keyboard comes up.
+    check(bar.pinned === "fixed" && bar.y === 0, `while a sheet is open the page is pinned (${JSON.stringify(bar)})`);
+    check(bar.bottom === 844, `scrolling (the address bar changes the visible height): the sheet stays on the bottom (${JSON.stringify(bar)})`);
     await page.evaluate(() => {
       document.querySelector("#film .days, #film .ghostnote, #film .fhead").insertAdjacentHTML("beforeend", '<input id="testbox">');
       document.getElementById("testbox").focus();
     });
-    const up = await kb(400);
-    check(up.pinned === "fixed" && up.y === 0, `while a sheet is open the page is pinned (${JSON.stringify(up)})`);
-    check(up.bottom === 400 && up.top >= 0, `with the keyboard up the sheet sits right on top of it, nothing below (${JSON.stringify(up)})`);
-    const down = await kb(844);
-    check(down.bottom === 844, `keyboard gone: back to the bottom of the screen (${JSON.stringify(down)})`);
+    const typing = await kb(400);
+    check(typing.bottom === 844, `typing (keyboard up): the sheet isn't moved; iOS scrolls to the box itself (${JSON.stringify(typing)})`);
+    await kb(844);
     await page.keyboard.press("Escape");
     await page.waitForTimeout(200);
     const after = await page.evaluate(() => ({ pinned: document.body.style.position, y: window.scrollY }));
