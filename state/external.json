@@ -14,8 +14,8 @@
 "tmdb": 1748404,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -64,8 +64,8 @@
 "tt50486016"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -86,8 +86,8 @@
 "tt34890576"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -96,8 +96,8 @@
 "tmdb": 1770183,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -125,16 +125,10 @@
 "tt38773219"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
-},
-"cc-ek-onkar-2026": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-19"
 },
 "cc-elf-2003": {
 "imdb": "tt0319343",
@@ -143,8 +137,8 @@
 "tt0319343"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -155,8 +149,8 @@
 "tt46666063"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -167,8 +161,8 @@
 "tt34966140"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -179,8 +173,8 @@
 "tt38686316"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -202,8 +196,8 @@
 "tt34384661"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -239,6 +233,18 @@
 "tmdb": 1382513,
 "lang": "el"
 },
+"cc-hershey-2026": {
+"imdb": "tt17055444",
+"tmdb": 1461490,
+"imdbAll": [
+"tt17055444"
+],
+"v": 4,
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
+"tv": 3,
+"source": "moviescout"
+},
 "cc-hexed-2026": {
 "imdb": "tt38077943",
 "tmdb": 1538497,
@@ -246,8 +252,8 @@
 "tt38077943"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -274,8 +280,8 @@
 "tt35866986"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -286,8 +292,8 @@
 "tt11995650"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -298,21 +304,16 @@
 "tt14371256"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
-"cc-om-chapter-1-udhiram-the-blood-wood-2026": {
+"cc-om-chapter-one-the-blood-wood-2026": {
 "v": 4,
-"checked": "2026-11-14",
-"tmdbChecked": "2026-11-14",
-"tv": 2,
-"tmdb": 1384528,
-"lang": "ta",
-"imdb": "tt34515768",
-"en": "O.M: Operation Mole",
-"enFrom": "tmdb"
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
+"tv": 3
 },
 "cc-ramayana-rise-of-a-legend-2026": {
 "imdb": "tt27988879",
@@ -335,23 +336,9 @@
 "tmdb": 1710024,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
-"source": "moviescout"
-},
-"cc-resident-evil-2026": {
-"tmdbChecked": "2026-11-19",
-"tv": 3,
-"tmdb": 1423191,
-"imdb": "tt35538033",
-"en": "Resident Evil",
-"enFrom": "tmdb",
-"imdbAll": [
-"tt35538033"
-],
-"v": 4,
-"checked": "2026-11-19",
 "source": "moviescout"
 },
 "cc-run-terry-run-2025": {
@@ -361,8 +348,8 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -373,8 +360,8 @@
 "tt13609648"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -385,8 +372,8 @@
 "tt27419420"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -397,8 +384,8 @@
 "tt2321555"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -409,8 +396,8 @@
 "tt32558705"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -421,8 +408,8 @@
 "tt41902195"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -433,8 +420,8 @@
 "tt0338348"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -445,8 +432,8 @@
 "tt28535715"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -457,8 +444,8 @@
 "tt29611136"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -469,8 +456,8 @@
 "tt15799564"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -481,8 +468,8 @@
 "tt2056785"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -493,8 +480,8 @@
 "tt45368240"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -787,12 +774,6 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
-"cm-11-x14": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-20"
-},
 "cm-13-lakes": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -975,22 +956,6 @@
 "lb": "everything-everywhere-all-at-once",
 "rt": "m/everything_everywhere_all_at_once",
 "mc": "movie/everything-everywhere-all-at-once",
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-exponerad": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 72615,
-"imdb": "tt0067076",
-"en": "Exposed",
-"enFrom": "tmdb",
-"imdbAll": [
-"tt0067076"
-],
-"lb": "exposed-1971",
-"rt": "m/771245533",
-"mc": null,
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -1655,22 +1620,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"db-hands-on-a-hardbody-the-documentary": {
-"imdb": "tt0116481",
-"imdbAll": [
-"tt0116481"
-],
-"lb": "hands-on-a-hardbody-the-documentary",
-"rt": null,
-"mc": null,
-"en": "Hands on a Hard Body: The Documentary",
-"v": 4,
-"checked": "2026-11-14",
-"tmdbChecked": "2026-11-14",
-"tv": 2,
-"tmdb": 18603,
-"lang": "en"
-},
 "db-its-a-wonderful-life-4k-restoration": {
 "imdb": "tt0038650",
 "imdbAll": [
@@ -1714,23 +1663,6 @@
 "lang": "en",
 "imdb": "tt0087763",
 "en": "My Brother's Wedding",
-"enFrom": "tmdb"
-},
-"db-naza": {
-"imdb": "tt44766123",
-"imdbAll": [
-"tt44766123"
-],
-"lb": "naza",
-"rt": "m/naza",
-"mc": "movie/naza",
-"en": "NAZA",
-"v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
-"tv": 3,
-"tmdb": 1755291,
-"lang": "en",
 "enFrom": "tmdb"
 },
 "db-otium": {
@@ -1892,8 +1824,8 @@
 "tt45368240"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -2061,8 +1993,8 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -3808,6 +3740,23 @@
 "v": 4,
 "checked": "2026-10-05"
 },
+"fw-EDI20261192": {
+"imdb": "tt0066993",
+"imdbAll": [
+"tt0066993"
+],
+"lb": "the-devils",
+"rt": "m/the_devils",
+"mc": "movie/the-devils",
+"en": "The Devils",
+"v": 4,
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
+"tv": 3,
+"tmdb": 31767,
+"lang": "en",
+"enFrom": "tmdb"
+},
 "fw-EDI20261219": {
 "v": 4,
 "checked": "2026-11-10",
@@ -4169,23 +4118,6 @@
 "v": 4,
 "checked": "2026-10-05"
 },
-"fw-EDI20261653": {
-"imdb": "tt46619473",
-"imdbAll": [
-"tt46619473"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Instructor",
-"v": 4,
-"checked": "2026-11-01",
-"tmdbChecked": "2026-11-01",
-"tv": 2,
-"tmdb": 1734404,
-"lang": "lt",
-"enFrom": "tmdb"
-},
 "fw-EDI20261654": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
@@ -4502,17 +4434,6 @@
 "tv": 3,
 "tmdb": 1469342,
 "lang": "en",
-"enFrom": "tmdb"
-},
-"fw-EDI20261769": {
-"v": 4,
-"checked": "2026-11-02",
-"tmdbChecked": "2026-11-02",
-"tv": 2,
-"tmdb": 1396056,
-"lang": "pl",
-"imdb": "tt35571123",
-"en": "Our Revolution",
 "enFrom": "tmdb"
 },
 "fw-EDI20261775": {
@@ -5471,7 +5392,7 @@
 "checked": "2026-11-14"
 },
 "https-moviescout-ca-movies-10002913": {
-"tmdbChecked": "2026-11-19",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "tmdb": 1003596,
 "imdb": "tt21357150",
@@ -5481,21 +5402,7 @@
 "tt21357150"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"source": "moviescout"
-},
-"https-moviescout-ca-movies-10003031": {
-"tmdbChecked": "2026-11-19",
-"tv": 3,
-"tmdb": 1423191,
-"imdb": "tt35538033",
-"en": "Resident Evil",
-"enFrom": "tmdb",
-"imdbAll": [
-"tt35538033"
-],
-"v": 4,
-"checked": "2026-11-19",
+"checked": "2026-11-20",
 "source": "moviescout"
 },
 "https-moviescout-ca-movies-10003032": {
@@ -5505,8 +5412,8 @@
 "tt38773219"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5517,8 +5424,8 @@
 "tt34890576"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5529,8 +5436,8 @@
 "tt39130015"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5541,8 +5448,8 @@
 "tt28535715"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5553,8 +5460,8 @@
 "tt29611136"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5565,8 +5472,8 @@
 "tt14371256"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5577,8 +5484,8 @@
 "tt27419420"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5589,8 +5496,8 @@
 "tt2321555"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5601,8 +5508,8 @@
 "tt34384661"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5613,8 +5520,8 @@
 "tt34966140"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5625,8 +5532,8 @@
 "tt32558705"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5637,8 +5544,8 @@
 "tt35866986"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5649,8 +5556,8 @@
 "tt15799564"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5661,8 +5568,8 @@
 "tt38686316"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5673,8 +5580,8 @@
 "tt11995650"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5685,8 +5592,8 @@
 "tt13609648"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5697,8 +5604,8 @@
 "tt2056785"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5709,8 +5616,8 @@
 "tt45368240"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5721,8 +5628,8 @@
 "tt35514120"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5733,8 +5640,8 @@
 "tt36408401"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5743,8 +5650,8 @@
 "tmdb": 1748404,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5755,8 +5662,8 @@
 "tt26735127"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5767,8 +5674,8 @@
 "tt30093348"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5779,8 +5686,8 @@
 "tt32432428"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5791,8 +5698,8 @@
 "tt35606013"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5803,8 +5710,8 @@
 "tt6779038"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5821,8 +5728,8 @@
 "tt5500064"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5833,8 +5740,8 @@
 "tt36593129"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5845,8 +5752,8 @@
 "tt34512981"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5857,8 +5764,8 @@
 "tt32557122"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5869,8 +5776,8 @@
 "tt38077943"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5879,8 +5786,8 @@
 "tmdb": 1710024,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5889,8 +5796,20 @@
 "tmdb": 1770183,
 "imdbAll": [],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
+"tv": 3,
+"source": "moviescout"
+},
+"https-moviescout-ca-movies-10003543": {
+"imdb": "tt17055444",
+"tmdb": 1461490,
+"imdbAll": [
+"tt17055444"
+],
+"v": 4,
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5901,8 +5820,8 @@
 "tt1324999"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5913,8 +5832,8 @@
 "tt1673434"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5925,8 +5844,8 @@
 "tt46666063"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5937,8 +5856,8 @@
 "tt42870035"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5949,8 +5868,8 @@
 "tt50486016"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5961,8 +5880,8 @@
 "tt41902195"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5973,8 +5892,8 @@
 "tt31378509"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -5985,8 +5904,8 @@
 "tt0319343"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -6003,8 +5922,8 @@
 "tt0338348"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -6015,8 +5934,8 @@
 "tt0062622"
 ],
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "source": "moviescout"
 },
@@ -6030,8 +5949,8 @@
 "mc": "movie/mamma-mia!",
 "en": "Mamma Mia!",
 "v": 4,
-"checked": "2026-11-19",
-"tmdbChecked": "2026-11-19",
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
 "tv": 3,
 "tmdb": 11631,
 "lang": "en",
@@ -6217,23 +6136,6 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
-"rv-elf-2003": {
-"imdb": "tt0319343",
-"imdbAll": [
-"tt0319343"
-],
-"lb": "elf",
-"rt": "m/elf",
-"mc": "movie/elf",
-"en": "Elf",
-"v": 4,
-"checked": "2026-11-18",
-"tmdbChecked": "2026-11-18",
-"tv": 3,
-"tmdb": 10719,
-"lang": "en",
-"enFrom": "tmdb"
-},
 "sr-brunsj-filmklassiker-10-holiday-inn-1942": {
 "imdb": "tt0034862",
 "imdbAll": [
@@ -6333,23 +6235,6 @@
 "tv": 2,
 "tmdb": 8392,
 "lang": "ja"
-},
-"sr-tea-treats-tales-about-time-2013": {
-"imdb": "tt2194499",
-"imdbAll": [
-"tt2194499"
-],
-"lb": "about-time",
-"rt": "m/about_time",
-"mc": "movie/about-time",
-"en": "About Time",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"tmdb": 122906,
-"lang": "en",
-"enFrom": "tmdb"
 },
 "sr-tea-treats-tales-billy-elliot-the-musical-2014": {
 "imdb": "tt4085696",
