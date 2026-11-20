@@ -1727,17 +1727,21 @@ function pinPage() {
   fitSheets();
 }
 function fitSheets() {
-  const vv = window.visualViewport, root = document.documentElement.style;
-  if (!vv || pinnedAt === null) { root.removeProperty("--kb"); root.removeProperty("--vvh"); return; }
+  const vv = window.visualViewport, root = document.documentElement.style, a = document.activeElement;
+  // Only while typing in a sheet: the visible area also changes when Safari's address bar shrinks or grows as you scroll, and
+  // the sheet must stay on the bottom then.
+  const typing = a?.matches?.("input, textarea") && a.closest("dialog[open]");
+  if (!vv || pinnedAt === null || !typing) { root.removeProperty("--kb"); root.removeProperty("--vvh"); return; }
   const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
   root.setProperty("--kb", `${kb}px`);
   root.setProperty("--vvh", `${Math.round(vv.height)}px`);
-  const a = document.activeElement;  // the box being typed in stays in view inside the (now shorter) sheet
-  if (kb && a?.matches?.("input, textarea") && a.closest("dialog[open]")) a.scrollIntoView({ block: "nearest" });
+  if (kb) a.scrollIntoView({ block: "nearest" });  // the box being typed in stays in view inside the (now shorter) sheet
 }
 new MutationObserver(pinPage).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["open"] });
 window.visualViewport?.addEventListener("resize", fitSheets);
 window.visualViewport?.addEventListener("scroll", fitSheets);
+document.addEventListener("focusin", fitSheets);
+document.addEventListener("focusout", () => setTimeout(fitSheets));  // after focus has moved on
 
 // Close a modal dialog only on a click on its backdrop. A click on the dialog's own empty space also
 // has the dialog as its target, so check that the point lies outside the dialog's box.
