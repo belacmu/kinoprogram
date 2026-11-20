@@ -1184,11 +1184,3 @@ button.seat2, button.seat { cursor: pointer; }
 /* the time line has empty space under its letters, so the bottom padding is smaller: the card looks even at the top and the bottom */
 .cufilm .curows a { padding: 12px 14px 6px; }
 .cufilm .curows a .cstat, .cufilm .cgo { margin-top: -6px; }  /* the card's padding is lopsided on purpose (see above): keep the status and arrow on the card's middle */
-
-/* Phone sheets and the on-screen keyboard (app.js, fitSheets): the sheet sits on the bottom edge of what's visible above the keyboard
-   (--kb) and is never taller than that (--vvh), so nothing of the page shows between the sheet and the keyboard. */
-@media (max-width: 560px) {
-  #film, #account, #friendsAdd { bottom: var(--kb, 0px); }
-  #film { height: min(80dvh, calc(var(--vvh, 100dvh) - 12px)); max-height: min(80dvh, calc(var(--vvh, 100dvh) - 12px)); }
-  #account, #friendsAdd { max-height: min(92dvh, calc(var(--vvh, 100dvh) - 12px)); }
-}

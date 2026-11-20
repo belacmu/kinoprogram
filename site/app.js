@@ -1707,12 +1707,9 @@ $("film").addEventListener("close", () => {
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search + (state.page === "films" ? "#films" : "#feed"));
   render();  // back in the feed or list: show any heart or hide changes
 });
-// ---------------------------------------------------------------- sheets and the on-screen keyboard (phones)
-// iOS lets the page behind a modal scroll once the keyboard is up (it ignores overflow: hidden then), and it doesn't shrink the page
-// for the keyboard: it pans the view, so a sheet pinned to the bottom ends up with the page showing (and scrolling) between it and the
-// keyboard. So while any dialog is open the page is pinned where it was (position: fixed at its scroll position, put back on close),
-// and the phone sheets sit on the bottom edge of what's visible: --kb is how much of the page the keyboard covers, --vvh the height
-// that's left (style.css).
+// ---------------------------------------------------------------- the page behind an open dialog stays still
+// While any dialog is open the page is pinned where it was (position: fixed at its scroll position, put back on close): iOS lets the
+// page behind scroll otherwise, e.g. while the keyboard is up. Nothing else: the sheets aren't moved or resized for the keyboard.
 let pinnedAt = null;
 function pinPage() {
   const open = !!document.querySelector("dialog[open]"), b = document.body.style;
@@ -1724,24 +1721,8 @@ function pinPage() {
     window.scrollTo(0, pinnedAt);
     pinnedAt = null;
   }
-  fitSheets();
-}
-function fitSheets() {
-  const vv = window.visualViewport, root = document.documentElement.style, a = document.activeElement;
-  // Only while typing in a sheet: the visible area also changes when Safari's address bar shrinks or grows as you scroll, and
-  // the sheet must stay on the bottom then.
-  const typing = a?.matches?.("input, textarea") && a.closest("dialog[open]");
-  if (!vv || pinnedAt === null || !typing) { root.removeProperty("--kb"); root.removeProperty("--vvh"); return; }
-  const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
-  root.setProperty("--kb", `${kb}px`);
-  root.setProperty("--vvh", `${Math.round(vv.height)}px`);
-  if (kb) a.scrollIntoView({ block: "nearest" });  // the box being typed in stays in view inside the (now shorter) sheet
 }
 new MutationObserver(pinPage).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["open"] });
-window.visualViewport?.addEventListener("resize", fitSheets);
-window.visualViewport?.addEventListener("scroll", fitSheets);
-document.addEventListener("focusin", fitSheets);
-document.addEventListener("focusout", () => setTimeout(fitSheets));  // after focus has moved on
 
 // Close a modal dialog only on a click on its backdrop. A click on the dialog's own empty space also
 // has the dialog as its target, so check that the point lies outside the dialog's box.
