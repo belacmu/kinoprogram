@@ -456,6 +456,15 @@ privacy control in the interface yet; the `tell_friends` column stays (always tr
 with "only people I invite". **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
 someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
 
+**Taking yourself off** ("✓ Going" tapped again) deletes your plan, and your invite link goes with it. So when that would cut you off
+from the people going with you, the page asks first ("Not going after all?", the browser's own confirm, as for removing a friend):
+- **Others in your group who aren't your friends, and you didn't join through anyone's link** (e.g. guests you invited): "Anna and Jon
+  are going with you through your invite link. If you take yourself off, your link stops working: you won't be able to see them here
+  any more, and nobody else can join through it." They stay going; you'd only find them again through one of *their* invite links.
+- **You joined through someone's link**: "You joined through an invite link. You'll be taken off the list of who's going, and you'll
+  only see the others again through that link."
+- Going alone, or only with friends (whose plans you see anyway): no question.
+
 **Guests.** A guest is a Supabase anonymous user: a real user id with no email. Creating an account links an email to that same
 user, so nothing is copied or claimed. Needs anonymous sign-in switched on in Supabase, the `handle_new_user` trigger to cope
 with a null email, and bot protection. Retracting going is always possible. No plus-ones (enter several seats), no guest caps,
