@@ -515,6 +515,17 @@
 "en": "The Apartment",
 "enFrom": "tmdb"
 },
+"cl-blade-runner": {
+"tmdbChecked": "2026-11-17",
+"tv": 3,
+"v": 4,
+"checked": "2026-11-13",
+"tmdb": 78,
+"lang": "en",
+"imdb": "tt0083658",
+"en": "Blade Runner",
+"enFrom": "tmdb"
+},
 "cl-bola-negra": {
 "imdb": "tt35511966",
 "imdbAll": [
@@ -704,27 +715,6 @@
 "imdb": "tt36462691",
 "en": null
 },
-"cl-me-entiendes-te-explico": {
-"v": 4,
-"checked": "2026-11-12",
-"tmdbChecked": "2026-11-12",
-"tv": 2,
-"tmdb": 1689901,
-"lang": "es",
-"imdb": "tt42454327",
-"en": "Do You Understand Or Do I Have To Spell It Out For You?",
-"enFrom": "tmdb"
-},
-"cl-miserables": {
-"v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
-"tv": 2,
-"tmdb": 1241803,
-"lang": "fr",
-"imdb": "tt35518109",
-"en": null
-},
 "cl-otra-madre": {
 "v": 4,
 "checked": "2026-10-06",
@@ -758,23 +748,6 @@
 "en": "Pray for Us",
 "enFrom": "tmdb"
 },
-"cl-sacamantecas": {
-"imdb": "tt33296229",
-"imdbAll": [
-"tt33296229"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "The Harvester",
-"v": 4,
-"checked": "2026-11-04",
-"tmdbChecked": "2026-11-04",
-"tv": 2,
-"tmdb": 1371661,
-"lang": "eu",
-"enFrom": "tmdb"
-},
 "cl-scrooge-fantasmas-navidad": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
@@ -797,23 +770,6 @@
 "tmdb": 1744346,
 "lang": "es"
 },
-"cl-victorian-psycho": {
-"imdb": "tt34374553",
-"imdbAll": [
-"tt34374553"
-],
-"lb": null,
-"rt": "m/victorian_psycho",
-"mc": null,
-"en": "Victorian Psycho",
-"v": 4,
-"checked": "2026-11-11",
-"tmdbChecked": "2026-11-11",
-"tv": 2,
-"tmdb": 1379486,
-"lang": "en",
-"enFrom": "tmdb"
-},
 "cl-wild-horse-nine": {
 "imdb": "tt15799564",
 "imdbAll": [
@@ -835,7 +791,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-13-lakes": {
 "tmdbChecked": "2026-10-01",
@@ -917,7 +873,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-celine-og-julie": {
 "tmdbChecked": "2026-10-01",
@@ -1087,7 +1043,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-fullmanenetter": {
 "tmdbChecked": "2026-10-01",
@@ -1263,7 +1219,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-ladyhawke": {
 "imdb": "tt0089457",
@@ -1363,7 +1319,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-of-mud-and-blood": {
 "tmdbChecked": "2026-10-01",
@@ -1472,7 +1428,7 @@
 "imdb": null,
 "en": null,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-sirkus": {
 "tmdbChecked": "2026-10-01",
@@ -1508,7 +1464,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-snekker-andersen-og-julenissen": {
 "tmdbChecked": "2026-10-01",
@@ -1581,7 +1537,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-syk-pike": {
 "imdb": "tt18816518",
@@ -1666,7 +1622,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "cm-vagabond": {
 "imdb": "tt0089960",
@@ -2341,7 +2297,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "fw-EDI20250142": {
 "tmdbChecked": "2026-10-01",
@@ -2473,7 +2429,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "fw-EDI20250728": {
 "tmdbChecked": "2026-10-01",
@@ -3396,7 +3352,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "fw-EDI20260846": {
 "tmdbChecked": "2026-10-01",
@@ -3412,22 +3368,6 @@
 "mc": "movie/wildwood",
 "v": 4,
 "checked": "2026-10-03"
-},
-"fw-EDI20260849": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1084728,
-"imdb": "tt32243339",
-"en": "Asterix: The Kingdom of Nubia",
-"enFrom": "tmdb",
-"imdbAll": [
-"tt32243339"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
 },
 "fw-EDI20260853": {
 "tmdbChecked": "2026-10-01",
@@ -3826,6 +3766,22 @@
 "v": 4,
 "checked": "2026-10-04"
 },
+"fw-EDI20261152": {
+"imdb": "tt29279937",
+"imdbAll": [
+"tt29279937"
+],
+"lb": "elephants-in-the-fog",
+"rt": null,
+"mc": null,
+"en": "Elephants in the Fog",
+"v": 4,
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
+"tv": 3,
+"tmdb": 1661926,
+"lang": "ne"
+},
 "fw-EDI20261155": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -3972,7 +3928,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "fw-EDI20261418": {
 "tmdbChecked": "2026-11-17",
@@ -4071,16 +4027,6 @@
 "imdb": "tt27706987",
 "en": "Lords of War",
 "enFrom": "tmdb"
-},
-"fw-EDI20261493": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-13",
-"tmdb": 1301248,
-"lang": "tr",
-"imdb": "tt43350807",
-"en": null
 },
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
@@ -4737,7 +4683,7 @@
 },
 "fw-EDI20261830": {
 "v": 4,
-"checked": "2026-11-12",
+"checked": "2026-11-20",
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "tmdb": 1764175,
@@ -4886,13 +4832,13 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "fw-KUL20260528": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "fw-KUL20260648": {
 "tmdbChecked": "2026-11-17",
@@ -5288,10 +5234,10 @@
 "checked": "2026-10-03"
 },
 "fw-UAV20190694": {
-"v": 4,
-"checked": "2026-11-12",
 "tmdbChecked": "2026-11-17",
-"tv": 3
+"tv": 3,
+"v": 4,
+"checked": "2026-11-20"
 },
 "fw-UAV20191573": {
 "tmdbChecked": "2026-11-17",
@@ -6107,13 +6053,13 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "mk-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-12"
+"checked": "2026-11-20"
 },
 "mk-campamento-miasma": {
 "v": 4,
