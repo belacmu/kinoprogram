@@ -460,8 +460,8 @@ body { overflow-x: clip; }
 .nkind .grid { padding-bottom: 6px; }
 .nempty { padding: 18px 22px 24px; color: var(--muted); }
 @media (max-width: 560px) { .nhead, .nday { padding-inline: 16px; } .nempty { padding-inline: 16px; } }
-/* film page on phones: a bottom sheet with a Close button where the thumb is; the page behind can't scroll */
-html:has(dialog[open]), body:has(dialog[open]) { overflow: hidden; }
+/* film page on phones: a bottom sheet with a Close button where the thumb is. The page behind can't scroll: app.js pins it in place
+   while any dialog is open (overflow: hidden isn't enough: iOS ignores it while the keyboard is up). */
 dialog { overscroll-behavior: contain; }
 .sheetbar { display: none; }
 @media (max-width: 560px) {
@@ -1184,3 +1184,11 @@ button.seat2, button.seat { cursor: pointer; }
 /* the time line has empty space under its letters, so the bottom padding is smaller: the card looks even at the top and the bottom */
 .cufilm .curows a { padding: 12px 14px 6px; }
 .cufilm .curows a .cstat, .cufilm .cgo { margin-top: -6px; }  /* the card's padding is lopsided on purpose (see above): keep the status and arrow on the card's middle */
+
+/* Phone sheets and the on-screen keyboard (app.js, fitSheets): the sheet sits on the bottom edge of what's visible above the keyboard
+   (--kb) and is never taller than that (--vvh), so nothing of the page shows between the sheet and the keyboard. */
+@media (max-width: 560px) {
+  #film, #account, #friendsAdd { bottom: var(--kb, 0px); }
+  #film { height: min(80dvh, calc(var(--vvh, 100dvh) - 12px)); max-height: min(80dvh, calc(var(--vvh, 100dvh) - 12px)); }
+  #account, #friendsAdd { max-height: min(92dvh, calc(var(--vvh, 100dvh) - 12px)); }
+}

@@ -227,6 +227,45 @@ async function site() {
     check(!marks.length && (await page.evaluate(() => JSON.parse(localStorage.getItem("kino:watchlist")))).includes(fresh),
       `a heart adds to the watchlist and sends no marks (${JSON.stringify(marks)})`);
 
+    // Phones: an open sheet pins the page (iOS would let it scroll under the keyboard) and sits right on top of the keyboard. The
+    // keyboard is played by a stand-in visualViewport reporting a shorter visible area, as iOS does.
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.addInitScript(() => {
+      const vv = new EventTarget();
+      Object.assign(vv, { width: innerWidth, height: innerHeight, offsetTop: 0, offsetLeft: 0, scale: 1 });
+      Object.defineProperty(window, "visualViewport", { get: () => vv });
+      window.__vv = vv;
+    });
+    await page.goto(base);
+    await page.waitForSelector("#grid .card");
+    await page.evaluate(() => window.scrollTo(0, 900));
+    const listAt = await page.evaluate(() => window.scrollY);
+    // A card that's on screen (clicking one off screen would make Playwright scroll to it first).
+    const inView = await page.evaluateHandle(() => [...document.querySelectorAll("#grid .card a")].find((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top > 120 && r.bottom < innerHeight - 40;
+    }));
+    await inView.click();
+    await page.waitForSelector("#film[open]");
+    const kb = async (height) => {
+      await page.evaluate((h) => { __vv.height = h; __vv.dispatchEvent(new Event("resize")); }, height);
+      await page.waitForTimeout(100);
+      return page.evaluate(() => {
+        const r = document.querySelector("#film").getBoundingClientRect();
+        return { top: Math.round(r.top), bottom: Math.round(r.bottom), pinned: document.body.style.position, y: window.scrollY };
+      });
+    };
+    const up = await kb(400);
+    check(up.pinned === "fixed" && up.y === 0, `while a sheet is open the page is pinned (${JSON.stringify(up)})`);
+    check(up.bottom === 400 && up.top >= 0, `with the keyboard up the sheet sits right on top of it, nothing below (${JSON.stringify(up)})`);
+    const down = await kb(844);
+    check(down.bottom === 844, `keyboard gone: back to the bottom of the screen (${JSON.stringify(down)})`);
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(200);
+    const after = await page.evaluate(() => ({ pinned: document.body.style.position, y: window.scrollY }));
+    check(after.pinned === "" && after.y === listAt, `closed: the page is free again, where it was (${JSON.stringify(after)}, was ${listAt})`);
+    await shot("6-phone.png");
+
     check(!errors.length, `no errors on the page ${errors.length ? JSON.stringify(errors) : ""}`);
   } finally {
     await browser.close();

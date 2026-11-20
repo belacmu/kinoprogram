@@ -1692,6 +1692,38 @@ $("film").addEventListener("close", () => {
   if (location.hash.startsWith("#film/")) history.pushState("", document.title, location.pathname + location.search + (state.page === "films" ? "#films" : "#feed"));
   render();  // back in the feed or list: show any heart or hide changes
 });
+// ---------------------------------------------------------------- sheets and the on-screen keyboard (phones)
+// iOS lets the page behind a modal scroll once the keyboard is up (it ignores overflow: hidden then), and it doesn't shrink the page
+// for the keyboard: it pans the view, so a sheet pinned to the bottom ends up with the page showing (and scrolling) between it and the
+// keyboard. So while any dialog is open the page is pinned where it was (position: fixed at its scroll position, put back on close),
+// and the phone sheets sit on the bottom edge of what's visible: --kb is how much of the page the keyboard covers, --vvh the height
+// that's left (style.css).
+let pinnedAt = null;
+function pinPage() {
+  const open = !!document.querySelector("dialog[open]"), b = document.body.style;
+  if (open && pinnedAt === null) {
+    pinnedAt = window.scrollY;
+    Object.assign(b, { position: "fixed", top: `-${pinnedAt}px`, left: "0", right: "0" });
+  } else if (!open && pinnedAt !== null) {
+    Object.assign(b, { position: "", top: "", left: "", right: "" });
+    window.scrollTo(0, pinnedAt);
+    pinnedAt = null;
+  }
+  fitSheets();
+}
+function fitSheets() {
+  const vv = window.visualViewport, root = document.documentElement.style;
+  if (!vv || pinnedAt === null) { root.removeProperty("--kb"); root.removeProperty("--vvh"); return; }
+  const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+  root.setProperty("--kb", `${kb}px`);
+  root.setProperty("--vvh", `${Math.round(vv.height)}px`);
+  const a = document.activeElement;  // the box being typed in stays in view inside the (now shorter) sheet
+  if (kb && a?.matches?.("input, textarea") && a.closest("dialog[open]")) a.scrollIntoView({ block: "nearest" });
+}
+new MutationObserver(pinPage).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["open"] });
+window.visualViewport?.addEventListener("resize", fitSheets);
+window.visualViewport?.addEventListener("scroll", fitSheets);
+
 // Close a modal dialog only on a click on its backdrop. A click on the dialog's own empty space also
 // has the dialog as its target, so check that the point lies outside the dialog's box.
 function closeOnBackdrop(dlg) {
