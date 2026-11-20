@@ -1521,6 +1521,20 @@ async function inviteUrl(f, s) {
 }
 // Does the invite being looked at belong to this very showing?
 const inviteFits = (f, s) => { const r = state.invite?.rows[0]; return !!r && f.ids.includes(r.film_id) && `${r.starts}|${r.cinema}` === showKey(s); };
+// Taking yourself off a showing can cut you off from the people going with you: your group is reached through your plan's invite
+// link, and the link goes with your plan (so does seeing them, unless they're friends). So say so first, when it applies: others in
+// your group who aren't your friends, and you didn't join through someone else's link. If you did join through a link, you can still
+// see the group through it, which is said too. Otherwise (going alone, or only with friends) nothing is lost and nothing is asked.
+function leaveWarning(f, s, plan) {
+  if (!plan?.going) return "";
+  if (plan.via) return "You joined through an invite link. You'll be taken off the list of who's going, and you'll only see the others again through that link.";
+  const rows = state.invite && state.invite.token === plan.inv ? state.invite.rows : [];
+  const names = rows.filter((r) => f.ids.includes(r.film_id) && `${r.starts}|${r.cinema}` === showKey(s) && !r.is_me && !r.is_friend)
+    .map((r) => shortName(r.name));
+  if (!names.length) return "";
+  const who = names.length > 3 ? `${names.slice(0, 2).join(", ")} and ${names.length - 2} others` : nameList(names);
+  return `${who} ${names.length > 1 ? "are" : "is"} going with you through your invite link. If you take yourself off, your link stops working: you won't be able to see them here any more, and nobody else can join through it.`;
+}
 async function planClick(t) {
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
@@ -1544,7 +1558,8 @@ async function planClick(t) {
     if (!state.user && nm) local.set("guestName", nm);
     if (planOf(f, s)?.going) {
       // Not going: only YOUR row goes. The people you were with stay on the page (the party is still readable through the link you joined by).
-      const old = planOf(f, s);
+      const old = planOf(f, s), warn = leaveWarning(f, s, old);
+      if (warn && !confirm(`Not going after all?\n\n${warn}`)) return;
       if (old.via) { joinedVia[planId(f, s)] = old.via; local.set("joinedVia", joinedVia); }
       setPlan(f, s, null);
     }

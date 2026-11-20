@@ -227,6 +227,53 @@ async function site() {
     check(!marks.length && (await page.evaluate(() => JSON.parse(localStorage.getItem("kino:watchlist")))).includes(fresh),
       `a heart adds to the watchlist and sends no marks (${JSON.stringify(marks)})`);
 
+    // Taking yourself off a showing: a warning when it would cut you off from the people going with you.
+    const warn = await page.evaluate(() => {
+      const f = state.data.films.find((x) => x.shows.length), s = f.shows[0];
+      const row = (name, extra) => ({ film_id: f.id, starts: s.t, cinema: s.cinema, name, is_me: false, is_friend: false, ...extra });
+      const keep = state.invite;
+      const out = {};
+      state.invite = { token: "mine", rows: [row("Me", { is_me: true }), row("Anna Guest"), row("Jon")] };
+      out.host = leaveWarning(f, s, { going: true, inv: "mine" });
+      state.invite = { token: "mine", rows: [row("Me", { is_me: true }), row("Pal", { is_friend: true })] };
+      out.friendsOnly = leaveWarning(f, s, { going: true, inv: "mine" });
+      state.invite = { token: "mine", rows: [row("Me", { is_me: true })] };
+      out.alone = leaveWarning(f, s, { going: true, inv: "mine" });
+      out.joined = leaveWarning(f, s, { going: true, inv: "mine", via: "theirs" });
+      out.notGoing = leaveWarning(f, s, { going: false });
+      state.invite = keep;
+      return out;
+    });
+    check(warn.host.startsWith("Anna Guest and Jon are going with you through your invite link. If you take yourself off, your link stops working"),
+      `leaving with guests who came through your link: warned (${warn.host})`);
+    check(warn.joined.startsWith("You joined through an invite link."), `leaving after joining through a link: told how to see them again (${warn.joined})`);
+    check(!warn.friendsOnly && !warn.alone && !warn.notGoing, "going alone or only with friends: no warning");
+    // The real button: it asks first; Cancel keeps you going, OK takes you off.
+    const showHash = await page.evaluate(() => {
+      const f = state.data.films.find((x) => x.shows.length), s = f.shows[0], id = planId(f, s);
+      plans[id] = { going: true, inv: "mine", film: f.id, t: s.t, cinema: s.cinema, region: state.region };
+      state.invite = { token: "mine", at: Date.now(), rows: [
+        { film_id: f.id, starts: s.t, cinema: s.cinema, name: "Me", is_me: true, is_friend: false },
+        { film_id: f.id, starts: s.t, cinema: s.cinema, name: "Anna Guest", is_me: false, is_friend: false }] };
+      window.__planId = id;
+      return showHref(f, s);
+    });
+    await page.evaluate((h) => { location.hash = h; }, showHash);
+    await page.waitForSelector("#film[open] [data-going]");
+    const asked = [];
+    const answer = (accept) => page.once("dialog", (d) => { asked.push(d.message()); accept ? d.accept() : d.dismiss(); });
+    answer(false);
+    await page.click("#film [data-going]");
+    await page.waitForTimeout(300);
+    const kept = await page.evaluate(() => !!plans[__planId]?.going);
+    answer(true);
+    await page.click("#film [data-going]");
+    await page.waitForTimeout(300);
+    const gone = await page.evaluate(() => !plans[__planId]?.going);
+    check(asked.length === 2 && asked[0].startsWith("Not going after all?") && asked[0].includes("Anna Guest"), `the button asks first (${JSON.stringify(asked[0])})`);
+    check(kept && gone, `Cancel keeps you going, OK takes you off (kept: ${kept}, then off: ${gone})`);
+    await page.keyboard.press("Escape");
+
     // Phones: an open sheet pins the page (iOS would let it scroll under the keyboard) and sits right on top of the keyboard. The
     // keyboard is played by a stand-in visualViewport reporting a shorter visible area, as iOS does.
     await page.setViewportSize({ width: 390, height: 844 });
