@@ -1017,18 +1017,21 @@ a.stub.going { border-left-color: var(--soon); }
 .showpage .back { height: 32px; min-height: 0; padding: 0 12px 0 10px; gap: 4px; background: var(--chip); color: var(--ink); font-size: 13px; font-weight: 400; text-decoration: none; max-width: none; }
 .showpage .back span { font-size: 16px; line-height: 1; margin-top: -1px; }
 .showpage .back:hover { background: color-mix(in srgb, var(--ink) 14%, var(--chip)); }
-.plan9 { margin-top: 2px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
-.ph9 { display: flex; align-items: flex-start; gap: 12px; padding: 14px; }
-.ph9 .l { flex: 1; min-width: 0; }
-.ph9 .dt { font: 800 26px/1 var(--display); text-transform: uppercase; }
-.ph9 .tm { margin-top: 3px; font: 600 17px var(--body); }
-.ph9 .tm .m { font-family: var(--mono); font-weight: 500; }
-.ph9 .sub { margin-top: 2px; font-size: 13px; color: var(--muted); }
+/* The showing's page reads like its row in the film's list: the same day label on the left and the same stub, larger and marked as
+   the chosen one (a solid edge where the list's are dotted; green if you're going), with Tickets beside it. */
+.showday { border-top: 0; padding-top: 2px; }
+.showmain { display: flex; align-items: center; gap: 12px 14px; flex-wrap: wrap; }
+.stub.chosen { flex: 0 1 auto; min-width: 0; padding: 10px 18px 10px 14px; border-left-style: solid; font-size: 14px; }
+.showmain .tkbtn { margin-left: auto; }
+.stub.chosen .t { font-size: 22px; }
+.stub.chosen .tg, .stub.chosen .nt { font-size: 12.5px; }
+.stub.chosen.going { border-left-color: var(--soon); }
+.stub.chosen.nosale { opacity: 1; }
 .tkbtn { flex: none; align-self: center; display: inline-flex; align-items: center; justify-content: center; min-width: 124px; height: 52px; padding: 0 22px; box-sizing: border-box; border-radius: 999px;
   background: var(--ink); color: var(--bg); font: 700 17px var(--body); text-decoration: none; text-align: center; }
 .tkbtn.off { min-width: 0; background: var(--chip); color: var(--muted); font-size: 14px; }
 /* who is going: one column, equal padding top and bottom, a 10px gap between its parts */
-.plist { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-top: 1px solid var(--line); }
+.plist { display: flex; flex-direction: column; gap: 10px; padding: 14px 0 0; border-top: 1px solid var(--line); }
 .plist .wh { margin-bottom: 2px; }
 .plist .wh h4 { margin: 0; font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .prow2 { display: flex; align-items: center; gap: 10px; min-height: 34px; }

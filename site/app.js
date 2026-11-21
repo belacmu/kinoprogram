@@ -1162,14 +1162,18 @@ function stubGoers(f, s) {
   const label = [you ? "You're going" : "", fr.length ? `${nameList(fr.map((r) => shortName(r.name)))} ${fr.length > 1 ? "are" : "is"} going` : ""].filter(Boolean).join(". ");
   return `<span class="sgoers" role="img" aria-label="${esc(label)}" title="${esc(label)}">${you ? '<span class="sgo-you">✓</span>' : ""}${dots}</span>`;
 }
-function stubHtml(s, f) {
+// A showing's stub: its time, cinema and screen, tags, note and (not on sale) status. The same inside on the film's list and, larger and
+// marked as the chosen one, on the showing's own page, so the one you tapped is recognisably the one you're looking at.
+function stubInner(s) {
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
   const tags = showTags(s);
-  const inner = `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
+  return `<span class="t">${hhmm(s.t)}</span><span class="c">${esc(s.cinema)}${screen ? ` · ${esc(screen)}` : ""}</span>`
     + (tags.length ? `<span class="tg">${esc(tags.map((t) => (t === MEAL_TAG ? "🍽 " : "") + t).join(" · "))}</span>` : "")
     + (s.note ? `<span class="nt">${esc(s.note)}</span>` : "")
     + (!s.ticket ? `<span class="c">${esc(s.status || "Not on sale yet")}</span>` : "");
-  return `<a class="stub${s.ticket ? "" : " nosale"}${planOf(f, s)?.going ? " going" : ""}" href="${showHref(f, s)}">${inner}${stubGoers(f, s)}</a>`;
+}
+function stubHtml(s, f) {
+  return `<a class="stub${s.ticket ? "" : " nosale"}${planOf(f, s)?.going ? " going" : ""}" href="${showHref(f, s)}">${stubInner(s)}${stubGoers(f, s)}</a>`;
 }
 
 // Letterboxd / IMDb / RT / Metacritic links. A direct link only when the scraper matched the film
@@ -1237,6 +1241,12 @@ function openFilm(id) {
   if (sh) { showingPage(f, sh, dlg); return; }
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
+  // Only one showing: its page straight away (the list of one would be a step that tells nothing). The address names it, as a tap would.
+  if (all.length === 1 && !hp.show) {
+    history.replaceState(null, "", location.pathname + location.search + showHref(f, all[0]));
+    showingPage(f, all[0], dlg);
+    return;
+  }
   // Opened while a day is picked on the main page: list that day (if the film plays then), otherwise all days.
   if (!dlg.open) state.sheetDay = dayMode() && pickedDay(today) && all.some((s) => s.t.startsWith(pickedDay(today))) ? pickedDay(today) : "";
   const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
@@ -1455,10 +1465,10 @@ const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309
 const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
 
 function showingPage(f, s, dlg) {
-  const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
-  const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
-  const sub = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).join(" · ");
+  const plan = planOf(f, s), day = s.t.slice(0, 10), today = localNow().slice(0, 10);
   const name = myName(), on = !!plan?.going;
+  // "All showings" only when there are others to go back to (a film with one showing opens straight on it).
+  const others_ = f.shows.filter((x) => x.t >= localNow() && x !== s).length;
   let mine;
   const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
@@ -1491,9 +1501,11 @@ function showingPage(f, s, dlg) {
     : `<div class="gonenote"><span>The cinema no longer lists this showing. Check with the cinema before you go.</span></div>`;
   setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
-    <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
-    <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
-      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>`);
+    <div class="showpage">${others_ ? `<div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>` : ""}
+    <div class="day showday${day === today ? " today" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
+      <div class="showmain"><div class="stub chosen${s.ticket ? "" : " nosale"}${on ? " going" : ""}">${stubInner(s)}</div>${buy}</div></div>
+    <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div>
+    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
   fitOwnSeats();

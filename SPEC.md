@@ -436,6 +436,13 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
 ## Showings and "I'm going"
 
 Clicking a showing no longer jumps to the ticket site. It opens that showing's own page inside the film sheet.
+
+**The showing's page reads like its row in the film's list**, so the one you tapped is recognisably the one you're looking at: the
+same day label on the left ("TODAY" / "THU 26 NOV" over the date), and the same stub (time, cinema and screen, tags, note), larger and
+marked as the chosen one (a solid edge where the list's are dotted; green if you're going), with **Tickets ↗** beside it. Who's going
+and I'm going follow under a plain line, as the list's rows are divided (no separate card). **All showings** (back to the list) only
+when the film has other showings; a film with **one showing opens straight on its page** (the address names the showing, as a tap
+would). On phones both pages end with the same Close bar.
 This is the agreed design, and it is built: the pages, the Going card (I'm going, Seats, Invite), plans saved to the
 account (`plans`, see `supabase/schema.sql`: run it once in Supabase), friends' plans on showing pages and in the Feed's Coming up,
 invite links, and guests. Signed out with no accounts available, plans stay on the device.
