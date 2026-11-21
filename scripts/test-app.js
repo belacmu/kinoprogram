@@ -227,6 +227,31 @@ async function site() {
     check(!marks.length && (await page.evaluate(() => JSON.parse(localStorage.getItem("kino:watchlist")))).includes(fresh),
       `a heart adds to the watchlist and sends no marks (${JSON.stringify(marks)})`);
 
+    // A showing's page reads like its row in the list: the same day label and the same stub (marked as the chosen one). A film
+    // with one showing opens straight on it, with no "All showings" to go back to.
+    const ids = await page.evaluate(() => {
+      const now = localNow(), up = (f) => f.shows.filter((s) => s.t >= now);
+      const many = state.data.films.find((f) => up(f).length >= 2), one = state.data.films.find((f) => up(f).length === 1);
+      return { many: many.id, manyShow: showHref(many, up(many)[0]), one: one?.id, oneShow: one && showHref(one, up(one)[0]) };
+    });
+    await page.evaluate((h) => { location.hash = h; }, ids.manyShow);
+    await page.waitForSelector("#film[open] .stub.chosen");
+    const sp = await page.$eval("#film", (d) => ({ day: d.querySelector(".showday h4")?.firstChild?.textContent, back: !!d.querySelector(".showpage .back"),
+      stub: d.querySelector(".stub.chosen")?.innerHTML, card: !!d.querySelector(".plan9") }));
+    await page.evaluate((id) => { location.hash = "#film/" + encodeURIComponent(id); }, ids.many);
+    await page.waitForSelector("#film[open] .day .stub");
+    const listed = await page.$eval("#film", (d, h) => ({ day: d.querySelector(".days .day h4")?.firstChild?.textContent,
+      stub: [...d.querySelectorAll(".days .stub")].find((a) => a.getAttribute("href") === h)?.innerHTML }), ids.manyShow);
+    check(sp.day === listed.day && listed.stub?.startsWith(sp.stub) && !sp.card, `the showing's page uses the list's day label and stub (${sp.day} / ${listed.day})`);
+    check(sp.back, "a film with several showings: \"All showings\" goes back to them");
+    if (ids.one) {
+      await page.evaluate((id) => { location.hash = "#film/" + encodeURIComponent(id); }, ids.one);
+      await page.waitForSelector("#film[open] .stub.chosen");
+      const single = await page.evaluate(() => ({ hash: location.hash, back: !!document.querySelector("#film .showpage .back"), list: !!document.querySelector("#film .days") }));
+      check(single.hash === ids.oneShow && !single.back && !single.list, `a film with one showing opens straight on it (${JSON.stringify(single)})`);
+    }
+    await page.keyboard.press("Escape");
+
     // Taking yourself off a showing: a warning when it would cut you off from the people going with you.
     const warn = await page.evaluate(() => {
       const f = state.data.films.find((x) => x.shows.length), s = f.shows[0];
