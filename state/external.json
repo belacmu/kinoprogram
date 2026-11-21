@@ -529,17 +529,6 @@
 "tmdb": 1422041,
 "lang": "es"
 },
-"cl-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
-"v": 4,
-"checked": "2026-11-18",
-"tmdbChecked": "2026-11-18",
-"tv": 3,
-"tmdb": 1820083,
-"lang": "en",
-"imdb": "tt50486016",
-"en": "BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING",
-"enFrom": "tmdb"
-},
 "cl-buscavidas": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
@@ -640,6 +629,34 @@
 "tv": 2,
 "tmdb": 1550356,
 "lang": "es"
+},
+"cl-dune": {
+"imdb": "tt1160419",
+"imdbAll": [
+"tt1160419"
+],
+"lb": "dune-2021",
+"rt": "m/dune_2021",
+"mc": "movie/dune-part-one",
+"en": "Dune",
+"v": 4,
+"checked": "2026-11-21",
+"tmdbChecked": "2026-11-21",
+"tv": 3,
+"tmdb": 438631,
+"lang": "en",
+"enFrom": "tmdb"
+},
+"cl-dune-parte-dos": {
+"v": 4,
+"checked": "2026-11-21",
+"tmdbChecked": "2026-11-21",
+"tv": 3,
+"tmdb": 693134,
+"lang": "en",
+"imdb": "tt15239678",
+"en": "Dune: Part Two",
+"enFrom": "tmdb"
 },
 "cl-gato-sombrero": {
 "imdb": "tt2321555",
@@ -2382,7 +2399,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-13"
+"checked": "2026-11-21"
 },
 "fw-EDI20250777": {
 "tmdbChecked": "2026-10-01",
@@ -4032,7 +4049,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-13"
+"checked": "2026-11-21"
 },
 "fw-EDI20261525": {
 "v": 4,
@@ -4329,12 +4346,6 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
-"fw-EDI20261739": {
-"v": 4,
-"checked": "2026-11-13",
-"tmdbChecked": "2026-11-17",
-"tv": 3
-},
 "fw-EDI20261746": {
 "imdb": "tt18270542",
 "imdbAll": [
@@ -4479,17 +4490,6 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
-"fw-EDI20261797": {
-"tmdbChecked": "2026-11-13",
-"tv": 2,
-"v": 4,
-"checked": "2026-11-13",
-"tmdb": 1820083,
-"lang": "en",
-"imdb": "tt50486016",
-"en": "BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING",
-"enFrom": "tmdb"
-},
 "fw-EDI20261798": {
 "tmdbChecked": "2026-11-13",
 "tv": 2,
@@ -4614,7 +4614,7 @@
 },
 "fw-EDI20261831": {
 "v": 4,
-"checked": "2026-11-13",
+"checked": "2026-11-21",
 "tmdbChecked": "2026-11-13",
 "tv": 2,
 "tmdb": 1773511,
@@ -4624,7 +4624,7 @@
 },
 "fw-EDI20261832": {
 "v": 4,
-"checked": "2026-11-13",
+"checked": "2026-11-21",
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "tmdb": 1793219,
@@ -5969,12 +5969,6 @@
 "enFrom": "tmdb"
 },
 "mk-bts-world-tour-arirang-in-jakarta": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-20"
-},
-"mk-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
