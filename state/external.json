@@ -446,10 +446,10 @@
 "source": "moviescout"
 },
 "cl-ahora-suegros-son-ellos": {
-"v": 4,
-"checked": "2026-11-14",
 "tmdbChecked": "2026-11-17",
-"tv": 3
+"tv": 3,
+"v": 4,
+"checked": "2026-11-22"
 },
 "cl-apartamento": {
 "tmdbChecked": "2026-11-17",
@@ -679,17 +679,6 @@
 "imdb": "tt36462691",
 "en": null
 },
-"cl-otra-madre": {
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 1400837,
-"lang": "en",
-"imdb": "tt36586020",
-"en": "Other Mommy",
-"enFrom": "tmdb"
-},
 "cl-ratones-ataque-operacion-navidad": {
 "v": 4,
 "checked": "2026-11-11",
@@ -717,22 +706,6 @@
 "tv": 3,
 "v": 4,
 "checked": "2026-11-16"
-},
-"cl-superthings-pelicula": {
-"imdb": "tt43600835",
-"imdbAll": [
-"tt43600835"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-10-22",
-"tmdbChecked": "2026-10-22",
-"tv": 2,
-"tmdb": 1744346,
-"lang": "es"
 },
 "cl-wild-horse-nine": {
 "imdb": "tt15799564",
@@ -3463,17 +3436,6 @@
 "tmdb": 964849,
 "lang": "fi"
 },
-"fw-EDI20260975": {
-"v": 4,
-"checked": "2026-11-16",
-"tmdbChecked": "2026-11-16",
-"tv": 2,
-"tmdb": 1781923,
-"lang": "sv",
-"imdb": "tt43714599",
-"en": "Little Ghost Laban Goes on Pranking",
-"enFrom": "tmdb"
-},
 "fw-EDI20261025": {
 "imdb": "tt39400168",
 "imdbAll": [
@@ -4417,16 +4379,6 @@
 "tmdb": 69627,
 "lang": "ta"
 },
-"fw-EDI20261808": {
-"v": 4,
-"checked": "2026-11-09",
-"tmdbChecked": "2026-11-09",
-"tv": 2,
-"tmdb": 1533928,
-"lang": "ml",
-"imdb": "tt41075537",
-"en": null
-},
 "fw-EDI20261810": {
 "imdb": "tt39328391",
 "imdbAll": [
@@ -5190,23 +5142,6 @@
 "mc": "movie/shrek-5",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-UIP20221470": {
-"imdb": "tt36583977",
-"imdbAll": [
-"tt36583977"
-],
-"lb": "forgotten-island-2026",
-"rt": "m/forgotten_island",
-"mc": "movie/forgotten-island",
-"en": "Forgotten Island",
-"v": 4,
-"checked": "2026-11-09",
-"tmdbChecked": "2026-11-09",
-"tv": 2,
-"tmdb": 1465063,
-"lang": "en",
-"enFrom": "tmdb"
 },
 "fw-UIP20241680": {
 "tmdbChecked": "2026-10-01",
