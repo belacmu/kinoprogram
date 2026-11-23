@@ -282,8 +282,8 @@ offer), so they don't reach the email or What's new. Prices aren't published in 
   watch yet is checked weekly, and the day after a digital release, since that's when people wait to see where it turns up.
   Results are kept per country in `watch_options` (public, like the programme), the digital release date in `options.digital`,
   also when there's nothing.
-- **Display name**: an optional name field on the sign-in form, used only if the email is new; existing users default to their email until they set
-  one. Changeable on the Friends screen. Only friends see it.
+- **Display name**: not on the sign-in form. Right after signing in, an account with no name is asked once ("What should friends
+  call you?", Google's name filled in, skippable). Without one, friends see the email. Changeable under Profile. Only friends see it.
 - **Friend code**: everyone has a short code, e.g. `K7Q-M4P` (6 characters, no look-alikes such as
   0/O, 1/I/L). Entry is forgiving: lowercase, spaces or a missing dash all work.
 - **Friends tab** (also the account menu's Friends item): lists every film on a friend's watchlist

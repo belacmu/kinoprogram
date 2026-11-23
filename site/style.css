@@ -678,7 +678,7 @@ dialog { overscroll-behavior: contain; }
 .hiddenkinds { margin: 4px 0 28px; text-align: center; color: var(--muted); font-size: 13px; }
 .hiddenkinds .linkbtn { padding: 0; font-size: inherit; }
 .foot-links { margin-top: 8px; }
-.foot-links .linkbtn { padding: 4px 0; }
+.foot-links .linkbtn { padding: 4px 0; text-decoration: none; }
 /* The filters in force: one line under the toolbar, to the right of the Filters button. The chips scroll sideways (fading at the
    edge; they wrap on desktop); "Clear all" stays pinned at the end of the line. */
 .controls .activechips { display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 8px; padding: 0; }
