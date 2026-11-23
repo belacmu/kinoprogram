@@ -303,7 +303,7 @@ a.stub:hover { border-color: var(--accent); }
 .fg legend { padding-bottom: 8px; }
 .fg { padding-block: 14px; }
 /* header: title left, location pill right */
-.top { align-items: center; padding-block: 20px 12px; }
+.top { align-items: center; padding-block: 16px;  /* the same above and below, so the title and buttons sit in the middle of the band */ }
 /* group headings without border lines running through them; spacing separates groups */
 .fg { border: 0; padding: 0; margin: 0 0 18px; }
 .fg legend { padding: 0 0 8px; }
