@@ -4,7 +4,7 @@ Every film showing in Oslo (Filmweb, Cinemateket, Revier Film Club, Deichman Bj√
 Evans Theatre), browsed **by film** instead of by date, with a daily email of films newly on sale and
 newly announced. See [SPEC.md](SPEC.md).
 
-- Site: https://belacmu.github.io/kinoprogram/
+- Site: https://cinecrab.com/
 - First-time setup of sign-in and email: [SETUP.md](SETUP.md)
 - Runs on GitHub Actions ([update.yml](.github/workflows/update.yml)) six times a day; the email goes out after 09:00 Oslo.
 

@@ -9,7 +9,7 @@ const os = require("os");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const LIVE = (process.env.SITE_URL || "https://belacmu.github.io/kinoprogram/").replace(/\/?$/, "/");
+const LIVE = (process.env.SITE_URL || "https://cinecrab.com/").replace(/\/?$/, "/");
 const shots = process.argv[2] || "";
 const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".webmanifest": "application/manifest+json" };
 

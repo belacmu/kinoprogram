@@ -6,7 +6,7 @@ people on to the app with the film open.
 
 Run after site/data/*.json exist and before the site is uploaded (both deploy workflows do).
 Usage: python3 scripts/write-film-pages.py
-Environment: SITE_URL (default https://belacmu.github.io/kinoprogram/)
+Environment: SITE_URL (default https://cinecrab.com/)
 """
 import html
 import json
@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 OUT = SITE / "f"
-SITE_URL = os.environ.get("SITE_URL", "https://belacmu.github.io/kinoprogram/").rstrip("/") + "/"
+SITE_URL = os.environ.get("SITE_URL", "https://cinecrab.com/").rstrip("/") + "/"
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scraper"))
 from build import REGIONS  # noqa: E402  (the one list of regions)
 DATA = {k: cfg["data"] for k, cfg in REGIONS.items()}

@@ -1,6 +1,6 @@
 # Setup: the parts you do yourself
 
-The site already works without these steps: https://belacmu.github.io/kinoprogram/
+The site already works without these steps: https://cinecrab.com/
 These steps switch on **sign-in, synced settings/watchlist and the daily email**.
 Budget about 20 minutes. Everything is free.
 
@@ -43,7 +43,7 @@ A dedicated account keeps your personal address out of it.
    Already set up? Paste and run it again whenever it changes (e.g. when friends were added): it's safe
    to re-run and keeps existing accounts and watchlists.
 4. Site address: **Authentication → URL Configuration** → Site URL:
-   `https://belacmu.github.io/kinoprogram/` → Save.
+   `https://cinecrab.com/` → Save.
 5. Send sign-in emails through your Gmail (required: Supabase's built-in mailer only delivers to
    members of your Supabase team, so your friends wouldn't get their codes):
    **Authentication → Emails → SMTP Settings** → enable **Custom SMTP**
@@ -99,16 +99,33 @@ gh secret set GMAIL_APP_PASSWORD -R github.com/belacmu/kinoprogram
 
 Claude will then redeploy the site (so sign-in appears) and send a test email. After that:
 
-1. Open https://belacmu.github.io/kinoprogram/ → **Sign in** → enter your own email → type the
+1. Open https://cinecrab.com/ → **Sign in** → enter your own email → type the
    6-digit code from the email you get.
 2. Under **Account**, tick **Daily email at 9:00**.
 3. Share the site link with friends; they sign up the same way.
 
 ---
 
+### The domain (cinecrab.com)
+
+The site is served at https://cinecrab.com/ (bought through Cloudflare, hosted by GitHub Pages). One-time setup:
+
+1. **Cloudflare → cinecrab.com → DNS → Records**: add four `A` records for `cinecrab.com` (name `@`) pointing to
+   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`, and a `CNAME` record `www` →
+   `belacmu.github.io`. Set every one to **DNS only** (grey cloud, not proxied), at least until GitHub has issued the certificate.
+2. **GitHub → repo Settings → Pages → Custom domain**: enter `cinecrab.com` → Save. Wait for the DNS check to pass,
+   then tick **Enforce HTTPS** (the certificate can take up to an hour or so). The old address,
+   `https://belacmu.github.io/kinoprogram/…`, then redirects to `https://cinecrab.com/…` on its own.
+3. **Supabase → Authentication → URL Configuration**: Site URL `https://cinecrab.com/`, and add `https://cinecrab.com/**`
+   under Redirect URLs.
+4. hCaptcha (if used): add `cinecrab.com` to the site key's allowed domains.
+
+`site/CNAME` holds the domain too, for reference; with the Actions deploy, the Settings → Pages field is what counts.
+Accounts move with the domain, but browsers treat it as a new site: everyone signs in once more there.
+
 ### Trying a change before it goes live (preview)
 
-The `preview` branch is published at `https://belacmu.github.io/kinoprogram/preview/` (marked with a red PREVIEW
+The `preview` branch is published at `https://cinecrab.com/preview/` (marked with a red PREVIEW
 tag, hidden from search engines), next to the real site. To preview a branch, point `preview` at it:
 `git push --force origin my-branch:preview`. Pushing starts a deploy; a minute or so later it's up.
 
@@ -137,5 +154,5 @@ Check what is set up: `sh scripts/check-setup.sh`. Accounts and where each secre
 If you turn on captcha protection in Supabase (Authentication > Attack Protection, hCaptcha), every sign-in, including guests joining a
 showing, needs a captcha token. Give the site the **site key** (public) as a repository variable called `HCAPTCHA_SITE_KEY`
 (Settings > Secrets and variables > Actions > Variables). The secret key goes only in Supabase. In hCaptcha, add the site's hostname
-(`belacmu.github.io`) to the site key's allowed domains. With no `HCAPTCHA_SITE_KEY` the site sends no token, so turn the Supabase
+(`cinecrab.com`) to the site key's allowed domains. With no `HCAPTCHA_SITE_KEY` the site sends no token, so turn the Supabase
 setting off if you have no key.
