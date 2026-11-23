@@ -2115,6 +2115,9 @@ const sb = cfg.supabaseUrl && cfg.supabaseKey && window.supabase ? window.supaba
 // PKCE: "Sign in with Google" comes back with ?code=… (which supabase-js swaps for a session and removes), not tokens in
 // the #fragment, which the app uses for its own pages. The email code and guest sign-ins work the same either way.
 
+// Back from Google with a code to swap for a session (supabase-js removes it from the address once it has).
+state.askName = (() => { try { const g = sessionStorage.getItem("kino:google"); sessionStorage.removeItem("kino:google"); return !!g && new URLSearchParams(location.search).has("code"); } catch { return false; } })();
+
 // "Sign in with Google" (Supabase: Authentication > Sign In / Providers > Google), shown once the site's googleSignIn is on.
 // Not in the Home Screen app: Google's page would open in Safari, which keeps its own sign-in, so the app would stay signed out.
 const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
@@ -2124,6 +2127,7 @@ const googleBlock = () => googleOn()
   ? `<button type="button" class="btn ghost google" id="googleBtn">${GOOGLE_G}<span>Continue with Google</span></button><div class="orline"><span>or use your email</span></div>` : "";
 async function signInWithGoogle(btn) {
   if (btn) btn.disabled = true;
+  try { sessionStorage.setItem("kino:google", "1"); } catch {}  // coming back signed in counts as a fresh sign-in (askForName)
   const back = new URL(location.href); back.searchParams.delete("code");  // come back to the same page (film, tab, region)
   const { error } = await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: back.href } });
   if (error) { if (btn) btn.disabled = false; renderAccount(`Couldn't open Google sign-in: ${error.message}`, true); }
@@ -2211,7 +2215,8 @@ async function loadProfile() {
   render();
   refreshAvatar();
   if (accountRegion && accountRegion !== state.region) loadRegion(accountRegion);  // the account remembers the location, so a new device opens on it
-  if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
+  if (state.askName) askForName(data);
+  else if ($("account").open) renderAccount();  // the dialog may already be open: show the loaded settings
   if (data.friend_code) loadFriends();
   loadPlans();
   loadFriendPlans();
@@ -2278,7 +2283,7 @@ $("prefsLink").addEventListener("click", openPrefs);
 
 function renderAccount(message = "", isErr = false) {
   const body = $("accountBody");
-  $("account").classList.toggle("wide", (!!state.user && !!state.profile) || state.acctView === "prefs");
+  $("account").classList.toggle("wide", (!!state.user && !!state.profile && state.acctView !== "name") || state.acctView === "prefs");
   const msg = message ? `<div class="msg${isErr ? " err" : ""}">${esc(message)}</div>` : "";
   if (state.acctView === "location") { $("account").classList.remove("wide"); renderLocation(); return; }
   if (state.acctView === "prefs") { renderPrefs(msg); return; }
@@ -2295,12 +2300,11 @@ function renderAccount(message = "", isErr = false) {
   }
   if (!state.user) { // step 1: email
     const want = state.pendingWatch && findFilm(state.pendingWatch);
-    const nameField = `<input type="text" id="name" maxlength="40" placeholder="Name, if you're new (optional)" autocomplete="given-name">`;
     if (state.pendingFriend && !want) {
       const c = state.pendingFriend.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
       body.innerHTML = `<h2 id="accountTitle">Sign in to add a friend</h2>
         <p class="lead">You've been invited to Cinecrab. Sign in or sign up and you'll be friends as soon as you're in.</p>
-        ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
+        ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
         <button class="btn accent" type="submit">Send code</button></form>
         <p class="alt">Using Cinecrab from your Home Screen? Links open in Safari, which keeps its own sign-in. Instead, copy this code, open Cinecrab from your Home Screen and enter it under the Friends tab (Films → Friends).</p>
         <div class="codebox">${esc(fmtCode(c))}</div>
@@ -2310,10 +2314,10 @@ function renderAccount(message = "", isErr = false) {
     body.innerHTML = want ? `<h2 id="accountTitle">Sign in to save to your watchlist</h2>
       <p><b>${esc(titleOf(want))}</b> will be added as soon as you're in. Your watchlist is saved to your account, so it follows you to other devices and you can get an email when films on it go on sale.</p>
       <p>${googleOn() ? "Continue with Google, or enter your email and we'll send a one-time code" : "Enter your email and we'll send a one-time code"}. No password, and new emails get an account automatically.</p>
-      ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
+      ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
       <button class="btn accent" type="submit">Send code</button></form>${msg}` : `<h2 id="accountTitle">Sign in or sign up</h2>
       <p>${googleOn() ? "One click with Google, or enter your email and we'll send you a one-time code" : "Enter your email and we'll send you a one-time code"}. No password. Signing in syncs your watchlist and filters across devices, and lets you get the daily email of films newly on sale.</p>
-      ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
+      ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
       <button class="btn accent" type="submit">Send code</button></form>${msg}`;
     return;
   }
@@ -2323,6 +2327,7 @@ function renderAccount(message = "", isErr = false) {
     return;
   }
   const p = state.profile;
+  if (state.acctView === "name") { renderNameStep(msg); return; }
   if (state.acctView === "email") { renderEmailSettings(msg); return; }
   renderProfile(msg);
 }
@@ -2393,6 +2398,32 @@ $("acctMenu").addEventListener("click", async (e) => {
   $("account").scrollTop = 0;
 });
 
+// Right after signing in: an account with no name yet is asked for one, once (friends see it instead of the email). Google's
+// name is filled in. Otherwise a sign-in that kept the dialog open (see the code form) closes it here.
+function askForName(p) {
+  state.askName = false;
+  const asked = local.get("askedName", []);
+  if (!p.display_name && "friend_code" in p && !asked.includes(state.user.id)) {
+    local.set("askedName", [...asked, state.user.id].slice(-20));
+    state.acctView = "name";
+    renderAccount();
+    if (!$("account").open) $("account").showModal();
+    return;
+  }
+  if ($("account").open && !state.acctView && !state.pendingFriend && !state.pendingWatch) { $("account").close(); toast("Signed in. Your watchlist and filters now sync across devices."); }
+  else if ($("account").open) renderAccount();
+  else if (state.user) toast("Signed in. Your watchlist and filters now sync across devices.");
+}
+function renderNameStep(msg) {
+  const suggested = (state.user.metaName || "").slice(0, 40);
+  $("accountBody").innerHTML = `<h2 id="accountTitle">You're in</h2>
+    <p>What should friends call you? They see this name instead of your email. You can change it any time under Profile.</p>
+    <form class="signin" id="nameStepForm"><input type="text" id="stepName" maxlength="40" required value="${esc(suggested)}" placeholder="Your name" autocomplete="name" aria-label="Your name">
+    <button class="btn accent" type="submit">Save</button></form>
+    <div class="row" style="margin-top:10px"><button class="linkbtn" id="skipName">Skip for now</button></div>${msg}`;
+  setTimeout(() => $("stepName")?.focus(), 0);
+}
+
 function renderProfile(msg) {
   const p = state.profile;
   $("accountBody").innerHTML = `<h2 id="accountTitle">Profile</h2>
@@ -2454,7 +2485,8 @@ let lastRealUser = null;
 function setUser(session) {
   const anon = !!session?.user?.is_anonymous;
   state.guest = anon ? { id: session.user.id } : null;
-  state.user = session?.user && !anon ? { id: session.user.id, email: session.user.email } : null;
+  const meta = session?.user?.user_metadata || {};
+  state.user = session?.user && !anon ? { id: session.user.id, email: session.user.email, metaName: meta.full_name || meta.name || "" } : null;
   if (lastRealUser && lastRealUser !== (state.user?.id || null)) clearPlansState();  // signed out, or into a different account
   lastRealUser = state.user?.id || null;
   if (state.user) {
@@ -2494,11 +2526,10 @@ paintAccount(false);  // a person icon until we know better (the saved sign-in i
 if (sb) {
   const seen = local.get("acct", null);
   if (seen && seen.i) paintAccount(true, seen.i);  // as last time, until the saved session has been checked (setUser)
-  let pendingName = "";  // the optional name typed at sign-up; only used when the email turns out to be new
   const sendCode = async (email) => {
     let captcha;
     try { captcha = await captchaToken(); } catch (e) { return `Couldn't send a code: the check failed (${e?.message || e}).`; }
-    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, ...(captcha ? { captchaToken: captcha } : {}), ...(pendingName ? { data: { display_name: pendingName } } : {}) } });
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true, ...(captcha ? { captchaToken: captcha } : {}) } });
     if (error) return error.status === 429 || /rate|seconds/i.test(error.message)
       ? "Wait a minute before asking for another code." : `Couldn't send a code: ${error.message}`;
     state.pendingEmail = email;
@@ -2511,18 +2542,18 @@ if (sb) {
     const btn = e.target.querySelector("button[type=submit]");
     if (e.target.id === "signinForm") {
       btn.disabled = true;
-      pendingName = $("name")?.value.trim().slice(0, 40) || "";
       const err = await sendCode($("email").value.trim());
       btn.disabled = false;
       renderAccount(err, !!err);
     } else if (e.target.id === "codeForm") {
       btn.disabled = true;
+      state.askName = true;  // a fresh sign-in: once the account loads, ask for a name if it has none (askForName)
       const { error } = await sb.auth.verifyOtp({ email: state.pendingEmail, token: $("code").value.trim(), type: "email" });
       btn.disabled = false;
-      if (error) { renderAccount("That code didn't work. Check it, or send a new one (codes expire after an hour).", true); return; }
+      if (error) { state.askName = false; renderAccount("That code didn't work. Check it, or send a new one (codes expire after an hour).", true); return; }
       state.pendingEmail = "";
       try { sessionStorage.removeItem("kino:pendingEmail"); } catch {}
-      if (!state.pendingFriend && !state.pendingWatch && $("account").open) { $("account").close(); toast("Signed in. Your watchlist and filters now sync across devices."); }
+      // The dialog stays open (on "Loading your settings…") until the account has loaded: askForName then asks for a name, or closes it.
     }
   });
   $("account").addEventListener("change", async (e) => {
@@ -2637,7 +2668,27 @@ if (sb) {
     const ok = await clip(fmtCode(state.pendingFriend.replace(/[^A-Za-z0-9]/g, "").toUpperCase()));
     renderAccount(ok ? "Code copied." : "Couldn't copy. Select the code and copy it.", !ok);
   });
+  $("account").addEventListener("click", (e) => {
+    if (e.target.id !== "skipName") return;
+    state.acctView = "";
+    $("account").close();
+    toast("Signed in. You can add a name any time under Profile.");
+  });
   $("account").addEventListener("submit", async (e) => {
+    if (e.target.id === "nameStepForm") {
+      e.preventDefault();
+      const v = $("stepName").value.trim().slice(0, 40);
+      if (!v) return;
+      e.target.querySelector("button").disabled = true;
+      state.profile = { ...state.profile, display_name: v };
+      const ok = await pushProfile({ display_name: v });
+      refreshAvatar();
+      if (!ok) { e.target.querySelector("button").disabled = false; renderAccount("Couldn't save your name. Try again in a moment.", true); return; }
+      state.acctView = "";
+      $("account").close();
+      toast(`Thanks, ${v}. You're signed in.`);
+      return;
+    }
     if (e.target.id === "nameForm") {
       e.preventDefault();
       const v = $("dispName").value.trim().slice(0, 40);
