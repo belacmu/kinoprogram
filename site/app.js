@@ -722,6 +722,21 @@ const FEED_DAYS = 30;
 // feed counts as having been here from the start.
 if (!local.get("firstSeen", "")) local.set("firstSeen", local.get("watchlist", null) !== null || local.get("feedSeen", "") ? "2000-01-01T00:00" : new Date().toISOString().slice(0, 16));
 const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
+// Posts sit side by side when there's room (see .posts in style.css). Posters keep the size a full-width post gives them:
+// the columns a post as wide as the feed would have (150px or more, 16px apart, inside 2 x 18px padding and 2 x 1px border).
+// Every post uses that column width and is exactly as wide as the posters it shows (--n); the last post in each row takes
+// what's left of the row, so the spare room is at the end of the row, as in a post with fewer films than fit across.
+const postN = (n) => ` style="--n:${Math.max(1, n)}"`;
+function sizeFeedCols() {
+  const el = $("feedPage"), inner = el.clientWidth - 38;
+  if (inner <= 0) return;
+  const k = Math.max(1, Math.floor((inner + 16) / 166));
+  el.style.setProperty("--pcol", `${Math.floor(((inner - 16 * (k - 1)) / k) * 100) / 100}px`);
+  const posts = [...el.querySelectorAll(".posts > .post")];
+  posts.forEach((p) => p.classList.remove("rowend"));
+  posts.forEach((p, i) => { const next = posts[i + 1]; if (!next || next.offsetTop !== p.offsetTop) p.classList.add("rowend"); });
+}
+addEventListener("resize", sizeFeedCols);
 const FEED_ICONS = {  // 24x24, each glyph centred on (12, 12)
   sale: `<path d="M5 6h14a2 2 0 0 1 2 2v2.2a1.8 1.8 0 0 0 0 3.6V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.2a1.8 1.8 0 0 0 0-3.6V8a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14.5 8.5v1.2M14.5 11.4v1.2M14.5 14.3v1.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
   announced: `<path d="M12 3l2.3 6.7L21 12l-6.7 2.3L12 21l-2.3-6.7L3 12l6.7-2.3z" fill="currentColor"/>`,
@@ -838,7 +853,7 @@ function postHtml(p) {
   const icon = p.type === "friend"
     ? `<span class="fdot" style="--h:${friendHue(p.actor.id)}">${esc(initialsOf(p.actor.name))}</span>`
     : `<span class="pico k-${p.type}"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">${FEED_ICONS[p.type]}</svg></span>`;
-  return `<article class="post">
+  return `<article class="post"${postN(shown.length)}>
     <header class="phead">${icon}<div class="ptext"><strong>${postText(p)}</strong><time>${esc(ago(p.at))}</time></div></header>
     <ul class="grid">${shown.map(cardHtml).join("")}</ul>
     ${n > postShown() ? `<button type="button" class="linkbtn postmore" data-post="${esc(p.key)}" aria-expanded="${open}">${open ? "Show fewer" : `Show ${n - postShown()} more`}</button>` : ""}
@@ -855,9 +870,10 @@ function renderSkeleton() {
   state.page = /^#(feed|new)$/.test(location.hash) ? "feed" : "films";  // the page we open on, known from the address
   const cards = (n) => `<ul class="grid">${'<li class="card sk"><div class="poster"></div><h3></h3><div class="m"></div></li>'.repeat(n)}</ul>`;
   if (/^#(feed|new)$/.test(location.hash)) {
-    const post = `<article class="post sk" aria-hidden="true"><header class="phead"><span class="pico"></span><div class="ptext"><strong class="skbar"></strong><time class="skbar short"></time></div></header>${cards(6)}</article>`;
+    const post = `<article class="post sk" aria-hidden="true" style="--n:6"><header class="phead"><span class="pico"></span><div class="ptext"><strong class="skbar"></strong><time class="skbar short"></time></div></header>${cards(6)}</article>`;
     $("feedPage").hidden = false;
-    $("feedPage").innerHTML = feedFilterHtml() + post + post;
+    $("feedPage").innerHTML = `${feedFilterHtml()}<div class="posts">${post}${post}</div>`;
+    sizeFeedCols();
   } else {
     $("grid").innerHTML = `<section class="sec sk" aria-hidden="true"><h2 class="sech"><span class="skbar"></span></h2>${cards(12)}</section>`;
   }
@@ -914,10 +930,11 @@ function renderFeed() {
     el.innerHTML = `${filter}<div class="fpanel">${needFriends}</div>${state.user && state.profile?.friend_code ? `<p class="nempty">Once your friends add films to their watchlists, they'll show up here.</p>` : ""}`;
     return;
   }
-  el.innerHTML = `${filter}${parts.length ? parts.join("")
+  el.innerHTML = `${filter}${parts.length ? `<div class="posts">${parts.join("")}</div>`
       : state.feedKinds.length ? `<p class="nempty">No updates of this kind yet. <button type="button" class="linkbtn" data-fk="">Show all</button></p>`
       : `<p class="nempty">Nothing new yet. Films show up here as soon as they get a date or tickets go on sale${state.user ? ", and when your friends add films to their watchlists" : ""}.</p>`}
     ${nudge}`;
+  sizeFeedCols();
 }
 $("feedPage").addEventListener("click", (e) => {
   const fk = e.target.closest("[data-fk]");
