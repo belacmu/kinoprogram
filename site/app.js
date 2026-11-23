@@ -722,19 +722,48 @@ const FEED_DAYS = 30;
 // feed counts as having been here from the start.
 if (!local.get("firstSeen", "")) local.set("firstSeen", local.get("watchlist", null) !== null || local.get("feedSeen", "") ? "2000-01-01T00:00" : new Date().toISOString().slice(0, 16));
 const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
-// Posts sit side by side when there's room (see .posts in style.css). Posters keep the size a full-width post gives them:
-// the columns a post as wide as the feed would have (150px or more, 16px apart, inside 2 x 18px padding and 2 x 1px border).
-// Every post uses that column width and is exactly as wide as the posters it shows (--n); the last post in each row takes
-// what's left of the row, so the spare room is at the end of the row, as in a post with fewer films than fit across.
+// Posts sit side by side when there's room (from 640px; see .posts in style.css). Posters keep the size a full-width post
+// gives them: the columns a post as wide as the feed would have (150px or more, 16px apart, inside 2 x 18px padding and
+// 2 x 1px border), so every poster in the feed matches. Rows are split in set ways: whole, 1/2 + 1/2, 1/3 + 2/3, 2/3 + 1/3
+// or three thirds. Each post takes the smallest share its posters fit in (posts of showings and app updates: 340px), and
+// its heading on one line, though a heading longer than half the row wraps rather than widening the post. Headings in a
+// row are given the same height so the posters line up.
 const postN = (n) => ` style="--n:${Math.max(1, n)}"`;
 function sizeFeedCols() {
-  const el = $("feedPage"), inner = el.clientWidth - 38;
+  const el = $("feedPage"), W = el.clientWidth, inner = W - 38;
   if (inner <= 0) return;
-  const k = Math.max(1, Math.floor((inner + 16) / 166));
-  el.style.setProperty("--pcol", `${Math.floor(((inner - 16 * (k - 1)) / k) * 100) / 100}px`);
+  const k = Math.max(1, Math.floor((inner + 16) / 166)), col = Math.floor(((inner - 16 * (k - 1)) / k) * 100) / 100;
+  el.style.setProperty("--pcol", `${col}px`);
   const posts = [...el.querySelectorAll(".posts > .post")];
-  posts.forEach((p) => p.classList.remove("rowend"));
-  posts.forEach((p, i) => { const next = posts[i + 1]; if (!next || next.offsetTop !== p.offsetTop) p.classList.add("rowend"); });
+  for (const p of posts) { p.style.width = ""; const h = p.querySelector(".phead"); if (h) h.style.minHeight = ""; }
+  if (innerWidth < 640) return;  // phones: one post under another
+  const G = 12, share = { 3: (W - 2 * G) / 3, 2: (W - G) / 2, 1.5: (2 * (W - 2 * G)) / 3 + G, 1: W };  // 1/3, 1/2, 2/3, whole
+  const size = posts.map((p) => {
+    const n = +p.style.getPropertyValue("--n"), s = p.querySelector(".ptext strong");
+    let head = 0;
+    if (s) { s.style.whiteSpace = "nowrap"; head = Math.min(s.scrollWidth + 34 + 10 + 38, share[2]); s.style.whiteSpace = ""; }
+    const need = Math.max(n ? n * (col + 16) + 23 : 340, head);
+    return need <= share[3] ? 3 : need <= share[2] ? 2 : need <= share[1.5] ? 1.5 : 1;  // the smallest share it fits in
+  });
+  const rows = [];
+  for (let i = 0; i < posts.length; ) {
+    const next = (j) => (posts[j] && posts[j - 1].nextElementSibling === posts[j] ? size[j] : 0);  // not across the "already seen" line
+    const a = size[i], b = next(i + 1), c = b && next(i + 2);
+    let row;
+    if (a === 3 && b === 3 && c === 3) row = [3, 3, 3];
+    else if ((a === 3 || a === 2) && (b === 3 || b === 2)) row = [2, 2];
+    else if (a === 3 && b === 1.5) row = [3, 1.5];
+    else if (a === 1.5 && b === 3) row = [1.5, 3];
+    else row = [1];
+    row.forEach((f, j) => { posts[i + j].style.width = `${Math.floor(share[f] * 100) / 100}px`; });
+    rows.push(posts.slice(i, i + row.length));
+    i += row.length;
+  }
+  for (const r of rows) {
+    if (r.length < 2) continue;
+    const heads = r.map((p) => p.querySelector(".phead")), h = Math.max(...heads.map((x) => x.offsetHeight));
+    heads.forEach((x) => { x.style.minHeight = `${h}px`; });
+  }
 }
 addEventListener("resize", sizeFeedCols);
 const FEED_ICONS = {  // 24x24, each glyph centred on (12, 12)

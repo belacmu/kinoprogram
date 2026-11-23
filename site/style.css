@@ -1200,16 +1200,12 @@ button.seat2, button.seat { cursor: pointer; }
 .addfriend { width: var(--pill-h); height: var(--pill-h); }
 .feedfilter .chip { display: inline-flex; align-items: center; height: var(--pill-h); padding-block: 0; }
 .achip { height: var(--chip-h); padding-block: 0; }
-/* Posts side by side when there's room (from 640px). Every post's posters are the size a full-width post would give them
-   (--pcol, worked out from the feed's width by sizeFeedCols in app.js), so they all match whatever post they're in. Each
-   post is as wide as the posters it shows (--n) and wraps when it doesn't fit; the last one in a row (.rowend) takes the
-   rest of the row. Posts in a row are the same height. Posts of showing rows (friends going) and app updates ask for 340px. */
+/* Posts side by side when there's room (from 640px). sizeFeedCols (app.js) sets the poster columns (--pcol, the size a
+   full-width post gives them, so every poster matches) and each post's width: a whole row, 1/2, 1/3 or 2/3 of it. Posts
+   in a row are the same height. */
 @media (min-width: 640px) {
   .posts { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
-  .posts > .post { margin: 0; max-width: 100%; flex: 0 1 calc(var(--n, 2) * (var(--pcol, 150px) + 16px) + 23px); }
-  .posts > .post:not([style*="--n"]) { flex-basis: 340px; }
-  .posts > .post.rowend { flex-grow: 1; }
-  .posts > .post .ptext strong { white-space: nowrap; }  /* headings on one line, so posters in a row line up; a post is never narrower than its heading */
+  .posts > .post { margin: 0; flex: none; width: 100%; min-width: 0; }
   .posts > .post .grid { grid-template-columns: repeat(auto-fill, var(--pcol, minmax(150px, 1fr))); }
   .posts > .newmark { flex: 1 1 100%; margin: 6px 0 2px; }
 }
