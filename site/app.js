@@ -1950,9 +1950,14 @@ const setFiltersOpen = (open) => {
   if (open) $("filtersDone").focus();
 };
 // On desktop the Filters button toggles the sidebar (remembered); below that it opens the sheet.
+// Until it has been toggled, the sidebar starts open only when signed in (before auth settles, going by the last visit's account).
 const wideScreen = matchMedia("(min-width: 1000px)");
 const syncFiltersBtn = () => $("filtersBtn").setAttribute("aria-expanded", wideScreen.matches ? !document.body.classList.contains("filters-off") : document.body.classList.contains("filters-open"));
-document.body.classList.toggle("filters-off", local.get("sidebarOff", false));
+function applySidebarDefault() {
+  document.body.classList.toggle("filters-off", local.get("sidebarOff", !state.user && !local.get("acct", null)));
+  syncFiltersBtn();
+}
+applySidebarDefault();
 wideScreen.addEventListener("change", syncFiltersBtn);
 syncFiltersBtn();
 $("filtersBtn").addEventListener("click", () => {
@@ -2441,6 +2446,7 @@ function setUser(session) {
     paintAccount(true, avatarInitial(), state.user.email);
     if (!local.get("acct", null)) local.set("acct", { id: state.user.id, i: avatarInitial() });
   } else { paintAccount(false); local.set("acct", null); }
+  applySidebarDefault();
   if (!state.user) closeMenus();
   if (!state.user) { state.profile = null; state.friends = []; state.friendEvents = []; state.acctView = ""; }
   renderAccount();
