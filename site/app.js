@@ -724,10 +724,9 @@ if (!local.get("firstSeen", "")) local.set("firstSeen", local.get("watchlist", n
 const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
 // Posts sit side by side when there's room (from 640px; see .posts in style.css). Posters are the size a full-width post
 // gives them: the columns a post as wide as the feed would have (150px or more, 16px apart, inside 2 x 18px padding and
-// 2 x 1px border). Rows are split in set ways: whole, 1/2 + 1/2, 1/3 + 2/3, 2/3 + 1/3 or three thirds, by the share each
-// post's posters need (posts of showings and app updates: 340px). When posts only fit together with smaller posters (down
-// to 130px), they share the row with smaller posters, the same size across the row. Three posts share a row only if each
-// heading fits a third in two lines. Headings in a row are given the same height so the posters line up.
+// 2 x 1px border). Two posts in a row share it half and half, when each one's posters fit in half the row (posts of
+// showings and app updates need 340px). Posters may be up to 10% smaller to fit, the same size across the row. Headings
+// in a row are given the same height so the posters line up.
 const postN = (n) => ` style="--n:${Math.max(1, n)}"`;
 function sizeFeedCols() {
   const el = $("feedPage"), W = el.clientWidth, inner = W - 38;
@@ -737,31 +736,20 @@ function sizeFeedCols() {
   const posts = [...el.querySelectorAll(".posts > .post")];
   for (const p of posts) { p.style.width = ""; p.style.removeProperty("--pcol"); const h = p.querySelector(".phead"); if (h) h.style.minHeight = ""; }
   if (innerWidth < 640) return;  // phones: one post under another
-  const G = 12, MIN = 130, share = { 3: (W - 2 * G) / 3, 2: (W - G) / 2, 1.5: (2 * (W - 2 * G)) / 3 + G, 1: W };  // 1/3, 1/2, 2/3, whole
-  const count = posts.map((p) => +p.style.getPropertyValue("--n"));
-  const need = (i, pc) => (count[i] ? count[i] * (pc + 16) + 22 : 340);
-  const headW = (p) => { const s = p.querySelector(".ptext strong"); if (!s) return 0; s.style.whiteSpace = "nowrap"; const w = s.scrollWidth; s.style.whiteSpace = ""; return w; };
-  const inThird = (i) => headW(posts[i]) <= 2 * (share[3] - 82);
-  const ROWS = [[3, 3, 3], [2, 2], [3, 1.5], [1.5, 3]];
-  const rows = [];
-  for (let i = 0; i < posts.length; ) {
-    let avail = 1;  // how many posts from i on are in a run (rows don't cross the "already seen" line)
-    while (avail < 3 && posts[i + avail] && posts[i + avail - 1].nextElementSibling === posts[i + avail]) avail++;
-    const ok = (r, pc) => r.length <= avail && r.every((f, j) => need(i + j, pc) <= share[f] + 0.5) && (r.length < 3 || r.every((f, j) => inThird(i + j)));
-    const row = ROWS.find((r) => ok(r, col)) || ROWS.find((r) => ok(r, MIN)) || [1];
-    const r = posts.slice(i, i + row.length);
-    row.forEach((f, j) => { r[j].style.width = `${Math.floor(share[f] * 100) / 100}px`; });
-    if (row.length > 1) {  // posters as big as every post in the row allows, and the same across it
-      const pc = Math.min(col, ...row.map((f, j) => (count[i + j] ? (share[f] - 22) / count[i + j] - 16 : col)));
-      if (pc < col) r.forEach((p) => p.style.setProperty("--pcol", `${Math.floor(pc * 100) / 100}px`));
+  const half = (W - 12) / 2, count = posts.map((p) => +p.style.getPropertyValue("--n"));
+  const fit = (i) => (count[i] ? (half - 22) / count[i] - 16 : col);  // the largest posters post i can have in half a row
+  const fits = (i) => (count[i] ? fit(i) >= col * 0.9 : half >= 340);
+  for (let i = 0; i < posts.length; i++) {
+    const j = i + 1;
+    if (!posts[j] || posts[i].nextElementSibling !== posts[j] || !fits(i) || !fits(j)) continue;  // not across the "already seen" line
+    const pc = Math.min(col, fit(i), fit(j));
+    for (const p of [posts[i], posts[j]]) {
+      p.style.width = `${Math.floor(half * 100) / 100}px`;
+      if (pc < col) p.style.setProperty("--pcol", `${Math.floor(pc * 100) / 100}px`);
     }
-    rows.push(r);
-    i += row.length;
-  }
-  for (const r of rows) {
-    if (r.length < 2) continue;
-    const heads = r.map((p) => p.querySelector(".phead")), h = Math.max(...heads.map((x) => x.offsetHeight));
+    const heads = [posts[i], posts[j]].map((p) => p.querySelector(".phead")), h = Math.max(...heads.map((x) => x.offsetHeight));
     heads.forEach((x) => { x.style.minHeight = `${h}px`; });
+    i = j;
   }
 }
 addEventListener("resize", sizeFeedCols);
