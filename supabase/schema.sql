@@ -111,7 +111,10 @@ create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = '' as $$
 begin
   insert into public.profiles (id, email, display_name)
-  values (new.id, new.email, nullif(left(btrim(new.raw_user_meta_data ->> 'display_name'), 40), ''))
+  -- The name typed at sign-up; for "Sign in with Google", the name on the Google account.
+  values (new.id, new.email, nullif(left(btrim(coalesce(new.raw_user_meta_data ->> 'display_name',
+                                                        new.raw_user_meta_data ->> 'full_name',
+                                                        new.raw_user_meta_data ->> 'name', '')), 40), ''))
   on conflict (id) do nothing;
   return new;
 end;

@@ -428,7 +428,7 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   save go ahead, and the run is marked failed at the end so it shows. The email goes out even if the site deploy failed. An email
   that can't be sent is skipped (and the run marked failed); the others go out, and nobody gets the same email twice.
 - **GitHub Pages** hosts `site/` plus the generated `data/films.json`.
-- **Supabase** (free) stores accounts (email one-time-code auth) and a `profiles` row per user:
+- **Supabase** (free) stores accounts (email one-time-code auth, plus optional "Continue with Google" via Supabase OAuth with PKCE, hidden in the Home Screen app) and a `profiles` row per user:
   settings, watchlist, subscription, unsubscribe token. Row-level security limits each user to
   their own row; the daily job reads subscribers with the secret key.
 - **Gmail** (dedicated account, app password) sends the emails over SMTP.

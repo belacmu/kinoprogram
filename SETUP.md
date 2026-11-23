@@ -156,3 +156,24 @@ showing, needs a captcha token. Give the site the **site key** (public) as a rep
 (Settings > Secrets and variables > Actions > Variables). The secret key goes only in Supabase. In hCaptcha, add the site's hostname
 (`cinecrab.com`) to the site key's allowed domains. With no `HCAPTCHA_SITE_KEY` the site sends no token, so turn the Supabase
 setting off if you have no key.
+
+## Sign in with Google (optional)
+
+Adds a **Continue with Google** button above the email form, so people can sign in in one click. Someone who already has
+an account under the same Gmail address lands in that same account. About 10 minutes.
+
+1. **Google Cloud**: https://console.cloud.google.com/ → create a project (e.g. `cinecrab`).
+   - **APIs & Services → OAuth consent screen** (Google Auth Platform): app name `Cinecrab`, your support email,
+     audience **External**, then **Publish app** so anyone can sign in, not just test users. The scopes Supabase asks for
+     (email, profile, openid) need no Google review.
+   - **Clients → Create client** → type **Web application**:
+     - Authorised JavaScript origins: `https://cinecrab.com`
+     - Authorised redirect URIs: `https://YOUR-PROJECT.supabase.co/auth/v1/callback` (Supabase shows the exact address in the next step)
+   - Copy the **Client ID** and **Client secret**.
+2. **Supabase → Authentication → Sign In / Providers → Google**: switch it on, paste the client ID and secret → Save.
+   The Redirect URLs from the domain setup (`https://cinecrab.com/**`) already cover coming back to the site and the preview.
+3. The button is on by default. To hide it (say Google stops working), add a repository **variable** `GOOGLE_SIGNIN` with the value `false` and redeploy.
+4. Re-run `supabase/schema.sql` in the SQL Editor once, so new Google accounts get their name from Google.
+
+The button isn't shown in the Home Screen app: Google's page would open in Safari, which keeps its own sign-in, so people
+there keep using the email code. 

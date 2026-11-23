@@ -35,7 +35,7 @@ Python 3.9+ standard library only.
 ## Configuration
 
 Repository **variables** (Settings → Secrets and variables → Actions → Variables):
-`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (both public by design).
+`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (both public by design), and optionally `HCAPTCHA_SITE_KEY` and `GOOGLE_SIGNIN` (`false` hides "Continue with Google"; see [SETUP.md](SETUP.md)).
 
 Repository **secrets**: `SUPABASE_SECRET_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`.
 
