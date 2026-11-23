@@ -82,6 +82,7 @@ jobs:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           HCAPTCHA_SITE_KEY: ${{ vars.HCAPTCHA_SITE_KEY }}
+          GOOGLE_SIGNIN: ${{ vars.GOOGLE_SIGNIN }}
         run: sh scripts/write-site-config.sh
 
       - name: Write film preview pages

@@ -4,8 +4,10 @@
 # Usage (in CI): sh scripts/write-site-config.sh
 set -e
 # HCAPTCHA_SITE_KEY (optional, public): the hCaptcha site key, when Supabase has captcha protection on.
-printf 'window.KINO_CONFIG = { supabaseUrl: "%s", supabaseKey: "%s", captchaSiteKey: "%s" };\n' \
-  "$SUPABASE_URL" "$SUPABASE_PUBLISHABLE_KEY" "$HCAPTCHA_SITE_KEY" > site/config.js
+# GOOGLE_SIGNIN (optional): "true" once Google is switched on in Supabase (SETUP.md); shows "Continue with Google".
+google=false; [ "$GOOGLE_SIGNIN" = "true" ] && google=true
+printf 'window.KINO_CONFIG = { supabaseUrl: "%s", supabaseKey: "%s", captchaSiteKey: "%s", googleSignIn: %s };\n' \
+  "$SUPABASE_URL" "$SUPABASE_PUBLISHABLE_KEY" "$HCAPTCHA_SITE_KEY" "$google" > site/config.js
 v=$(printf '%s' "$GITHUB_SHA" | cut -c1-8)
 sed -i -e "s#src=\"app.js\"#src=\"app.js?v=$v\"#" -e "s#href=\"style.css\"#href=\"style.css?v=$v\"#" \
        -e "s#src=\"config.js\"#src=\"config.js?v=$v\"#" site/index.html

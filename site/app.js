@@ -2109,7 +2109,24 @@ async function captchaToken() {
   window.hcaptcha.reset(hcWidget);
   return r.response;
 }
-const sb = cfg.supabaseUrl && cfg.supabaseKey && window.supabase ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey) : null;
+const sb = cfg.supabaseUrl && cfg.supabaseKey && window.supabase ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey, { auth: { flowType: "pkce" } }) : null;
+// PKCE: "Sign in with Google" comes back with ?code=… (which supabase-js swaps for a session and removes), not tokens in
+// the #fragment, which the app uses for its own pages. The email code and guest sign-ins work the same either way.
+
+// "Sign in with Google" (Supabase: Authentication > Sign In / Providers > Google), shown once the site's googleSignIn is on.
+// Not in the Home Screen app: Google's page would open in Safari, which keeps its own sign-in, so the app would stay signed out.
+const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const googleOn = () => !!(sb && cfg.googleSignIn) && !standalone;
+const GOOGLE_G = `<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.2C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.8c4.3-4 6.9-9.9 6.9-17.2z"/><path fill="#FBBC05" d="M10.5 28.5c-.5-1.4-.8-2.9-.8-4.5s.3-3.1.8-4.5l-7.9-6.2C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.8-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.8c-2.1 1.4-4.8 2.3-8.5 2.3-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>`;
+const googleBlock = () => googleOn()
+  ? `<button type="button" class="btn ghost google" id="googleBtn">${GOOGLE_G}<span>Continue with Google</span></button><div class="orline"><span>or use your email</span></div>` : "";
+async function signInWithGoogle(btn) {
+  if (btn) btn.disabled = true;
+  const back = new URL(location.href); back.searchParams.delete("code");  // come back to the same page (film, tab, region)
+  const { error } = await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: back.href } });
+  if (error) { if (btn) btn.disabled = false; renderAccount(`Couldn't open Google sign-in: ${error.message}`, true); }
+  // otherwise the browser is on its way to Google; onAuthStateChange takes over when it comes back
+}
 let syncTimer = null;
 
 function queueSync() {
@@ -2281,7 +2298,7 @@ function renderAccount(message = "", isErr = false) {
       const c = state.pendingFriend.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
       body.innerHTML = `<h2 id="accountTitle">Sign in to add a friend</h2>
         <p class="lead">You've been invited to Cinecrab. Sign in or sign up and you'll be friends as soon as you're in.</p>
-        <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
+        ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
         <button class="btn accent" type="submit">Send code</button></form>
         <p class="alt">Using Cinecrab from your Home Screen? Links open in Safari, which keeps its own sign-in. Instead, copy this code, open Cinecrab from your Home Screen and enter it under the Friends tab (Films → Friends).</p>
         <div class="codebox">${esc(fmtCode(c))}</div>
@@ -2290,11 +2307,11 @@ function renderAccount(message = "", isErr = false) {
     }
     body.innerHTML = want ? `<h2 id="accountTitle">Sign in to save to your watchlist</h2>
       <p><b>${esc(titleOf(want))}</b> will be added as soon as you're in. Your watchlist is saved to your account, so it follows you to other devices and you can get an email when films on it go on sale.</p>
-      <p>Enter your email and we'll send a one-time code. No password, and new emails get an account automatically.</p>
-      <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
+      <p>${googleOn() ? "Continue with Google, or enter your email and we'll send a one-time code" : "Enter your email and we'll send a one-time code"}. No password, and new emails get an account automatically.</p>
+      ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
       <button class="btn accent" type="submit">Send code</button></form>${msg}` : `<h2 id="accountTitle">Sign in or sign up</h2>
-      <p>Enter your email and we'll send you a one-time code. No password. Signing in syncs your watchlist and filters across devices, and lets you get the daily email of films newly on sale.</p>
-      <form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
+      <p>${googleOn() ? "One click with Google, or enter your email and we'll send you a one-time code" : "Enter your email and we'll send you a one-time code"}. No password. Signing in syncs your watchlist and filters across devices, and lets you get the daily email of films newly on sale.</p>
+      ${googleBlock()}<form class="signin" id="signinForm"><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">${nameField}
       <button class="btn accent" type="submit">Send code</button></form>${msg}`;
     return;
   }
@@ -2525,6 +2542,7 @@ if (sb) {
     }
   });
   $("account").addEventListener("click", async (e) => {
+    if (e.target.closest("#googleBtn")) { signInWithGoogle(e.target.closest("#googleBtn")); return; }
     if (e.target.id === "resendCode") {
       const err = await sendCode(state.pendingEmail);
       renderAccount(err || `New code sent to ${state.pendingEmail}.`, !!err);
