@@ -40,6 +40,8 @@ h1 span { color: var(--accent); }
 .topright { display: flex; gap: 8px; align-items: center; flex: none; }
 /* a flex item, not inline: the signed-out button holds only an icon, so on a text line it would sit on the baseline, above centre */
 .topright .dd { display: flex; }
+/* the title has no margin under it, so the buttons beside it centre on the title itself */
+.top h1 { margin-bottom: 0; }
 .topright select { font-weight: 600; }
 .regionsopt .row { margin-top: 6px; gap: 14px; }
 .banner { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--soon);
