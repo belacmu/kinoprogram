@@ -1200,3 +1200,12 @@ button.seat2, button.seat { cursor: pointer; }
 .addfriend { width: var(--pill-h); height: var(--pill-h); }
 .feedfilter .chip { display: inline-flex; align-items: center; height: var(--pill-h); padding-block: 0; }
 .achip { height: var(--chip-h); padding-block: 0; }
+/* Posts side by side when there's room (from 640px). sizeFeedCols (app.js) sets the poster columns (--pcol, the size a
+   full-width post gives them, so every poster matches) and each post's width: a whole row or half of it. Posts
+   in a row are the same height. */
+@media (min-width: 640px) {
+  .posts { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+  .posts > .post { margin: 0; flex: none; width: 100%; min-width: 0; }
+  .posts > .post .grid { grid-template-columns: repeat(auto-fill, var(--pcol, minmax(150px, 1fr))); }
+  .posts > .newmark { flex: 1 1 100%; margin: 6px 0 2px; }
+}
