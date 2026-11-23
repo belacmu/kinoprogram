@@ -725,7 +725,7 @@ const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two
 // Posts sit side by side when there's room (from 640px; see .posts in style.css). Posters are the size a full-width post
 // gives them: the columns a post as wide as the feed would have (150px or more, 16px apart, inside 2 x 18px padding and
 // 2 x 1px border). Two posts in a row share it half and half, when each one's posters fit in half the row (posts of
-// showings and app updates need 340px). Posters may be up to 10% smaller to fit, the same size across the row. Headings
+// showings and app updates need 340px). Posters may be up to 10% smaller to fit, and are the same size in every half-width post. Headings
 // in a row are given the same height so the posters line up.
 const postN = (n) => ` style="--n:${Math.max(1, n)}"`;
 function sizeFeedCols() {
@@ -739,17 +739,22 @@ function sizeFeedCols() {
   const half = (W - 12) / 2, count = posts.map((p) => +p.style.getPropertyValue("--n"));
   const fit = (i) => (count[i] ? (half - 22) / count[i] - 16 : col);  // the largest posters post i can have in half a row
   const fits = (i) => (count[i] ? fit(i) >= col * 0.9 : half >= 340);
-  for (let i = 0; i < posts.length; i++) {
+  const pairs = [];
+  for (let i = 0; i < posts.length - 1; i++) {
     const j = i + 1;
-    if (!posts[j] || posts[i].nextElementSibling !== posts[j] || !fits(i) || !fits(j)) continue;  // not across the "already seen" line
-    const pc = Math.min(col, fit(i), fit(j));
-    for (const p of [posts[i], posts[j]]) {
+    if (posts[i].nextElementSibling !== posts[j] || !fits(i) || !fits(j)) continue;  // not across the "already seen" line
+    pairs.push([posts[i], posts[j]]);
+    i = j;
+  }
+  // Every half-width post has the same posters: as big as the tightest pair allows.
+  const pc = Math.min(col, ...pairs.flat().map((p) => fit(posts.indexOf(p))));
+  for (const pair of pairs) {
+    for (const p of pair) {
       p.style.width = `${Math.floor(half * 100) / 100}px`;
       if (pc < col) p.style.setProperty("--pcol", `${Math.floor(pc * 100) / 100}px`);
     }
-    const heads = [posts[i], posts[j]].map((p) => p.querySelector(".phead")), h = Math.max(...heads.map((x) => x.offsetHeight));
+    const heads = pair.map((p) => p.querySelector(".phead")), h = Math.max(...heads.map((x) => x.offsetHeight));
     heads.forEach((x) => { x.style.minHeight = `${h}px`; });
-    i = j;
   }
 }
 addEventListener("resize", sizeFeedCols);
