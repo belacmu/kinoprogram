@@ -40,6 +40,8 @@ h1 span { color: var(--accent); }
 .topright { display: flex; gap: 8px; align-items: center; flex: none; }
 /* a flex item, not inline: the signed-out button holds only an icon, so on a text line it would sit on the baseline, above centre */
 .topright .dd { display: flex; }
+/* the title has no margin under it, so the buttons beside it centre on the title itself */
+.top h1 { margin-bottom: 0; }
 .topright select { font-weight: 600; }
 .regionsopt .row { margin-top: 6px; gap: 14px; }
 .banner { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--soon);
@@ -256,7 +258,7 @@ a.stub:hover { border-color: var(--accent); }
   input[type=search], input[type=email], input[inputmode], select, textarea { font-size: 16px; }
 }
 /* ===================== Preview: V1 layout in the 17:54 "pill" style ===================== */
-:root { --accent-tint: #f7e1e6; --pill-h: 36px; }
+:root { --accent-tint: #f7e1e6; --pill-h: 36px; --chip-h: calc(var(--pill-h) - 8px); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --accent-tint: #3b2028; } }
 :root[data-theme="dark"] { --accent-tint: #3b2028; }
 /* one control language: soft pills, same height */
@@ -270,7 +272,7 @@ a.stub:hover { border-color: var(--accent); }
 .iconbtn { width: var(--pill-h); height: var(--pill-h); border-radius: 999px; border: 1px solid transparent; background: var(--chip); }
 .searchbox input { height: var(--pill-h); border-radius: 999px; border: 1px solid transparent; background: var(--chip); padding: 0 36px 0 36px; }
 /* All films / My watchlist: a pill switch, like 17:54's switches */
-.listswitch { display: flex; gap: 2px; padding: 3px; border: 0; border-radius: 999px; background: var(--chip); }
+.listswitch { display: flex; gap: 2px; padding: 0; border: 0; border-radius: 999px; background: var(--chip); }
 .listswitch button { flex: 1; border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 7px 10px;
   font: 600 14px var(--body); cursor: pointer; }
 .listswitch button + button { border-left: 0; }
@@ -301,7 +303,7 @@ a.stub:hover { border-color: var(--accent); }
 .fg legend { padding-bottom: 8px; }
 .fg { padding-block: 14px; }
 /* header: title left, location pill right */
-.top { align-items: center; padding-block: 20px 12px; }
+.top { align-items: center; padding-block: 16px;  /* the same above and below, so the title and buttons sit in the middle of the band */ }
 /* group headings without border lines running through them; spacing separates groups */
 .fg { border: 0; padding: 0; margin: 0 0 18px; }
 .fg legend { padding: 0 0 8px; }
@@ -1186,3 +1188,11 @@ button.seat2, button.seat { cursor: pointer; }
 /* the time line has empty space under its letters, so the bottom padding is smaller: the card looks even at the top and the bottom */
 .cufilm .curows a { padding: 12px 14px 6px; }
 .cufilm .curows a .cstat, .cufilm .cgo { margin-top: -6px; }  /* the card's padding is lopsided on purpose (see above): keep the status and arrow on the card's middle */
+/* Control heights: not one size, but two related ones. A bar's main controls are --pill-h tall (Filters, search, Date, the
+   All films / Watchlist / Friends switch, the add-a-friend button, the Feed's kind chips), so the Films and Feed bars come
+   out the same height; the filters-in-use chips beside them are a step smaller (--chip-h). */
+.listswitch { height: var(--pill-h); }
+.listswitch button { padding-block: 0; }
+.addfriend { width: var(--pill-h); height: var(--pill-h); }
+.feedfilter .chip { display: inline-flex; align-items: center; height: var(--pill-h); padding-block: 0; }
+.achip { height: var(--chip-h); padding-block: 0; }

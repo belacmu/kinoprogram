@@ -2023,10 +2023,12 @@ $("listSwitch").addEventListener("click", (e) => {
 // Section headers stick just below the controls bar; keep that offset in a CSS variable.
 const syncStickTop = () => {
   const c = $("controls"), top = document.querySelector(".top");
-  const hdr = getComputedStyle(top).position === "sticky" ? top.offsetHeight : 0;  // the header stays on screen from 640px
-  const bar = getComputedStyle(c).position === "sticky" ? c.offsetHeight : 0;
-  document.documentElement.style.setProperty("--hdr-h", hdr + "px");
-  document.documentElement.style.setProperty("--stick-top", hdr + bar + "px");
+  // Exact heights, rounded down: offsetHeight rounds to the nearest pixel, so a 63.6px header gave 64 and left a hairline
+  // gap under it where the posters scrolling past showed through. Rounded down, the pinned bar tucks under the header instead.
+  const hdr = getComputedStyle(top).position === "sticky" ? top.getBoundingClientRect().height : 0;  // the header stays on screen from 640px
+  const bar = getComputedStyle(c).position === "sticky" ? c.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty("--hdr-h", Math.floor(hdr) + "px");
+  document.documentElement.style.setProperty("--stick-top", Math.floor(hdr + bar) + "px");
 };
 new ResizeObserver(syncStickTop).observe($("controls"));
 new ResizeObserver(syncStickTop).observe(document.querySelector(".top"));
