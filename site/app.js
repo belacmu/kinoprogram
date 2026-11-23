@@ -722,12 +722,12 @@ const FEED_DAYS = 30;
 // feed counts as having been here from the start.
 if (!local.get("firstSeen", "")) local.set("firstSeen", local.get("watchlist", null) !== null || local.get("feedSeen", "") ? "2000-01-01T00:00" : new Date().toISOString().slice(0, 16));
 const postShown = () => (innerWidth >= 700 ? 5 : 6);  // one row on desktop, two rows of three on phones
-// Posts sit side by side when there's room (from 640px; see .posts in style.css). Posters keep the size a full-width post
+// Posts sit side by side when there's room (from 640px; see .posts in style.css). Posters are the size a full-width post
 // gives them: the columns a post as wide as the feed would have (150px or more, 16px apart, inside 2 x 18px padding and
-// 2 x 1px border), so every poster in the feed matches. Rows are split in set ways: whole, 1/2 + 1/2, 1/3 + 2/3, 2/3 + 1/3
-// or three thirds. Each post takes the smallest share its posters fit in (posts of showings and app updates: 340px), and
-// its heading on one line, though a heading longer than half the row wraps rather than widening the post. Headings in a
-// row are given the same height so the posters line up.
+// 2 x 1px border). Rows are split in set ways: whole, 1/2 + 1/2, 1/3 + 2/3, 2/3 + 1/3 or three thirds, by the share each
+// post's posters need (posts of showings and app updates: 340px). When posts only fit together with smaller posters (down
+// to 130px), they share the row with smaller posters, the same size across the row. Three posts share a row only if each
+// heading fits a third in two lines. Headings in a row are given the same height so the posters line up.
 const postN = (n) => ` style="--n:${Math.max(1, n)}"`;
 function sizeFeedCols() {
   const el = $("feedPage"), W = el.clientWidth, inner = W - 38;
@@ -735,28 +735,27 @@ function sizeFeedCols() {
   const k = Math.max(1, Math.floor((inner + 16) / 166)), col = Math.floor(((inner - 16 * (k - 1)) / k) * 100) / 100;
   el.style.setProperty("--pcol", `${col}px`);
   const posts = [...el.querySelectorAll(".posts > .post")];
-  for (const p of posts) { p.style.width = ""; const h = p.querySelector(".phead"); if (h) h.style.minHeight = ""; }
+  for (const p of posts) { p.style.width = ""; p.style.removeProperty("--pcol"); const h = p.querySelector(".phead"); if (h) h.style.minHeight = ""; }
   if (innerWidth < 640) return;  // phones: one post under another
-  const G = 12, share = { 3: (W - 2 * G) / 3, 2: (W - G) / 2, 1.5: (2 * (W - 2 * G)) / 3 + G, 1: W };  // 1/3, 1/2, 2/3, whole
-  const size = posts.map((p) => {
-    const n = +p.style.getPropertyValue("--n"), s = p.querySelector(".ptext strong");
-    let head = 0;
-    if (s) { s.style.whiteSpace = "nowrap"; head = Math.min(s.scrollWidth + 34 + 10 + 38, share[2]); s.style.whiteSpace = ""; }
-    const need = Math.max(n ? n * (col + 16) + 23 : 340, head);
-    return need <= share[3] ? 3 : need <= share[2] ? 2 : need <= share[1.5] ? 1.5 : 1;  // the smallest share it fits in
-  });
+  const G = 12, MIN = 130, share = { 3: (W - 2 * G) / 3, 2: (W - G) / 2, 1.5: (2 * (W - 2 * G)) / 3 + G, 1: W };  // 1/3, 1/2, 2/3, whole
+  const count = posts.map((p) => +p.style.getPropertyValue("--n"));
+  const need = (i, pc) => (count[i] ? count[i] * (pc + 16) + 22 : 340);
+  const headW = (p) => { const s = p.querySelector(".ptext strong"); if (!s) return 0; s.style.whiteSpace = "nowrap"; const w = s.scrollWidth; s.style.whiteSpace = ""; return w; };
+  const inThird = (i) => headW(posts[i]) <= 2 * (share[3] - 82);
+  const ROWS = [[3, 3, 3], [2, 2], [3, 1.5], [1.5, 3]];
   const rows = [];
   for (let i = 0; i < posts.length; ) {
-    const next = (j) => (posts[j] && posts[j - 1].nextElementSibling === posts[j] ? size[j] : 0);  // not across the "already seen" line
-    const a = size[i], b = next(i + 1), c = b && next(i + 2);
-    let row;
-    if (a === 3 && b === 3 && c === 3) row = [3, 3, 3];
-    else if ((a === 3 || a === 2) && (b === 3 || b === 2)) row = [2, 2];
-    else if (a === 3 && b === 1.5) row = [3, 1.5];
-    else if (a === 1.5 && b === 3) row = [1.5, 3];
-    else row = [1];
-    row.forEach((f, j) => { posts[i + j].style.width = `${Math.floor(share[f] * 100) / 100}px`; });
-    rows.push(posts.slice(i, i + row.length));
+    let avail = 1;  // how many posts from i on are in a run (rows don't cross the "already seen" line)
+    while (avail < 3 && posts[i + avail] && posts[i + avail - 1].nextElementSibling === posts[i + avail]) avail++;
+    const ok = (r, pc) => r.length <= avail && r.every((f, j) => need(i + j, pc) <= share[f] + 0.5) && (r.length < 3 || r.every((f, j) => inThird(i + j)));
+    const row = ROWS.find((r) => ok(r, col)) || ROWS.find((r) => ok(r, MIN)) || [1];
+    const r = posts.slice(i, i + row.length);
+    row.forEach((f, j) => { r[j].style.width = `${Math.floor(share[f] * 100) / 100}px`; });
+    if (row.length > 1) {  // posters as big as every post in the row allows, and the same across it
+      const pc = Math.min(col, ...row.map((f, j) => (count[i + j] ? (share[f] - 22) / count[i + j] - 16 : col)));
+      if (pc < col) r.forEach((p) => p.style.setProperty("--pcol", `${Math.floor(pc * 100) / 100}px`));
+    }
+    rows.push(r);
     i += row.length;
   }
   for (const r of rows) {
@@ -853,12 +852,13 @@ function feedPosts(filtered = true) {
 }
 function postText(p) {
   if (p.type === "update") return "What's new in Cinecrab";
-  if (p.type === "going") return `${esc(shortName(p.actor.name))} is going to ${p.shows.length === 1 ? `<b>${esc(p.shows[0].title)}</b>` : `${p.shows.length} showings`}`;
-  const n = p.rows.length, one = titleOf(p.rows[0].f), films = n === 1 ? "one film" : `${n} films`;
-  if (p.type === "friend") return `${esc(shortName(p.actor.name))} added ${n === 1 ? `<b>${esc(one)}</b>` : films} to their watchlist`;
+  // Headings never name the film: it's right below, on the card or the showing's row.
+  if (p.type === "going") return `${esc(shortName(p.actor.name))} is going to ${p.shows.length === 1 ? "one showing" : `${p.shows.length} showings`}`;
+  const n = p.rows.length, films = n === 1 ? "one film" : `${n} films`;
+  if (p.type === "friend") return `${esc(shortName(p.actor.name))} added ${films} to their watchlist`;
   if (p.type === "sale") return n === 1 ? "One new film on sale" : `${n} new films on sale`;
   if (p.type === "announced") return n === 1 ? "One new film announced" : `${n} new films announced`;
-  return n === 1 ? `More showings added for <b>${esc(one)}</b>` : `More showings added for ${films}`;
+  return `More showings added for ${films}`;
 }
 function ago(at) {
   const mins = Math.round((Date.parse(localNow() + "Z") - Date.parse(at + "Z")) / 60000);
