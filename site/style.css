@@ -256,7 +256,7 @@ a.stub:hover { border-color: var(--accent); }
   input[type=search], input[type=email], input[inputmode], select, textarea { font-size: 16px; }
 }
 /* ===================== Preview: V1 layout in the 17:54 "pill" style ===================== */
-:root { --accent-tint: #f7e1e6; --pill-h: 36px; }
+:root { --accent-tint: #f7e1e6; --pill-h: 36px; --chip-h: calc(var(--pill-h) - 8px); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --accent-tint: #3b2028; } }
 :root[data-theme="dark"] { --accent-tint: #3b2028; }
 /* one control language: soft pills, same height */
@@ -1186,3 +1186,11 @@ button.seat2, button.seat { cursor: pointer; }
 /* the time line has empty space under its letters, so the bottom padding is smaller: the card looks even at the top and the bottom */
 .cufilm .curows a { padding: 12px 14px 6px; }
 .cufilm .curows a .cstat, .cufilm .cgo { margin-top: -6px; }  /* the card's padding is lopsided on purpose (see above): keep the status and arrow on the card's middle */
+/* Control heights: not one size, but two related ones. A bar's main controls are --pill-h tall (Filters, search, Date, the
+   All films / Watchlist / Friends switch, the add-a-friend button, the Feed's kind chips), so the Films and Feed bars come
+   out the same height; the filters-in-use chips beside them are a step smaller (--chip-h). */
+.listswitch { height: var(--pill-h); }
+.listswitch button { padding-block: 0; }
+.addfriend { width: var(--pill-h); height: var(--pill-h); }
+.feedfilter .chip { display: inline-flex; align-items: center; height: var(--pill-h); padding-block: 0; }
+.achip { height: var(--chip-h); padding-block: 0; }
