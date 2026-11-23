@@ -1677,7 +1677,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-15"
+"checked": "2026-11-23"
 },
 "dm-127862487": {
 "imdb": "tt33077003",
@@ -2440,7 +2440,7 @@
 },
 "fw-EDI20251703": {
 "v": 4,
-"checked": "2026-11-15",
+"checked": "2026-11-23",
 "tmdbChecked": "2026-10-30",
 "tv": 2,
 "tmdb": 1751226,
@@ -2600,6 +2600,22 @@
 "tv": 2,
 "tmdb": 1145110,
 "lang": "hi"
+},
+"fw-EDI20260283": {
+"imdb": "tt36495786",
+"imdbAll": [
+"tt36495786"
+],
+"lb": "a-quiet-place-part-iii",
+"rt": null,
+"mc": null,
+"en": "A Quiet Place: Part III",
+"v": 4,
+"checked": "2026-11-23",
+"tmdbChecked": "2026-11-23",
+"tv": 3,
+"tmdb": 1324923,
+"lang": "en"
 },
 "fw-EDI20260347": {
 "v": 4,
@@ -3715,6 +3731,16 @@
 "en": "Lords of War",
 "enFrom": "tmdb"
 },
+"fw-EDI20261493": {
+"v": 4,
+"checked": "2026-11-23",
+"tmdbChecked": "2026-11-23",
+"tv": 3,
+"tmdb": 1301248,
+"lang": "tr",
+"imdb": "tt43350807",
+"en": null
+},
 "fw-EDI20261496": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4377,6 +4403,16 @@
 "tmdb": 1489396,
 "lang": "hi"
 },
+"fw-EDI20261853": {
+"v": 4,
+"checked": "2026-11-23",
+"tmdbChecked": "2026-11-23",
+"tv": 3,
+"tmdb": 1821892,
+"lang": "ko",
+"imdb": null,
+"en": null
+},
 "fw-EDI20261854": {
 "imdb": "tt28228084",
 "imdbAll": [
@@ -4409,6 +4445,24 @@
 "tmdb": 1417668,
 "lang": "en",
 "enFrom": "tmdb"
+},
+"fw-EDI20261861": {
+"imdb": "tt12042730",
+"imdbAll": [
+"tt12042730"
+],
+"lb": "project-hail-mary",
+"rt": "m/project_hail_mary",
+"mc": "movie/project-hail-mary",
+"en": "Project Hail Mary",
+"v": 4,
+"checked": "2026-11-23",
+"tmdbChecked": "2026-11-23",
+"tv": 3,
+"conflict": [
+"tt12042730",
+"tt44090225"
+]
 },
 "fw-FID20210220": {
 "imdb": "tt13322726",
@@ -4460,7 +4514,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-15"
+"checked": "2026-11-23"
 },
 "fw-KUL20260879": {
 "tmdbChecked": "2026-11-17",
@@ -4843,7 +4897,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-15"
+"checked": "2026-11-23"
 },
 "fw-UAV20191951": {
 "tmdbChecked": "2026-11-17",
