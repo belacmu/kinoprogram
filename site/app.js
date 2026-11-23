@@ -1950,9 +1950,10 @@ const setFiltersOpen = (open) => {
   if (open) $("filtersDone").focus();
 };
 // On desktop the Filters button toggles the sidebar (remembered); below that it opens the sheet.
+// It starts closed until it has been opened.
 const wideScreen = matchMedia("(min-width: 1000px)");
 const syncFiltersBtn = () => $("filtersBtn").setAttribute("aria-expanded", wideScreen.matches ? !document.body.classList.contains("filters-off") : document.body.classList.contains("filters-open"));
-document.body.classList.toggle("filters-off", local.get("sidebarOff", false));
+document.body.classList.toggle("filters-off", local.get("sidebarOff", true));
 wideScreen.addEventListener("change", syncFiltersBtn);
 syncFiltersBtn();
 $("filtersBtn").addEventListener("click", () => {
