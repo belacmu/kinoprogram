@@ -270,7 +270,7 @@ a.stub:hover { border-color: var(--accent); }
 .iconbtn { width: var(--pill-h); height: var(--pill-h); border-radius: 999px; border: 1px solid transparent; background: var(--chip); }
 .searchbox input { height: var(--pill-h); border-radius: 999px; border: 1px solid transparent; background: var(--chip); padding: 0 36px 0 36px; }
 /* All films / My watchlist: a pill switch, like 17:54's switches */
-.listswitch { display: flex; gap: 2px; padding: 3px; border: 0; border-radius: 999px; background: var(--chip); }
+.listswitch { display: flex; gap: 2px; padding: 0; border: 0; border-radius: 999px; background: var(--chip); }
 .listswitch button { flex: 1; border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 7px 10px;
   font: 600 14px var(--body); cursor: pointer; }
 .listswitch button + button { border-left: 0; }
