@@ -172,13 +172,8 @@ an account under the same Gmail address lands in that same account. About 10 min
    - Copy the **Client ID** and **Client secret**.
 2. **Supabase → Authentication → Sign In / Providers → Google**: switch it on, paste the client ID and secret → Save.
    The Redirect URLs from the domain setup (`https://cinecrab.com/**`) already cover coming back to the site and the preview.
-3. Show the button: add a repository **variable** `GOOGLE_SIGNIN` with the value `true`, then redeploy (or wait for the next scheduled update):
-
-```bash
-gh variable set GOOGLE_SIGNIN -R github.com/belacmu/kinoprogram --body "true"
-```
-
+3. The button is on by default. To hide it (say Google stops working), add a repository **variable** `GOOGLE_SIGNIN` with the value `false` and redeploy.
 4. Re-run `supabase/schema.sql` in the SQL Editor once, so new Google accounts get their name from Google.
 
 The button isn't shown in the Home Screen app: Google's page would open in Safari, which keeps its own sign-in, so people
-there keep using the email code. To turn Google off again, delete the variable (or set it to `false`) and redeploy.
+there keep using the email code. 
