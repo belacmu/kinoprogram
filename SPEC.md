@@ -425,7 +425,7 @@ Design and reasoning: [docs/stable-ids.md](docs/stable-ids.md).
   the repo. The regions are listed once, in `REGIONS` (`scraper/build.py`); the workflows read it through `scripts/regions.py`.
 - **When something fails**: a region whose sources crash, or whose fresh data has under half the films of its last data file, keeps
   its last data and state (set `KINO_ACCEPT_DROP=1` to publish a real drop); the other regions, the deploy, the email and the state
-  save go ahead, and the run is marked failed at the end so it shows. The email goes out even if the site deploy failed. An email
+  save go ahead, and the run is marked failed at the end so it shows. The deploy gets a second try 30 s after a failure; the email only goes out once the site is deployed, so it never announces showings the site doesn't show yet. If both tries fail, the email waits for the next run that deploys (the state is still saved, and the email covers everything since the last one sent). An email
   that can't be sent is skipped (and the run marked failed); the others go out, and nobody gets the same email twice.
 - **GitHub Pages** hosts `site/` plus the generated `data/films.json`.
 - **Supabase** (free) stores accounts (email one-time-code auth, plus optional "Continue with Google" via Supabase OAuth with PKCE, hidden in the Home Screen app) and a `profiles` row per user:
