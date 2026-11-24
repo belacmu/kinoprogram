@@ -93,7 +93,6 @@ const state = {
   updates: [],           // what's new in Cinecrab (site/updates.json)
   seatsOpen: "",         // the plan whose seats are being edited
   goOpen: "",            // the showing whose "I'm going" is being set up (who sees it, seats) before it is saved
-  visOpen: "",           // the plan whose "who sees it" is being changed
   inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
   acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
@@ -1336,7 +1335,7 @@ function openFilm(id) {
 // Keyed by the showing's id (s.id, made by the scraper; the database's showings table has the same ids).
 // {going, tell, seats, inv, via, party, gone, replacedBy, ...a copy of the showing so it still shows if the schedule drops it: film, title,
 // cinema, time, region, ticket}. gone / replacedBy come from the database: the cinema no longer lists it / the showing that took its place.
-// tell: shown to your friends (Feed, Coming up, the film's showings) or only to the people going with you (the party); see whoSees().
+// tell: shown to your friends (Feed, Coming up, the film's showings) or only to the people going with you (the party); see tellSwitch().
 // inv is the plan's private invite token and party its party: both are made by the server (save_plan), never here.
 const plans = local.get("plans", {});
 if (!local.get("plansV2", false)) { for (const p of Object.values(plans)) delete p.inv; local.set("plansV2", true); }  // tokens used to be made here; the server's are the real ones
@@ -1402,7 +1401,7 @@ async function runSync() {
 // Signing out, or into a different account, leaves nothing of the last person's plans behind on this device.
 function clearPlansState() {
   for (const k of Object.keys(plans)) delete plans[k];
-  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; state.goOpen = ""; state.visOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
+  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; state.goOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
   local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
   for (const k of Object.keys(joinedVia)) delete joinedVia[k]; local.set("joinedVia", {});
 }
@@ -1501,14 +1500,11 @@ function seatLabel(v) {
 const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
 const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
 
-// Who sees that you're going, as two choices. Your friends: it shows up for them everywhere (Feed, Coming up, the film's showings,
-// the daily email). Just this showing: only the people going with you. Either way the party sees you: anyone who joins through an
-// invite link (yours, or anyone else's in the group), and friends who go to the same showing (they join your group).
-const whoSees = (tell) => `<p class="wsnote">People going with you will see you, including anyone who joins through a link.</p>
-  <fieldset class="whosees"><legend>Also share with all your friends?</legend>
-  <label class="wsopt"><input type="radio" name="tell" value="1"${tell ? " checked" : ""}><span><b>Share</b><small>Shows in their Feed and Coming up.</small></span></label>
-  <label class="wsopt"><input type="radio" name="tell" value="0"${tell ? "" : " checked"}><span><b>Don't share</b><small>Only people going with you.</small></span></label></fieldset>`;
-const toldNow = () => $("film").querySelector('.whosees input[name="tell"]:checked')?.value !== "0";
+// Tell my friends: on, your friends see it (Feed, Coming up, the film's showings, the daily email); off, only people who open this
+// showing see it (through an invite link, or friends who go too and so join your group). One line under it says which.
+const TELL_HINT = { on: "Friends see it in their Feed.", off: "Only people who open this showing (e.g. via a link) see it." };
+const tellSwitch = (tell, save) => `<label class="tellsw"><input type="checkbox" role="switch" data-tell="${save ? "save" : "pick"}"${tell ? " checked" : ""}><span class="sw" aria-hidden="true"></span><span class="tl"><b>Tell my friends</b><small>${tell ? TELL_HINT.on : TELL_HINT.off}</small></span></label>`;
+const toldNow = () => !!$("film").querySelector("[data-tell]")?.checked;
 
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
@@ -1535,17 +1531,15 @@ function showingPage(f, s, dlg) {
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
   const others = people.filter((p) => !p.me);
   // Signed in, you choose who sees it (friends, or just this showing). A guest has no friends, so only the people going with them can.
-  const told = plan?.tell !== false, visOpen = on && state.visOpen === planId(f, s);
-  const note = !state.user ? `<p class="visnote">Everyone going with you can see that you're going.</p>`
-    : visOpen ? `<div class="gochoose">${whoSees(told)}<div class="gobar"><button class="pbtn sm" data-visdone="1">Done</button></div></div>`
-    : `<p class="visnote"><button class="vislink" data-visopen="1">${told ? "Shared with your friends" : "Not shared with your friends"}<span class="chg">Change</span></button></p>`;
+  const note = !state.user ? `<p class="visnote">People who open this showing (e.g. via a link) see that you're going.</p>`
+    : `<div class="visnote tellrow">${tellSwitch(plan?.tell !== false, true)}</div>`;
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
   const choosing = !on && state.user && state.goOpen === planId(f, s);
   if (on) mine = row(people.find((p) => p.me)) + note;
-  else if (choosing) mine = `<div class="gochoose">${whoSees(local.get("goTell", true))}
+  else if (choosing) mine = `<div class="gochoose">${tellSwitch(local.get("goTell", true), false)}
       <div class="goseats"><span class="gsl">Seats <small>(optional)</small></span><span class="seatedit"><input class="seatinp" data-pre="row" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric"><input class="seatinp wide" data-pre="seats" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"></span></div>
       <div class="gobar"><button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">✓ I'm going</button></div></div>`;
-  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>People going with you will see it.</small></span>${goBtn}</div>`;
+  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>You choose if your friends are told.</small></span>${goBtn}</div>`;
   else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>Everyone going with you will see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
   const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
   // A showing the cinema no longer lists (or moved to another time that day): say so, and offer to move your plan to the new time.
@@ -1655,12 +1649,6 @@ async function planClick(t) {
     goNow(f, s, tell, row || seats ? `${row}|${seats}` : "");
   }
   else if (t.dataset.gocancel) state.goOpen = "";
-  else if (t.dataset.visopen) state.visOpen = planId(f, s);
-  else if (t.dataset.visdone) {
-    const tell = toldNow();
-    state.visOpen = "";
-    if (planOf(f, s) && tell !== (planOf(f, s).tell !== false)) { setPlan(f, s, { tell }); local.set("goTell", tell); toast(tell ? "Shared with your friends" : "No longer shared with your friends"); }
-  }
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
   else if (t.dataset.seatsdone) state.seatsOpen = "";
   else {
@@ -1712,6 +1700,15 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
     const row = $("film").querySelector('[data-plan="row"]')?.value.trim() || "", seats = $("film").querySelector('[data-plan="seats"]')?.value.trim() || "";
     setPlan(f, s, { seats: row || seats ? `${row}|${seats}` : "" });
   }
+});
+$("film").addEventListener("change", (e) => {  // Tell my friends: the line under it follows; once you're going, it saves at once
+  const k = e.target.dataset?.tell;
+  if (!k) return;
+  const tell = e.target.checked;
+  e.target.closest(".tellsw").querySelector("small").textContent = tell ? TELL_HINT.on : TELL_HINT.off;
+  if (k !== "save") return;
+  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
+  if (s && planOf(f, s)) { setPlan(f, s, { tell }); local.set("goTell", tell); }
 });
 $("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = Done (or, before going, I'm going)
   if (e.key === "Enter" && e.target.dataset?.pre) { e.preventDefault(); $("film").querySelector("[data-goconfirm]")?.click(); return; }
@@ -1850,10 +1847,10 @@ function setCollapsed(key, shut) {
 const sectionShut = (key) => (key === GONE_KEY ? !state.collapsed.has(GONE_OPEN) : state.collapsed.has(key));
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-goconfirm],[data-gocancel],[data-visopen],[data-visdone],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-goconfirm],[data-gocancel],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan || t.dataset.goconfirm || t.dataset.gocancel || t.dataset.visopen || t.dataset.visdone) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan || t.dataset.goconfirm || t.dataset.gocancel) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";

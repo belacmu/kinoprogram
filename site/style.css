@@ -1090,25 +1090,23 @@ button.seat2, button.seat { cursor: pointer; }
 .seatedit .pbtn.sm { height: 36px; min-height: 36px; padding: 0 12px; box-sizing: border-box; }
 .prow2.editing { min-height: 0; }
 .visnote { margin-top: -6px; }
-/* "I'm going", step two (signed in): who sees it, as two choices, a note on who always does, optional seats, then confirm.
-   The same choices (without seats) open from "Your friends can see this · Change" once you're going. */
+/* "I'm going", step two (signed in): Tell my friends (a switch), optional seats, then confirm. Once going, the switch sits under your row. */
 .gochoose { display: flex; flex-direction: column; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-.whosees { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.whosees legend { padding: 0; margin-bottom: 8px; font: 700 15px var(--body); color: var(--ink); }
-.wsopt { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer; }
-.wsopt:has(input:checked) { border-color: var(--soon); background: color-mix(in srgb, var(--soon) 8%, var(--surface)); }
-.wsopt input { flex: none; margin: 3px 0 0; accent-color: var(--soon); width: 18px; height: 18px; }
-.wsopt span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.wsopt b { font: 600 15px var(--body); }
-.wsopt small, .wsnote { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
-.wsnote { margin: 0; }
-.wsnote b { color: var(--ink); font-weight: 600; }
+.tellsw { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+.tellsw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.tellsw .sw { flex: none; position: relative; width: 40px; height: 24px; margin-top: 1px; border-radius: 999px; background: var(--edge); transition: background .15s; }
+.tellsw .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; }
+.tellsw input:checked + .sw { background: var(--soon); }
+.tellsw input:checked + .sw::after { transform: translateX(16px); }
+.tellsw input:focus-visible + .sw { outline: 2px solid var(--ink); outline-offset: 2px; }
+.tellsw .tl { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.tellsw b { font: 600 15px var(--body); color: var(--ink); }
+.tellsw small { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
+.visnote .tellsw b { font-size: 14px; }
 .goseats { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .gsl { font: 600 14px var(--body); }
 .gsl small { font-weight: 400; color: var(--muted); }
 .gobar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
-.vislink { display: inline-flex; align-items: baseline; gap: 6px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; text-align: left; }
-.vislink .chg { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 /* not enough room on your own line (very narrow phones): the editor drops to a line under it, lined up with the name */
 .plist { container-type: inline-size; }
 @container (max-width: 290px) {
@@ -1248,3 +1246,5 @@ button.seat2, button.seat { cursor: pointer; }
 .cuin .curows li:first-child a, .cuin .curows li:last-child a { padding-block: 12px; }
 .cu .curows a:hover, .cuin .curows a:hover { border-color: var(--ink); border-left-color: var(--accent); background: var(--ticket); }
 .cu .curows li:has(.cstat.you) a, .cu .curows li:has(.cstat.you) a:hover { border-color: var(--soon); border-left-color: var(--soon); box-shadow: var(--going-ring); }
+/* Tell my friends, once going: under your name, left-aligned */
+.visnote.tellrow { margin: 0 0 0 44px; text-align: left; }
