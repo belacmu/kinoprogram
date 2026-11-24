@@ -713,7 +713,7 @@
 "checked": "2026-10-03"
 },
 "cm-2026-troll-i-eske-desember": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-19"
@@ -774,7 +774,7 @@
 "checked": "2026-10-03"
 },
 "cm-bawke-hedda": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -912,7 +912,7 @@
 "checked": "2026-10-03"
 },
 "cm-fra-nrk-arkivet-julekalender-spesial": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -1088,7 +1088,7 @@
 "checked": "2026-10-03"
 },
 "cm-la-defense-trilogien": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -1171,7 +1171,7 @@
 "checked": "2026-10-03"
 },
 "cm-my-national-gallery": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -1197,21 +1197,6 @@
 "lb": "orlando",
 "rt": "m/orlando",
 "mc": "movie/orlando",
-"v": 4,
-"checked": "2026-10-03"
-},
-"cm-oslo-31-august": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 75233,
-"imdb": "tt1736633",
-"en": "Oslo, August 31st",
-"imdbAll": [
-"tt1736633"
-],
-"lb": "oslo-august-31st",
-"rt": "m/oslo_august_31st",
-"mc": "movie/oslo-august-31st",
 "v": 4,
 "checked": "2026-10-03"
 },
@@ -1286,7 +1271,7 @@
 "checked": "2026-11-20"
 },
 "cm-small-roads": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -1342,21 +1327,6 @@
 "imdb": "tt2652874",
 "en": "Stemple Pass",
 "enFrom": "tmdb"
-},
-"cm-streik-bull-tuhus": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 368108,
-"imdb": "tt0217070",
-"en": null,
-"imdbAll": [
-"tt0217070"
-],
-"lb": "streik",
-"rt": null,
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
 },
 "cm-syk-pike": {
 "imdb": "tt18816518",
@@ -1711,7 +1681,7 @@
 "lang": "en"
 },
 "dm-1051553638": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-23"
@@ -1990,13 +1960,13 @@
 "checked": "2026-10-05"
 },
 "fw-EDI20240549": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
 },
 "fw-EDI20240550": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -2075,7 +2045,7 @@
 "checked": "2026-10-05"
 },
 "fw-EDI20250084": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -2201,13 +2171,13 @@
 "enFrom": "tmdb"
 },
 "fw-EDI20250681": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
 },
 "fw-EDI20250688": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -2228,10 +2198,15 @@
 "checked": "2026-10-05"
 },
 "fw-EDI20250767": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-21"
+"checked": "2026-11-21",
+"tmdb": 1702761,
+"lang": "en",
+"imdb": null,
+"en": "Royal Ballet & Opera 2026/27: The Nutcracker",
+"enFrom": "tmdb"
 },
 "fw-EDI20250777": {
 "tmdbChecked": "2026-10-01",
@@ -2244,10 +2219,14 @@
 "checked": "2026-11-22"
 },
 "fw-EDI20250783": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-22"
+"checked": "2026-11-22",
+"tmdb": 1842310,
+"lang": "nb",
+"imdb": null,
+"en": null
 },
 "fw-EDI20250794": {
 "imdb": "tt36841161",
@@ -2458,7 +2437,7 @@
 "enFrom": "tmdb"
 },
 "fw-EDI20251442": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -2492,7 +2471,7 @@
 "v": 4
 },
 "fw-EDI20251576": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -2538,7 +2517,7 @@
 "en": null
 },
 "fw-EDI20251749": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -2591,7 +2570,7 @@
 "checked": "2026-10-04"
 },
 "fw-EDI20260041": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -2654,7 +2633,7 @@
 "checked": "2026-10-05"
 },
 "fw-EDI20260207": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -2831,13 +2810,17 @@
 "checked": "2026-10-04"
 },
 "fw-EDI20260550": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-22"
+"checked": "2026-11-22",
+"tmdb": 1829496,
+"lang": "nb",
+"imdb": null,
+"en": null
 },
 "fw-EDI20260560": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -3072,16 +3055,16 @@
 "enFrom": "tmdb"
 },
 "fw-EDI20260748": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
 },
 "fw-EDI20260755": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-17"
+"checked": "2026-11-25"
 },
 "fw-EDI20260767": {
 "tmdbChecked": "2026-10-01",
@@ -3146,13 +3129,13 @@
 "checked": "2026-10-05"
 },
 "fw-EDI20260830": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
 },
 "fw-EDI20260840": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -3326,7 +3309,7 @@
 "enFrom": "tmdb"
 },
 "fw-EDI20260919": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -3740,7 +3723,7 @@
 "checked": "2026-10-04"
 },
 "fw-EDI20261408": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -3893,13 +3876,13 @@
 "checked": "2026-10-03"
 },
 "fw-EDI20261520": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
 },
 "fw-EDI20261524": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-21"
@@ -3968,7 +3951,7 @@
 "enFrom": "tmdb"
 },
 "fw-EDI20261614": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -4044,40 +4027,8 @@
 "en": "Not Waiting for Christmas",
 "enFrom": "tmdb"
 },
-"fw-EDI20261677": {
-"imdb": "tt38440263",
-"imdbAll": [
-"tt38440263"
-],
-"lb": "no-mercy-2025-1",
-"rt": "m/no_mercy_2025",
-"mc": null,
-"en": "No Mercy",
-"v": 4,
-"checked": "2026-11-02",
-"tmdbChecked": "2026-11-02",
-"tv": 2,
-"tmdb": 1525176,
-"lang": "de"
-},
-"fw-EDI20261678": {
-"imdb": "tt39292036",
-"imdbAll": [
-"tt39292036"
-],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-11-02",
-"tmdbChecked": "2026-11-02",
-"tv": 2,
-"tmdb": 1601856,
-"lang": "de"
-},
 "fw-EDI20261679": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-18"
@@ -4381,16 +4332,16 @@
 "lang": "fr"
 },
 "fw-EDI20261811": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-17"
+"checked": "2026-11-25"
 },
 "fw-EDI20261813": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-17"
+"checked": "2026-11-25"
 },
 "fw-EDI20261814": {
 "v": 4,
@@ -4402,19 +4353,8 @@
 "imdb": "tt34515768",
 "en": null
 },
-"fw-EDI20261820": {
-"v": 4,
-"checked": "2026-11-10",
-"tmdbChecked": "2026-11-10",
-"tv": 2,
-"tmdb": 949,
-"lang": "en",
-"imdb": "tt0113277",
-"en": "Heat",
-"enFrom": "tmdb"
-},
 "fw-EDI20261823": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-19"
@@ -4470,7 +4410,7 @@
 "en": null
 },
 "fw-EDI20261840": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-24"
@@ -4498,10 +4438,10 @@
 "lang": "hi"
 },
 "fw-EDI20261847": {
+"tmdbChecked": "2026-11-25",
+"tv": 3,
 "v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3
+"checked": "2026-11-25"
 },
 "fw-EDI20261848": {
 "imdb": "tt38840418",
@@ -4589,8 +4529,8 @@
 "mc": "movie/project-hail-mary",
 "en": "Project Hail Mary",
 "v": 4,
-"checked": "2026-11-24",
-"tmdbChecked": "2026-11-24",
+"checked": "2026-11-25",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "conflict": [
 "tt12042730",
@@ -4682,31 +4622,31 @@
 "enFrom": "tmdb"
 },
 "fw-KUL20182847": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
 },
 "fw-KUL20260528": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
 },
 "fw-KUL20260648": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-23"
 },
 "fw-KUL20260879": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
 },
 "fw-LIV20200059": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -4727,13 +4667,13 @@
 "tmdb": 1261032
 },
 "fw-MMF20210051": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
 },
 "fw-MMF20210053": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -4809,7 +4749,7 @@
 "enFrom": "tmdb"
 },
 "fw-NOR20230680": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -4877,7 +4817,7 @@
 "enFrom": "tmdb"
 },
 "fw-NOR20240728": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -4929,23 +4869,6 @@
 "tv": 3,
 "tmdb": 1212199,
 "lang": "sv",
-"enFrom": "tmdb"
-},
-"fw-SFN20131352": {
-"imdb": "tt1631867",
-"imdbAll": [
-"tt1631867"
-],
-"lb": "edge-of-tomorrow",
-"rt": "m/live_die_repeat_edge_of_tomorrow",
-"mc": "movie/edge-of-tomorrow",
-"en": "Edge of Tomorrow",
-"v": 4,
-"checked": "2026-11-10",
-"tmdbChecked": "2026-11-10",
-"tv": 2,
-"tmdb": 137113,
-"lang": "en",
 "enFrom": "tmdb"
 },
 "fw-SFN20191100": {
@@ -5104,22 +5027,16 @@
 "checked": "2026-10-03"
 },
 "fw-UAV20190694": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
 },
 "fw-UAV20191573": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-23"
-},
-"fw-UAV20191951": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-18"
 },
 "fw-UAV20192209": {
 "imdb": "tt0104431",
@@ -5154,7 +5071,7 @@
 "checked": "2026-10-03"
 },
 "fw-UAV20237568": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -5322,7 +5239,7 @@
 "enFrom": "tmdb"
 },
 "fw-YME20240132": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
