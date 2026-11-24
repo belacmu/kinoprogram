@@ -202,18 +202,19 @@ dialog::backdrop { background: var(--scrim); }
 .actions a { color: var(--muted); }
 .days { padding: 0 22px 22px; }
 .day { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding-block: 12px; border-top: 1px solid var(--line); }
-.day h4 { margin: 0; font: 700 18px/1.1 var(--display); text-transform: uppercase; }
-.day h4 small { display: block; font: 500 12px var(--mono); color: var(--muted); text-transform: none; margin-top: 3px; }
+.day h4 { margin: 0; font: 800 22px/1 var(--display); text-transform: uppercase; }
 .day.today h4 { color: var(--soon); }
 .stubs { display: flex; flex-wrap: wrap; gap: 8px; }
-.stub { display: inline-flex; flex-direction: column; text-decoration: none; padding: 6px 11px 6px 13px; border-radius: 3px;
-  border: 1px solid var(--line); border-left: 3px dotted var(--accent); background: var(--bg); font-size: 12px; line-height: 1.3; max-width: 100%; }
-a.stub:hover { border-color: var(--accent); }
-.stub .t { font: 500 15px var(--mono); }
+/* a showing is a small ticket: rounded card, perforated red left edge (green when you're going), like the showing's own page */
+.stub { display: inline-flex; flex-direction: column; text-decoration: none; padding: 9px 14px; border-radius: 12px;
+  border: 1px solid var(--line); border-left: 3px dotted var(--accent); background: var(--surface); font-size: 12px; line-height: 1.3; max-width: 100%; }
+a.stub:hover { border-color: var(--ink); border-left-color: var(--accent); }
+.stub .t { font: 500 18px var(--mono); }
 .stub .c { color: var(--muted); }
+.stub .t + .c { color: var(--ink); font-weight: 600; }
 .stub .tg { color: var(--accent); font-size: 11px; }
 .stub .nt { font-size: 11px; color: var(--ink); max-width: 28ch; }
-.stub.nosale { border-left-color: var(--muted); border-style: dashed; opacity: .75; }
+.stub.nosale { border-style: dashed; border-left-color: var(--muted); opacity: .75; }
 .hiddenNote { color: var(--muted); font-size: 13px; padding: 10px 0 0; border-top: 1px solid var(--line); }
 /* Right under the film's header, which has its own line: no second one. */
 .days > .hiddenNote:first-child { border-top: 0; padding-top: 0; }
@@ -903,7 +904,7 @@ body.page-feed .layout { grid-template-columns: minmax(0, 1fr); }
 /* the friends' initials sit above the rating, not under it */
 .pico svg { display: block; }
 /* ---------------------------------------------------------------- a showing's own page (inside the film sheet) */
-a.stub.going { border-left-color: var(--soon); }
+a.stub.going, a.stub.going:hover { border-color: var(--soon); border-left-color: var(--soon); box-shadow: inset 0 0 0 1px var(--soon); }
 .buy { display: flex; justify-content: center; align-items: center; box-sizing: border-box; width: 100%; min-height: 48px; margin-top: 12px; border-radius: 999px;
   background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 16px; text-decoration: none; }
 .buy.off { background: var(--chip); color: var(--muted); }
@@ -1025,13 +1026,18 @@ a.stub.going { border-left-color: var(--soon); }
 .showpage .back { height: 32px; min-height: 0; padding: 0 12px 0 10px; gap: 4px; background: var(--chip); color: var(--ink); font-size: 13px; font-weight: 400; text-decoration: none; max-width: none; }
 .showpage .back span { font-size: 16px; line-height: 1; margin-top: -1px; }
 .showpage .back:hover { background: color-mix(in srgb, var(--ink) 14%, var(--chip)); }
-.plan9 { margin-top: 2px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+.plan9 { margin-top: 2px; border: 1px solid var(--line); border-left: 3px dotted var(--accent); border-radius: 14px; background: var(--surface); overflow: hidden; }
+.plan9.going { border-left-color: var(--soon); }
 .ph9 { display: flex; align-items: flex-start; gap: 12px; padding: 14px; }
 .ph9 .l { flex: 1; min-width: 0; }
 .ph9 .dt { font: 800 26px/1 var(--display); text-transform: uppercase; }
-.ph9 .tm { margin-top: 3px; font: 600 17px var(--body); }
-.ph9 .tm .m { font-family: var(--mono); font-weight: 500; }
+/* time and cinema set like the showing cards in the film's list */
+.ph9 .tm { margin-top: 6px; }
+.ph9 .tm .m { display: block; font: 500 26px/1.1 var(--mono); }
+.ph9 .tm .cin { display: block; margin-top: 2px; font: 600 15px var(--body); }
 .ph9 .sub { margin-top: 2px; font-size: 13px; color: var(--muted); }
+.ph9 .sub .tg { color: var(--accent); }
+.ph9 .nt { margin-top: 4px; font-size: 13px; color: var(--ink); }
 .tkbtn { flex: none; align-self: center; display: inline-flex; align-items: center; justify-content: center; min-width: 124px; height: 52px; padding: 0 22px; box-sizing: border-box; border-radius: 999px;
   background: var(--ink); color: var(--bg); font: 700 17px var(--body); text-decoration: none; text-align: center; }
 .tkbtn.off { min-width: 0; background: var(--chip); color: var(--muted); font-size: 14px; }

@@ -1276,6 +1276,12 @@ function openFilm(id) {
   if (sh) { showingPage(f, sh, dlg); return; }
   const picked = dayMode() && chosenDay(today) !== today ? chosenDay(today) : "";  // the day picked
   const all = f.shows.filter((s) => s.t >= now);
+  // Only one showing: open straight on its page (the address says which showing, so going and inviting work as usual).
+  if (all.length === 1 && !hp.show) {
+    history.replaceState(null, "", location.pathname + location.search + showHref(f, all[0]));
+    showingPage(f, all[0], dlg);
+    return;
+  }
   // Opened while a day is picked on the main page: list that day (if the film plays then), otherwise all days.
   if (!dlg.open) state.sheetDay = dayMode() && pickedDay(today) && all.some((s) => s.t.startsWith(pickedDay(today))) ? pickedDay(today) : "";
   const filtered = state.showAll ? all : all.filter((s) => showMatches(s, now));
@@ -1289,7 +1295,7 @@ function openFilm(id) {
   const meta = [KIND_BADGE[f.kind], f.year, f.runtime ? `${f.runtime} min` : "", f.director ? `Directed by ${f.director}` : "", f.countries.slice(0, 3).join(", "), f.genres.slice(0, 3).join(", ")].filter(Boolean).join(" · ");
   const on = isWatched(f);
   const days = Object.entries(byDay).map(([day, shows]) => `
-    <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}<small>${day.split("-").reverse().join(".")}</small></h4>
+    <div class="day${day === today ? " today" : ""}${day === picked ? " picked" : ""}"><h4>${dayLabel(day + "T00:00")}</h4>
     <div class="stubs">${shows.map((s) => stubHtml(s, f)).join("")}</div></div>`).join("");
   let empty = "";
   // No showings here: before its cinema premiere (or announced without a date), the date and what's to come; otherwise only that
@@ -1496,8 +1502,10 @@ const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeA
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
-  const sub = [/^\d+$/.test(screen) ? `Screen ${screen}` : screen, ...showTags(s)].filter(Boolean).join(" · ");
+  const hall = /^\d+$/.test(screen) ? `Screen ${screen}` : screen, tags = showTags(s).join(" · ");
+  const sub = [esc(hall), tags ? `<span class="tg">${esc(tags)}</span>` : ""].filter(Boolean).join(" · ");
   const name = myName(), on = !!plan?.going;
+  const more = f.shows.some((x) => x !== s && x.t >= localNow());  // other showings to go back to
   let mine;
   const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
@@ -1530,9 +1538,10 @@ function showingPage(f, s, dlg) {
     : `<div class="gonenote"><span>The cinema no longer lists this showing. Check with the cinema before you go.</span></div>`;
   setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
-    <div class="showpage"><div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>
-    <div class="plan9"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${esc(sub)}</div>` : ""}</div>${buy}</div>
-      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>`);
+    <div class="showpage">${more ? `<div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>` : ""}
+    <div class="plan9${on ? " going" : ""}"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span><span class="cin">${esc(s.cinema)}</span></div>${sub ? `<div class="sub">${sub}</div>` : ""}${s.note ? `<div class="nt">${esc(s.note)}</div>` : ""}</div>${buy}</div>
+      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>
+    <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
   fitOwnSeats();

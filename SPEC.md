@@ -442,9 +442,15 @@ invite links, and guests. Signed out with no accounts available, plans stay on t
 
 **The page.** The film's header is drawn by one shared function (poster, title, details, Letterboxd pill, Watchlist, "…" menu,
 blurb), so the film sheet and a showing's page are identical above the divider. Below it, the showings zone changes: a
-"‹ All showings" pill sits where the cinema and format menus were, then the showing as an enlarged stub (big date, time and
-cinema, **Tickets** button top right, who's going and the tags in one row), then the Going card. Sold out or not on sale: the
-Tickets button shows the status instead. Every showing has its own link: `#film/<film id>/<time>|<cinema>`.
+"‹ All showings" pill sits where the cinema and format menus were (only when the film has other showings), then the showing's
+card: date, then the time and cinema set like the list's cards, then hall, tags (red) and the cinema's note, **Tickets** button
+top right, and the Going list in the same card. Sold out or not on sale: the Tickets button shows the status instead. Every
+showing has its own link: `#film/<film id>/<time>|<cinema>`. A film with only one showing opens straight on that showing's page.
+
+**One look for both.** The film's list and the showing page share a ticket look: in the list, each day is headed by its name
+only (Today, Tomorrow, Thu 27 Nov; no numeric date), and each showing is a rounded card with a thin outline and a dotted red
+("perforated") left edge, big time, bold cinema, then hall, tags, note, status and friends going. The showing page's card has
+the same dotted edge. When you're going, the edge (and the list card's outline) turns green.
 
 **Going.** Personal, per showing, retractable at any time. One tap on **I'm going**; guests (not signed in) give a name first.
 Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row: 4 / Seat: 7" in two small lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never

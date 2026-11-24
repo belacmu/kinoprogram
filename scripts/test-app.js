@@ -274,6 +274,47 @@ async function site() {
     check(kept && gone, `Cancel keeps you going, OK takes you off (kept: ${kept}, then off: ${gone})`);
     await page.keyboard.press("Escape");
 
+    // The film's list and the showing page share one ticket look; a film with a single showing opens straight on its page.
+    const many = await page.evaluate(() => {
+      const now = localNow(), f = state.data.films.find((x) => x.shows.filter((s) => s.t >= now).length > 1);
+      const s = f.shows.find((x) => x.t >= now);
+      s.note = "Introduced by the director";
+      return { film: f.id, hash: showHref(f, s) };
+    });
+    await page.evaluate((id) => { location.hash = "#film/" + encodeURIComponent(id); }, many.film);
+    await page.waitForSelector("#film[open] .days .stub");
+    const list = await page.evaluate(() => ({
+      dates: document.querySelectorAll("#film .day h4 small").length,
+      edge: getComputedStyle(document.querySelector("#film .stub")).borderLeftStyle,
+    }));
+    check(list.dates === 0, "the film's list heads each day by its name only, no numeric date");
+    check(list.edge === "dotted", `the list's showings have the dotted ticket edge (${list.edge})`);
+    await page.evaluate(() => { location.hash = ""; });
+    await page.evaluate((h) => { location.hash = h; }, many.hash);
+    await page.waitForSelector("#film[open] .ph9");
+    const pageOf = await page.evaluate(() => ({
+      back: !!document.querySelector("#film .backrow .back"),
+      note: document.querySelector("#film .ph9 .nt")?.textContent || "",
+      date: document.querySelector("#film .ph9 .dt")?.textContent || "",
+      edge: getComputedStyle(document.querySelector("#film .plan9")).borderLeftStyle,
+    }));
+    check(pageOf.back && pageOf.date, `a showing page with others: date in the card and an All showings pill (${JSON.stringify(pageOf)})`);
+    check(pageOf.note === "Introduced by the director", `the showing page shows the cinema's note (${pageOf.note})`);
+    check(pageOf.edge === "dotted", `the showing page's card has the dotted ticket edge (${pageOf.edge})`);
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(200);
+    const single = await page.evaluate(() => {
+      const now = localNow(), f = state.data.films.find((x) => x.shows.some((s) => s.t >= now));
+      f.shows = [f.shows.find((s) => s.t >= now)];
+      location.hash = "#film/" + encodeURIComponent(f.id);
+      return showHref(f, f.shows[0]);
+    });
+    await page.waitForSelector("#film[open] .ph9");
+    const one = await page.evaluate(() => ({ hash: location.hash, back: !!document.querySelector("#film .backrow"), list: !!document.querySelector("#film .days") }));
+    check(one.hash === single && !one.back && !one.list, `one showing: opens straight on its page, no All showings pill (${JSON.stringify(one)})`);
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(200);
+
     // Phones: an open sheet pins the page behind it (iOS would let it scroll, e.g. under the keyboard). A stand-in visualViewport
     // reports a shorter visible area, as iOS does for its address bar and keyboard.
     await page.setViewportSize({ width: 390, height: 844 });
