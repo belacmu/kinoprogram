@@ -161,7 +161,8 @@ def cine_film(url, listing):
     title = text((re.search(r'<h1 class="page-film__heading[^"]*">(.*?)</h1>', h, re.S) or [None, listing["title"]])[1])
     facts = {text(k): text(v) for k, v in re.findall(
         r'data-table__key">(.*?)</td>\s*<td class="data-table__value">(.*?)</td>', h, re.S)}
-    series = [text(s) for s in re.findall(r'page-film__concepts-link"[^>]*>(.*?)</a>', h, re.S)]
+    # The page links each series more than once (e.g. Die Hard: "Mannsroller", "Jul på Cinemateket", then both again): keep the first of each.
+    series = list(dict.fromkeys(text(s) for s in re.findall(r'page-film__concepts-link"[^>]*>(.*?)</a>', h, re.S)))
     og = html.unescape((re.search(r'property="og:image" content="([^"]+)"', h) or [None, ""])[1])
     runtime = re.search(r"\((\d+) minutter\)", facts.get("Spilletid", ""))
     produced = facts.get("Produsert", "")
