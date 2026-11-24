@@ -1504,10 +1504,10 @@ const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeA
 // Who sees that you're going, as two choices. Your friends: it shows up for them everywhere (Feed, Coming up, the film's showings,
 // the daily email). Just this showing: only the people going with you. Either way the party sees you: anyone who joins through an
 // invite link (yours, or anyone else's in the group), and friends who go to the same showing (they join your group).
-const whoSees = (tell) => `<p class="wsnote"><b>Everyone going to this showing with you will see you're going:</b> anyone who joins through an invite link (yours, or anyone else's in the group), and friends who go too.</p>
-  <fieldset class="whosees"><legend>Also share it with all your friends?</legend>
-  <label class="wsopt"><input type="radio" name="tell" value="1"${tell ? " checked" : ""}><span><b>Share with my friends</b><small>It shows up in their Feed, in Coming up and on this film's showings, so they can join you.</small></span></label>
-  <label class="wsopt"><input type="radio" name="tell" value="0"${tell ? "" : " checked"}><span><b>Don't share</b><small>Friends only see it if they go to this showing too, or someone sends them a link.</small></span></label></fieldset>`;
+const whoSees = (tell) => `<p class="wsnote">People going with you will see you, including anyone who joins through a link.</p>
+  <fieldset class="whosees"><legend>Also share with all your friends?</legend>
+  <label class="wsopt"><input type="radio" name="tell" value="1"${tell ? " checked" : ""}><span><b>Share</b><small>Shows in their Feed and Coming up.</small></span></label>
+  <label class="wsopt"><input type="radio" name="tell" value="0"${tell ? "" : " checked"}><span><b>Don't share</b><small>Only people going with you.</small></span></label></fieldset>`;
 const toldNow = () => $("film").querySelector('.whosees input[name="tell"]:checked')?.value !== "0";
 
 function showingPage(f, s, dlg) {

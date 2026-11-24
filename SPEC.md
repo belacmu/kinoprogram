@@ -459,10 +459,9 @@ on the card itself.
 **Who sees it.** Everyone going to a showing with you always sees you: anyone who joins through an invite link (yours, or anyone
 else's in the group) and friends who go too (they join your party). The only choice is whether to **also share it with all your
 friends** (their Feed, Coming up, the film's showings, the daily email; `tell_friends`). Signed in, tapping **I'm going** doesn't
-save straight away: the card opens a short step in place (no second dialog). It states the always-true part first, then asks
-*Also share it with all your friends?*: **Share with my friends** ("shows up in their Feed, in Coming up and on this film's
-showings, so they can join you") or **Don't share** ("friends only see it if they go to this showing too, or someone sends them a
-link"); then optional Row/Seat boxes and **Cancel** / **✓ I'm going**. The Tickets button stays in the card's header right above.
+save straight away: the card opens a short step in place (no second dialog). It first says "People going with you will see you, including anyone who joins through a link", then asks
+*Also share with all your friends?*: **Share** ("Shows in their Feed and Coming up") or **Don't share** ("Only people going
+with you"); then optional Row/Seat boxes and **Cancel** / **✓ I'm going**. The Tickets button stays in the card's header right above.
 The choice starts on whatever you picked last time (kept on the device). Once going, a line under your row says "Shared with your
 friends" / "Not shared with your friends" with **Change**, which opens the same step (without seats) and **Done**. Guests have no
 friends, so they skip the step ("People going with you will see it"). `save_plan` takes `p_tell` (null leaves it as it is, so an
