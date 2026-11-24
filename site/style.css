@@ -1196,9 +1196,9 @@ button.seat2, button.seat { cursor: pointer; }
 .cufilm .cline { grid-column: 1; grid-row: 2; }
 .cufilm .curows a .cstat { grid-column: 2; grid-row: 1 / 3; }
 .cufilm .cgo { grid-column: 3; grid-row: 1 / 3; }
-/* the time line has empty space under its letters, so the bottom padding is smaller: the card looks even at the top and the bottom */
-.cu.cufilm .curows a { padding: 12px 14px 6px; }  /* .cu.cufilm: outranks the ticket look's even padding further down */
-.cufilm .curows a .cstat, .cufilm .cgo { margin-top: -6px; }  /* the card's padding is lopsided on purpose (see above): keep the status and arrow on the card's middle */
+/* The card keeps the ticket look's even padding. The time line has empty space under its letters, so it gives some of that
+   back: the text then looks even at the top and the bottom, and the status and arrow (centred on the rows) sit on the card's middle. */
+.cufilm .cline { margin-bottom: -6px; }
 /* Control heights: not one size, but two related ones. A bar's main controls are --pill-h tall (Filters, search, Date, the
    All films / Watchlist / Friends switch, the add-a-friend button, the Feed's kind chips), so the Films and Feed bars come
    out the same height; the filters-in-use chips beside them are a step smaller (--chip-h). */
