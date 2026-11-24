@@ -206,7 +206,7 @@ dialog::backdrop { background: var(--scrim); }
 .day.today h4 { color: var(--soon); }
 .stubs { display: flex; flex-wrap: wrap; gap: 8px; }
 /* a showing is a small ticket: rounded card, perforated red left edge (green when you're going), like the showing's own page */
-.stub { display: inline-flex; flex-direction: column; text-decoration: none; padding: 9px 14px; border-radius: 0 12px 12px 0;
+.stub { display: inline-flex; flex-direction: column; text-decoration: none; padding: 9px 14px; border-radius: 12px;
   border: 1px solid var(--line); border-left: 3px dotted var(--accent); background: color-mix(in srgb, var(--bg) 60%, var(--surface)); font-size: 12px; line-height: 1.3; max-width: 100%; }
 a.stub:hover { border-color: var(--ink); border-left-color: var(--accent); }
 .stub .t { font: 500 18px var(--mono); }
@@ -1025,7 +1025,7 @@ a.stub.going, a.stub.going:hover { border-color: var(--soon); border-left-color:
 .showpage .back { height: 32px; min-height: 0; padding: 0 12px 0 10px; gap: 4px; background: var(--chip); color: var(--ink); font-size: 13px; font-weight: 400; text-decoration: none; max-width: none; }
 .showpage .back span { font-size: 16px; line-height: 1; margin-top: -1px; }
 .showpage .back:hover { background: color-mix(in srgb, var(--ink) 14%, var(--chip)); }
-.plan9 { margin-top: 2px; border: 1px solid var(--line); border-left: 3px dotted var(--accent); border-radius: 0 14px 14px 0; background: color-mix(in srgb, var(--bg) 60%, var(--surface)); overflow: hidden; }
+.plan9 { margin-top: 2px; border: 1px solid var(--line); border-left: 3px dotted var(--accent); border-radius: 14px; background: color-mix(in srgb, var(--bg) 60%, var(--surface)); overflow: hidden; }
 .plan9.going { border-left-color: var(--soon); }
 .ph9 { display: flex; align-items: flex-start; gap: 12px; padding: 14px; }
 .ph9 .l { flex: 1; min-width: 0; }
@@ -1218,14 +1218,22 @@ button.seat2, button.seat { cursor: pointer; }
 }
 
 /* Ticket look, shared by the showing cards in a film's list, the showing page's card and the "going" rows (Coming up, the film
-   page's own plans, Feed posts): a light grey card with a dotted red "perforated" left edge, square on that side like a torn
-   stub, rounded on the right. Going: outline and edge green (a ring on the other three sides only, none under the dots). */
+   page's own plans, Feed posts): a light grey rounded card with a dotted red "perforated" left edge. The dots are drawn inside
+   the card (clipped by its rounded corners) and the outline has no left side, so no grey line runs under them.
+   Going: outline and dots green (the ring is on the other three sides only). */
 :root { --ticket: color-mix(in srgb, var(--bg) 60%, var(--surface)); --going-ring: inset 0 1px 0 var(--soon), inset -1px 0 0 var(--soon), inset 0 -1px 0 var(--soon); }
 .cu:not(.cuin) { border: 0; border-radius: 0; background: none; overflow: visible; }
 .cu .curows { display: flex; flex-direction: column; gap: 8px; }
 .cu .curows li { border-top: 0; }
-.cu .curows a, .cuin .curows a { border: 1px solid var(--line); border-left: 3px dotted var(--accent); border-radius: 0 12px 12px 0;
+.cu .curows a, .cuin .curows a { border: 1px solid var(--line); border-left: 3px dotted var(--accent); border-radius: 12px;
   background: var(--ticket); padding: 12px 14px; }
 .cuin .curows li:first-child a, .cuin .curows li:last-child a { padding-block: 12px; }
 .cu .curows a:hover, .cuin .curows a:hover { border-color: var(--ink); border-left-color: var(--accent); background: var(--ticket); }
 .cu .curows li:has(.cstat.you) a, .cu .curows li:has(.cstat.you) a:hover { border-color: var(--soon); border-left-color: var(--soon); box-shadow: var(--going-ring); }
+.stub, .plan9, .cu .curows a, .cuin .curows a { position: relative; overflow: hidden; border-left-width: 0; }
+.stub, .cu .curows a, .cuin .curows a { padding-left: 17px; }
+.plan9 { padding-left: 2px; }
+.stub::before, .plan9::before, .cu .curows a::before, .cuin .curows a::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  border-left: 3px dotted var(--accent); pointer-events: none; }
+a.stub.going::before, .plan9.going::before, .cu .curows li:has(.cstat.you) a::before { border-left-color: var(--soon); }
+.stub.nosale::before { border-left-color: var(--muted); border-left-style: dashed; }
