@@ -691,7 +691,7 @@ def main():
     scheduled = "--scheduled" in args
     test_to = args[args.index("--to") + 1] if "--to" in args else None
     preview = args[args.index("--preview") + 1] if "--preview" in args else None
-    site = (os.environ.get("SITE_URL") or "https://cinecrab.com/").rstrip("/") + "/"  # empty if the deploy failed
+    site = (os.environ.get("SITE_URL") or "https://cinecrab.com/").rstrip("/") + "/"  # empty if the deploy failed (only a test email is sent then)
     only = args[args.index("--only") + 1].split() if "--only" in args else list(REGIONS)  # regions refreshed in this run
     failures = 0  # emails that couldn't be sent (the run is marked failed at the end, after everything else)
     if scheduled or "--stats" in args:

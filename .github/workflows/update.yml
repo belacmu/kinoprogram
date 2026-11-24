@@ -95,19 +95,33 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
+      # deploy-pages sometimes can't find the artifact it was just handed ("No artifacts named github-pages were found",
+      # twice in a row on 24 Nov 2026): wait and try once more before giving up.
       - name: Deploy site
         id: deploy
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - name: Wait before trying the deploy again
+        if: steps.deploy.outcome == 'failure'
+        run: sleep 30
+      - name: Deploy site (second try)
+        id: deploy_retry
+        if: steps.deploy.outcome == 'failure'
         uses: actions/deploy-pages@v4
 
-      # The email doesn't need the site deploy to have worked (it links to the site, which keeps its last version).
+      # The email only goes out once the site it describes is live: an email must never announce showings the site
+      # doesn't have yet. If the deploy failed, nothing is lost: the state is still saved below, the digest's "since"
+      # (lastDigest) only moves when an email is sent, so the next run that deploys sends everything new since then.
       - name: Daily email
-        if: (github.event_name == 'schedule' || inputs.digest) && !cancelled() && steps.build.outcome == 'success'
+        if: >-
+          (github.event_name == 'schedule' || inputs.digest) && !cancelled() && steps.build.outcome == 'success'
+          && (steps.deploy.outcome == 'success' || steps.deploy_retry.outcome == 'success')
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          SITE_URL: ${{ steps.deploy.outputs.page_url }}
+          SITE_URL: ${{ steps.deploy.outputs.page_url || steps.deploy_retry.outputs.page_url }}
         run: python scraper/digest.py --scheduled --only "${{ steps.build.outputs.regions }}"
 
       - name: Test email
@@ -117,7 +131,7 @@ jobs:
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          SITE_URL: ${{ steps.deploy.outputs.page_url }}
+          SITE_URL: ${{ steps.deploy.outputs.page_url || steps.deploy_retry.outputs.page_url }}
           TEST_EMAIL: ${{ inputs.test_email }}
         run: python scraper/digest.py --to "$TEST_EMAIL"
 
