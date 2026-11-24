@@ -402,6 +402,17 @@
 "tv": 3,
 "source": "moviescout"
 },
+"cl-adolescencia-sexo-muerte-campamento-miasma": {
+"v": 4,
+"checked": "2026-11-17",
+"tmdbChecked": "2026-11-17",
+"tv": 3,
+"tmdb": 1240889,
+"lang": "en",
+"imdb": "tt35298123",
+"en": "Teenage Sex and Death at Camp Miasma",
+"enFrom": "tmdb"
+},
 "cl-ahora-suegros-son-ellos": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
@@ -456,12 +467,6 @@
 "imdb": "tt0054997",
 "en": "The Hustler",
 "enFrom": "tmdb"
-},
-"cl-campamento-miasma": {
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3
 },
 "cl-cascanueces-26-27-1": {
 "v": 4,
@@ -662,7 +667,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-16"
+"checked": "2026-11-24"
 },
 "cl-wild-horse-nine": {
 "imdb": "tt15799564",
@@ -1388,6 +1393,23 @@
 "mc": "movie/the-big-lebowski",
 "v": 4,
 "checked": "2026-10-03"
+},
+"cm-the-devils": {
+"imdb": "tt0066993",
+"imdbAll": [
+"tt0066993"
+],
+"lb": "the-devils",
+"rt": "m/the_devils",
+"mc": "movie/the-devils",
+"en": "The Devils",
+"v": 4,
+"checked": "2026-11-20",
+"tmdbChecked": "2026-11-20",
+"tv": 3,
+"tmdb": 31767,
+"lang": "en",
+"enFrom": "tmdb"
 },
 "cm-the-shining": {
 "imdb": "tt0081505",
@@ -2402,6 +2424,23 @@
 "v": 4,
 "checked": "2026-11-22"
 },
+"fw-EDI20251487": {
+"imdb": "tt40036377",
+"imdbAll": [
+"tt40036377"
+],
+"lb": "let-our-mountains-live",
+"rt": null,
+"mc": null,
+"en": "Let Our Mountains Live",
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1635584,
+"lang": "no",
+"enFrom": "tmdb"
+},
 "fw-EDI20251555": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -3093,6 +3132,12 @@
 "mc": "movie/wildwood",
 "v": 4,
 "checked": "2026-10-03"
+},
+"fw-EDI20260848": {
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3
 },
 "fw-EDI20260853": {
 "tmdbChecked": "2026-10-01",
@@ -4298,6 +4343,16 @@
 "v": 4,
 "checked": "2026-11-17"
 },
+"fw-EDI20261814": {
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1384528,
+"lang": "ta",
+"imdb": "tt34515768",
+"en": null
+},
 "fw-EDI20261820": {
 "v": 4,
 "checked": "2026-11-10",
@@ -4593,6 +4648,22 @@
 "lang": "no",
 "imdb": "tt15164340",
 "en": null
+},
+"fw-NFD20180187": {
+"imdb": "tt11225228",
+"imdbAll": [
+"tt11225228"
+],
+"lb": "titina",
+"rt": "m/titina",
+"mc": null,
+"en": null,
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 678320,
+"lang": "no"
 },
 "fw-NFD20230388": {
 "imdb": "tt0075128",
@@ -5661,6 +5732,17 @@
 "en": "Teenage Sex and Death at Camp Miasma",
 "enFrom": "tmdb"
 },
+"mk-club-kid": {
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1585239,
+"lang": "en",
+"imdb": "tt38058097",
+"en": "Club Kid",
+"enFrom": "tmdb"
+},
 "mk-delitos-y-faltas": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
@@ -5776,7 +5858,7 @@
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-16"
+"checked": "2026-11-24"
 },
 "mk-vengadores-doomsday4": {
 "tmdbChecked": "2026-11-17",
