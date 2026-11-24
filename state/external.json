@@ -497,6 +497,17 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
+"cl-club-kid": {
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1585239,
+"lang": "en",
+"imdb": "tt38058097",
+"en": "Club Kid",
+"enFrom": "tmdb"
+},
 "cl-como-robar-banco": {
 "imdb": "tt35866986",
 "imdbAll": [
@@ -1519,6 +1530,17 @@
 "en": "My Brother's Wedding",
 "enFrom": "tmdb"
 },
+"db-otium": {
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1596933,
+"lang": "en",
+"imdb": "tt39372926",
+"en": "Otium",
+"enFrom": "tmdb"
+},
 "db-rex-a-dinosaurs-story": {
 "imdb": "tt0227379",
 "imdbAll": [
@@ -1619,6 +1641,23 @@
 "lang": "en",
 "imdb": "tt21375462",
 "en": "Two Cuckolds Go Swimming",
+"enFrom": "tmdb"
+},
+"db-unzipped-4k-restoration": {
+"imdb": "tt0114805",
+"imdbAll": [
+"tt0114805"
+],
+"lb": "unzipped",
+"rt": "m/unzipped",
+"mc": null,
+"en": "Unzipped",
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 77350,
+"lang": "en",
 "enFrom": "tmdb"
 },
 "db-vinyl-25th-anniversary-re-release": {
@@ -4271,6 +4310,16 @@
 "tmdb": 131015,
 "lang": "hu"
 },
+"fw-EDI20261779": {
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1658555,
+"lang": "ar",
+"imdb": "tt43638234",
+"en": null
+},
 "fw-EDI20261780": {
 "imdb": "tt1798709",
 "imdbAll": [
@@ -4547,6 +4596,56 @@
 "tt12042730",
 "tt44090225"
 ]
+},
+"fw-EDI20261866": {
+"imdb": "tt34966562",
+"imdbAll": [
+"tt34966562"
+],
+"lb": "the-christophers",
+"rt": "m/the_christophers",
+"mc": "movie/the-christophers",
+"en": "The Christophers",
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1400357,
+"lang": "en",
+"enFrom": "tmdb"
+},
+"fw-EDI20261867": {
+"imdb": "tt37020296",
+"imdbAll": [
+"tt37020296"
+],
+"lb": "gentle-monster",
+"rt": "m/gentle_monster",
+"mc": "movie/gentle-monster",
+"en": null,
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 1473148,
+"lang": "de"
+},
+"fw-EUR20000181": {
+"imdb": "tt0268509",
+"imdbAll": [
+"tt0268509"
+],
+"lb": "cabin-fever-2000",
+"rt": null,
+"mc": null,
+"en": "Cabin Fever",
+"v": 4,
+"checked": "2026-11-24",
+"tmdbChecked": "2026-11-24",
+"tv": 3,
+"tmdb": 99216,
+"lang": "no",
+"enFrom": "tmdb"
 },
 "fw-FID20210220": {
 "imdb": "tt13322726",
