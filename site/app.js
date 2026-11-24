@@ -1227,7 +1227,7 @@ function extLinks(f) {
   // The film's own Letterboxd page whenever we know it exactly (its slug, or its IMDb/TMDB id, which Letterboxd resolves), with the
   // rating if there is one. Only a film we know nothing about gets a Letterboxd search (its original title, plus the year).
   const url = lb || `https://letterboxd.com/search/films/${encodeURIComponent((f.alt || f.title) + (f.year ? " " + f.year : ""))}/`;
-  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>${lb ? "Letterboxd" : "Search"}<i class="sa" aria-hidden="true"> ↗</i></span>`;
+  const label = rated ? `<b>${x.lbRating.toFixed(1)}${STAR}</b>` : `<span>${lb ? '<span class="lbw">Letterboxd</span>' : "Search"}<i class="sa" aria-hidden="true"> ↗</i></span>`;
   return {
     top: `<a class="rate lbpill" href="${esc(url)}" target="_blank" rel="noopener" title="${rated ? "Letterboxd rating" : lb ? "This film on Letterboxd" : "Search Letterboxd for this film"}" aria-label="${rated ? `Letterboxd rating ${x.lbRating.toFixed(1)}` : lb ? "This film on Letterboxd" : "Search Letterboxd for this film"}">${LB_MARK}${label}</a>`,
     menu: f.links.map((l) => `<a role="menuitem" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="mi">${linkIcon}</span>${esc(l.label)} ↗</a>`).join(""),
