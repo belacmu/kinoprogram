@@ -1031,13 +1031,11 @@ a.stub.going, a.stub.going:hover { border-color: var(--soon); border-left-color:
 .ph9 { display: flex; align-items: flex-start; gap: 12px; padding: 14px; }
 .ph9 .l { flex: 1; min-width: 0; }
 .ph9 .dt { font: 800 26px/1 var(--display); text-transform: uppercase; }
-/* time and cinema set like the showing cards in the film's list */
-.ph9 .tm { margin-top: 6px; }
-.ph9 .tm .m { display: block; font: 500 26px/1.1 var(--mono); }
-.ph9 .tm .cin { display: block; margin-top: 2px; font: 600 15px var(--body); }
+.ph9 .tm { margin-top: 3px; font: 600 17px var(--body); }
+.ph9 .tm .m { font-family: var(--mono); font-weight: 500; }
 .ph9 .sub { margin-top: 2px; font-size: 13px; color: var(--muted); }
 .ph9 .sub .tg { color: var(--accent); }
-.ph9 .nt { margin-top: 4px; font-size: 13px; color: var(--ink); }
+.ph9 .nt { margin-top: 1px; font-size: 13px; color: var(--muted); }
 .tkbtn { flex: none; align-self: center; display: inline-flex; align-items: center; justify-content: center; min-width: 124px; height: 52px; padding: 0 22px; box-sizing: border-box; border-radius: 999px;
   background: var(--ink); color: var(--bg); font: 700 17px var(--body); text-decoration: none; text-align: center; }
 .tkbtn.off { min-width: 0; background: var(--chip); color: var(--muted); font-size: 14px; }

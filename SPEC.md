@@ -443,7 +443,7 @@ invite links, and guests. Signed out with no accounts available, plans stay on t
 **The page.** The film's header is drawn by one shared function (poster, title, details, Letterboxd pill, Watchlist, "…" menu,
 blurb), so the film sheet and a showing's page are identical above the divider. Below it, the showings zone changes: a
 "‹ All showings" pill sits where the cinema and format menus were (only when the film has other showings), then the showing's
-card: date, then the time and cinema set like the list's cards, then hall, tags (red) and the cinema's note, **Tickets** button
+card: big date, time · cinema on one line, then hall, tags (red) and the cinema's note in small type, **Tickets** button
 top right, and the Going list in the same card. Sold out or not on sale: the Tickets button shows the status instead. Every
 showing has its own link: `#film/<film id>/<time>|<cinema>`. A film with only one showing opens straight on that showing's page.
 

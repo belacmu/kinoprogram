@@ -1539,7 +1539,7 @@ function showingPage(f, s, dlg) {
   setSheet(dlg, `<form method="dialog" class="dlg-close"><button class="x" aria-label="Close">×</button></form>
     ${filmHead(f)}
     <div class="showpage">${more ? `<div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>` : ""}
-    <div class="plan9${on ? " going" : ""}"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span><span class="cin">${esc(s.cinema)}</span></div>${sub ? `<div class="sub">${sub}</div>` : ""}${s.note ? `<div class="nt">${esc(s.note)}</div>` : ""}</div>${buy}</div>
+    <div class="plan9${on ? " going" : ""}"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${sub}</div>` : ""}${s.note ? `<div class="nt">${esc(s.note)}</div>` : ""}</div>${buy}</div>
       <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
