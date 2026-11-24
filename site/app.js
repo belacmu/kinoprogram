@@ -92,6 +92,8 @@ const state = {
   invite: null,         // the invite link being looked at: {token, rows: who is going through it}
   updates: [],           // what's new in Cinecrab (site/updates.json)
   seatsOpen: "",         // the plan whose seats are being edited
+  goOpen: "",            // the showing whose "I'm going" is being set up (who sees it, seats) before it is saved
+  visOpen: "",           // the plan whose "who sees it" is being changed
   inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
   acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
@@ -1334,7 +1336,7 @@ function openFilm(id) {
 // Keyed by the showing's id (s.id, made by the scraper; the database's showings table has the same ids).
 // {going, tell, seats, inv, via, party, gone, replacedBy, ...a copy of the showing so it still shows if the schedule drops it: film, title,
 // cinema, time, region, ticket}. gone / replacedBy come from the database: the cinema no longer lists it / the showing that took its place.
-// tell: always true for now (going is public); kept so a privacy control can come back.
+// tell: shown to your friends (Feed, Coming up, the film's showings) or only to the people going with you (the party); see whoSees().
 // inv is the plan's private invite token and party its party: both are made by the server (save_plan), never here.
 const plans = local.get("plans", {});
 if (!local.get("plansV2", false)) { for (const p of Object.values(plans)) delete p.inv; local.set("plansV2", true); }  // tokens used to be made here; the server's are the real ones
@@ -1361,7 +1363,7 @@ function setPlan(f, s, patch) {
 let planTimer = 0, planRetry = 0, syncChain = Promise.resolve();
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
 // The server takes only the showing, the seats and the invite joined through: the showing's details and ticket link are its own.
-const planArgs = (id, p) => ({ p_showing_id: id, p_seats: p.seats || null, p_joined_via: p.via || null });
+const planArgs = (id, p) => ({ p_showing_id: id, p_seats: p.seats || null, p_joined_via: p.via || null, p_tell: p.tell !== false });
 // Save what changed here: plans that exist are written, plans that were retracted are deleted. One run at a time; a plan that
 // fails is skipped (the rest still save) and everything left is tried again shortly.
 function syncPlans() { syncChain = syncChain.then(runSync, runSync); return syncChain; }
@@ -1400,7 +1402,7 @@ async function runSync() {
 // Signing out, or into a different account, leaves nothing of the last person's plans behind on this device.
 function clearPlansState() {
   for (const k of Object.keys(plans)) delete plans[k];
-  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
+  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; state.goOpen = ""; state.visOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
   local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
   for (const k of Object.keys(joinedVia)) delete joinedVia[k]; local.set("joinedVia", {});
 }
@@ -1499,6 +1501,15 @@ function seatLabel(v) {
 const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
 const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
 
+// Who sees that you're going, as two choices. Your friends: it shows up for them everywhere (Feed, Coming up, the film's showings,
+// the daily email). Just this showing: only the people going with you. Either way the party sees you: anyone who joins through an
+// invite link (yours, or anyone else's in the group), and friends who go to the same showing (they join your group).
+const whoSees = (tell) => `<p class="wsnote"><b>Everyone going to this showing with you will see you're going:</b> anyone who joins through an invite link (yours, or anyone else's in the group), and friends who go too.</p>
+  <fieldset class="whosees"><legend>Also share it with all your friends?</legend>
+  <label class="wsopt"><input type="radio" name="tell" value="1"${tell ? " checked" : ""}><span><b>Share with my friends</b><small>It shows up in their Feed, in Coming up and on this film's showings, so they can join you.</small></span></label>
+  <label class="wsopt"><input type="radio" name="tell" value="0"${tell ? "" : " checked"}><span><b>Don't share</b><small>Friends only see it if they go to this showing too, or someone sends them a link.</small></span></label></fieldset>`;
+const toldNow = () => $("film").querySelector('.whosees input[name="tell"]:checked')?.value !== "0";
+
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
   const screen = s.screen && s.screen !== s.cinema ? s.screen.replace(s.cinema, "").trim() : "";
@@ -1523,11 +1534,19 @@ function showingPage(f, s, dlg) {
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
   const others = people.filter((p) => !p.me);
-  const note = `<p class="visnote">Others can see that you're going.</p>`;
+  // Signed in, you choose who sees it (friends, or just this showing). A guest has no friends, so only the people going with them can.
+  const told = plan?.tell !== false, visOpen = on && state.visOpen === planId(f, s);
+  const note = !state.user ? `<p class="visnote">Everyone going with you can see that you're going.</p>`
+    : visOpen ? `<div class="gochoose">${whoSees(told)}<div class="gobar"><button class="pbtn sm" data-visdone="1">Done</button></div></div>`
+    : `<p class="visnote"><button class="vislink" data-visopen="1">${told ? "Shared with your friends" : "Not shared with your friends"}<span class="chg">Change</span></button></p>`;
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
+  const choosing = !on && state.user && state.goOpen === planId(f, s);
   if (on) mine = row(people.find((p) => p.me)) + note;
-  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></span>${goBtn}</div>`;
-  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
+  else if (choosing) mine = `<div class="gochoose">${whoSees(local.get("goTell", true))}
+      <div class="goseats"><span class="gsl">Seats <small>(optional)</small></span><span class="seatedit"><input class="seatinp" data-pre="row" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric"><input class="seatinp wide" data-pre="seats" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"></span></div>
+      <div class="gobar"><button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">✓ I'm going</button></div></div>`;
+  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>People going with you will see it.</small></span>${goBtn}</div>`;
+  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>Everyone going with you will see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
   const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
   // A showing the cinema no longer lists (or moved to another time that day): say so, and offer to move your plan to the new time.
   const moved = plan?.replacedBy && f.shows.find((x) => x.id === plan.replacedBy);
@@ -1583,6 +1602,11 @@ function leaveWarning(f, s, plan) {
   const who = names.length > 3 ? `${names.slice(0, 2).join(", ")} and ${names.length - 2} others` : nameList(names);
   return `${who} ${names.length > 1 ? "are" : "is"} going with you through your invite link. If you take yourself off, your link stops working: you won't be able to see them here any more, and nobody else can join through it.`;
 }
+// Saying you're going: joining through someone's invite if it is for this very showing.
+function goNow(f, s, tell, seats) {
+  const inv = inviteFits(f, s) ? state.invite : null;
+  setPlan(f, s, { going: true, tell, seats, via: inv?.token, party: inv?.rows[0]?.party || undefined });
+}
 async function planClick(t) {
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
@@ -1618,10 +1642,24 @@ async function planClick(t) {
           if (!nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
           if (!(await guestSignIn(nm))) { toast(`Couldn't add you: ${state.guestError || "try again in a moment"}.`); return; }
         }
-        const inv = inviteFits(f, s) ? state.invite : null;  // joining through someone's invite (only for this showing)
-        setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
+        if (state.user) { state.goOpen = planId(f, s); state.seatsOpen = ""; }  // signed in: first choose who sees it (and seats)
+        else goNow(f, s, true, "");
       } finally { joining = false; }
     }
+  }
+  else if (t.dataset.goconfirm) {
+    const v = (k) => $("film").querySelector(`[data-pre="${k}"]`)?.value.replace(/\|/g, "").trim() || "";
+    const tell = toldNow(), row = v("row"), seats = v("seats");
+    local.set("goTell", tell);  // the next showing starts on the same choice
+    state.goOpen = "";
+    goNow(f, s, tell, row || seats ? `${row}|${seats}` : "");
+  }
+  else if (t.dataset.gocancel) state.goOpen = "";
+  else if (t.dataset.visopen) state.visOpen = planId(f, s);
+  else if (t.dataset.visdone) {
+    const tell = toldNow();
+    state.visOpen = "";
+    if (planOf(f, s) && tell !== (planOf(f, s).tell !== false)) { setPlan(f, s, { tell }); local.set("goTell", tell); toast(tell ? "Shared with your friends" : "No longer shared with your friends"); }
   }
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
   else if (t.dataset.seatsdone) state.seatsOpen = "";
@@ -1675,7 +1713,8 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
     setPlan(f, s, { seats: row || seats ? `${row}|${seats}` : "" });
   }
 });
-$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = Done
+$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = Done (or, before going, I'm going)
+  if (e.key === "Enter" && e.target.dataset?.pre) { e.preventDefault(); $("film").querySelector("[data-goconfirm]")?.click(); return; }
   if (e.key !== "Enter" || !["row", "seats"].includes(e.target.dataset?.plan)) return;
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (s) { state.seatsOpen = ""; showingPage(f, s, $("film")); }
@@ -1811,10 +1850,10 @@ function setCollapsed(key, shut) {
 const sectionShut = (key) => (key === GONE_KEY ? !state.collapsed.has(GONE_OPEN) : state.collapsed.has(key));
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-goconfirm],[data-gocancel],[data-visopen],[data-visdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan || t.dataset.goconfirm || t.dataset.gocancel || t.dataset.visopen || t.dataset.visdone) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";

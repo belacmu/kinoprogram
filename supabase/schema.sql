@@ -404,7 +404,7 @@ grant execute on function public.sync_showings(jsonb) to service_role;
 create table if not exists public.plans (
   user_id      uuid not null references public.profiles on delete cascade,
   showing_id   text not null,
-  tell_friends boolean not null default true,     -- friends see it in their Feed
+  tell_friends boolean not null default true,     -- shown to friends (Feed, Coming up, the film's showings); off: only the party sees it
   seats        text check (char_length(seats) <= 30),
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now(),
@@ -502,8 +502,11 @@ revoke execute on function public.resolve_showing(text) from anon, authenticated
 -- The only way to write a plan: the client names a showing and its seats, nothing else. The showing's details and ticket link come
 -- from public.showings; the invite token, the party and who it joined through are decided here. Joining through an invite counts
 -- only for the same showing. A new plan for a showing the cinema no longer lists is refused (changing seats on one you have is fine).
+-- p_tell: show it to your friends (their Feed, Coming up, the film's showings, the daily email) or not; null leaves it as it is (a new
+-- plan: shown). Either way everyone in the plan's party sees it.
 -- Returns {token: the plan's private invite token (made here, so it can't be chosen or reused), showing_id: the showing's id}.
-create or replace function public.save_plan(p_showing_id text, p_seats text, p_joined_via uuid)
+drop function if exists public.save_plan(text, text, uuid);   -- the form before p_tell
+create or replace function public.save_plan(p_showing_id text, p_seats text, p_joined_via uuid, p_tell boolean default null)
 returns jsonb language plpgsql security definer set search_path = '' as $$
 declare
   me uuid := (select auth.uid());
@@ -529,10 +532,10 @@ begin
   -- one party: the invite's first, then mine, then my friends'; everyone in the others moves into it
   allp := array_remove(array[pty, mine] || coalesce(fparties, '{}'::uuid[]), null);
   target := coalesce(allp[1], gen_random_uuid());
-  insert into public.plans (user_id, showing_id, seats, joined_via, party)
-  values (me, sid, nullif(p_seats, ''), via, target)
+  insert into public.plans (user_id, showing_id, seats, joined_via, party, tell_friends)
+  values (me, sid, nullif(p_seats, ''), via, target, coalesce(p_tell, true))
   on conflict (user_id, showing_id) do update
-    set seats = excluded.seats, party = excluded.party, updated_at = now()
+    set seats = excluded.seats, party = excluded.party, tell_friends = coalesce(p_tell, public.plans.tell_friends), updated_at = now()
   returning invite_token into tok;
   if cardinality(allp) > 1 then
     update public.plans set party = target where showing_id = sid and party = any(allp) and party <> target;
@@ -540,9 +543,9 @@ begin
   return jsonb_build_object('token', tok, 'showing_id', sid);
 end;
 $$;
-revoke all on function public.save_plan(text, text, uuid) from public;
-grant execute on function public.save_plan(text, text, uuid) to authenticated;
-revoke execute on function public.save_plan(text, text, uuid) from anon;
+revoke all on function public.save_plan(text, text, uuid, boolean) from public;
+grant execute on function public.save_plan(text, text, uuid, boolean) to authenticated;
+revoke execute on function public.save_plan(text, text, uuid, boolean) from anon;
 
 drop function if exists public.save_plan(text, text, text, text, text, text, text, text, uuid);   -- the older form, which took a copy of the showing
 drop policy if exists "add own plans" on public.plans;

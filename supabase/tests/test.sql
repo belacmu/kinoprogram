@@ -141,6 +141,42 @@ do $$ begin
   assert public.prune_showings('2020-03-01') = 0, 'nothing left to prune';
 end $$;
 
+-- ---------------------------------------------------------------- going: shown to friends, or only to the party
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-00000000000b', 'b@example.com');
+insert into public.friendships (a, b) values ('00000000-0000-0000-0000-00000000000a', '00000000-0000-0000-0000-00000000000b');
+select set_config('test.uid', '00000000-0000-0000-0000-00000000000a', false);
+set role authenticated;
+select public.save_plan('fw-klara|2099-01-01T19:00|Cinematheque', null, null, false);   -- just this showing
+reset role;
+select set_config('test.uid', '00000000-0000-0000-0000-00000000000b', false);
+set role authenticated;
+do $$ begin
+  assert (select count(*) from public.friends_plans('2000-01-01') where showing_id like 'fw-klara%') = 0, 'a plan not shown to friends is not in their list';
+end $$;
+reset role;
+select set_config('test.uid', '00000000-0000-0000-0000-00000000000a', false);
+set role authenticated;
+select public.save_plan('fw-klara|2099-01-01T19:00|Cinematheque', '4|7', null);   -- a client that doesn't send p_tell: left as it is
+do $$ begin
+  assert not (select tell_friends from public.plans where showing_id = 'fw-klara|2099-01-01T19:00|Cinematheque'), 'no p_tell keeps it';
+end $$;
+select public.save_plan('fw-klara|2099-01-01T19:00|Cinematheque', '4|7', null, true);   -- shown to friends
+reset role;
+select set_config('test.uid', '00000000-0000-0000-0000-00000000000b', false);
+set role authenticated;
+do $$ begin
+  assert (select count(*) from public.friends_plans('2000-01-01') where showing_id like 'fw-klara%') = 1, 'now friends see it';
+end $$;
+-- A friend going too joins the same party, so they see the plan through their own link either way.
+select public.save_plan('fw-klara|2099-01-01T19:00|Cinematheque', null, null, false);
+do $$ begin
+  assert (select count(*) from public.plan_by_invite((select invite_token from public.plans where showing_id = 'fw-klara|2099-01-01T19:00|Cinematheque'
+    and user_id = '00000000-0000-0000-0000-00000000000b'))) = 2, 'one party: both see each other';
+end $$;
+reset role;
+delete from public.plans where showing_id = 'fw-klara|2099-01-01T19:00|Cinematheque';
+select set_config('test.uid', '00000000-0000-0000-0000-00000000000a', false);
+
 -- ---------------------------------------------------------------- watchlists keep stable ids (existing behaviour)
 update public.profiles set watchlist = array['fw-EDI1', 'cm-klara', 'fw-klara', 'unknown-id']
   where id = '00000000-0000-0000-0000-00000000000a';

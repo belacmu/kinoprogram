@@ -1090,6 +1090,25 @@ button.seat2, button.seat { cursor: pointer; }
 .seatedit .pbtn.sm { height: 36px; min-height: 36px; padding: 0 12px; box-sizing: border-box; }
 .prow2.editing { min-height: 0; }
 .visnote { margin-top: -6px; }
+/* "I'm going", step two (signed in): who sees it, as two choices, a note on who always does, optional seats, then confirm.
+   The same choices (without seats) open from "Your friends can see this · Change" once you're going. */
+.gochoose { display: flex; flex-direction: column; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.whosees { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.whosees legend { padding: 0; margin-bottom: 8px; font: 700 15px var(--body); color: var(--ink); }
+.wsopt { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer; }
+.wsopt:has(input:checked) { border-color: var(--soon); background: color-mix(in srgb, var(--soon) 8%, var(--surface)); }
+.wsopt input { flex: none; margin: 3px 0 0; accent-color: var(--soon); width: 18px; height: 18px; }
+.wsopt span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.wsopt b { font: 600 15px var(--body); }
+.wsopt small, .wsnote { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
+.wsnote { margin: 0; }
+.wsnote b { color: var(--ink); font-weight: 600; }
+.goseats { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.gsl { font: 600 14px var(--body); }
+.gsl small { font-weight: 400; color: var(--muted); }
+.gobar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+.vislink { display: inline-flex; align-items: baseline; gap: 6px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; text-align: left; }
+.vislink .chg { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 /* not enough room on your own line (very narrow phones): the editor drops to a line under it, lined up with the name */
 .plist { container-type: inline-size; }
 @container (max-width: 290px) {

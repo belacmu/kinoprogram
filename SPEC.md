@@ -456,10 +456,18 @@ the same tint and dotted edge. When you're going, the edge (and the list card's 
 Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row: 4 / Seat: 7" in two small lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never
 on the card itself.
 
-**Who sees it** (for now, simply public): marking yourself as going makes it visible to everyone who can reach the showing: friends
-(in their Feed and on the showing page) and anyone in your party (invite links, and the people they invite in turn). The page says so ("Others will see that you're going" before, "Others can see that you're going" after). There is no
-privacy control in the interface yet; the `tell_friends` column stays (always true) so it can be brought back as a switch later, along
-with "only people I invite". **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
+**Who sees it.** Everyone going to a showing with you always sees you: anyone who joins through an invite link (yours, or anyone
+else's in the group) and friends who go too (they join your party). The only choice is whether to **also share it with all your
+friends** (their Feed, Coming up, the film's showings, the daily email; `tell_friends`). Signed in, tapping **I'm going** doesn't
+save straight away: the card opens a short step in place (no second dialog). It states the always-true part first, then asks
+*Also share it with all your friends?*: **Share with my friends** ("shows up in their Feed, in Coming up and on this film's
+showings, so they can join you") or **Don't share** ("friends only see it if they go to this showing too, or someone sends them a
+link"); then optional Row/Seat boxes and **Cancel** / **✓ I'm going**. The Tickets button stays in the card's header right above.
+The choice starts on whatever you picked last time (kept on the device). Once going, a line under your row says "Shared with your
+friends" / "Not shared with your friends" with **Change**, which opens the same step (without seats) and **Done**. Guests have no
+friends, so they skip the step ("People going with you will see it"). `save_plan` takes `p_tell` (null leaves it as it is, so an
+older page changing seats never shares a plan that wasn't).
+**Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
 someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
 
 **Taking yourself off** ("✓ Going" tapped again) deletes your plan, and your invite link goes with it. So when that would cut you off
