@@ -1103,9 +1103,9 @@ button.seat2, button.seat { cursor: pointer; }
 .segc .yes:has(input:checked) { background: var(--soon); color: var(--bg); }
 .segc .no:has(input:checked) { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .15); }
 .tellhint { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
-/* under your row: the whole thing sits at the right, under the Going button */
-.tellrow .tellbox { align-items: flex-end; text-align: right; }
-.tellrow .tellseg { justify-content: flex-end; }
+/* once going: one quiet line under the Going button ("Shown to friends  Change"); tapping it opens the box above with Done */
+.vislink { display: inline-flex; align-items: center; gap: 5px; padding: 2px 0; border: 0; background: none; color: var(--muted); font: 500 12.5px var(--body); cursor: pointer; }
+.vislink .chg { margin-left: 4px; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .goseats { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .gsl { font: 600 14px var(--body); }
 .gsl small { font-weight: 400; color: var(--muted); }
@@ -1249,5 +1249,3 @@ button.seat2, button.seat { cursor: pointer; }
 .cuin .curows li:first-child a, .cuin .curows li:last-child a { padding-block: 12px; }
 .cu .curows a:hover, .cuin .curows a:hover { border-color: var(--ink); border-left-color: var(--accent); background: var(--ticket); }
 .cu .curows li:has(.cstat.you) a, .cu .curows li:has(.cstat.you) a:hover { border-color: var(--soon); border-left-color: var(--soon); box-shadow: var(--going-ring); }
-/* Show to friends, once going: right-aligned under the Going button */
-.visnote.tellrow { margin: -2px 0 0; }

@@ -461,8 +461,9 @@ you. The one choice is **Show to friends** (`tell_friends`): a Yes | No pair, Ye
 Yes: friends see it in their Feed (and Coming up, the film's showings, the daily email). No: "Only people who open this showing,
 e.g. via a link." The line under the pair changes with it. Signed in, tapping **I'm going** opens a short step in the card (no
 second dialog): Show to friends, optional Row/Seat boxes, **Cancel** / **✓ I'm going**; the Tickets button stays in the card's
-header above. It starts where you left it last time (kept on the device). Once going, the same pair sits right-aligned under the
-Going button and saves as soon as it's changed. Guests have no friends: no choice, just "People who open this showing (e.g. via a
+header above. It starts where you left it last time (kept on the device). Once going, one quiet line sits right-aligned under the
+Going button ("Shown to friends" with the people icon, or "Not shown to friends" with the lock, then **Change**); Change opens
+the same box with **Done**, and a change there saves at once. Guests have no friends: no choice, just "People who open this showing (e.g. via a
 link) see that you're going". `save_plan` takes `p_tell` (null leaves it as it is, so an older page changing seats never shows
 friends a plan that wasn't).
 **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts

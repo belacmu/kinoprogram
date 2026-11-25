@@ -92,6 +92,7 @@ const state = {
   invite: null,         // the invite link being looked at: {token, rows: who is going through it}
   updates: [],           // what's new in Cinecrab (site/updates.json)
   seatsOpen: "",         // the plan whose seats are being edited
+  visOpen: "",           // the plan whose Show to friends is open for changing
   goOpen: "",            // the showing whose "I'm going" is being set up (who sees it, seats) before it is saved
   inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
@@ -1401,7 +1402,7 @@ async function runSync() {
 // Signing out, or into a different account, leaves nothing of the last person's plans behind on this device.
 function clearPlansState() {
   for (const k of Object.keys(plans)) delete plans[k];
-  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; state.goOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
+  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; state.goOpen = ""; state.visOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
   local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
   for (const k of Object.keys(joinedVia)) delete joinedVia[k]; local.set("joinedVia", {});
 }
@@ -1537,7 +1538,8 @@ function showingPage(f, s, dlg) {
   const others = people.filter((p) => !p.me);
   // Signed in, you choose who sees it (friends, or just this showing). A guest has no friends, so only the people going with them can.
   const note = !state.user ? `<p class="visnote">People who open this showing (e.g. via a link) see that you're going.</p>`
-    : `<div class="visnote tellrow">${tellSwitch(plan?.tell !== false, true)}</div>`;
+    : state.visOpen === planId(f, s) ? `<div class="gochoose">${tellSwitch(plan?.tell !== false, true)}<div class="gobar"><button class="pbtn sm" data-visdone="1">Done</button></div></div>`
+    : `<p class="visnote"><button class="vislink" data-visopen="1">${plan?.tell !== false ? ICON_FRIENDS + "Shown to friends" : ICON_LOCK + "Not shown to friends"}<span class="chg">Change</span></button></p>`;
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
   const choosing = !on && state.user && state.goOpen === planId(f, s);
   if (on) mine = row(people.find((p) => p.me)) + note;
@@ -1654,6 +1656,8 @@ async function planClick(t) {
     goNow(f, s, tell, row || seats ? `${row}|${seats}` : "");
   }
   else if (t.dataset.gocancel) state.goOpen = "";
+  else if (t.dataset.visopen) state.visOpen = planId(f, s);
+  else if (t.dataset.visdone) state.visOpen = "";
   else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
   else if (t.dataset.seatsdone) state.seatsOpen = "";
   else {
@@ -1852,10 +1856,10 @@ function setCollapsed(key, shut) {
 const sectionShut = (key) => (key === GONE_KEY ? !state.collapsed.has(GONE_OPEN) : state.collapsed.has(key));
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-goconfirm],[data-gocancel],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-goconfirm],[data-gocancel],[data-visopen],[data-visdone],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan || t.dataset.goconfirm || t.dataset.gocancel) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan || t.dataset.goconfirm || t.dataset.gocancel || t.dataset.visopen || t.dataset.visdone) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";
