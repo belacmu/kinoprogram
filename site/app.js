@@ -1526,7 +1526,7 @@ function showingPage(f, s, dlg) {
     // You, once going: one tile (your line, then whether it's in your friends' feeds and an Edit at the right); tapping it anywhere
     // opens the plan box in its place.
     if (p.me) return `<button class="mytile" data-goedit="1" aria-label="Edit your plan: seats, friends' feeds, or not going"><span class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}<span class="gostat">✓ Going</span></span>
-      <span class="mfoot"><span class="vis">${!state.user ? "" : plan?.tell !== false ? ICON_FRIENDS + "In your friends' feeds" : ICON_LOCK + "Not in your friends' feeds"}</span><span class="edit">${PENCIL}Edit</span></span></button>`;
+      <span class="mfoot"><span class="vis">${!state.user ? "" : plan?.tell !== false ? ICON_FRIENDS + "Shown in your friends' feeds" : ICON_LOCK + "Not shown in your friends' feeds"}</span><span class="edit">${PENCIL}Edit</span></span></button>`;
     return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
   };
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):

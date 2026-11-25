@@ -464,7 +464,7 @@ this showing, e.g. via a link." The line under the pair changes with it.
 **The plan box.** Everything about your plan is edited in one box inside the showing's card (no second dialog): Show in friends'
 feeds (signed in only: guests have no friends), Seats (optional Row and Seat(s) boxes), then buttons. Signed in, tapping **I'm
 going** opens it with **Cancel** / **✓ I'm going** (guests go straight away). Once going, you are one tile: your name, your seats and a
-**✓ Going** tag, then a line with "In your friends' feeds" / "Not in your friends' feeds" at the left and **✎ Edit** at the right.
+**✓ Going** tag, then a line with "Shown in your friends' feeds" / "Not shown in your friends' feeds" at the left and an outlined **✎ Edit** pill at the right.
 Tapping the tile anywhere opens the same box in its place (headed by your name and ✓ Going), ending in **Not going** … **Cancel** /
 **Save**. Nothing saves until a button is pressed; Enter in a seat box presses
 the box's main button. Show in friends' feeds starts where you left it last time (kept on the device). `save_plan` takes `p_tell`
