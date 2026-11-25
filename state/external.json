@@ -414,7 +414,7 @@
 "enFrom": "tmdb"
 },
 "cl-ahora-suegros-son-ellos": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
@@ -456,17 +456,6 @@
 "tv": 2,
 "tmdb": 1422041,
 "lang": "es"
-},
-"cl-buscavidas": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-13",
-"tmdb": 990,
-"lang": "en",
-"imdb": "tt0054997",
-"en": "The Hustler",
-"enFrom": "tmdb"
 },
 "cl-cascanueces-26-27-1": {
 "v": 4,
@@ -652,6 +641,17 @@
 "imdb": "tt36462691",
 "en": null
 },
+"cl-oro-ley-1": {
+"v": 4,
+"checked": "2026-11-25",
+"tmdbChecked": "2026-11-25",
+"tv": 3,
+"tmdb": 1433583,
+"lang": "en",
+"imdb": "tt10794054",
+"en": "The Weight",
+"enFrom": "tmdb"
+},
 "cl-ratones-ataque-operacion-navidad": {
 "v": 4,
 "checked": "2026-11-11",
@@ -675,7 +675,7 @@
 "enFrom": "tmdb"
 },
 "cl-scrooge-fantasmas-navidad": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-24"
@@ -3161,6 +3161,23 @@
 "tmdbChecked": "2026-11-24",
 "tv": 3
 },
+"fw-EDI20260849": {
+"imdb": "tt32243339",
+"imdbAll": [
+"tt32243339"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "Asterix: The Kingdom of Nubia",
+"v": 4,
+"checked": "2026-11-25",
+"tmdbChecked": "2026-11-25",
+"tv": 3,
+"tmdb": 1084728,
+"lang": "fr",
+"enFrom": "tmdb"
+},
 "fw-EDI20260853": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3573,6 +3590,16 @@
 "tv": 3,
 "tmdb": 1661926,
 "lang": "ne"
+},
+"fw-EDI20261164": {
+"v": 4,
+"checked": "2026-11-25",
+"tmdbChecked": "2026-11-25",
+"tv": 3,
+"tmdb": 1635569,
+"lang": "no",
+"imdb": null,
+"en": null
 },
 "fw-EDI20261191": {
 "tmdbChecked": "2026-10-01",
@@ -5720,6 +5747,12 @@
 "tv": 3,
 "source": "moviescout"
 },
+"mk-ahora-los-suegros-son-ellos": {
+"tmdbChecked": "2026-11-25",
+"tv": 3,
+"v": 4,
+"checked": "2026-11-22"
+},
 "mk-blade-runner": {
 "tmdbChecked": "2026-11-17",
 "tv": 3,
@@ -5732,7 +5765,7 @@
 "enFrom": "tmdb"
 },
 "mk-bts-world-tour-arirang-in-jakarta": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-20"
@@ -5803,17 +5836,6 @@
 "en": "The Shop Around the Corner",
 "enFrom": "tmdb"
 },
-"mk-el-buscavidas": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-13",
-"tmdb": 990,
-"lang": "en",
-"imdb": "tt0054997",
-"en": "The Hustler",
-"enFrom": "tmdb"
-},
 "mk-el-gato-con-sombrero3": {
 "imdb": "tt2321555",
 "imdbAll": [
@@ -5853,6 +5875,23 @@
 "en": "Gremlins",
 "enFrom": "tmdb"
 },
+"mk-hechizo-bienvenidos-a-hexe2": {
+"imdb": "tt38077943",
+"imdbAll": [
+"tt38077943"
+],
+"lb": "hexed-2026",
+"rt": "m/hexed_2026",
+"mc": "movie/hexed",
+"en": "Hexed",
+"v": 4,
+"checked": "2026-11-14",
+"tmdbChecked": "2026-11-14",
+"tv": 2,
+"tmdb": 1538497,
+"lang": "en",
+"enFrom": "tmdb"
+},
 "mk-los-juegos-del-hambre-amanecer-en-la-cosecha": {
 "imdb": "tt32558705",
 "imdbAll": [
@@ -5870,8 +5909,19 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
+"mk-oro-sin-ley": {
+"v": 4,
+"checked": "2026-11-25",
+"tmdbChecked": "2026-11-25",
+"tv": 3,
+"tmdb": 1433583,
+"lang": "en",
+"imdb": "tt10794054",
+"en": "The Weight",
+"enFrom": "tmdb"
+},
 "mk-scrooge-y-los-fantasmas-de-la-navidad": {
-"tmdbChecked": "2026-11-17",
+"tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
 "checked": "2026-11-24"
