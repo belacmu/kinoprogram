@@ -453,23 +453,25 @@ only (Today, Tomorrow, Thu 27 Nov; no numeric date), and each showing is a round
 the same tint and dotted edge. When you're going, the edge (and the list card's outline) turns green.
 
 **Going.** Personal, per showing, retractable at any time. One tap on **I'm going**; guests (not signed in) give a name first.
-Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row: 4 / Seat: 7" in two small lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never
+Seats are optional: a **Row** box and a **Seats** box, shown as "Row: 4 / Seat: 7" in two small lines next to your Going button and as "Row 4, Seat 7" on others' lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered in the plan box (below), shown with your name to whoever can see you're going, never
 on the card itself.
 
 **Who sees it.** People who open the showing through a link (and friends who go too, since they join your party) always see
-you. The one choice is **Show to friends** (`tell_friends`): a Yes | No pair, Yes green with a people icon, No grey with a lock.
-Yes: friends see it in their Feed (and Coming up, the film's showings, the daily email). No: "Only people who open this showing,
-e.g. via a link." The line under the pair changes with it. Signed in, tapping **I'm going** opens a short step in the card (no
-second dialog): Show to friends, optional Row/Seat boxes, **Cancel** / **✓ I'm going**; the Tickets button stays in the card's
-header above. It starts where you left it last time (kept on the device). Once going, one quiet line sits right-aligned under the
-Going button ("Shown to friends" with the people icon, or "Not shown to friends" with the lock, then **Change**); Change opens
-the same box with **Done**, and a change there saves at once. Guests have no friends: no choice, just "People who open this showing (e.g. via a
-link) see that you're going". `save_plan` takes `p_tell` (null leaves it as it is, so an older page changing seats never shows
-friends a plan that wasn't).
+you. The one choice is **Show in friends' feeds** (`tell_friends`): a Yes | No pair, Yes green with a people icon, No grey with a
+lock. Yes: "Friends see it in their Feed and Coming up" (also the film's showings and the daily email). No: "Only people who open
+this showing, e.g. via a link." The line under the pair changes with it.
+
+**The plan box.** Everything about your plan is edited in one box inside the showing's card (no second dialog): Show in friends'
+feeds (signed in only: guests have no friends), Seats (optional Row and Seat(s) boxes), then buttons. Signed in, tapping **I'm
+going** opens it with **Cancel** / **✓ I'm going** (guests go straight away). Once going, your row shows your name, your seats
+and **✓ Going ⌄**, with one quiet line under it ("In your friends' feeds" / "Not in your friends' feeds"); tapping ✓ Going opens
+the same box ending in **Not going** … **Cancel** / **Save**. Nothing saves until a button is pressed; Enter in a seat box presses
+the box's main button. Show in friends' feeds starts where you left it last time (kept on the device). `save_plan` takes `p_tell`
+(null leaves it as it is, so an older page changing seats never shows friends a plan that wasn't).
 **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
 someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
 
-**Taking yourself off** ("✓ Going" tapped again) deletes your plan, and your invite link goes with it. So when that would cut you off
+**Taking yourself off** (**Not going** in the plan box) deletes your plan, and your invite link goes with it. So when that would cut you off
 from the people going with you, the page asks first ("Not going after all?", the browser's own confirm, as for removing a friend):
 - **Others in your group who aren't your friends, and you didn't join through anyone's link** (e.g. guests you invited): "Anna and Jon
   are going with you through your invite link. If you take yourself off, your link stops working: you won't be able to see them here
