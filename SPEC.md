@@ -467,12 +467,13 @@ right once you're going, so it stays in view). Before you've joined it is a dash
 and **I'm going** (guests also get a name box, which they fill first). Nothing else is said there.
 
 **The plan box.** Tapping I'm going (or, once going, your tile) opens one box in its place, inside the showing's card (no second
-dialog): your circle and name with the line on who can see it, then each setting as its label (with a quiet line under it) at the
+dialog): your circle and name with the line on who can see it, a little space, then each setting as its label (with a quiet line under it) at the
 left and its control at the right (Show in friends' feeds; Seats, "Optional", with Row and Seat(s) boxes), then a footer under a
 hairline with **Cancel** / **Save**, and once going also a red text **Not going** at the left. Nothing saves until Save (a guest's anonymous account is made
 on their first Save); Enter in a seat box is Save. Show in friends' feeds starts where you left it last time (kept on the device).
-Once going, your tile shows your name, seats under it, an outlined **✎ Edit** pill at the right, and (signed in) "Shown in your
-friends' feeds" / "Not shown in your friends' feeds" under it; tapping the tile anywhere opens the box. `save_plan` takes `p_tell`
+Once going, your tile shows your name, seats under it, an outlined **✎ Edit** pill at the right, and under it "Anyone who opens this
+showing can see you're going." followed (signed in) by "It's also shown in your friends' feeds." or "It's hidden from your friends'
+feeds." (people icon / lock); tapping the tile anywhere opens the box. `save_plan` takes `p_tell`
 (null leaves it as it is, so an older page changing seats never shows friends a plan that wasn't).
 
 **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts

@@ -1280,3 +1280,8 @@ div.jointile.prow2 { flex-direction: row; }
 .bl { flex: 1; }
 .blab { white-space: nowrap; }
 .brow .segc label { padding: 0 11px; }
+/* a little room between you (name, who can see it) and the settings in the plan box */
+.gochoose > .prow2.me { margin-bottom: 8px; }
+/* the tile's line on who sees it can run to two lines: the icon stays by the first */
+.mfoot .vis { align-items: flex-start; line-height: 1.4; }
+.mfoot .vis svg { flex: none; margin-top: 2px; }
