@@ -1526,16 +1526,18 @@ function showingPage(f, s, dlg) {
   const note = state.user ? "" : `<p class="visnote">People who open this showing (e.g. via a link) see that you're going.</p>`;
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
   const choosing = !on && state.user && state.goOpen === planId(f, s);
-  if (on && editing) mine = planBox(plan, true, `<div class="prow2 me"><span class="av" style="background:${avatarColor(name || "You")}">${esc((name || "You")[0].toUpperCase())}</span><span class="pname">${esc(name || "You")}</span><span class="gostat">✓ Going</span></div>`);
+  // Both plan boxes start with you (your circle and name): joining the list, or (once going) your place in it being edited.
+  const meHead = (tag) => `<div class="prow2 me"><span class="av" style="background:${avatarColor(name || "You")}">${esc((name || "You")[0].toUpperCase())}</span><span class="pname">${esc(name || "You")}</span>${tag}</div>`;
+  if (on && editing) mine = planBox(plan, true, meHead(`<span class="gostat">✓ Going</span>`));
   else if (on) mine = row(people.find((p) => p.me)) + note;
-  else if (choosing) mine = planBox(null, false);
-  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>You choose if it's in your friends' feeds.</small></span>${goBtn}</div>`;
-  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>Everyone going with you will see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
-  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
+  else if (choosing) mine = planBox(null, false, meHead(""));
+  else if (state.user) mine = `<div class="jointile prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>You choose if it's in your friends' feeds.</small></span>${goBtn}</div>`;
+  else mine = `<div class="jointile"><div class="asktop"><span class="pname muted">${prompt}</span><small>Everyone going with you will see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div></div>`;
+  const invite = on ? `<button class="pbtn sm" data-sharershow="1">Invite someone ↗</button>` : "";  // next to the heading, so it stays in view however long the list
   // A showing the cinema no longer lists (or moved to another time that day): say so, and offer to move your plan to the new time.
   const moved = plan?.replacedBy && f.shows.find((x) => x.id === plan.replacedBy);
   const gone = s.gone || plan?.gone;
-  if (gone && !on) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">This showing is no longer listed.</span></span></div>`;
+  if (gone && !on) mine = `<div class="jointile prow2 yours"><span class="ask"><span class="pname muted">This showing is no longer listed.</span></span></div>`;
   const goneNote = !gone || !on ? "" : moved
     ? `<div class="gonenote"><span>The cinema moved this showing to <b>${esc(dayLabel(moved.t))} ${hhmm(moved.t)}</b>.</span><button class="pbtn sm" data-moveplan="1">Move my plan</button></div>`
     : `<div class="gonenote"><span>The cinema no longer lists this showing. Check with the cinema before you go.</span></div>`;
@@ -1543,7 +1545,7 @@ function showingPage(f, s, dlg) {
     ${filmHead(f)}
     <div class="showpage">${more ? `<div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>` : ""}
     <div class="plan9${on ? " going" : ""}"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${sub}</div>` : ""}${s.note ? `<div class="nt">${esc(s.note)}</div>` : ""}</div>${buy}</div>
-      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>
+      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4>${invite}</div>` : ""}${mine}${others.map(row).join("")}</div></div></div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();

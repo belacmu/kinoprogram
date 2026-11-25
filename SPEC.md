@@ -461,7 +461,12 @@ you. The one choice is **Show in friends' feeds** (`tell_friends`): a Yes | No p
 lock. Yes: "Friends see it in their Feed and Coming up" (also the film's showings and the daily email). No: "Only people who open
 this showing, e.g. via a link." The line under the pair changes with it.
 
-**The plan box.** Everything about your plan is edited in one box inside the showing's card (no second dialog): Show in friends'
+**Your place in the list** is always the first tile under the "Going · N" heading (with **Invite someone ↗** at the heading's
+right once you're going, so it stays in view). Before you've joined it is a dashed tile ("Want to join?" / "Nobody is going yet."
+and **I'm going**; guests also get a name box).
+
+**The plan box.** Everything about your plan is edited in one box inside the showing's card (no second dialog), headed by your circle
+and name: Show in friends'
 feeds (signed in only: guests have no friends), Seats (optional Row and Seat(s) boxes), then buttons. Signed in, tapping **I'm
 going** opens it with **Cancel** / **✓ I'm going** (guests go straight away). Once going, you are one tile: your name (seats under it) and a
 **✓ Going** tag, then a line with "Shown in your friends' feeds" / "Not shown in your friends' feeds" at the left and an outlined **✎ Edit** pill at the right.
