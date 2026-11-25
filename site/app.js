@@ -1500,7 +1500,7 @@ function planBox(id, plan, editing, head = "") {
   const tell = d?.tell ?? (editing ? plan?.tell !== false : local.get("goTell", true));
   return `<div class="gochoose${editing ? " editing" : ""}">${head}
     ${state.user ? tellSwitch(tell) : ""}
-    ${boxRow("Seats", "Optional", `<span class="seatedit"><input class="seatinp" data-pre="row" value="${esc(row)}" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric"><input class="seatinp wide" data-pre="seats" value="${esc(seats)}" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"></span>`)}
+    ${boxRow("Seats", "Optional", `<span class="seatedit"><label class="sfield"><span>Row</span><input class="seatinp" data-pre="row" value="${esc(row)}" placeholder="4" maxlength="4" inputmode="numeric"></label><label class="sfield"><span>Seat(s)</span><input class="seatinp wide" data-pre="seats" value="${esc(seats)}" placeholder="7-9" maxlength="22"></label></span>`)}
     <div class="gobar">${editing ? `<button class="linkbtn leave" data-going="1">Not going</button><span class="sp"></span>` : ""}<button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">Save</button></div></div>`;
 }
 

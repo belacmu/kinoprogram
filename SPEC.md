@@ -468,7 +468,8 @@ and **I'm going** (guests also get a name box, which they fill first). Nothing e
 
 **The plan box.** Tapping I'm going (or, once going, your tile) opens one box in its place, inside the showing's card (no second
 dialog): your circle and name with the line on who can see it, a little space, then each setting as its label (with a quiet line under it) at the
-left and its control at the right (Show in friends' feeds; Seats, "Optional", with Row and Seat(s) boxes), then a footer under a
+left and its control at the right (Show in friends' feeds; Seats, "Optional", with Row and Seat(s) boxes, each named in small caps above it and with an
+example as placeholder, "4" / "7-9"), then a footer under a
 hairline with **Cancel** / **Save**, and once going also a red text **Not going** at the left. Nothing saves until Save (a guest's anonymous account is made
 on their first Save); Enter in a seat box is Save. Show in friends' feeds starts where you left it last time (kept on the device).
 Once going, your tile shows your name, seats under it, an outlined **✎ Edit** pill at the right, and under it "Visible on this showing
