@@ -1468,6 +1468,7 @@ function peopleOf(f, s, plan, name) {
 const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
 // "Seat" for one number, "Seats" when there are two or more ("7-9", "7, 8", "7 8").
 const seatWord = (seats) => ((String(seats || "").match(/\d+/g) || []).length > 1 ? "Seats" : "Seat");
+const PENCIL = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
 // Your own seats, next to the Going button: two small lines in a grey tag ("Row:  4" / "Seats:  7–9"), so your name keeps its room.
 function seatTag(v) {
   const { row, seats } = seatParts(v);
@@ -1500,9 +1501,9 @@ const toldNow = () => $("film").querySelector("[data-tell]:checked")?.value !== 
 
 // Your plan in one box: Show in friends' feeds (signed in only: guests have no friends), seats, then the buttons. Before going it ends
 // in Cancel / I'm going; once going (opened from the Going button) in Not going ... Cancel / Save. Nothing is saved until then.
-function planBox(plan, editing) {
+function planBox(plan, editing, head = "") {
   const { row, seats } = seatParts(plan?.seats);
-  return `<div class="gochoose">${state.user ? tellSwitch(editing ? plan?.tell !== false : local.get("goTell", true)) : ""}
+  return `<div class="gochoose${editing ? " editing" : ""}">${head}${state.user ? tellSwitch(editing ? plan?.tell !== false : local.get("goTell", true)) : ""}
     <div class="goseats"><span class="gsl">Seats <small>(optional)</small></span><span class="seatedit"><input class="seatinp" data-pre="row" value="${esc(row)}" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric"><input class="seatinp wide" data-pre="seats" value="${esc(seats)}" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"></span></div>
     <div class="gobar">${editing ? `<button class="pbtn sm leave" data-going="1">Not going</button><span class="sp"></span>` : ""}<button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">${editing ? "Save" : "✓ I'm going"}</button></div></div>`;
 }
@@ -1518,24 +1519,25 @@ function showingPage(f, s, dlg) {
   const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
   const editing = on && state.goOpen === planId(f, s);
-  const goBtn = on ? `<button class="gopill on" data-goedit="1" aria-expanded="${editing}" title="Change your seats, who sees it, or say you're not going">✓ Going<svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>`
-    : `<button class="gopill" data-going="1">I'm going</button>`;  // the words change with the state: a call to action, then a confirmation
+  const goBtn = `<button class="gopill" data-going="1">I'm going</button>`;
   const row = (p) => {
     let seats;
     seats = !p.seats ? "" : p.me ? seatTag(p.seats) : seatLine(p.seats);
-    if (p.me) return `<div class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats + goBtn}</div>`;
+    // You, once going: one tile (your line, then whether it's in your friends' feeds and an Edit at the right); tapping it anywhere
+    // opens the plan box in its place.
+    if (p.me) return `<button class="mytile" data-goedit="1" aria-label="Edit your plan: seats, friends' feeds, or not going"><span class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}<span class="gostat">✓ Going</span></span>
+      <span class="mfoot"><span class="vis">${!state.user ? "" : plan?.tell !== false ? ICON_FRIENDS + "In your friends' feeds" : ICON_LOCK + "Not in your friends' feeds"}</span><span class="edit">${PENCIL}Edit</span></span></button>`;
     return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
   };
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
   const others = people.filter((p) => !p.me);
   // Signed in, you choose who sees it (friends, or just this showing). A guest has no friends, so only the people going with them can.
-  const note = editing ? planBox(plan, true)
-    : !state.user ? `<p class="visnote">People who open this showing (e.g. via a link) see that you're going.</p>`
-    : `<p class="visnote vis">${plan?.tell !== false ? ICON_FRIENDS + "In your friends' feeds" : ICON_LOCK + "Not in your friends' feeds"}</p>`;
+  const note = state.user ? "" : `<p class="visnote">People who open this showing (e.g. via a link) see that you're going.</p>`;
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
   const choosing = !on && state.user && state.goOpen === planId(f, s);
-  if (on) mine = row(people.find((p) => p.me)) + note;
+  if (on && editing) mine = planBox(plan, true, `<div class="prow2 me"><span class="av" style="background:${avatarColor(name || "You")}">${esc((name || "You")[0].toUpperCase())}</span><span class="pname">${esc(name || "You")}</span><span class="gostat">✓ Going</span></div>`);
+  else if (on) mine = row(people.find((p) => p.me)) + note;
   else if (choosing) mine = planBox(null, false);
   else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>You choose if it's in your friends' feeds.</small></span>${goBtn}</div>`;
   else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>Everyone going with you will see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
@@ -1647,7 +1649,7 @@ async function planClick(t) {
     else goNow(f, s, tell, seat);
   }
   else if (t.dataset.gocancel) state.goOpen = "";
-  else if (t.dataset.goedit) state.goOpen = state.goOpen === planId(f, s) ? "" : planId(f, s);
+  else if (t.dataset.goedit) state.goOpen = planId(f, s);
   else {
     const url = await inviteUrl(f, s);
     if (!url) { toast("Couldn't make the invite link yet. Try again in a moment."); return; }

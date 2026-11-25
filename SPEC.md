@@ -453,7 +453,7 @@ only (Today, Tomorrow, Thu 27 Nov; no numeric date), and each showing is a round
 the same tint and dotted edge. When you're going, the edge (and the list card's outline) turns green.
 
 **Going.** Personal, per showing, retractable at any time. One tap on **I'm going**; guests (not signed in) give a name first.
-Seats are optional: a **Row** box and a **Seats** box, shown as "Row: 4 / Seat: 7" in two small lines next to your Going button and as "Row 4, Seat 7" on others' lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered in the plan box (below), shown with your name to whoever can see you're going, never
+Seats are optional: a **Row** box and a **Seats** box, shown as "Row: 4 / Seat: 7" in two small lines on your own tile and as "Row 4, Seat 7" on others' lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered in the plan box (below), shown with your name to whoever can see you're going, never
 on the card itself.
 
 **Who sees it.** People who open the showing through a link (and friends who go too, since they join your party) always see
@@ -463,9 +463,10 @@ this showing, e.g. via a link." The line under the pair changes with it.
 
 **The plan box.** Everything about your plan is edited in one box inside the showing's card (no second dialog): Show in friends'
 feeds (signed in only: guests have no friends), Seats (optional Row and Seat(s) boxes), then buttons. Signed in, tapping **I'm
-going** opens it with **Cancel** / **✓ I'm going** (guests go straight away). Once going, your row shows your name, your seats
-and **✓ Going ⌄**, with one quiet line under it ("In your friends' feeds" / "Not in your friends' feeds"); tapping ✓ Going opens
-the same box ending in **Not going** … **Cancel** / **Save**. Nothing saves until a button is pressed; Enter in a seat box presses
+going** opens it with **Cancel** / **✓ I'm going** (guests go straight away). Once going, you are one tile: your name, your seats and a
+**✓ Going** tag, then a line with "In your friends' feeds" / "Not in your friends' feeds" at the left and **✎ Edit** at the right.
+Tapping the tile anywhere opens the same box in its place (headed by your name and ✓ Going), ending in **Not going** … **Cancel** /
+**Save**. Nothing saves until a button is pressed; Enter in a seat box presses
 the box's main button. Show in friends' feeds starts where you left it last time (kept on the device). `save_plan` takes `p_tell`
 (null leaves it as it is, so an older page changing seats never shows friends a plan that wasn't).
 **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
