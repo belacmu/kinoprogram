@@ -91,6 +91,7 @@ const state = {
   friendPlansAll: [], friendPlansAt: 0,  // friends' upcoming plans (friends_plans), every region
   invite: null,         // the invite link being looked at: {token, rows: who is going through it}
   updates: [],           // what's new in Cinecrab (site/updates.json)
+  goDraft: null,         // the open plan box's unsaved choices: {id, tell, row, seats}
   goOpen: "",            // the showing whose plan box is open: setting up "I'm going", or (once going) changing it
   inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
@@ -1400,7 +1401,7 @@ async function runSync() {
 // Signing out, or into a different account, leaves nothing of the last person's plans behind on this device.
 function clearPlansState() {
   for (const k of Object.keys(plans)) delete plans[k];
-  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.goOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
+  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.goOpen = ""; state.goDraft = null; clearTimeout(planRetry); clearTimeout(planTimer);
   local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
   for (const k of Object.keys(joinedVia)) delete joinedVia[k]; local.set("joinedVia", {});
 }
@@ -1492,10 +1493,13 @@ const toldNow = () => $("film").querySelector("[data-tell]:checked")?.value !== 
 
 // Your plan in one box: who can see it (anyone who opens the showing; signed in, you also choose whether it's in your friends' feeds:
 // guests have no friends), seats, then Cancel / Save (once going also Not going). Nothing is saved until Save.
-function planBox(plan, editing, head = "") {
-  const { row, seats } = seatParts(plan?.seats);
+// What's typed or chosen in an open box is kept in state.goDraft, so a redraw (friends' plans arriving, coming back to the tab) puts it back.
+function planBox(id, plan, editing, head = "") {
+  const d = state.goDraft?.id === id ? state.goDraft : null;
+  const { row, seats } = d || seatParts(plan?.seats);
+  const tell = d?.tell ?? (editing ? plan?.tell !== false : local.get("goTell", true));
   return `<div class="gochoose${editing ? " editing" : ""}">${head}
-    ${state.user ? tellSwitch(editing ? plan?.tell !== false : local.get("goTell", true)) : ""}
+    ${state.user ? tellSwitch(tell) : ""}
     ${boxRow("Seats", "Optional", `<span class="seatedit"><input class="seatinp" data-pre="row" value="${esc(row)}" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric"><input class="seatinp wide" data-pre="seats" value="${esc(seats)}" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"></span>`)}
     <div class="gobar">${editing ? `<button class="linkbtn leave" data-going="1">Not going</button><span class="sp"></span>` : ""}<button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">Save</button></div></div>`;
 }
@@ -1517,7 +1521,7 @@ function showingPage(f, s, dlg) {
     const who = `<span class="pwho"><span class="pname">${esc(p.name)}</span>${sub ? `<span class="psub">${esc(sub)}</span>` : ""}</span>`;
     // You, once going: one tile (your line, then whether it's in your friends' feeds and an Edit at the right); tapping it anywhere
     // opens the plan box in its place.
-    if (p.me) return `<button class="mytile" data-goedit="1" aria-label="Edit your plan: seats, friends' feeds, or not going"><span class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span>${who}<span class="edit">${PENCIL}Edit</span></span>
+    if (p.me) return `<button class="mytile" data-goedit="1"><span class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span>${who}<span class="edit">${PENCIL}Edit</span></span>
       <span class="mfoot"><span class="vis">${!state.user ? "" : plan?.tell !== false ? ICON_FRIENDS : ICON_LOCK}<span>${!state.user ? "Visible on this showing" : plan?.tell !== false ? "Visible on this showing and in friends' feeds" : "Visible on this showing only"}</span></span></span></button>`;
     return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span>${who}</div>`;
   };
@@ -1530,9 +1534,9 @@ function showingPage(f, s, dlg) {
   // Both plan boxes start with you (your circle and name): joining the list, or (once going) your place in it being edited.
   // with who can see it as a quiet line under your name, the way seats sit under names in the list
   const meHead = () => `<div class="prow2 me"><span class="av" style="background:${avatarColor(name || "You")}">${esc((name || "You")[0].toUpperCase())}</span><span class="pwho"><span class="pname">${esc(name || "You")}</span><span class="psub multi">Anyone who opens this showing can see you're going.</span></span></div>`;
-  if (on && editing) mine = planBox(plan, true, meHead());
+  if (on && editing) mine = planBox(planId(f, s), plan, true, meHead());
   else if (on) mine = row(people.find((p) => p.me)) + note;
-  else if (!on && state.goOpen === planId(f, s)) mine = planBox(null, false, meHead());
+  else if (!on && state.goOpen === planId(f, s)) mine = planBox(planId(f, s), null, false, meHead());
   else if (state.user) mine = `<div class="jointile prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span></span>${goBtn}</div>`;
   else mine = `<div class="jointile"><div class="asktop"><span class="pname muted">${prompt}</span></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div></div>`;
   const invite = on ? `<button class="pbtn sm" data-sharershow="1">Invite someone ↗</button>` : "";  // next to the heading, so it stays in view however long the list
@@ -1619,13 +1623,13 @@ async function planClick(t) {
       const old = planOf(f, s), warn = leaveWarning(f, s, old);
       if (warn && !confirm(`Not going after all?\n\n${warn}`)) return;
       if (old.via) { joinedVia[planId(f, s)] = old.via; local.set("joinedVia", joinedVia); }
-      state.goOpen = "";
+      state.goOpen = ""; state.goDraft = null;
       setPlan(f, s, null);
     }
     else {
       // A guest gives a name first. Then everyone gets the plan box (seats, who sees it); nothing is saved until its Save.
       if (!state.user && !state.guest && sb && !nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
-      state.goOpen = planId(f, s);
+      state.goOpen = planId(f, s); state.goDraft = null;
     }
   }
   else if (t.dataset.goconfirm) {
@@ -1633,17 +1637,19 @@ async function planClick(t) {
     const v = (k) => $("film").querySelector(`[data-pre="${k}"]`)?.value.replace(/\|/g, "").trim() || "";
     const tell = state.user ? toldNow() : true, row = v("row"), seats = v("seats"), seat = row || seats ? `${row}|${seats}` : "";
     if (!state.user && !state.guest && sb) {  // a guest: an anonymous account, made on their first Save
+      const open = state.goOpen;
       joining = true;
       try { if (!(await guestSignIn(myName()))) { toast(`Couldn't add you: ${state.guestError || "try again in a moment"}.`); return; } }
       finally { joining = false; }
+      if (state.goOpen !== open || !$("film").open) return;  // cancelled (or the sheet closed) while signing in: don't save
     }
     if (state.user) local.set("goTell", tell);  // the next showing starts on the same choice
-    state.goOpen = "";
+    state.goOpen = ""; state.goDraft = null;
     if (planOf(f, s)?.going) setPlan(f, s, { tell, seats: seat });  // Save
     else goNow(f, s, tell, seat);
   }
-  else if (t.dataset.gocancel) state.goOpen = "";
-  else if (t.dataset.goedit) state.goOpen = planId(f, s);
+  else if (t.dataset.gocancel) { state.goOpen = ""; state.goDraft = null; }
+  else if (t.dataset.goedit) { state.goOpen = planId(f, s); state.goDraft = null; }
   else {
     const url = await inviteUrl(f, s);
     if (!url) { toast("Couldn't make the invite link yet. Try again in a moment."); return; }
@@ -1689,11 +1695,21 @@ $("film").addEventListener("input", (e) => {  // a guest's name saves as you typ
     if (state.guest && sb) { clearTimeout(nameTimer); nameTimer = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
   }
 });
+// The open box's choices, read from the page into state.goDraft as they change.
+function keepDraft() {
+  const { id, show } = hashParts(), f = findFilm(id), s = f && showFor(f, show);
+  if (!s) return;
+  const v = (k) => $("film").querySelector(`[data-pre="${k}"]`)?.value ?? "";
+  const tellEl = $("film").querySelector("[data-tell]");
+  state.goDraft = { id: planId(f, s), row: v("row"), seats: v("seats"), tell: tellEl ? toldNow() : undefined };
+}
+$("film").addEventListener("input", (e) => { if (e.target.dataset?.pre) keepDraft(); });
 $("film").addEventListener("change", (e) => {  // Show in friends' feeds: the line under it follows
   const k = e.target.dataset?.tell;
   if (!k) return;
   const tell = e.target.value === "1";
   e.target.closest(".tellbox").querySelector(".bhint").textContent = tell ? TELL_HINT.on : TELL_HINT.off;
+  keepDraft();
 });
 $("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = the box's I'm going / Save
   if (e.key === "Enter" && e.target.dataset?.pre) { e.preventDefault(); $("film").querySelector("[data-goconfirm]")?.click(); }
@@ -1765,6 +1781,7 @@ function route() {
 }
 
 $("film").addEventListener("close", () => {
+  state.goOpen = ""; state.goDraft = null;  // a plan box left open without Save is closed with the sheet
   state.showAll = false;
   state.blurbOpen = "";
   state.sheetCinemas.clear();

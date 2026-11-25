@@ -1275,13 +1275,18 @@ div.jointile.prow2 { flex-direction: row; }
 .blab { font: 600 15px var(--body); color: var(--ink); }
 .bhint { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
 .gobar { margin: 0 -14px; padding: 12px 14px 0; border-top: 1px solid var(--line); }
-.linkbtn { border: 0; background: none; padding: 8px 2px; font: 600 14px var(--body); cursor: pointer; }
-.linkbtn.leave { color: var(--accent); }
+.gobar .linkbtn { border: 0; background: none; padding: 8px 2px; font: 600 14px var(--body); cursor: pointer; }
+.gobar .linkbtn.leave { color: var(--accent); }
 .bl { flex: 1; }
-.blab { white-space: nowrap; }
-.brow .segc label { padding: 0 11px; }
+.bl { min-width: 0; }
+.brow .segc label { padding: 0 10px; }
 /* a little room between you (name, who can see it) and the settings in the plan box */
 .gochoose > .prow2.me { margin-bottom: 8px; }
 /* the tile's line on who sees it can run to two lines: the icon stays by the first */
 .mfoot .vis { align-items: flex-start; line-height: 1.4; }
 .mfoot .vis svg { flex: none; margin-top: 2px; }
+/* a narrow box (phones narrower than ~390px): Show in friends' feeds puts its Yes | No on a line of its own, under the label */
+.gochoose { container-type: inline-size; }
+@container (max-width: 290px) {
+  .brow.tellbox { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
