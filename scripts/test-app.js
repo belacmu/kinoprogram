@@ -248,7 +248,7 @@ async function site() {
       `leaving with guests who came through your link: warned (${warn.host})`);
     check(warn.joined.startsWith("You joined through an invite link."), `leaving after joining through a link: told how to see them again (${warn.joined})`);
     check(!warn.friendsOnly && !warn.alone && !warn.notGoing, "going alone or only with friends: no warning");
-    // The real button: it asks first; Cancel keeps you going, OK takes you off.
+    // The real button (Not going, in the plan box your tile opens): it asks first; Cancel keeps you going, OK takes you off.
     const showHash = await page.evaluate(() => {
       const f = state.data.films.find((x) => x.shows.length), s = f.shows[0], id = planId(f, s);
       plans[id] = { going: true, inv: "mine", film: f.id, t: s.t, cinema: s.cinema, region: state.region };
@@ -259,7 +259,9 @@ async function site() {
       return showHref(f, s);
     });
     await page.evaluate((h) => { location.hash = h; }, showHash);
-    await page.waitForSelector("#film[open] [data-going]");
+    await page.waitForSelector("#film[open] [data-goedit]");
+    await page.click("#film [data-goedit]");
+    await page.waitForSelector("#film[open] .gochoose [data-going]");
     const asked = [];
     const answer = (accept) => page.once("dialog", (d) => { asked.push(d.message()); accept ? d.accept() : d.dismiss(); });
     answer(false);
@@ -272,6 +274,32 @@ async function site() {
     const gone = await page.evaluate(() => !plans[__planId]?.going);
     check(asked.length === 2 && asked[0].startsWith("Not going after all?") && asked[0].includes("Anna Guest"), `the button asks first (${JSON.stringify(asked[0])})`);
     check(kept && gone, `Cancel keeps you going, OK takes you off (kept: ${kept}, then off: ${gone})`);
+
+    // I'm going opens the plan box (nothing saved yet); its choices survive a redraw; Save keeps "not in friends' feeds" and the seats;
+    // Cancel saves nothing.
+    await page.evaluate(() => { state.invite = null; state.user = { id: "u-test" }; state.profile = { display_name: "Tester" }; refreshSheet(); });
+    await page.waitForSelector("#film[open] .jointile [data-going]");
+    await page.click("#film [data-going]");
+    await page.waitForSelector("#film .gochoose [data-pre=row]");
+    const unsaved = await page.evaluate(() => !plans[__planId]);
+    await page.click("#film .gochoose .segc .no");
+    await page.fill("#film [data-pre=row]", "4");
+    await page.fill("#film [data-pre=seats]", "7-8");
+    const kept2 = await page.evaluate(() => { document.activeElement.blur(); refreshSheet(); return [$("film").querySelector("[data-pre=row]").value, $("film").querySelector("[data-pre=seats]").value, toldNow()]; });
+    await page.click("#film [data-goconfirm]");
+    await page.waitForTimeout(200);
+    const saved = await page.evaluate(() => { const p = plans[__planId]; return [!!p?.going, p?.tell, p?.seats, $("film").querySelector(".mytile .vis")?.textContent]; });
+    check(unsaved, "I'm going opens the plan box without saving anything yet");
+    check(JSON.stringify(kept2) === JSON.stringify(["4", "7-8", false]), `the box's choices survive a redraw (${JSON.stringify(kept2)})`);
+    check(saved[0] && saved[1] === false && saved[2] === "4|7-8" && saved[3] === "Visible on this showing only",
+      `Save keeps the choice and the seats, and the tile says so (${JSON.stringify(saved)})`);
+    await page.click("#film [data-goedit]");
+    await page.click("#film .gochoose .segc .yes");
+    await page.click("#film [data-gocancel]");
+    await page.waitForTimeout(200);
+    const cancelled = await page.evaluate(() => [plans[__planId]?.tell, !$("film").querySelector(".gochoose")]);
+    check(cancelled[0] === false && cancelled[1], `Cancel closes the box and changes nothing (${JSON.stringify(cancelled)})`);
+    await page.evaluate(() => { delete plans[__planId]; state.user = null; state.profile = null; });
     await page.keyboard.press("Escape");
 
     // The film's list and the showing page share one ticket look; a film with a single showing opens straight on its page.

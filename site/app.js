@@ -91,7 +91,8 @@ const state = {
   friendPlansAll: [], friendPlansAt: 0,  // friends' upcoming plans (friends_plans), every region
   invite: null,         // the invite link being looked at: {token, rows: who is going through it}
   updates: [],           // what's new in Cinecrab (site/updates.json)
-  seatsOpen: "",         // the plan whose seats are being edited
+  goDraft: null,         // the open plan box's unsaved choices: {id, tell, row, seats}
+  goOpen: "",            // the showing whose plan box is open: setting up "I'm going", or (once going) changing it
   inviteLoading: "",     // the invite token being fetched
   friendsError: false,  // the last load failed
   acctView: "",         // account dialog: "" = settings, "friends" = the friends screen
@@ -1334,7 +1335,7 @@ function openFilm(id) {
 // Keyed by the showing's id (s.id, made by the scraper; the database's showings table has the same ids).
 // {going, tell, seats, inv, via, party, gone, replacedBy, ...a copy of the showing so it still shows if the schedule drops it: film, title,
 // cinema, time, region, ticket}. gone / replacedBy come from the database: the cinema no longer lists it / the showing that took its place.
-// tell: always true for now (going is public); kept so a privacy control can come back.
+// tell: shown to your friends (Feed, Coming up, the film's showings) or only to the people going with you (the party); see tellSwitch().
 // inv is the plan's private invite token and party its party: both are made by the server (save_plan), never here.
 const plans = local.get("plans", {});
 if (!local.get("plansV2", false)) { for (const p of Object.values(plans)) delete p.inv; local.set("plansV2", true); }  // tokens used to be made here; the server's are the real ones
@@ -1361,7 +1362,7 @@ function setPlan(f, s, patch) {
 let planTimer = 0, planRetry = 0, syncChain = Promise.resolve();
 const syncPlansSoon = () => { clearTimeout(planTimer); planTimer = setTimeout(syncPlans, 700); };  // typing seats saves once you pause
 // The server takes only the showing, the seats and the invite joined through: the showing's details and ticket link are its own.
-const planArgs = (id, p) => ({ p_showing_id: id, p_seats: p.seats || null, p_joined_via: p.via || null });
+const planArgs = (id, p) => ({ p_showing_id: id, p_seats: p.seats || null, p_joined_via: p.via || null, p_tell: p.tell !== false });
 // Save what changed here: plans that exist are written, plans that were retracted are deleted. One run at a time; a plan that
 // fails is skipped (the rest still save) and everything left is tried again shortly.
 function syncPlans() { syncChain = syncChain.then(runSync, runSync); return syncChain; }
@@ -1400,7 +1401,7 @@ async function runSync() {
 // Signing out, or into a different account, leaves nothing of the last person's plans behind on this device.
 function clearPlansState() {
   for (const k of Object.keys(plans)) delete plans[k];
-  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.seatsOpen = ""; clearTimeout(planRetry); clearTimeout(planTimer);
+  planDirty.clear(); state.friendPlansAll = []; state.friendPlansAt = 0; state.invite = null; state.goOpen = ""; state.goDraft = null; clearTimeout(planRetry); clearTimeout(planTimer);
   local.set("plans", {}); local.set("planDirty", []); local.set("plansFor", "");
   for (const k of Object.keys(joinedVia)) delete joinedVia[k]; local.set("joinedVia", {});
 }
@@ -1466,38 +1467,42 @@ function peopleOf(f, s, plan, name) {
 }
 // Seats are kept as "row|seats" ("4|7–9"); older free text without the bar is just shown as the seats.
 const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes("|") ? s.split("|") : ["", s]; return { row: (a || "").trim(), seats: (b || "").trim() }; };
-// Two small lines in a grey tag: the word at the left, the number at the right ("Row:   5" / "Seat:   7"). Your own tag has a pencil, and
-// also carries the one-line form others get ("Row 4, Seats 7–9"): fitOwnSeats() shows that one when your line has room for it.
-const PENCIL = `<svg class="pen" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
 // "Seat" for one number, "Seats" when there are two or more ("7-9", "7, 8", "7 8").
 const seatWord = (seats) => ((String(seats || "").match(/\d+/g) || []).length > 1 ? "Seats" : "Seat");
-function seatTag(v, tag = "span", attrs = "", edit = false) {
-  const { row, seats } = seatParts(v);
-  const word = seatWord(seats);
-  const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
-  const one = edit ? `<span class="oneline">${esc([row ? `Row ${row}` : "", seats ? `${word} ${seats}` : ""].filter(Boolean).join(", "))}</span>` : "";
-  return `<${tag} class="seat2"${attrs}${edit ? ' aria-label="Edit your seats"' : ""}>${one}<span class="lines">${row ? line("Row", row) : ""}${seats ? line(word, seats) : ""}</span>${edit ? PENCIL : ""}</${tag}>`;
-}
-// Your seats on one line, like everyone else's, when that still leaves your whole name showing; otherwise the two-line tag.
-function fitOwnSeats() {
-  const tag = $("film").querySelector(".prow2.me .seat2"), name = $("film").querySelector(".prow2.me .pname");
-  if (!tag || !name || !tag.querySelector(".oneline")) return;
-  tag.classList.add("one");
-  if (name.scrollWidth > name.clientWidth + 1) tag.classList.remove("one");
-}
-addEventListener("resize", fitOwnSeats);
-// One line for other people: "Row 4, Seats 7–9".
-function seatLine(v) {
-  const { row, seats } = seatParts(v);
-  const word = seatWord(seats);
-  return `<span class="seat1">${[row ? `Row ${esc(row)}` : "", seats ? `${word} ${esc(seats)}` : ""].filter(Boolean).join(", ")}</span>`;
-}
+const PENCIL = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
+// Seats as a quiet line under the person's name: "Row 4 · Seats 7–9".
+const seatSub = (v) => { const { row, seats } = seatParts(v); return [row ? `Row ${row}` : "", seats ? `${seatWord(seats)} ${seats}` : ""].filter(Boolean).join(" · "); };
 function seatLabel(v) {
   const { row, seats } = seatParts(v);
   return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(", ");
 }
 const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
 const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
+
+// Show in friends' feeds: Yes, your friends see it (Feed, Coming up, the film's showings, the daily email); No, only people who open this
+// showing see it (through an invite link, or friends who go too and so join your group). One line under it says which.
+const TELL_HINT = { on: "Shows in their Feed.", off: "Hidden from their Feed." };
+const ICON_FRIENDS = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.8"/><path d="M17 14.5c2.4 0 4.2 1.5 4.8 4.5"/></svg>`;
+const ICON_LOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>`;
+// One setting in the plan box: its label with a quiet line under it at the left, its control at the right.
+const boxRow = (label, hint, control, cls = "") => `<div class="brow ${cls}"><span class="bl"><span class="blab">${label}</span><small class="bhint">${hint}</small></span>${control}</div>`;
+const tellSwitch = (tell) => boxRow("Show in friends' feeds", tell ? TELL_HINT.on : TELL_HINT.off, `<span class="segc" role="radiogroup" aria-label="Show in friends' feeds">
+  <label class="yes"><input type="radio" name="tell" value="1" data-tell="1"${tell ? " checked" : ""}>${ICON_FRIENDS}Yes</label>
+  <label class="no"><input type="radio" name="tell" value="0" data-tell="1"${tell ? "" : " checked"}>${ICON_LOCK}No</label></span>`, "tellbox");
+const toldNow = () => $("film").querySelector("[data-tell]:checked")?.value !== "0";
+
+// Your plan in one box: who can see it (anyone who opens the showing; signed in, you also choose whether it's in your friends' feeds:
+// guests have no friends), seats, then Cancel / Save (once going also Not going). Nothing is saved until Save.
+// What's typed or chosen in an open box is kept in state.goDraft, so a redraw (friends' plans arriving, coming back to the tab) puts it back.
+function planBox(id, plan, editing, head = "") {
+  const d = state.goDraft?.id === id ? state.goDraft : null;
+  const { row, seats } = d || seatParts(plan?.seats);
+  const tell = d?.tell ?? (editing ? plan?.tell !== false : local.get("goTell", true));
+  return `<div class="gochoose${editing ? " editing" : ""}">${head}
+    ${state.user ? tellSwitch(tell) : ""}
+    ${boxRow("Seats", "Optional", `<span class="seatedit"><label class="sfield"><span>Row</span><input class="seatinp" data-pre="row" value="${esc(row)}" placeholder="4" maxlength="4" inputmode="numeric"></label><label class="sfield"><span>Seat(s)</span><input class="seatinp wide" data-pre="seats" value="${esc(seats)}" placeholder="7-9" maxlength="22"></label></span>`)}
+    <div class="gobar">${editing ? `<button class="linkbtn leave" data-going="1">Not going</button><span class="sp"></span>` : ""}<button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">Save</button></div></div>`;
+}
 
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
@@ -1509,30 +1514,36 @@ function showingPage(f, s, dlg) {
   let mine;
   const buy = safeUrl(s.ticket) ? `<a class="tkbtn" href="${esc(safeUrl(s.ticket))}" target="_blank" rel="noopener">Tickets ↗</a>` : `<span class="tkbtn off">${esc(s.status || "Not on sale yet")}</span>`;
   const people = peopleOf(f, s, plan, name);
-  const seatsOpen = on && state.seatsOpen === planId(f, s);
-  const goBtn = `<button class="gopill${on ? " on" : ""}" data-going="1" aria-pressed="${on}"${on ? ' title="Tap to say you\'re not going"' : ""}>${on ? "✓ Going" : "I'm going"}</button>`;  // the words change with the state: a call to action, then a confirmation
+  const editing = on && state.goOpen === planId(f, s);
+  const goBtn = `<button class="gopill" data-going="1">I'm going</button>`;
   const row = (p) => {
-    let seats;
-    if (!p.me) seats = p.seats ? seatLine(p.seats) : "";
-    else seats = seatsOpen ? "" : p.seats ? seatTag(p.seats, "button", ' data-seatstoggle="1"', true) : `<button class="seat add" data-seatstoggle="1">+ add seats</button>`;
-    // Editing your seats happens on your own line when there is room: the boxes and Done take the place of the seats tag and the button.
-    const editor = `<span class="seatedit"><input class="seatinp" data-plan="row" value="${esc(seatParts(p.seats).row)}" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric" autofocus><input class="seatinp wide" data-plan="seats" value="${esc(seatParts(p.seats).seats)}" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"><button class="pbtn sm" data-seatsdone="1">Done</button></span>`;
-    if (p.me) return `<div class="prow2 me${seatsOpen ? " editing" : ""}"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seatsOpen ? editor : seats + goBtn}</div>`;
-    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
+    const sub = p.seats ? seatSub(p.seats) : "";
+    const who = `<span class="pwho"><span class="pname">${esc(p.name)}</span>${sub ? `<span class="psub">${esc(sub)}</span>` : ""}</span>`;
+    // You, once going: one tile (your line, then whether it's in your friends' feeds and an Edit at the right); tapping it anywhere
+    // opens the plan box in its place.
+    if (p.me) return `<button class="mytile" data-goedit="1"><span class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span>${who}<span class="edit">${PENCIL}Edit</span></span>
+      <span class="mfoot"><span class="vis">${!state.user ? "" : plan?.tell !== false ? ICON_FRIENDS : ICON_LOCK}<span>${!state.user ? "Visible on this showing" : plan?.tell !== false ? "Visible on this showing and in friends' feeds" : "Visible on this showing only"}</span></span></span></button>`;
+    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span>${who}</div>`;
   };
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
   const others = people.filter((p) => !p.me);
-  const note = `<p class="visnote">Others can see that you're going.</p>`;
+  // Signed in, you choose who sees it (friends, or just this showing). A guest has no friends, so only the people going with them can.
+  const note = "";
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
-  if (on) mine = row(people.find((p) => p.me)) + note;
-  else if (state.user) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></span>${goBtn}</div>`;
-  else mine = `<div class="asktop"><span class="pname muted">${prompt}</span><small>If you go, others can see it.</small></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div>`;
-  const join = on ? `<div class="pfoot"><button class="pbtn sm" data-sharershow="1">Invite someone ↗</button></div>` : "";
+  // Both plan boxes start with you (your circle and name): joining the list, or (once going) your place in it being edited.
+  // with who can see it as a quiet line under your name, the way seats sit under names in the list
+  const meHead = () => `<div class="prow2 me"><span class="av" style="background:${avatarColor(name || "You")}">${esc((name || "You")[0].toUpperCase())}</span><span class="pwho"><span class="pname">${esc(name || "You")}</span><span class="psub multi">Anyone who opens this showing can see you're going.</span></span></div>`;
+  if (on && editing) mine = planBox(planId(f, s), plan, true, meHead());
+  else if (on) mine = row(people.find((p) => p.me)) + note;
+  else if (!on && state.goOpen === planId(f, s)) mine = planBox(planId(f, s), null, false, meHead());
+  else if (state.user) mine = `<div class="jointile prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span></span>${goBtn}</div>`;
+  else mine = `<div class="jointile"><div class="asktop"><span class="pname muted">${prompt}</span></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div></div>`;
+  const invite = on ? `<button class="pbtn sm" data-sharershow="1">Invite someone ↗</button>` : "";  // next to the heading, so it stays in view however long the list
   // A showing the cinema no longer lists (or moved to another time that day): say so, and offer to move your plan to the new time.
   const moved = plan?.replacedBy && f.shows.find((x) => x.id === plan.replacedBy);
   const gone = s.gone || plan?.gone;
-  if (gone && !on) mine = `<div class="prow2 yours"><span class="ask"><span class="pname muted">This showing is no longer listed.</span></span></div>`;
+  if (gone && !on) mine = `<div class="jointile prow2 yours"><span class="ask"><span class="pname muted">This showing is no longer listed.</span></span></div>`;
   const goneNote = !gone || !on ? "" : moved
     ? `<div class="gonenote"><span>The cinema moved this showing to <b>${esc(dayLabel(moved.t))} ${hhmm(moved.t)}</b>.</span><button class="pbtn sm" data-moveplan="1">Move my plan</button></div>`
     : `<div class="gonenote"><span>The cinema no longer lists this showing. Check with the cinema before you go.</span></div>`;
@@ -1540,12 +1551,10 @@ function showingPage(f, s, dlg) {
     ${filmHead(f)}
     <div class="showpage">${more ? `<div class="backrow"><a class="pill sm back" href="#film/${encodeURIComponent(f.id)}"><span aria-hidden="true">‹</span> All showings</a></div>` : ""}
     <div class="plan9${on ? " going" : ""}"><div class="ph9"><div class="l"><div class="dt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</div><div class="tm"><span class="m">${hhmm(s.t)}</span> · ${esc(s.cinema)}</div>${sub ? `<div class="sub">${sub}</div>` : ""}${s.note ? `<div class="nt">${esc(s.note)}</div>` : ""}</div>${buy}</div>
-      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4></div>` : ""}${mine}${others.map(row).join("")}${join}</div></div></div>
+      <div class="plist">${goneNote}${people.length ? `<div class="wh"><h4>Going · ${people.length}</h4>${invite}</div>` : ""}${mine}${others.map(row).join("")}</div></div></div>
     <form method="dialog" class="sheetbar"><button class="btn ghost">Close</button></form>`);
   if (!dlg.open) { dlg.showModal(); dlg.scrollTop = 0; dlg.setAttribute("tabindex", "-1"); dlg.focus({ preventScroll: true }); }  // focus the sheet, not the ×, so no ring on it
   fitBlurb();
-  fitOwnSeats();
-  if (seatsOpen && !document.activeElement?.matches?.(".seatedit input")) dlg.querySelector('.seatedit [data-plan="row"]')?.focus();  // autofocus only works once per page
 }
 
 // A guest is an anonymous account, made when they first say they're going (so nobody needs an account to join in).
@@ -1583,6 +1592,11 @@ function leaveWarning(f, s, plan) {
   const who = names.length > 3 ? `${names.slice(0, 2).join(", ")} and ${names.length - 2} others` : nameList(names);
   return `${who} ${names.length > 1 ? "are" : "is"} going with you through your invite link. If you take yourself off, your link stops working: you won't be able to see them here any more, and nobody else can join through it.`;
 }
+// Saying you're going: joining through someone's invite if it is for this very showing.
+function goNow(f, s, tell, seats) {
+  const inv = inviteFits(f, s) ? state.invite : null;
+  setPlan(f, s, { going: true, tell, seats, via: inv?.token, party: inv?.rows[0]?.party || undefined });
+}
 async function planClick(t) {
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
@@ -1609,22 +1623,33 @@ async function planClick(t) {
       const old = planOf(f, s), warn = leaveWarning(f, s, old);
       if (warn && !confirm(`Not going after all?\n\n${warn}`)) return;
       if (old.via) { joinedVia[planId(f, s)] = old.via; local.set("joinedVia", joinedVia); }
+      state.goOpen = ""; state.goDraft = null;
       setPlan(f, s, null);
     }
     else {
-      joining = true;
-      try {
-        if (!state.user && !state.guest && sb) {  // a guest: a name first, then an anonymous account
-          if (!nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
-          if (!(await guestSignIn(nm))) { toast(`Couldn't add you: ${state.guestError || "try again in a moment"}.`); return; }
-        }
-        const inv = inviteFits(f, s) ? state.invite : null;  // joining through someone's invite (only for this showing)
-        setPlan(f, s, { going: true, tell: true, via: inv?.token, party: inv?.rows[0]?.party || undefined });
-      } finally { joining = false; }
+      // A guest gives a name first. Then everyone gets the plan box (seats, who sees it); nothing is saved until its Save.
+      if (!state.user && !state.guest && sb && !nm) { $("film").querySelector('[data-plan="name"]')?.focus(); toast("Add your name first, so people know who's going."); return; }
+      state.goOpen = planId(f, s); state.goDraft = null;
     }
   }
-  else if (t.dataset.seatstoggle) state.seatsOpen = state.seatsOpen === planId(f, s) ? "" : planId(f, s);
-  else if (t.dataset.seatsdone) state.seatsOpen = "";
+  else if (t.dataset.goconfirm) {
+    if (joining) return;  // a second tap while the first is still saving
+    const v = (k) => $("film").querySelector(`[data-pre="${k}"]`)?.value.replace(/\|/g, "").trim() || "";
+    const tell = state.user ? toldNow() : true, row = v("row"), seats = v("seats"), seat = row || seats ? `${row}|${seats}` : "";
+    if (!state.user && !state.guest && sb) {  // a guest: an anonymous account, made on their first Save
+      const open = state.goOpen;
+      joining = true;
+      try { if (!(await guestSignIn(myName()))) { toast(`Couldn't add you: ${state.guestError || "try again in a moment"}.`); return; } }
+      finally { joining = false; }
+      if (state.goOpen !== open || !$("film").open) return;  // cancelled (or the sheet closed) while signing in: don't save
+    }
+    if (state.user) local.set("goTell", tell);  // the next showing starts on the same choice
+    state.goOpen = ""; state.goDraft = null;
+    if (planOf(f, s)?.going) setPlan(f, s, { tell, seats: seat });  // Save
+    else goNow(f, s, tell, seat);
+  }
+  else if (t.dataset.gocancel) { state.goOpen = ""; state.goDraft = null; }
+  else if (t.dataset.goedit) { state.goOpen = planId(f, s); state.goDraft = null; }
   else {
     const url = await inviteUrl(f, s);
     if (!url) { toast("Couldn't make the invite link yet. Try again in a moment."); return; }
@@ -1659,26 +1684,35 @@ async function loadFriendPlans() {
   renderNav();  // the Feed badge counts friends going
   refreshSheet();
 }
-$("film").addEventListener("input", (e) => {  // name, row and seats save as you type
+$("film").addEventListener("input", (e) => {  // a guest's name saves as you type
   const k = e.target.dataset?.plan;
   if (!k) return;
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (!s) return;
-  if (k === "name") {
+  if (k === "name") {  // (seats are in the plan box, saved with its button)
     const nm = e.target.value.trim();
     if (!state.user) local.set("guestName", nm);
     if (state.guest && sb) { clearTimeout(nameTimer); nameTimer = setTimeout(() => sb.from("profiles").update({ display_name: nm }).eq("id", state.guest?.id), 700); }
   }
-  else if (planOf(f, s)) {  // row and seats are two boxes, kept as "row|seats"
-    if (e.target.value.includes("|")) e.target.value = e.target.value.replace(/\|/g, "");  // the bar separates row from seats
-    const row = $("film").querySelector('[data-plan="row"]')?.value.trim() || "", seats = $("film").querySelector('[data-plan="seats"]')?.value.trim() || "";
-    setPlan(f, s, { seats: row || seats ? `${row}|${seats}` : "" });
-  }
 });
-$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = Done
-  if (e.key !== "Enter" || !["row", "seats"].includes(e.target.dataset?.plan)) return;
-  const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
-  if (s) { state.seatsOpen = ""; showingPage(f, s, $("film")); }
+// The open box's choices, read from the page into state.goDraft as they change.
+function keepDraft() {
+  const { id, show } = hashParts(), f = findFilm(id), s = f && showFor(f, show);
+  if (!s) return;
+  const v = (k) => $("film").querySelector(`[data-pre="${k}"]`)?.value ?? "";
+  const tellEl = $("film").querySelector("[data-tell]");
+  state.goDraft = { id: planId(f, s), row: v("row"), seats: v("seats"), tell: tellEl ? toldNow() : undefined };
+}
+$("film").addEventListener("input", (e) => { if (e.target.dataset?.pre) keepDraft(); });
+$("film").addEventListener("change", (e) => {  // Show in friends' feeds: the line under it follows
+  const k = e.target.dataset?.tell;
+  if (!k) return;
+  const tell = e.target.value === "1";
+  e.target.closest(".tellbox").querySelector(".bhint").textContent = tell ? TELL_HINT.on : TELL_HINT.off;
+  keepDraft();
+});
+$("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = the box's I'm going / Save
+  if (e.key === "Enter" && e.target.dataset?.pre) { e.preventDefault(); $("film").querySelector("[data-goconfirm]")?.click(); }
 });
 
 
@@ -1747,6 +1781,7 @@ function route() {
 }
 
 $("film").addEventListener("close", () => {
+  state.goOpen = ""; state.goDraft = null;  // a plan box left open without Save is closed with the sheet
   state.showAll = false;
   state.blurbOpen = "";
   state.sheetCinemas.clear();
@@ -1811,10 +1846,10 @@ function setCollapsed(key, shut) {
 const sectionShut = (key) => (key === GONE_KEY ? !state.collapsed.has(GONE_OPEN) : state.collapsed.has(key));
 
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-seatstoggle],[data-seatsdone],[data-chip],[data-open-prefs],button[data-f]");
+  const t = e.target.closest("[data-sec],[data-collapseall],[data-star],[data-hide],[data-share],[data-showall],[data-sheetcinema],[data-sheettag],[data-sheetclear],[data-sheetday],[data-sheetmenu],[data-daynav],[data-clearall],[data-zoom],[data-blurb],[data-going],[data-moveplan],[data-sharershow],[data-goconfirm],[data-gocancel],[data-goedit],[data-chip],[data-open-prefs],button[data-f]");
   if (!t) return;
   if (t.dataset.zoom) { openZoom(t.dataset.zoom, t); return; }
-  if (t.dataset.going || t.dataset.sharershow || t.dataset.seatstoggle || t.dataset.seatsdone || t.dataset.moveplan) { planClick(t); return; }
+  if (t.dataset.going || t.dataset.sharershow || t.dataset.moveplan || t.dataset.goconfirm || t.dataset.gocancel || t.dataset.goedit) { planClick(t); return; }
   if (t.dataset.blurb) {
     const b = t.closest(".blurb"), open = b.classList.toggle("open");
     state.blurbOpen = open ? t.dataset.blurb : "";

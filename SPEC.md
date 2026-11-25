@@ -453,16 +453,33 @@ only (Today, Tomorrow, Thu 27 Nov; no numeric date), and each showing is a round
 the same tint and dotted edge. When you're going, the edge (and the list card's outline) turns green.
 
 **Going.** Personal, per showing, retractable at any time. One tap on **I'm going**; guests (not signed in) give a name first.
-Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row: 4 / Seat: 7" in two small lines (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered only after going, shown with your name to whoever can see you're going, never
+Seats are optional: a **Row** box and a **Seats** box, shown as a quiet line under the person's name ("Row 4 · Seats 7–8"), yours and everyone else's (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered in the plan box (below), shown with your name to whoever can see you're going, never
 on the card itself.
 
-**Who sees it** (for now, simply public): marking yourself as going makes it visible to everyone who can reach the showing: friends
-(in their Feed and on the showing page) and anyone in your party (invite links, and the people they invite in turn). The page says so ("Others will see that you're going" before, "Others can see that you're going" after). There is no
-privacy control in the interface yet; the `tell_friends` column stays (always true) so it can be brought back as a switch later, along
-with "only people I invite". **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
+**Who sees it.** Anyone who opens the showing (through an invite link, or friends who go too, since they join your party) sees
+that you're going; the plan box says so in a quiet line under your name at its top ("Anyone who opens this showing can see you're going."). The
+one choice is **Show in friends' feeds** (`tell_friends`, signed in only): a Yes | No pair, Yes green with a people icon, No grey
+with a lock, with one line under it that changes with it ("Shows in their Feed." / "Hidden from their Feed.").
+Yes also covers the film's showings and the daily email.
+
+**Your place in the list** is always the first tile under the "Going · N" heading (with **Invite someone ↗** at the heading's
+right once you're going, so it stays in view). Before you've joined it is a dashed tile: "Want to join?" / "Nobody is going yet."
+and **I'm going** (guests also get a name box, which they fill first). Nothing else is said there.
+
+**The plan box.** Tapping I'm going (or, once going, your tile) opens one box in its place, inside the showing's card (no second
+dialog): your circle and name with the line on who can see it, a little space, then each setting as its label (with a quiet line under it) at the
+left and its control at the right (Show in friends' feeds; Seats, "Optional", with Row and Seat(s) boxes, each named in small caps above it and with an
+example as placeholder, "4" / "7-9"), then a footer under a
+hairline with **Cancel** / **Save**, and once going also a red text **Not going** at the left. Nothing saves until Save (a guest's anonymous account is made
+on their first Save); Enter in a seat box is Save. Show in friends' feeds starts where you left it last time (kept on the device).
+Once going, your tile shows your name, seats under it, an outlined **✎ Edit** pill at the right, and under it "Visible on this showing
+and in friends' feeds" (people icon) or "Visible on this showing only" (lock); guests just "Visible on this showing"; tapping the tile anywhere opens the box. `save_plan` takes `p_tell`
+(null leaves it as it is, so an older page changing seats never shows friends a plan that wasn't).
+
+**Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
 someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
 
-**Taking yourself off** ("✓ Going" tapped again) deletes your plan, and your invite link goes with it. So when that would cut you off
+**Taking yourself off** (**Not going** in the plan box) deletes your plan, and your invite link goes with it. So when that would cut you off
 from the people going with you, the page asks first ("Not going after all?", the browser's own confirm, as for removing a friend):
 - **Others in your group who aren't your friends, and you didn't join through anyone's link** (e.g. guests you invited): "Anna and Jon
   are going with you through your invite link. If you take yourself off, your link stops working: you won't be able to see them here

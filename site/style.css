@@ -1045,7 +1045,7 @@ a.stub.going, a.stub.going:hover { border-color: var(--soon); border-left-color:
 .tkbtn.off { min-width: 0; background: var(--chip); color: var(--muted); font-size: 14px; }
 /* who is going: one column, equal padding top and bottom, a 10px gap between its parts */
 .plist { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-top: 1px solid var(--line); }
-.plist .wh { margin-bottom: 2px; }
+.plist .wh { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 34px; margin-bottom: 2px; }
 .plist .wh h4 { margin: 0; font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .prow2 { display: flex; align-items: center; gap: 10px; min-height: 34px; }
 .av { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 14px var(--body); }
@@ -1085,7 +1085,6 @@ button.seat2, button.seat { cursor: pointer; }
 .seatedit .seatinp { width: 52px; min-height: 36px; box-sizing: border-box; padding: 0 8px; border: 1px solid var(--accent); border-radius: 8px; background: var(--surface); color: var(--ink); font: 600 16px var(--body); text-align: center; outline: none; }
 .seatedit .seatinp:focus { border-width: 2px; }
 .seatedit .seatinp.wide { width: 88px; }
-.pfoot { margin-top: 4px; }
 /* the I'm going button: solid green call to action; once pressed, a lighter green confirmation with a check */
 .gopill.on { background: var(--surface); color: var(--soon); border-color: var(--soon); }
 /* the seat editor sits on your own line: labelled Row and Seat(s) boxes, then Done */
@@ -1095,6 +1094,32 @@ button.seat2, button.seat { cursor: pointer; }
 .seatedit .pbtn.sm { height: 36px; min-height: 36px; padding: 0 12px; box-sizing: border-box; }
 .prow2.editing { min-height: 0; }
 .visnote { margin-top: -6px; }
+/* "I'm going", step two (signed in): Tell my friends (a switch), optional seats, then confirm. Once going, the switch sits under your row. */
+.gochoose { display: flex; flex-direction: column; gap: 18px; padding: 14px 14px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+/* Show to friends: a Yes | No pair; Yes lights up green with a people icon, No grey with a lock. The line under it says what that means. */
+.segc { flex: none; display: inline-flex; padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--chip); }
+.segc label { display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 12px; border-radius: 999px; font: 600 13.5px var(--body); color: var(--muted); cursor: pointer; }
+.segc input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.segc label:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 1px; }
+.segc .yes:has(input:checked) { background: var(--soon); color: var(--bg); }
+.segc .no:has(input:checked) { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .15); }
+/* you, once going: one tappable tile, your line then "Shown in your friends' feeds ... Edit" */
+.mytile { display: flex; flex-direction: column; gap: 6px; width: 100%; margin: 0; padding: 10px 12px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.mytile:hover { border-color: var(--edge); }
+.mytile:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.mytile .prow2 { width: 100%; }
+.mfoot { display: flex; align-items: center; justify-content: space-between; gap: 10px; font: 500 12.5px var(--body); color: var(--muted); }
+.mfoot .vis { display: inline-flex; align-items: center; gap: 5px; }
+/* Edit looks like the card's other small buttons (Invite someone, Cancel): an outlined pill */
+.mytile .edit { flex: none; display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: 600 13.5px var(--body); }
+.mytile:hover .edit { border-color: var(--edge); }
+/* a person's name, with their seats as a quiet line under it */
+.pwho { flex: 1; min-width: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+.pwho .pname { flex: none; }
+.psub { font: 500 13px var(--body); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gobar .sp { flex: 1; }
+.gobar .leave { color: var(--accent); }
+.gobar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
 /* not enough room on your own line (very narrow phones): the editor drops to a line under it, lined up with the name */
 .plist { container-type: inline-size; }
 @container (max-width: 290px) {
@@ -1234,3 +1259,44 @@ button.seat2, button.seat { cursor: pointer; }
 .cuin .curows li:first-child a, .cuin .curows li:last-child a { padding-block: 12px; }
 .cu .curows a:hover, .cuin .curows a:hover { border-color: var(--ink); border-left-color: var(--accent); background: var(--ticket); }
 .cu .curows li:has(.cstat.you) a, .cu .curows li:has(.cstat.you) a:hover { border-color: var(--soon); border-left-color: var(--soon); box-shadow: var(--going-ring); }
+/* seat boxes in the plan box: a calm outline, red only while typing in one */
+.gochoose .seatedit .seatinp { border: 1px solid var(--edge); }
+.gochoose .seatedit .seatinp:focus { border: 2px solid var(--accent); }
+/* in the Going list the circle is as tall as a name with its seats line under it, so the two read as one block */
+.plist .av { width: 40px; height: 40px; font-size: 16px; }
+.pwho .pname { line-height: 20px; }
+.psub { line-height: 18px; }
+.mfoot { padding-left: 0; }
+/* your place in the list before you've joined: the same tile shape as once you're going, dashed (an open spot) */
+.jointile { padding: 10px 12px; border: 1.5px dashed var(--edge); border-radius: 12px; }
+div.jointile { display: flex; flex-direction: column; gap: 8px; }
+div.jointile.prow2 { flex-direction: row; }
+.jointile .asktop + .prow2.yours { margin-top: 0; }
+/* the plan box: you at the top, then each setting as label (with a quiet line under it) at the left and its control at the right,
+   then the buttons on their own footer under a hairline */
+.psub.multi { white-space: normal; line-height: 1.35; }
+.brow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.bl { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.blab { font: 600 15px var(--body); color: var(--ink); }
+.bhint { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
+.gobar { margin: 0 -14px; padding: 12px 14px 0; border-top: 1px solid var(--line); }
+.gobar .linkbtn { border: 0; background: none; padding: 8px 2px; font: 600 14px var(--body); cursor: pointer; }
+.gobar .linkbtn.leave { color: var(--accent); }
+.bl { flex: 1; }
+.bl { min-width: 0; }
+.brow .segc label { padding: 0 10px; }
+/* a little room between you (name, who can see it) and the settings in the plan box */
+.gochoose > .prow2.me { margin-bottom: 8px; }
+/* the tile's line on who sees it can run to two lines: the icon stays by the first */
+.mfoot .vis { align-items: flex-start; line-height: 1.4; }
+.mfoot .vis svg { flex: none; margin-top: 2px; }
+/* a narrow box (phones narrower than ~390px): Show in friends' feeds puts its Yes | No on a line of its own, under the label */
+.gochoose { container-type: inline-size; }
+@container (max-width: 290px) {
+  .brow.tellbox { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+/* the seat boxes keep their names above them once filled in (placeholders are only examples) */
+.gochoose .seatedit { align-items: flex-end; }
+.sfield { display: flex; flex-direction: column; gap: 3px; }
+.sfield > span { font: 600 11px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-left: 2px; }
+.gochoose .seatinp::placeholder { color: var(--edge); font-weight: 500; }
