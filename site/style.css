@@ -1267,3 +1267,8 @@ button.seat2, button.seat { cursor: pointer; }
 /* seat boxes in the plan box: a calm outline, red only while typing in one */
 .gochoose .seatedit .seatinp { border: 1px solid var(--edge); }
 .gochoose .seatedit .seatinp:focus { border: 2px solid var(--accent); }
+/* in the Going list the circle is as tall as a name with its seats line under it, so the two read as one block */
+.plist .av { width: 40px; height: 40px; font-size: 16px; }
+.pwho .pname { line-height: 20px; }
+.psub { line-height: 18px; }
+.mfoot { padding-left: 0; }
