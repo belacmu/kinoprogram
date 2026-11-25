@@ -1469,18 +1469,8 @@ const seatParts = (v) => { const s = String(v || ""); const [a, b] = s.includes(
 // "Seat" for one number, "Seats" when there are two or more ("7-9", "7, 8", "7 8").
 const seatWord = (seats) => ((String(seats || "").match(/\d+/g) || []).length > 1 ? "Seats" : "Seat");
 const PENCIL = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>`;
-// Your own seats, next to the Going button: two small lines in a grey tag ("Row:  4" / "Seats:  7–9"), so your name keeps its room.
-function seatTag(v) {
-  const { row, seats } = seatParts(v);
-  const line = (k, val) => `<span class="sl"><span class="k">${k}:</span><span class="v">${esc(val)}</span></span>`;
-  return `<span class="seat2"><span class="lines">${row ? line("Row", row) : ""}${seats ? line(seatWord(seats), seats) : ""}</span></span>`;
-}
-// Everyone else's seats, on one line: "Row 4, Seats 7–9".
-function seatLine(v) {
-  const { row, seats } = seatParts(v);
-  const word = seatWord(seats);
-  return `<span class="seat1">${[row ? `Row ${esc(row)}` : "", seats ? `${word} ${esc(seats)}` : ""].filter(Boolean).join(", ")}</span>`;
-}
+// Seats as a quiet line under the person's name: "Row 4 · Seats 7–9".
+const seatSub = (v) => { const { row, seats } = seatParts(v); return [row ? `Row ${row}` : "", seats ? `${seatWord(seats)} ${seats}` : ""].filter(Boolean).join(" · "); };
 function seatLabel(v) {
   const { row, seats } = seatParts(v);
   return [row ? `Row ${row}` : "", seats ? `Seats ${seats}` : ""].filter(Boolean).join(", ");
@@ -1521,13 +1511,13 @@ function showingPage(f, s, dlg) {
   const editing = on && state.goOpen === planId(f, s);
   const goBtn = `<button class="gopill" data-going="1">I'm going</button>`;
   const row = (p) => {
-    let seats;
-    seats = !p.seats ? "" : p.me ? seatTag(p.seats) : seatLine(p.seats);
+    const sub = p.seats ? seatSub(p.seats) : "";
+    const who = `<span class="pwho"><span class="pname">${esc(p.name)}</span>${sub ? `<span class="psub">${esc(sub)}</span>` : ""}</span>`;
     // You, once going: one tile (your line, then whether it's in your friends' feeds and an Edit at the right); tapping it anywhere
     // opens the plan box in its place.
-    if (p.me) return `<button class="mytile" data-goedit="1" aria-label="Edit your plan: seats, friends' feeds, or not going"><span class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}<span class="gostat">✓ Going</span></span>
+    if (p.me) return `<button class="mytile" data-goedit="1" aria-label="Edit your plan: seats, friends' feeds, or not going"><span class="prow2 me"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span>${who}<span class="gostat">✓ Going</span></span>
       <span class="mfoot"><span class="vis">${!state.user ? "" : plan?.tell !== false ? ICON_FRIENDS + "Shown in your friends' feeds" : ICON_LOCK + "Not shown in your friends' feeds"}</span><span class="edit">${PENCIL}Edit</span></span></button>`;
-    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span><span class="pname">${esc(p.name)}</span>${seats}</div>`;
+    return `<div class="prow2"><span class="av" style="background:${avatarColor(p.name)}">${esc(p.name[0].toUpperCase())}</span>${who}</div>`;
   };
   // Your line is always the first row of the list, with the I'm going button at its right end (same words either way):
   // not going: "Nobody yet. Be the first." / "Join them." (or a name box for guests); going: your name and seats.
