@@ -456,24 +456,24 @@ the same tint and dotted edge. When you're going, the edge (and the list card's 
 Seats are optional: a **Row** box and a **Seats** box, shown as a quiet line under the person's name ("Row 4 · Seats 7–8"), yours and everyone else's (kept in the `seats` column as `4|7–9`; older free text shows as just the seats), entered in the plan box (below), shown with your name to whoever can see you're going, never
 on the card itself.
 
-**Who sees it.** People who open the showing through a link (and friends who go too, since they join your party) always see
-you. The one choice is **Show in friends' feeds** (`tell_friends`): a Yes | No pair, Yes green with a people icon, No grey with a
-lock. Yes: "Friends see it in their Feed and Coming up" (also the film's showings and the daily email). No: "Only people who open
-this showing, e.g. via a link." The line under the pair changes with it.
+**Who sees it.** Anyone who opens the showing (through an invite link, or friends who go too, since they join your party) sees
+that you're going; the plan box says so in one line under your name ("Anyone who opens this showing can see you're going."). The
+one choice is **Show in friends' feeds** (`tell_friends`, signed in only): a Yes | No pair, Yes green with a people icon, No grey
+with a lock, with one line under it that changes with it ("Also in their Feed and Coming up." / "Not in their Feed or Coming up.").
+Yes also covers the film's showings and the daily email.
 
 **Your place in the list** is always the first tile under the "Going · N" heading (with **Invite someone ↗** at the heading's
-right once you're going, so it stays in view). Before you've joined it is a dashed tile ("Want to join?" / "Nobody is going yet."
-and **I'm going**; guests also get a name box).
+right once you're going, so it stays in view). Before you've joined it is a dashed tile: "Want to join?" / "Nobody is going yet."
+and **I'm going** (guests also get a name box, which they fill first). Nothing else is said there.
 
-**The plan box.** Everything about your plan is edited in one box inside the showing's card (no second dialog), headed by your circle
-and name: Show in friends'
-feeds (signed in only: guests have no friends), Seats (optional Row and Seat(s) boxes), then buttons. Signed in, tapping **I'm
-going** opens it with **Cancel** / **✓ I'm going** (guests go straight away). Once going, you are one tile: your name (seats under it) and a
-**✓ Going** tag, then a line with "Shown in your friends' feeds" / "Not shown in your friends' feeds" at the left and an outlined **✎ Edit** pill at the right.
-Tapping the tile anywhere opens the same box in its place (headed by your name and ✓ Going), ending in **Not going** … **Cancel** /
-**Save**. Nothing saves until a button is pressed; Enter in a seat box presses
-the box's main button. Show in friends' feeds starts where you left it last time (kept on the device). `save_plan` takes `p_tell`
+**The plan box.** Tapping I'm going (or, once going, your tile) opens one box in its place, inside the showing's card (no second
+dialog): your circle and name, the line on who can see it, Show in friends' feeds, Seats (optional Row and Seat(s) boxes), then
+**Cancel** / **Save**, and once going also **Not going** at the left. Nothing saves until Save (a guest's anonymous account is made
+on their first Save); Enter in a seat box is Save. Show in friends' feeds starts where you left it last time (kept on the device).
+Once going, your tile shows your name, seats under it, an outlined **✎ Edit** pill at the right, and (signed in) "Shown in your
+friends' feeds" / "Not shown in your friends' feeds" under it; tapping the tile anywhere opens the box. `save_plan` takes `p_tell`
 (null leaves it as it is, so an older page changing seats never shows friends a plan that wasn't).
+
 **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
 someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
 

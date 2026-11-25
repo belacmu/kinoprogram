@@ -1107,11 +1107,10 @@ button.seat2, button.seat { cursor: pointer; }
 .mytile:hover { border-color: var(--edge); }
 .mytile:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .mytile .prow2 { width: 100%; }
-.gostat { flex: none; display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 999px; background: color-mix(in srgb, var(--soon) 14%, var(--surface)); color: var(--soon); font: 700 14px var(--body); }
 .mfoot { display: flex; align-items: center; justify-content: space-between; gap: 10px; font: 500 12.5px var(--body); color: var(--muted); }
-.mfoot .vis, .mfoot .edit { display: inline-flex; align-items: center; gap: 5px; }
+.mfoot .vis { display: inline-flex; align-items: center; gap: 5px; }
 /* Edit looks like the card's other small buttons (Invite someone, Cancel): an outlined pill */
-.mfoot .edit { flex: none; height: 30px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: 600 13.5px var(--body); }
+.mytile .edit { flex: none; display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font: 600 13.5px var(--body); }
 .mytile:hover .edit { border-color: var(--edge); }
 /* a person's name, with their seats as a quiet line under it */
 .pwho { flex: 1; min-width: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
@@ -1276,3 +1275,4 @@ div.jointile { display: flex; flex-direction: column; gap: 8px; }
 div.jointile.prow2 { flex-direction: row; }
 .jointile .asktop + .prow2.yours { margin-top: 0; }
 .gochoose > .prow2.me { padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.seenote { margin: -2px 0 0; font: 400 12.5px/1.35 var(--body); color: var(--muted); }
