@@ -223,19 +223,16 @@ a.stub:hover { border-color: var(--ink); border-left-color: var(--accent); }
 /* Where to watch it instead, in this location's country: built from the showings' own parts (a day-style row per kind, each service
    a stub), under a heading in the day labels' type. */
 .watchopts { margin-top: 18px; }
-.watchopts h3 { margin: 0 0 2px; font: 700 22px/1.1 var(--display); text-transform: uppercase; }
-.worow { padding-block: 10px; align-items: center; }
+.watchopts h3 { margin: 0 0 6px; font: 700 22px/1.1 var(--display); text-transform: uppercase; }
+.worow { padding-block: 6px; align-items: center; border-top: 0; }
 /* the kind in the day labels' type, smaller; what it means beside it, quiet, in plain text */
 .worow h4 { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; row-gap: 2px; font-size: 18px; }
 .worow h4 small { font: 400 12px/1.2 var(--body); text-transform: none; color: var(--muted); }
-/* a service isn't a ticket: a plain pill, no perforated edge */
-.wostub { flex-direction: row; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); }
-a.wostub:hover { border-color: var(--ink); }
-.wostub:not(:has(img)) { padding-left: 12px; }
-.wostub img { width: 24px; height: 24px; border-radius: 6px; flex: none; }
+.wostub { flex-direction: row; align-items: center; gap: 8px; padding: 7px 12px 7px 9px; color: var(--ink); }
+.wostub img { width: 22px; height: 22px; border-radius: 3px; flex: none; }
 .wostub .t { font: 600 14px var(--body); }
 .wonone { color: var(--muted); font-size: 14px; margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--line); }
-.wofoot { color: var(--muted); font-size: 12px; margin: 0; padding-top: 10px; border-top: 1px solid var(--line); }
+.wofoot { color: var(--muted); font-size: 12px; margin: 0; padding-top: 10px; }
 .wofoot a { color: inherit; }
 /* account */
 #account h2 { font: 800 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
