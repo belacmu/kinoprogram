@@ -1300,3 +1300,8 @@ div.jointile.prow2 { flex-direction: row; }
 .sfield { display: flex; flex-direction: column; gap: 3px; }
 .sfield > span { font: 600 11px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-left: 2px; }
 .gochoose .seatinp::placeholder { color: var(--edge); font-weight: 500; }
+/* Coming up: your own showings say, under "You're going", whether they're in your friends' feeds */
+.cu .cstat.you { flex-direction: column; align-items: flex-end; gap: 2px; }
+.cu .cstat .cyou { display: inline-flex; align-items: center; gap: 6px; }
+.cu .cstat .cfeed { display: inline-flex; align-items: center; gap: 4px; font: 500 11.5px var(--body); color: var(--muted); }
+.cu .cstat .cfeed svg { width: 12px; height: 12px; }

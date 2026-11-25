@@ -503,7 +503,7 @@ token, who it joined through and the party; the daily email reads friends' plans
 - **Your seats** on a showing's page are on one line ("Row 4, Seats 7–9" and a pencil), like everyone else's, when your line has room
   for that and your whole name; otherwise in the two-line tag.
 
-**Feed.** "Coming up" (your plans and your friends', soonest first) sits at the top of the Films tab, above the filters, with a status per row: "✓ You're going" or "Anna, Dan going". Friends going also appear in the Feed as posts ("Anna is going to …"), and the Feed badge counts them. The film sheet's showing buttons carry a green check (you) and friends' initials.
+**Feed.** "Coming up" (your plans and your friends', soonest first) sits at the top of the Films tab, above the filters, with a status per row: "✓ You're going" or "Anna, Dan going". Signed in, your own rows also say under that whether they're in your friends' feeds: "In friends' feeds" (people icon) or "Not in feeds" (lock). Friends going also appear in the Feed as posts ("Anna is going to …"), and the Feed badge counts them. The film sheet's showing buttons carry a green check (you) and friends' initials.
 
 **How the pieces work**
 - Each plan has a private `invite_token`. **Invite** copies the showing link with `?inv=<token>`. Opening it (no account needed) calls
