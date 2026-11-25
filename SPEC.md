@@ -457,13 +457,14 @@ Seats are optional: a **Row** box and a **Seats** box, shown everywhere as "Row:
 on the card itself.
 
 **Who sees it.** People who open the showing through a link (and friends who go too, since they join your party) always see
-you. The one choice is **Tell my friends** (`tell_friends`), a switch: on, friends see it in their Feed (and Coming up, the film's
-showings, the daily email); off, only people who open this showing (e.g. via a link) see it. The line under the switch changes
-with it. Signed in, tapping **I'm going** opens a short step in the card (no second dialog): the switch, optional Row/Seat boxes,
-**Cancel** / **✓ I'm going**; the Tickets button stays in the card's header above. The switch starts where you left it last time
-(kept on the device). Once going, the same switch sits under your row and saves as soon as it's flipped. Guests have no friends:
-no switch, just "People who open this showing (e.g. via a link) see that you're going". `save_plan` takes `p_tell` (null leaves it
-as it is, so an older page changing seats never tells friends about a plan that wasn't).
+you. The one choice is **Show to friends** (`tell_friends`): a Yes | No pair, Yes green with a people icon, No grey with a lock.
+Yes: friends see it in their Feed (and Coming up, the film's showings, the daily email). No: "Only people who open this showing,
+e.g. via a link." The line under the pair changes with it. Signed in, tapping **I'm going** opens a short step in the card (no
+second dialog): Show to friends, optional Row/Seat boxes, **Cancel** / **✓ I'm going**; the Tickets button stays in the card's
+header above. It starts where you left it last time (kept on the device). Once going, the same pair sits right-aligned under the
+Going button and saves as soon as it's changed. Guests have no friends: no choice, just "People who open this showing (e.g. via a
+link) see that you're going". `save_plan` takes `p_tell` (null leaves it as it is, so an older page changing seats never shows
+friends a plan that wasn't).
 **Invite** is an action: it copies your private link (`?inv=<token>`), and joining through it puts
 someone in your party. There is no site-wide "everyone" level; admin pinned showings are a separate feature.
 

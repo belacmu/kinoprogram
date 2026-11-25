@@ -1092,17 +1092,20 @@ button.seat2, button.seat { cursor: pointer; }
 .visnote { margin-top: -6px; }
 /* "I'm going", step two (signed in): Tell my friends (a switch), optional seats, then confirm. Once going, the switch sits under your row. */
 .gochoose { display: flex; flex-direction: column; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-.tellsw { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
-.tellsw input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-.tellsw .sw { flex: none; position: relative; width: 40px; height: 24px; margin-top: 1px; border-radius: 999px; background: var(--edge); transition: background .15s; }
-.tellsw .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform .15s; }
-.tellsw input:checked + .sw { background: var(--soon); }
-.tellsw input:checked + .sw::after { transform: translateX(16px); }
-.tellsw input:focus-visible + .sw { outline: 2px solid var(--ink); outline-offset: 2px; }
-.tellsw .tl { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.tellsw b { font: 600 15px var(--body); color: var(--ink); }
-.tellsw small { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
-.visnote .tellsw b { font-size: 14px; }
+/* Show to friends: a Yes | No pair; Yes lights up green with a people icon, No grey with a lock. The line under it says what that means. */
+.tellbox { display: flex; flex-direction: column; gap: 4px; }
+.tellseg { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.tellseg legend { float: left; padding: 0; font: 600 14px var(--body); color: var(--ink); }
+.segc { flex: none; display: inline-flex; padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--chip); }
+.segc label { display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 12px; border-radius: 999px; font: 600 13.5px var(--body); color: var(--muted); cursor: pointer; }
+.segc input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.segc label:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 1px; }
+.segc .yes:has(input:checked) { background: var(--soon); color: var(--bg); }
+.segc .no:has(input:checked) { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .15); }
+.tellhint { font: 400 12.5px/1.35 var(--body); color: var(--muted); }
+/* under your row: the whole thing sits at the right, under the Going button */
+.tellrow .tellbox { align-items: flex-end; text-align: right; }
+.tellrow .tellseg { justify-content: flex-end; }
 .goseats { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .gsl { font: 600 14px var(--body); }
 .gsl small { font-weight: 400; color: var(--muted); }
@@ -1246,5 +1249,5 @@ button.seat2, button.seat { cursor: pointer; }
 .cuin .curows li:first-child a, .cuin .curows li:last-child a { padding-block: 12px; }
 .cu .curows a:hover, .cuin .curows a:hover { border-color: var(--ink); border-left-color: var(--accent); background: var(--ticket); }
 .cu .curows li:has(.cstat.you) a, .cu .curows li:has(.cstat.you) a:hover { border-color: var(--soon); border-left-color: var(--soon); box-shadow: var(--going-ring); }
-/* Tell my friends, once going: under your name, left-aligned */
-.visnote.tellrow { margin: 0 0 0 44px; text-align: left; }
+/* Show to friends, once going: right-aligned under the Going button */
+.visnote.tellrow { margin: -2px 0 0; }

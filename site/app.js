@@ -1500,11 +1500,16 @@ function seatLabel(v) {
 const AVATARS = ["#5b2d86", "#8a6a2f", "#2f7a5a", "#a3213a", "#2b6cb0", "#b45309"];
 const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATARS.length];
 
-// Tell my friends: on, your friends see it (Feed, Coming up, the film's showings, the daily email); off, only people who open this
+// Show to friends: Yes, your friends see it (Feed, Coming up, the film's showings, the daily email); No, only people who open this
 // showing see it (through an invite link, or friends who go too and so join your group). One line under it says which.
-const TELL_HINT = { on: "Friends see it in their Feed.", off: "Only people who open this showing (e.g. via a link) see it." };
-const tellSwitch = (tell, save) => `<label class="tellsw"><input type="checkbox" role="switch" data-tell="${save ? "save" : "pick"}"${tell ? " checked" : ""}><span class="sw" aria-hidden="true"></span><span class="tl"><b>Tell my friends</b><small>${tell ? TELL_HINT.on : TELL_HINT.off}</small></span></label>`;
-const toldNow = () => !!$("film").querySelector("[data-tell]")?.checked;
+const TELL_HINT = { on: "Friends see it in their Feed.", off: "Only people who open this showing, e.g. via a link." };
+const ICON_FRIENDS = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.8"/><path d="M17 14.5c2.4 0 4.2 1.5 4.8 4.5"/></svg>`;
+const ICON_LOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>`;
+const tellSwitch = (tell, save) => `<div class="tellbox"><fieldset class="tellseg"><legend>Show to friends</legend><span class="segc">
+  <label class="yes"><input type="radio" name="tell" value="1" data-tell="${save ? "save" : "pick"}"${tell ? " checked" : ""}>${ICON_FRIENDS}Yes</label>
+  <label class="no"><input type="radio" name="tell" value="0" data-tell="${save ? "save" : "pick"}"${tell ? "" : " checked"}>${ICON_LOCK}No</label></span></fieldset>
+  <small class="tellhint">${tell ? TELL_HINT.on : TELL_HINT.off}</small></div>`;
+const toldNow = () => $("film").querySelector("[data-tell]:checked")?.value !== "0";
 
 function showingPage(f, s, dlg) {
   const plan = planOf(f, s), day = s.t.slice(0, 10), d = asDate(day);
@@ -1704,8 +1709,8 @@ $("film").addEventListener("input", (e) => {  // name, row and seats save as you
 $("film").addEventListener("change", (e) => {  // Tell my friends: the line under it follows; once you're going, it saves at once
   const k = e.target.dataset?.tell;
   if (!k) return;
-  const tell = e.target.checked;
-  e.target.closest(".tellsw").querySelector("small").textContent = tell ? TELL_HINT.on : TELL_HINT.off;
+  const tell = e.target.value === "1";
+  e.target.closest(".tellbox").querySelector(".tellhint").textContent = tell ? TELL_HINT.on : TELL_HINT.off;
   if (k !== "save") return;
   const { id, show } = hashParts(), f = findFilm(id), s = showFor(f, show);
   if (s && planOf(f, s)) { setPlan(f, s, { tell }); local.set("goTell", tell); }
