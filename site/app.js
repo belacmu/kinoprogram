@@ -1480,22 +1480,24 @@ const avatarColor = (n) => AVATARS[[...n].reduce((h, c) => (h * 31 + c.charCodeA
 
 // Show in friends' feeds: Yes, your friends see it (Feed, Coming up, the film's showings, the daily email); No, only people who open this
 // showing see it (through an invite link, or friends who go too and so join your group). One line under it says which.
-const TELL_HINT = { on: "Also in their Feed and Coming up.", off: "Not in their Feed or Coming up." };
+const TELL_HINT = { on: "Shows in their Feed.", off: "Hidden from their Feed." };
 const ICON_FRIENDS = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.8"/><path d="M17 14.5c2.4 0 4.2 1.5 4.8 4.5"/></svg>`;
 const ICON_LOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/></svg>`;
-const tellSwitch = (tell) => `<div class="tellbox"><fieldset class="tellseg"><legend>Show in friends' feeds</legend><span class="segc">
+// One setting in the plan box: its label with a quiet line under it at the left, its control at the right.
+const boxRow = (label, hint, control, cls = "") => `<div class="brow ${cls}"><span class="bl"><span class="blab">${label}</span><small class="bhint">${hint}</small></span>${control}</div>`;
+const tellSwitch = (tell) => boxRow("Show in friends' feeds", tell ? TELL_HINT.on : TELL_HINT.off, `<span class="segc" role="radiogroup" aria-label="Show in friends' feeds">
   <label class="yes"><input type="radio" name="tell" value="1" data-tell="1"${tell ? " checked" : ""}>${ICON_FRIENDS}Yes</label>
-  <label class="no"><input type="radio" name="tell" value="0" data-tell="1"${tell ? "" : " checked"}>${ICON_LOCK}No</label></span></fieldset>
-  <small class="tellhint">${tell ? TELL_HINT.on : TELL_HINT.off}</small></div>`;
+  <label class="no"><input type="radio" name="tell" value="0" data-tell="1"${tell ? "" : " checked"}>${ICON_LOCK}No</label></span>`, "tellbox");
 const toldNow = () => $("film").querySelector("[data-tell]:checked")?.value !== "0";
 
 // Your plan in one box: who can see it (anyone who opens the showing; signed in, you also choose whether it's in your friends' feeds:
 // guests have no friends), seats, then Cancel / Save (once going also Not going). Nothing is saved until Save.
 function planBox(plan, editing, head = "") {
   const { row, seats } = seatParts(plan?.seats);
-  return `<div class="gochoose${editing ? " editing" : ""}">${head}<p class="seenote">Anyone who opens this showing can see you're going.</p>${state.user ? tellSwitch(editing ? plan?.tell !== false : local.get("goTell", true)) : ""}
-    <div class="goseats"><span class="gsl">Seats <small>(optional)</small></span><span class="seatedit"><input class="seatinp" data-pre="row" value="${esc(row)}" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric"><input class="seatinp wide" data-pre="seats" value="${esc(seats)}" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"></span></div>
-    <div class="gobar">${editing ? `<button class="pbtn sm leave" data-going="1">Not going</button><span class="sp"></span>` : ""}<button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">Save</button></div></div>`;
+  return `<div class="gochoose${editing ? " editing" : ""}">${head}
+    ${state.user ? tellSwitch(editing ? plan?.tell !== false : local.get("goTell", true)) : ""}
+    ${boxRow("Seats", "Optional", `<span class="seatedit"><input class="seatinp" data-pre="row" value="${esc(row)}" placeholder="Row" aria-label="Row" maxlength="4" inputmode="numeric"><input class="seatinp wide" data-pre="seats" value="${esc(seats)}" placeholder="Seat(s)" aria-label="Seat or seats, for example 7 or 7-9" maxlength="22"></span>`)}
+    <div class="gobar">${editing ? `<button class="linkbtn leave" data-going="1">Not going</button><span class="sp"></span>` : ""}<button class="pbtn sm" data-gocancel="1">Cancel</button><button class="gopill" data-goconfirm="1">Save</button></div></div>`;
 }
 
 function showingPage(f, s, dlg) {
@@ -1526,10 +1528,11 @@ function showingPage(f, s, dlg) {
   const note = "";
   const prompt = others.length ? "Want to join?" : "Nobody is going yet.";
   // Both plan boxes start with you (your circle and name): joining the list, or (once going) your place in it being edited.
-  const meHead = (tag) => `<div class="prow2 me"><span class="av" style="background:${avatarColor(name || "You")}">${esc((name || "You")[0].toUpperCase())}</span><span class="pname">${esc(name || "You")}</span>${tag}</div>`;
-  if (on && editing) mine = planBox(plan, true, meHead(""));
+  // with who can see it as a quiet line under your name, the way seats sit under names in the list
+  const meHead = () => `<div class="prow2 me"><span class="av" style="background:${avatarColor(name || "You")}">${esc((name || "You")[0].toUpperCase())}</span><span class="pwho"><span class="pname">${esc(name || "You")}</span><span class="psub multi">Anyone who opens this showing can see you're going.</span></span></div>`;
+  if (on && editing) mine = planBox(plan, true, meHead());
   else if (on) mine = row(people.find((p) => p.me)) + note;
-  else if (!on && state.goOpen === planId(f, s)) mine = planBox(null, false, meHead(""));
+  else if (!on && state.goOpen === planId(f, s)) mine = planBox(null, false, meHead());
   else if (state.user) mine = `<div class="jointile prow2 yours"><span class="ask"><span class="pname muted">${prompt}</span></span>${goBtn}</div>`;
   else mine = `<div class="jointile"><div class="asktop"><span class="pname muted">${prompt}</span></div><div class="prow2 yours"><input class="inp" data-plan="name" value="${esc(name)}" placeholder="Your name" maxlength="40" autocomplete="given-name" aria-label="Your name">${goBtn}</div></div>`;
   const invite = on ? `<button class="pbtn sm" data-sharershow="1">Invite someone ↗</button>` : "";  // next to the heading, so it stays in view however long the list
@@ -1690,7 +1693,7 @@ $("film").addEventListener("change", (e) => {  // Show in friends' feeds: the li
   const k = e.target.dataset?.tell;
   if (!k) return;
   const tell = e.target.value === "1";
-  e.target.closest(".tellbox").querySelector(".tellhint").textContent = tell ? TELL_HINT.on : TELL_HINT.off;
+  e.target.closest(".tellbox").querySelector(".bhint").textContent = tell ? TELL_HINT.on : TELL_HINT.off;
 });
 $("film").addEventListener("keydown", (e) => {  // Enter in the row or seats box = the box's I'm going / Save
   if (e.key === "Enter" && e.target.dataset?.pre) { e.preventDefault(); $("film").querySelector("[data-goconfirm]")?.click(); }

@@ -457,9 +457,9 @@ Seats are optional: a **Row** box and a **Seats** box, shown as a quiet line und
 on the card itself.
 
 **Who sees it.** Anyone who opens the showing (through an invite link, or friends who go too, since they join your party) sees
-that you're going; the plan box says so in one line under your name ("Anyone who opens this showing can see you're going."). The
+that you're going; the plan box says so in a quiet line under your name at its top ("Anyone who opens this showing can see you're going."). The
 one choice is **Show in friends' feeds** (`tell_friends`, signed in only): a Yes | No pair, Yes green with a people icon, No grey
-with a lock, with one line under it that changes with it ("Also in their Feed and Coming up." / "Not in their Feed or Coming up.").
+with a lock, with one line under it that changes with it ("Shows in their Feed." / "Hidden from their Feed.").
 Yes also covers the film's showings and the daily email.
 
 **Your place in the list** is always the first tile under the "Going · N" heading (with **Invite someone ↗** at the heading's
@@ -467,8 +467,9 @@ right once you're going, so it stays in view). Before you've joined it is a dash
 and **I'm going** (guests also get a name box, which they fill first). Nothing else is said there.
 
 **The plan box.** Tapping I'm going (or, once going, your tile) opens one box in its place, inside the showing's card (no second
-dialog): your circle and name, the line on who can see it, Show in friends' feeds, Seats (optional Row and Seat(s) boxes), then
-**Cancel** / **Save**, and once going also **Not going** at the left. Nothing saves until Save (a guest's anonymous account is made
+dialog): your circle and name with the line on who can see it, then each setting as its label (with a quiet line under it) at the
+left and its control at the right (Show in friends' feeds; Seats, "Optional", with Row and Seat(s) boxes), then a footer under a
+hairline with **Cancel** / **Save**, and once going also a red text **Not going** at the left. Nothing saves until Save (a guest's anonymous account is made
 on their first Save); Enter in a seat box is Save. Show in friends' feeds starts where you left it last time (kept on the device).
 Once going, your tile shows your name, seats under it, an outlined **✎ Edit** pill at the right, and (signed in) "Shown in your
 friends' feeds" / "Not shown in your friends' feeds" under it; tapping the tile anywhere opens the box. `save_plan` takes `p_tell`
