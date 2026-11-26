@@ -906,7 +906,7 @@ function comingRow(r, compact) {
   const f = findFilm(r.film), d = asDate(r.at);
   const poster = compact ? "" : f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
   // Status, not a button: if you're going, only that. Signed in, it also says whether it's in your friends' feeds: green with people,
-  // or plain ink with a lock (private); a guest gets a green check. Otherwise who is going, so you can see it's open to you.
+  // or green with the lock in plain ink (private); a guest gets a green check. Otherwise who is going, so you can see it's open to you.
   const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
   const status = r.hideStatus ? "" : r.note ? `<span class="cstat gone">${esc(r.note)}</span>` : r.you ? `<span class="cstat you${state.user && !r.tell ? " private" : ""}">${state.user ? `<span class="cfeed" role="img" aria-label="${r.tell ? "In friends' feeds:" : "Not in friends' feeds:"}" title="${r.tell ? "In friends' feeds" : "Not in friends' feeds"}">${r.tell ? ICON_FRIENDS : ICON_LOCK}</span>` : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`}You're going</span>`
     : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
