@@ -522,17 +522,21 @@
 "tmdb": 1422041,
 "lang": "es"
 },
-"cl-cascanueces-26-27-1": {
+"cl-cascanueces-26-27": {
 "v": 4,
-"checked": "2026-11-18",
-"tmdbChecked": "2026-11-18",
+"checked": "2026-11-26",
+"tmdbChecked": "2026-11-26",
 "tv": 3
 },
 "cl-citas-pelicula": {
+"tmdbChecked": "2026-11-26",
+"tv": 3,
 "v": 4,
-"checked": "2026-11-18",
-"tmdbChecked": "2026-11-18",
-"tv": 3
+"checked": "2026-11-26",
+"tmdb": 1732872,
+"lang": "es",
+"imdb": "tt40185366",
+"en": null
 },
 "cl-clayface": {
 "imdb": "tt34890576",
@@ -706,7 +710,7 @@
 "imdb": "tt36462691",
 "en": null
 },
-"cl-oro-ley-1": {
+"cl-oro-ley": {
 "v": 4,
 "checked": "2026-11-25",
 "tmdbChecked": "2026-11-25",
@@ -1012,21 +1016,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-gaza": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 566212,
-"imdb": "tt8995252",
-"en": "Gaza",
-"imdbAll": [
-"tt8995252"
-],
-"lb": "gaza",
-"rt": "m/gaza",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-ghost-world": {
 "imdb": "tt0162346",
 "imdbAll": [
@@ -1088,6 +1077,32 @@
 "mc": null,
 "v": 4,
 "checked": "2026-10-03"
+},
+"cm-hold-onto-me": {
+"v": 4,
+"checked": "2026-11-26",
+"tmdbChecked": "2026-11-26",
+"tv": 3,
+"tmdb": 1318824,
+"lang": "el",
+"imdb": "tt36840995",
+"en": null
+},
+"cm-i-matter": {
+"imdb": "tt29256288",
+"imdbAll": [
+"tt29256288"
+],
+"lb": null,
+"rt": null,
+"mc": null,
+"en": "I Matter",
+"v": 4,
+"checked": "2026-11-26",
+"tmdbChecked": "2026-11-26",
+"tv": 3,
+"tmdb": 1736496,
+"lang": "ro"
 },
 "cm-idiotene": {
 "imdb": "tt0154421",
@@ -1189,21 +1204,6 @@
 "mc": "movie/miracle-on-34th-street",
 "v": 4,
 "checked": "2026-10-03"
-},
-"cm-mitt-palestina": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1219620,
-"imdb": "tt29344894",
-"en": "All That's Left Of You",
-"imdbAll": [
-"tt29344894"
-],
-"lb": "all-thats-left-of-you",
-"rt": "m/all_thats_left_of_you",
-"mc": "movie/all-thats-left-of-you",
-"v": 4,
-"checked": "2026-10-05"
 },
 "cm-mongoland": {
 "tmdbChecked": "2026-10-01",
@@ -2471,23 +2471,6 @@
 "v": 4,
 "checked": "2026-11-22"
 },
-"fw-EDI20251487": {
-"imdb": "tt40036377",
-"imdbAll": [
-"tt40036377"
-],
-"lb": "let-our-mountains-live",
-"rt": null,
-"mc": null,
-"en": "Let Our Mountains Live",
-"v": 4,
-"checked": "2026-11-24",
-"tmdbChecked": "2026-11-24",
-"tv": 3,
-"tmdb": 1635584,
-"lang": "no",
-"enFrom": "tmdb"
-},
 "fw-EDI20251555": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -2636,6 +2619,16 @@
 "tmdb": 1401459,
 "lang": "ro"
 },
+"fw-EDI20260111": {
+"v": 4,
+"checked": "2026-11-26",
+"tmdbChecked": "2026-11-26",
+"tv": 3,
+"tmdb": 1596289,
+"lang": "no",
+"imdb": "tt19305318",
+"en": null
+},
 "fw-EDI20260129": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -2775,22 +2768,6 @@
 "enFrom": "tmdb",
 "v": 4,
 "checked": "2026-10-05"
-},
-"fw-EDI20260454": {
-"imdb": "tt33029380",
-"imdbAll": [
-"tt33029380"
-],
-"lb": "marsupilami-2026",
-"rt": "m/marsupilami",
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-11-10",
-"tmdbChecked": "2026-11-10",
-"tv": 2,
-"tmdb": 1145899,
-"lang": "fr"
 },
 "fw-EDI20260513": {
 "imdb": "tt38807889",
@@ -3189,6 +3166,23 @@
 "tv": 3,
 "tmdb": 1084728,
 "lang": "fr",
+"enFrom": "tmdb"
+},
+"fw-EDI20260850": {
+"imdb": "tt31183803",
+"imdbAll": [
+"tt31183803"
+],
+"lb": "a-prayer-for-the-dying-2026",
+"rt": "m/a_prayer_for_the_dying_2026",
+"mc": null,
+"en": "A Prayer for the Dying",
+"v": 4,
+"checked": "2026-11-26",
+"tmdbChecked": "2026-11-26",
+"tv": 3,
+"tmdb": 1241046,
+"lang": "en",
 "enFrom": "tmdb"
 },
 "fw-EDI20260853": {
@@ -5043,6 +5037,23 @@
 "tmdbChecked": "2026-11-04",
 "tv": 2,
 "tmdb": 772,
+"lang": "en",
+"enFrom": "tmdb"
+},
+"fw-UAV20202652": {
+"imdb": "tt0075686",
+"imdbAll": [
+"tt0075686"
+],
+"lb": "annie-hall",
+"rt": "m/annie_hall",
+"mc": "movie/annie-hall-1977",
+"en": "Annie Hall",
+"v": 4,
+"checked": "2026-11-26",
+"tmdbChecked": "2026-11-26",
+"tv": 3,
+"tmdb": 703,
 "lang": "en",
 "enFrom": "tmdb"
 },

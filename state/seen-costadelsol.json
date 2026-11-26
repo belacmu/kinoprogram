@@ -1,10 +1,10 @@
 {
  "baseline": "2026-10-02T11:10",
- "lastDigest": "2026-11-25T13:53",
+ "lastDigest": "2026-11-26T13:31",
  "films": {
   "cl-ahora-suegros-son-ellos": {
    "since": "2026-11-14T10:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-arriba-tutto": {
    "since": "2026-10-20T10:00",
@@ -12,7 +12,7 @@
   },
   "cl-bola-negra": {
    "since": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
    "since": "2026-11-08T10:40",
@@ -26,13 +26,17 @@
    "since": "2026-11-17T23:22",
    "last": "2026-11-23T13:35"
   },
+  "cl-cascanueces-26-27": {
+   "since": "2026-11-26T13:29",
+   "last": "2026-11-26T13:29"
+  },
   "cl-cascanueces-26-27-1": {
    "since": "2026-11-18T10:59",
    "last": "2026-11-25T13:51"
   },
   "cl-citas-pelicula": {
    "since": "2026-11-18T17:16",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-citas-pelicula-1": {
    "since": "2026-11-17T23:22",
@@ -40,27 +44,27 @@
   },
   "cl-clayface": {
    "since": "2026-10-10T11:11",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-club-kid": {
    "since": "2026-11-12T11:26",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-como-robar-banco": {
    "since": "2026-11-11T10:57",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-corazon-bestia": {
    "since": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-delitos-faltas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-director": {
    "since": "2026-11-16T19:31",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-diversion-navidena-peppa-experiencia-cines": {
    "since": "2026-11-12T11:26",
@@ -68,11 +72,11 @@
   },
   "cl-gato-sombrero": {
    "since": "2026-10-23T23:44",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-hechizo-bienvenidos-hexe": {
    "since": "2026-11-14T10:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-hope": {
    "since": "2026-10-27T23:44",
@@ -80,11 +84,11 @@
   },
   "cl-juegos-hambre-amanecer-cosecha": {
    "since": "2026-10-28T23:54",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-karateka": {
    "since": "2026-10-23T23:44",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-ladron-bicicletas": {
    "since": "2026-10-14T09:36",
@@ -104,7 +108,7 @@
   },
   "cl-oro-ley-1": {
    "since": "2026-11-25T13:51",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-otra-madre": {
    "since": "2026-10-06T11:33",
@@ -116,11 +120,11 @@
   },
   "cl-ratones-ataque-operacion-navidad": {
    "since": "2026-11-11T10:57",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-ruega-nosotras": {
    "since": "2026-11-04T11:06",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-sacamantecas": {
    "since": "2026-11-04T11:06",
@@ -128,7 +132,7 @@
   },
   "cl-scrooge-fantasmas-navidad": {
    "since": "2026-10-31T10:02",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-superthings-pelicula": {
    "since": "2026-10-22T10:04",
@@ -140,7 +144,7 @@
   },
   "cl-wild-horse-nine": {
    "since": "2026-11-11T10:57",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-wildwood-bosque-salvaje": {
    "since": "2026-10-22T10:04",
@@ -148,27 +152,27 @@
   },
   "fw-BVI20200545": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "fw-EDI20251026": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "fw-SFN20191100": {
    "since": "2026-11-21T11:59",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "fw-SFN20211456": {
    "since": "2026-11-21T11:59",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-blade-runner": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-bts-world-tour-arirang-in-jakarta": {
    "since": "2026-11-04T11:06",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
    "since": "2026-11-04T11:06",
@@ -176,29 +180,29 @@
   },
   "mk-campamento-miasma": {
    "since": "2026-11-17T23:22",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-el-apartamento-cine": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-el-bazar-de-las-sorpresas": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-fargo": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-gremlins": {
    "since": "2026-10-14T09:36",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   }
  },
  "dated": {
   "cl-ahora-suegros-son-ellos": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-akira": {
    "first": "2026-10-02T11:10",
@@ -214,7 +218,7 @@
   },
   "cl-bola-negra": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
    "first": "2026-10-02T11:10",
@@ -236,6 +240,10 @@
    "first": "2026-10-02T11:10",
    "last": "2026-10-29T10:03"
   },
+  "cl-cascanueces-26-27": {
+   "first": "2026-10-02T11:10",
+   "last": "2026-11-26T13:29"
+  },
   "cl-cascanueces-26-27-1": {
    "first": "2026-10-02T11:10",
    "last": "2026-11-25T13:51"
@@ -254,7 +262,7 @@
   },
   "cl-citas-pelicula": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-citas-pelicula-1": {
    "first": "2026-10-02T11:10",
@@ -262,15 +270,15 @@
   },
   "cl-clayface": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-club-kid": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-como-robar-banco": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-concert-rammstein-live-in-mexico-city": {
    "first": "2026-10-02T11:10",
@@ -278,7 +286,7 @@
   },
   "cl-corazon-bestia": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-coyote-vs-acme": {
    "first": "2026-10-02T11:10",
@@ -290,7 +298,7 @@
   },
   "cl-delitos-faltas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-digger": {
    "first": "2026-10-02T11:10",
@@ -298,7 +306,7 @@
   },
   "cl-director": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-diversion-navidena-peppa-experiencia-cines": {
    "first": "2026-10-02T11:10",
@@ -314,7 +322,7 @@
   },
   "cl-gato-sombrero": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-gato-sombrero-1": {
    "first": "2026-10-02T11:10",
@@ -338,7 +346,7 @@
   },
   "cl-hechizo-bienvenidos-hexe": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-hope": {
    "first": "2026-10-02T11:10",
@@ -366,11 +374,11 @@
   },
   "cl-juegos-hambre-amanecer-cosecha": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-karateka": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-l-elisir-d-amore-26-27": {
    "first": "2026-10-02T11:10",
@@ -430,7 +438,7 @@
   },
   "cl-oro-ley-1": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-otra-madre": {
    "first": "2026-10-02T11:10",
@@ -478,7 +486,7 @@
   },
   "cl-ratones-ataque-operacion-navidad": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-resident-evil": {
    "first": "2026-10-02T11:10",
@@ -486,7 +494,7 @@
   },
   "cl-ruega-nosotras": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-sacamantecas": {
    "first": "2026-10-02T11:10",
@@ -494,7 +502,7 @@
   },
   "cl-scrooge-fantasmas-navidad": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-sentido-sensibilidad": {
    "first": "2026-10-02T11:10",
@@ -554,7 +562,7 @@
   },
   "cl-wild-horse-nine": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "cl-wildwood-1": {
    "first": "2026-10-02T11:10",
@@ -566,19 +574,19 @@
   },
   "fw-BVI20200545": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "fw-EDI20251026": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "fw-SFN20191100": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "fw-SFN20211456": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-akira": {
    "first": "2026-10-02T11:10",
@@ -590,11 +598,11 @@
   },
   "mk-blade-runner": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-bts-world-tour-arirang-in-jakarta": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
    "first": "2026-10-02T11:10",
@@ -602,7 +610,7 @@
   },
   "mk-campamento-miasma": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-centauros-del-desierto": {
    "first": "2026-10-02T11:10",
@@ -618,11 +626,11 @@
   },
   "mk-el-apartamento-cine": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-el-bazar-de-las-sorpresas": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-el-chico-y-la-garza": {
    "first": "2026-10-02T11:10",
@@ -638,7 +646,7 @@
   },
   "mk-fargo": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-george-michael-the-faith-tour": {
    "first": "2026-10-02T11:10",
@@ -646,7 +654,7 @@
   },
   "mk-gremlins": {
    "first": "2026-10-02T11:10",
-   "last": "2026-11-25T13:51"
+   "last": "2026-11-26T13:29"
   },
   "mk-la-invitacion": {
    "first": "2026-10-02T11:10",
@@ -685,7 +693,7 @@
    "last": "2026-11-05T11:00"
   }
  },
- "lastRun": "2026-11-25T13:51",
+ "lastRun": "2026-11-26T13:29",
  "lastWeekly": "2026-11-20T12:39",
  "shows": {
   "cl-arriba-tutto": {
@@ -715,6 +723,12 @@
     "2026-11-26T19:45|mk2 Miramar (Fuengirola)": ""
    }
   },
+  "cl-cascanueces-26-27": {
+   "last": "2026-11-26T13:29",
+   "shows": {
+    "2026-12-01T20:15|mk2 Miramar (Fuengirola)": ""
+   }
+  },
   "cl-cascanueces-26-27-1": {
    "last": "2026-11-25T13:51",
    "shows": {
@@ -722,9 +736,8 @@
    }
   },
   "cl-citas-pelicula": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T16:50|mk2 Miramar (Fuengirola)": "",
     "2026-11-26T16:50|mk2 Miramar (Fuengirola)": ""
    }
   },
@@ -743,10 +756,8 @@
    }
   },
   "cl-clayface": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T20:00|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31",
-    "2026-11-25T22:20|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31",
     "2026-11-26T20:00|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31",
     "2026-11-26T22:20|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31",
     "2026-11-27T23:00|Kinépolis La Cañada (Marbella)": "2026-11-24T15:53",
@@ -754,27 +765,22 @@
    }
   },
   "cl-club-kid": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-04T19:30|mk2 Miramar (Fuengirola)": "2026-11-24T14:40"
    }
   },
   "cl-como-robar-banco": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T21:55|mk2 Miramar (Fuengirola)": "",
-    "2026-11-25T22:00|Kinépolis La Cañada (Marbella)": "",
     "2026-11-26T21:55|mk2 Miramar (Fuengirola)": "",
     "2026-11-26T22:00|Kinépolis La Cañada (Marbella)": ""
    }
   },
   "cl-corazon-bestia": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T16:40|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31",
     "2026-11-26T16:40|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31",
-    "2026-11-25T19:00|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
-    "2026-11-25T21:20|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
     "2026-11-26T19:00|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
     "2026-11-26T21:20|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
     "2026-11-30T21:30|Kinépolis La Cañada (Marbella)": "2026-11-24T14:40",
@@ -790,9 +796,41 @@
    }
   },
   "cl-delitos-faltas": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-11-26T20:00|mk2 Miramar (Fuengirola)": ""
+   }
+  },
+  "cl-director": {
+   "last": "2026-11-26T13:29",
+   "shows": {
+    "2026-11-26T15:45|mk2 Miramar (Fuengirola)": "",
+    "2026-11-26T18:00|mk2 Miramar (Fuengirola)": "",
+    "2026-11-26T19:10|Kinépolis La Cañada (Marbella)": "",
+    "2026-11-26T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-11-26T22:10|Kinépolis La Cañada (Marbella)": "",
+    "2026-11-26T22:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-27T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-11-27T22:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-27T22:50|Kinépolis La Cañada (Marbella)": "",
+    "2026-11-28T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-11-28T22:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-28T22:50|Kinépolis La Cañada (Marbella)": "",
+    "2026-11-29T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-11-29T21:40|Kinépolis La Cañada (Marbella)": "",
+    "2026-11-29T22:30|mk2 Miramar (Fuengirola)": "",
+    "2026-11-30T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-11-30T22:10|Kinépolis La Cañada (Marbella)": "",
+    "2026-11-30T22:30|mk2 Miramar (Fuengirola)": "",
+    "2026-12-01T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-12-01T22:10|Kinépolis La Cañada (Marbella)": "",
+    "2026-12-01T22:30|mk2 Miramar (Fuengirola)": "",
+    "2026-12-02T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-12-02T22:10|Kinépolis La Cañada (Marbella)": "",
+    "2026-12-02T22:30|mk2 Miramar (Fuengirola)": "",
+    "2026-12-03T20:15|mk2 Miramar (Fuengirola)": "",
+    "2026-12-03T22:10|Kinépolis La Cañada (Marbella)": "",
+    "2026-12-03T22:30|mk2 Miramar (Fuengirola)": ""
    }
   },
   "cl-diversion-navidena-peppa-experiencia-cines": {
@@ -810,9 +848,8 @@
    }
   },
   "cl-karateka": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T16:45|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31",
     "2026-11-26T16:45|Kinépolis La Cañada (Marbella)": "2026-11-16T19:31"
    }
   },
@@ -837,7 +874,7 @@
    }
   },
   "cl-oro-ley-1": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-11-27T15:45|mk2 Miramar (Fuengirola)": "",
     "2026-11-27T18:00|mk2 Miramar (Fuengirola)": "",
@@ -870,9 +907,8 @@
    }
   },
   "cl-ratones-ataque-operacion-navidad": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T16:45|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
     "2026-11-26T16:45|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
     "2026-11-27T16:20|mk2 Miramar (Fuengirola)": "2026-11-25T13:51",
     "2026-11-28T11:55|mk2 Miramar (Fuengirola)": "2026-11-25T13:51",
@@ -883,11 +919,8 @@
    }
   },
   "cl-ruega-nosotras": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T17:15|Kinépolis La Cañada (Marbella)": "",
-    "2026-11-25T18:45|mk2 Miramar (Fuengirola)": "",
-    "2026-11-25T21:30|mk2 Miramar (Fuengirola)": "",
     "2026-11-26T17:15|Kinépolis La Cañada (Marbella)": "",
     "2026-11-26T18:45|mk2 Miramar (Fuengirola)": "",
     "2026-11-26T21:30|mk2 Miramar (Fuengirola)": "",
@@ -931,10 +964,8 @@
    "shows": {}
   },
   "cl-wild-horse-nine": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T16:00|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
-    "2026-11-25T16:30|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
     "2026-11-26T16:00|mk2 Miramar (Fuengirola)": "2026-11-17T23:22",
     "2026-11-26T16:30|mk2 Miramar (Fuengirola)": "2026-11-17T23:22"
    }
@@ -946,7 +977,7 @@
    }
   },
   "fw-BVI20200545": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-17T15:50|mk2 Miramar (Fuengirola)": "",
     "2026-12-17T19:00|mk2 Miramar (Fuengirola)": "",
@@ -974,7 +1005,7 @@
    }
   },
   "fw-EDI20251026": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-15T19:00|mk2 Miramar (Fuengirola)": "",
     "2026-12-18T20:00|mk2 Miramar (Fuengirola)": "",
@@ -986,7 +1017,7 @@
    }
   },
   "fw-SFN20191100": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-04T16:30|Kinépolis La Cañada (Marbella)": "",
     "2026-12-05T20:15|Kinépolis La Cañada (Marbella)": "2026-11-22T12:21",
@@ -994,7 +1025,7 @@
    }
   },
   "fw-SFN20211456": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-04T20:15|Kinépolis La Cañada (Marbella)": "",
     "2026-12-05T16:30|Kinépolis La Cañada (Marbella)": "2026-11-22T12:21",
@@ -1002,13 +1033,13 @@
    }
   },
   "mk-blade-runner": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-03T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-bts-world-tour-arirang-in-jakarta": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-29T12:45|mk2 Miramar (Fuengirola)": ""
    }
@@ -1020,40 +1051,56 @@
    }
   },
   "mk-campamento-miasma": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
-    "2026-11-25T22:05|mk2 Miramar (Fuengirola)": "",
     "2026-11-26T22:05|mk2 Miramar (Fuengirola)": "",
-    "2026-11-25T19:45|mk2 Miramar (Fuengirola)": "2026-11-24T14:40",
     "2026-11-26T19:45|mk2 Miramar (Fuengirola)": "2026-11-24T14:40"
    }
   },
   "mk-el-apartamento-cine": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-01T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-el-bazar-de-las-sorpresas": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-15T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-fargo": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-10T20:00|mk2 Miramar (Fuengirola)": ""
    }
   },
   "mk-gremlins": {
-   "last": "2026-11-25T13:51",
+   "last": "2026-11-26T13:29",
    "shows": {
     "2026-12-17T20:00|mk2 Miramar (Fuengirola)": ""
    }
   }
  },
  "events": [
+  {
+   "id": "sale|cl-cascanueces-26-27|2026-11-26T13:29",
+   "type": "sale",
+   "film": "cl-cascanueces-26-27",
+   "at": "2026-11-26T13:29"
+  },
+  {
+   "id": "leaving|mk-el-apartamento-cine|2026-11-26T00:00",
+   "type": "leaving",
+   "film": "mk-el-apartamento-cine",
+   "at": "2026-11-26T00:00"
+  },
+  {
+   "id": "leaving|cl-cascanueces-26-27|2026-11-26T00:00",
+   "type": "leaving",
+   "film": "cl-cascanueces-26-27",
+   "at": "2026-11-26T00:00"
+  },
   {
    "id": "showings|cl-ratones-ataque-operacion-navidad|2026-11-25T13:51",
    "type": "showings",
@@ -1100,13 +1147,46 @@
    "film": "mk-campamento-miasma",
    "at": "2026-11-24T14:40",
    "before": 3,
-   "n": 2,
+   "n": 1,
    "cinemas": [
     "mk2 Miramar (Fuengirola)"
    ],
    "keys": [
-    "2026-11-25T19:45|mk2 Miramar (Fuengirola)",
     "2026-11-26T19:45|mk2 Miramar (Fuengirola)"
+   ]
+  },
+  {
+   "id": "showings|cl-ruega-nosotras|2026-11-24T14:40",
+   "type": "showings",
+   "film": "cl-ruega-nosotras",
+   "at": "2026-11-24T14:40",
+   "before": 3,
+   "n": 4,
+   "cinemas": [
+    "Kinépolis La Cañada (Marbella)"
+   ],
+   "keys": [
+    "2026-11-30T16:50|Kinépolis La Cañada (Marbella)",
+    "2026-12-01T16:50|Kinépolis La Cañada (Marbella)",
+    "2026-12-02T16:50|Kinépolis La Cañada (Marbella)",
+    "2026-12-03T16:50|Kinépolis La Cañada (Marbella)"
+   ]
+  },
+  {
+   "id": "showings|cl-corazon-bestia|2026-11-24T14:40",
+   "type": "showings",
+   "film": "cl-corazon-bestia",
+   "at": "2026-11-24T14:40",
+   "before": 3,
+   "n": 4,
+   "cinemas": [
+    "Kinépolis La Cañada (Marbella)"
+   ],
+   "keys": [
+    "2026-11-30T21:30|Kinépolis La Cañada (Marbella)",
+    "2026-12-01T21:30|Kinépolis La Cañada (Marbella)",
+    "2026-12-02T21:30|Kinépolis La Cañada (Marbella)",
+    "2026-12-03T21:30|Kinépolis La Cañada (Marbella)"
    ]
   },
   {
@@ -1192,6 +1272,18 @@
    "at": "2026-11-21T11:59"
   },
   {
+   "id": "leaving|mk-campamento-miasma|2026-11-21T00:00",
+   "type": "leaving",
+   "film": "mk-campamento-miasma",
+   "at": "2026-11-21T00:00"
+  },
+  {
+   "id": "leaving|cl-wild-horse-nine|2026-11-21T00:00",
+   "type": "leaving",
+   "film": "cl-wild-horse-nine",
+   "at": "2026-11-21T00:00"
+  },
+  {
    "id": "leaving|cl-ratones-ataque-operacion-navidad|2026-11-21T00:00",
    "type": "leaving",
    "film": "cl-ratones-ataque-operacion-navidad",
@@ -1207,6 +1299,12 @@
    "id": "leaving|cl-delitos-faltas|2026-11-21T00:00",
    "type": "leaving",
    "film": "cl-delitos-faltas",
+   "at": "2026-11-21T00:00"
+  },
+  {
+   "id": "leaving|cl-como-robar-banco|2026-11-21T00:00",
+   "type": "leaving",
+   "film": "cl-como-robar-banco",
    "at": "2026-11-21T00:00"
   },
   {
@@ -1239,13 +1337,11 @@
    "film": "cl-wild-horse-nine",
    "at": "2026-11-17T23:22",
    "before": 0,
-   "n": 4,
+   "n": 2,
    "cinemas": [
     "mk2 Miramar (Fuengirola)"
    ],
    "keys": [
-    "2026-11-25T16:00|mk2 Miramar (Fuengirola)",
-    "2026-11-25T16:30|mk2 Miramar (Fuengirola)",
     "2026-11-26T16:00|mk2 Miramar (Fuengirola)",
     "2026-11-26T16:30|mk2 Miramar (Fuengirola)"
    ]
@@ -1256,12 +1352,11 @@
    "film": "cl-ratones-ataque-operacion-navidad",
    "at": "2026-11-17T23:22",
    "before": 4,
-   "n": 2,
+   "n": 1,
    "cinemas": [
     "mk2 Miramar (Fuengirola)"
    ],
    "keys": [
-    "2026-11-25T16:45|mk2 Miramar (Fuengirola)",
     "2026-11-26T16:45|mk2 Miramar (Fuengirola)"
    ]
   },
@@ -1271,13 +1366,11 @@
    "film": "cl-corazon-bestia",
    "at": "2026-11-17T23:22",
    "before": 4,
-   "n": 4,
+   "n": 2,
    "cinemas": [
     "mk2 Miramar (Fuengirola)"
    ],
    "keys": [
-    "2026-11-25T19:00|mk2 Miramar (Fuengirola)",
-    "2026-11-25T21:20|mk2 Miramar (Fuengirola)",
     "2026-11-26T19:00|mk2 Miramar (Fuengirola)",
     "2026-11-26T21:20|mk2 Miramar (Fuengirola)"
    ]
@@ -1334,12 +1427,11 @@
    "film": "cl-karateka",
    "at": "2026-11-16T19:31",
    "before": 0,
-   "n": 2,
+   "n": 1,
    "cinemas": [
     "Kinépolis La Cañada (Marbella)"
    ],
    "keys": [
-    "2026-11-25T16:45|Kinépolis La Cañada (Marbella)",
     "2026-11-26T16:45|Kinépolis La Cañada (Marbella)"
    ]
   },
@@ -1349,12 +1441,11 @@
    "film": "cl-corazon-bestia",
    "at": "2026-11-16T19:31",
    "before": 4,
-   "n": 2,
+   "n": 1,
    "cinemas": [
     "Kinépolis La Cañada (Marbella)"
    ],
    "keys": [
-    "2026-11-25T16:40|Kinépolis La Cañada (Marbella)",
     "2026-11-26T16:40|Kinépolis La Cañada (Marbella)"
    ]
   },
@@ -1364,13 +1455,11 @@
    "film": "cl-clayface",
    "at": "2026-11-16T19:31",
    "before": 2,
-   "n": 4,
+   "n": 2,
    "cinemas": [
     "Kinépolis La Cañada (Marbella)"
    ],
    "keys": [
-    "2026-11-25T20:00|Kinépolis La Cañada (Marbella)",
-    "2026-11-25T22:20|Kinépolis La Cañada (Marbella)",
     "2026-11-26T20:00|Kinépolis La Cañada (Marbella)",
     "2026-11-26T22:20|Kinépolis La Cañada (Marbella)"
    ]
