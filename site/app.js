@@ -905,9 +905,10 @@ function renderSkeleton() {
 function comingRow(r, compact) {
   const f = findFilm(r.film), d = asDate(r.at);
   const poster = compact ? "" : f ? posterHtml(f) : `<div class="poster"><div class="ph" aria-hidden="true">${esc(r.title)}</div></div>`;  // a small poster, when we have the film
-  // Status, not a button: if you're going, only that; otherwise who is going, so you can see it's open to you.
+  // Status, not a button: if you're going, only that. Signed in, it also says whether it's in your friends' feeds: green with people,
+  // or green with the lock in plain ink (private); a guest gets a green check. Otherwise who is going, so you can see it's open to you.
   const fn = r.friends.map((x) => shortName(x.name)), fwho = fn.length > 2 ? `${fn.slice(0, 2).join(", ")} +${fn.length - 2}` : fn.join(", ");
-  const status = r.hideStatus ? "" : r.note ? `<span class="cstat gone">${esc(r.note)}</span>` : r.you ? `<span class="cstat you"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>You're going</span>`
+  const status = r.hideStatus ? "" : r.note ? `<span class="cstat gone">${esc(r.note)}</span>` : r.you ? `<span class="cstat you${state.user && !r.tell ? " private" : ""}">${state.user ? `<span class="cfeed" role="img" aria-label="${r.tell ? "In friends' feeds:" : "Not in friends' feeds:"}" title="${r.tell ? "In friends' feeds" : "Not in friends' feeds"}">${r.tell ? ICON_FRIENDS : ICON_LOCK}</span>` : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`}You're going</span>`
     : `<span class="cstat fr"><span class="cfn">${esc(fwho)} going</span></span>`;
   return `<li><a href="#film/${encodeURIComponent(r.film)}/${encodeURIComponent(r.at + "|" + r.cinema)}">${compact ? "" : `<span class="cposter">${poster}</span>`}<span class="ctext"><span class="cdt">${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}</span><span class="cline"><span class="ctm"><span class="m">${hhmm(r.at)}</span> · ${esc(r.cinema)}</span></span>${compact ? "" : `<span class="csub">${esc(r.title)}</span>`}</span>${status}<svg class="cgo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a></li>`;
 }
@@ -917,7 +918,7 @@ function comingUpHtml(film) {  // `film`: only that film's showings, as rows wit
   const entry = (id, film, title, at, cinema) => by.get(id) || by.set(id, { film, title, at, cinema, people: [], names: [], friends: [], you: false }).get(id);
   for (const [id, p] of Object.entries(plans)) if (p.going && (p.t || id.split("|")[1]) >= now && (!p.region || p.region === state.region)) {
     const [fid, at, cin] = id.split("|");
-    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You"); by.get(id).you = true;
+    entry(id, p.film || fid, p.title || fid, p.t || at, p.cinema || cin).names.push("You"); by.get(id).you = true; by.get(id).tell = p.tell !== false;
     if (p.gone) by.get(id).note = p.replacedBy ? "Time changed" : "No longer listed";
   }
   for (const r of friendPlansHere()) if (r.starts >= now) { const e = entry(r.showing_id, r.film_id, r.film_title, r.starts, r.cinema); e.names.push(r.name); e.friends.push({ id: r.friend_id, name: r.name }); }

@@ -1300,3 +1300,7 @@ div.jointile.prow2 { flex-direction: row; }
 .sfield { display: flex; flex-direction: column; gap: 3px; }
 .sfield > span { font: 600 11px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-left: 2px; }
 .gochoose .seatinp::placeholder { color: var(--edge); font-weight: 500; }
+/* Coming up: your own "You're going" is green with people when it's in your friends' feeds, green with a lock in plain ink (black / white) when it isn't */
+.cu .cstat .cfeed { display: inline-flex; }
+.cu .cstat .cfeed svg { width: 14px; height: 14px; }
+.cu .cstat.you.private .cfeed { color: var(--ink); }
