@@ -21,16 +21,6 @@
 "tv": 3,
 "source": "moviescout"
 },
-"cc-always-yours-never-mine-2026": {
-"imdb": null,
-"tmdb": 1748404,
-"imdbAll": [],
-"v": 4,
-"checked": "2026-11-27",
-"tmdbChecked": "2026-11-27",
-"tv": 3,
-"source": "moviescout"
-},
 "cc-andrew-lloyd-webber-s-starlight-express-live-on-stage-2026": {
 "imdb": "tt50017070",
 "tmdb": 1748001,
@@ -43,21 +33,17 @@
 "tv": 3,
 "source": "moviescout"
 },
-"cc-bachelor-party-d-eux-2026": {
-"imdb": "tt41075537",
+"cc-behemoth-2026": {
+"imdb": "tt36415529",
+"tmdb": 1452168,
 "imdbAll": [
-"tt41075537"
+"tt36415529"
 ],
-"lb": null,
-"rt": null,
-"mc": null,
-"en": "Bachelor Party D'eux",
 "v": 4,
 "checked": "2026-11-27",
 "tmdbChecked": "2026-11-27",
 "tv": 3,
-"tmdb": 1533928,
-"lang": "ml"
+"source": "moviescout"
 },
 "cc-chakkven-2026": {
 "v": 4,
@@ -100,12 +86,6 @@
 "tmdbChecked": "2026-11-27",
 "tv": 3,
 "source": "moviescout"
-},
-"cc-drishyam-the-conclusion-2026": {
-"tmdbChecked": "2026-11-26",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-21"
 },
 "cc-ebenezer-2026": {
 "imdb": "tt38773219",
@@ -337,6 +317,17 @@
 "tv": 3,
 "source": "moviescout"
 },
+"cc-prince-3121-las-vegas-live-event": {
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"tmdb": 1828745,
+"lang": "en",
+"imdb": null,
+"en": "Prince: 3121 Las Vegas Live",
+"enFrom": "tmdb"
+},
 "cc-ramayana-rise-of-a-legend-2026": {
 "imdb": "tt27988879",
 "imdbAll": [
@@ -402,6 +393,18 @@
 "tmdb": 1300968,
 "imdbAll": [
 "tt32558705"
+],
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"source": "moviescout"
+},
+"cc-violent-night-2-2026": {
+"imdb": "tt32432428",
+"tmdb": 1078446,
+"imdbAll": [
+"tt32432428"
 ],
 "v": 4,
 "checked": "2026-11-27",
@@ -1199,21 +1202,6 @@
 "v": 4,
 "checked": "2026-10-03"
 },
-"cm-pauline-pa-stranden": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 10293,
-"imdb": "tt0086087",
-"en": "Pauline at the Beach",
-"imdbAll": [
-"tt0086087"
-],
-"lb": "pauline-at-the-beach",
-"rt": "m/pauline_at_the_beach",
-"mc": null,
-"v": 4,
-"checked": "2026-10-03"
-},
 "cm-pushwagner": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -1568,12 +1556,6 @@
 "imdb": "tt21375462",
 "en": "Two Cuckolds Go Swimming",
 "enFrom": "tmdb"
-},
-"db-vinyl-25th-anniversary-re-release": {
-"tmdbChecked": "2026-11-26",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-22"
 },
 "db-yellow-letters": {
 "imdb": "tt32888226",
@@ -2110,12 +2092,6 @@
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
-},
-"fw-EDI20250688": {
-"tmdbChecked": "2026-11-25",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-20"
 },
 "fw-EDI20250728": {
 "tmdbChecked": "2026-10-01",
@@ -2830,6 +2806,17 @@
 "v": 4,
 "checked": "2026-10-05"
 },
+"fw-EDI20260606": {
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"tmdb": 1729736,
+"lang": "no",
+"imdb": "tt41993578",
+"en": "This is Not An Apple",
+"enFrom": "tmdb"
+},
 "fw-EDI20260620": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -3233,6 +3220,23 @@
 "tv": 3,
 "v": 4,
 "checked": "2026-11-22"
+},
+"fw-EDI20260920": {
+"imdb": "tt33095251",
+"imdbAll": [
+"tt33095251"
+],
+"lb": "tony-2026",
+"rt": "m/tony_2026",
+"mc": "movie/tony",
+"en": "Tony",
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"tmdb": 1329016,
+"lang": "en",
+"enFrom": "tmdb"
 },
 "fw-EDI20260961": {
 "tmdbChecked": "2026-10-01",
@@ -3900,22 +3904,6 @@
 "v": 4,
 "checked": "2026-11-26"
 },
-"fw-EDI20261680": {
-"imdb": "tt39382755",
-"imdbAll": [
-"tt39382755"
-],
-"lb": "home-stories-2026",
-"rt": "m/home_stories_2026",
-"mc": null,
-"en": "Home Stories",
-"v": 4,
-"checked": "2026-11-02",
-"tmdbChecked": "2026-11-02",
-"tv": 2,
-"tmdb": 1299061,
-"lang": "de"
-},
 "fw-EDI20261682": {
 "v": 4,
 "checked": "2026-11-02",
@@ -3925,22 +3913,6 @@
 "lang": "de",
 "imdb": "tt33888334",
 "en": null
-},
-"fw-EDI20261683": {
-"imdb": "tt34998116",
-"imdbAll": [
-"tt34998116"
-],
-"lb": "babystar",
-"rt": null,
-"mc": null,
-"en": null,
-"v": 4,
-"checked": "2026-11-02",
-"tmdbChecked": "2026-11-02",
-"tv": 2,
-"tmdb": 1356474,
-"lang": "de"
 },
 "fw-EDI20261693": {
 "imdb": "tt38805050",
@@ -4160,16 +4132,6 @@
 "tv": 3,
 "v": 4,
 "checked": "2026-11-27"
-},
-"fw-EDI20261827": {
-"v": 4,
-"checked": "2026-11-12",
-"tmdbChecked": "2026-11-12",
-"tv": 2,
-"tmdb": 1510775,
-"lang": "hi",
-"imdb": "tt37539573",
-"en": null
 },
 "fw-EDI20261829": {
 "v": 4,
@@ -4951,6 +4913,23 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
+"fw-UIP20180900": {
+"imdb": "tt2906216",
+"imdbAll": [
+"tt2906216"
+],
+"lb": "dungeons-dragons-honor-among-thieves",
+"rt": "m/dungeons_and_dragons_honor_among_thieves",
+"mc": "movie/dungeons-dragons-2021",
+"en": "Dungeons & Dragons: Honor Among Thieves",
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"tmdb": 493529,
+"lang": "en",
+"enFrom": "tmdb"
+},
 "fw-UIP20221468": {
 "tmdbChecked": "2026-10-01",
 "tv": 2,
@@ -4980,6 +4959,23 @@
 "tmdbChecked": "2026-11-24",
 "tv": 3,
 "tmdb": 1465063,
+"lang": "en",
+"enFrom": "tmdb"
+},
+"fw-UIP20241680": {
+"imdb": "tt33764258",
+"imdbAll": [
+"tt33764258"
+],
+"lb": "the-odyssey-2026",
+"rt": "m/the_odyssey_2026",
+"mc": "movie/the-odyssey-2026",
+"en": "The Odyssey",
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"tmdb": 1368337,
 "lang": "en",
 "enFrom": "tmdb"
 },
@@ -5235,6 +5231,18 @@
 "tv": 3,
 "source": "moviescout"
 },
+"https-moviescout-ca-movies-10003238": {
+"imdb": "tt36415529",
+"tmdb": 1452168,
+"imdbAll": [
+"tt36415529"
+],
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"source": "moviescout"
+},
 "https-moviescout-ca-movies-10003241": {
 "imdb": "tt34385689",
 "tmdb": 1381273,
@@ -5277,16 +5285,6 @@
 "imdbAll": [
 "tt36408401"
 ],
-"v": 4,
-"checked": "2026-11-27",
-"tmdbChecked": "2026-11-27",
-"tv": 3,
-"source": "moviescout"
-},
-"https-moviescout-ca-movies-10003336": {
-"imdb": null,
-"tmdb": 1748404,
-"imdbAll": [],
 "v": 4,
 "checked": "2026-11-27",
 "tmdbChecked": "2026-11-27",
@@ -5352,12 +5350,6 @@
 "tmdbChecked": "2026-11-27",
 "tv": 3,
 "source": "moviescout"
-},
-"https-moviescout-ca-movies-10003375": {
-"tmdbChecked": "2026-11-26",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-21"
 },
 "https-moviescout-ca-movies-10003388": {
 "imdb": "tt5500064",
@@ -5781,22 +5773,6 @@
 "tmdb": 13368,
 "lang": "en",
 "enFrom": "tmdb"
-},
-"sr-tea-treats-tales-billy-elliot-the-musical-2014": {
-"imdb": "tt4085696",
-"imdbAll": [
-"tt4085696"
-],
-"lb": "billy-elliot-the-musical-live",
-"rt": "m/billy_elliot_the_musical_live",
-"mc": null,
-"en": "Billy Elliot the Musical Live",
-"v": 4,
-"checked": "2026-10-06",
-"tmdbChecked": "2026-10-06",
-"tv": 2,
-"tmdb": 298931,
-"lang": "en"
 },
 "sr-tea-treats-tales-bridget-jones-s-diary-2001": {
 "imdb": "tt0243155",

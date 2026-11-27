@@ -1,22 +1,26 @@
 {
  "baseline": "2026-10-02T17:44",
- "lastDigest": "2026-11-26T18:01",
+ "lastDigest": "2026-11-27T17:43",
  "films": {
   "cc-70-syaal-2026": {
    "since": "2026-11-25T18:06",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-aakasamlo-oka-tara-2026": {
    "since": "2026-11-17T17:30",
    "last": "2026-11-25T18:06"
   },
+  "cc-ballet-the-nutcracker-event": {
+   "since": "2026-11-27T17:42",
+   "last": "2026-11-27T17:42"
+  },
   "cc-chakkven-2026": {
    "since": "2026-11-18T05:05",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-cosmic-samson-2026": {
    "since": "2026-11-26T17:59",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-drummer-boy-2026": {
    "since": "2026-10-03T10:10",
@@ -32,11 +36,11 @@
   },
   "cc-hadoota-2026": {
    "since": "2026-11-11T13:17",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-mission-noel-2011": {
    "since": "2026-11-25T18:06",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-om-chapter-1-udhiram-the-blood-wood-2026": {
    "since": "2026-11-14T10:14",
@@ -44,19 +48,23 @@
   },
   "cc-om-chapter-one-the-blood-wood-2026": {
    "since": "2026-11-20T16:50",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-opera-macbeth-event": {
    "since": "2026-11-15T12:32",
    "last": "2026-11-20T16:50"
   },
+  "cc-prince-3121-las-vegas-live-event": {
+   "since": "2026-11-27T17:42",
+   "last": "2026-11-27T17:42"
+  },
   "cc-sanjog-2026": {
    "since": "2026-11-25T18:06",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-yeh-prem-mol-liya-2026": {
    "since": "2026-11-25T18:06",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
    "since": "2026-11-14T10:14",
@@ -64,31 +72,31 @@
   },
   "cl-clayface": {
    "since": "2026-10-08T12:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-como-robar-banco": {
    "since": "2026-10-28T12:00",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-diversion-navidena-peppa-experiencia-cines": {
    "since": "2026-11-08T11:56",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-gato-sombrero": {
    "since": "2026-10-20T13:19",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-hechizo-bienvenidos-hexe": {
    "since": "2026-10-24T12:12",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-juegos-hambre-amanecer-cosecha": {
    "since": "2026-10-28T12:00",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-wild-horse-nine": {
    "since": "2026-10-19T09:58",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-wildwood-bosque-salvaje": {
    "since": "2026-10-03T10:10",
@@ -100,11 +108,11 @@
   },
   "db-mares-nest": {
    "since": "2026-10-21T10:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-my-brothers-wedding-4k-restoration": {
    "since": "2026-10-21T10:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-otium": {
    "since": "2026-10-21T10:47",
@@ -112,11 +120,11 @@
   },
   "db-rex-a-dinosaurs-story": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-saigon-story-two-shootings-in-the-forest-kingdom": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-siksikakowan-the-blackfoot-man": {
    "since": "2026-10-21T10:47",
@@ -124,23 +132,23 @@
   },
   "db-the-best-way-is-by-accident": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-the-changeling": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-the-cook-the-thief-his-wife-her-lover": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-the-day-she-returns": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-two-cuckolds-go-swimming": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-unzipped-4k-restoration": {
    "since": "2026-10-21T10:47",
@@ -152,11 +160,11 @@
   },
   "fw-BVI20200545": {
    "since": "2026-10-03T10:10",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20250806": {
    "since": "2026-11-05T13:31",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20251018": {
    "since": "2026-10-08T12:47",
@@ -164,19 +172,19 @@
   },
   "fw-EDI20251026": {
    "since": "2026-10-03T10:10",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20251380": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20251675": {
    "since": "2026-10-27T11:14",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260565": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260642": {
    "since": "2026-10-02T17:44",
@@ -184,7 +192,7 @@
   },
   "fw-EDI20260881": {
    "since": "2026-11-25T18:06",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260986": {
    "since": "2026-10-21T10:47",
@@ -192,15 +200,19 @@
   },
   "fw-EDI20261027": {
    "since": "2026-10-07T12:43",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261155": {
    "since": "2026-11-13T13:19",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
+  },
+  "fw-EDI20261230": {
+   "since": "2026-11-27T17:42",
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261256": {
    "since": "2026-11-13T13:19",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261518": {
    "since": "2026-10-21T10:47",
@@ -208,11 +220,11 @@
   },
   "fw-EDI20261580": {
    "since": "2026-11-17T17:30",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261593": {
    "since": "2026-10-29T12:18",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261734": {
    "since": "2026-10-31T11:01",
@@ -220,7 +232,7 @@
   },
   "fw-EDI20261752": {
    "since": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261808": {
    "since": "2026-11-17T17:30",
@@ -228,15 +240,7 @@
   },
   "fw-EDI20261827": {
    "since": "2026-11-25T18:06",
-   "last": "2026-11-26T17:59"
-  },
-  "fw-SFN20191100": {
-   "since": "2026-11-07T11:47",
-   "last": "2026-11-16T21:29"
-  },
-  "fw-SFN20211456": {
-   "since": "2026-11-08T11:56",
-   "last": "2026-11-17T17:30"
+   "last": "2026-11-27T17:42"
   },
   "fw-SMN20051022": {
    "since": "2026-11-05T13:31",
@@ -244,7 +248,7 @@
   },
   "fw-UIP20241718": {
    "since": "2026-11-12T13:46",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003179": {
    "since": "2026-10-02T17:44",
@@ -252,7 +256,7 @@
   },
   "https-moviescout-ca-movies-10003203": {
    "since": "2026-11-04T13:26",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003336": {
    "since": "2026-10-21T10:47",
@@ -262,29 +266,25 @@
    "since": "2026-10-02T17:44",
    "last": "2026-11-26T17:59"
   },
-  "https-moviescout-ca-movies-10003460": {
-   "since": "2026-10-31T11:01",
-   "last": "2026-11-17T17:30"
-  },
   "https-moviescout-ca-movies-10003471": {
    "since": "2026-11-11T13:17",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003472": {
    "since": "2026-10-29T12:18",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003540": {
    "since": "2026-11-23T20:41",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003543": {
    "since": "2026-11-20T16:50",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003621": {
    "since": "2026-11-25T18:06",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003623": {
    "since": "2026-11-18T05:05",
@@ -306,7 +306,7 @@
  "dated": {
   "cc-70-syaal-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-a-talent-for-murder-2026": {
    "first": "2026-10-02T17:44",
@@ -344,6 +344,10 @@
    "first": "2026-10-09T12:19",
    "last": "2026-10-23T10:37"
   },
+  "cc-ballet-the-nutcracker-event": {
+   "first": "2026-10-02T17:44",
+   "last": "2026-11-27T17:42"
+  },
   "cc-baththa-2026": {
    "first": "2026-10-02T17:44",
    "last": "2026-10-07T12:43"
@@ -366,7 +370,7 @@
   },
   "cc-chakkven-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-coraline-2009": {
    "first": "2026-10-02T17:44",
@@ -378,7 +382,7 @@
   },
   "cc-cosmic-samson-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-coyote-contre-acme-2026": {
    "first": "2026-10-02T17:44",
@@ -450,7 +454,7 @@
   },
   "cc-hadoota-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-hanuman-ansh-2026": {
    "first": "2026-10-02T17:44",
@@ -518,7 +522,7 @@
   },
   "cc-mission-noel-2011": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-mitti-de-putt-2026": {
    "first": "2026-10-02T17:44",
@@ -546,7 +550,7 @@
   },
   "cc-om-chapter-one-the-blood-wood-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-once-upon-a-time-in-the-middle-east-2026": {
    "first": "2026-10-02T17:44",
@@ -596,6 +600,10 @@
    "first": "2026-10-02T17:44",
    "last": "2026-10-22T10:53"
   },
+  "cc-prince-3121-las-vegas-live-event": {
+   "first": "2026-10-02T17:44",
+   "last": "2026-11-27T17:42"
+  },
   "cc-queen-budapest-event": {
    "first": "2026-10-02T17:44",
    "last": "2026-10-10T11:06"
@@ -622,7 +630,7 @@
   },
   "cc-sanjog-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-saw-2004": {
    "first": "2026-10-02T17:44",
@@ -742,7 +750,7 @@
   },
   "cc-yeh-prem-mol-liya-2026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cc-your-mother-your-mother-your-mother-2026": {
    "first": "2026-10-02T17:44",
@@ -758,31 +766,31 @@
   },
   "cl-clayface": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-como-robar-banco": {
    "first": "2026-10-23T10:37",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-diversion-navidena-peppa-experiencia-cines": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-gato-sombrero": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-hechizo-bienvenidos-hexe": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-juegos-hambre-amanecer-cosecha": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-wild-horse-nine": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "cl-wildwood-bosque-salvaje": {
    "first": "2026-10-02T17:44",
@@ -838,7 +846,7 @@
   },
   "db-mares-nest": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-masao-adachi-takes-a-passport-photo": {
    "first": "2026-10-02T17:44",
@@ -850,7 +858,7 @@
   },
   "db-my-brothers-wedding-4k-restoration": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-once-upon-a-time-in-harlem": {
    "first": "2026-10-02T17:44",
@@ -870,11 +878,11 @@
   },
   "db-rex-a-dinosaurs-story": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-saigon-story-two-shootings-in-the-forest-kingdom": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-screamplay-4k-restoration": {
    "first": "2026-10-02T17:44",
@@ -902,19 +910,19 @@
   },
   "db-the-best-way-is-by-accident": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-the-changeling": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-the-cook-the-thief-his-wife-her-lover": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-the-day-she-returns": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-the-devils-4k-restoration": {
    "first": "2026-10-02T17:44",
@@ -946,7 +954,7 @@
   },
   "db-two-cuckolds-go-swimming": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "db-unzipped-4k-restoration": {
    "first": "2026-10-02T17:44",
@@ -962,31 +970,31 @@
   },
   "fw-BVI20200545": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20240689": {
    "first": "2026-10-08T12:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20240731": {
    "first": "2026-10-15T13:04",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20250047": {
    "first": "2026-10-08T12:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20250146": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20250282": {
    "first": "2026-10-20T13:19",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20250806": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20251018": {
    "first": "2026-10-02T17:44",
@@ -994,27 +1002,27 @@
   },
   "fw-EDI20251026": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20251380": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20251675": {
    "first": "2026-10-24T12:12",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260132": {
    "first": "2026-10-15T13:04",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260432": {
    "first": "2026-10-08T12:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260565": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260642": {
    "first": "2026-10-02T17:44",
@@ -1022,7 +1030,7 @@
   },
   "fw-EDI20260881": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20260986": {
    "first": "2026-10-02T17:44",
@@ -1030,19 +1038,23 @@
   },
   "fw-EDI20261027": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261052": {
    "first": "2026-10-15T13:04",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261155": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
+  },
+  "fw-EDI20261230": {
+   "first": "2026-10-02T17:44",
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261256": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261518": {
    "first": "2026-10-02T17:44",
@@ -1050,11 +1062,11 @@
   },
   "fw-EDI20261580": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261593": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261734": {
    "first": "2026-10-02T17:44",
@@ -1062,11 +1074,11 @@
   },
   "fw-EDI20261747": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261752": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-EDI20261808": {
    "first": "2026-10-02T17:44",
@@ -1074,7 +1086,7 @@
   },
   "fw-EDI20261827": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "fw-SFN20191100": {
    "first": "2026-10-30T11:55",
@@ -1090,7 +1102,7 @@
   },
   "fw-UIP20241718": {
    "first": "2026-10-08T12:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10002980": {
    "first": "2026-10-02T17:44",
@@ -1154,7 +1166,7 @@
   },
   "https-moviescout-ca-movies-10003203": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003206": {
    "first": "2026-10-02T17:44",
@@ -1183,10 +1195,6 @@
   "https-moviescout-ca-movies-10003236": {
    "first": "2026-10-02T17:44",
    "last": "2026-11-11T13:17"
-  },
-  "https-moviescout-ca-movies-10003238": {
-   "first": "2026-10-02T17:44",
-   "last": "2026-10-22T10:53"
   },
   "https-moviescout-ca-movies-10003271": {
    "first": "2026-10-02T17:44",
@@ -1226,7 +1234,7 @@
   },
   "https-moviescout-ca-movies-10003355": {
    "first": "2026-10-08T12:47",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003375": {
    "first": "2026-10-02T17:44",
@@ -1274,11 +1282,11 @@
   },
   "https-moviescout-ca-movies-10003471": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003472": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003475": {
    "first": "2026-10-29T12:18",
@@ -1286,11 +1294,11 @@
   },
   "https-moviescout-ca-movies-10003540": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003543": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003549": {
    "first": "2026-10-02T17:44",
@@ -1306,11 +1314,11 @@
   },
   "https-moviescout-ca-movies-10003557": {
    "first": "2026-11-06T12:48",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003558": {
    "first": "2026-11-12T13:46",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003559": {
    "first": "2026-10-02T17:44",
@@ -1330,7 +1338,7 @@
   },
   "https-moviescout-ca-movies-10003621": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-10003623": {
    "first": "2026-10-02T17:44",
@@ -1378,7 +1386,7 @@
   },
   "https-moviescout-ca-movies-5748": {
    "first": "2026-11-06T12:48",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   },
   "https-moviescout-ca-movies-6377": {
    "first": "2026-10-09T12:19",
@@ -1394,14 +1402,14 @@
   },
   "rv-elf-2003": {
    "first": "2026-10-02T17:44",
-   "last": "2026-11-26T17:59"
+   "last": "2026-11-27T17:42"
   }
  },
- "lastRun": "2026-11-26T17:59",
- "lastWeekly": "2026-11-20T16:51",
+ "lastRun": "2026-11-27T17:42",
+ "lastWeekly": "2026-11-27T17:43",
  "shows": {
   "cc-70-syaal-2026": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-27T18:30|Garden City Cinemas": "2026-11-25T18:06",
     "2026-11-27T18:35|Cinema City Northgate": "2026-11-25T18:06",
@@ -1419,7 +1427,8 @@
     "2026-12-01T18:35|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-01T21:40|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-02T19:40|Cinema City Northgate": "2026-11-26T17:59",
-    "2026-12-02T21:30|Garden City Cinemas": "2026-11-26T17:59"
+    "2026-12-02T21:30|Garden City Cinemas": "2026-11-26T17:59",
+    "2026-12-03T19:40|Cinema City Northgate": "2026-11-27T17:42"
    }
   },
   "cc-aakasamlo-oka-tara-2026": {
@@ -1428,11 +1437,16 @@
     "2026-11-25T18:30|Garden City Cinemas": "2026-11-23T20:41"
    }
   },
-  "cc-chakkven-2026": {
-   "last": "2026-11-26T17:59",
+  "cc-ballet-the-nutcracker-event": {
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T18:45|Cinema City Northgate": "2026-11-20T16:50",
-    "2026-11-26T19:30|Cinema City Northgate": "2026-11-20T16:50",
+    "2026-12-03T19:00|Scotiabank Theatre": "",
+    "2026-12-03T19:00|Cineplex McGillivray": ""
+   }
+  },
+  "cc-chakkven-2026": {
+   "last": "2026-11-27T17:42",
+   "shows": {
     "2026-11-27T18:30|Cinema City Northgate": "2026-11-25T18:06",
     "2026-11-27T21:35|Cinema City Northgate": "2026-11-25T18:06",
     "2026-11-28T15:10|Cinema City Northgate": "2026-11-25T18:06",
@@ -1444,11 +1458,12 @@
     "2026-11-30T19:30|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-01T18:30|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-01T21:35|Cinema City Northgate": "2026-11-25T18:06",
-    "2026-12-02T19:30|Cinema City Northgate": "2026-11-26T17:59"
+    "2026-12-02T19:30|Cinema City Northgate": "2026-11-26T17:59",
+    "2026-12-03T19:30|Cinema City Northgate": "2026-11-27T17:42"
    }
   },
   "cc-cosmic-samson-2026": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-28T12:00|Garden City Cinemas": ""
    }
@@ -1472,9 +1487,8 @@
    }
   },
   "cc-hadoota-2026": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T19:45|Cinema City Northgate": "2026-11-20T16:50",
     "2026-11-27T18:45|Cinema City Northgate": "2026-11-25T18:06",
     "2026-11-27T22:00|Cinema City Northgate": "2026-11-25T18:06",
     "2026-11-28T15:25|Cinema City Northgate": "2026-11-25T18:06",
@@ -1486,11 +1500,12 @@
     "2026-11-30T20:00|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-01T18:45|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-01T22:00|Cinema City Northgate": "2026-11-25T18:06",
-    "2026-12-02T20:00|Cinema City Northgate": "2026-11-26T17:59"
+    "2026-12-02T20:00|Cinema City Northgate": "2026-11-26T17:59",
+    "2026-12-03T20:00|Cinema City Northgate": "2026-11-27T17:42"
    }
   },
   "cc-mission-noel-2011": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-28T10:30|SilverCity St. Vital": ""
    }
@@ -1506,9 +1521,8 @@
    }
   },
   "cc-om-chapter-one-the-blood-wood-2026": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T21:30|Garden City Cinemas": "2026-11-26T17:59",
     "2026-11-28T15:00|Garden City Cinemas": "2026-11-26T17:59",
     "2026-11-29T12:00|Garden City Cinemas": "2026-11-26T17:59"
    }
@@ -1519,8 +1533,14 @@
     "2026-11-21T12:30|Cineplex McGillivray": ""
    }
   },
+  "cc-prince-3121-las-vegas-live-event": {
+   "last": "2026-11-27T17:42",
+   "shows": {
+    "2026-12-03T21:50|Cineplex McGillivray": ""
+   }
+  },
   "cc-sanjog-2026": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-27T18:50|Cinema City Northgate": "",
     "2026-11-27T21:50|Cinema City Northgate": "",
@@ -1533,11 +1553,12 @@
     "2026-11-30T19:50|Cinema City Northgate": "",
     "2026-12-01T18:50|Cinema City Northgate": "",
     "2026-12-01T21:50|Cinema City Northgate": "",
-    "2026-12-02T19:50|Cinema City Northgate": "2026-11-26T17:59"
+    "2026-12-02T19:50|Cinema City Northgate": "2026-11-26T17:59",
+    "2026-12-03T19:50|Cinema City Northgate": "2026-11-27T17:42"
    }
   },
   "cc-yeh-prem-mol-liya-2026": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-27T18:20|Cinema City Northgate": "",
     "2026-11-27T20:15|Cinema City Northgate": "",
@@ -1558,7 +1579,9 @@
     "2026-12-01T20:15|Cinema City Northgate": "",
     "2026-12-01T21:00|Cinema City Northgate": "",
     "2026-12-02T18:30|Cinema City Northgate": "2026-11-26T17:59",
-    "2026-12-02T19:15|Cinema City Northgate": "2026-11-26T17:59"
+    "2026-12-02T19:15|Cinema City Northgate": "2026-11-26T17:59",
+    "2026-12-03T18:30|Cinema City Northgate": "2026-11-27T17:42",
+    "2026-12-03T19:15|Cinema City Northgate": "2026-11-27T17:42"
    }
   },
   "cl-bts-world-tour-arirang-in-kaohsiung-live-viewing": {
@@ -1570,7 +1593,7 @@
    }
   },
   "cl-clayface": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-27T21:55|Cineplex Kildonan Place": "2026-11-25T18:06",
     "2026-11-28T21:30|Cineplex Kildonan Place": "2026-11-25T18:06",
@@ -1581,16 +1604,8 @@
    }
   },
   "cl-como-robar-banco": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T18:20|Scotiabank Theatre": "",
-    "2026-11-26T18:30|Cineplex McGillivray": "",
-    "2026-11-26T18:50|Landmark Grant Park": "",
-    "2026-11-26T21:30|Scotiabank Theatre": "",
-    "2026-11-26T22:00|Cineplex McGillivray": "",
-    "2026-11-26T22:00|SilverCity St. Vital": "",
-    "2026-11-27T13:10|SilverCity St. Vital": "",
-    "2026-11-27T16:10|SilverCity St. Vital": "",
     "2026-11-27T19:40|SilverCity St. Vital": "",
     "2026-11-27T22:30|SilverCity St. Vital": "",
     "2026-11-28T16:10|SilverCity St. Vital": "",
@@ -1609,23 +1624,23 @@
     "2026-12-01T22:30|SilverCity St. Vital": "",
     "2026-12-02T12:50|SilverCity St. Vital": "",
     "2026-12-02T15:45|SilverCity St. Vital": "",
-    "2026-12-02T22:00|SilverCity St. Vital": ""
+    "2026-12-02T22:00|SilverCity St. Vital": "",
+    "2026-12-03T12:50|SilverCity St. Vital": "2026-11-27T17:42",
+    "2026-12-03T17:00|SilverCity St. Vital": "2026-11-27T17:42",
+    "2026-12-03T19:15|SilverCity St. Vital": "2026-11-27T17:42",
+    "2026-12-03T22:00|SilverCity St. Vital": "2026-11-27T17:42"
    }
   },
   "cl-diversion-navidena-peppa-experiencia-cines": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-28T12:00|Cineplex McGillivray": "2026-11-14T10:14",
     "2026-11-29T12:00|Cineplex McGillivray": "2026-11-14T10:14"
    }
   },
   "cl-wild-horse-nine": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T18:30|Scotiabank Theatre": "",
-    "2026-11-26T21:20|Scotiabank Theatre": "",
-    "2026-11-27T13:45|Scotiabank Theatre": "2026-11-25T18:06",
-    "2026-11-27T16:30|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-27T19:15|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-27T22:00|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-28T15:05|Scotiabank Theatre": "2026-11-25T18:06",
@@ -1646,7 +1661,10 @@
     "2026-12-02T14:20|Scotiabank Theatre": "2026-11-26T17:59",
     "2026-12-02T15:45|Scotiabank Theatre": "2026-11-26T17:59",
     "2026-12-02T19:45|Scotiabank Theatre": "2026-11-26T17:59",
-    "2026-12-02T22:30|Scotiabank Theatre": "2026-11-26T17:59"
+    "2026-12-02T22:30|Scotiabank Theatre": "2026-11-26T17:59",
+    "2026-12-03T13:45|Scotiabank Theatre": "2026-11-27T17:42",
+    "2026-12-03T16:30|Scotiabank Theatre": "2026-11-27T17:42",
+    "2026-12-03T22:00|Scotiabank Theatre": "2026-11-27T17:42"
    }
   },
   "cl-wildwood-bosque-salvaje": {
@@ -1665,9 +1683,8 @@
    }
   },
   "db-mares-nest": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T21:30|Cinematheque": "",
     "2026-11-27T19:00|Cinematheque": "",
     "2026-11-27T21:15|Cinematheque": "",
     "2026-11-28T17:00|Cinematheque": "",
@@ -1680,9 +1697,8 @@
    }
   },
   "db-my-brothers-wedding-4k-restoration": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-27T17:00|Cinematheque": "",
     "2026-11-28T15:00|Cinematheque": "",
     "2026-11-28T19:00|Cinematheque": "",
     "2026-11-29T17:00|Cinematheque": "",
@@ -1697,13 +1713,13 @@
    }
   },
   "db-rex-a-dinosaurs-story": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-18T19:00|Cinematheque": ""
    }
   },
   "db-saigon-story-two-shootings-in-the-forest-kingdom": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-11T19:00|Cinematheque": "",
     "2026-12-11T21:00|Cinematheque": "",
@@ -1721,7 +1737,7 @@
    }
   },
   "db-the-best-way-is-by-accident": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-11T16:45|Cinematheque": "",
     "2026-12-12T17:00|Cinematheque": "",
@@ -1733,19 +1749,19 @@
    }
   },
   "db-the-changeling": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-10T19:00|Cinematheque": ""
    }
   },
   "db-the-cook-the-thief-his-wife-her-lover": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-03T19:00|Cinematheque": ""
    }
   },
   "db-the-day-she-returns": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-18T21:15|Cinematheque": "",
     "2026-12-19T15:00|Cinematheque": "",
@@ -1755,7 +1771,7 @@
    }
   },
   "db-two-cuckolds-go-swimming": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-16T19:00|Cinematheque": "",
     "2026-12-18T17:00|Cinematheque": "",
@@ -1784,13 +1800,13 @@
    }
   },
   "fw-EDI20251380": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-17T19:00|Cinematheque": ""
    }
   },
   "fw-EDI20260565": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-04T16:30|Cinematheque": "",
     "2026-12-04T21:15|Cinematheque": "",
@@ -1810,10 +1826,8 @@
    }
   },
   "fw-EDI20260881": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-27T13:25|Scotiabank Theatre": "",
-    "2026-11-27T16:05|Scotiabank Theatre": "",
     "2026-11-27T18:45|Scotiabank Theatre": "",
     "2026-11-27T21:25|Scotiabank Theatre": "",
     "2026-11-28T13:50|Scotiabank Theatre": "",
@@ -1835,7 +1849,11 @@
     "2026-12-02T13:05|Scotiabank Theatre": "2026-11-26T17:59",
     "2026-12-02T17:05|Scotiabank Theatre": "2026-11-26T17:59",
     "2026-12-02T19:50|Scotiabank Theatre": "2026-11-26T17:59",
-    "2026-12-02T22:30|Scotiabank Theatre": "2026-11-26T17:59"
+    "2026-12-02T22:30|Scotiabank Theatre": "2026-11-26T17:59",
+    "2026-12-03T13:35|Scotiabank Theatre": "2026-11-27T17:42",
+    "2026-12-03T16:15|Scotiabank Theatre": "2026-11-27T17:42",
+    "2026-12-03T18:55|Scotiabank Theatre": "2026-11-27T17:42",
+    "2026-12-03T21:35|Scotiabank Theatre": "2026-11-27T17:42"
    }
   },
   "fw-EDI20260986": {
@@ -1845,13 +1863,8 @@
    }
   },
   "fw-EDI20261027": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T18:30|Cineplex Kildonan Place": "",
-    "2026-11-26T18:45|Scotiabank Theatre": "",
-    "2026-11-26T21:40|Cineplex Kildonan Place": "",
-    "2026-11-26T21:50|Scotiabank Theatre": "",
-    "2026-11-27T16:45|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-27T22:15|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-28T16:45|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-28T22:15|Scotiabank Theatre": "2026-11-25T18:06",
@@ -1866,11 +1879,22 @@
    }
   },
   "fw-EDI20261155": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T19:00|Cineplex McGillivray": "2026-11-14T10:14",
     "2026-11-27T19:00|Cineplex McGillivray": "2026-11-14T10:14",
     "2026-11-28T15:30|Cineplex McGillivray": "2026-11-14T10:14"
+   }
+  },
+  "fw-EDI20261230": {
+   "last": "2026-11-27T17:42",
+   "shows": {
+    "2026-12-03T14:00|SilverCity St. Vital": "",
+    "2026-12-03T14:30|Scotiabank Theatre": "",
+    "2026-12-03T16:25|SilverCity St. Vital": "",
+    "2026-12-03T17:30|Scotiabank Theatre": "",
+    "2026-12-03T19:00|SilverCity St. Vital": "",
+    "2026-12-03T20:30|Scotiabank Theatre": "",
+    "2026-12-03T21:20|SilverCity St. Vital": ""
    }
   },
   "fw-EDI20261518": {
@@ -1880,7 +1904,7 @@
    }
   },
   "fw-EDI20261580": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-12-04T19:00|Cinematheque": "",
     "2026-12-05T17:00|Cinematheque": "",
@@ -1897,6 +1921,40 @@
     "2026-11-18T22:00|Garden City Cinemas": "2026-11-17T17:30"
    }
   },
+  "fw-EDI20261752": {
+   "last": "2026-11-27T17:42",
+   "shows": {
+    "2026-11-27T19:15|Cineplex McGillivray": "",
+    "2026-11-28T11:10|Landmark Grant Park": "",
+    "2026-11-28T15:00|Cineplex McGillivray": "",
+    "2026-11-28T19:00|Cineplex McGillivray": "",
+    "2026-11-29T11:10|Landmark Grant Park": "",
+    "2026-11-29T14:30|Cineplex McGillivray": "",
+    "2026-11-29T18:30|Cineplex McGillivray": "",
+    "2026-11-30T11:40|Landmark Grant Park": "",
+    "2026-11-30T19:30|Cineplex McGillivray": "",
+    "2026-12-01T11:40|Landmark Grant Park": "",
+    "2026-12-01T19:15|Cineplex McGillivray": "",
+    "2026-12-02T11:40|Landmark Grant Park": "",
+    "2026-12-02T19:30|Cineplex McGillivray": "",
+    "2026-12-03T11:40|Landmark Grant Park": "",
+    "2026-12-03T19:30|Cineplex McGillivray": "",
+    "2026-12-22T19:00|Cinematheque": "",
+    "2026-12-23T19:00|Cinematheque": "",
+    "2026-12-24T15:30|Cinematheque": "",
+    "2026-12-24T19:00|Cinematheque": "",
+    "2026-12-26T15:30|Cinematheque": "",
+    "2026-12-26T19:00|Cinematheque": "",
+    "2026-12-27T15:30|Cinematheque": "",
+    "2026-12-27T19:00|Cinematheque": "",
+    "2026-12-29T19:00|Cinematheque": "",
+    "2026-12-30T19:00|Cinematheque": "",
+    "2027-01-02T15:30|Cinematheque": "",
+    "2027-01-02T19:00|Cinematheque": "",
+    "2027-01-03T15:30|Cinematheque": "",
+    "2027-01-03T19:00|Cinematheque": ""
+   }
+  },
   "fw-EDI20261808": {
    "last": "2026-11-26T17:59",
    "shows": {
@@ -1904,24 +1962,11 @@
    }
   },
   "fw-EDI20261827": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-27T15:30|Garden City Cinemas": "",
     "2026-11-28T18:30|Garden City Cinemas": "",
     "2026-11-29T18:30|Garden City Cinemas": "",
     "2026-12-01T15:00|Garden City Cinemas": ""
-   }
-  },
-  "fw-SFN20191100": {
-   "last": "2026-11-16T21:29",
-   "shows": {
-    "2026-11-17T14:00|Scotiabank Theatre": "2026-11-11T13:17"
-   }
-  },
-  "fw-SFN20211456": {
-   "last": "2026-11-17T17:30",
-   "shows": {
-    "2026-11-17T17:45|Scotiabank Theatre": "2026-11-11T13:17"
    }
   },
   "fw-SMN20051022": {
@@ -1938,11 +1983,8 @@
    }
   },
   "https-moviescout-ca-movies-10003203": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T18:50|Scotiabank Theatre": "",
-    "2026-11-26T21:10|Scotiabank Theatre": "",
-    "2026-11-27T14:25|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-27T19:55|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-28T14:25|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-11-28T19:55|Scotiabank Theatre": "2026-11-25T18:06",
@@ -1953,7 +1995,8 @@
     "2026-12-01T14:25|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-12-01T19:45|Scotiabank Theatre": "2026-11-25T18:06",
     "2026-12-02T14:25|Scotiabank Theatre": "2026-11-26T17:59",
-    "2026-12-02T19:55|Scotiabank Theatre": "2026-11-26T17:59"
+    "2026-12-02T19:55|Scotiabank Theatre": "2026-11-26T17:59",
+    "2026-12-03T12:20|Scotiabank Theatre": "2026-11-27T17:42"
    }
   },
   "https-moviescout-ca-movies-10003336": {
@@ -1968,16 +2011,9 @@
     "2026-11-26T18:50|Cinema City Northgate": "2026-11-20T16:50"
    }
   },
-  "https-moviescout-ca-movies-10003460": {
-   "last": "2026-11-17T17:30",
-   "shows": {
-    "2026-11-17T18:00|Cineplex McGillivray": "2026-11-11T13:17"
-   }
-  },
   "https-moviescout-ca-movies-10003471": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T18:45|Cinema City Northgate": "2026-11-20T16:50",
     "2026-11-27T18:15|Cinema City Northgate": "2026-11-25T18:06",
     "2026-11-27T21:45|Cinema City Northgate": "2026-11-25T18:06",
     "2026-11-28T15:40|Cinema City Northgate": "2026-11-25T18:06",
@@ -1989,25 +2025,25 @@
     "2026-11-30T19:00|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-01T18:15|Cinema City Northgate": "2026-11-25T18:06",
     "2026-12-01T21:45|Cinema City Northgate": "2026-11-25T18:06",
-    "2026-12-02T19:00|Cinema City Northgate": "2026-11-26T17:59"
+    "2026-12-02T19:00|Cinema City Northgate": "2026-11-26T17:59",
+    "2026-12-03T19:00|Cinema City Northgate": "2026-11-27T17:42"
    }
   },
   "https-moviescout-ca-movies-10003472": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-28T19:00|Cineplex McGillivray": ""
    }
   },
   "https-moviescout-ca-movies-10003540": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-29T15:30|Cineplex McGillivray": ""
    }
   },
   "https-moviescout-ca-movies-10003543": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
-    "2026-11-26T19:15|SilverCity St. Vital": "",
     "2026-11-28T12:30|Scotiabank Theatre": "2026-11-22T15:44",
     "2026-11-28T12:30|SilverCity St. Vital": "2026-11-22T15:44",
     "2026-11-29T14:30|Scotiabank Theatre": "2026-11-23T20:41",
@@ -2019,7 +2055,7 @@
    }
   },
   "https-moviescout-ca-movies-10003621": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {
     "2026-11-28T10:40|SilverCity St. Vital": "",
     "2026-11-28T11:15|Cineplex Kildonan Place": "",
@@ -2052,11 +2088,29 @@
    }
   },
   "rv-elf-2003": {
-   "last": "2026-11-26T17:59",
+   "last": "2026-11-27T17:42",
    "shows": {}
   }
  },
  "events": [
+  {
+   "id": "sale|fw-EDI20261230|2026-11-27T17:42",
+   "type": "sale",
+   "film": "fw-EDI20261230",
+   "at": "2026-11-27T17:42"
+  },
+  {
+   "id": "sale|cc-prince-3121-las-vegas-live-event|2026-11-27T17:42",
+   "type": "sale",
+   "film": "cc-prince-3121-las-vegas-live-event",
+   "at": "2026-11-27T17:42"
+  },
+  {
+   "id": "sale|cc-ballet-the-nutcracker-event|2026-11-27T17:42",
+   "type": "sale",
+   "film": "cc-ballet-the-nutcracker-event",
+   "at": "2026-11-27T17:42"
+  },
   {
    "id": "showings|fw-EDI20261808|2026-11-26T17:59",
    "type": "showings",
@@ -2077,12 +2131,11 @@
    "film": "cc-om-chapter-one-the-blood-wood-2026",
    "at": "2026-11-26T17:59",
    "before": 0,
-   "n": 3,
+   "n": 2,
    "cinemas": [
     "Garden City Cinemas"
    ],
    "keys": [
-    "2026-11-26T21:30|Garden City Cinemas",
     "2026-11-28T15:00|Garden City Cinemas",
     "2026-11-29T12:00|Garden City Cinemas"
    ]
@@ -2123,12 +2176,11 @@
    "film": "https-moviescout-ca-movies-10003203",
    "at": "2026-11-25T18:06",
    "before": 2,
-   "n": 10,
+   "n": 9,
    "cinemas": [
     "Scotiabank Theatre"
    ],
    "keys": [
-    "2026-11-27T14:25|Scotiabank Theatre",
     "2026-11-27T19:55|Scotiabank Theatre",
     "2026-11-28T14:25|Scotiabank Theatre",
     "2026-11-28T19:55|Scotiabank Theatre",
@@ -2146,12 +2198,11 @@
    "film": "fw-EDI20261027",
    "at": "2026-11-25T18:06",
    "before": 4,
-   "n": 10,
+   "n": 9,
    "cinemas": [
     "Scotiabank Theatre"
    ],
    "keys": [
-    "2026-11-27T16:45|Scotiabank Theatre",
     "2026-11-27T22:15|Scotiabank Theatre",
     "2026-11-28T16:45|Scotiabank Theatre",
     "2026-11-28T22:15|Scotiabank Theatre",
@@ -2169,13 +2220,11 @@
    "film": "cl-wild-horse-nine",
    "at": "2026-11-25T18:06",
    "before": 2,
-   "n": 19,
+   "n": 17,
    "cinemas": [
     "Scotiabank Theatre"
    ],
    "keys": [
-    "2026-11-27T13:45|Scotiabank Theatre",
-    "2026-11-27T16:30|Scotiabank Theatre",
     "2026-11-27T19:15|Scotiabank Theatre",
     "2026-11-27T22:00|Scotiabank Theatre",
     "2026-11-28T15:05|Scotiabank Theatre",
@@ -2331,6 +2380,21 @@
    "type": "sale",
    "film": "cc-70-syaal-2026",
    "at": "2026-11-25T18:06"
+  },
+  {
+   "id": "showings|https-moviescout-ca-movies-10003543|2026-11-24T09:55",
+   "type": "showings",
+   "film": "https-moviescout-ca-movies-10003543",
+   "at": "2026-11-24T09:55",
+   "before": 4,
+   "n": 2,
+   "cinemas": [
+    "Landmark Grant Park"
+   ],
+   "keys": [
+    "2026-11-28T10:20|Landmark Grant Park",
+    "2026-11-29T10:20|Landmark Grant Park"
+   ]
   },
   {
    "id": "leaving|https-moviescout-ca-movies-10003540|2026-11-24T00:00",
@@ -3086,12 +3150,11 @@
    "film": "fw-EDI20261155",
    "at": "2026-11-14T10:14",
    "before": 1,
-   "n": 3,
+   "n": 2,
    "cinemas": [
     "Cineplex McGillivray"
    ],
    "keys": [
-    "2026-11-26T19:00|Cineplex McGillivray",
     "2026-11-27T19:00|Cineplex McGillivray",
     "2026-11-28T15:30|Cineplex McGillivray"
    ]
