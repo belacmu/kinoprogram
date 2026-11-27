@@ -473,17 +473,6 @@
 "tv": 3,
 "source": "moviescout"
 },
-"cl-adolescencia-sexo-muerte-campamento-miasma": {
-"v": 4,
-"checked": "2026-11-17",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"tmdb": 1240889,
-"lang": "en",
-"imdb": "tt35298123",
-"en": "Teenage Sex and Death at Camp Miasma",
-"enFrom": "tmdb"
-},
 "cl-ahora-suegros-son-ellos": {
 "tmdbChecked": "2026-11-25",
 "tv": 3,
@@ -562,23 +551,6 @@
 "en": "Club Kid",
 "enFrom": "tmdb"
 },
-"cl-como-robar-banco": {
-"imdb": "tt35866986",
-"imdbAll": [
-"tt35866986"
-],
-"lb": "how-to-rob-a-bank-2026",
-"rt": "m/how_to_rob_a_bank_2026",
-"mc": "movie/how-to-rob-a-bank-2026",
-"en": "How to Rob a Bank",
-"v": 4,
-"checked": "2026-11-11",
-"tmdbChecked": "2026-11-11",
-"tv": 2,
-"tmdb": 1437511,
-"lang": "en",
-"enFrom": "tmdb"
-},
 "cl-corazon-bestia": {
 "checked": "2026-10-03",
 "tmdbChecked": "2026-10-03",
@@ -632,6 +604,17 @@
 "lang": "en",
 "imdb": "tt15239678",
 "en": "Dune: Part Two",
+"enFrom": "tmdb"
+},
+"cl-fargo": {
+"tmdbChecked": "2026-11-17",
+"tv": 3,
+"v": 4,
+"checked": "2026-11-13",
+"tmdb": 275,
+"lang": "en",
+"imdb": "tt0116282",
+"en": "Fargo",
 "enFrom": "tmdb"
 },
 "cl-gato-sombrero": {
@@ -723,6 +706,23 @@
 "tv": 3,
 "v": 4,
 "checked": "2026-11-24"
+},
+"cl-spider-man-brand-new-day": {
+"imdb": "tt22084616",
+"imdbAll": [
+"tt22084616"
+],
+"lb": "spider-man-brand-new-day",
+"rt": "m/spider_man_brand_new_day",
+"mc": "movie/spider-man-brand-new-day",
+"en": "Spider-Man: Brand New Day",
+"v": 4,
+"checked": "2026-11-27",
+"tmdbChecked": "2026-11-27",
+"tv": 3,
+"tmdb": 969681,
+"lang": "en",
+"enFrom": "tmdb"
 },
 "cm-13-lakes": {
 "tmdbChecked": "2026-10-01",
@@ -3290,23 +3290,6 @@
 "en": "Little Ghost Laban Goes on Pranking",
 "enFrom": "tmdb"
 },
-"fw-EDI20261025": {
-"imdb": "tt39400168",
-"imdbAll": [
-"tt39400168"
-],
-"lb": "blue-lock-2026",
-"rt": null,
-"mc": null,
-"en": "Blue Lock",
-"v": 4,
-"checked": "2026-11-07",
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"tmdb": 1623376,
-"lang": "ja",
-"enFrom": "tmdb"
-},
 "fw-EDI20261027": {
 "imdb": "tt34384661",
 "imdbAll": [
@@ -3605,21 +3588,6 @@
 "imdb": "tt37542585",
 "en": "Everest: The Other Side",
 "enFrom": "tmdb"
-},
-"fw-EDI20261399": {
-"tmdbChecked": "2026-10-01",
-"tv": 2,
-"tmdb": 1228834,
-"imdb": "tt9601292",
-"en": "The Fix",
-"imdbAll": [
-"tt9601292"
-],
-"lb": "hotel-tehran",
-"rt": "m/the_fix_2026",
-"mc": null,
-"v": 4,
-"checked": "2026-10-04"
 },
 "fw-EDI20261408": {
 "tmdbChecked": "2026-11-25",
