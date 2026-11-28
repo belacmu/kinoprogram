@@ -798,7 +798,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "cm-celine-og-julie": {
 "tmdbChecked": "2026-10-01",
@@ -936,7 +936,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "cm-fullmanenetter": {
 "tmdbChecked": "2026-10-01",
@@ -1093,7 +1093,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "cm-lille-frk-norge": {
 "imdb": "tt0378255",
@@ -1161,7 +1161,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "cm-of-mud-and-blood": {
 "tmdbChecked": "2026-10-01",
@@ -1240,13 +1240,13 @@
 "imdb": null,
 "en": null,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "cm-small-roads": {
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "cm-snekker-andersen-og-julenissen": {
 "tmdbChecked": "2026-10-01",
@@ -1948,7 +1948,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "fw-EDI20250142": {
 "tmdbChecked": "2026-10-01",
@@ -3011,7 +3011,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "fw-EDI20260846": {
 "tmdbChecked": "2026-10-01",
@@ -3597,7 +3597,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "fw-EDI20261419": {
 "tmdbChecked": "2026-10-01",
@@ -3887,17 +3887,6 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
-"fw-EDI20261676": {
-"tmdbChecked": "2026-11-17",
-"tv": 3,
-"v": 4,
-"checked": "2026-11-15",
-"tmdb": 1760298,
-"lang": "lt",
-"imdb": "tt45116436",
-"en": "Not Waiting for Christmas",
-"enFrom": "tmdb"
-},
 "fw-EDI20261679": {
 "tmdbChecked": "2026-11-25",
 "tv": 3,
@@ -4145,7 +4134,7 @@
 },
 "fw-EDI20261830": {
 "v": 4,
-"checked": "2026-11-20",
+"checked": "2026-11-28",
 "tmdbChecked": "2026-11-17",
 "tv": 3,
 "tmdb": 1764175,
@@ -4283,24 +4272,6 @@
 "lang": "en",
 "enFrom": "tmdb"
 },
-"fw-EDI20261861": {
-"imdb": "tt12042730",
-"imdbAll": [
-"tt12042730"
-],
-"lb": "project-hail-mary",
-"rt": "m/project_hail_mary",
-"mc": "movie/project-hail-mary",
-"en": "Project Hail Mary",
-"v": 4,
-"checked": "2026-11-27",
-"tmdbChecked": "2026-11-27",
-"tv": 3,
-"conflict": [
-"tt12042730",
-"tt44090225"
-]
-},
 "fw-EDI20261866": {
 "imdb": "tt34966562",
 "imdbAll": [
@@ -4400,13 +4371,13 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "fw-KUL20260528": {
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "fw-KUL20260648": {
 "tmdbChecked": "2026-11-25",
@@ -4790,7 +4761,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "fw-UAV20192209": {
 "imdb": "tt0104431",
@@ -5560,7 +5531,7 @@
 "tmdbChecked": "2026-11-25",
 "tv": 3,
 "v": 4,
-"checked": "2026-11-20"
+"checked": "2026-11-28"
 },
 "mk-club-kid": {
 "v": 4,
